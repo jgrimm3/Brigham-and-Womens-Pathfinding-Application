@@ -1,4 +1,4 @@
 package com.manlyminotaurs.users;
 
-public abstract class User {
+public class Vital {
 }
