@@ -21,8 +21,8 @@ public class NodesEditorTest {
 
     @Test
     public void RetrieveData_Objects_Created() {
-        int i = 0;
         editor.retrieveData();
+        int i = 0;
         while(i < editor.nodeList.size()) {
             System.out.println("Object " + i + ": " + editor.nodeList.get(i).getLongName());
             assertTrue(editor.nodeList.get(i) != null);
@@ -37,12 +37,12 @@ public class NodesEditorTest {
     }
 
     @Test
-    public void addNode_Data_Correct() {
+    public void addAndRemoveNode_Data_Correct() {
         editor.retrieveData();
         editor.addNode(addNode);
         assertTrue(editor.nodeList.contains(addNode));
-        editor.retrieveData();
-        assertTrue(editor.nodeList.contains(addNode));
+        editor.removeNode(addNode);
+        assertTrue(!editor.nodeList.contains(addNode));
     }
 
     @Test
@@ -73,10 +73,10 @@ public class NodesEditorTest {
         assertEquals(45353,editor.nodeList.get(15).getYCoord());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_NodeID(){
         editor.retrieveData();
-        editor.modifyNodeID(editor.nodeList.get(20),"TestID");
+        //editor.modifyNodeID(editor.nodeList.get(20),"TestID");
         assertEquals("TestID",editor.nodeList.get(20).getID());
     }
 

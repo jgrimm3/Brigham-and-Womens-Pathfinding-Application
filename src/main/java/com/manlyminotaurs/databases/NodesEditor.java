@@ -15,6 +15,10 @@ public class NodesEditor {
 
     public List<Node> nodeList = new ArrayList<Node>();
 
+    public static void main(String [] args) {
+        NodesEditor nodesEditor = new NodesEditor();
+        nodesEditor.createTables();
+    }
     /**
      * Creates the database tables from the csv files
      */
@@ -30,8 +34,8 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./resources/MapBnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./resources/MapBedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./resources/MapGnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./resources/MapGedges.csv");
                 Connection connection = null;
                 connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
                 Statement stmt = connection.createStatement();
@@ -300,33 +304,151 @@ public class NodesEditor {
 
     public void modifyNodeLongName(Node node, String longName){
         node.setLongName(longName);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET longName = '" + longName + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
     public void modifyNodeShortName(Node node, String shortName){
         node.setShortName(shortName);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET shortName = '" + shortName + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
     public void modifyNodeType(Node node, String nodeType){
         node.setNodeType(nodeType);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET nodeType = '" + nodeType + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
+/*  remove because nodeID is primary Key
     public void modifyNodeID(Node node, String ID){
         node.setID(ID);
-    }
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET nodeID = '" + ID + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    }*/
 
     public void modifyNodeFloor(Node node, String floor){
         node.getLoc().setFloor(floor);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET floor = '" + floor + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
     public void modifyNodeXcoord(Node node, int xCoord){
         node.getLoc().setxCoord(xCoord);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET xCoord = " + xCoord + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
     public void modifyNodeYcoord(Node node, int yCoord){
         node.getLoc().setyCoord(yCoord);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET yCoord = " + yCoord + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
     }
 
     public void modifyNodeBuilding(Node node, String building){
         node.getLoc().setBuilding(building);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET building = '" + building + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            int count = stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @param node
+     */
+    public void removeNode (Node node) {
+        int i = 0;
+        System.out.println("We are here");
+        while(i < nodeList.size()) {
+            System.out.println("Object " + i + ": " + nodeList.get(i).getLongName());
+            i++;
+        }
+        nodeList.remove(node);
+        i = 0;
+        while(i < nodeList.size()) {
+            System.out.println("Object " + i + ": " + nodeList.get(i).getLongName());
+            i++;
+        }
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
