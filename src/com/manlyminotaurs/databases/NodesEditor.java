@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class NodesEditor {
+    public List<Node> nodeList = new ArrayList<Node>();
+
     public static void main(String[] args) {
         NodesEditor a_database = new NodesEditor();
         List<String[]> list_of_nodes = new ArrayList<String[]>();
@@ -70,15 +72,15 @@ public class NodesEditor {
             //create table
             System.out.println("Creating table...");
             String create_sql = "CREATE TABLE map_nodes (" +
-                    " node_id             CHAR(10) PRIMARY KEY," +
-                    "  xcoord              INTEGER," +
-                    "  ycoord              INTEGER," +
+                    " nodeID             CHAR(10) PRIMARY KEY," +
+                    "  xCoord              INTEGER," +
+                    "  yCoord              INTEGER," +
                     "  floor               INTEGER," +
                     "  building            VARCHAR(255)," +
                     "  nodeType           VARCHAR(4)," +
-                    "  long_name           VARCHAR(255)," +
-                    "  short_name          VARCHAR(255)," +
-                    "  team_assigned       VARCHAR(255))";
+                    "  longName           VARCHAR(255)," +
+                    "  shortName          VARCHAR(255)," +
+                    "  teamAssigned       VARCHAR(255))";
 
             stmt.executeUpdate(create_sql);
             System.out.println("Table created successfully...");
@@ -98,7 +100,7 @@ public class NodesEditor {
                 System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                 // Add to the database table
-                String str = "INSERT INTO map_nodes(node_id,xcoord,ycoord,floor,building,nodeType,long_name,short_name,team_assigned) values (?,?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,teamAssigned) values (?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_id);
                 statement.setInt(2, Integer.parseInt(xcoord));
@@ -149,6 +151,9 @@ public class NodesEditor {
                 statement.setString(3, node_row[2]);
                 statement.executeUpdate();
             }
+            a_database.nodeList = a_database.retrieveData(connection);
+            stmt.close();
+            connection.close();
         }// try ends
         catch (SQLException e) {
             System.out.println("Connection Failed! Check output console");
@@ -211,8 +216,8 @@ public class NodesEditor {
                 nodeType = rset.getString("nodeType");
                 floor = rset.getInt("floor");
                 building = rset.getString("building");
-                xCoord = rset.getInt("xcoord");
-                yCoord = rset.getInt("ycoord");
+                xCoord = rset.getInt("xCoord");
+                yCoord = rset.getInt("yCoord");
                 longName = rset.getString("longName");
                 shortName = rset.getString("shortName");
 
@@ -220,40 +225,54 @@ public class NodesEditor {
                 
                 if (nodeType.equals("CONF")) {
                     node = new Conference(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Conf created");
                 }
                 else if (nodeType.equals("DEPT")) {
-                    node = new Department();
+
+                    node = new Department(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Dept created");
                 }
                 else if (nodeType.equals("ELEV")) {
-                    node = new Elevator();
+                    node = new Elevator(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Elev created");
                 }
                 else if (nodeType.equals("EXIT")) {
-                    node = new Exit();
+                    node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Exit created");
                 }
                 else if (nodeType.equals("HALL")) {
-                    node = new Hallway();
+                    node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Hall created");
                 }
                 else if (nodeType.equals("INFO")) {
-                    node = new Infodesk();
+                    node = new Infodesk(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Info created");
                 }
                 else if (nodeType.equals("LABS")) {
-                    node = new Lab();
+                    node = new Lab(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Labs created");
                 }
                 else if (nodeType.equals("REST")) {
-                    node = new Restroom();
+                    node = new Restroom(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Rest created");
                 }
                 else if (nodeType.equals("RETL")) {
-                    node = new Retail();
+                    node = new Retail(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Retl created");
                 }
                 else if (nodeType.equals("STAI")) {
-                    node = new Stairway();
+                    node = new Stairway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Stai created");
                 }
                 else if (nodeType.equals("SERV")) {
-                    node = new Service();
+                    node = new Service(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                    System.out.println("Serv created");
                 }
                 // Add the new node to the list
                 nodeList.add(node);
             }
+            rset.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

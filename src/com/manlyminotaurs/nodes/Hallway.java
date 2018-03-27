@@ -1,4 +1,7 @@
 package com.manlyminotaurs.nodes;
 
 public class Hallway extends Node {
+    public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, int floor, String building) {
+        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+    }
 }
