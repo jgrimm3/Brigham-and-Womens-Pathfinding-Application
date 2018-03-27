@@ -21,6 +21,8 @@ public abstract class Node {
         return loc;
     }
 
+    public String getID() { return ID; }
+
     public String getLongName() {
         return longName;
     }
@@ -32,4 +34,12 @@ public abstract class Node {
     public String getNodeType() {
         return nodeType;
     }
+
+    public int getXCoord() { return loc.xCoord; }
+
+    public int getYCoord() { return loc.yCoord; }
+
+    public int getFloor() { return loc.floor; }
+
+    public int getBuilding() { return loc.floor; }
 }
