@@ -1,5 +1,6 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.nodes.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -40,7 +41,7 @@ public class NodesEditor {
         String ycoord;
         String floor;
         String building;
-        String node_type;
+        String nodeType;
         String long_name;
         String short_name;
         String team_assigned;
@@ -74,7 +75,7 @@ public class NodesEditor {
                     "  ycoord              INTEGER," +
                     "  floor               INTEGER," +
                     "  building            VARCHAR(255)," +
-                    "  node_type           VARCHAR(4)," +
+                    "  nodeType           VARCHAR(4)," +
                     "  long_name           VARCHAR(255)," +
                     "  short_name          VARCHAR(255)," +
                     "  team_assigned       VARCHAR(255))";
@@ -90,21 +91,21 @@ public class NodesEditor {
                 ycoord = node_row[2];
                 floor = node_row[3];
                 building = node_row[4];
-                node_type = node_row[5];
+                nodeType = node_row[5];
                 long_name = node_row[6];
                 short_name = node_row[7];
                 team_assigned = node_row[8];
-                System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + node_type + " " + long_name + " " + short_name + " " + team_assigned);
+                System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                 // Add to the database table
-                String str = "INSERT INTO map_nodes(node_id,xcoord,ycoord,floor,building,node_type,long_name,short_name,team_assigned) values (?,?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO map_nodes(node_id,xcoord,ycoord,floor,building,nodeType,long_name,short_name,team_assigned) values (?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_id);
                 statement.setInt(2, Integer.parseInt(xcoord));
                 statement.setInt(3, Integer.parseInt(ycoord));
                 statement.setInt(4, Integer.parseInt(floor));
                 statement.setString(5, building);
-                statement.setString(6, node_type);
+                statement.setString(6, nodeType);
                 statement.setString(7, long_name);
                 statement.setString(8, short_name);
                 statement.setString(9, team_assigned);
@@ -155,9 +156,12 @@ public class NodesEditor {
         } // catch ends
     }// main ends
 
-    //-----------------------------parse csv file------------------------------
-    //http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
-    //https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+    /**
+     * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
+     * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+     * @param csv_file_name the name of the csv file
+     * @return arrayList of columns from the csv
+     */
     public List<String[]> parseCsvFile(String csv_file_name) {
 
         List<String[]> list_of_rows = new ArrayList<String[]>();
@@ -178,6 +182,82 @@ public class NodesEditor {
             e.printStackTrace();
         }
         return list_of_rows;
-    }//parseCsvFile() ends
+    } // parseCsvFile() ends
+
+    /**
+     * Returns a list of all the nodes in the database as java objects
+     */
+    public List<Node> retrieveData(Connection connection) {
+        
+        Node node = null;
+        List<Node> nodeList = new ArrayList<Node>();
+
+        String ID;
+        String nodeType;
+        String longName;
+        String shortName;
+        int xCoord;
+        int yCoord;
+        int floor;
+        String building;
+        
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM MAP_NODES";
+            ResultSet rset = stmt.executeQuery(str);
+            
+            while(rset.next()) {
+                ID = rset.getString("nodeID");
+                nodeType = rset.getString("nodeType");
+                floor = rset.getInt("floor");
+                building = rset.getString("building");
+                xCoord = rset.getInt("xcoord");
+                yCoord = rset.getInt("ycoord");
+                longName = rset.getString("longName");
+                shortName = rset.getString("shortName");
+
+
+                
+                if (nodeType.equals("CONF")) {
+                    node = new Conference(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                }
+                else if (nodeType.equals("DEPT")) {
+                    node = new Department();
+                }
+                else if (nodeType.equals("ELEV")) {
+                    node = new Elevator();
+                }
+                else if (nodeType.equals("EXIT")) {
+                    node = new Exit();
+                }
+                else if (nodeType.equals("HALL")) {
+                    node = new Hallway();
+                }
+                else if (nodeType.equals("INFO")) {
+                    node = new Infodesk();
+                }
+                else if (nodeType.equals("LABS")) {
+                    node = new Lab();
+                }
+                else if (nodeType.equals("REST")) {
+                    node = new Restroom();
+                }
+                else if (nodeType.equals("RETL")) {
+                    node = new Retail();
+                }
+                else if (nodeType.equals("STAI")) {
+                    node = new Stairway();
+                }
+                else if (nodeType.equals("SERV")) {
+                    node = new Service();
+                }
+                // Add the new node to the list
+                nodeList.add(node);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nodeList;
+    } // retrieveData() ends
 
 }
