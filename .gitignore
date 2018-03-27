@@ -2,3 +2,5 @@
 .DS_STORE
 **/nodesDB
 .dat
+.csv
+.log
