@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    public List<Node> nodeList = new ArrayList<Node>();
+    public List<Node> nodeList = new ArrayList<>();
 
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
@@ -171,7 +171,7 @@ public class NodesEditor {
      */
     public List<String[]> parseCsvFile(String csv_file_name) {
         System.out.println("Parsing csv file");
-        List<String[]> list_of_rows = new ArrayList<String[]>();
+        List<String[]> list_of_rows = new ArrayList<>();
         try {
             File file = new File(csv_file_name);
             FileReader fileReader = new FileReader(file);
