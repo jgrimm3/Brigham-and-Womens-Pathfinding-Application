@@ -1,7 +1,7 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ public class Pathfinder {
         LinkedList<Node> currentPath = new LinkedList<>();
         currentPath.add(startNode);
 
-        PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
-        HashMap<String, ScoredNode> closedList = new HashMap<>();
+        PriorityQueue<Node> openList = new PriorityQueue<>();
+        HashMap<String, Node> closedList = new HashMap<>();
 
         return calcPath(startNode, endNode, openList, closedList, currentPath);
     }
@@ -38,15 +38,17 @@ public class Pathfinder {
      * @param currentPath
      * @return
      */
-    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<Node> currentPath){
+    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<Node> openList, HashMap<String, Node> closedList, LinkedList<Node> currentPath){
         if (startNode == endNode) return currentPath;
         ArrayList<Node> children = expandNode(startNode);
         children.forEach((child)-> {
-            openList.add(scoreNode(child));
+            scoreNode(child, currentPath, startNode, endNode);
+            openList.add(child);
         });
-        ScoredNode nextNode = openList.peek();
-        calcPath(nextNode, endNode, openList, closedList, currentPath);
-        return null;
+        Node nextNode = openList.poll();
+
+        currentPath.add(nextNode);
+        return calcPath(nextNode, endNode, openList, closedList, currentPath);
     }
 
     /**
@@ -57,7 +59,9 @@ public class Pathfinder {
     ArrayList<Node> expandNode(Node node){
         ArrayList<Node> children = new ArrayList<>();
 
-        node.edges.forEach(edge -> children.add(edge.otherNode(node)));
+        for (Edge edge: node.edges){
+            children.add(edge.otherNode(node));
+        }
         return children;
     }
 
@@ -94,18 +98,15 @@ public class Pathfinder {
     }
 
     /**
-     * Converts a Node into the equivalent ScoredNode
+     * Calculates the scores for the given node
      *
      * @param curNode
      * @return scoredNode
      */
 
-    ScoredNode scoreNode(Node curNode){
-        ScoredNode scoredNode = new ScoredNode();
-        scoredNode.setgScore(1);
-        scoredNode.sethScore(1);
-        scoredNode.sethScore(2);
-
-        return scoredNode;
+    void scoreNode(Node curNode, LinkedList<Node> curPath, Node startNode, Node endNode){
+        curNode.setgScore(calcGScore(curPath));
+        curNode.sethScore(calcHScore(curNode, endNode));
+        curNode.setfScore(calcFScore(curNode, startNode, endNode));
     }
 }
