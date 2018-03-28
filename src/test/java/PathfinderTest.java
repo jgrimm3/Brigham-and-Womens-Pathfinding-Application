@@ -22,6 +22,9 @@ public class PathfinderTest {
         restroom1 = new Restroom();
         restroom2 = new Restroom();
         edge1 = new Edge(restroom1, restroom2, "test", 0);
+        System.out.println(restroom1.edges);
+        restroom1.edges.add(edge1);
+        restroom2.edges.add(edge1);
 
         fixture = new LinkedList<>();
     }
