@@ -4,7 +4,9 @@ import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class Pathfinder {
     ArrayList nodeSet;
@@ -16,8 +18,15 @@ public class Pathfinder {
      * @param endNode
      * @return
      */
-    LinkedList<Node> find(Node startNode, Node endNode) {
-        return null;
+    public LinkedList<Node> find(Node startNode, Node endNode) {
+
+        LinkedList<Node> currentPath = new LinkedList<>();
+        currentPath.add(startNode);
+
+        PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
+        HashMap<String, ScoredNode> closedList = new HashMap<>();
+
+        return calcPath(startNode, endNode, openList, closedList, currentPath);
     }
 
     /**
@@ -29,7 +38,8 @@ public class Pathfinder {
      * @param currentPath
      * @return
      */
-    LinkedList<Node> calcPath(Node startNode, Node endNode, ArrayList<ScoredNode>openList, ArrayList<ScoredNode> closedList, LinkedList<Node> currentPath){
+    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<Node> currentPath){
+        if (startNode == endNode) return currentPath;
         return null;
     }
 
