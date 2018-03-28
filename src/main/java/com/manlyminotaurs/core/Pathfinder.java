@@ -1,7 +1,7 @@
-package com.manlyminotaurs.core;
+package main.java.com.manlyminotaurs.core;
 
-import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.ScoredNode;
+import main.java.com.manlyminotaurs.nodes.Node;
+import main.java.com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

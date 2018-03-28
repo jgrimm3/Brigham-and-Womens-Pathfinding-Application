@@ -1,6 +1,6 @@
-package com.manlyminotaurs.databases;
+package main.java.com.manlyminotaurs.databases;
 
-import com.manlyminotaurs.nodes.*;
+import main.java.com.manlyminotaurs.nodes.*;
 
 import java.io.*;
 import java.sql.*;
@@ -302,6 +302,11 @@ public class NodesEditor {
 
     } // end addNode()
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param longName new longName
+     */
     public void modifyNodeLongName(Node node, String longName){
         node.setLongName(longName);
         try {
@@ -317,6 +322,11 @@ public class NodesEditor {
         }
     }
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param shortName new shortName
+     */
     public void modifyNodeShortName(Node node, String shortName){
         node.setShortName(shortName);
         try {
@@ -332,6 +342,11 @@ public class NodesEditor {
         }
     }
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param nodeType new nodeType
+     */
     public void modifyNodeType(Node node, String nodeType){
         node.setNodeType(nodeType);
         try {
@@ -347,7 +362,7 @@ public class NodesEditor {
         }
     }
 
-/*  remove because nodeID is primary Key
+/* not in use because nodeID is primary Key
     public void modifyNodeID(Node node, String ID){
         node.setID(ID);
         try {
@@ -363,6 +378,11 @@ public class NodesEditor {
         }
     }*/
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param floor new floor
+     */
     public void modifyNodeFloor(Node node, String floor){
         node.getLoc().setFloor(floor);
         try {
@@ -378,6 +398,11 @@ public class NodesEditor {
         }
     }
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param xCoord new xCoord
+     */
     public void modifyNodeXcoord(Node node, int xCoord){
         node.getLoc().setxCoord(xCoord);
         try {
@@ -393,6 +418,11 @@ public class NodesEditor {
         }
     }
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param yCoord new yCoord
+     */
     public void modifyNodeYcoord(Node node, int yCoord){
         node.getLoc().setyCoord(yCoord);
         try {
@@ -408,6 +438,11 @@ public class NodesEditor {
         }
     }
 
+    /**
+     * Modifies building attribute of a node
+     * @param node node to be modified
+     * @param building new building
+     */
     public void modifyNodeBuilding(Node node, String building){
         node.getLoc().setBuilding(building);
         try {
@@ -424,8 +459,8 @@ public class NodesEditor {
     }
 
     /**
-     *
-     * @param node
+     * Removes a node from the list of objects as well as the database
+     * @param node is the node to be removed
      */
     public void removeNode (Node node) {
         int i = 0;

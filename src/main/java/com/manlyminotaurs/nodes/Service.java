@@ -1,4 +1,4 @@
-package com.manlyminotaurs.nodes;
+package main.java.com.manlyminotaurs.nodes;
 
 public class Service extends Room {
     public Service(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {

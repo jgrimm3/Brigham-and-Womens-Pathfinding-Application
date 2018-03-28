@@ -1,9 +1,9 @@
-import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Conference;
-import com.manlyminotaurs.nodes.Department;
-import com.manlyminotaurs.nodes.Node;
+package test.java;
+
+import main.java.com.manlyminotaurs.databases.NodesEditor;
+import main.java.com.manlyminotaurs.nodes.Conference;
+import main.java.com.manlyminotaurs.nodes.Node;
 import org.junit.jupiter.api.Test;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
