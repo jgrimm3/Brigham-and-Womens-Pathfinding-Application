@@ -1,9 +1,9 @@
-package test.java.database;
+package database;
 
-import main.java.com.manlyminotaurs.databases.NodesEditor;
-import main.java.com.manlyminotaurs.nodes.Conference;
-import main.java.com.manlyminotaurs.nodes.Edge;
-import main.java.com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.nodes.Conference;
+import com.manlyminotaurs.nodes.Edge;
+import com.manlyminotaurs.nodes.Node;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

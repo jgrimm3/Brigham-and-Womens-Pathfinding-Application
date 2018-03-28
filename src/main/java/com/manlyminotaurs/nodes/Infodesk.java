@@ -1,4 +1,4 @@
-package main.java.com.manlyminotaurs.nodes;
+package com.manlyminotaurs.nodes;
 
 public class Infodesk extends Room {
     public Infodesk(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {

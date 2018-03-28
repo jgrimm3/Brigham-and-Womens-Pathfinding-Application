@@ -1,6 +1,6 @@
-package main.java.com.manlyminotaurs.databases;
+package com.manlyminotaurs.databases;
 
-import main.java.com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.nodes.*;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;

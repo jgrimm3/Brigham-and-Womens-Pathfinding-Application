@@ -1,4 +1,4 @@
-package main.java.com.manlyminotaurs.users;
+package com.manlyminotaurs.users;
 
 public class Nurse extends Employee {
 }
