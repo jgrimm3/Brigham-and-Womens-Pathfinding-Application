@@ -1,5 +1,7 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.ArrayList;
+
 public abstract class Node {
 
     Location loc;
@@ -7,4 +9,5 @@ public abstract class Node {
     String shortName;
     String ID;
     String nodeType;
+    public ArrayList<Edge> edges;
 }
