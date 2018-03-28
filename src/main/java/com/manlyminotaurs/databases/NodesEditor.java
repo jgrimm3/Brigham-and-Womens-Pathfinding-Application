@@ -23,7 +23,7 @@ public class NodesEditor {
         nodesEditor.createTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-        nodesEditor.updateNodeCSVFile("./resources/TestUpdateFile.csv");
+        nodesEditor.updateNodeCSVFile("./nodeDB/TestUpdateFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -44,8 +44,8 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./resources/MapGnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./resources/MapGedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
                 Connection connection = null;

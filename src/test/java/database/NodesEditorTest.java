@@ -1,4 +1,4 @@
-package database;
+package test.java.database;
 
 import main.java.com.manlyminotaurs.databases.NodesEditor;
 import main.java.com.manlyminotaurs.nodes.Conference;
