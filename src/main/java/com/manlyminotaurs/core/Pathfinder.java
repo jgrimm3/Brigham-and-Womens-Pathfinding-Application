@@ -40,7 +40,25 @@ public class Pathfinder {
      */
     LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<Node> currentPath){
         if (startNode == endNode) return currentPath;
+        ArrayList<Node> children = expandNode(startNode);
+        children.forEach((child)-> {
+            openList.add(scoreNode(child));
+        });
+        ScoredNode nextNode = openList.peek();
+        calcPath(nextNode, endNode, openList, closedList, currentPath);
         return null;
+    }
+
+    /**
+     * Finds all the other nodes connected by edges to given node
+     * @param node
+     * @return children
+     */
+    ArrayList<Node> expandNode(Node node){
+        ArrayList<Node> children = new ArrayList<>();
+
+        node.edges.forEach(edge -> children.add(edge.otherNode(node)));
+        return children;
     }
 
     /**
@@ -73,5 +91,21 @@ public class Pathfinder {
      */
     double calcFScore(Node currNode, Node startNode, Node endNode) {
     return 0;
+    }
+
+    /**
+     * Converts a Node into the equivalent ScoredNode
+     *
+     * @param curNode
+     * @return scoredNode
+     */
+
+    ScoredNode scoreNode(Node curNode){
+        ScoredNode scoredNode = new ScoredNode();
+        scoredNode.setgScore(1);
+        scoredNode.sethScore(1);
+        scoredNode.sethScore(2);
+
+        return scoredNode;
     }
 }
