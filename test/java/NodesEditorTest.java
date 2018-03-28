@@ -24,16 +24,21 @@ public class NodesEditorTest {
         editor.retrieveData();
         int i = 0;
         while(i < editor.nodeList.size()) {
-            System.out.println("Object " + i + ": " + editor.nodeList.get(i).getLongName());
             assertTrue(editor.nodeList.get(i) != null);
             i++;
         }
     }
 
     @Test
+    public void printTest_CheckObjects_Created() {
+        editor.retrieveData();
+        editor.printNodeList();
+    }
+
+    @Test
     public void RetrieveData_Data_Size() {
         editor.retrieveData();
-        assertTrue(editor.nodeList.size() > 0);
+        assertTrue(editor.nodeList.size() > 0 && editor.nodeList.size() < 200);
     }
 
     @Test
@@ -46,27 +51,36 @@ public class NodesEditorTest {
     }
 
     @Test
+    public void addAndRemoveNodebyID_Data_Correct() {
+        editor.retrieveData();
+        editor.addNode(addNode);
+        assertTrue(editor.nodeList.contains(addNode));
+        editor.removeNode(addNode.getID());
+        assertTrue(!editor.nodeList.contains(addNode));
+    }
+
+    //@Test
     public void modifyNode_Data_Building(){
         editor.retrieveData();
         editor.modifyNodeBuilding(editor.nodeList.get(1),"Hello Building");
         assertEquals("Hello Building",editor.nodeList.get(1).getBuilding());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_Floor(){
         editor.retrieveData();
         editor.modifyNodeFloor(editor.nodeList.get(3),"L5");
         assertEquals("L5",editor.nodeList.get(3).getFloor());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_xCoord(){
         editor.retrieveData();
         editor.modifyNodeXcoord(editor.nodeList.get(10),12356);
         assertEquals(12356,editor.nodeList.get(10).getXCoord());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_yCoord(){
         editor.retrieveData();
         editor.modifyNodeYcoord(editor.nodeList.get(15),45353);
@@ -80,27 +94,25 @@ public class NodesEditorTest {
         assertEquals("TestID",editor.nodeList.get(20).getID());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_LongName(){
         editor.retrieveData();
         editor.modifyNodeLongName(editor.nodeList.get(6),"Test Long lNgBuilding");
         assertEquals("Test Long lNgBuilding",editor.nodeList.get(6).getLongName());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_ShortName(){
         editor.retrieveData();
         editor.modifyNodeShortName(editor.nodeList.get(12),"Short short test");
         assertEquals("Short short test",editor.nodeList.get(12).getShortName());
     }
 
-    @Test
+    //@Test
     public void modifyNode_Data_NodeType(){
         editor.retrieveData();
         editor.modifyNodeType(editor.nodeList.get(18),"YOUE");
         assertEquals("YOUE",editor.nodeList.get(18).getNodeType());
     }
-
-
 
 }

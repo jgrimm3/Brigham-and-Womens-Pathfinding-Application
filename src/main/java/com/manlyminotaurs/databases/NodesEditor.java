@@ -10,14 +10,21 @@ import java.util.Scanner;
 
 public class NodesEditor {
 
+    // global nodeList holds all the java objects for the nodes
     public List<Node> nodeList = new ArrayList<Node>();
 
+    /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
+
+        // run to create the database tables
+        System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
         nodesEditor.createTables();
         nodesEditor.retrieveData();
         nodesEditor.updateNodeCSVFile("./resources/TestUpdateFile.csv");
+        System.out.println("Tables created");
     }
+    /*------------------------------------- Database and csv methods -------------------------------------------------*/
     /**
      * Creates the database tables from the csv files
      */
@@ -28,19 +35,22 @@ public class NodesEditor {
         System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
         String ans = scanner.nextLine();
 
+        // If you're positive...
         if(ans.equals("y")) {
             try {
+                // Variables we need to make the tables
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
                 list_of_nodes = a_database.parseCsvFile("./resources/MapGnodes.csv");
                 list_of_edges = a_database.parseCsvFile("./resources/MapGedges.csv");
+
+                // Get the database connection
                 Connection connection = null;
                 connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
                 Statement stmt = connection.createStatement();
 
-                System.out.println("Create tables? (y/n): ");
-                //-------------------Print parsed array--------------------------
+                // Print parsed array
                 // This portion can be used to send each row to database also.
                 String node_id;
                 String xcoord;
@@ -160,9 +170,8 @@ public class NodesEditor {
      * @return arrayList of columns from the csv
      */
     public List<String[]> parseCsvFile(String csv_file_name) {
-
+        System.out.println("Parsing csv file");
         List<String[]> list_of_rows = new ArrayList<String[]>();
-
         try {
             File file = new File(csv_file_name);
             FileReader fileReader = new FileReader(file);
@@ -175,12 +184,36 @@ public class NodesEditor {
                 list_of_rows.add(node_row);
             }
             fileReader.close();
+            System.out.println("csv file parsed");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return list_of_rows;
     } // parseCsvFile() ends
 
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName
+     */
+    public void updateNodeCSVFile(String csvFileName) {
+        Iterator<Node> iterator = nodeList.iterator();
+        System.out.println("Updating csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
+            while (iterator.hasNext()) {
+                Node a_node = iterator.next();
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
      */
@@ -254,9 +287,11 @@ public class NodesEditor {
                     }
                     // Add the new node to the list
                     nodeList.add(node);
+                    System.out.println("Node added to list...");
                 }
                 rset.close();
                 stmt.close();
+                System.out.println("Done adding nodes");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -266,6 +301,7 @@ public class NodesEditor {
         }
     } // retrieveData() ends
 
+    /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
     /**
      * Adds the java object and the corresponding entry in the database table
      * @param node the node to be added to the database
@@ -315,11 +351,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeLongName
 
     /**
      * Modifies building attribute of a node
@@ -335,11 +372,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeShortName
 
     /**
      * Modifies building attribute of a node
@@ -355,11 +393,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeType
 
 /* not in use because nodeID is primary Key
     public void modifyNodeID(Node node, String ID){
@@ -391,11 +430,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeFloor
 
     /**
      * Modifies building attribute of a node
@@ -411,11 +451,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeXcoord
 
     /**
      * Modifies building attribute of a node
@@ -431,11 +472,12 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeYcoord
 
     /**
      * Modifies building attribute of a node
@@ -451,59 +493,71 @@ public class NodesEditor {
             int count = stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
+            System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }
+    } // end modifyNodeBuilding
 
     /**
      * Removes a node from the list of objects as well as the database
      * @param node is the node to be removed
      */
     public void removeNode (Node node) {
-        int i = 0;
-        System.out.println("We are here");
-        while(i < nodeList.size()) {
-            System.out.println("Object " + i + ": " + nodeList.get(i).getLongName());
-            i++;
-        }
+        // remove the node from the nodeList
         nodeList.remove(node);
-        i = 0;
-        while(i < nodeList.size()) {
-            System.out.println("Object " + i + ": " + nodeList.get(i).getLongName());
-            i++;
-        }
+        System.out.println("Node removed from object list...");
         try {
+            // Get connection to database and delete the node from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getID() + "'";
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
+            System.out.println("Node removed from database");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName
-     */
-    public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = nodeList.iterator();
+    } // removeNode
 
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
-            while (iterator.hasNext()) {
-                Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
+    /**
+     * Removes a node from the list of objects as well as the database
+     * @param nodeID is the nodeID of the node to be removed
+     */
+    public void removeNode (String nodeID) {
+        // Find the node to remove from the nodeList
+        int i = 0;
+        while(i < nodeList.size()){
+            if(nodeList.get(i).getID().equals(nodeID)) {
+                // remove the node
+                System.out.println("Node removed from object list...");
+                nodeList.remove(i);
             }
-            printWriter.close();
+            i++;
         }
-        catch(IOException e){
+        try {
+            // Get connection to database and delete the node from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + nodeID + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Node removed from database");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-}
+    } // removeNode
+
+    /*----------------------------------------- Helper functions -----------------------------------------------------*/
+
+    /**
+     * Print the nodeList
+     */
+    public void printNodeList() {
+        int i = 0;
+        while(i < nodeList.size()) { System.out.println("Object " + i + ": " + nodeList.get(i).getShortName()); i++; }
+    } // end printNodeList
+} // end NodesEditor class
