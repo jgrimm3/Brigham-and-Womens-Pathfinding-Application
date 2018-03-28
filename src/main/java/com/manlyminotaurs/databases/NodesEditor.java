@@ -1,10 +1,8 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +16,8 @@ public class NodesEditor {
     public static void main(String [] args) {
         NodesEditor nodesEditor = new NodesEditor();
         nodesEditor.createTables();
+        nodesEditor.retrieveData();
+        nodesEditor.updateNodeCSVFile("./resources/TestUpdateFile.csv");
     }
     /**
      * Creates the database tables from the csv files
@@ -448,6 +448,27 @@ public class NodesEditor {
             stmt.close();
             connection.close();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName
+     */
+    public void updateNodeCSVFile(String csvFileName) {
+        Iterator<Node> iterator = nodeList.iterator();
+
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
+            while (iterator.hasNext()) {
+                Node a_node = iterator.next();
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
+            }
+            printWriter.close();
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
     }
