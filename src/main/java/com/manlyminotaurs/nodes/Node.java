@@ -7,6 +7,7 @@ public abstract class Node {
     String shortName;
     String ID;
     String nodeType;
+    int status;
 
     public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
         this.loc = loc;
@@ -15,6 +16,7 @@ public abstract class Node {
         this.ID = ID;
         this.nodeType = nodeType;
         this.loc = new Location(xcoord, ycoord, floor, building);
+        status = 1;
     }
 
     public void setLoc(Location loc) {
@@ -62,4 +64,9 @@ public abstract class Node {
     public String getFloor() { return loc.floor; }
 
     public String getBuilding() { return loc.building; }
+
+    public int getStatus() { return status; }
+
+    public void setStatus(int status) { this.status = status; }
+
 }
