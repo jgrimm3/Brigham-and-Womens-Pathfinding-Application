@@ -1,6 +1,6 @@
 package com.manlyminotaurs.nodes;
 
-public abstract class ScoredNode implements Comparable<ScoredNode> {
+public class ScoredNode implements Comparable<ScoredNode> {
     double gScore;
     double hScore;
     double fScore;
@@ -19,5 +19,29 @@ public abstract class ScoredNode implements Comparable<ScoredNode> {
     @Override
     public int compareTo(ScoredNode other){
         return 1;
+    }
+
+    public double getgScore() {
+        return gScore;
+    }
+
+    public void setgScore(double gScore) {
+        this.gScore = gScore;
+    }
+
+    public double gethScore() {
+        return hScore;
+    }
+
+    public void sethScore(double hScore) {
+        this.hScore = hScore;
+    }
+
+    public double getfScore() {
+        return fScore;
+    }
+
+    public void setfScore(double fScore) {
+        this.fScore = fScore;
     }
 }
