@@ -23,7 +23,7 @@ public class NodesEditor {
         nodesEditor.createTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-        nodesEditor.updateNodeCSVFile("./nodeDB/TestUpdateFile.csv");
+        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -48,7 +48,7 @@ public class NodesEditor {
                 list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
-                Connection connection = null;
+                Connection connection;
                 connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
                 Statement stmt = connection.createStatement();
 
@@ -195,7 +195,7 @@ public class NodesEditor {
 
     /**
      * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName
+     * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
         Iterator<Node> iterator = nodeList.iterator();
@@ -313,7 +313,7 @@ public class NodesEditor {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
 
             // Variables
-            Edge edge = null;
+            Edge edge;
             String edgeID;
             String startNode;
             String endNode;
@@ -359,7 +359,7 @@ public class NodesEditor {
         try {
             // Connect to the database
             System.out.println("Getting connection to database...");
-            Connection connection = null;
+            Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName) VALUES (?,?,?,?,?,?,?,?)";
 
@@ -394,7 +394,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET longName = '" + longName + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -415,7 +415,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET shortName = '" + shortName + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -436,7 +436,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET nodeType = '" + nodeType + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -473,7 +473,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET floor = '" + floor + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -494,7 +494,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET xCoord = " + xCoord + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -515,7 +515,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET yCoord = " + yCoord + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -536,7 +536,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET building = '" + building + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -609,7 +609,7 @@ public class NodesEditor {
         try {
             // Connect to the database
             System.out.println("Getting connection to database...");
-            Connection connection = null;
+            Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO MAP_EDGES(edgeID, startNode, endNode) VALUES (?,?,?)";
 
@@ -639,7 +639,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE MAP_EDGES SET startNode = '" + startNode + "'" + " WHERE edgeID = '" + edge.getEdgeID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -660,7 +660,7 @@ public class NodesEditor {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE MAP_EDGES SET endNode = '" + endNode + "'" + " WHERE edgeID = '" + edge.getEdgeID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
