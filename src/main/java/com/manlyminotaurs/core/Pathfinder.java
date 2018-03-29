@@ -42,13 +42,15 @@ public class Pathfinder {
     LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList){
         if (startNode.getNode() == endNode.getNode()) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode);
-        children.forEach((child)-> {
+
+        for (ScoredNode child: children){
             child.setParent(startNode);
             scoreNode(child, endNode);
             openList.add(child);
-        });
+        }
+
         closedList.put(startNode.getNode().getID(), startNode);
-        ScoredNode nextNode = openList.poll();
+        ScoredNode nextNode = openList.poll(); // Equivalent of .pop()
 
         return calcPath(nextNode, endNode, openList, closedList);
     }
