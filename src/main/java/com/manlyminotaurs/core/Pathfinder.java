@@ -1,7 +1,7 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,9 +38,31 @@ public class Pathfinder {
      * @param currentPath
      * @return
      */
-    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<Node> currentPath){
+    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<Node> openList, HashMap<String, Node> closedList, LinkedList<Node> currentPath){
         if (startNode == endNode) return currentPath;
-        return null;
+        ArrayList<Node> children = expandNode(startNode);
+        children.forEach((child)-> {
+            scoreNode(child, currentPath, startNode, endNode);
+            openList.add(child);
+        });
+        Node nextNode = openList.poll();
+
+        currentPath.add(nextNode);
+        return calcPath(nextNode, endNode, openList, closedList, currentPath);
+    }
+
+    /**
+     * Finds all the other nodes connected by edges to given node
+     * @param node
+     * @return children
+     */
+    ArrayList<Node> expandNode(Node node){
+        ArrayList<Node> children = new ArrayList<>();
+
+        for (Edge edge: node.edges){
+            children.add(edge.otherNode(node));
+        }
+        return children;
     }
 
     /**
