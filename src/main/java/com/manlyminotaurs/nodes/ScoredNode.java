@@ -2,12 +2,14 @@ package com.manlyminotaurs.nodes;
 
 public class ScoredNode implements Comparable<ScoredNode> {
     Node node;
+    ScoredNode parent;
     double gScore;
     double hScore;
     double fScore;
 
-    public ScoredNode(Node node, double gScore, double hScore, double fScore) {
+    public ScoredNode(Node node, ScoredNode parent, double gScore, double hScore, double fScore) {
         this.node = node;
+        this.parent = parent;
         this.gScore = gScore;
         this.hScore = hScore;
         this.fScore = fScore;
@@ -19,6 +21,14 @@ public class ScoredNode implements Comparable<ScoredNode> {
 
     public void setNode(Node node) {
         this.node = node;
+    }
+
+    public ScoredNode getParent() {
+        return parent;
+    }
+
+    public void setParent(ScoredNode parent) {
+        this.parent = parent;
     }
 
     public double getgScore() {

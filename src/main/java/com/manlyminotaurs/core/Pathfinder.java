@@ -24,8 +24,8 @@ public class Pathfinder {
         PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
         HashMap<String, ScoredNode> closedList = new HashMap<>();
 
-        ScoredNode scoredStart = new ScoredNode(startNode, -1, -1, -1);
-        ScoredNode scoredEnd = new ScoredNode(endNode, -1, -1, -1);
+        ScoredNode scoredStart = new ScoredNode(startNode, null, -1, -1, -1);
+        ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
         LinkedList<ScoredNode> currentPath = new LinkedList<>();
         currentPath.add(scoredStart);
@@ -61,6 +61,7 @@ public class Pathfinder {
         if (startNode.getNode() == endNode.getNode()) return currentPath;
         ArrayList<ScoredNode> children = expandNode(startNode);
         children.forEach((child)-> {
+            child.setParent(startNode);
             scoreNode(child, currentPath, startNode, endNode);
             openList.add(child);
         });
@@ -78,10 +79,9 @@ public class Pathfinder {
     ArrayList<ScoredNode> expandNode(ScoredNode node){
         ArrayList<ScoredNode> children = new ArrayList<>();
         ArrayList<Edge> edges = node.getNode().getEdges();
-        System.out.println(edges);
         for (Edge edge: edges){
             // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
-            children.add(new ScoredNode(edge.otherNode(node.getNode()), -1, -1, -1));
+            children.add(new ScoredNode(edge.otherNode(node.getNode()), node, -1, -1, -1));
         }
         return children;
     }
@@ -97,7 +97,7 @@ public class Pathfinder {
      */
 
     ScoredNode scoreNode(ScoredNode node, LinkedList<ScoredNode> curPath, ScoredNode startNode, ScoredNode endNode){
-        node.setgScore(calcGScore(curPath));
+        node.setgScore(calcGScore(node));
         node.sethScore(calcHScore(node, endNode));
         node.setfScore(calcFScore(node));
         return node;
@@ -105,32 +105,51 @@ public class Pathfinder {
 
     /**
      *
-     * @param curPath
+     * @param node
      * @return
      */
-    double calcGScore(LinkedList<ScoredNode> curPath){
-    return 0;
+    double calcGScore(ScoredNode node){
+        return (double) getNodeTrail(node).size();
     }
 
     /**
      * Calculate the H Score for the current node to the end Node
      * This is done using Euclidean Distance
-     * @param currNode
+     * @param curNode
      * @param endNode
      * @return
      */
-    double calcHScore(ScoredNode currNode, ScoredNode endNode){
-        return 0;
+    double calcHScore(ScoredNode curNode, ScoredNode endNode){
+        int curX = curNode.getNode().getXCoord();
+        int curY = curNode.getNode().getYCoord();
+
+        int goalX = endNode.getNode().getXCoord();
+        int goalY = endNode.getNode().getYCoord();
+
+        double xDist = goalX - curX;
+        double yDist = goalY - curY;
+
+        return Math.hypot(xDist, yDist);
+
     }
 
     /**
      * Calculate the F score for the given Node.
-     * This is done by adding the G and H scores for the Node. Must be called
+     * This is done by adding the G and H scores for the Node. Must be called after calcGScore and calcHScore
      * @param node The node to be scored
      * @return
      */
     double calcFScore(ScoredNode node) {
-        return 0;
+        return node.getgScore() + node.gethScore();
+    }
+
+    LinkedList<ScoredNode> getNodeTrail(ScoredNode node){
+        LinkedList<ScoredNode> nodeTrail = new LinkedList<>();
+        while(!(node.getParent() == null)){
+            nodeTrail.add(node);
+            node = node.getParent();
+        }
+        return nodeTrail;
     }
 
     /**

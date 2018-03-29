@@ -23,7 +23,6 @@ public class PathfinderTest {
         restroom1 = new Restroom("a", "a", "1", "test", 1, 1, "1", "bldg", new ArrayList<>());
         restroom2 = new Restroom("a", "a", "2", "test", 2, 2, "1", "bldg", new ArrayList<>());
         edge1 = new Edge(restroom1, restroom2, "test", 0);
-//        System.out.println(restroom1.getEdges());
         restroom1.getEdges().add(edge1);
         restroom2.getEdges().add(edge1);
 
