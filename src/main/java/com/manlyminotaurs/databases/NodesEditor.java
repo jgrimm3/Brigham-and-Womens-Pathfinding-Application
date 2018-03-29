@@ -17,13 +17,35 @@ public class NodesEditor {
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
-        // run to create the database tables
+        System.out.println("-------- Step 1: Registering Oracle Driver ------");
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
+            System.out.println("*****Open the file and read the comments in the beginning of the file****");
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println("Oracle JDBC Driver Registered Successfully !");
+
+        // run to create the database table
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
         nodesEditor.createTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateFile.csv");
+
+        nodesEditor.modifyNodeBuilding(nodesEditor.nodeList.get(0), "BuidlingModify");
+        nodesEditor.modifyNodeShortName(nodesEditor.nodeList.get(1), "shortnameModify");
+        nodesEditor.modifyNodeLongName(nodesEditor.nodeList.get(2), "LongNameModify");
+        nodesEditor.modifyNodeType(nodesEditor.nodeList.get(3), "YOLO");
+
+        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(1), "testingStart");
+        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(2), "testingEnd");
+
+        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
+        nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -44,8 +66,8 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapBnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapBedges.csv");
 
                 // Get the database connection
                 Connection connection;
@@ -199,7 +221,7 @@ public class NodesEditor {
      */
     public void updateNodeCSVFile(String csvFileName) {
         Iterator<Node> iterator = nodeList.iterator();
-        System.out.println("Updating csv file...");
+        System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -209,7 +231,30 @@ public class NodesEditor {
                 printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
             }
             printWriter.close();
-            System.out.println("csv file updated");
+            System.out.println("csv node file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateEdgeCSVFile(String csvFileName) {
+        Iterator<Edge> iterator = edgeList.iterator();
+        System.out.println("Updating edge csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("edgeID,startNode,endNode\n");
+            while (iterator.hasNext()) {
+                Edge a_edge = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_edge.getEdgeID(), a_edge.getStartNode(), a_edge.getEndNode());
+            }
+            printWriter.close();
+            System.out.println("csv edge file updated");
         }
         catch(IOException e){
             e.printStackTrace();
