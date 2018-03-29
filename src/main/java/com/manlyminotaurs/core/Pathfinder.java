@@ -2,6 +2,7 @@ package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +21,31 @@ public class Pathfinder {
      */
     public LinkedList<Node> find(Node startNode, Node endNode) {
 
-        LinkedList<Node> currentPath = new LinkedList<>();
-        currentPath.add(startNode);
+        PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
+        HashMap<String, ScoredNode> closedList = new HashMap<>();
 
-        PriorityQueue<Node> openList = new PriorityQueue<>();
-        HashMap<String, Node> closedList = new HashMap<>();
+        ScoredNode scoredStart = new ScoredNode(startNode, -1, -1, -1);
+        ScoredNode scoredEnd = new ScoredNode(endNode, -1, -1, -1);
 
-        return calcPath(startNode, endNode, openList, closedList, currentPath);
+        LinkedList<ScoredNode> currentPath = new LinkedList<>();
+        currentPath.add(scoredStart);
+
+        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, currentPath));
+    }
+
+    /**
+     * Takes in a list of ScoredNodes and strips their scores, returning a list of the raw Nodes
+     *
+     * @param scoredNodes List of nodes to have their scores stripped
+     * @return strippedNodes
+     */
+
+    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
+        LinkedList<Node> strippedNodes = new LinkedList<>();
+        for(ScoredNode scoredNode: scoredNodes){
+            strippedNodes.add(scoredNode.getNode());
+        }
+        return strippedNodes;
     }
 
     /**
@@ -38,14 +57,14 @@ public class Pathfinder {
      * @param currentPath
      * @return
      */
-    LinkedList<Node> calcPath(Node startNode, Node endNode, PriorityQueue<Node> openList, HashMap<String, Node> closedList, LinkedList<Node> currentPath){
-        if (startNode == endNode) return currentPath;
-        ArrayList<Node> children = expandNode(startNode);
+    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<ScoredNode> currentPath){
+        if (startNode.getNode() == endNode.getNode()) return currentPath;
+        ArrayList<ScoredNode> children = expandNode(startNode);
         children.forEach((child)-> {
             scoreNode(child, currentPath, startNode, endNode);
             openList.add(child);
         });
-        Node nextNode = openList.poll();
+        ScoredNode nextNode = openList.poll();
 
         currentPath.add(nextNode);
         return calcPath(nextNode, endNode, openList, closedList, currentPath);
@@ -56,21 +75,40 @@ public class Pathfinder {
      * @param node
      * @return children
      */
-    ArrayList<Node> expandNode(Node node){
-        ArrayList<Node> children = new ArrayList<>();
-
-        for (Edge edge: node.edges){
-            children.add(edge.otherNode(node));
+    ArrayList<ScoredNode> expandNode(ScoredNode node){
+        ArrayList<ScoredNode> children = new ArrayList<>();
+        ArrayList<Edge> edges = node.getNode().getEdges();
+        System.out.println(edges);
+        for (Edge edge: edges){
+            // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
+            children.add(new ScoredNode(edge.otherNode(node.getNode()), -1, -1, -1));
         }
         return children;
     }
 
     /**
+     * Takes in a ScoredNode and updates its g, h, and f scores
      *
-     * @param currPath
+     * @param node
+     * @param curPath
+     * @param startNode
+     * @param endNode
      * @return
      */
-    double calcGScore(LinkedList<Node> currPath){
+
+    ScoredNode scoreNode(ScoredNode node, LinkedList<ScoredNode> curPath, ScoredNode startNode, ScoredNode endNode){
+        node.setgScore(calcGScore(curPath));
+        node.sethScore(calcHScore(node, endNode));
+        node.setfScore(calcFScore(node));
+        return node;
+    }
+
+    /**
+     *
+     * @param curPath
+     * @return
+     */
+    double calcGScore(LinkedList<ScoredNode> curPath){
     return 0;
     }
 
@@ -81,20 +119,18 @@ public class Pathfinder {
      * @param endNode
      * @return
      */
-    double calcHScore(Node currNode, Node endNode){
+    double calcHScore(ScoredNode currNode, ScoredNode endNode){
         return 0;
     }
 
     /**
      * Calculate the F score for the given Node.
-     * This is done by adding the G and H scores for the Node
-     * @param currNode The node currently at
-     * @param startNode The node at the beginning of the path-finding
-     * @param endNode The node at the
+     * This is done by adding the G and H scores for the Node. Must be called
+     * @param node The node to be scored
      * @return
      */
-    double calcFScore(Node currNode, Node startNode, Node endNode) {
-    return 0;
+    double calcFScore(ScoredNode node) {
+        return 0;
     }
 
     /**
