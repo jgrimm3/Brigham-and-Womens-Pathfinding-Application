@@ -14,6 +14,7 @@ public class Pathfinder {
     Hospital hospital;
 
     /**
+     * Wrapper for calcPath function. Creates empty data structures.
      *
      * @param startNode
      * @param endNode
@@ -27,25 +28,7 @@ public class Pathfinder {
         ScoredNode scoredStart = new ScoredNode(startNode, null, -1, -1, -1);
         ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
-        LinkedList<ScoredNode> currentPath = new LinkedList<>();
-        currentPath.add(scoredStart);
-
-        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, currentPath));
-    }
-
-    /**
-     * Takes in a list of ScoredNodes and strips their scores, returning a list of the raw Nodes
-     *
-     * @param scoredNodes List of nodes to have their scores stripped
-     * @return strippedNodes
-     */
-
-    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
-        LinkedList<Node> strippedNodes = new LinkedList<>();
-        for(ScoredNode scoredNode: scoredNodes){
-            strippedNodes.add(scoredNode.getNode());
-        }
-        return strippedNodes;
+        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList));
     }
 
     /**
@@ -54,21 +37,20 @@ public class Pathfinder {
      * @param endNode
      * @param openList
      * @param closedList
-     * @param currentPath
      * @return
      */
-    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, LinkedList<ScoredNode> currentPath){
-        if (startNode.getNode() == endNode.getNode()) return currentPath;
+    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList){
+        if (startNode.getNode() == endNode.getNode()) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode);
         children.forEach((child)-> {
             child.setParent(startNode);
-            scoreNode(child, currentPath, startNode, endNode);
+            scoreNode(child, endNode);
             openList.add(child);
         });
+        closedList.put(startNode.getNode().getID(), startNode);
         ScoredNode nextNode = openList.poll();
 
-        currentPath.add(nextNode);
-        return calcPath(nextNode, endNode, openList, closedList, currentPath);
+        return calcPath(nextNode, endNode, openList, closedList);
     }
 
     /**
@@ -90,13 +72,11 @@ public class Pathfinder {
      * Takes in a ScoredNode and updates its g, h, and f scores
      *
      * @param node
-     * @param curPath
-     * @param startNode
      * @param endNode
      * @return
      */
 
-    ScoredNode scoreNode(ScoredNode node, LinkedList<ScoredNode> curPath, ScoredNode startNode, ScoredNode endNode){
+    ScoredNode scoreNode(ScoredNode node, ScoredNode endNode){
         node.setgScore(calcGScore(node));
         node.sethScore(calcHScore(node, endNode));
         node.setfScore(calcFScore(node));
@@ -143,12 +123,35 @@ public class Pathfinder {
         return node.getgScore() + node.gethScore();
     }
 
+    /**
+     * Takes in a list of ScoredNodes and strips their scores, returning a list of the raw Nodes
+     *
+     * @param scoredNodes List of nodes to have their scores stripped
+     * @return strippedNodes
+     */
+
+    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
+        LinkedList<Node> strippedNodes = new LinkedList<>();
+        for(ScoredNode scoredNode: scoredNodes){
+            strippedNodes.add(scoredNode.getNode());
+        }
+        return strippedNodes;
+    }
+
+    /**
+     * Takes in a node and follows the path of parents, creating a LinkedList as it goes
+     *
+     * @param node
+     * @return The trail of nodes leading back to the start node
+     */
+
     LinkedList<ScoredNode> getNodeTrail(ScoredNode node){
         LinkedList<ScoredNode> nodeTrail = new LinkedList<>();
         while(!(node.getParent() == null)){
-            nodeTrail.add(node);
+            nodeTrail.addFirst(node);
             node = node.getParent();
         }
+        nodeTrail.addFirst(node); // Adding start node to trail. addFirst ensures correct order
         return nodeTrail;
     }
 
