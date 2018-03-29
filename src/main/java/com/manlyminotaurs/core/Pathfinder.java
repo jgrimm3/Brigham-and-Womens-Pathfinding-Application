@@ -32,6 +32,7 @@ public class Pathfinder {
     }
 
     /**
+     * Main pathfinding function. Finds endNode from startNode using A*.
      *
      * @param startNode
      * @param endNode
@@ -86,9 +87,10 @@ public class Pathfinder {
     }
 
     /**
+     * Calculates the cost of getting to the given node from its earliest parent.
      *
      * @param node
-     * @return
+     * @return Total cost
      */
     double calcGScore(ScoredNode node){
         return (double) getNodeTrail(node).size();
@@ -119,7 +121,7 @@ public class Pathfinder {
      * Calculate the F score for the given Node.
      * This is done by adding the G and H scores for the Node. Must be called after calcGScore and calcHScore
      * @param node The node to be scored
-     * @return
+     * @return The score of that node
      */
     double calcFScore(ScoredNode node) {
         return node.getgScore() + node.gethScore();
