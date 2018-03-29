@@ -7,6 +7,7 @@ import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.Edge;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class PathfinderTest {
@@ -19,12 +20,12 @@ public class PathfinderTest {
     @Before
     public void createFixtures(){
         pf = new Pathfinder();
-        restroom1 = new Restroom();
-        restroom2 = new Restroom();
+        restroom1 = new Restroom("a", "a", "1", "test", 1, 1, "1", "bldg", new ArrayList<>());
+        restroom2 = new Restroom("a", "a", "2", "test", 2, 2, "1", "bldg", new ArrayList<>());
         edge1 = new Edge(restroom1, restroom2, "test", 0);
-        System.out.println(restroom1.edges);
-        restroom1.edges.add(edge1);
-        restroom2.edges.add(edge1);
+//        System.out.println(restroom1.getEdges());
+        restroom1.getEdges().add(edge1);
+        restroom2.getEdges().add(edge1);
 
         fixture = new LinkedList<>();
     }

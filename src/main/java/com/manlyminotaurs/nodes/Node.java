@@ -13,14 +13,33 @@ public abstract class Node {
     String nodeType;
     ArrayList<Edge> edges;
 
-    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
+    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, ArrayList<Edge> edges) {
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
         this.loc = new Location(xcoord, ycoord, floor, building);
-        this.edges = new ArrayList<>();
+        this.edges = edges;
+    }
+
+    /**
+     * Overrides default equals method so that nodes are compared by their IDs
+     *
+     * @param o
+     * @return True if Node IDs are the same
+     */
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Node)) {
+            return false;
+        }
+        Node n = (Node) o;
+        return n.ID == this.ID;
     }
 
     public void setLoc(Location loc) { this.loc = loc; }
@@ -32,6 +51,8 @@ public abstract class Node {
     public void setID(String ID) { this.ID = ID; }
 
     public void setNodeType(String nodeType) { this.nodeType = nodeType; }
+
+    public void setEdges(ArrayList<Edge> edges) { this.edges = edges; }
 
     public Location getLoc() { return loc; }
 
@@ -51,4 +72,5 @@ public abstract class Node {
 
     public String getBuilding() { return loc.building; }
 
+    public ArrayList<Edge> getEdges() { return edges; }
 }
