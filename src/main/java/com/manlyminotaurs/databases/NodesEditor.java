@@ -381,6 +381,34 @@ public class NodesEditor {
         }
     } // retrieveData() ends
 
+    /*-------------------------------------------- Update database ---------------------------------------------------*/
+    public void createExitTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            if(nodeList.get(i).getNodeType().equals("EXIT")) {
+                try {
+                    String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, node_id);
+                    statement.setInt(2, isArmed);
+                    statement.setInt(3, nodeID);
+                    statement.executeUpdate();
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+        }
+    }
+
     /**
      * Creates a list of objects and stores them in the global variable nodeList
      */
