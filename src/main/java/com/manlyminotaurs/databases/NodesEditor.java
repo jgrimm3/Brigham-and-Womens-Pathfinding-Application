@@ -12,16 +12,40 @@ public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
     public List<Node> nodeList = new ArrayList<>();
+    public List<Edge> edgeList = new ArrayList<>();
 
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
-        // run to create the database tables
+        System.out.println("-------- Step 1: Registering Oracle Driver ------");
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
+            System.out.println("*****Open the file and read the comments in the beginning of the file****");
+            e.printStackTrace();
+            return;
+        }
+
+        System.out.println("Oracle JDBC Driver Registered Successfully !");
+
+        // run to create the database table
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
         nodesEditor.createTables();
-        nodesEditor.retrieveData();
-        nodesEditor.updateNodeCSVFile("./resources/TestUpdateFile.csv");
+        nodesEditor.retrieveNodes();
+        nodesEditor.retrieveEdges();
+
+        nodesEditor.modifyNodeBuilding(nodesEditor.nodeList.get(0), "BuidlingModify");
+        nodesEditor.modifyNodeShortName(nodesEditor.nodeList.get(1), "shortnameModify");
+        nodesEditor.modifyNodeLongName(nodesEditor.nodeList.get(2), "LongNameModify");
+        nodesEditor.modifyNodeType(nodesEditor.nodeList.get(3), "YOLO");
+
+        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(1), "testingStart");
+        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(2), "testingEnd");
+
+        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
+        nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -42,12 +66,12 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./resources/MapGnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./resources/MapGedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapBnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapBedges.csv");
 
                 // Get the database connection
-                Connection connection = null;
-                connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+                Connection connection;
+                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
                 Statement stmt = connection.createStatement();
 
                 // Print parsed array
@@ -138,9 +162,9 @@ public class NodesEditor {
                 //create table
                 System.out.println("Creating table...");
                 create_sql = "CREATE TABLE map_edges (" +
-                        "  node_id              VARCHAR(255)," +
-                        "  start_node           VARCHAR(255)," +
-                        "  end_node             VARCHAR(255))";
+                        "  edgeID              VARCHAR(255)," +
+                        "  startNode           VARCHAR(255)," +
+                        "  endNode             VARCHAR(255))";
 
                 stmt.executeUpdate(create_sql);
                 System.out.println("table created successfully...");
@@ -150,7 +174,7 @@ public class NodesEditor {
                     String[] node_row = iterator2.next();
                     System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                    String str = "INSERT INTO map_edges(node_id,start_node, end_node) VALUES (?,?,?)";
+                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, node_row[0]);
                     statement.setString(2, node_row[1]);
@@ -193,11 +217,11 @@ public class NodesEditor {
 
     /**
      * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName
+     * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
         Iterator<Node> iterator = nodeList.iterator();
-        System.out.println("Updating csv file...");
+        System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -207,7 +231,30 @@ public class NodesEditor {
                 printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
             }
             printWriter.close();
-            System.out.println("csv file updated");
+            System.out.println("csv node file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateEdgeCSVFile(String csvFileName) {
+        Iterator<Edge> iterator = edgeList.iterator();
+        System.out.println("Updating edge csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("edgeID,startNode,endNode\n");
+            while (iterator.hasNext()) {
+                Edge a_edge = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_edge.getEdgeID(), a_edge.getStartNode(), a_edge.getEndNode());
+            }
+            printWriter.close();
+            System.out.println("csv edge file updated");
         }
         catch(IOException e){
             e.printStackTrace();
@@ -217,11 +264,11 @@ public class NodesEditor {
     /**
      * Creates a list of objects and stores them in the global variable nodeList
      */
-    public void retrieveData() {
+    public void retrieveNodes() {
         try {
             // Connection
             Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
 
             // Variables
             Node node = null;
@@ -301,6 +348,50 @@ public class NodesEditor {
         }
     } // retrieveData() ends
 
+    /**
+     * Creates a list of objects and stores them in the global variable nodeList
+     */
+    public void retrieveEdges() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            Edge edge;
+            String edgeID;
+            String startNode;
+            String endNode;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM MAP_EDGES";
+                ResultSet rset = stmt.executeQuery(str);
+
+                // For every node, get the information
+                while (rset.next()) {
+                    edgeID = rset.getString("edgeID");
+                    startNode = rset.getString("startNode");
+                    endNode = rset.getString("endNode");
+
+                    edge = new Edge(startNode, endNode, edgeID);
+
+                    // Add the new node to the list
+                    edgeList.add(edge);
+                    System.out.println("Edge added to list...");
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding edges");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveData() ends
+
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
     /**
      * Adds the java object and the corresponding entry in the database table
@@ -313,8 +404,8 @@ public class NodesEditor {
         try {
             // Connect to the database
             System.out.println("Getting connection to database...");
-            Connection connection = null;
-            connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName) VALUES (?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
@@ -345,10 +436,10 @@ public class NodesEditor {
     public void modifyNodeLongName(Node node, String longName){
         node.setLongName(longName);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET longName = '" + longName + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -366,10 +457,10 @@ public class NodesEditor {
     public void modifyNodeShortName(Node node, String shortName){
         node.setShortName(shortName);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET shortName = '" + shortName + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -387,10 +478,10 @@ public class NodesEditor {
     public void modifyNodeType(Node node, String nodeType){
         node.setNodeType(nodeType);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET nodeType = '" + nodeType + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -404,7 +495,7 @@ public class NodesEditor {
     public void modifyNodeID(Node node, String ID){
         node.setID(ID);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET nodeID = '" + ID + "'" + " WHERE nodeID = '" + node.getID() + "'";
             int count = stmt.executeUpdate(sql);
@@ -424,10 +515,10 @@ public class NodesEditor {
     public void modifyNodeFloor(Node node, String floor){
         node.getLoc().setFloor(floor);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET floor = '" + floor + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -445,10 +536,10 @@ public class NodesEditor {
     public void modifyNodeXcoord(Node node, int xCoord){
         node.getLoc().setxCoord(xCoord);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET xCoord = " + xCoord + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -466,10 +557,10 @@ public class NodesEditor {
     public void modifyNodeYcoord(Node node, int yCoord){
         node.getLoc().setyCoord(yCoord);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET yCoord = " + yCoord + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -487,10 +578,10 @@ public class NodesEditor {
     public void modifyNodeBuilding(Node node, String building){
         node.getLoc().setBuilding(building);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE map_nodes SET building = '" + building + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
             System.out.println("Modification successful");
@@ -510,7 +601,7 @@ public class NodesEditor {
         System.out.println("Node removed from object list...");
         try {
             // Get connection to database and delete the node from the database
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getID() + "'";
             stmt.executeUpdate(str);
@@ -539,7 +630,7 @@ public class NodesEditor {
         }
         try {
             // Get connection to database and delete the node from the database
-            Connection connection = DriverManager.getConnection("jdbc:derby:./resources/nodesDB;create=true");
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + nodeID + "'";
             stmt.executeUpdate(str);
@@ -551,6 +642,101 @@ public class NodesEditor {
         }
     } // removeNode
 
+    /*---------------------------------------- Add/delete/edit edges -------------------------------------------------*/
+    /**
+     * Adds the java object and the corresponding entry in the database table
+     * @param edge the node to be added to the database
+     */
+    public void addEdge(Edge edge)
+    {
+        edgeList.add(edge);
+        System.out.println("Node added to object list...");
+        try {
+            // Connect to the database
+            System.out.println("Getting connection to database...");
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            String str = "INSERT INTO MAP_EDGES(edgeID, startNode, endNode) VALUES (?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, edge.getEdgeID());
+            statement.setString(2, edge.getStartNode());
+            statement.setString(3, edge.getEndNode());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            System.out.println("Node added to database");
+        } catch (SQLException e)
+        {
+            System.out.println("Node already in the database");
+        }
+
+    } // end addEdge()
+
+    /**
+     * Modifies building attribute of a node
+     * @param edge edge to be modified
+     * @param startNode new startNode
+     */
+    public void modifyEdgeStartNode(Edge edge, String startNode){
+        edge.setStartNode(startNode);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE MAP_EDGES SET startNode = '" + startNode + "'" + " WHERE edgeID = '" + edge.getEdgeID() + "'";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+            System.out.println("Modification successful");
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    } // end modifyEdgeStartNode
+
+    /**
+     * Modifies building attribute of a node
+     * @param edge edge to be modified
+     * @param endNode new endNode
+     */
+    public void modifyEdgeEndNode(Edge edge, String endNode){
+        edge.setEndNode(endNode);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE MAP_EDGES SET endNode = '" + endNode + "'" + " WHERE edgeID = '" + edge.getEdgeID() + "'";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+            System.out.println("Modification successful");
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    } // end modifyEdgeEndNode
+
+    /**
+     * Removes a node from the list of objects as well as the database
+     * @param edge is the edge to be removed
+     */
+    public void removeEdge (Edge edge) {
+        // remove the node from the nodeList
+        edgeList.remove(edge);
+        System.out.println("Edge removed from object list...");
+        try {
+            // Get connection to database and delete the edge from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MAP_EDGES WHERE edgeID = '" + edge.getEdgeID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Edge removed from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } // removeEdge
+
     /*----------------------------------------- Helper functions -----------------------------------------------------*/
 
     /**
@@ -558,6 +744,15 @@ public class NodesEditor {
      */
     public void printNodeList() {
         int i = 0;
-        while(i < nodeList.size()) { System.out.println("Object " + i + ": " + nodeList.get(i).getShortName()); i++; }
+        while(i < nodeList.size()) { System.out.println("Object " + i + ": " + nodeList.get(i).getLongName()); i++; }
     } // end printNodeList
+
+    /**
+     * Print the edgeList
+     */
+    public void printEdgeList() {
+        int i = 0;
+        while(i < edgeList.size()) { System.out.println("Object " + i + ": " + edgeList.get(i).getEdgeID()); i++; }
+    } // end printEdgeList
+
 } // end NodesEditor class
