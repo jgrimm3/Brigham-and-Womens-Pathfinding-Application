@@ -47,7 +47,9 @@ public class Pathfinder {
         for (ScoredNode child: children){
             child.setParent(startNode);
             scoreNode(child, endNode);
-            openList.add(child);
+            if (!alreadySeen(child, openList)) {
+                openList.add(child);
+            }
         }
 
         closedList.put(startNode.getNode().getID(), startNode);
@@ -81,7 +83,9 @@ public class Pathfinder {
 
     ScoredNode scoreNode(ScoredNode node, ScoredNode endNode){
         node.setgScore(calcGScore(node));
-        node.sethScore(calcHScore(node, endNode));
+        if (node.gethScore() == -1) {
+            node.sethScore(calcHScore(node, endNode));
+        }
         node.setfScore(calcFScore(node));
         return node;
     }
@@ -168,4 +172,10 @@ public class Pathfinder {
 
         return Math.hypot(xDist, yDist);
     }
+
+    boolean alreadySeen(ScoredNode node, PriorityQueue openList) {
+        return openList.contains(node);
+    }
+
+
 }
