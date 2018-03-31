@@ -10,12 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../../../CS3733TeamM-Proj/src/com/manlyminotaurs/core/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FILE NAME HERE"));
         primaryStage.setTitle("Loan Calculator");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
