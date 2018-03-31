@@ -18,7 +18,8 @@ public class Main extends Application {
     static AnchorPane root; //root holds all other screens
     static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
     public static List<Pane> actionBars = new ArrayList<Pane>(); // list of action bar displays
-    private static int curScreen =0;
+    public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
+    private static int curScreen = 0;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,11 +31,12 @@ public class Main extends Application {
         //add screens here
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/idleMap.fxml"))); //map page index 0
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/landing.fxml"))); //landing page index 1
-        screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login page index 2
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminHome.fxml"))); //Admin page index 3
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/userHome.fxml"))); //Admin page index 4
 
         actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/userNrActionBar.fxml")));//0
+
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
 
         root.getChildren().add(screens.get(0));
 
@@ -65,6 +67,16 @@ public class Main extends Application {
         root.getChildren().add(screens.get(indxNxt));
         curScreen = indxNxt;
     }
+
+    public static void addPrompt(int indxNxt) {
+        root.getChildren().add(prompts.get(indxNxt));
+        curScreen = indxNxt;
+    }
+
+    public static void removePrompt(int curScreen) {
+        root.getChildren().remove(prompts.get(curScreen));
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
