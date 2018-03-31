@@ -1,13 +1,11 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Pathfinder {
     ArrayList nodeSet;
@@ -28,7 +26,13 @@ public class Pathfinder {
         ScoredNode scoredStart = new ScoredNode(startNode, null, -1, -1, -1);
         ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
-        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList));
+        NodesEditor ne = new NodesEditor();
+        ne.retrieveEdges();
+        ne.retrieveNodes();
+        ArrayList<Node> nodes = (ArrayList) ne.nodeList;
+        ArrayList<Edge> edges = (ArrayList) ne.edgeList;
+
+        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
     }
 
     /**
@@ -40,9 +44,9 @@ public class Pathfinder {
      * @param closedList
      * @return
      */
-    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList){
+    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
         if (startNode.getNode() == endNode.getNode()) return getNodeTrail(startNode);
-        ArrayList<ScoredNode> children = expandNode(startNode);
+        ArrayList<ScoredNode> children = expandNode(startNode, edges);
 
         for (ScoredNode child: children){
             child.setParent(startNode);
@@ -55,7 +59,7 @@ public class Pathfinder {
         closedList.put(startNode.getNode().getID(), startNode);
         ScoredNode nextNode = openList.poll(); // Equivalent of .pop()
 
-        return calcPath(nextNode, endNode, openList, closedList);
+        return calcPath(nextNode, endNode, openList, closedList, nodes, edges);
     }
 
     /**
@@ -63,12 +67,13 @@ public class Pathfinder {
      * @param node
      * @return children
      */
-    ArrayList<ScoredNode> expandNode(ScoredNode node){
+    ArrayList<ScoredNode> expandNode(ScoredNode node, ArrayList<Edge> edges){
         ArrayList<ScoredNode> children = new ArrayList<>();
-        ArrayList<Edge> edges = node.getNode().getEdges();
-        for (Edge edge: edges){
+        ArrayList<Edge> childEdges = getEdges(node, edges);
+        for (Edge edge: childEdges){
             // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
-            children.add(new ScoredNode(edge.otherNode(node.getNode()), node, -1, -1, -1));
+            ScoredNode scoredChild = new ScoredNode(findOtherNode(edge, node), node, -1, -1, -1);
+            children.add(scoredChild);
         }
         return children;
     }
@@ -191,6 +196,40 @@ public class Pathfinder {
 
     boolean alreadySeen(ScoredNode node, PriorityQueue openList) {
         return openList.contains(node);
+    }
+
+    /**
+     * finds other node in an edge
+     *
+     * @param sNode
+     * @param edge
+     * @return Other node of edge
+     */
+
+    Node findOtherNode(Edge edge, ScoredNode sNode) {
+        if (sNode.getNode().equals(edge.getStartNode())) {
+            return edge.getEndNode();
+        }
+        else if (sNode.getNode().equals(edge.getEndNode())) {
+            return edge.getStartNode();
+        }
+        return null;
+    }
+
+    /**
+     * Get all the edges that a node belongs to
+     *
+     * @param edges
+     * @return list of node's edges
+     */
+    ArrayList<Edge> getEdges(ScoredNode sNode, List<Edge> edges) {
+        ArrayList<Edge> nodeEdges = new ArrayList<Edge>();
+        for (Edge e: edges) {
+            if (sNode.getNode().equals(e.getStartNode()) || sNode.getNode().equals(e.getEndNode())) {
+                nodeEdges.add(e);
+            }
+        }
+        return nodeEdges;
     }
 
 
