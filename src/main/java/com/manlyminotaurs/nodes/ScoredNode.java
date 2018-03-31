@@ -62,6 +62,6 @@ public class ScoredNode implements Comparable<ScoredNode> {
      */
     @Override
     public int compareTo(ScoredNode other){
-        return 1;
+        return Double.compare(this.getfScore(), other.getfScore());
     }
 }
