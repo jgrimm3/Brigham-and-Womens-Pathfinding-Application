@@ -22,4 +22,36 @@ public class Room extends Node {
         this.popularity = popularity;
         this.isOpen = isOpen;
     }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public String getDetailedInfo() {
+        return detailedInfo;
+    }
+
+    public void setDetailedInfo(String detailedInfo) {
+        this.detailedInfo = detailedInfo;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
 }

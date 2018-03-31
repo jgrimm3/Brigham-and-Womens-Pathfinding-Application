@@ -32,7 +32,13 @@ public class NodesEditor {
         // run to create the database table
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
-        nodesEditor.createTables();
+        //nodesEditor.createTables();
+        nodesEditor.retrieveNodes();
+        nodesEditor.retrieveEdges();
+        nodesEditor.createExitTable();
+        nodesEditor.createHallwayTable();
+        nodesEditor.createRoomsTable();
+        nodesEditor.createTransportTable();
         //nodesEditor.retrieveNodes();
         //nodesEditor.retrieveEdges();
         nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
@@ -395,20 +401,120 @@ public class NodesEditor {
         while(i<nodeList.size()) {
             if(nodeList.get(i).getNodeType().equals("EXIT")) {
                 try {
+                    System.out.println("Found an exit...");
+                    Exit exit = (Exit)nodeList.get(i);
                     String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setString(1, node_id);
-                    statement.setInt(2, isArmed);
-                    statement.setInt(3, nodeID);
+                    statement.setBoolean(1, exit.isFireExit);
+                    statement.setBoolean(2, exit.isArmed);
+                    statement.setString(3, exit.getID());
                     statement.executeUpdate();
+                    System.out.println("Added exit to table...");
                 }catch (SQLException se) {
                     //Handle errors for JDBC
                     se.printStackTrace();
                 }
             }
+            i++;
         }
     }
 
+    public void createHallwayTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            if(nodeList.get(i).getNodeType().equals("HALL")) {
+                try {
+                    System.out.println("Found an hallway...");
+                    Hallway hall = (Hallway) nodeList.get(i);
+                    String str = "INSERT INTO hallway(popularity, nodeID) VALUES (?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setInt(1, hall.getPopularity());
+                    statement.setString(2, hall.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added hall to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
+
+    public void createRoomsTable() {
+        int i = 0;
+        String type;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            type = nodeList.get(i).getNodeType();
+            if(type.equals("DEPT") || type.equals("RETA") || type.equals("LABS") || type.equals("REST") || type.equals("SERV") || type.equals("INFO") || type.equals("CONF")) {
+                try {
+                    System.out.println("Found an room...");
+                    Room room = (Room)nodeList.get(i);
+                    String str = "INSERT INTO rooms(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, room.getSpecialization());
+                    statement.setString(2, room.getDetailedInfo());
+                    statement.setInt(3, room.getPopularity());
+                    statement.setBoolean(4, room.isOpen());
+                    statement.setString(5, room.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added room to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
+
+    public void createTransportTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            String type = nodeList.get(i).getNodeType();
+            if(type.equals("STAI") || type.equals("ELEV")) {
+                try {
+                    System.out.println("Found an transport...");
+                    Transport transport = (Transport)nodeList.get(i);
+                    String str = "INSERT INTO transport(directionality, floors, nodeID) VALUES (?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, transport.getDirectionality());
+                    statement.setString(2, "0");
+                    statement.setString(3, transport.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added transport to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
     /**
      * Creates a list of objects and stores them in the global variable nodeList
      */
