@@ -1,4 +1,4 @@
-package main.java.com.manlyminotaurs.nodes;
+package com.manlyminotaurs.nodes;
 
 public class Room extends Node {
 
