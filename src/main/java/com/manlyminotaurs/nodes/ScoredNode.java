@@ -5,6 +5,12 @@ public abstract class ScoredNode implements Comparable<ScoredNode> {
     double hScore;
     double fScore;
 
+    public ScoredNode(double gScore, double hScore, double fScore) {
+        this.gScore = gScore;
+        this.hScore = hScore;
+        this.fScore = fScore;
+    }
+
     /**
      * Compares this ScoredNode to another ScoredNode.
      * @param other The other ScoredNode to be compared

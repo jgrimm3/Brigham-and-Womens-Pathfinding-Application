@@ -5,4 +5,3 @@ public class Conference extends Room {
         super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
     }
 }
-

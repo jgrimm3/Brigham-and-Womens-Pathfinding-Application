@@ -19,43 +19,25 @@ public abstract class Node {
         status = 1;
     }
 
-    public void setLoc(Location loc) {
-        this.loc = loc;
-    }
+    public void setLoc(Location loc) { this.loc = loc; }
 
-    public void setLongName(String longName) {
-        this.longName = longName;
-    }
+    public void setLongName(String longName) { this.longName = longName; }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
+    public void setShortName(String shortName) { this.shortName = shortName; }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
+    public void setID(String ID) { this.ID = ID; }
 
-    public void setNodeType(String nodeType) {
-        this.nodeType = nodeType;
-    }
+    public void setNodeType(String nodeType) { this.nodeType = nodeType; }
 
-    public Location getLoc() {
-        return loc;
-    }
+    public Location getLoc() { return loc; }
 
     public String getID() { return ID; }
 
-    public String getLongName() {
-        return longName;
-    }
+    public String getLongName(){return longName; }
 
-    public String getShortName() {
-        return shortName;
-    }
+    public String getShortName() { return shortName; }
 
-    public String getNodeType() {
-        return nodeType;
-    }
+    public String getNodeType() { return nodeType; }
 
     public int getXCoord() { return loc.xCoord; }
 
