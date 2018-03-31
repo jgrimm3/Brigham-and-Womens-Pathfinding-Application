@@ -18,9 +18,9 @@ public class Main extends Application {
     static AnchorPane root; //root holds all other screens
     static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
     public static List<Pane> actionBars = new ArrayList<Pane>(); // list of action bar displays
-    private static int curScreen =0;
-    private static int curAction = 0;
     public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
+    private static int curScreen = 0;
+    private static int curAction = 0;
 
 
     @Override
