@@ -93,7 +93,14 @@ public class Pathfinder {
      * @return Total cost
      */
     double calcGScore(ScoredNode node){
-        return (double) getNodeTrail(node).size();
+        LinkedList<ScoredNode> nodeTrail = getNodeTrail(node);
+        double gScore = 0;
+        for(ScoredNode n: nodeTrail){
+            if(n.getParent() != null) {
+                gScore += distanceBetweenNodes(n, n.getParent());
+            }
+        }
+        return gScore;
     }
 
     /**
@@ -104,17 +111,7 @@ public class Pathfinder {
      * @return
      */
     double calcHScore(ScoredNode curNode, ScoredNode endNode){
-        int curX = curNode.getNode().getXCoord();
-        int curY = curNode.getNode().getYCoord();
-
-        int goalX = endNode.getNode().getXCoord();
-        int goalY = endNode.getNode().getYCoord();
-
-        double xDist = goalX - curX;
-        double yDist = goalY - curY;
-
-        return Math.hypot(xDist, yDist);
-
+        return distanceBetweenNodes(curNode, endNode);
     }
 
     /**
@@ -157,5 +154,18 @@ public class Pathfinder {
         }
         nodeTrail.addFirst(node); // Adding start node to trail. addFirst ensures correct order
         return nodeTrail;
+    }
+
+    double distanceBetweenNodes(ScoredNode node1, ScoredNode node2){
+        int x1 = node1.getNode().getXCoord();
+        int y1 = node1.getNode().getYCoord();
+
+        int x2 = node2.getNode().getXCoord();
+        int y2 = node2.getNode().getYCoord();
+
+        double xDist = x2 - x1;
+        double yDist = y2 - y1;
+
+        return Math.hypot(xDist, yDist);
     }
 }
