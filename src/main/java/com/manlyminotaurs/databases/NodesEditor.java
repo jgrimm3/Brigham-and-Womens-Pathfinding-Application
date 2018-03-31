@@ -32,7 +32,7 @@ public class NodesEditor {
         // run to create the database table
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
-        //nodesEditor.createTables();
+        nodesEditor.createTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
         nodesEditor.createExitTable();
@@ -541,9 +541,10 @@ public class NodesEditor {
                     startNode = rset.getString("startNode");
                     endNode = rset.getString("endNode");
 
-                    edge = new Edge(startNode, endNode, edgeID);
-
                     // Add the new node to the list
+                    Node startNodeObject = getNodeFromList(startNode);
+                    Node endNodeObject = getNodeFromList(endNode);
+                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
                     edgeList.add(edge);
                     System.out.println("Edge added to list...");
                 }
@@ -828,8 +829,8 @@ public class NodesEditor {
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
             statement.setString(1, edge.getEdgeID());
-            statement.setString(2, edge.getStartNode());
-            statement.setString(3, edge.getEndNode());
+            statement.setString(2, edge.getStartNode().getID());
+            statement.setString(3, edge.getEndNode().getID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
@@ -846,7 +847,8 @@ public class NodesEditor {
      * @param startNode new startNode
      */
     public void modifyEdgeStartNode(Edge edge, String startNode){
-        edge.setStartNode(startNode);
+        Node startNodeObject = getNodeFromList(startNode);
+        edge.setStartNode(startNodeObject);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -867,7 +869,8 @@ public class NodesEditor {
      * @param endNode new endNode
      */
     public void modifyEdgeEndNode(Edge edge, String endNode){
-        edge.setEndNode(endNode);
+        Node endNodeObject = getNodeFromList(endNode);
+        edge.setEndNode(endNodeObject);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -922,4 +925,14 @@ public class NodesEditor {
         while(i < edgeList.size()) { System.out.println("Object " + i + ": " + edgeList.get(i).getEdgeID()); i++; }
     } // end printEdgeList
 
+    public Node getNodeFromList(String nodeID){
+        Iterator<Node> iterator = nodeList.iterator();
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if (a_node.getID() == nodeID) {
+                return a_node;
+            }
+        }
+        return null;
+    }
 } // end NodesEditor class
