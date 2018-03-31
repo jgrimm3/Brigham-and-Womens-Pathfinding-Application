@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.directionsActionBarController">
+   <children>
+      <Button fx:id="btnSelectStart" layoutX="59.0" layoutY="30.0" mnemonicParsing="false" prefHeight="241.0" prefWidth="221.0" text="Change Starting Location" />
+      <Button fx:id="btnSelectDestination" layoutX="346.0" layoutY="30.0" mnemonicParsing="false" prefHeight="241.0" prefWidth="212.0" text="Select Destination" />
+      <Button fx:id="btnPathfind" layoutX="1480.0" layoutY="37.0" mnemonicParsing="false" prefHeight="203.0" prefWidth="212.0" text="Go To Destination" />
+      <Accordion layoutX="680.0" layoutY="37.0" prefHeight="211.0" prefWidth="500.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane fx:id="accordLocations" animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</Pane>

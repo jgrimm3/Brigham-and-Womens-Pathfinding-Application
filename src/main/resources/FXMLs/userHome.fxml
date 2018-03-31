@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userHomeController">
+    <children>
+        <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="132.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="877.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="61.0">
+            <fill>
+                <LinearGradient endX="0.5409523736862909" endY="0.9866666657584054" startX="0.04952380770728704" startY="0.4247618902297247">
+                    <stops>
+                        <Stop color="#e86858" />
+                        <Stop color="#c9d5e1" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Circle>
+        <Accordion layoutX="582.0" layoutY="337.0" />
+        <ImageView fx:id="imgMap" fitHeight="702.0" fitWidth="941.0" layoutX="585.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="301.6470947265625" AnchorPane.topAnchor="97.0">
+            <image>
+                <Image url="@02_thesecondfloor.png" />
+            </image>
+        </ImageView>
+      <TableView fx:id="tblProfileInfo" layoutX="29.0" layoutY="284.0" prefHeight="440.0" prefWidth="334.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnMakeRequest" layoutX="414.0" layoutY="226.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="101.0" text="Make a Request" />
+      <Button fx:id="btnDirections" layoutX="414.0" layoutY="347.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="101.0" text="Directions" />
+      <Button fx:id="btnLogout" layoutX="415.0" layoutY="637.0" mnemonicParsing="false" onAction="#logOut" onMouseClicked="#logOut" prefHeight="100.0" prefWidth="100.0" text="Logout" />
+      <Circle fx:id="circ" fill="#25415b" layoutX="170.0" layoutY="132.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
+    </children>
+</AnchorPane>
