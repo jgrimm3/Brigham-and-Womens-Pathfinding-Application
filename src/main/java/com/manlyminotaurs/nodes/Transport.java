@@ -3,6 +3,22 @@ package com.manlyminotaurs.nodes;
 import java.util.ArrayList;
 
 public abstract class Transport extends Node {
+    public String getDirectionality() {
+        return directionality;
+    }
+
+    public void setDirectionality(String directionality) {
+        this.directionality = directionality;
+    }
+
+    public ArrayList<String> getFloors() {
+        return floors;
+    }
+
+    public void setFloors(ArrayList<String> floors) {
+        this.floors = floors;
+    }
+
     String directionality;
     ArrayList<String> floors;
 

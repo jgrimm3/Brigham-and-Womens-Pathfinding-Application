@@ -10,7 +10,7 @@ CREATE TABLE map_nodes (
   teamAssigned       VARCHAR(255));
 
 CREATE TABLE map_edges (
-  edgeID              VARCHAR(255),
+  edgeID              VARCHAR(255) PRIMARY KEY,
   startNode           VARCHAR(255),
   endNode             VARCHAR(255));
 
@@ -19,22 +19,22 @@ Create Table Rooms (
   detail         VARCHAR(255),
   popularity     INT,
   isOpen         BOOLEAN,
-  nodeID         CHAR(10),
+  nodeID         CHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID1 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
 
 Create Table Transport (
-  direcitonality VARCHAR(255),
+  directionality VARCHAR(255),
   floors         VARCHAR(255),
-  nodeID         CHAR(10),
+  nodeID         CHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID2 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
 
 Create Table Exit (
   isFireExit      BOOLEAN,
   isArmed         BOOLEAN,
-  nodeID          CHAR(10),
+  nodeID          CHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID3 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
 
 Create Table Hallway (
   popularity     INT,
-  nodeID         CHAR(10),
+  nodeID         CHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID4 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));

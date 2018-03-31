@@ -1,6 +1,14 @@
 package com.manlyminotaurs.nodes;
 
 public class Hallway extends Node {
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
     int popularity;
 
     public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
