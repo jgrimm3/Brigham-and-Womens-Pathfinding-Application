@@ -39,7 +39,7 @@ public class landingController {
 
 
     public void promptLogin(ActionEvent event){
-        Main.setScreen(2); //go to login
+        Main.addPrompt(0); //go to login prompt
     }
 
     public void nurseRequestAction(ActionEvent event){
