@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import com.manlyminotaurs.core.Main;
+import javafx.scene.control.TableView;
 
 public class directionsActionBarController {
     @FXML
@@ -15,10 +16,8 @@ public class directionsActionBarController {
     @FXML
     Button btnPathfind;
 
-    @FXML
-    Accordion accordLocations;
-
-
+@FXML
+    TableView tblLocation;
 
 
 }

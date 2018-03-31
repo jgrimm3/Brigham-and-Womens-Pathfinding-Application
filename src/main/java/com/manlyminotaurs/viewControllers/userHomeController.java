@@ -21,5 +21,14 @@ public class userHomeController {
 
         Main.setScreen(1); //go to landing screen
     }
+
+    public void nurseRequestAction(ActionEvent event){
+        Main.setActionBars(0).setTranslateY(600);
+
+    }
+    public void directionAction(ActionEvent event){
+        //open direction actionBar
+        Main.setActionBars(1).setTranslateY(600); //go to directionss
+    }
 }
 

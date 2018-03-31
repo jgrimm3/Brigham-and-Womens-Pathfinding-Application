@@ -25,12 +25,12 @@
             </LinearGradient>
          </fill>
       </Circle>
-      <Button fx:id="btnLogin" layoutX="109.0" layoutY="87.0" mnemonicParsing="false" onAction="#promptLogin" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #ffffff;" text="Login" textFill="#43607e" AnchorPane.bottomAnchor="890.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="1691.0" AnchorPane.topAnchor="70.0">
+      <Button fx:id="btnLogin" layoutX="109.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#promptLogin" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #ffffff;" text="Login" textFill="#43607e" AnchorPane.leftAnchor="109.0" AnchorPane.topAnchor="70.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <TableView id="tblUserProfile" fx:id="tblUserProfile" layoutX="6.0" layoutY="252.0" prefHeight="457.0" prefWidth="323.0" AnchorPane.bottomAnchor="371.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="1591.0" AnchorPane.topAnchor="252.0">
+      <TableView id="tblUserProfile" fx:id="tblUserProfile" layoutX="6.0" layoutY="252.0" prefHeight="457.0" prefWidth="323.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="252.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -39,12 +39,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ImageView fx:id="imgMap" fitHeight="720.0" fitWidth="1280.0" layoutX="591.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="233.0" AnchorPane.leftAnchor="591.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="51.0">
+      <ImageView fx:id="imgMap" fitHeight="720.0" fitWidth="1280.0" layoutX="591.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="591.0" AnchorPane.topAnchor="51.0">
          <image>
             <Image url="@02_thesecondfloor.png" />
          </image>
       </ImageView>
-      <TilePane alignment="CENTER" layoutX="330.0" layoutY="109.0" prefHeight="341.0" prefWidth="222.0" AnchorPane.bottomAnchor="355.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="1368.0" AnchorPane.topAnchor="109.0">
+      <TilePane alignment="CENTER" layoutX="330.0" layoutY="109.0" prefHeight="341.0" prefWidth="222.0" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="109.0">
          <children>
             <Button id="btnMakeRequest" fx:id="btnNurseRequest" mnemonicParsing="false" onAction="#nurseRequestAction" prefHeight="150.0" prefWidth="150.0" styleClass="tileButton" text="Make A Request" textAlignment="CENTER">
                <TilePane.margin>
@@ -67,6 +67,5 @@
             <Insets />
          </opaqueInsets>
       </TilePane>
-      <AnchorPane fx:id="apActionBar" layoutX="121.0" layoutY="735.0" prefHeight="300.0" prefWidth="1750.0" />
    </children>
 </AnchorPane>

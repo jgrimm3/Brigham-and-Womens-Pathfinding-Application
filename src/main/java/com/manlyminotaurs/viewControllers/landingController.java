@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class landingController {
- public  List<Pane> actionBars = new ArrayList<Pane>();
 
 
     private static int curActionPane = 0;
@@ -38,18 +37,13 @@ public class landingController {
     @FXML
     AnchorPane apActionBar;
 
-    public  void setActionBar(int indxAction){
-       apActionBar.getChildren().remove(actionBars.get(curActionPane));
-        apActionBar.getChildren().add(actionBars.get(indxAction));
-        curActionPane = indxAction;
-    }
 
     public void promptLogin(ActionEvent event){
         Main.setScreen(2); //go to login
     }
 
     public void nurseRequestAction(ActionEvent event){
-       // setActionBar(0);
+        Main.setActionBars(0).setTranslateY(600);
 
     }
 
