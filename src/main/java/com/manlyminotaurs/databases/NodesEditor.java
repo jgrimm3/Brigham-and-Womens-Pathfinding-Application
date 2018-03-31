@@ -33,17 +33,8 @@ public class NodesEditor {
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
         nodesEditor.createTables();
-        nodesEditor.retrieveNodes();
-        nodesEditor.retrieveEdges();
-
-        nodesEditor.modifyNodeBuilding(nodesEditor.nodeList.get(0), "BuidlingModify");
-        nodesEditor.modifyNodeShortName(nodesEditor.nodeList.get(1), "shortnameModify");
-        nodesEditor.modifyNodeLongName(nodesEditor.nodeList.get(2), "LongNameModify");
-        nodesEditor.modifyNodeType(nodesEditor.nodeList.get(3), "YOLO");
-
-        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(1), "testingStart");
-        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(2), "testingEnd");
-
+        //nodesEditor.retrieveNodes();
+        //nodesEditor.retrieveEdges();
         nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
         nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
         System.out.println("Tables created");
@@ -90,9 +81,10 @@ public class NodesEditor {
                 iterator.next(); // get rid of header of csv file
 
                 //delete table
-                System.out.println("Deleting table...");
+                /*System.out.println("Deleting table...");
                 String delete_sql = "DROP TABLE map_nodes";
                 try {
+                    System.out.println("Creating node sub-tables...");
                     stmt.executeUpdate(delete_sql);
                 } catch (SQLException se) {
                     //Handle errors for JDBC
@@ -114,7 +106,15 @@ public class NodesEditor {
                         "  teamAssigned       VARCHAR(255))";
 
                 stmt.executeUpdate(create_sql);
-                System.out.println("Table created successfully...");
+                System.out.println("Table created successfully..."); */
+
+                try {
+                    a_database.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
+                    a_database.executeDBScripts("./src/main/resources/Tables.sql", stmt);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 //insert data for every row
                 while (iterator.hasNext()) {
@@ -149,6 +149,7 @@ public class NodesEditor {
                 Iterator<String[]> iterator2 = list_of_edges.iterator();
                 iterator2.next(); // get rid of the header
 
+                /*
                 //delete table
                 System.out.println("Deleting table...");
                 delete_sql = "DROP TABLE map_edges";
@@ -167,7 +168,7 @@ public class NodesEditor {
                         "  endNode             VARCHAR(255))";
 
                 stmt.executeUpdate(create_sql);
-                System.out.println("table created successfully...");
+                System.out.println("table created successfully..."); */
 
                 //insert rows
                 while (iterator2.hasNext()) {
@@ -185,6 +186,38 @@ public class NodesEditor {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
+        boolean isScriptExecuted = false;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            String str;
+            StringBuffer sb;
+            sb = new StringBuffer();
+            while ((str = in.readLine()) != null) {
+                if (str.contains(";")) {
+                    sb.append(str.replace(";",""));
+                    try {
+                        stmt.executeUpdate(sb.toString());
+                    }
+                    catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                    sb.delete(0,sb.length());
+                }
+                else {
+                    sb.append(str + "\n ");
+                }
+            }
+
+            in.close();
+            isScriptExecuted = true;
+        } catch (Exception e) {
+            System.err.println("Failed to Execute" + aSQLScriptFilePath +". The error is"+ e.getMessage());
+        }
+        System.out.println("Node sub-tables created");
+        return isScriptExecuted;
     }
 
     /**
