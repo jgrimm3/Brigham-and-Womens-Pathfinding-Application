@@ -1,4 +1,4 @@
-package com.manlyminotaurs.nodes;
+package main.java.com.manlyminotaurs.nodes;
 
 public abstract class ScoredNode implements Comparable<ScoredNode> {
     double gScore;

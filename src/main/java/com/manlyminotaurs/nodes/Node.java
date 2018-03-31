@@ -17,7 +17,7 @@ public abstract class Node {
         this.loc = new Location(xcoord, ycoord, floor, building);
     }
 
-    public void setLoc(Location loc) { this.loc = loc; }
+public void setLoc(Location loc) { this.loc = loc; }
 
     public void setLongName(String longName) { this.longName = longName; }
 
@@ -44,5 +44,4 @@ public abstract class Node {
     public String getFloor() { return loc.floor; }
 
     public String getBuilding() { return loc.building; }
-
 }
