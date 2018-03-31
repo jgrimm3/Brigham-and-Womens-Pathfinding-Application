@@ -1,5 +1,3 @@
-package database;
-
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.Conference;
 import com.manlyminotaurs.nodes.Node;

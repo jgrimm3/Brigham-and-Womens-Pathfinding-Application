@@ -1,6 +1,6 @@
 package com.manlyminotaurs.nodes;
 
-class Location {
+public class Location {
     int xCoord;
     int yCoord;
     String floor;

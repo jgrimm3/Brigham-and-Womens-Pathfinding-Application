@@ -1,7 +1,7 @@
-package main.java.com.manlyminotaurs.core;
+package com.manlyminotaurs.core;
 
-import main.java.com.manlyminotaurs.nodes.Node;
-import main.java.com.manlyminotaurs.users.User;
+import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.users.User;
 
 import java.util.ArrayList;
 
