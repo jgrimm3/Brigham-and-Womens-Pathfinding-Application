@@ -160,6 +160,14 @@ public class Pathfinder {
         return nodeTrail;
     }
 
+    /**
+     * Calculates the Euclidean distance between given nodes
+     *
+     * @param node1
+     * @param node2
+     * @return The distance between nodes
+     */
+
     double distanceBetweenNodes(ScoredNode node1, ScoredNode node2){
         int x1 = node1.getNode().getXCoord();
         int y1 = node1.getNode().getYCoord();
@@ -172,6 +180,14 @@ public class Pathfinder {
 
         return Math.hypot(xDist, yDist);
     }
+
+    /**
+     * Checks whether a node is already in the openList.
+     *
+     * @param node
+     * @param openList
+     * @return True: Node has already been seen and scored and added to openList.
+     */
 
     boolean alreadySeen(ScoredNode node, PriorityQueue openList) {
         return openList.contains(node);

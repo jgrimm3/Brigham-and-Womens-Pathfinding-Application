@@ -66,8 +66,8 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapBnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./nodesDB/MapBedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
                 Connection connection;
