@@ -38,7 +38,6 @@ public class NodesEditor {
         System.out.println("Oracle JDBC Driver Registered Successfully !");
 
         // run to create the database table
-        System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
 
         nodesEditor.initTables();
@@ -56,7 +55,7 @@ public class NodesEditor {
         nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
         nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
         nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
-        System.out.println("Tables created");
+        System.out.println("main function ended");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
 
@@ -119,6 +118,7 @@ public class NodesEditor {
                 String long_name;
                 String short_name;
                 String team_assigned;
+                String status;
 
                 Iterator<String[]> iterator = list_of_nodes.iterator();
                 iterator.next(); // get rid of header of csv file
@@ -135,6 +135,7 @@ public class NodesEditor {
                     long_name = node_row[6];
                     short_name = node_row[7];
                     team_assigned = node_row[8];
+                    status = node_row[9];
                     System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                     // Add to the database table
@@ -148,7 +149,7 @@ public class NodesEditor {
                     statement.setString(6, nodeType);
                     statement.setString(7, long_name);
                     statement.setString(8, short_name);
-                    statement.setBoolean(9, false);
+                    statement.setInt(9, Integer.parseInt(status));
                     statement.executeUpdate();
                 }// while loop ends
 
@@ -166,7 +167,7 @@ public class NodesEditor {
                     statement.setString(1, node_row[0]);
                     statement.setString(2, node_row[1]);
                     statement.setString(3, node_row[2]);
-                    statement.setBoolean(4,true);
+                    statement.setInt(4,Integer.parseInt(node_row[3]));
                     statement.executeUpdate();
                 }
             } catch (SQLException e) {
@@ -257,7 +258,7 @@ public class NodesEditor {
             printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
             while (iterator.hasNext()) {
                 Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName());
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(),a_node.getStatus());
             }
             printWriter.close();
             System.out.println("csv node file updated");
@@ -286,10 +287,10 @@ public class NodesEditor {
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("edgeID,startNode,endNode\n");
+            printWriter.print("edgeID,startNode,endNode,status\n");
             while (iterator.hasNext()) {
                 Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID());
+                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID(), a_edge.getStatus());
             }
             printWriter.close();
             System.out.println("csv edge file updated");
@@ -313,7 +314,7 @@ public class NodesEditor {
             printWriter.print("isFireExit, isArmed, nodeID\n");
             while (iterator.hasNext()) {
                 Exit a_node = iterator.next();
-                printWriter.printf("%s,%s,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
+                printWriter.printf("%b,%b,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
             }
             printWriter.close();
             System.out.println("csv file updated");
