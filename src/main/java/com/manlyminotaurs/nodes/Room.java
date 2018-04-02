@@ -8,9 +8,9 @@ public class Room extends Node {
 
     public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
         super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
-        this.specialization = "";
-        this.detailedInfo = "";
-        this.popularity = 0;
+        this.specialization = "yolo";
+        this.detailedInfo = "lala";
+        this.popularity = 1;
         this.isOpen = true;
     }
 

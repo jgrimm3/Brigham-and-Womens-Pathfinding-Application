@@ -113,7 +113,7 @@ public class NodesEditor {
                     System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                     // Add to the database table
-                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,teamAssigned) VALUES (?,?,?,?,?,?,?,?,?)";
+                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, node_id);
                     statement.setInt(2, Integer.parseInt(xcoord));
@@ -123,7 +123,7 @@ public class NodesEditor {
                     statement.setString(6, nodeType);
                     statement.setString(7, long_name);
                     statement.setString(8, short_name);
-                    statement.setString(9, team_assigned);
+                    statement.setBoolean(9, false);
                     statement.executeUpdate();
                 }// while loop ends
 
@@ -136,11 +136,12 @@ public class NodesEditor {
                     String[] node_row = iterator2.next();
                     System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode) VALUES (?,?,?)";
+                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, node_row[0]);
                     statement.setString(2, node_row[1]);
                     statement.setString(3, node_row[2]);
+                    statement.setBoolean(4,true);
                     statement.executeUpdate();
                 }
             } catch (SQLException e) {
