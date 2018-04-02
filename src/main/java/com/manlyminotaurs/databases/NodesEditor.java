@@ -83,101 +83,6 @@ public class NodesEditor {
    }
 
     /**
-     * Populate the database tables from the csv files
-     */
-    public void populateNodeEdgeTables() {
-
-        // Make sure we aren't ruining the database
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
-        String ans = scanner.nextLine();
-
-        // If you're positive...
-        if(ans.equals("y")) {
-            try {
-                // Variables we need to make the tables
-                NodesEditor a_database = new NodesEditor();
-                List<String[]> list_of_nodes;
-                List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
-
-                // Get the database connection
-                Connection connection;
-                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-                Statement stmt = connection.createStatement();
-
-                // Print parsed array
-                // This portion can be used to send each row to database also.
-                String node_id;
-                String xcoord;
-                String ycoord;
-                String floor;
-                String building;
-                String nodeType;
-                String long_name;
-                String short_name;
-                String team_assigned;
-                String status;
-
-                Iterator<String[]> iterator = list_of_nodes.iterator();
-                iterator.next(); // get rid of header of csv file
-
-                //insert data for every row
-                while (iterator.hasNext()) {
-                    String[] node_row = iterator.next();
-                    node_id = node_row[0];
-                    xcoord = node_row[1];
-                    ycoord = node_row[2];
-                    floor = node_row[3];
-                    building = node_row[4];
-                    nodeType = node_row[5];
-                    long_name = node_row[6];
-                    short_name = node_row[7];
-                    team_assigned = node_row[8];
-                    status = node_row[9];
-                    System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
-
-                    // Add to the database table
-                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
-                    PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setString(1, node_id);
-                    statement.setInt(2, Integer.parseInt(xcoord));
-                    statement.setInt(3, Integer.parseInt(ycoord));
-                    statement.setString(4, floor);
-                    statement.setString(5, building);
-                    statement.setString(6, nodeType);
-                    statement.setString(7, long_name);
-                    statement.setString(8, short_name);
-                    statement.setInt(9, Integer.parseInt(status));
-                    statement.executeUpdate();
-                }// while loop ends
-
-                System.out.println("----------------------------------------------------");
-                Iterator<String[]> iterator2 = list_of_edges.iterator();
-                iterator2.next(); // get rid of the header
-
-                //insert rows
-                while (iterator2.hasNext()) {
-                    String[] node_row = iterator2.next();
-                    System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
-
-                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
-                    PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setString(1, node_row[0]);
-                    statement.setString(2, node_row[1]);
-                    statement.setString(3, node_row[2]);
-                    statement.setInt(4,Integer.parseInt(node_row[3]));
-                    statement.executeUpdate();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
      *
      * @param aSQLScriptFilePath path to the sql file to run
      * @param stmt statement object passed from callee
@@ -217,6 +122,7 @@ public class NodesEditor {
         return isScriptExecuted;
     }
 
+    //---------------------------------------CSV File Interface--------------------------------------------
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
      * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
@@ -478,9 +384,149 @@ public class NodesEditor {
         {
             e.printStackTrace();
         }
-    } // retrieveData() ends
+    } // retrieveNodes() ends
 
-    /*-------------------------------------------- Update database ---------------------------------------------------*/
+    /**
+     * Creates a list of objects and stores them in the global variable edgeList
+     */
+    public void retrieveEdges() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            Edge edge;
+            String edgeID;
+            String startNode;
+            String endNode;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM MAP_EDGES";
+                ResultSet rset = stmt.executeQuery(str);
+
+                // For every edge, get the information
+                while (rset.next()) {
+                    edgeID = rset.getString("edgeID");
+                    startNode = rset.getString("startNode");
+                    endNode = rset.getString("endNode");
+
+                    // Add the new edge to the list
+                    Node startNodeObject = getNodeFromList(startNode);
+                    Node endNodeObject = getNodeFromList(endNode);
+                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
+                    edgeList.add(edge);
+                    System.out.println("Edge added to the list: "+edgeID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding edges");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveEdges() ends
+
+    /*---------------------------------- Insert values into database ---------------------------------------------------*/
+
+    /**
+     * Populate the database tables from the csv files
+     */
+    public void populateNodeEdgeTables() {
+
+        // Make sure we aren't ruining the database
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
+        String ans = scanner.nextLine();
+
+        // If you're positive...
+        if(ans.equals("y")) {
+            try {
+                // Variables we need to make the tables
+                NodesEditor a_database = new NodesEditor();
+                List<String[]> list_of_nodes;
+                List<String[]> list_of_edges;
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
+
+                // Get the database connection
+                Connection connection;
+                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+                Statement stmt = connection.createStatement();
+
+                // Print parsed array
+                // This portion can be used to send each row to database also.
+                String node_id;
+                String xcoord;
+                String ycoord;
+                String floor;
+                String building;
+                String nodeType;
+                String long_name;
+                String short_name;
+                String team_assigned;
+                String status;
+
+                Iterator<String[]> iterator = list_of_nodes.iterator();
+                iterator.next(); // get rid of header of csv file
+
+                //insert data for every row
+                while (iterator.hasNext()) {
+                    String[] node_row = iterator.next();
+                    node_id = node_row[0];
+                    xcoord = node_row[1];
+                    ycoord = node_row[2];
+                    floor = node_row[3];
+                    building = node_row[4];
+                    nodeType = node_row[5];
+                    long_name = node_row[6];
+                    short_name = node_row[7];
+                    team_assigned = node_row[8];
+                    status = node_row[9];
+                    System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
+
+                    // Add to the database table
+                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, node_id);
+                    statement.setInt(2, Integer.parseInt(xcoord));
+                    statement.setInt(3, Integer.parseInt(ycoord));
+                    statement.setString(4, floor);
+                    statement.setString(5, building);
+                    statement.setString(6, nodeType);
+                    statement.setString(7, long_name);
+                    statement.setString(8, short_name);
+                    statement.setInt(9, Integer.parseInt(status));
+                    statement.executeUpdate();
+                }// while loop ends
+
+                System.out.println("----------------------------------------------------");
+                Iterator<String[]> iterator2 = list_of_edges.iterator();
+                iterator2.next(); // get rid of the header
+
+                //insert rows
+                while (iterator2.hasNext()) {
+                    String[] node_row = iterator2.next();
+                    System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
+
+                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, node_row[0]);
+                    statement.setString(2, node_row[1]);
+                    statement.setString(3, node_row[2]);
+                    statement.setInt(4,Integer.parseInt(node_row[3]));
+                    statement.executeUpdate();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void populateExitTable() {
         int i = 0;
         Statement stmt = null;
@@ -616,50 +662,6 @@ public class NodesEditor {
             i++;
         }
     }
-    /**
-     * Creates a list of objects and stores them in the global variable edgeList
-     */
-    public void retrieveEdges() {
-        try {
-            // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-
-            // Variables
-            Edge edge;
-            String edgeID;
-            String startNode;
-            String endNode;
-
-            try {
-                Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM MAP_EDGES";
-                ResultSet rset = stmt.executeQuery(str);
-
-                // For every edge, get the information
-                while (rset.next()) {
-                    edgeID = rset.getString("edgeID");
-                    startNode = rset.getString("startNode");
-                    endNode = rset.getString("endNode");
-
-                    // Add the new edge to the list
-                    Node startNodeObject = getNodeFromList(startNode);
-                    Node endNodeObject = getNodeFromList(endNode);
-                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
-                    edgeList.add(edge);
-                    System.out.println("Edge added to the list: "+edgeID);
-                }
-                rset.close();
-                stmt.close();
-                System.out.println("Done adding edges");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    } // retrieveData() ends
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
     /**
@@ -1026,6 +1028,12 @@ public class NodesEditor {
         while(i < edgeList.size()) { System.out.println("Object " + i + ": " + edgeList.get(i).getEdgeID()); i++; }
     } // end printEdgeList
 
+    /**
+     * return the node object that has the matching nodeID with the ID provided in the argument
+     * return null if it can't  find any
+     * @param nodeID
+     * @return
+     */
     public Node getNodeFromList(String nodeID){
         Iterator<Node> iterator = nodeList.iterator();
         while (iterator.hasNext()) {
@@ -1034,6 +1042,7 @@ public class NodesEditor {
                 return a_node;
             }
         }
+        System.out.println("getNOdeFromList: Null-----------Something might break");
         return null;
     }
 } // end NodesEditor class
