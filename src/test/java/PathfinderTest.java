@@ -16,9 +16,13 @@ public class PathfinderTest {
     private Pathfinder pf;
     private NodesEditor ne;
     private LinkedList<Node> fixture;
+    Node node1;
+    Node node2;
+    Node node3;
+    Node node4;
 
     Node retrieveNode(String nodeID) {
-        for (Node node: ne.nodeList) {
+        for (Node node: ne.getNodeList()) {
             if (node.getID().equals(nodeID)) {
                 return node;
             }
@@ -33,12 +37,18 @@ public class PathfinderTest {
         ne.retrieveNodes();
         ne.retrieveEdges();
 
+        node1 = ne.getNodeFromList("GCONF02001");
+        node2 = ne.getNodeFromList("GDEPT01901");
+        node3 = ne.getNodeFromList("GELEV00Q01");
+        node4 = ne.getNodeFromList("GHALL01701");
+
+
+
         fixture = new LinkedList<Node>();
     }
 
     @Test
     public void Find_WhenOnlyOneNode_ShouldReturnNode(){
-        Node node1 = ne.getNodeFromList("GCONF02001");
         fixture.add(node1);
 
         LinkedList<Node> result = pf.find(node1, node1);
@@ -47,38 +57,31 @@ public class PathfinderTest {
 
     @Test
     public void Find_WhenOnlyTwoNodes_ShouldReturnPath(){
-        Node node1 = ne.getNodeFromList("GCONF02001");
-        Node node2 = ne.getNodeFromList("GDEPT01901");
-        System.out.println(node1);
-        System.out.println(node2);
-
-
         fixture.add(node1);
         fixture.add(node2);
 
         LinkedList<Node> result = pf.find(node1, node2);
         assertEquals(fixture, result);
     }
-//
-//    @Test
-//    public void Find_WhenManyNodes_ShouldReturnPath(){
-//        fixture.add(restroom1);
-//        fixture.add(restroom2);
-//        fixture.add(restroom4);
-//
-//        LinkedList<Node> result = pf.find(restroom1, restroom4);
-//        assertEquals(fixture, result);
-//    }
+
+    @Test
+    public void Find_WhenManyNodesWithNoBranching_ShouldReturnPath(){
+        fixture.add(node1);
+        fixture.add(node2);
+        fixture.add(node3);
+        fixture.add(node4);
+
+        LinkedList<Node> result = pf.find(node1, node4);
+        assertEquals(fixture, result);
+    }
 
     @Test
     public void GetEdges_WhenGivenNodeWithOneEdge_ShouldReturnThatEdge(){
         LinkedList<Edge> edgeFixture = new LinkedList<>();
-        Node node1 = ne.getNodeFromList("GCONF02001");
-        Node node2 = ne.getNodeFromList("GDEPT01901");
         Edge testEdge = new Edge(node2, node1, "GDEPT01901_GCONF02001");
 
         edgeFixture.add(testEdge);
-        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.edgeList));
+        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
         assertEquals(edgeFixture, result);
     }
 
