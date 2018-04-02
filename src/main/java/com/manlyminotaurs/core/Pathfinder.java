@@ -27,10 +27,10 @@ public class Pathfinder {
         ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
         NodesEditor ne = new NodesEditor();
-        ne.retrieveEdges();
         ne.retrieveNodes();
-        ArrayList<Node> nodes = new ArrayList<>(ne.nodeList);
-        ArrayList<Edge> edges = new ArrayList<>(ne.edgeList);
+        ne.retrieveEdges();
+        ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
+        ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
 
         return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
     }
@@ -45,7 +45,7 @@ public class Pathfinder {
      * @return
      */
     LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
-        if (startNode.getNode() == endNode.getNode()) return getNodeTrail(startNode);
+        if (startNode.getNode().equals(endNode.getNode())) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode, edges);
 
         for (ScoredNode child: children){
@@ -238,7 +238,7 @@ public class Pathfinder {
     public ArrayList<Edge> getEdges(ScoredNode sNode, ArrayList<Edge> edges) {
         ArrayList<Edge> nodeEdges = new ArrayList<Edge>();
         for (Edge e: edges) {
-            if (sNode.getNode() == e.getStartNode() || sNode.getNode() == e.getEndNode()) {
+            if (sNode.getNode().equals(e.getStartNode()) || sNode.getNode().equals(e.getEndNode())) {
                 nodeEdges.add(e);
             }
         }
