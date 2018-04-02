@@ -26,9 +26,7 @@ public class userNrActionBarController {
     @FXML
     TableView tblOpenRequests;
 
-    public void promptSendNurse(ActionEvent event){
-        Main.addPrompt(2); //go to nurse prompt
-    }
+
     public void promptCompleteRequest(ActionEvent event){
         Main.addPrompt(1); //go to complete request
     }

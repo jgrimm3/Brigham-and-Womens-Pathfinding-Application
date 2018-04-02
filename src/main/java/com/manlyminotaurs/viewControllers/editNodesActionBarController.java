@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import com.manlyminotaurs.core.Main;
@@ -20,7 +21,9 @@ public class editNodesActionBarController {
     Button btnModifyEdge;
 
 
-
+    public void promptAddCoordinate(ActionEvent event){
+        Main.addPrompt(3); //prompt add node
+    }
 
 
 }
