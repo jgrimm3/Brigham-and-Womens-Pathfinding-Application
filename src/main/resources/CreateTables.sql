@@ -7,12 +7,13 @@ CREATE TABLE map_nodes (
   nodeType           VARCHAR(4),
   longName           VARCHAR(255),
   shortName          VARCHAR(255),
-  teamAssigned       VARCHAR(255));
+  status             BOOLEAN);
 
 CREATE TABLE map_edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
   startNode           VARCHAR(255),
-  endNode             VARCHAR(255));
+  endNode             VARCHAR(255),
+  status              BOOLEAN);
 
 Create Table Rooms (
   specialization VARCHAR(255),

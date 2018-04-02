@@ -7,8 +7,8 @@ public class Exit extends Node {
 
     public Exit(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
         super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
-        isFireExit = false;
-        isArmed = false;
+        isFireExit = true;
+        isArmed = true;
     }
 
     public Exit(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, boolean isFireExit, boolean isArmed) {
