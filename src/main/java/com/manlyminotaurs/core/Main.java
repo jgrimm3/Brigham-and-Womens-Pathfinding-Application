@@ -43,6 +43,9 @@ public class Main extends Application {
 
 
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminNurseSend.fxml"))); //login prompt index 2
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/addCoordinate.fxml"))); //login prompt index 3
 
         root.getChildren().add(screens.get(0));
 
@@ -74,6 +77,11 @@ public class Main extends Application {
         curScreen = indxNxt;
         return root;
     }
+
+    public static void removeScreen(int oldIndex){
+        root.getChildren().remove(screens.get(oldIndex));
+    }
+
     public static Pane setActionBars(int indxNxtBar){
         root.getChildren().remove(actionBars.get(curAction));
         root.getChildren().add(actionBars.get(indxNxtBar));
@@ -86,8 +94,8 @@ public class Main extends Application {
         curScreen = indxNxt;
     }
 
-    public static void removePrompt(int curScreen) {
-        root.getChildren().remove(prompts.get(curScreen));
+    public static void removePrompt(int indxNxt) {
+        root.getChildren().remove(prompts.get(indxNxt));
     }
 
     public static void main(String[] args) {

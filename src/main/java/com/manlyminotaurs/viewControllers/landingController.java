@@ -43,8 +43,13 @@ public class landingController {
     }
 
     public void nurseRequestAction(ActionEvent event){
-        Main.setActionBars(0).setTranslateY(600);
+        Main.setActionBars(0).setTranslateY(715);
 
+
+    }
+    public void directionAction(ActionEvent event){
+        //open direction actionBar
+        Main.setActionBars(1).setTranslateY(715); //go to directionss
     }
 
 }

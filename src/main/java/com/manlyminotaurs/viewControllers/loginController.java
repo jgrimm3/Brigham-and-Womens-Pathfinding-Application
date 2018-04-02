@@ -40,14 +40,15 @@ public class loginController {
     }
 
 
-    public void login(ActionEvent event){
+    public void login(ActionEvent event) {
 
+        Main.removePrompt(0);
+        Main.removeScreen(1);
 
         txtUser.clear();
         txtPassword.clear();
-        //if admin account
-
-        Main.setScreen(4); //go to landing screen
+        //if user account
+        Main.setScreen(2); //go to landing screen}
     }
 
 }
