@@ -1045,4 +1045,20 @@ public class NodesEditor {
         System.out.println("getNOdeFromList: Null-----------Something might break");
         return null;
     }
+
+    public List<Node> getNodeList() {
+        return nodeList;
+    }
+
+    public void setNodeList(List<Node> nodeList) {
+        this.nodeList = nodeList;
+    }
+
+    public List<Edge> getEdgeList() {
+        return edgeList;
+    }
+
+    public void setEdgeList(List<Edge> edgeList) {
+        this.edgeList = edgeList;
+    }
 } // end NodesEditor class
