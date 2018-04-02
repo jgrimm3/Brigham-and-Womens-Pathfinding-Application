@@ -1,9 +1,23 @@
 package com.manlyminotaurs.nodes;
 
-import java.util.ArrayList;
-
 public class Hallway extends Node {
-    public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, ArrayList<Edge> edges) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, edges);
+    private int popularity;
+
+    public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
+        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        popularity = 1;
+    }
+
+    public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, int popularity) {
+        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        this.popularity = popularity;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 }

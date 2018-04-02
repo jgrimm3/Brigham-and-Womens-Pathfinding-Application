@@ -1,64 +1,60 @@
 package com.manlyminotaurs.nodes;
 
 public class Edge {
-    protected Node startNode;
-    protected Node endNode;
-    protected String id;
-    protected int status;
+	Node startNode;
+	Node endNode;
+	String edgeID;
+	int status;
 
-    public Edge(Node startNode, Node endNode, String id, int status) {
-        this.startNode = startNode;
-        this.endNode = endNode;
-        this.id = id;
-        this.status = status;
-    }
+	public Edge(Node startNode, Node endNode, String edgeID) {
+		this.startNode = startNode;
+		this.endNode = endNode;
+		this.edgeID = edgeID;
+		status = 1;
+	}
 
-    /**
-     * Takes in one node in an edge and returns the other node in that edge
-     *
-     * @param node
-     * @return otherNode
-     */
+	public Node getStartNode() {
+		return startNode;
+	}
 
-    public Node otherNode(Node node){
-        if (node == this.startNode) {
-            return this.endNode;
+	public void setStartNode(Node startNode) {
+		this.startNode = startNode;
+	}
+
+	public Node getEndNode() {
+		return endNode;
+	}
+
+	public void setEndNode(Node endNode) {
+		this.endNode = endNode;
+	}
+
+	public String getEdgeID() {
+		return edgeID;
+	}
+
+	public void setEdgeID(String edgeID) {
+		this.edgeID = edgeID;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this) {
+            return true;
         }
-        else if (node == this.endNode){
-            return this.startNode;
+        if (!(o instanceof Edge)) {
+            return false;
         }
-        return null;
+        Edge e = (Edge) o;
+        return e.edgeID.equals(this.edgeID);
     }
 
-    public Node getStartNode() {
-        return startNode;
-    }
-
-    public void setStartNode(Node startNode) {
-        this.startNode = startNode;
-    }
-
-    public Node getEndNode() {
-        return endNode;
-    }
-
-    public void setEndNode(Node endNode) {
-        this.endNode = endNode;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }

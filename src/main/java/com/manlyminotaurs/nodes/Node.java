@@ -1,9 +1,5 @@
 package com.manlyminotaurs.nodes;
 
-import java.util.ArrayList;
-
-import java.util.ArrayList;
-
 public abstract class Node {
 
     Location loc;
@@ -11,16 +7,16 @@ public abstract class Node {
     String shortName;
     String ID;
     String nodeType;
-    ArrayList<Edge> edges;
+    int status;
 
-    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, ArrayList<Edge> edges) {
+    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
         this.loc = new Location(xcoord, ycoord, floor, building);
-        this.edges = edges;
+        status = 1;
     }
 
     /**
@@ -31,7 +27,7 @@ public abstract class Node {
      */
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o){
         if (o == this) {
             return true;
         }
@@ -39,7 +35,7 @@ public abstract class Node {
             return false;
         }
         Node n = (Node) o;
-        return n.ID == this.ID;
+        return n.ID.equals(this.ID);
     }
 
     public void setLoc(Location loc) { this.loc = loc; }
@@ -51,8 +47,6 @@ public abstract class Node {
     public void setID(String ID) { this.ID = ID; }
 
     public void setNodeType(String nodeType) { this.nodeType = nodeType; }
-
-    public void setEdges(ArrayList<Edge> edges) { this.edges = edges; }
 
     public Location getLoc() { return loc; }
 
@@ -72,5 +66,8 @@ public abstract class Node {
 
     public String getBuilding() { return loc.building; }
 
-    public ArrayList<Edge> getEdges() { return edges; }
+    public int getStatus() { return status; }
+
+    public void setStatus(int status) { this.status = status; }
+
 }

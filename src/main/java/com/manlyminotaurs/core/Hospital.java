@@ -12,6 +12,7 @@ public class Hospital {
     ArrayList allNodes = new ArrayList<Node>(1024);
     ArrayList allUsers = new ArrayList<User>(1024);
 
+
     /**
      * Add a user to the collection of Users
      * @param user User to be added
