@@ -35,7 +35,7 @@ public abstract class Node {
             return false;
         }
         Node n = (Node) o;
-        return n.ID == this.ID;
+        return n.ID.equals(this.ID);
     }
 
     public void setLoc(Location loc) { this.loc = loc; }

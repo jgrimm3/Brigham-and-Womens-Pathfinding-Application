@@ -45,4 +45,16 @@ public class Edge {
 		return status;
 	}
 
+    @Override
+    public boolean equals(Object o){
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Edge)) {
+            return false;
+        }
+        Edge e = (Edge) o;
+        return e.edgeID.equals(this.edgeID);
+    }
+
 }
