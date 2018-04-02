@@ -1025,7 +1025,11 @@ public class NodesEditor {
      */
     public void printEdgeList() {
         int i = 0;
-        while(i < edgeList.size()) { System.out.println("Object " + i + ": " + edgeList.get(i).getEdgeID()); i++; }
+        while(i < edgeList.size()) {
+            System.out.print("Object " + i + ": " + edgeList.get(i).getEdgeID());
+            System.out.println("   Start: " + edgeList.get(i).getStartNode().getID());
+            i++;
+        }
     } // end printEdgeList
 
     /**

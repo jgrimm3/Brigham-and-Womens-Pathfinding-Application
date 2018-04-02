@@ -11,9 +11,11 @@ CREATE TABLE Map_Nodes (
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
-  startNode           VARCHAR(255),
-  endNode             VARCHAR(255),
-  status              INTEGER);
+  startNode           VARCHAR(10),
+  endNode             VARCHAR(10),
+  status              INTEGER,
+  CONSTRAINT fk_startNode FOREIGN KEY (startNode) REFERENCES Map_Nodes(nodeID),
+  CONSTRAINT fk_endNode FOREIGN KEY (endNode) REFERENCES Map_Nodes(nodeID));
 
 Create Table Room (
   specialization VARCHAR(255),
@@ -56,9 +58,9 @@ Create Table Request (
   isCompleted   BOOLEAN,
   adminConfirm  BOOLEAN,
   nodeID        VARCHAR(10) UNIQUE,
-  userID        VARCHAR(10) UNIQUE,
+  assignID      VARCHAR(10) UNIQUE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID),
-  CONSTRAINT fk_request_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID));
+  CONSTRAINT fk_request_assignID FOREIGN KEY (assignID) REFERENCES UserAccount(userID));
 
 Create Table Message (
   messageID     VARCHAR(255) PRIMARY KEY,
