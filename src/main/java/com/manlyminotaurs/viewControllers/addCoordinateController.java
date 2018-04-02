@@ -52,4 +52,11 @@ public class addCoordinateController {
     @FXML
     Button btnChooseCoord;
 
+    public void back(ActionEvent event) {
+        Main.removePrompt(3);
+    }
+    public void addNode(ActionEvent event1){
+        //put all fields from text boxes and update database
+
+    }
 }
