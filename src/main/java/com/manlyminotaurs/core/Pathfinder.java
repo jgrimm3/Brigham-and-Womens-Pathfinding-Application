@@ -29,8 +29,8 @@ public class Pathfinder {
         NodesEditor ne = new NodesEditor();
         ne.retrieveEdges();
         ne.retrieveNodes();
-        ArrayList<Node> nodes = (ArrayList) ne.nodeList;
-        ArrayList<Edge> edges = (ArrayList) ne.edgeList;
+        ArrayList<Node> nodes = new ArrayList<>(ne.nodeList);
+        ArrayList<Edge> edges = new ArrayList<>(ne.edgeList);
 
         return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
     }
@@ -222,10 +222,10 @@ public class Pathfinder {
      * @param edges
      * @return list of node's edges
      */
-    ArrayList<Edge> getEdges(ScoredNode sNode, List<Edge> edges) {
+    public ArrayList<Edge> getEdges(ScoredNode sNode, ArrayList<Edge> edges) {
         ArrayList<Edge> nodeEdges = new ArrayList<Edge>();
         for (Edge e: edges) {
-            if (sNode.getNode().equals(e.getStartNode()) || sNode.getNode().equals(e.getEndNode())) {
+            if (sNode.getNode() == e.getStartNode() || sNode.getNode() == e.getEndNode()) {
                 nodeEdges.add(e);
             }
         }

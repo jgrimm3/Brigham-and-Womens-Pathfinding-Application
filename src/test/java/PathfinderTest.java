@@ -19,7 +19,7 @@ public class PathfinderTest {
 
     Node retrieveNode(String nodeID) {
         for (Node node: ne.nodeList) {
-            if (node.getID() == nodeID) {
+            if (node.getID().equals(nodeID)) {
                 return node;
             }
         }
@@ -33,12 +33,12 @@ public class PathfinderTest {
         ne.retrieveNodes();
         ne.retrieveEdges();
 
-        fixture = new LinkedList<>();
+        fixture = new LinkedList<Node>();
     }
 
     @Test
     public void Find_WhenOnlyOneNode_ShouldReturnNode(){
-        Node node1 = retrieveNode("GCONF02001");
+        Node node1 = ne.getNodeFromList("GCONF02001");
         fixture.add(node1);
 
         LinkedList<Node> result = pf.find(node1, node1);
@@ -47,21 +47,39 @@ public class PathfinderTest {
 
     @Test
     public void Find_WhenOnlyTwoNodes_ShouldReturnPath(){
-        fixture.add(restroom1);
-        fixture.add(restroom2);
+        Node node1 = ne.getNodeFromList("GCONF02001");
+        Node node2 = ne.getNodeFromList("GDEPT01901");
+        System.out.println(node1);
+        System.out.println(node2);
 
-        LinkedList<Node> result = pf.find(restroom1, restroom2);
+
+        fixture.add(node1);
+        fixture.add(node2);
+
+        LinkedList<Node> result = pf.find(node1, node2);
         assertEquals(fixture, result);
     }
+//
+//    @Test
+//    public void Find_WhenManyNodes_ShouldReturnPath(){
+//        fixture.add(restroom1);
+//        fixture.add(restroom2);
+//        fixture.add(restroom4);
+//
+//        LinkedList<Node> result = pf.find(restroom1, restroom4);
+//        assertEquals(fixture, result);
+//    }
 
     @Test
-    public void Find_WhenManyNodes_ShouldReturnPath(){
-        fixture.add(restroom1);
-        fixture.add(restroom2);
-        fixture.add(restroom4);
+    public void GetEdges_WhenGivenNodeWithOneEdge_ShouldReturnThatEdge(){
+        LinkedList<Edge> edgeFixture = new LinkedList<>();
+        Node node1 = ne.getNodeFromList("GCONF02001");
+        Node node2 = ne.getNodeFromList("GDEPT01901");
+        Edge testEdge = new Edge(node2, node1, "GDEPT01901_GCONF02001");
 
-        LinkedList<Node> result = pf.find(restroom1, restroom4);
-        assertEquals(fixture, result);
+        edgeFixture.add(testEdge);
+        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.edgeList));
+        assertEquals(edgeFixture, result);
     }
 
 }

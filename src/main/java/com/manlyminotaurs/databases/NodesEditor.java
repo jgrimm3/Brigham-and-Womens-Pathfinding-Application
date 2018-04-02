@@ -15,8 +15,8 @@ import java.util.Scanner;
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    private List<Node> nodeList = new ArrayList<>();
-    private List<Edge> edgeList = new ArrayList<>();
+    public List<Node> nodeList = new ArrayList<>();
+    public List<Edge> edgeList = new ArrayList<>();
 
     private List<Exit> exitList = new ArrayList<>();
     private List<Room> roomList = new ArrayList<>();
