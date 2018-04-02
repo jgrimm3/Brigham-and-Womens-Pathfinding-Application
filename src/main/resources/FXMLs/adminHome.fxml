@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.adminHomeController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.adminHomeController">
     <children>
         <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="148.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="878.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="60.0">
             <fill>
@@ -48,10 +48,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnEditNodes" mnemonicParsing="false" prefHeight="53.0" prefWidth="248.0" text="Edit Nodes" />
-            <Button fx:id="btnMngReq" mnemonicParsing="false" prefHeight="55.0" prefWidth="249.0" text="Manage Requests" GridPane.rowIndex="1" />
-            <Button fx:id="btnMngApp" mnemonicParsing="false" prefHeight="55.0" prefWidth="249.0" text="Manage Appointments" GridPane.rowIndex="2" />
-            <Button fx:id="btnHistory" mnemonicParsing="false" prefHeight="55.0" prefWidth="249.0" text="View Kiosk History" GridPane.rowIndex="3" />
+            <Button fx:id="btnEditNodes" mnemonicParsing="false" onAction="#editNodesAction" prefHeight="53.0" prefWidth="248.0" text="Edit Nodes" />
+            <Button fx:id="btnMngReq" mnemonicParsing="false" onAction="#manageRequestsAction" prefHeight="55.0" prefWidth="249.0" text="Manage Requests" GridPane.rowIndex="1" />
+            <Button id="btnLogout" fx:id="btnLogout" mnemonicParsing="false" onAction="#logOut" prefHeight="65.0" prefWidth="255.0" text="Logout" GridPane.rowIndex="4" />
          </children>
       </GridPane>
     </children>

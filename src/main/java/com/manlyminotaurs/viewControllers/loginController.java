@@ -44,7 +44,7 @@ public class loginController {
 
         Main.removePrompt(0);
         Main.removeScreen(1);
-
+        Main.removeAction(Main.getAction());
         txtUser.clear();
         txtPassword.clear();
         //if user account

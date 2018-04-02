@@ -7,28 +7,29 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.completeRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.completeRequestController">
    <children>
-      <Pane layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: blue;">
+      <Pane layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1;">
          <children>
-            <Button fx:id="btnHide" layoutX="50.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Hide" />
-            <Label fx:id="lblTitle" alignment="CENTER" layoutX="100.0" layoutY="106.0" prefHeight="75.0" prefWidth="985.0" text="Complete Request" textAlignment="CENTER" textFill="#e7eaef">
+            <Button fx:id="btnHide" layoutX="50.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="80.0" text="Back" />
+            <Label fx:id="lblTitle" alignment="CENTER" layoutX="100.0" layoutY="106.0" prefHeight="75.0" prefWidth="985.0" text="Complete Request" textAlignment="CENTER" textFill="#cd6644">
                <font>
                   <Font size="84.0" />
                </font>
             </Label>
-            <Label fx:id="lblInstructions" layoutX="300.0" layoutY="240.0" prefHeight="75.0" prefWidth="600.0" text="Instructions: Need water" textAlignment="CENTER" textFill="#e7eaef">
+            <Label fx:id="lblInstructions" layoutX="300.0" layoutY="240.0" prefHeight="75.0" prefWidth="600.0" text="Information:" textAlignment="CENTER" textFill="#183e7c">
                <font>
                   <Font size="33.0" />
                </font>
             </Label>
-            <Label fx:id="lblConfirmationCode" layoutX="300.0" layoutY="320.0" prefHeight="50.0" prefWidth="300.0" text="Confirmation Code:" textFill="#e7eaef">
+            <Label fx:id="lblConfirmationCode" layoutX="300.0" layoutY="320.0" prefHeight="50.0" prefWidth="300.0" text="Confirmation Code:" textFill="#2c569a">
                <font>
                   <Font size="23.0" />
                </font>
             </Label>
             <TextField fx:id="txtConfirmationCode" layoutX="300.0" layoutY="380.0" prefHeight="50.0" prefWidth="600.0" promptText="Enter Confirmation Code" />
-            <Button fx:id="btnCompleteRequest" layoutX="480.0" layoutY="520.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="225.0" text="Complete Request" />
+            <Button fx:id="btnCompleteRequest" layoutX="480.0" layoutY="520.0" mnemonicParsing="false" onAction="#completeRequest" prefHeight="80.0" prefWidth="225.0" text="Complete Request" />
+            <Label fx:id="lblError" alignment="CENTER" layoutX="329.0" layoutY="470.0" prefHeight="39.0" prefWidth="543.0" textAlignment="CENTER" textFill="#ff0202" />
          </children>
       </Pane>
    </children>

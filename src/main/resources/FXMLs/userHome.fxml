@@ -10,6 +10,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userHomeController">
     <children>
@@ -35,9 +36,18 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="btnMakeRequest" layoutX="414.0" layoutY="226.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="101.0" text="Make a Request" />
-      <Button fx:id="btnDirections" layoutX="414.0" layoutY="347.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="101.0" text="Directions" />
-      <Button fx:id="btnLogout" layoutX="415.0" layoutY="637.0" mnemonicParsing="false" onAction="#logOut" onMouseClicked="#logOut" prefHeight="100.0" prefWidth="100.0" text="Logout" />
+      <Button fx:id="btnMakeRequest" layoutX="414.0" layoutY="226.0" mnemonicParsing="false" onAction="#nurseRequestAction" prefHeight="101.0" prefWidth="101.0" text="Make a Request" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="btnDirections" layoutX="414.0" layoutY="347.0" mnemonicParsing="false" onAction="#directionAction" prefHeight="101.0" prefWidth="101.0" text="Directions" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="btnLogout" layoutX="415.0" layoutY="637.0" mnemonicParsing="false" onAction="#logOut" onMouseClicked="#logOut" prefHeight="100.0" prefWidth="100.0" text="Logout" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
       <Circle fx:id="circ" fill="#25415b" layoutX="170.0" layoutY="132.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </AnchorPane>

@@ -49,7 +49,7 @@ public class landingController {
     }
     public void directionAction(ActionEvent event){
         //open direction actionBar
-        Main.setActionBars(1).setTranslateY(715); //go to directionss
+        Main.setActionBars(1).setTranslateY(715); //go to directions
     }
 
 }

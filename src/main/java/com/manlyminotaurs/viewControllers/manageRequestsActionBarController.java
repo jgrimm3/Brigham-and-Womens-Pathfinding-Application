@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,4 +20,13 @@ public class manageRequestsActionBarController {
     TableView tblOpenRequests;
 @FXML
     TableView tblClosedRequests;
+
+    public void promptSendNurse(ActionEvent event){
+        Main.addPrompt(2); //go to nurse prompt
+    }
+    public void promptCompleteRequest(ActionEvent event){
+        Main.addPrompt(1); //go to complete request
+    }
+
+
 }

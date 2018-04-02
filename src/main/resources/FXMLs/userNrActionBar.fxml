@@ -10,22 +10,22 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userNrActionBarController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userNrActionBarController">
    <children>
-      <Button fx:id="btnSendCustom" layoutX="457.0" layoutY="45.0" mnemonicParsing="false" prefHeight="119.0" prefWidth="88.0" style="-fx-background-color: #c9d5e1;" text="Send Custom Request" textAlignment="CENTER" wrapText="true" />
-      <TableView fx:id="tblOpenRequests" layoutX="1191.0" layoutY="45.0" prefHeight="119.0" prefWidth="327.0">
+      <Button fx:id="btnSendCustom" layoutX="343.0" layoutY="75.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="132.0" style="-fx-background-color: #c9d5e1;" text="Send Custom Request" textAlignment="CENTER" wrapText="true" />
+      <TableView fx:id="tblOpenRequests" layoutX="1115.0" layoutY="75.0" prefHeight="200.0" prefWidth="444.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Label fx:id="lblOpenRequests" alignment="CENTER" layoutX="1103.0" layoutY="45.0" prefHeight="119.0" prefWidth="88.0" style="-fx-background-color: #c9d5e1;" text="Open Requests" textAlignment="CENTER" />
-      <TextArea fx:id="txtCustomRequest" layoutX="545.0" layoutY="45.0" prefHeight="119.0" prefWidth="376.0" promptText="Type Custom Request..." />
-      <Button fx:id="btnReqNurse" layoutX="343.0" layoutY="24.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="97.0" text="Request Nurse" />
-      <Button fx:id="btnCompleteRequest" layoutX="950.0" layoutY="24.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="117.0" text="Complete Request" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c5e3ff" height="179.0" layoutX="89.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" width="192.0" />
-      <Circle fill="#ff775c" layoutX="185.0" layoutY="66.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label id="lblDoctorInfo" fx:id="lblDoctorInfo" layoutX="94.0" layoutY="134.0" prefHeight="8.0" prefWidth="183.0" text="Doctor Information" textFill="#073d8e">
+      <Label fx:id="lblOpenRequests" alignment="CENTER" layoutX="976.0" layoutY="75.0" prefHeight="200.0" prefWidth="139.0" style="-fx-background-color: #c9d5e1;" text="Open Requests" textAlignment="CENTER" />
+      <TextArea fx:id="txtCustomRequest" layoutX="475.0" layoutY="75.0" prefHeight="200.0" prefWidth="428.0" promptText="Type Custom Request..." />
+      <Button fx:id="btnReqNurse" layoutX="343.0" layoutY="24.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="132.0" text="Request Nurse" />
+      <Button fx:id="btnCompleteRequest" layoutX="980.0" layoutY="24.0" mnemonicParsing="false" onAction="#promptCompleteRequest" prefHeight="33.0" prefWidth="132.0" text="Complete Request" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c5e3ff" height="241.0" layoutX="33.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" width="241.0" />
+      <Circle fill="#ff775c" layoutX="154.0" layoutY="104.0" radius="63.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label id="lblDoctorInfo" fx:id="lblDoctorInfo" layoutX="69.0" layoutY="190.0" text="Doctor Information" textFill="#073d8e">
          <font>
             <Font size="20.0" />
          </font>

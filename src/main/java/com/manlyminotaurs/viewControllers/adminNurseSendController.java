@@ -35,4 +35,20 @@ public class adminNurseSendController {
 
     @FXML
     Button btnSendNurse;
+
+    @FXML
+    Label lblError;
+
+    public void back(ActionEvent event) {
+        Main.removePrompt(2);
+    }
+    public void sendNurse(ActionEvent event){
+        if(txtNurse.getText().trim().isEmpty()){
+            lblError.setText("Please Enter a Correct Nurse Name");
+        }
+        else{
+            Main.removePrompt(2);
+        }
+    }
+
 }

@@ -81,6 +81,12 @@ public class Main extends Application {
     public static void removeScreen(int oldIndex){
         root.getChildren().remove(screens.get(oldIndex));
     }
+    public static int getAction(){
+        return curAction;
+    }
+    public static void removeAction(int curAction){
+        root.getChildren().remove(actionBars.get(curAction));
+    }
 
     public static Pane setActionBars(int indxNxtBar){
         root.getChildren().remove(actionBars.get(curAction));

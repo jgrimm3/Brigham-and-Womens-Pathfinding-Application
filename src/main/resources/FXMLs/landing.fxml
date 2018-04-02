@@ -51,7 +51,7 @@
                   <Insets bottom="4.0" />
                </TilePane.margin>
             </Button>
-            <Button id="btnHelp" fx:id="btnDirections" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" styleClass="tileButton" text="Directions" textAlignment="CENTER" TilePane.alignment="TOP_CENTER">
+            <Button id="btnHelp" fx:id="btnDirections" graphicTextGap="0.0" mnemonicParsing="false" onAction="#directionAction" prefHeight="150.0" prefWidth="150.0" styleClass="tileButton" text="Directions" textAlignment="CENTER" TilePane.alignment="TOP_CENTER">
                <font>
                   <Font size="23.0" />
                </font>
