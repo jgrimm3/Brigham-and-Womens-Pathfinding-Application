@@ -1,4 +1,4 @@
-CREATE TABLE map_nodes (
+CREATE TABLE Map_Nodes (
   nodeID             VARCHAR(10) PRIMARY KEY,
   xCoord              INTEGER,
   yCoord              INTEGER,
@@ -9,13 +9,13 @@ CREATE TABLE map_nodes (
   shortName          VARCHAR(255),
   status             BOOLEAN);
 
-CREATE TABLE map_edges (
+CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
   startNode           VARCHAR(255),
   endNode             VARCHAR(255),
   status              BOOLEAN);
 
-Create Table Rooms (
+Create Table Room (
   specialization VARCHAR(255),
   detail         VARCHAR(255),
   popularity     INT,
