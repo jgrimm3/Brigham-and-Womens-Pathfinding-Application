@@ -7,13 +7,13 @@ CREATE TABLE Map_Nodes (
   nodeType           VARCHAR(4),
   longName           VARCHAR(255),
   shortName          VARCHAR(255),
-  status             BOOLEAN);
+  status             INTEGER);
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
   startNode           VARCHAR(255),
   endNode             VARCHAR(255),
-  status              BOOLEAN);
+  status              INTEGER);
 
 Create Table Room (
   specialization VARCHAR(255),
@@ -39,3 +39,34 @@ Create Table Hallway (
   popularity     INT,
   nodeID         VARCHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID4 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
+
+
+Create Table UserAccount (
+  userID        VARCHAR(10) PRIMARY KEY,
+  firstName     VARCHAR(255),
+  middleInitial VARCHAR(255),
+  lastName      VARCHAR(255),
+  language      VARCHAR(255)
+);
+
+Create Table Request (
+  requestID     VARCHAR(10) PRIMARY KEY,
+  requestType   VARCHAR(255),
+  priority      INTEGER,
+  isCompleted   BOOLEAN,
+  adminConfirm  BOOLEAN,
+  nodeID        VARCHAR(10) UNIQUE,
+  userID        VARCHAR(10) UNIQUE,
+  CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID),
+  CONSTRAINT fk_request_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID));
+
+Create Table Message (
+  messageID     VARCHAR(255) PRIMARY KEY,
+  message       VARCHAR(255),
+  isRead        BOOLEAN,
+  senderID      VARCHAR(10) UNIQUE,
+  receiverID    VARCHAR(10) UNIQUE,
+  requestID     VARCHAR(10) UNIQUE,
+  CONSTRAINT fk_message_requestID FOREIGN KEY (requestID) REFERENCES Request(requestID),
+  CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID),
+  CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID));
