@@ -21,15 +21,6 @@ public class PathfinderTest {
     Node node3;
     Node node4;
 
-    Node retrieveNode(String nodeID) {
-        for (Node node: ne.getNodeList()) {
-            if (node.getID().equals(nodeID)) {
-                return node;
-            }
-        }
-        return null;
-    }
-
     @Before
     public void createFixtures(){
         pf = new Pathfinder();
