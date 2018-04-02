@@ -15,9 +15,13 @@ import java.util.Scanner;
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    public List<Node> nodeList = new ArrayList<>();
-    public List<Edge> edgeList = new ArrayList<>();
+    private List<Node> nodeList = new ArrayList<>();
+    private List<Edge> edgeList = new ArrayList<>();
 
+    private List<Exit> exitList = new ArrayList<>();
+    private List<Room> roomList = new ArrayList<>();
+    private List<Hallway> hallwayList = new ArrayList<>();
+    private List<Transport> transportList = new ArrayList<>();
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -37,24 +41,52 @@ public class NodesEditor {
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
 
-        nodesEditor.populateTables();
+        nodesEditor.initTables();
+        nodesEditor.populateNodeEdgeTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
         nodesEditor.populateExitTable();
         nodesEditor.populateHallwayTable();
-        nodesEditor.populateRoomsTable();
+        nodesEditor.populateRoomTable();
         nodesEditor.populateTransportTable();
-        //nodesEditor.retrieveNodes();
-        //nodesEditor.retrieveEdges();
+
         nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
         nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
+        nodesEditor.updateExitCSVFile("./nodesDB/TestUpdateExitFile.csv");
+        nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
+        nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
+        nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
+
     /**
-     * Creates the database tables from the csv files
+     * Delete any pre-existing tables and create new tables in the database
      */
-    public void populateTables() {
+    public void initTables(){
+       NodesEditor a_database = new NodesEditor();
+       // Get the database connection
+       Connection connection = null;
+       Statement stmt = null;
+       try {
+       connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+       stmt = connection.createStatement();
+           a_database.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
+           a_database.executeDBScripts("./src/main/resources/CreateTables.sql", stmt);
+       } catch (IOException e) {
+           e.printStackTrace();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           try { stmt.close(); } catch (Exception e) { /* ignored */ }
+           try { connection.close(); } catch (Exception e) { /* ignored */ }
+       }
+   }
+
+    /**
+     * Populate the database tables from the csv files
+     */
+    public void populateNodeEdgeTables() {
 
         // Make sure we aren't ruining the database
         Scanner scanner = new Scanner(System.in);
@@ -75,13 +107,6 @@ public class NodesEditor {
                 Connection connection;
                 connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
                 Statement stmt = connection.createStatement();
-
-                try {
-                    a_database.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
-                    a_database.executeDBScripts("./src/main/resources/CreateTables.sql", stmt);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 // Print parsed array
                 // This portion can be used to send each row to database also.
@@ -187,7 +212,7 @@ public class NodesEditor {
         } catch (Exception e) {
             System.err.println("Failed to Execute" + aSQLScriptFilePath +". The error is"+ e.getMessage());
         }
-        System.out.println("Node sub-tables created");
+        System.out.println("Tables created: "+aSQLScriptFilePath);
         return isScriptExecuted;
     }
 
@@ -275,6 +300,97 @@ public class NodesEditor {
     }
 
 
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateExitCSVFile(String csvFileName) {
+        Iterator<Exit> iterator = exitList.iterator();
+        System.out.println("Updating exit csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("isFireExit, isArmed, nodeID\n");
+            while (iterator.hasNext()) {
+                Exit a_node = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateHallwayCSVFile(String csvFileName) {
+        Iterator<Hallway> iterator = hallwayList.iterator();
+        System.out.println("Updating hallway csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("popularity, nodeID\n");
+            while (iterator.hasNext()) {
+                Hallway a_node = iterator.next();
+                printWriter.printf("%d,%s\n", a_node.getPopularity(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateRoomCSVFile(String csvFileName) {
+        Iterator<Room> iterator = roomList.iterator();
+        System.out.println("Updating room csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("specialization, detail, popularity, isOpen, nodeID\n");
+            while (iterator.hasNext()) {
+                Room a_node = iterator.next();
+                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateTransportCSVFile(String csvFileName) {
+        Iterator<Transport> iterator = transportList.iterator();
+        System.out.println("Updating transport csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("directionality, floors, nodeID\n");
+            while (iterator.hasNext()) {
+                Transport a_node = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_node.getDirectionality(), a_node.floorsToString(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
@@ -379,10 +495,12 @@ public class NodesEditor {
                 try {
                     System.out.println("Found an exit...");
                     Exit exit = (Exit)nodeList.get(i);
+                    exitList.add(exit);
+
                     String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setBoolean(1, exit.isFireExit);
-                    statement.setBoolean(2, exit.isArmed);
+                    statement.setBoolean(1, exit.isFireExit());
+                    statement.setBoolean(2, exit.isArmed());
                     statement.setString(3, exit.getID());
                     statement.executeUpdate();
                     System.out.println("Added exit to table...");
@@ -410,6 +528,8 @@ public class NodesEditor {
                 try {
                     System.out.println("Found an hallway...");
                     Hallway hall = (Hallway) nodeList.get(i);
+                    hallwayList.add(hall);
+
                     String str = "INSERT INTO hallway(popularity, nodeID) VALUES (?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setInt(1, hall.getPopularity());
@@ -425,7 +545,7 @@ public class NodesEditor {
         }
     }
 
-    public void populateRoomsTable() {
+    public void populateRoomTable() {
         int i = 0;
         String type;
         Statement stmt = null;
@@ -442,7 +562,9 @@ public class NodesEditor {
                 try {
                     System.out.println("Found an room...");
                     Room room = (Room)nodeList.get(i);
-                    String str = "INSERT INTO rooms(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
+                    roomList.add(room);
+
+                    String str = "INSERT INTO room(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, room.getSpecialization());
                     statement.setString(2, room.getDetailedInfo());
@@ -476,6 +598,8 @@ public class NodesEditor {
                 try {
                     System.out.println("Found an transport...");
                     Transport transport = (Transport)nodeList.get(i);
+                    transportList.add(transport);
+
                     String str = "INSERT INTO transport(directionality, floors, nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, transport.getDirectionality());
@@ -519,11 +643,10 @@ public class NodesEditor {
 
                     // Add the new edge to the list
                     Node startNodeObject = getNodeFromList(startNode);
-                    System.out.println("---------GetNOde: " + startNodeObject.getID());
                     Node endNodeObject = getNodeFromList(endNode);
                     edge = new Edge(startNodeObject, endNodeObject, edgeID);
                     edgeList.add(edge);
-                    System.out.println("Edge added to list: "+edgeID);
+                    System.out.println("Edge added to the list: "+edgeID);
                 }
                 rset.close();
                 stmt.close();
