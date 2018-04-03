@@ -1,6 +1,9 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -650,8 +653,8 @@ public class NodesEditor {
         this.edgeList = edgeList;
     }
 
-    List<String> getBuildingsFromList(List<Node> listOfNodes){
-        List<String> buildings = new ArrayList<String>();
+   public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes){
+        ObservableList<String> buildings = FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
         iterator.next(); // get rid of the header
 
@@ -664,11 +667,10 @@ public class NodesEditor {
         }
         return buildings;
     }
-
-    List<String> getTypesFromList(String building, List<Node> listOfNodes){
-        List<String> types= new ArrayList<String>();
+    public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
+        ObservableList<String> types= FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
-        iterator.next(); // get rid of the header
+       iterator.next(); // get rid of the header
 
         //insert rows
         while (iterator.hasNext()) {
@@ -680,8 +682,9 @@ public class NodesEditor {
         return types;
     }
 
-    List<Node> getNodeFromList(String building, String type,List<Node> listOfNodes){
-        List<Node> selectedNodes = new ArrayList<Node>();
+   public ObservableList<String> getNodeFromList(String building, String type,List<Node> listOfNodes){
+        ObservableList<Node> selectedNodes = FXCollections.observableArrayList();
+        ObservableList<String> nodeNames = FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
         iterator.next(); // get rid of the header
 
@@ -690,8 +693,9 @@ public class NodesEditor {
             Node a_node = iterator.next();
             if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
                 selectedNodes.add(a_node);
+                nodeNames.add(a_node.getShortName());
             }
         }
-        return selectedNodes;
+        return nodeNames;
     }
 } // end NodesEditor class
