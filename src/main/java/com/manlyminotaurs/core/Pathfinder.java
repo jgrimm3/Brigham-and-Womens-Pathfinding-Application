@@ -7,6 +7,10 @@ import com.manlyminotaurs.nodes.ScoredNode;
 
 import java.util.*;
 
+/* TODO:
+    - Add floor switch functionality. calcPath(toElev) + calcPath(toDest). 
+ */
+
 public class Pathfinder {
     ArrayList nodeSet;
     Hospital hospital;
@@ -44,6 +48,7 @@ public class Pathfinder {
      * @param closedList
      * @return
      */
+
     LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
         /* check for edgeless-node */
         if (startNode.getNode() == null) { return null; }

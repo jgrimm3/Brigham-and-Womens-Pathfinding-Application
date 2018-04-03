@@ -77,10 +77,18 @@ public class landingController {
 		printEdgePath(l2List);
     }
 
+    /**
+     * Opens the login prompt
+     * @param event login button clicked
+     */
     public void promptLogin(ActionEvent event){
         Main.addPrompt(0); //go to login prompt
     }
 
+    /**
+     *
+     * @param event btnNurseRequest
+     */
     public void nurseRequestAction(ActionEvent event){
        Pane action = Main.setActionBars(0);
        action.setTranslateY(715);
@@ -132,6 +140,14 @@ public class landingController {
         }
     }
 
+    /**
+     *
+     * @param startNode node to draw from
+     * @param endNode node to draw to
+     * @param moveTo start point of line to be drawn
+     * @param lineTo end point of line to be drawn
+     *
+     */
     public void addPath(Node startNode, Node endNode, MoveTo moveTo, LineTo lineTo) {
         if(startNode != null && endNode != null) {
             System.out.println("Found a path!");
@@ -154,7 +170,7 @@ public class landingController {
 
     /**
      * Prints the given path on the map
-     * @param edgeList the edges to draw a bath between
+     * @param edgeList the edges to draw a path between
      */
     public void printEdgePath(List<Edge> edgeList) {
         System.out.println("Attempting to print path between edges...");
@@ -175,7 +191,7 @@ public class landingController {
 
     /**
      * Prints the given path on the map
-     * @param nodeList the nodes to draw a bath between
+     * @param nodeList the nodes to draw a path between
      */
     public void printNodePath(List<Node> nodeList) {
         System.out.println("Attempting to print path between nodes...");
@@ -200,7 +216,7 @@ public class landingController {
      * @param oldMax the old max value (x or y)
      * @param newMin the new min value (x or y)
      * @param newMax the new max calue (x or y)
-     * @return
+     * @return the value mapped from the old boundary to the new boundary
      */
     static double map(double value, double oldMin, double oldMax, double newMin, double newMax) {
         return (((value - oldMin)*(newMax - newMin))/(oldMax-oldMin)) + newMin;
@@ -210,12 +226,18 @@ public class landingController {
     @FXML
     /**
      * Prints the x and y value of the mouse click on the object specified in scenebuilder
+     * @param event mouseclick
      */
     public void getXandY(MouseEvent event) {
         System.out.println("Coords: ");
         System.out.println("X: " + event.getX());
         System.out.println("Y: " + event.getY());
     }
+
+    /**
+     *
+     * @param event
+     */
     public void directionAction(ActionEvent event){
         //open direction actionBar
         Pane action = Main.setActionBars(1);
@@ -224,6 +246,10 @@ public class landingController {
 
     }
 
+    /**
+     *
+     * @param event Directory button pressed
+     */
     public void directoryAction(ActionEvent event) {
         // bring up directory action panels in future iterations
     }
