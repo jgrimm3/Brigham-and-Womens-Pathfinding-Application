@@ -5,49 +5,39 @@ import com.manlyminotaurs.nodes.ScoredNode;
 public class PathfinderUtil {
 
     /**
-     * Takes in two nodes and calculates the slope between them
+     * calculates angle from 3 ScoredNodes
      *
-     * @param sNode1
-     * @param sNode2
-     * @return The slope between given nodes
+     * @param sNode1: Scored Node 1
+     * @param sNode2: Scored Node 2
+     * @param sNode3: Scored Node 3
+     * @return angle of incidence
      */
-    public double calcSlope(ScoredNode sNode1, ScoredNode sNode2){
-        double dx = (sNode2.getNode().getXCoord() - sNode1.getNode().getXCoord());
-        double dy = (sNode2.getNode().getYCoord() - sNode1.getNode().getYCoord());
-        return dy/dx;
-    }
-
-    /**
-     *
-     * @param sNode1 starting node
-     * @param sNode2 ending node
-     * @return Angle of difference of two given nodes
-     */
-    public double calcAngle(ScoredNode sNode1, ScoredNode sNode2){
-//        double angle2 = Math.atan2(sNode2.getNode().getYCoord(), sNode2.getNode().getXCoord());
-//        double angle1 = Math.atan2(sNode1.getNode().getYCoord(), sNode1.getNode().getXCoord());
-//        double deg = (angle2-angle1) * 180/Math.PI;
-
-        return deg;
-    }
-
-
-    /**
-     *
-     * @param sNode1
-     * @param sNode2
-     * @return String indicating direction of angle
-     */
-    public String angleToTurn(ScoredNode sNode1, ScoredNode sNode2){
-        double angle = calcAngle(sNode1, sNode2);
-        System.out.println("atan2 angle: " + angle);
-        if(angle <= -5 && angle >= 5) {
-            return "Straight";
+        public double calcAngle(ScoredNode sNode1, ScoredNode sNode2, ScoredNode sNode3) {
+            double n1x = sNode1.getNode().getXCoord();
+            double n1y = sNode1.getNode().getYCoord();
+            double n2x = sNode2.getNode().getXCoord();
+            double n2y = sNode2.getNode().getYCoord();
+            double n3x = sNode3.getNode().getXCoord();
+            double n3y = sNode3.getNode().getYCoord();
+            double opposite = Math.hypot(n3x-n1x, n3y-n1y);
+            double adjacent = Math.hypot(n3x-n2x, n3y-n2y);
+            double angle = Math.atan(opposite/adjacent)*(180/Math.PI);
+            System.out.println("Angle: " + angle);
+            return angle;
         }
-        else if (angle >= -175 && angle <= 175) {
-            return "Backwards";
-        } else if (angle > -5 && angle > 5) {
-            return "Left";
-        } else return "Right";
-    }
+
+    /**
+     *
+     * @param sNode1: Scored Node 1
+     * @param sNode2: Scored Node 2
+     * @param sNode3: Scored Node 3
+     * @return String containing direction
+     */
+        // TODO: Find which angles correspond to which direction, 45 degrees is left?
+        public String angleToText(ScoredNode sNode1, ScoredNode sNode2, ScoredNode sNode3) {
+            double angle = calcAngle(sNode1, sNode2, sNode3);
+            if (angle >= -5 && angle <= 5) { return "Straight"; }
+            else return "not straight";
+        }
 }
+
