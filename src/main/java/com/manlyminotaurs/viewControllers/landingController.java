@@ -122,7 +122,6 @@ public class landingController {
             lineTo.setY(endNode.getYCoord());
             path.getElements().add(moveTo);
             path.getElements().add(lineTo);
-
             i++;
         }
     }
