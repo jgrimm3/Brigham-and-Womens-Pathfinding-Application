@@ -3,6 +3,7 @@ import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,9 +12,12 @@ import com.manlyminotaurs.nodes.Restroom;
 import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.Edge;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 
 public class PathfinderTest {
@@ -98,10 +102,25 @@ public class PathfinderTest {
 //        assertEquals(null, result);
 //    }
 
+//    @Rule
+//    public ExpectedException thrown = ExpectedException.none();
+
     @Test(expected = PathNotFoundException.class)
-    public void Find_WhenGivenOrphanNode_ShouldThrowPathNotFoundException(){
-        LinkedList<Node> result = pf.find(fakeNode, node1);
-        assertEquals(null, result);
+    public void Find_WhenGivenOrphanNode_ShouldThrowPathNotFoundException() throws PathNotFoundException{
+        PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
+        HashMap<String, ScoredNode> closedList = new HashMap<>();
+
+        ScoredNode scoredStart = new ScoredNode(fakeNode, null, -1, -1, -1);
+        ScoredNode scoredEnd = new ScoredNode(node1, null, -1, -1, -1);
+
+        NodesEditor ne = new NodesEditor();
+        ne.retrieveNodes();
+        ne.retrieveEdges();
+        ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
+        ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
+
+
+        LinkedList<ScoredNode> result = pf.calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges);
     }
 
     @Test

@@ -22,7 +22,7 @@ public class Pathfinder {
      * @param endNode
      * @retur LinkedList<Node>
      */
-    public LinkedList<Node> find(Node startNode, Node endNode) {
+    public LinkedList<Node> find(Node startNode, Node endNode){
 
         PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
         HashMap<String, ScoredNode> closedList = new HashMap<>();
@@ -36,14 +36,13 @@ public class Pathfinder {
         ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
         ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
 
-        LinkedList<ScoredNode> scoredPath = null;
+        LinkedList<Node> path = null;
         try {
-            scoredPath  = calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges);
+            path  = stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
         } catch (PathNotFoundException e) {
             e.printStackTrace();
         }
-
-        return stripScores(scoredPath);
+        return path;
     }
 
     /**
@@ -56,9 +55,11 @@ public class Pathfinder {
      * @return
      */
 
-    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges) throws PathNotFoundException {
+    public LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges) throws PathNotFoundException {
         /* check for edgeless-node */
         if (startNode.getNode() == null) throw new PathNotFoundException();
+        if (getEdges(startNode, edges) == null) throw new PathNotFoundException();
+
         if (startNode.getNode().equals(endNode.getNode())) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode, edges);
 
@@ -156,11 +157,10 @@ public class Pathfinder {
      * @return strippedNodes
      */
 
-    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
+    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes) throws PathNotFoundException{
         LinkedList<Node> strippedNodes = new LinkedList<>();
         if (scoredNodes == null) {
-            System.out.println("ERROR: No Edges fot this node!");
-            return null;
+            throw new PathNotFoundException();
         }
         for(ScoredNode scoredNode: scoredNodes){
             strippedNodes.add(scoredNode.getNode());
@@ -177,7 +177,7 @@ public class Pathfinder {
 
     LinkedList<ScoredNode> getNodeTrail(ScoredNode node){
         if (node.getNode() == null) {
-            System.out.println("ERROR: No Edges fot this node!");
+            System.out.println("ERROR: No Edges for this node!");
             return null;
         }
         LinkedList<ScoredNode> nodeTrail = new LinkedList<>();
