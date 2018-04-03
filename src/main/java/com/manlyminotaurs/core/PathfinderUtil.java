@@ -30,7 +30,7 @@ public class PathfinderUtil {
             double sideC = Math.hypot(n2x-n1x, n2y-n1y);
             double angleEq = ((sideA*sideA)+(sideC*sideC)-(sideB*sideB))/(2*sideA*sideC);
             double angle = Math.acos(angleEq)*(180/Math.PI);
-            System.out.println("Angle: " + angle + "Degrees");
+            System.out.println("Angle: " + (int)angle + " Degrees");
             return angle;
         }
 
@@ -49,10 +49,10 @@ public class PathfinderUtil {
             ArrayList<String> tbt = new ArrayList<>();
             if (path.size() <= 2) { tbt.add("Straight"); return tbt; }
                 for (int i = 0; i < path.size() - 2; i++) {
-                System.out.println("Iteration: " + i);
-                double angle = calcAngle(path.get(i), path.get(i + 1), path.get(i + 2));
-                if (angle >= -5 && angle <= 5) { tbt.add("Straight"); }
-                else tbt.add("not straight");
+                System.out.println("Intersection: " + (i+1));
+                double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
+                if (angle >= 160 && angle <= 180) { tbt.add("Straight"); }
+                else tbt.add("Not Straight");
             }
             return tbt;
         }
