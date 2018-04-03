@@ -36,7 +36,14 @@ public class Pathfinder {
         ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
         ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
 
-        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
+        LinkedList<ScoredNode> scoredPath = null;
+        try {
+            scoredPath  = calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges);
+        } catch (PathNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return stripScores(scoredPath);
     }
 
     /**
@@ -49,9 +56,9 @@ public class Pathfinder {
      * @return
      */
 
-    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
+    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges) throws PathNotFoundException {
         /* check for edgeless-node */
-        if (startNode.getNode() == null) { return null; }
+        if (startNode.getNode() == null) throw new PathNotFoundException();
         if (startNode.getNode().equals(endNode.getNode())) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode, edges);
 

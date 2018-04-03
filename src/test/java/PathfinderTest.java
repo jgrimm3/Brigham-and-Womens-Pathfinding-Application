@@ -1,3 +1,4 @@
+import com.manlyminotaurs.core.PathNotFoundException;
 import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
@@ -91,8 +92,14 @@ public class PathfinderTest {
         assertEquals(fixture, result);
     }
 
-    @Test
-    public void Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG(){
+//    @Test
+//    public void Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG(){
+//        LinkedList<Node> result = pf.find(fakeNode, node1);
+//        assertEquals(null, result);
+//    }
+
+    @Test(expected = PathNotFoundException.class)
+    public void Find_WhenGivenOrphanNode_ShouldThrowPathNotFoundException(){
         LinkedList<Node> result = pf.find(fakeNode, node1);
         assertEquals(null, result);
     }
