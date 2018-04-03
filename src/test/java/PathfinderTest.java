@@ -62,6 +62,7 @@ public class PathfinderTest {
         assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
     }
 
+
     @Test
     public void Find_WhenOnlyOneNode_ShouldReturnNode(){
         fixture.add(node1);

@@ -16,7 +16,7 @@ public class PathfinderUtil {
      * @param node1: Node 1
      * @param node2: Node 2
      * @param node3: Node 3
-     * @return angle of incidence between 3 nodes
+     * @return angle between node 1 and node 3
      */
         public double calcAngle(Node node1, Node node2, Node node3) {
             double n1x = node1.getXCoord();
@@ -25,10 +25,12 @@ public class PathfinderUtil {
             double n2y = node2.getYCoord();
             double n3x = node3.getXCoord();
             double n3y = node3.getYCoord();
-            double opposite = Math.hypot(n3x-n1x, n3y-n1y);
-            double adjacent = Math.hypot(n3x-n2x, n3y-n2y);
-            double angle = Math.atan(opposite/adjacent)*(180/Math.PI);
-            System.out.println("Angle: " + angle);
+            double sideA = Math.hypot(n3x-n2x, n3y-n2y);
+            double sideB = Math.hypot(n3x-n1x, n3y-n1y);
+            double sideC = Math.hypot(n2x-n1x, n2y-n1y);
+            double angleEq = ((sideA*sideA)+(sideC*sideC)-(sideB*sideB))/(2*sideA*sideC);
+            double angle = Math.acos(angleEq)*(180/Math.PI);
+            System.out.println("Angle: " + angle + "Degrees");
             return angle;
         }
 
@@ -45,12 +47,12 @@ public class PathfinderUtil {
 
         public ArrayList<String> angleToText(LinkedList<Node> path) {
             ArrayList<String> tbt = new ArrayList<>();
-            for (int i = 0; i < path.size() - 2; i++) {
+            if (path.size() <= 2) { tbt.add("Straight"); return tbt; }
+                for (int i = 0; i < path.size() - 2; i++) {
                 System.out.println("Iteration: " + i);
                 double angle = calcAngle(path.get(i), path.get(i + 1), path.get(i + 2));
-                if (angle >= -5 && angle <= 5) {
-                    tbt.add("Straight");
-                } else tbt.add("not straight");
+                if (angle >= -5 && angle <= 5) { tbt.add("Straight"); }
+                else tbt.add("not straight");
             }
             return tbt;
         }
