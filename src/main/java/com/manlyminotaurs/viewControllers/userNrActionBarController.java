@@ -18,8 +18,13 @@ public class userNrActionBarController {
 
     @FXML
     Button btnSendCustom;
+
     @FXML
-    Button btnComleteRequest;
+    Button btnCompleteRequest;
+
+    @FXML
+    Button btnDeleteRequest;
+
     @FXML
     TextArea txtCustomRequest;
 
@@ -30,4 +35,15 @@ public class userNrActionBarController {
     public void promptCompleteRequest(ActionEvent event){
         Main.addPrompt(1); //go to complete request
     }
+
+    public void promptDeleteRequest(ActionEvent event) {
+        // assuming that a request has been selected from the table,
+        // the request will be deleted
+    }
+
+    public void requestNurse(ActionEvent event) {
+        // takes custom request information from text box below and sends a nurse request with the information to an admin
+    }
+
+
 }

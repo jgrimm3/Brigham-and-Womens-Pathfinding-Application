@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import com.manlyminotaurs.core.Main;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,14 @@ public class landingController {
     public void directionAction(ActionEvent event){
         //open direction actionBar
         Main.setActionBars(1).setTranslateY(715); //go to directions
+    }
+
+    public void directoryAction(ActionEvent event) {
+        // bring up directory action panels in future iterations
+    }
+
+    public void helpAction(ActionEvent event) {
+        // bring up help screen in future iterations
     }
 
 }
