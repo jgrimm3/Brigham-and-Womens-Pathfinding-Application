@@ -44,13 +44,19 @@ public class landingController {
     }
 
     public void nurseRequestAction(ActionEvent event){
-        Main.setActionBars(0).setTranslateY(715);
+       Pane action = Main.setActionBars(0);
+       action.setTranslateY(715);
+       action.setTranslateX(85);
+
 
 
     }
     public void directionAction(ActionEvent event){
         //open direction actionBar
-        Main.setActionBars(1).setTranslateY(715); //go to directions
+        Pane action = Main.setActionBars(1);
+        action.setTranslateY(715);
+        action.setTranslateX(85);
+
     }
 
     public void directoryAction(ActionEvent event) {
