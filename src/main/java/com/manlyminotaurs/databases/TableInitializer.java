@@ -406,4 +406,101 @@ public class TableInitializer {
             i++;
         }
     }// populateTransportTable Ends
+
+    public void populateMessageTable() {
+        try {
+            // parse MessageTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> messageList = csvFileControl.parseCsvFile("./nodesDB/MessageTable.csv");
+
+            // Get the database connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = messageList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                String str = "INSERT INTO message(messageID,message,isRead,senderID,receiverID) VALUES (?,?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setBoolean(3, Boolean.valueOf(node_row[2]));
+                statement.setString(4, node_row[3]);
+                statement.setString(5, node_row[4]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void populateUserAccountTable() {
+        try {
+            // parse UserTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> userAccountList = csvFileControl.parseCsvFile("./nodesDB/UserAccountTable.csv");
+
+            // Get the database connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = userAccountList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                String str = "INSERT INTO UserAccount(userID,firstName,middleInitial,lastName,language) VALUES (?,?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setString(3, node_row[2]);
+                statement.setString(4, node_row[3]);
+                statement.setString(5, node_row[4]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void populateRequestTable() {
+        try {
+            // parse UserTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> userAccountList = csvFileControl.parseCsvFile("./nodesDB/RequestTable.csv");
+
+            // Get the database connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = userAccountList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID) VALUES (?,?,?,?,?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setInt(3, Integer.parseInt(node_row[2]));
+                statement.setBoolean(4, Boolean.valueOf(node_row[3]));
+                statement.setBoolean(5, Boolean.valueOf(node_row[4]));
+                statement.setString(6, node_row[5]);
+                statement.setString(7, node_row[6]);
+                statement.setString(8, node_row[7]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

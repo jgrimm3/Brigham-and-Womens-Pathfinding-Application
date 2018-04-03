@@ -48,17 +48,18 @@ Create Table UserAccount (
   firstName     VARCHAR(255),
   middleInitial VARCHAR(255),
   lastName      VARCHAR(255),
-  language      VARCHAR(255)
-);
+  language      VARCHAR(255));
 
 Create Table Request (
   requestID     VARCHAR(10) PRIMARY KEY,
   requestType   VARCHAR(255),
   priority      INTEGER,
-  isCompleted   BOOLEAN,
+  isComplete    BOOLEAN,
   adminConfirm  BOOLEAN,
   nodeID        VARCHAR(10) UNIQUE,
   employeeID      VARCHAR(10) UNIQUE,
+  messageID     VARCHAR(10) UNIQUE,
+  CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Request(messageID),
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID),
   CONSTRAINT fk_request_employeeID FOREIGN KEY (employeeID) REFERENCES UserAccount(userID));
 
@@ -68,7 +69,5 @@ Create Table Message (
   isRead        BOOLEAN,
   senderID      VARCHAR(10) UNIQUE,
   receiverID    VARCHAR(10) UNIQUE,
-  requestID     VARCHAR(10) UNIQUE,
-  CONSTRAINT fk_message_requestID FOREIGN KEY (requestID) REFERENCES Request(requestID),
   CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID),
   CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID));

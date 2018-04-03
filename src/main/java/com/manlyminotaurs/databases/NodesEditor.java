@@ -17,6 +17,10 @@ public class NodesEditor {
     // global nodeList holds all the java objects for the nodes
     public static List<Node> nodeList = new ArrayList<>();
     public static List<Edge> edgeList = new ArrayList<>();
+    public static List<Edge> messageList = new ArrayList<>();
+    public static List<Edge> requestList = new ArrayList<>();
+    public static List<Edge> userAccountList = new ArrayList<>();
+
 
     public static List<Exit> exitList = new ArrayList<>();
     public static List<Room> roomList = new ArrayList<>();
@@ -44,6 +48,9 @@ public class NodesEditor {
 
         initializer.initTables();
         initializer.populateNodeEdgeTables();
+        initializer.populateUserAccountTable();
+        initializer.populateMessageTable();
+        initializer.populateRequestTable();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
         initializer.populateExitTable("./nodesDB/NodeExitFile.csv");
@@ -51,16 +58,12 @@ public class NodesEditor {
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
-        List<String> list_of_buildings = nodesEditor.getBuildingsFromList(nodeList);
-        List<String> list_of_types = nodesEditor.getTypesFromList("Shapiro",nodeList);
-        List<Node> list_of_selected_nodes = nodesEditor.getNodeFromList("Shapiro","DEPT",nodeList);
-
-        csvFileControl.updateNodeCSVFile("./nodesDB/NodeFile.csv");
-        csvFileControl.updateEdgeCSVFile("./nodesDB/EdgeFile.csv");
-        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitFile.csv");
-        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayFile.csv");
-        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomFile.csv");
-        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportFile.csv");
+//        csvFileControl.updateNodeCSVFile("./nodesDB/NodeFile.csv");
+//        csvFileControl.updateEdgeCSVFile("./nodesDB/EdgeFile.csv");
+//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitFile.csv");
+//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayFile.csv");
+//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomFile.csv");
+//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportFile.csv");
         System.out.println("main function ended");
     }
 
@@ -196,6 +199,52 @@ public class NodesEditor {
             e.printStackTrace();
         }
     } // retrieveEdges() ends
+
+    /**
+     * Creates a list of objects and stores them in the global variable messageList
+//     */
+//    public void retrieveMessage() {
+//        try {
+//            // Connection
+//            Connection connection;
+//            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+//
+//            // Variables
+//            Node node;
+//            String messageID;
+//            String message;
+//            Boolean isRead;
+//            String senderID;
+//            String receiverID;
+//
+//            try {
+//                Statement stmt = connection.createStatement();
+//                String str = "SELECT * FROM Message";
+//                ResultSet rset = stmt.executeQuery(str);
+//
+//                while (rset.next()) {
+//                    messageID = rset.getString("messageID");
+//                    message = rset.getString("message");
+//                    isRead = rset.getBoolean("isRead");
+//                    senderID =rset.getString("senderID");
+//                    receiverID = rset.getString("receiverID");
+//
+//                    // Add the new edge to the list
+//                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
+//                    edgeList.add(edge);
+//                    System.out.println("Edge added to the list: "+edgeID);
+//                }
+//                rset.close();
+//                stmt.close();
+//                System.out.println("Done adding edges");
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } catch(SQLException e)
+//        {
+//            e.printStackTrace();
+//        }
+//    } // retrieveMessage() ends
 
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
