@@ -10,7 +10,7 @@ public class PathfinderUtil {
      * @param sNode1: Scored Node 1
      * @param sNode2: Scored Node 2
      * @param sNode3: Scored Node 3
-     * @return angle of incidence
+     * @return angle of incidence between 3 nodes
      */
         public double calcAngle(ScoredNode sNode1, ScoredNode sNode2, ScoredNode sNode3) {
             double n1x = sNode1.getNode().getXCoord();
@@ -27,13 +27,18 @@ public class PathfinderUtil {
         }
 
     /**
+     * associates direction to corresponding angle
      *
      * @param sNode1: Scored Node 1
      * @param sNode2: Scored Node 2
      * @param sNode3: Scored Node 3
-     * @return String containing direction
+     * @return List of Strings containing directions
      */
-        // TODO: Find which angles correspond to which direction, 45 degrees is left?
+        /* TODO: Find which angles correspond to which direction, 45 degrees is left?
+           TODO: angleToText should take in 'LinkedList<Node> result = pf.find(node1, node1)' and traverse through
+           TODO: Have this return a list of strings containing directions and
+         */
+
         public String angleToText(ScoredNode sNode1, ScoredNode sNode2, ScoredNode sNode3) {
             double angle = calcAngle(sNode1, sNode2, sNode3);
             if (angle >= -5 && angle <= 5) { return "Straight"; }
