@@ -28,7 +28,8 @@ public class PathfinderUtil {
             double angle1 = Math.atan2(n1y-n2y, n1x-n2x);
             double angle2 = Math.atan2(n2y-n3y, n2x-n3x);
             double finalAngle = (angle2-angle1)*(180/Math.PI);
-            System.out.println("Angle: " + finalAngle + " Degrees");
+            if (finalAngle < 0) { finalAngle += 360; }
+            System.out.println("Angle: " + (int) finalAngle + " Degrees");
             return (int) finalAngle;
 
         }
@@ -49,8 +50,14 @@ public class PathfinderUtil {
                 for (int i = 0; i < path.size() - 2; i++) {
                 System.out.println("Intersection: " + (i+1));
                 double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
-                if (angle >= 160 && angle <= 180) { tbt.add("Straight"); }
-                else tbt.add("Not Straight");
+                if (angle > 355 || angle <= 5) { tbt.add("Straight"); }
+                else if (angle > 5 && angle <= 45) { tbt.add("Slight Left"); }
+                else if (angle > 45 && angle <= 135) { tbt.add("Left"); }
+                else if (angle > 135 && angle <= 175) { tbt.add("Sharp Left"); }
+                else if (angle > 175 && angle <= 185) { tbt.add("Backwards"); }
+                else if (angle > 185 && angle <= 225) { tbt.add("Sharp Right"); }
+                else if (angle > 225 && angle <= 315) { tbt.add("Right"); }
+                else if (angle > 315 && angle <= 355) { tbt.add("Slight Right"); }
             }
             return tbt;
         }

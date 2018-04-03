@@ -52,9 +52,9 @@ public class PathfinderTest {
     @Test
     public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
         ArrayList<String> fixture = new ArrayList<>();
-        fixture.add("Not Straight");
-        fixture.add("Not Straight");
-        fixture.add("Not Straight");
+        fixture.add("Left");
+        fixture.add("Left");
+        fixture.add("Right");
         fixture.add("Straight");
         //ScoredNode sNode1 = new ScoredNode(node5, null, -1, -1, -1);
         //ScoredNode sNode2 = new ScoredNode(node6, null, -1, -1, -1);
