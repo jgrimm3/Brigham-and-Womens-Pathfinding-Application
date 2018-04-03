@@ -364,9 +364,17 @@ public class NodesEditor {
 
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
+
     /**
      * Adds the java object and the corresponding entry in the database table
-     *
+     * @param longName
+     * @param shortName
+     * @param ID
+     * @param nodeType
+     * @param xcoord
+     * @param ycoord
+     * @param floor
+     * @param building
      */
     public void addNode(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building)
     {
@@ -631,11 +639,15 @@ public class NodesEditor {
     } // removeNode
 
     /*---------------------------------------- Add/delete/edit edges -------------------------------------------------*/
+
     /**
      * Adds the java object and the corresponding entry in the database table
-     * @param edge the node to be added to the database
+     * @param startNode
+     * @param endNode
      */
-    public void addEdge(Edge edge) {
+    public void addEdge(Node startNode, Node endNode) {
+        String edgeID = startNode.getID() + "_" + endNode.getID();
+        Edge edge = new Edge(startNode , endNode, edgeID);
         edgeList.add(edge);
         System.out.println("Node added to object list...");
         try {
