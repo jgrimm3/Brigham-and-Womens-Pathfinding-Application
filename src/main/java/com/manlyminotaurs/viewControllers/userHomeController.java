@@ -17,12 +17,20 @@ public class userHomeController {
     @FXML
     Button btnLogout;
 
+    /**
+     * Log a user out of their kiosk session and return to the common landing screen
+     * @param event btnLogout pressed
+     */
     public void logOut(ActionEvent event){
         //logout and go back to landing page
 
         Main.setScreen(1); //go to landing screen
     }
 
+    /**
+     * Start a service request
+     * @param event btnMakeRequest pressed
+     */
     public void nurseRequestAction(ActionEvent event){
         Pane action = Main.setActionBars(0);
         action.setTranslateY(715);
@@ -30,6 +38,11 @@ public class userHomeController {
 
 
     }
+
+    /**
+     * Open directions actionBar item
+     * @param event btnDirections pressed
+     */
     public void directionAction(ActionEvent event){
         //open direction actionBar
         Pane action = Main.setActionBars(1);
