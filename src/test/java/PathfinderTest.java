@@ -1,3 +1,4 @@
+import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
@@ -18,11 +19,13 @@ public class PathfinderTest {
     private NodesEditor ne;
     private LinkedList<Node> fixture;
     Node node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, fakeNode;
+    private PathfinderUtil util;
 
     @Before
     public void createFixtures(){
         pf = new Pathfinder();
         ne = new NodesEditor();
+        util = new PathfinderUtil();
         ne.retrieveNodes();
         ne.retrieveEdges();
 
@@ -114,6 +117,14 @@ public class PathfinderTest {
         ArrayList<Edge> result = pf.getEdges(new ScoredNode(node11, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
         System.out.println(result.size());
         assertEquals(edgeFixture, result);
+    }
+
+    @Test
+    public void getDirection_WhenGiven2Nodes() {
+        ScoredNode sNode1 = new ScoredNode(node1, null, -1, -1, -1);
+        ScoredNode sNode2 = new ScoredNode(node2, null, -1, -1, -1);
+        String direction = util.angleToTurn(sNode1, sNode2);
+        assertEquals("left", direction);
     }
 }
 
