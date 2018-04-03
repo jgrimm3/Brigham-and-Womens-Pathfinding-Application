@@ -1,7 +1,6 @@
 package com.manlyminotaurs.nodes;
 
 public class Edge {
-
 	Node startNode;
 	Node endNode;
 	String edgeID;
@@ -45,5 +44,17 @@ public class Edge {
 	public int getStatus() {
 		return status;
 	}
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Edge)) {
+            return false;
+        }
+        Edge e = (Edge) o;
+        return e.edgeID.equals(this.edgeID);
+    }
 
 }
