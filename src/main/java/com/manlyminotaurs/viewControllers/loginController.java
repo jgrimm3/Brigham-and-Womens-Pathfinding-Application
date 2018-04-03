@@ -42,13 +42,28 @@ public class loginController {
 
     public void login(ActionEvent event) {
 
-        Main.removePrompt(0);
-        Main.removeScreen(1);
-        Main.removeAction(Main.getAction());
-        txtUser.clear();
-        txtPassword.clear();
-        //if user account
-        Main.setScreen(2); //go to landing screen}
+
+       if ((txtUser.getText().equals("user")) && (txtPassword.getText().equals("password"))){
+           Main.removePrompt(0);
+           Main.removeScreen(1);
+           Main.removeAction(Main.getAction());
+           txtUser.clear();
+           txtPassword.clear();
+           Main.setScreen(3);
+       }
+       else if ((txtUser.getText().equals( "admin")) && (txtPassword.getText().equals("password"))){
+           Main.removePrompt(0);
+           Main.removeScreen(1);
+           Main.removeAction(Main.getAction());
+           txtUser.clear();
+           txtPassword.clear();
+           Main.setScreen(2);
+       }
+       else{
+           lblWarning.setText("Incorrect UserName or Password Try Again");
+           txtPassword.clear();
+       }
+
     }
 
 }

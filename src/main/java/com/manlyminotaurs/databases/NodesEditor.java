@@ -1,6 +1,9 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,13 +18,15 @@ import java.util.Scanner;
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    public List<Node> nodeList = new ArrayList<>();
-    public List<Edge> edgeList = new ArrayList<>();
-
-    public List<Exit> exitList = new ArrayList<>();
-    private List<Room> roomList = new ArrayList<>();
-    public List<Hallway> hallwayList = new ArrayList<>();
-    private List<Transport> transportList = new ArrayList<>();
+    public static List<Node> nodeList = new ArrayList<>();
+    public static List<Edge> edgeList = new ArrayList<>();
+    public static List<Edge> messageList = new ArrayList<>();
+    public static List<Edge> requestList = new ArrayList<>();
+    public static List<Edge> userAccountList = new ArrayList<>();
+    public static List<Exit> exitList = new ArrayList<>();
+    public static List<Room> roomList = new ArrayList<>();
+    public static List<Hallway> hallwayList = new ArrayList<>();
+    public static List<Transport> transportList = new ArrayList<>();
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -40,8 +45,11 @@ public class NodesEditor {
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
 
-        nodesEditor.initTables();
-        nodesEditor.populateNodeEdgeTables();
+        initializer.initTables();
+        initializer.populateNodeEdgeTables();
+        initializer.populateUserAccountTable();
+        initializer.populateMessageTable();
+        initializer.populateRequestTable();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
         nodesEditor.populateExitTable();
@@ -49,12 +57,13 @@ public class NodesEditor {
         nodesEditor.populateRoomTable();
         nodesEditor.populateTransportTable();
 
-        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
-        nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
-        nodesEditor.updateExitCSVFile("./nodesDB/TestUpdateExitFile.csv");
-        nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
-        nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
-        nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
+      //TODO: Re-enter these functions with correct calls
+      //  nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
+      //  nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
+      //  nodesEditor.updateExitCSVFile("./nodesDB/TestUpdateExitFile.csv");
+      //  nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
+      //  nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
+      //  nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
         System.out.println("main function ended");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -298,6 +307,7 @@ public class NodesEditor {
             e.printStackTrace();
         }
     }
+
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
@@ -1064,5 +1074,51 @@ public class NodesEditor {
 
     public void setEdgeList(List<Edge> edgeList) {
         this.edgeList = edgeList;
+    }
+  
+   public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes){
+        ObservableList<String> buildings = FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+        iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(buildings.contains(a_node.getBuilding()) == false){
+                buildings.add(a_node.getBuilding());
+            }
+        }
+        return buildings;
+    }
+    public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
+        ObservableList<String> types= FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+       iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && types.contains(a_node.getNodeType()) == false){
+                types.add(a_node.getNodeType());
+            }
+        }
+        return types;
+    }
+
+   public ObservableList<String> getNodeFromList(String building, String type,List<Node> listOfNodes){
+        ObservableList<Node> selectedNodes = FXCollections.observableArrayList();
+        ObservableList<String> nodeNames = FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+        iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
+                selectedNodes.add(a_node);
+                nodeNames.add(a_node.getShortName());
+            }
+        }
+        return nodeNames;
     }
 } // end NodesEditor class
