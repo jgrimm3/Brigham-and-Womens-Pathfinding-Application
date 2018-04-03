@@ -10,9 +10,13 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
    <children>
       <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="148.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="878.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="60.0">
          <fill>
@@ -36,7 +40,18 @@
                   <Image url="@00_thelowerlevel2.png" />
                </image>
             </ImageView>
-            <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="680.0" prefWidth="1000.0" />
+            <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="680.0" prefWidth="1000.0">
+               <children>
+                  <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeType="INSIDE">
+                      <elements>
+                          <MoveTo />
+                          <LineTo x="1000.0" />
+                        <LineTo x="1000.0" y="680.0" />
+                        <LineTo y="680.0" />
+                          <ClosePath />
+                      </elements>
+                  </Path>
+               </children></Pane>
          </children>
       </AnchorPane>
       <TilePane alignment="CENTER" layoutX="330.0" layoutY="109.0" prefHeight="341.0" prefWidth="222.0" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="109.0">

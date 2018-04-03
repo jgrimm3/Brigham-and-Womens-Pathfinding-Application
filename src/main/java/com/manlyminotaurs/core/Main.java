@@ -35,13 +35,11 @@ public class Main extends Application {
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/landing.fxml"))); //landing page index 1
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminHome.fxml"))); //Admin page index 3
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/userHome.fxml"))); //Admin page index 4
-        //screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/interactiveMap.fxml"))); // interactive map page
 
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/userNrActionBar.fxml")));//0
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/directionsActionBar.fxml")));//1
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/editNodesActionBar.fxml")));//2
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/manageRequestsActionBar.fxml")));//3
-            //actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/interactiveMap.fxml"))); // 4
 
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
