@@ -50,11 +50,16 @@ public class PathfinderTest {
         fixture = new LinkedList<Node>();
     }
     @Test
-    public void Find_angleBetween3Nodes_ShouldReturnDirection() {
-        ScoredNode sNode1 = new ScoredNode(node5, null, -1, -1, -1);
-        ScoredNode sNode2 = new ScoredNode(node6, null, -1, -1, -1);
-        ScoredNode sNode3 = new ScoredNode(node7, null, -1, -1, -1);
-        assertEquals("not straight", pu.angleToText(sNode1, sNode2, sNode3));
+    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
+        ArrayList<String> fixture = new ArrayList<>();
+        fixture.add("not straight");
+        fixture.add("not straight");
+        fixture.add("not straight");
+        fixture.add("not straight");
+        //ScoredNode sNode1 = new ScoredNode(node5, null, -1, -1, -1);
+        //ScoredNode sNode2 = new ScoredNode(node6, null, -1, -1, -1);
+        //ScoredNode sNode3 = new ScoredNode(node7, null, -1, -1, -1);
+        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
     }
 
     @Test
