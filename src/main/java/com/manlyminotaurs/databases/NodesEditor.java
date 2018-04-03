@@ -415,9 +415,11 @@ public class NodesEditor {
                     // Add the new edge to the list
                     Node startNodeObject = getNodeFromList(startNode);
                     Node endNodeObject = getNodeFromList(endNode);
-                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
-                    edgeList.add(edge);
-                    System.out.println("Edge added to the list: "+edgeID);
+                    if(startNode != null && endNode != null) {
+                        edge = new Edge(startNodeObject, endNodeObject, edgeID);
+                        edgeList.add(edge);
+                        System.out.println("Edge added to the list: " + edgeID);
+                    }
                 }
                 rset.close();
                 stmt.close();
@@ -1046,7 +1048,7 @@ public class NodesEditor {
                 return a_node;
             }
         }
-        System.out.println("getNOdeFromList: Null-----------Something might break");
+        //System.out.println("getNdeFromList: Null-----------Something might break");
         return null;
     }
 
