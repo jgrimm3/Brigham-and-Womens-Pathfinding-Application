@@ -51,6 +51,10 @@ public class NodesEditor {
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
+        List<String> list_of_buildings = nodesEditor.getBuildingsFromList(nodeList);
+        List<String> list_of_types = nodesEditor.getTypesFromList("Shapiro",nodeList);
+        List<Node> list_of_selected_nodes = nodesEditor.getNodeFromList("Shapiro","DEPT",nodeList);
+
         csvFileControl.updateNodeCSVFile("./nodesDB/NodeFile.csv");
         csvFileControl.updateEdgeCSVFile("./nodesDB/EdgeFile.csv");
         csvFileControl.updateExitCSVFile("./nodesDB/NodeExitFile.csv");
@@ -595,5 +599,50 @@ public class NodesEditor {
 
     public void setEdgeList(List<Edge> edgeList) {
         this.edgeList = edgeList;
+    }
+
+    List<String> getBuildingsFromList(List<Node> listOfNodes){
+        List<String> buildings = new ArrayList<String>();
+        Iterator<Node> iterator = listOfNodes.iterator();
+        iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(buildings.contains(a_node.getBuilding()) == false){
+                buildings.add(a_node.getBuilding());
+            }
+        }
+        return buildings;
+    }
+
+    List<String> getTypesFromList(String building, List<Node> listOfNodes){
+        List<String> types= new ArrayList<String>();
+        Iterator<Node> iterator = listOfNodes.iterator();
+        iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && types.contains(a_node.getNodeType()) == false){
+                types.add(a_node.getNodeType());
+            }
+        }
+        return types;
+    }
+
+    List<Node> getNodeFromList(String building, String type,List<Node> listOfNodes){
+        List<Node> selectedNodes = new ArrayList<Node>();
+        Iterator<Node> iterator = listOfNodes.iterator();
+        iterator.next(); // get rid of the header
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
+                selectedNodes.add(a_node);
+            }
+        }
+        return selectedNodes;
     }
 } // end NodesEditor class

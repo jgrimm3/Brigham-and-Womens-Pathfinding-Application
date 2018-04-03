@@ -260,9 +260,11 @@ public class TableInitializer {
         CsvFileController csvFileControl = new CsvFileController();
         List<String[]> listOfNodes = csvFileControl.parseCsvFile(csvFileName);
         if(listOfNodes != null){
+            System.out.println("populateHallwayTableFromCsv");
             populateHallwayTableFromCsv(listOfNodes);
         }
         else{
+            System.out.println("populateHallwayTableFromList");
             populateHallwayTableFromList();
         }
     }
