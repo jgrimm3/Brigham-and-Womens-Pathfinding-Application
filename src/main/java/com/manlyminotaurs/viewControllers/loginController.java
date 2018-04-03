@@ -39,12 +39,20 @@ public class loginController implements Initializable{
     @FXML
     Label lblWarning;
 
-
+    /**
+     *
+     *
+     *
+     * @param event btnBack pressed
+     */
     public void back(ActionEvent event) {
         Main.removePrompt(0);
     }
 
-
+    /**
+     * Logs in the user according to their permissions level
+     * @param event login button pressed
+     */
     public void login(ActionEvent event) {
 
 

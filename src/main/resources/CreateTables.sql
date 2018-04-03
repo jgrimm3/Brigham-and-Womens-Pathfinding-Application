@@ -56,19 +56,17 @@ Create Table Request (
   priority      INTEGER,
   isComplete    BOOLEAN,
   adminConfirm  BOOLEAN,
-  nodeID        VARCHAR(10) UNIQUE,
-  employeeID      VARCHAR(10) UNIQUE,
+  nodeID        VARCHAR(10),
   messageID     VARCHAR(10) UNIQUE,
   CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Request(messageID),
-  CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID),
-  CONSTRAINT fk_request_employeeID FOREIGN KEY (employeeID) REFERENCES UserAccount(userID));
+  CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID));
 
 Create Table Message (
   messageID     VARCHAR(255) PRIMARY KEY,
   message       VARCHAR(255),
   isRead        BOOLEAN,
-  senderID      VARCHAR(10) UNIQUE,
-  receiverID    VARCHAR(10) UNIQUE,
+  senderID      VARCHAR(10),
+  receiverID    VARCHAR(10),
   
   CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID),
   CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID));

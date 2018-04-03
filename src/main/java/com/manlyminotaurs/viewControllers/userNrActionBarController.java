@@ -57,6 +57,10 @@ public class userNrActionBarController implements Initializable{
         }
     }
 
+    /**
+     * Complete service requestS
+     * @param event btnCompleteRequest pressed
+     */
     public void promptCompleteRequest(ActionEvent event){
         requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
         selectedRequestID = selectedRequest.requestID;
@@ -64,11 +68,19 @@ public class userNrActionBarController implements Initializable{
         Main.addPrompt(1); //go to complete request
     }
 
+    /**
+     *
+     * @param event btnDeleteRequest pressed
+     */
     public void promptDeleteRequest(ActionEvent event) {
         // assuming that a request has been selected from the table,
         // the request will be deleted
     }
 
+    /**
+     *
+     * @param event btnReqNurse pressed
+     */
     public void requestNurse(ActionEvent event) {
         System.out.println(txtCustomRequest.getText());
         reqUtil.addRequest("ReqNurse", 5, kiosk.getKioskLocation().getID(), txtCustomRequest.getText(), kiosk.getUser());

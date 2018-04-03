@@ -198,7 +198,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateMessageCSVFile(String csvFileName) {
-        Iterator<Message> iterator = nodesEditor.messageList.iterator();
+        Iterator<Message> iterator = MessagesDBUtil.messageList.iterator();
         System.out.println("Updating message csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -221,15 +221,15 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRequestCSVFile(String csvFileName) {
-        Iterator<Request> iterator = nodesEditor.requestList.iterator();
+        Iterator<Request> iterator = RequestsDBUtil.requestList.iterator();
         System.out.println("Updating request csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID\n");
+            printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID\n");
             while (iterator.hasNext()) {
                 Request a_request = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(),a_request.getNodeID(),a_request.getMessageID());
+                printWriter.printf("%s,%s,%d,%b,%b,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(),a_request.getNodeID(),a_request.getMessageID());
             }
             printWriter.close();
             System.out.println("csv file updated");
