@@ -1,6 +1,13 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.messaging.Message;
+import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.Patient;
+import com.manlyminotaurs.users.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,13 +22,19 @@ import java.util.Scanner;
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    public List<Node> nodeList = new ArrayList<>();
-    public List<Edge> edgeList = new ArrayList<>();
+    public static List<Node> nodeList = new ArrayList<>();
+    public static List<Edge> edgeList = new ArrayList<>();
 
-    public List<Exit> exitList = new ArrayList<>();
-    private List<Room> roomList = new ArrayList<>();
-    public List<Hallway> hallwayList = new ArrayList<>();
-    private List<Transport> transportList = new ArrayList<>();
+    public static List<Message> messageList = new ArrayList<>();
+    public static List<Request> requestList = new ArrayList<>();
+    public static List<User> userList = new ArrayList<>();
+
+    public static List<Exit> exitList = new ArrayList<>();
+    public static List<Room> roomList = new ArrayList<>();
+    public static List<Hallway> hallwayList = new ArrayList<>();
+    public static List<Transport> transportList = new ArrayList<>();
+
+    int nodeIDGeneratorCount = 200;
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -40,21 +53,34 @@ public class NodesEditor {
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
 
-        nodesEditor.initTables();
-        nodesEditor.populateNodeEdgeTables();
+        initializer.initTables();
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
+        initializer.populateMessageTable("./nodesDB/MessageTable.csv");
+        initializer.populateRequestTable("./nodesDB/RequestTable.csv");
+
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-        nodesEditor.populateExitTable();
-        nodesEditor.populateHallwayTable();
-        nodesEditor.populateRoomTable();
-        nodesEditor.populateTransportTable();
 
-        nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
-        nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
-        nodesEditor.updateExitCSVFile("./nodesDB/TestUpdateExitFile.csv");
-        nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
-        nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
-        nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
+        nodesEditor.retrieveMessage();
+        nodesEditor.retrieveRequest();
+        nodesEditor.retrieveUser();
+
+        initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
+        initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
+        initializer.populateRoomTable();
+        initializer.populateTransportTable();
+
+//        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
+//        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
+//        csvFileControl.updateMessageCSVFile("./nodesDB/MessageTable.csv");
+//        csvFileControl.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
+//        csvFileControl.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
+//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
+//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
+//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
+//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
+
         System.out.println("main function ended");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
@@ -298,6 +324,7 @@ public class NodesEditor {
             e.printStackTrace();
         }
     }
+
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
@@ -436,10 +463,151 @@ public class NodesEditor {
     /*---------------------------------- Insert values into database ---------------------------------------------------*/
 
     /**
-     * Populate the database tables from the csv files
-     */
-    public void populateNodeEdgeTables() {
+       * Creates a list of objects and stores them in the global variable messageList
+       */
+    public void retrieveMessage() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
 
+            // Variables
+            Message messageObject;
+            Node node;
+            String messageID;
+            String message;
+            Boolean isRead;
+            String senderID;
+            String receiverID;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM Message";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    messageID = rset.getString("messageID");
+                    message = rset.getString("message");
+                    isRead = rset.getBoolean("isRead");
+                    senderID =rset.getString("senderID");
+                    receiverID = rset.getString("receiverID");
+
+                    // Add the new edge to the list
+                    messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                    messageList.add(messageObject);
+                    System.out.println("Message added to the list: "+messageID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding Messages");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveMessage() ends
+
+    /**
+     *  get data from request table in database and put them into the list of request objects
+     */
+    public void retrieveRequest() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            Request requestObject;
+            String requestID;
+            String requestType;
+            int priority;
+            Boolean isComplete;
+            Boolean adminConfirm;
+            String nodeID;
+            String employeeID;
+            String messageID;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM Request";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    requestID = rset.getString("requestID");
+                    requestType = rset.getString("requestType");
+                    priority = rset.getInt("priority");
+                    isComplete =rset.getBoolean("isComplete");
+                    adminConfirm = rset.getBoolean("adminConfirm");
+                    nodeID = rset.getString("nodeID");
+                    employeeID = rset.getString("employeeID");
+                    messageID = rset.getString("messageID");
+
+                    // Add the new edge to the list
+                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID);
+                    requestList.add(requestObject);
+                    System.out.println("Request added to the list: "+requestID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding Requests");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveRequest() ends
+
+    /**
+     *  get data from UserAccount table in database and put them into the list of request objects
+     */
+    public void retrieveUser() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            User userObject;
+            String userID;
+            String firstName;
+            String middleInitial;
+            String lastName;
+            String language;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM UserAccount";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    userID = rset.getString("userID");
+                    firstName = rset.getString("firstName");
+                    middleInitial = rset.getString("middleInitial");
+                    lastName = rset.getString("lastName");
+                    language = rset.getString("language");
+
+                    // Add the new edge to the list
+                    userObject = new Patient(userID,firstName,middleInitial,lastName,language);
+                    userList.add(userObject);
+                    System.out.println("User added to the list: "+userID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding users");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveUser() ends
+  
+    public void populateNodeEdgeTables() {
         // Make sure we aren't ruining the database
         Scanner scanner = new Scanner(System.in);
         System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
@@ -666,12 +834,37 @@ public class NodesEditor {
     }
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
+
     /**
      * Adds the java object and the corresponding entry in the database table
-     * @param node the node to be added to the database
+     * @param longName
+     * @param shortName
+     * @param ID
+     * @param nodeType
+     * @param xcoord
+     * @param ycoord
+     * @param floor
+     * @param building
      */
-    public void addNode(Node node)
+    public void addNode(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building)
     {
+        Node node;
+        if(nodeType.equals("HALL")) {
+            node = new Hallway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("ELEV")) {
+            node = new Elevator(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("STAI")){
+            node = new Stairway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("EXIT")) {
+            node = new Exit(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else {
+            node = new Room(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+
         nodeList.add(node);
         System.out.println("Node added to object list...");
         try {
@@ -687,7 +880,7 @@ public class NodesEditor {
             statement.setInt(2, node.getXCoord());
             statement.setInt(3, node.getYCoord());
             statement.setString(4, node.getFloor());
-            statement.setString(5, "" + node.getBuilding());
+            statement.setString(5, node.getBuilding());
             statement.setString(6, node.getNodeType());
             statement.setString(7, node.getLongName());
             statement.setString(8, node.getShortName());
@@ -916,12 +1109,15 @@ public class NodesEditor {
     } // removeNode
 
     /*---------------------------------------- Add/delete/edit edges -------------------------------------------------*/
+
     /**
      * Adds the java object and the corresponding entry in the database table
-     * @param edge the node to be added to the database
+     * @param startNode
+     * @param endNode
      */
-    public void addEdge(Edge edge)
-    {
+    public void addEdge(Node startNode, Node endNode) {
+        String edgeID = startNode.getID() + "_" + endNode.getID();
+        Edge edge = new Edge(startNode , endNode, edgeID);
         edgeList.add(edge);
         System.out.println("Node added to object list...");
         try {
@@ -1067,4 +1263,91 @@ public class NodesEditor {
     public void setEdgeList(List<Edge> edgeList) {
         this.edgeList = edgeList;
     }
+  
+   public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes){
+        ObservableList<String> buildings = FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(buildings.contains(a_node.getBuilding()) == false){
+                buildings.add(a_node.getBuilding());
+            }
+        }
+        return buildings;
+    }
+  
+  public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
+        ObservableList<String> types= FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+       iterator.next(); // get rid of the header
+  
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && types.contains(a_node.getNodeType()) == false){
+                types.add(a_node.getNodeType());
+            }
+        }
+        return types;
+    }
+
+   public ObservableList<String> getNodeFromList(String building, String type,List<Node> listOfNodes){
+        ObservableList<Node> selectedNodes = FXCollections.observableArrayList();
+        ObservableList<String> nodeNames = FXCollections.observableArrayList();
+        Iterator<Node> iterator = listOfNodes.iterator();
+
+        //insert rows
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
+                selectedNodes.add(a_node);
+                nodeNames.add(a_node.getShortName());
+            }
+        }
+        return nodeNames;
+    }
+
+    /**
+     * used to generate unique nodeID when adding a new node on the map
+     * @param nodeType
+     * @param floor
+     * @param elevatorLetter
+     * @return
+     */
+    String nodeIDGenerator(String TeamLetter, String nodeType, String floor, String elevatorLetter){
+        String nodeID = TeamLetter; // change this later
+        nodeID += nodeType;
+
+        if(nodeType.equals("ELEV")){
+            if(elevatorLetter == null || elevatorLetter.equals("")){
+                System.out.println("elevator exception happened!!!!!");
+                return "ERROR";
+            }
+            else {
+                nodeID = nodeID + "00" + elevatorLetter;
+            }
+        }
+        else{
+            nodeID += Integer.toString(nodeIDGeneratorCount);
+            nodeIDGeneratorCount++;
+        }
+
+        if(floor.equals("1")){
+            nodeID +="01";
+        }
+        else if(floor.equals("2")){
+            nodeID +="02";
+        }
+        else if(floor.equals("3")){
+            nodeID +="03";
+        }
+        else{
+            nodeID +=floor;
+        }
+        return nodeID;
+    }
+
+
 } // end NodesEditor class
