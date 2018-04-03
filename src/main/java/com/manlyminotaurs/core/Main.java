@@ -41,7 +41,6 @@ public class Main extends Application {
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/editNodesActionBar.fxml")));//2
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/manageRequestsActionBar.fxml")));//3
 
-
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminNurseSend.fxml"))); //login prompt index 2
