@@ -317,7 +317,7 @@ public class NodesEditor {
     } // retrieveRequest() ends
 
     /**
-     *  get data from request table in database and put them into the list of request objects
+     *  get data from UserAccount table in database and put them into the list of request objects
      */
     public void retrieveUser() {
         try {
@@ -366,10 +366,27 @@ public class NodesEditor {
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
     /**
      * Adds the java object and the corresponding entry in the database table
-     * @param node the node to be added to the database
+     *
      */
-    public void addNode(Node node)
+    public void addNode(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building)
     {
+        Node node;
+        if(nodeType.equals("HALL")) {
+            node = new Hallway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("ELEV")) {
+            node = new Elevator(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("STAI")){
+            node = new Stairway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else if(nodeType.equals("EXIT")) {
+            node = new Exit(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+        else {
+            node = new Room(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+        }
+
         nodeList.add(node);
         System.out.println("Node added to object list...");
         try {
@@ -618,8 +635,7 @@ public class NodesEditor {
      * Adds the java object and the corresponding entry in the database table
      * @param edge the node to be added to the database
      */
-    public void addEdge(Edge edge)
-    {
+    public void addEdge(Edge edge) {
         edgeList.add(edge);
         System.out.println("Node added to object list...");
         try {
@@ -818,7 +834,7 @@ public class NodesEditor {
      * @return
      */
     String nodeIDGenerator(String TeamLetter, String nodeType, String floor, String elevatorLetter){
-        String nodeID = "G"; // change this later
+        String nodeID = TeamLetter; // change this later
         nodeID += nodeType;
 
         if(nodeType.equals("ELEV")){
