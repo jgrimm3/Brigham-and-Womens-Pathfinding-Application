@@ -1,4 +1,3 @@
-import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
@@ -49,6 +48,7 @@ public class PathfinderTest {
 
         fixture = new LinkedList<Node>();
     }
+
     @Test
     public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
         ArrayList<String> fixture = new ArrayList<>();
