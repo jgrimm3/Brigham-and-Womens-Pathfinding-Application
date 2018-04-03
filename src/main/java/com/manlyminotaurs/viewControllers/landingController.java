@@ -19,6 +19,15 @@ import java.util.List;
 
 public class landingController {
 
+    final double NODEXMIN = 0;
+    final double NODEXMAX = 5000;
+    final double NODEYMIN = 0;
+    final double NODEYMAX = 2774;
+    final double NEWMAPXMIN = 0;
+    final double NEWMAPXMAX = 1250;
+    final double NEWMAPYMIN = 0;
+    final double NEWMAPYMAX = 693.8;
+
     @FXML
     Button btnLogin;
 
@@ -92,14 +101,7 @@ public class landingController {
         nodeList = nodeEditor.nodeList;
 
         // map boundaries
-        final double NODEXMIN = 0;
-        final double NODEXMAX = 5000;
-        final double NODEYMIN = 0;
-        final double NODEYMAX = 3400;
-        final double NEWMAPXMIN = 0;
-        final double NEWMAPXMAX = 1000;
-        final double NEWMAPYMIN = 0;
-        final double NEWMAPYMAX = 680;
+
         int i = 0;
         // Iterate through each node
         while(i < nodeList.size()) {
@@ -112,11 +114,17 @@ public class landingController {
                 int y = nodeList.get(i).getYCoord();
 
                 // Translate onto our size map
-                double newX = map(x, NODEXMIN, NODEXMAX, NEWMAPXMIN, NEWMAPXMAX);
-                double newY = map(y, NODEYMIN, NODEYMAX, NEWMAPYMIN, NEWMAPYMAX);
+                //double newX = map(x, NODEXMIN, NODEXMAX, NEWMAPXMIN, NEWMAPXMAX);
+                //double newY = map(y, NODEYMIN, NODEYMAX, NEWMAPYMIN, NEWMAPYMAX);
+
+                // Translate onto 3D map
+                // X: 99.9
+                // Y: -18.4
+                // Z: 77.2
+
 
                 // draw the point on the image
-                circle = new Circle(newX, newY, 2);
+                circle = new Circle(x, y, 2);
                 circle.setFill(Color.DARKRED);
                 pane.getChildren().add(circle);
             }
@@ -130,13 +138,13 @@ public class landingController {
 
             // get the start point
             // Map the x and y coords onto our map
-            moveTo.setX(map(startNode.getXCoord(), 0, 5000, 0, 1000));
-            moveTo.setY(map(startNode.getYCoord(), 0, 3400, 0, 680));
+            moveTo.setX(startNode.getXCoord());//, NODEXMIN, NODEXMAX, NEWMAPXMIN, NEWMAPXMAX));
+            moveTo.setY(startNode.getYCoord());// NODEYMIN, NODEYMAX, NEWMAPYMIN, NEWMAPYMAX));
 
             // Draw to end point
             // Map the x and y coords onto our map
-            lineTo.setX(map(endNode.getXCoord(), 0, 5000, 0, 1000));
-            lineTo.setY(map(endNode.getYCoord(), 0, 3400, 0, 680));
+            lineTo.setX(endNode.getXCoord());// NODEXMIN, NODEXMAX, NEWMAPXMIN, NEWMAPXMAX));
+            lineTo.setY(endNode.getYCoord());// NODEYMIN, NODEYMAX, NEWMAPYMIN, NEWMAPYMAX));
 
             // add the elements to the path
             path.getElements().add(moveTo);
