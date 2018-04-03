@@ -71,16 +71,18 @@ public class Pathfinder {
 
     /**
      * Finds all the other nodes connected by edges to given node
-     * @param node
+     * @param sNode
      * @return children
      */
-    ArrayList<ScoredNode> expandNode(ScoredNode node, ArrayList<Edge> edges){
+    ArrayList<ScoredNode> expandNode(ScoredNode sNode, ArrayList<Edge> edges){
         ArrayList<ScoredNode> children = new ArrayList<>();
-        ArrayList<Edge> childEdges = getEdges(node, edges);
+        ArrayList<Edge> childEdges = getEdges(sNode, edges);
         for (Edge edge: childEdges){
-            // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
-            ScoredNode scoredChild = new ScoredNode(findOtherNode(edge, node), node, -1, -1, -1);
-            children.add(scoredChild);
+            if(isValidNode(sNode)){
+                // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
+                ScoredNode scoredChild = new ScoredNode(findOtherNode(edge, sNode), sNode, -1, -1, -1);
+                children.add(scoredChild);
+            }
         }
         return children;
     }
@@ -246,6 +248,15 @@ public class Pathfinder {
         }
         return nodeEdges;
     }
+
+    /**
+     * Checks to see if A* is allowed to route through the given node
+     * @param sNode
+     * @return True if allowed to visit node, false if not
+     */
+    boolean isValidNode(ScoredNode sNode){
+        return sNode.getNode().getStatus() == 1;
+    };
 
 
 }

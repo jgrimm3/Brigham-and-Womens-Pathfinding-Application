@@ -51,18 +51,7 @@ public class PathfinderTest {
     }
 
     @Test
-    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
-        ArrayList<String> fixture = new ArrayList<>();
-        fixture.add("Turn left at Staircase Node 13 Floor 1");
-        fixture.add("Turn left at Hallway Node 6 Floor 1");
-        fixture.add("Turn right at Hallway Node 7 Floor 1");
-        fixture.add("Continue straight at Hallway Node 8 Floor 1");
-        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
-    }
-
-
-    @Test
-    public void Find_WhenOnlyOneNode_ShouldReturnNode(){
+    public void Find_WhenStartAndEndNodesAreSame_ShouldReturnNode(){
         fixture.add(node1);
 
         LinkedList<Node> result = pf.find(node1, node1);
@@ -70,7 +59,7 @@ public class PathfinderTest {
     }
 
     @Test
-    public void Find_WhenOnlyTwoNodes_ShouldReturnPath(){
+    public void Find_WhenStartAndEndNodesAreOnSameEdge_ShouldReturnPath(){
         fixture.add(node1);
         fixture.add(node2);
 
@@ -117,6 +106,16 @@ public class PathfinderTest {
         System.out.println(result.get(0).getStartNode().getID());
         System.out.println(result.get(0).getEndNode().getID());
         assertEquals(edgeFixture, result);
+    }
+
+    @Test
+    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
+        ArrayList<String> fixture = new ArrayList<>();
+        fixture.add("Turn left at Staircase Node 13 Floor 1");
+        fixture.add("Turn left at Hallway Node 6 Floor 1");
+        fixture.add("Turn right at Hallway Node 7 Floor 1");
+        fixture.add("Continue straight at Hallway Node 8 Floor 1");
+        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
     }
 
     @Test
