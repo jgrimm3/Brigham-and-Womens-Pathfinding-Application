@@ -81,7 +81,7 @@ public class TableInitializer {
     /**
      * Populate the database tables from the csv files
      */
-    public void populateNodeEdgeTables() {
+    public void populateNodeEdgeTables(String CsvNodeFileName, String CsvEdgeFileName) {
 
         // Make sure we aren't ruining the database
         Scanner scanner = new Scanner(System.in);
@@ -95,8 +95,8 @@ public class TableInitializer {
                 CsvFileController csvFileControl = new CsvFileController();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = csvFileControl.parseCsvFile("./nodesDB/MapGnodes.csv");
-                list_of_edges = csvFileControl.parseCsvFile("./nodesDB/MapGedges.csv");
+                list_of_nodes = csvFileControl.parseCsvFile(CsvNodeFileName);
+                list_of_edges = csvFileControl.parseCsvFile(CsvEdgeFileName);
 
                 // Get the database connection
                 Connection connection;
@@ -407,11 +407,11 @@ public class TableInitializer {
         }
     }// populateTransportTable Ends
 
-    public void populateMessageTable() {
+    public void populateMessageTable(String CsvFileName) {
         try {
             // parse MessageTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
-            List<String[]> messageList = csvFileControl.parseCsvFile("./nodesDB/MessageTable.csv");
+            List<String[]> messageList = csvFileControl.parseCsvFile(CsvFileName);
 
             // Get the database connection
             Connection connection;
@@ -438,11 +438,11 @@ public class TableInitializer {
         }
     }
 
-    public void populateUserAccountTable() {
+    public void populateUserAccountTable(String CsvFileName) {
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
-            List<String[]> userAccountList = csvFileControl.parseCsvFile("./nodesDB/UserAccountTable.csv");
+            List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
 
             // Get the database connection
             Connection connection;
@@ -469,11 +469,11 @@ public class TableInitializer {
         }
     }
 
-    public void populateRequestTable() {
+    public void populateRequestTable(String CsvFileName) {
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
-            List<String[]> userAccountList = csvFileControl.parseCsvFile("./nodesDB/RequestTable.csv");
+            List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
 
             // Get the database connection
             Connection connection;

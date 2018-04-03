@@ -1,6 +1,9 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.messaging.Message;
+import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.User;
 
 import java.io.*;
 import java.sql.Connection;
@@ -189,4 +192,73 @@ public class CsvFileController {
             e.printStackTrace();
         }
     }//updateTransportCSVFile ends
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateMessageCSVFile(String csvFileName) {
+        Iterator<Message> iterator = nodesEditor.messageList.iterator();
+        System.out.println("Updating message csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("messageID,message,isRead,senderID,receiverID\n");
+            while (iterator.hasNext()) {
+                Message a_message = iterator.next();
+                printWriter.printf("%s,%s,%b,%s,%s\n", a_message.getMessageID(), a_message.getMessage(), a_message.getRead(), a_message.getSenderID(), a_message.getReceiverID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updateMessageCSVFile ends
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateRequestCSVFile(String csvFileName) {
+        Iterator<Request> iterator = nodesEditor.requestList.iterator();
+        System.out.println("Updating request csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID\n");
+            while (iterator.hasNext()) {
+                Request a_request = iterator.next();
+                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(),a_request.getNodeID(),a_request.getEmployeeID(),a_request.getMessageID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updateRequestCSVFile ends
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateUserCSVFile(String csvFileName) {
+        Iterator<User> iterator = nodesEditor.userList.iterator();
+        System.out.println("Updating user csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("userID,firstName,middleInitial,lastName,language\n");
+            while (iterator.hasNext()) {
+                User a_user = iterator.next();
+                printWriter.printf("%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleInitial(),a_user.getLastName(),a_user.getLanguage());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updateUserCSVFile ends
 }
