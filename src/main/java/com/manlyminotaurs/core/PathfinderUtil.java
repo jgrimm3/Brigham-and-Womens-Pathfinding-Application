@@ -18,22 +18,20 @@ public class PathfinderUtil {
      * @param node3: Node 3
      * @return angle between node 1 and node 3
      */
-        public double calcAngle(Node node1, Node node2, Node node3) {
+        public int calcAngle(Node node1, Node node2, Node node3) {
             double n1x = node1.getXCoord();
             double n1y = node1.getYCoord();
             double n2x = node2.getXCoord();
             double n2y = node2.getYCoord();
             double n3x = node3.getXCoord();
             double n3y = node3.getYCoord();
-            double sideA = Math.hypot(n3x-n2x, n3y-n2y);
-            double sideB = Math.hypot(n3x-n1x, n3y-n1y);
-            double sideC = Math.hypot(n2x-n1x, n2y-n1y);
-            double angleEq = ((sideA*sideA)+(sideC*sideC)-(sideB*sideB))/(2*sideA*sideC);
-            double angle = Math.acos(angleEq)*(180/Math.PI);
-            System.out.println("Angle: " + (int)angle + " Degrees");
-            return angle;
-        }
+            double angle1 = Math.atan2(n1y-n2y, n1x-n2x);
+            double angle2 = Math.atan2(n2y-n3y, n2x-n3x);
+            double finalAngle = (angle2-angle1)*(180/Math.PI);
+            System.out.println("Angle: " + finalAngle + " Degrees");
+            return (int) finalAngle;
 
+        }
     /**
      * associates direction to corresponding angle for each node in list
      *
