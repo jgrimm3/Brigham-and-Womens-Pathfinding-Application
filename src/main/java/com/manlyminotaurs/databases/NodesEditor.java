@@ -33,6 +33,8 @@ public class NodesEditor {
     public static List<Room> roomList = new ArrayList<>();
     public static List<Hallway> hallwayList = new ArrayList<>();
     public static List<Transport> transportList = new ArrayList<>();
+
+    int nodeIDGeneratorCount = 200;
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -69,7 +71,6 @@ public class NodesEditor {
         initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
         initializer.populateRoomTable();
         initializer.populateTransportTable();
-
 
 //        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
 //        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
@@ -808,4 +809,46 @@ public class NodesEditor {
         }
         return nodeNames;
     }
+
+    /**
+     * used to generate unique nodeID when adding a new node on the map
+     * @param nodeType
+     * @param floor
+     * @param elevatorLetter
+     * @return
+     */
+    String nodeIDGenerator(String TeamLetter, String nodeType, String floor, String elevatorLetter){
+        String nodeID = "G"; // change this later
+        nodeID += nodeType;
+
+        if(nodeType.equals("ELEV")){
+            if(elevatorLetter == null || elevatorLetter.equals("")){
+                System.out.println("elevator exception happened!!!!!");
+                return "ERROR";
+            }
+            else {
+                nodeID = nodeID + "00" + elevatorLetter;
+            }
+        }
+        else{
+            nodeID += Integer.toString(nodeIDGeneratorCount);
+            nodeIDGeneratorCount++;
+        }
+
+        if(floor.equals("1")){
+            nodeID +="01";
+        }
+        else if(floor.equals("2")){
+            nodeID +="02";
+        }
+        else if(floor.equals("3")){
+            nodeID +="03";
+        }
+        else{
+            nodeID +=floor;
+        }
+        return nodeID;
+    }
+
+
 } // end NodesEditor class
