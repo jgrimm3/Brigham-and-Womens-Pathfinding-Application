@@ -16,7 +16,7 @@ public class Pathfinder {
      *
      * @param startNode
      * @param endNode
-     * @return
+     * @retur LinkedList<Node>
      */
     public LinkedList<Node> find(Node startNode, Node endNode) {
 
@@ -45,6 +45,8 @@ public class Pathfinder {
      * @return
      */
     LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
+        /* check for edgeless-node */
+        if (startNode.getNode() == null) { return null; }
         if (startNode.getNode().equals(endNode.getNode())) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode, edges);
 
@@ -142,6 +144,10 @@ public class Pathfinder {
 
     LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
         LinkedList<Node> strippedNodes = new LinkedList<>();
+        if (scoredNodes == null) {
+            System.out.println("ERROR: No Edges fot this node!");
+            return null;
+        }
         for(ScoredNode scoredNode: scoredNodes){
             strippedNodes.add(scoredNode.getNode());
         }
@@ -156,6 +162,10 @@ public class Pathfinder {
      */
 
     LinkedList<ScoredNode> getNodeTrail(ScoredNode node){
+        if (node.getNode() == null) {
+            System.out.println("ERROR: No Edges fot this node!");
+            return null;
+        }
         LinkedList<ScoredNode> nodeTrail = new LinkedList<>();
         while(!(node.getParent() == null)){
             nodeTrail.addFirst(node);

@@ -12,14 +12,12 @@ import com.manlyminotaurs.nodes.Edge;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class PathfinderTest {
     private Pathfinder pf;
     private NodesEditor ne;
     private LinkedList<Node> fixture;
-    Node node1;
-    Node node2;
-    Node node3;
-    Node node4;
+    Node node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, fakeNode;
 
     @Before
     public void createFixtures(){
@@ -32,7 +30,17 @@ public class PathfinderTest {
         node2 = ne.getNodeFromList("GDEPT01901");
         node3 = ne.getNodeFromList("GELEV00Q01");
         node4 = ne.getNodeFromList("GHALL01701");
-
+        /* used in 'Find_WhenManyNodesWithBranching_ShouldReturnPath()' */
+        node5 = ne.getNodeFromList("GHALL00201");
+        node6 = ne.getNodeFromList("GEXIT00101");
+        node7 = ne.getNodeFromList("GSTAI01301");
+        node8 = ne.getNodeFromList("GHALL00601");
+        node9 = ne.getNodeFromList("GHALL00701");
+        node10 = ne.getNodeFromList("GHALL00801");
+        node11 = ne.getNodeFromList("GHALL01401");
+        node12 = ne.getNodeFromList("GHALL01501");
+        /* used in 'Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG()' */
+        fakeNode = ne.getNodeFromList("GZQ111000");
 
 
         fixture = new LinkedList<Node>();
@@ -67,14 +75,45 @@ public class PathfinderTest {
     }
 
     @Test
+    public void Find_WhenManyNodesWithBranching_ShouldReturnPath(){
+        fixture.add(node5);
+        fixture.add(node6);
+        fixture.add(node7);
+        fixture.add(node8);
+        fixture.add(node9);
+        fixture.add(node10);
+
+        LinkedList<Node> result = pf.find(node5, node10);
+        assertEquals(fixture, result);
+    }
+
+    @Test
+    public void Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG(){
+        LinkedList<Node> result = pf.find(fakeNode, node1);
+        assertEquals(null, result);
+    }
+
+    @Test
     public void GetEdges_WhenGivenNodeWithOneEdge_ShouldReturnThatEdge(){
         LinkedList<Edge> edgeFixture = new LinkedList<>();
         Edge testEdge = new Edge(node2, node1, "GDEPT01901_GCONF02001");
-
         edgeFixture.add(testEdge);
         ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
+        System.out.println(result.get(0).getStartNode().getID());
+        System.out.println(result.get(0).getEndNode().getID());
         assertEquals(edgeFixture, result);
     }
 
+    @Test
+    public void GetEdges_WhenGivenNodeWithMultipleEdges_ShouldReturnEdgeList(){
+        LinkedList<Edge> edgeFixture = new LinkedList<>();
+        Edge testEdge = new Edge(node11, node10, "GHALL01401_GHALL00801");
+        Edge testEdge2 = new Edge(node11, node12, "GHALL01401_GHALL01501");
+        edgeFixture.add(testEdge);
+        edgeFixture.add(testEdge2);
+        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node11, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
+        System.out.println(result.size());
+        assertEquals(edgeFixture, result);
+    }
 }
 
