@@ -52,7 +52,7 @@ public class NodesEditor {
 
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
-
+        TableInitializer initializer = new TableInitializer();
         initializer.initTables();
         initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
