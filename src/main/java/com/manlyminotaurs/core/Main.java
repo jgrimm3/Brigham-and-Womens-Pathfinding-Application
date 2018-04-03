@@ -46,6 +46,11 @@ public class Main extends Application {
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminNurseSend.fxml"))); //login prompt index 2
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/addCoordinate.fxml"))); //login prompt index 3
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/editCoordinate.fxml"))); //login prompt index 4
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeConfirmation.fxml"))); //login prompt index 5
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeSelection.fxml"))); //login prompt index 6
+
+
 
         root.getChildren().add(screens.get(0));
 

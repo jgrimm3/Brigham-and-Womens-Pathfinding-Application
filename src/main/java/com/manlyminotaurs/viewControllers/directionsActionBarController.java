@@ -59,15 +59,15 @@ public class directionsActionBarController {
     ListView<String> lstendLocation;
 
 
-    public  void checkStartEnd(ActionEvent event){
-    if(lblEnd.getText().equals("End Location")) {
-        lblEnd.setText("PLease Select Destination");
-    }
-        else{
-            //pathfind
-            }
+    public void checkStartEnd(ActionEvent event){
 
-}
+        if(lblEnd.getText().equals("End Location")) {
+            lblEnd.setText("Please Select Destination");
+        } else{
+            //pathfind
+        }
+
+    }
 
     public void getStartLocation(String location){
         startLocation = location;
