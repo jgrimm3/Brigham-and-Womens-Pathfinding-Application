@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.Kiosk;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,6 +50,7 @@ public class loginController {
            Main.removeAction(Main.getAction());
            txtUser.clear();
            txtPassword.clear();
+           new Kiosk().setUser("user");
            Main.setScreen(3);
        }
        else if ((txtUser.getText().equals( "admin")) && (txtPassword.getText().equals("password"))){
@@ -57,6 +59,7 @@ public class loginController {
            Main.removeAction(Main.getAction());
            txtUser.clear();
            txtPassword.clear();
+           new Kiosk().setUser("admin");
            Main.setScreen(2);
        }
        else{

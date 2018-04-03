@@ -35,6 +35,7 @@ public class NodesEditor {
     public static List<Transport> transportList = new ArrayList<>();
 
     int nodeIDGeneratorCount = 200;
+    static TableInitializer initializer = new TableInitializer();
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -526,7 +527,6 @@ public class NodesEditor {
             Boolean isComplete;
             Boolean adminConfirm;
             String nodeID;
-            String employeeID;
             String messageID;
 
             try {
@@ -541,11 +541,10 @@ public class NodesEditor {
                     isComplete =rset.getBoolean("isComplete");
                     adminConfirm = rset.getBoolean("adminConfirm");
                     nodeID = rset.getString("nodeID");
-                    employeeID = rset.getString("employeeID");
                     messageID = rset.getString("messageID");
 
                     // Add the new edge to the list
-                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID);
+                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
                     requestList.add(requestObject);
                     System.out.println("Request added to the list: "+requestID);
                 }

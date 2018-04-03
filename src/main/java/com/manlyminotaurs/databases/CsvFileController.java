@@ -229,7 +229,7 @@ public class CsvFileController {
             printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID\n");
             while (iterator.hasNext()) {
                 Request a_request = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(),a_request.getNodeID(),a_request.getEmployeeID(),a_request.getMessageID());
+                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(),a_request.getNodeID(),a_request.getMessageID());
             }
             printWriter.close();
             System.out.println("csv file updated");
