@@ -90,8 +90,8 @@ public class directionsActionBarController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-    NodesEditor node = new NodesEditor();
-    node.retrieveNodes();
+        NodesEditor node = new NodesEditor();
+        node.retrieveNodes();
         lststartBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lststartBuilding.setVisible(true);
 
