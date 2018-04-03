@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.editCoordinateController">
+   <children>
+      <Pane layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1;">
+         <children>
+            <Button fx:id="btnBack" layoutX="50.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="80.0" text="Back" />
+            <Label fx:id="lblTitle" alignment="CENTER" layoutX="100.0" layoutY="19.0" prefHeight="75.0" prefWidth="985.0" text="Edit Node" textAlignment="CENTER" textFill="#eb8070">
+               <font>
+                  <Font size="84.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblType" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="298.0" prefHeight="75.0" prefWidth="300.0" text="Type:" textAlignment="CENTER" textFill="#2a4d86">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtType" layoutX="540.0" layoutY="313.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Type" />
+            <Button fx:id="btnChooseCoord" layoutX="480.0" layoutY="712.0" mnemonicParsing="false" onAction="#saveNode" prefHeight="59.0" prefWidth="225.0" text="Save New Coordinates" />
+            <TextField fx:id="txtFloor" layoutX="540.0" layoutY="392.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Floor" />
+            <TextField fx:id="txtBuilding" layoutX="540.0" layoutY="472.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Building" />
+            <TextField fx:id="txtXCoord" layoutX="540.0" layoutY="552.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter X-Coordinate" />
+            <TextField fx:id="txtYCoord" layoutX="540.0" layoutY="632.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Y-Coordinate" />
+            <Label fx:id="lblFloor" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="378.0" prefHeight="75.0" prefWidth="300.0" text="Floor:" textAlignment="CENTER" textFill="#2b5290">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblBuilding" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="458.0" prefHeight="75.0" prefWidth="300.0" text="Building:" textAlignment="CENTER" textFill="#274679">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblXCoord" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="538.0" prefHeight="75.0" prefWidth="300.0" text="X-Coordinate:" textAlignment="CENTER" textFill="#3961a1">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblYCoord" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="618.0" prefHeight="75.0" prefWidth="300.0" text="Y-Coordinate:" textAlignment="CENTER" textFill="#30538d">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtShortName" layoutX="540.0" layoutY="234.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Short Name" />
+            <TextField fx:id="txtLongName" layoutX="540.0" layoutY="155.0" prefHeight="50.0" prefWidth="360.0" promptText="Enter Long Name" />
+            <Label fx:id="lblShortName" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="218.0" prefHeight="75.0" prefWidth="300.0" text="Short Name:" textAlignment="CENTER" textFill="#2a4d86">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblLongName" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="138.0" prefHeight="75.0" prefWidth="300.0" text="Long Name:" textAlignment="CENTER" textFill="#2a4d86">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

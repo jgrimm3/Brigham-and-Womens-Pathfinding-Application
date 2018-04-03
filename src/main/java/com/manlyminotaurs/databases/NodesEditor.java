@@ -439,12 +439,12 @@ public class NodesEditor {
     public void populateNodeEdgeTables() {
 
         // Make sure we aren't ruining the database
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
-//        String ans = scanner.nextLine();
-//
-//        // If you're positive...
-//        if(ans.equals("y")) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
+        String ans = scanner.nextLine();
+
+        // If you're positive...
+        if(ans.equals("y")) {
             try {
                 // Variables we need to make the tables
                 NodesEditor a_database = new NodesEditor();
@@ -524,7 +524,7 @@ public class NodesEditor {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-//        }
+        }
     }
 
     public void populateExitTable() {
