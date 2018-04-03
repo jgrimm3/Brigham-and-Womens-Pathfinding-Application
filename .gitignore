@@ -3,5 +3,5 @@
 **/nodesDB
 .dat
 .csv
-.log
+*.log
 gradle/

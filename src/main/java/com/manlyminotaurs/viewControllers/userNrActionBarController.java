@@ -1,5 +1,9 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.Kiosk;
+import com.manlyminotaurs.databases.RequestsDBUtil;
+import com.manlyminotaurs.messaging.Request;
+import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +14,10 @@ import com.manlyminotaurs.core.Main;
 
 
 public class userNrActionBarController {
+
+    RequestsDBUtil reqUtil = new RequestsDBUtil();
+    Kiosk kiosk = new Kiosk();
+
     @FXML
     Label lblDoctorInfo;
 
@@ -42,7 +50,9 @@ public class userNrActionBarController {
     }
 
     public void requestNurse(ActionEvent event) {
-        // takes custom request information from text box below and sends a nurse request with the information to an admin
+        System.out.println(txtCustomRequest.getText());
+        reqUtil.addRequest("ReqNurse", 5, kiosk.getKioskLocation().getID(), txtCustomRequest.getText(), kiosk.getUser());
+        txtCustomRequest.clear();
     }
 
 

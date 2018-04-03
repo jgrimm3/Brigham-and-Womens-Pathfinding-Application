@@ -8,17 +8,15 @@ public class Request {
     Boolean isComplete;
     Boolean adminConfirm;
     String nodeID;
-    String employeeID;
     String messageID;
 
-    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String employeeID, String messageID) {
+    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.priority = priority;
         this.isComplete = isComplete;
         this.adminConfirm = adminConfirm;
         this.nodeID = nodeID;
-        this.employeeID = employeeID;
         this.messageID = messageID;
     }
 
@@ -68,14 +66,6 @@ public class Request {
 
     public void setNodeID(String nodeID) {
         this.nodeID = nodeID;
-    }
-
-    public String getEmployeeID() {
-        return employeeID;
-    }
-
-    public void setEmployeeID(String employeeID) {
-        this.employeeID = employeeID;
     }
 
     public String getMessageID() {

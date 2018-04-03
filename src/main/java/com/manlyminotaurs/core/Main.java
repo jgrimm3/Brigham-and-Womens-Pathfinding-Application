@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.databases.NodesEditor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -104,6 +105,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        new NodesEditor().retrieveNodes();
+        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"));
+
         launch(args);
     }
 }
