@@ -58,9 +58,9 @@ Create Table Request (
   isCompleted   BOOLEAN,
   adminConfirm  BOOLEAN,
   nodeID        VARCHAR(10) UNIQUE,
-  assignID      VARCHAR(10) UNIQUE,
+  employeeID      VARCHAR(10) UNIQUE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID),
-  CONSTRAINT fk_request_assignID FOREIGN KEY (assignID) REFERENCES UserAccount(userID));
+  CONSTRAINT fk_request_employeeID FOREIGN KEY (employeeID) REFERENCES UserAccount(userID));
 
 Create Table Message (
   messageID     VARCHAR(255) PRIMARY KEY,
