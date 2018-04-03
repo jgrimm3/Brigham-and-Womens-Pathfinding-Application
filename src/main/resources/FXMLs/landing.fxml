@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
    <children>
       <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="148.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="878.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="60.0">
          <fill>
@@ -25,12 +25,12 @@
             </LinearGradient>
          </fill>
       </Circle>
-      <Button fx:id="btnLogin" layoutX="109.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#promptLogin" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #ffffff;" text="Login" textFill="#43607e" AnchorPane.leftAnchor="109.0" AnchorPane.topAnchor="70.0">
+      <Button fx:id="btnLogin" layoutX="109.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#promptLogin" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #25415b;" text="Login" textFill="WHITE" AnchorPane.leftAnchor="109.0" AnchorPane.topAnchor="70.0">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <TableView id="tblUserProfile" fx:id="tblUserProfile" layoutX="6.0" layoutY="252.0" prefHeight="457.0" prefWidth="323.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="252.0">
+      <TableView id="tblUserProfile" fx:id="tblUserProfile" layoutX="6.0" layoutY="252.0" prefHeight="457.0" prefWidth="323.0" visible="false" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="252.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -56,12 +56,12 @@
                   <Font size="23.0" />
                </font>
             </Button>
-            <Button id="btnAddWaypoint" fx:id="btnDirectory" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#directoryAction" prefHeight="150.0" prefWidth="150.0" styleClass="tileButton" text="Directory">
+            <Button id="btnAddWaypoint" fx:id="btnDirectory" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#directoryAction" prefHeight="150.0" prefWidth="150.0" styleClass="tileButton" text="Directory" visible="false">
                <TilePane.margin>
                   <Insets bottom="4.0" />
                </TilePane.margin>
             </Button>
-            <Button fx:id="btnHelp" graphicTextGap="1.0" mnemonicParsing="false" onAction="#helpAction" prefHeight="150.0" prefWidth="150.0" text="Help" />
+            <Button fx:id="btnHelp" graphicTextGap="1.0" mnemonicParsing="false" onAction="#helpAction" prefHeight="150.0" prefWidth="150.0" text="Help" visible="false" />
          </children>
          <opaqueInsets>
             <Insets />

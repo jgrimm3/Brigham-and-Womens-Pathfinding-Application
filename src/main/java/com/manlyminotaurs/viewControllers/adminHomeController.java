@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import com.manlyminotaurs.core.Main;
+import javafx.scene.layout.Pane;
 
 public class adminHomeController {
     @FXML
@@ -29,12 +30,16 @@ public class adminHomeController {
     }
 
     public void editNodesAction(ActionEvent event){
-        Main.setActionBars(2).setTranslateY(715);
+        Pane action = Main.setActionBars(2);
+        action.setTranslateY(735);
+        action.setTranslateX(85);
 
     }
     public void manageRequestsAction(ActionEvent event){
         //open direction actionBar
-        Main.setActionBars(3).setTranslateY(715); //go to directionss
+        Pane action = Main.setActionBars(3);
+        action.setTranslateY(735);
+        action.setTranslateX(85);
     }
 }
 

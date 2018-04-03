@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import com.manlyminotaurs.core.Main;
+import javafx.scene.layout.Pane;
 
 public class userHomeController {
     @FXML
@@ -23,13 +24,17 @@ public class userHomeController {
     }
 
     public void nurseRequestAction(ActionEvent event){
-        Main.setActionBars(0).setTranslateY(715);
+        Pane action = Main.setActionBars(0);
+        action.setTranslateY(735);
+        action.setTranslateX(85);
 
 
     }
     public void directionAction(ActionEvent event){
         //open direction actionBar
-        Main.setActionBars(1).setTranslateY(715); //go to directionss
+        Pane action = Main.setActionBars(1);
+        action.setTranslateY(755);
+        action.setTranslateX(85); //go to directionss
 
     }
 }
