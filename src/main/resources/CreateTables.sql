@@ -69,5 +69,6 @@ Create Table Message (
   isRead        BOOLEAN,
   senderID      VARCHAR(10) UNIQUE,
   receiverID    VARCHAR(10) UNIQUE,
+  
   CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID),
   CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID));
