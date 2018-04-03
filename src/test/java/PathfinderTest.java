@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import com.manlyminotaurs.nodes.Restroom;
 import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.Edge;

@@ -165,19 +165,6 @@ public class Pathfinder {
         return nodeTrail;
     }
 
-    double distanceBetweenNodes(ScoredNode node1, ScoredNode node2){
-        int x1 = node1.getNode().getXCoord();
-        int y1 = node1.getNode().getYCoord();
-
-        int x2 = node2.getNode().getXCoord();
-        int y2 = node2.getNode().getYCoord();
-
-        double xDist = x2 - x1;
-        double yDist = y2 - y1;
-
-        return Math.hypot(xDist, yDist);
-    }
-
     /**
      * Calculates the Euclidean distance between given nodes
      *
