@@ -1,0 +1,5 @@
+1) Parse csv files for new tables
+2) Update csv files for new tables
+3) DONE Insert new attributes into objects
+4) DONE Construct classes for new tables
+5) Be able to update all table object attributes, and then update database accordingly
