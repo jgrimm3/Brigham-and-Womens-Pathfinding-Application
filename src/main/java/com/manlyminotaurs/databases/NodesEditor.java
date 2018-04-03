@@ -1,6 +1,11 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.messaging.Message;
+import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.Patient;
+import com.manlyminotaurs.users.User;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,9 +22,9 @@ public class NodesEditor {
     // global nodeList holds all the java objects for the nodes
     public static List<Node> nodeList = new ArrayList<>();
     public static List<Edge> edgeList = new ArrayList<>();
-    public static List<Edge> messageList = new ArrayList<>();
-    public static List<Edge> requestList = new ArrayList<>();
-    public static List<Edge> userAccountList = new ArrayList<>();
+    public static List<Message> messageList = new ArrayList<>();
+    public static List<Request> requestList = new ArrayList<>();
+    public static List<User> userList = new ArrayList<>();
 
 
     public static List<Exit> exitList = new ArrayList<>();
@@ -47,23 +52,32 @@ public class NodesEditor {
         CsvFileController csvFileControl = new CsvFileController();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables();
-        initializer.populateUserAccountTable();
-        initializer.populateMessageTable();
-        initializer.populateRequestTable();
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
+        initializer.populateMessageTable("./nodesDB/MessageTable.csv");
+        initializer.populateRequestTable("./nodesDB/RequestTable.csv");
+
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-        initializer.populateExitTable("./nodesDB/NodeExitFile.csv");
-        initializer.populateHallwayTable("./nodesDB/NodeHallwayFile.csv");
+        nodesEditor.retrieveMessage();
+        nodesEditor.retrieveRequest();
+        nodesEditor.retrieveUser();
+
+        initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
+        initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
-//        csvFileControl.updateNodeCSVFile("./nodesDB/NodeFile.csv");
-//        csvFileControl.updateEdgeCSVFile("./nodesDB/EdgeFile.csv");
-//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitFile.csv");
-//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayFile.csv");
-//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomFile.csv");
-//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportFile.csv");
+
+//        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
+//        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
+//        csvFileControl.updateMessageCSVFile("./nodesDB/MessageTable.csv");
+//        csvFileControl.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
+//        csvFileControl.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
+//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
+//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
+//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
+//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
         System.out.println("main function ended");
     }
 
@@ -203,48 +217,147 @@ public class NodesEditor {
     /**
      * Creates a list of objects and stores them in the global variable messageList
 //     */
-//    public void retrieveMessage() {
-//        try {
-//            // Connection
-//            Connection connection;
-//            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-//
-//            // Variables
-//            Node node;
-//            String messageID;
-//            String message;
-//            Boolean isRead;
-//            String senderID;
-//            String receiverID;
-//
-//            try {
-//                Statement stmt = connection.createStatement();
-//                String str = "SELECT * FROM Message";
-//                ResultSet rset = stmt.executeQuery(str);
-//
-//                while (rset.next()) {
-//                    messageID = rset.getString("messageID");
-//                    message = rset.getString("message");
-//                    isRead = rset.getBoolean("isRead");
-//                    senderID =rset.getString("senderID");
-//                    receiverID = rset.getString("receiverID");
-//
-//                    // Add the new edge to the list
-//                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
-//                    edgeList.add(edge);
-//                    System.out.println("Edge added to the list: "+edgeID);
-//                }
-//                rset.close();
-//                stmt.close();
-//                System.out.println("Done adding edges");
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        } catch(SQLException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    } // retrieveMessage() ends
+    public void retrieveMessage() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            Message messageObject;
+            Node node;
+            String messageID;
+            String message;
+            Boolean isRead;
+            String senderID;
+            String receiverID;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM Message";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    messageID = rset.getString("messageID");
+                    message = rset.getString("message");
+                    isRead = rset.getBoolean("isRead");
+                    senderID =rset.getString("senderID");
+                    receiverID = rset.getString("receiverID");
+
+                    // Add the new edge to the list
+                    messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                    messageList.add(messageObject);
+                    System.out.println("Message added to the list: "+messageID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding Messages");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveMessage() ends
+
+    /**
+     *  get data from request table in database and put them into the list of request objects
+     */
+    public void retrieveRequest() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            Request requestObject;
+            String requestID;
+            String requestType;
+            int priority;
+            Boolean isComplete;
+            Boolean adminConfirm;
+            String nodeID;
+            String employeeID;
+            String messageID;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM Request";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    requestID = rset.getString("requestID");
+                    requestType = rset.getString("requestType");
+                    priority = rset.getInt("priority");
+                    isComplete =rset.getBoolean("isComplete");
+                    adminConfirm = rset.getBoolean("adminConfirm");
+                    nodeID = rset.getString("nodeID");
+                    employeeID = rset.getString("employeeID");
+                    messageID = rset.getString("messageID");
+
+                    // Add the new edge to the list
+                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,employeeID,messageID);
+                    requestList.add(requestObject);
+                    System.out.println("Request added to the list: "+requestID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding Requests");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveRequest() ends
+
+    /**
+     *  get data from request table in database and put them into the list of request objects
+     */
+    public void retrieveUser() {
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            // Variables
+            User userObject;
+            String userID;
+            String firstName;
+            String middleInitial;
+            String lastName;
+            String language;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM UserAccount";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while (rset.next()) {
+                    userID = rset.getString("userID");
+                    firstName = rset.getString("firstName");
+                    middleInitial = rset.getString("middleInitial");
+                    lastName = rset.getString("lastName");
+                    language = rset.getString("language");
+
+                    // Add the new edge to the list
+                    userObject = new Patient(userID,firstName,middleInitial,lastName,language);
+                    userList.add(userObject);
+                    System.out.println("User added to the list: "+userID);
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding users");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    } // retrieveUser() ends
 
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
@@ -269,7 +382,7 @@ public class NodesEditor {
             statement.setInt(2, node.getXCoord());
             statement.setInt(3, node.getYCoord());
             statement.setString(4, node.getFloor());
-            statement.setString(5, "" + node.getBuilding());
+            statement.setString(5, node.getBuilding());
             statement.setString(6, node.getNodeType());
             statement.setString(7, node.getLongName());
             statement.setString(8, node.getShortName());
