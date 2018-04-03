@@ -8,12 +8,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+
+
+//update CSV file from room, exit, hallway, transport nodes.
+//finish erd diagram and create request table
 public class NodesEditor {
 
     // global nodeList holds all the java objects for the nodes
-    public List<Node> nodeList = new ArrayList<>();
-    public List<Edge> edgeList = new ArrayList<>();
+    private List<Node> nodeList = new ArrayList<>();
+    private List<Edge> edgeList = new ArrayList<>();
 
+    private List<Exit> exitList = new ArrayList<>();
+    private List<Room> roomList = new ArrayList<>();
+    private List<Hallway> hallwayList = new ArrayList<>();
+    private List<Transport> transportList = new ArrayList<>();
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -32,27 +40,53 @@ public class NodesEditor {
         // run to create the database table
         System.out.println("Creating tables...");
         NodesEditor nodesEditor = new NodesEditor();
-        nodesEditor.createTables();
+
+        nodesEditor.initTables();
+        nodesEditor.populateNodeEdgeTables();
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
-
-        nodesEditor.modifyNodeBuilding(nodesEditor.nodeList.get(0), "BuidlingModify");
-        nodesEditor.modifyNodeShortName(nodesEditor.nodeList.get(1), "shortnameModify");
-        nodesEditor.modifyNodeLongName(nodesEditor.nodeList.get(2), "LongNameModify");
-        nodesEditor.modifyNodeType(nodesEditor.nodeList.get(3), "YOLO");
-
-        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(1), "testingStart");
-        nodesEditor.modifyEdgeEndNode(nodesEditor.edgeList.get(2), "testingEnd");
+        nodesEditor.populateExitTable();
+        nodesEditor.populateHallwayTable();
+        nodesEditor.populateRoomTable();
+        nodesEditor.populateTransportTable();
 
         nodesEditor.updateNodeCSVFile("./nodesDB/TestUpdateNodeFile.csv");
         nodesEditor.updateEdgeCSVFile("./nodesDB/TestUpdateEdgeFile.csv");
+        nodesEditor.updateExitCSVFile("./nodesDB/TestUpdateExitFile.csv");
+        nodesEditor.updateHallwayCSVFile("./nodesDB/TestUpdateHallwayFile.csv");
+        nodesEditor.updateRoomCSVFile("./nodesDB/TestUpdateRoomFile.csv");
+        nodesEditor.updateTransportCSVFile("./nodesDB/TestUpdateTransportFile.csv");
         System.out.println("Tables created");
     }
     /*------------------------------------- Database and csv methods -------------------------------------------------*/
+
     /**
-     * Creates the database tables from the csv files
+     * Delete any pre-existing tables and create new tables in the database
      */
-    public void createTables() {
+    public void initTables(){
+       NodesEditor a_database = new NodesEditor();
+       // Get the database connection
+       Connection connection = null;
+       Statement stmt = null;
+       try {
+       connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+       stmt = connection.createStatement();
+           a_database.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
+           a_database.executeDBScripts("./src/main/resources/CreateTables.sql", stmt);
+       } catch (IOException e) {
+           e.printStackTrace();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           try { stmt.close(); } catch (Exception e) { /* ignored */ }
+           try { connection.close(); } catch (Exception e) { /* ignored */ }
+       }
+   }
+
+    /**
+     * Populate the database tables from the csv files
+     */
+    public void populateNodeEdgeTables() {
 
         // Make sure we aren't ruining the database
         Scanner scanner = new Scanner(System.in);
@@ -66,8 +100,8 @@ public class NodesEditor {
                 NodesEditor a_database = new NodesEditor();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapBnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./nodesDB/MapBedges.csv");
+                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
                 Connection connection;
@@ -89,33 +123,6 @@ public class NodesEditor {
                 Iterator<String[]> iterator = list_of_nodes.iterator();
                 iterator.next(); // get rid of header of csv file
 
-                //delete table
-                System.out.println("Deleting table...");
-                String delete_sql = "DROP TABLE map_nodes";
-                try {
-                    stmt.executeUpdate(delete_sql);
-                } catch (SQLException se) {
-                    //Handle errors for JDBC
-                    se.printStackTrace();
-                }
-                System.out.println("Table deleted successfully...");
-
-                //create table
-                System.out.println("Creating table...");
-                String create_sql = "CREATE TABLE map_nodes (" +
-                        " nodeID             CHAR(10) PRIMARY KEY," +
-                        "  xCoord              INTEGER," +
-                        "  yCoord              INTEGER," +
-                        "  floor               VARCHAR(2)," +
-                        "  building            VARCHAR(255)," +
-                        "  nodeType           VARCHAR(4)," +
-                        "  longName           VARCHAR(255)," +
-                        "  shortName          VARCHAR(255)," +
-                        "  teamAssigned       VARCHAR(255))";
-
-                stmt.executeUpdate(create_sql);
-                System.out.println("Table created successfully...");
-
                 //insert data for every row
                 while (iterator.hasNext()) {
                     String[] node_row = iterator.next();
@@ -131,7 +138,7 @@ public class NodesEditor {
                     System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                     // Add to the database table
-                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,teamAssigned) VALUES (?,?,?,?,?,?,?,?,?)";
+                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, node_id);
                     statement.setInt(2, Integer.parseInt(xcoord));
@@ -141,7 +148,7 @@ public class NodesEditor {
                     statement.setString(6, nodeType);
                     statement.setString(7, long_name);
                     statement.setString(8, short_name);
-                    statement.setString(9, team_assigned);
+                    statement.setBoolean(9, false);
                     statement.executeUpdate();
                 }// while loop ends
 
@@ -149,42 +156,64 @@ public class NodesEditor {
                 Iterator<String[]> iterator2 = list_of_edges.iterator();
                 iterator2.next(); // get rid of the header
 
-                //delete table
-                System.out.println("Deleting table...");
-                delete_sql = "DROP TABLE map_edges";
-                try {
-                    stmt.executeUpdate(delete_sql);
-                } catch (SQLException se) {
-                    se.printStackTrace();
-                }
-                System.out.println("Database table successfully...");
-
-                //create table
-                System.out.println("Creating table...");
-                create_sql = "CREATE TABLE map_edges (" +
-                        "  edgeID              VARCHAR(255)," +
-                        "  startNode           VARCHAR(255)," +
-                        "  endNode             VARCHAR(255))";
-
-                stmt.executeUpdate(create_sql);
-                System.out.println("table created successfully...");
-
                 //insert rows
                 while (iterator2.hasNext()) {
                     String[] node_row = iterator2.next();
                     System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode) VALUES (?,?,?)";
+                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
                     statement.setString(1, node_row[0]);
                     statement.setString(2, node_row[1]);
                     statement.setString(3, node_row[2]);
+                    statement.setBoolean(4,true);
                     statement.executeUpdate();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    /**
+     *
+     * @param aSQLScriptFilePath path to the sql file to run
+     * @param stmt statement object passed from callee
+     * @return true if sql file is executed successfully.
+     * @throws IOException
+     * @throws SQLException
+     */
+    public boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
+        boolean isScriptExecuted = false;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            String str;
+            StringBuffer sb;
+            sb = new StringBuffer();
+            while ((str = in.readLine()) != null) {
+                if (str.contains(";")) {
+                    sb.append(str.replace(";",""));
+                    try {
+                        stmt.executeUpdate(sb.toString());
+                    }
+                    catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                    sb.delete(0,sb.length());
+                }
+                else {
+                    sb.append(str + "\n ");
+                }
+            }
+
+            in.close();
+            isScriptExecuted = true;
+        } catch (Exception e) {
+            System.err.println("Failed to Execute" + aSQLScriptFilePath +". The error is"+ e.getMessage());
+        }
+        System.out.println("Tables created: "+aSQLScriptFilePath);
+        return isScriptExecuted;
     }
 
     /**
@@ -243,6 +272,15 @@ public class NodesEditor {
      * @param csvFileName the csv file to be updated
      */
     public void updateEdgeCSVFile(String csvFileName) {
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         Iterator<Edge> iterator = edgeList.iterator();
         System.out.println("Updating edge csv file...");
         try {
@@ -251,10 +289,103 @@ public class NodesEditor {
             printWriter.print("edgeID,startNode,endNode\n");
             while (iterator.hasNext()) {
                 Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s\n", a_edge.getEdgeID(), a_edge.getStartNode(), a_edge.getEndNode());
+                printWriter.printf("%s,%s,%s\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID());
             }
             printWriter.close();
             System.out.println("csv edge file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateExitCSVFile(String csvFileName) {
+        Iterator<Exit> iterator = exitList.iterator();
+        System.out.println("Updating exit csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("isFireExit, isArmed, nodeID\n");
+            while (iterator.hasNext()) {
+                Exit a_node = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateHallwayCSVFile(String csvFileName) {
+        Iterator<Hallway> iterator = hallwayList.iterator();
+        System.out.println("Updating hallway csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("popularity, nodeID\n");
+            while (iterator.hasNext()) {
+                Hallway a_node = iterator.next();
+                printWriter.printf("%d,%s\n", a_node.getPopularity(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateRoomCSVFile(String csvFileName) {
+        Iterator<Room> iterator = roomList.iterator();
+        System.out.println("Updating room csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("specialization, detail, popularity, isOpen, nodeID\n");
+            while (iterator.hasNext()) {
+                Room a_node = iterator.next();
+                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateTransportCSVFile(String csvFileName) {
+        Iterator<Transport> iterator = transportList.iterator();
+        System.out.println("Updating transport csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("directionality, floors, nodeID\n");
+            while (iterator.hasNext()) {
+                Transport a_node = iterator.next();
+                printWriter.printf("%s,%s,%s\n", a_node.getDirectionality(), a_node.floorsToString(), a_node.getID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
         }
         catch(IOException e){
             e.printStackTrace();
@@ -348,8 +479,144 @@ public class NodesEditor {
         }
     } // retrieveData() ends
 
+    /*-------------------------------------------- Update database ---------------------------------------------------*/
+    public void populateExitTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            if(nodeList.get(i).getNodeType().equals("EXIT")) {
+                try {
+                    System.out.println("Found an exit...");
+                    Exit exit = (Exit)nodeList.get(i);
+                    exitList.add(exit);
+
+                    String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setBoolean(1, exit.isFireExit());
+                    statement.setBoolean(2, exit.isArmed());
+                    statement.setString(3, exit.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added exit to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
+
+    public void populateHallwayTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            if(nodeList.get(i).getNodeType().equals("HALL")) {
+                try {
+                    System.out.println("Found an hallway...");
+                    Hallway hall = (Hallway) nodeList.get(i);
+                    hallwayList.add(hall);
+
+                    String str = "INSERT INTO hallway(popularity, nodeID) VALUES (?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setInt(1, hall.getPopularity());
+                    statement.setString(2, hall.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added hall to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
+
+    public void populateRoomTable() {
+        int i = 0;
+        String type;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            type = nodeList.get(i).getNodeType();
+            if(type.equals("DEPT") || type.equals("RETA") || type.equals("LABS") || type.equals("REST") || type.equals("SERV") || type.equals("INFO") || type.equals("CONF")) {
+                try {
+                    System.out.println("Found an room...");
+                    Room room = (Room)nodeList.get(i);
+                    roomList.add(room);
+
+                    String str = "INSERT INTO room(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, room.getSpecialization());
+                    statement.setString(2, room.getDetailedInfo());
+                    statement.setInt(3, room.getPopularity());
+                    statement.setBoolean(4, room.isOpen());
+                    statement.setString(5, room.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added room to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
+
+    public void populateTransportTable() {
+        int i = 0;
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while(i<nodeList.size()) {
+            String type = nodeList.get(i).getNodeType();
+            if(type.equals("STAI") || type.equals("ELEV")) {
+                try {
+                    System.out.println("Found an transport...");
+                    Transport transport = (Transport)nodeList.get(i);
+                    transportList.add(transport);
+
+                    String str = "INSERT INTO transport(directionality, floors, nodeID) VALUES (?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(str);
+                    statement.setString(1, transport.getDirectionality());
+                    statement.setString(2, "0");
+                    statement.setString(3, transport.getID());
+                    statement.executeUpdate();
+                    System.out.println("Added transport to table...");
+                }catch (SQLException se) {
+                    //Handle errors for JDBC
+                    se.printStackTrace();
+                }
+            }
+            i++;
+        }
+    }
     /**
-     * Creates a list of objects and stores them in the global variable nodeList
+     * Creates a list of objects and stores them in the global variable edgeList
      */
     public void retrieveEdges() {
         try {
@@ -368,17 +635,18 @@ public class NodesEditor {
                 String str = "SELECT * FROM MAP_EDGES";
                 ResultSet rset = stmt.executeQuery(str);
 
-                // For every node, get the information
+                // For every edge, get the information
                 while (rset.next()) {
                     edgeID = rset.getString("edgeID");
                     startNode = rset.getString("startNode");
                     endNode = rset.getString("endNode");
 
-                    edge = new Edge(startNode, endNode, edgeID);
-
-                    // Add the new node to the list
+                    // Add the new edge to the list
+                    Node startNodeObject = getNodeFromList(startNode);
+                    Node endNodeObject = getNodeFromList(endNode);
+                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
                     edgeList.add(edge);
-                    System.out.println("Edge added to list...");
+                    System.out.println("Edge added to the list: "+edgeID);
                 }
                 rset.close();
                 stmt.close();
@@ -661,8 +929,8 @@ public class NodesEditor {
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
             statement.setString(1, edge.getEdgeID());
-            statement.setString(2, edge.getStartNode());
-            statement.setString(3, edge.getEndNode());
+            statement.setString(2, edge.getStartNode().getID());
+            statement.setString(3, edge.getEndNode().getID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
@@ -679,7 +947,8 @@ public class NodesEditor {
      * @param startNode new startNode
      */
     public void modifyEdgeStartNode(Edge edge, String startNode){
-        edge.setStartNode(startNode);
+        Node startNodeObject = getNodeFromList(startNode);
+        edge.setStartNode(startNodeObject);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -700,7 +969,8 @@ public class NodesEditor {
      * @param endNode new endNode
      */
     public void modifyEdgeEndNode(Edge edge, String endNode){
-        edge.setEndNode(endNode);
+        Node endNodeObject = getNodeFromList(endNode);
+        edge.setEndNode(endNodeObject);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -755,4 +1025,14 @@ public class NodesEditor {
         while(i < edgeList.size()) { System.out.println("Object " + i + ": " + edgeList.get(i).getEdgeID()); i++; }
     } // end printEdgeList
 
+    public Node getNodeFromList(String nodeID){
+        Iterator<Node> iterator = nodeList.iterator();
+        while (iterator.hasNext()) {
+            Node a_node = iterator.next();
+            if (a_node.getID().equals(nodeID)) {
+                return a_node;
+            }
+        }
+        return null;
+    }
 } // end NodesEditor class

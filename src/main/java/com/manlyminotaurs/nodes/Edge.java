@@ -1,31 +1,32 @@
 package com.manlyminotaurs.nodes;
 
 public class Edge {
-	String startNode;
-	String endNode;
+
+	Node startNode;
+	Node endNode;
 	String edgeID;
 	int status;
 
-	public Edge(String startNode, String endNode, String edgeID) {
+	public Edge(Node startNode, Node endNode, String edgeID) {
 		this.startNode = startNode;
 		this.endNode = endNode;
 		this.edgeID = edgeID;
 		status = 1;
 	}
 
-	public String getStartNode() {
+	public Node getStartNode() {
 		return startNode;
 	}
 
-	public void setStartNode(String startNode) {
+	public void setStartNode(Node startNode) {
 		this.startNode = startNode;
 	}
 
-	public String getEndNode() {
+	public Node getEndNode() {
 		return endNode;
 	}
 
-	public void setEndNode(String endNode) {
+	public void setEndNode(Node endNode) {
 		this.endNode = endNode;
 	}
 
