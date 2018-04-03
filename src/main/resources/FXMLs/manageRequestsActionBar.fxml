@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.manageRequestsActionBarController">
+<AnchorPane prefHeight="300.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.manageRequestsActionBarController">
    <children>
       <Label layoutX="206.0" layoutY="16.0" text="Open Requests">
          <font>
@@ -31,7 +31,7 @@
         </columns>
       </TableView>
       <Button fx:id="btnCompleteRequest" layoutX="944.0" layoutY="95.0" mnemonicParsing="false" onAction="#promptCompleteRequest" prefHeight="36.0" prefWidth="227.0" text="Complete Request" />
-      <Button fx:id="btnDeleteRequest" layoutX="944.0" layoutY="196.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="227.0" text="Delete Request" />
+      <Button fx:id="btnDeleteRequest" layoutX="944.0" layoutY="196.0" mnemonicParsing="false" onAction="#promptDeleteRequest" prefHeight="36.0" prefWidth="227.0" text="Delete Request" />
       <Button fx:id="btnSendToNurse" layoutX="944.0" layoutY="149.0" mnemonicParsing="false" onAction="#promptSendNurse" prefHeight="36.0" prefWidth="227.0" text="Send To Nurse" />
       <TableView fx:id="tblClosedRequests" layoutX="1274.0" layoutY="67.0" prefHeight="200.0" prefWidth="395.0">
         <columns>

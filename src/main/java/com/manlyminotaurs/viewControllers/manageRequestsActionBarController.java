@@ -27,6 +27,8 @@ public class manageRequestsActionBarController {
     public void promptCompleteRequest(ActionEvent event){
         Main.addPrompt(1); //go to complete request
     }
-
+    public void promptDeleteRequest(ActionEvent event) {
+        // allows user to delete existing request
+    }
 
 }
