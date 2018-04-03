@@ -6,10 +6,12 @@ import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import com.manlyminotaurs.core.Main;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,12 +41,31 @@ public class landingController {
     Path path;
 
     @FXML
+    ScrollPane scrollPane;
+
+    @FXML
     /**
      * initializes the given floor by printing the points on the map
      */
     protected void initialize() {
         System.out.println("initializing");
         printPoints("L2");
+
+        NodesEditor ne = new NodesEditor();
+        ne.retrieveNodes();
+        ne.retrieveEdges();
+        List<Edge> edgelist = ne.edgeList;
+        List<Edge> l2List = new ArrayList<>();
+
+        int i = 0;
+        while(i < edgelist.size()) {
+            if (edgelist.get(i).getStartNode().getFloor().equals("L2") && edgelist.get(i).getEndNode().getFloor().equals("L2")) {
+                l2List.add(edgelist.get(i));
+            }
+            i++;
+        }
+
+		printEdgePath(l2List);
     }
 
     public void promptLogin(ActionEvent event){
@@ -96,58 +117,71 @@ public class landingController {
 
                 // draw the point on the image
                 circle = new Circle(newX, newY, 2);
+                circle.setFill(Color.DARKRED);
                 pane.getChildren().add(circle);
             }
             i++;
         }
     }
 
-    // not working
+    public void addPath(Node startNode, Node endNode, MoveTo moveTo, LineTo lineTo) {
+        if(startNode != null && endNode != null) {
+            System.out.println("Found a path!");
+
+            // get the start point
+            // Map the x and y coords onto our map
+            moveTo.setX(map(startNode.getXCoord(), 0, 5000, 0, 1000));
+            moveTo.setY(map(startNode.getYCoord(), 0, 3400, 0, 680));
+
+            // Draw to end point
+            // Map the x and y coords onto our map
+            lineTo.setX(map(endNode.getXCoord(), 0, 5000, 0, 1000));
+            lineTo.setY(map(endNode.getYCoord(), 0, 3400, 0, 680));
+
+            // add the elements to the path
+            path.getElements().add(moveTo);
+            path.getElements().add(lineTo);
+        }
+    }
+
     /**
      * Prints the given path on the map
-     * @param edgeList the nodes to draw a bath between
+     * @param edgeList the edges to draw a bath between
      */
-    public void printPath(List<Edge> edgeList) {
-        System.out.println("Attempting to print path...");
-
-        double newStartX;
-        double newStartY;
-        double newEndX;
-        double newEndY;
-
+    public void printEdgePath(List<Edge> edgeList) {
+        System.out.println("Attempting to print path between edges...");
 
         int i = 0;
         while(i < edgeList.size()) {
-            System.out.println("Printing path between nodes...");
-             Node startNode = edgeList.get(i).getStartNode();
-             Node endNode = edgeList.get(i).getEndNode();
-
             // Give starting point
             MoveTo moveTo = new MoveTo();
             LineTo lineTo = new LineTo();
-
-            if(startNode != null && endNode != null) {
-                System.out.println("Found a path!");
-
-                // get the start point
-                // Map the x and y coords onto our map
-                newStartX = map(startNode.getXCoord(), 0, 5000, 0, 1000);
-                newStartY = map(startNode.getYCoord(), 0, 3400, 0, 680);
-                moveTo.setX(newStartX);
-                moveTo.setY(newStartY);
-
-                 // Draw to end point
-                // Map the x and y coords onto our map
-                newEndX = map(endNode.getXCoord(), 0, 5000, 0, 1000);
-                newEndY = map(endNode.getYCoord(), 0, 3400, 0, 680);
-                lineTo.setX(newEndX);
-                lineTo.setY(newEndY);
-
-                // add the elements to the path
-                path.getElements().add(moveTo);
-                path.getElements().add(lineTo);
-            }
+            Node startNode = edgeList.get(i).getStartNode();
+            Node endNode = edgeList.get(i).getEndNode();
+            // add the path
+            addPath(startNode, endNode, moveTo, lineTo);
             i++;
+            System.out.println("Path added...");
+        }
+    }
+
+    /**
+     * Prints the given path on the map
+     * @param nodeList the nodes to draw a bath between
+     */
+    public void printNodePath(List<Node> nodeList) {
+        System.out.println("Attempting to print path between nodes...");
+        int i = 0;
+        while(i < nodeList.size()) {
+            // Give starting point
+            MoveTo moveTo = new MoveTo();
+            LineTo lineTo = new LineTo();
+            Node startNode = nodeList.get(i);
+            Node endNode = nodeList.get(i+1);
+            // add the path
+            addPath(startNode, endNode, moveTo, lineTo);
+            i++;
+            System.out.println("Path added...");
         }
     }
 
@@ -163,6 +197,7 @@ public class landingController {
     static double map(double value, double oldMin, double oldMax, double newMin, double newMax) {
         return (((value - oldMin)*(newMax - newMin))/(oldMax-oldMin)) + newMin;
     }
+
 
     @FXML
     /**

@@ -53,7 +53,7 @@ public class NodesEditor {
 
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
-
+        TableInitializer initializer = new TableInitializer();
         initializer.initTables();
         initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
@@ -443,9 +443,11 @@ public class NodesEditor {
                     // Add the new edge to the list
                     Node startNodeObject = getNodeFromList(startNode);
                     Node endNodeObject = getNodeFromList(endNode);
-                    edge = new Edge(startNodeObject, endNodeObject, edgeID);
-                    edgeList.add(edge);
-                    System.out.println("Edge added to the list: "+edgeID);
+                    if(startNode != null && endNode != null) {
+                        edge = new Edge(startNodeObject, endNodeObject, edgeID);
+                        edgeList.add(edge);
+                        System.out.println("Edge added to the list: " + edgeID);
+                    }
                 }
                 rset.close();
                 stmt.close();
@@ -1241,7 +1243,7 @@ public class NodesEditor {
                 return a_node;
             }
         }
-        System.out.println("getNOdeFromList: Null-----------Something might break");
+        //System.out.println("getNdeFromList: Null-----------Something might break");
         return null;
     }
 
