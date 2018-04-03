@@ -63,7 +63,6 @@ public class Main extends Application {
         primaryStage.setWidth(primaryScreenBounds.getWidth());
         primaryStage.setHeight(primaryScreenBounds.getHeight());
 
-
         primaryStage.show();
     }catch(Exception e){
         e.printStackTrace();

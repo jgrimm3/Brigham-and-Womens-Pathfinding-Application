@@ -45,7 +45,7 @@ public class landingController {
 
     public void nurseRequestAction(ActionEvent event){
        Pane action = Main.setActionBars(0);
-       action.setTranslateY(715);
+       action.setTranslateY(735);
        action.setTranslateX(85);
 
 
@@ -54,7 +54,7 @@ public class landingController {
     public void directionAction(ActionEvent event){
         //open direction actionBar
         Pane action = Main.setActionBars(1);
-        action.setTranslateY(715);
+        action.setTranslateY(755);
         action.setTranslateX(85);
 
     }

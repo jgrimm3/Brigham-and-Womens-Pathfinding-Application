@@ -105,6 +105,7 @@ public class directionsActionBarController {
         lststartBuilding.getSelectionModel().selectedItemProperty().removeListener(Object::notifyAll);
     }
 
+
     public void selectDestination(ActionEvent event) {
         lststartBuilding.setVisible(false);
         lststartType.setVisible(false);
