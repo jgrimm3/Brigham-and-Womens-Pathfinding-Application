@@ -24,9 +24,6 @@ public class NodesEditor {
     // global nodeList holds all the java objects for the nodes
     public static List<Node> nodeList = new ArrayList<>();
     public static List<Edge> edgeList = new ArrayList<>();
-
-    public static List<Message> messageList = new ArrayList<>();
-    public static List<Request> requestList = new ArrayList<>();
     public static List<User> userList = new ArrayList<>();
 
     public static List<Exit> exitList = new ArrayList<>();
@@ -54,6 +51,9 @@ public class NodesEditor {
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
         TableInitializer initializer = new TableInitializer();
+        RequestsDBUtil requestsDB = new RequestsDBUtil();
+        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+
         initializer.initTables();
         initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
@@ -63,14 +63,28 @@ public class NodesEditor {
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
 
-        nodesEditor.retrieveMessage();
-        nodesEditor.retrieveRequest();
+        messagesDBUtil.retrieveMessage();
+        requestsDB.retrieveRequest();
         nodesEditor.retrieveUser();
 
         initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
         initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
         initializer.populateRoomTable();
         initializer.populateTransportTable();
+
+        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
+        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
+        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
+        messagesDBUtil.printMessageList();
+
+
+        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
+        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
+        messagesDBUtil.addMessage("second message", "This is second", false, "5", "nurse");
+        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "user");
+        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
+        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
+        requestsDB.printRequestList();
 
 //        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
 //        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
@@ -83,247 +97,6 @@ public class NodesEditor {
 //        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
 
         System.out.println("main function ended");
-    }
-    /*------------------------------------- Database and csv methods -------------------------------------------------*/
-
-    /**
-     * Delete any pre-existing tables and create new tables in the database
-     */
-    public void initTables(){
-       NodesEditor a_database = new NodesEditor();
-       // Get the database connection
-       Connection connection = null;
-       Statement stmt = null;
-       try {
-       connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-       stmt = connection.createStatement();
-           a_database.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
-           a_database.executeDBScripts("./src/main/resources/CreateTables.sql", stmt);
-       } catch (IOException e) {
-           e.printStackTrace();
-       } catch (SQLException e) {
-           e.printStackTrace();
-       } finally {
-           try { stmt.close(); } catch (Exception e) { /* ignored */ }
-           try { connection.close(); } catch (Exception e) { /* ignored */ }
-       }
-   }
-
-    /**
-     *
-     * @param aSQLScriptFilePath path to the sql file to run
-     * @param stmt statement object passed from callee
-     * @return true if sql file is executed successfully.
-     * @throws IOException
-     * @throws SQLException
-     */
-    public boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
-        boolean isScriptExecuted = false;
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
-            String str;
-            StringBuffer sb;
-            sb = new StringBuffer();
-            while ((str = in.readLine()) != null) {
-                if (str.contains(";")) {
-                    sb.append(str.replace(";",""));
-                    try {
-                        stmt.executeUpdate(sb.toString());
-                    }
-                    catch(SQLException e){
-                        e.printStackTrace();
-                    }
-                    sb.delete(0,sb.length());
-                }
-                else {
-                    sb.append(str + "\n ");
-                }
-            }
-
-            in.close();
-            isScriptExecuted = true;
-        } catch (Exception e) {
-            System.err.println("Failed to Execute" + aSQLScriptFilePath +". The error is"+ e.getMessage());
-        }
-        System.out.println("Tables created: "+aSQLScriptFilePath);
-        return isScriptExecuted;
-    }
-
-    //---------------------------------------CSV File Interface--------------------------------------------
-    /**
-     * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
-     * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
-     * @param csv_file_name the name of the csv file
-     * @return arrayList of columns from the csv
-     */
-    public List<String[]> parseCsvFile(String csv_file_name) {
-        System.out.println("Parsing csv file");
-        List<String[]> list_of_rows = new ArrayList<>();
-        try {
-            File file = new File(csv_file_name);
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                // use comma as separator
-                String[] node_row = line.split(",");
-                list_of_rows.add(node_row);
-            }
-            fileReader.close();
-            System.out.println("csv file parsed");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return list_of_rows;
-    } // parseCsvFile() ends
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = nodeList.iterator();
-        System.out.println("Updating node csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
-            while (iterator.hasNext()) {
-                Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(),a_node.getStatus());
-            }
-            printWriter.close();
-            System.out.println("csv node file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateEdgeCSVFile(String csvFileName) {
-        Statement stmt = null;
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            stmt = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        Iterator<Edge> iterator = edgeList.iterator();
-        System.out.println("Updating edge csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("edgeID,startNode,endNode,status\n");
-            while (iterator.hasNext()) {
-                Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID(), a_edge.getStatus());
-            }
-            printWriter.close();
-            System.out.println("csv edge file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateExitCSVFile(String csvFileName) {
-        Iterator<Exit> iterator = exitList.iterator();
-        System.out.println("Updating exit csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("isFireExit, isArmed, nodeID\n");
-            while (iterator.hasNext()) {
-                Exit a_node = iterator.next();
-                printWriter.printf("%b,%b,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateHallwayCSVFile(String csvFileName) {
-        Iterator<Hallway> iterator = hallwayList.iterator();
-        System.out.println("Updating hallway csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("popularity, nodeID\n");
-            while (iterator.hasNext()) {
-                Hallway a_node = iterator.next();
-                printWriter.printf("%d,%s\n", a_node.getPopularity(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateRoomCSVFile(String csvFileName) {
-        Iterator<Room> iterator = roomList.iterator();
-        System.out.println("Updating room csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("specialization, detail, popularity, isOpen, nodeID\n");
-            while (iterator.hasNext()) {
-                Room a_node = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateTransportCSVFile(String csvFileName) {
-        Iterator<Transport> iterator = transportList.iterator();
-        System.out.println("Updating transport csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("directionality, floors, nodeID\n");
-            while (iterator.hasNext()) {
-                Transport a_node = iterator.next();
-                printWriter.printf("%s,%s,%s\n", a_node.getDirectionality(), a_node.floorsToString(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
     }
 
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
@@ -463,102 +236,6 @@ public class NodesEditor {
 
     /*---------------------------------- Insert values into database ---------------------------------------------------*/
 
-    /**
-       * Creates a list of objects and stores them in the global variable messageList
-       */
-    public void retrieveMessage() {
-        try {
-            // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-
-            // Variables
-            Message messageObject;
-            Node node;
-            String messageID;
-            String message;
-            Boolean isRead;
-            String senderID;
-            String receiverID;
-
-            try {
-                Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Message";
-                ResultSet rset = stmt.executeQuery(str);
-
-                while (rset.next()) {
-                    messageID = rset.getString("messageID");
-                    message = rset.getString("message");
-                    isRead = rset.getBoolean("isRead");
-                    senderID =rset.getString("senderID");
-                    receiverID = rset.getString("receiverID");
-
-                    // Add the new edge to the list
-                    messageObject = new Message(messageID,message,isRead,senderID,receiverID);
-                    messageList.add(messageObject);
-                    System.out.println("Message added to the list: "+messageID);
-                }
-                rset.close();
-                stmt.close();
-                System.out.println("Done adding Messages");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    } // retrieveMessage() ends
-
-    /**
-     *  get data from request table in database and put them into the list of request objects
-     */
-    public void retrieveRequest() {
-        try {
-            // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-
-            // Variables
-            Request requestObject;
-            String requestID;
-            String requestType;
-            int priority;
-            Boolean isComplete;
-            Boolean adminConfirm;
-            String nodeID;
-            String messageID;
-
-            try {
-                Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Request";
-                ResultSet rset = stmt.executeQuery(str);
-
-                while (rset.next()) {
-                    requestID = rset.getString("requestID");
-                    requestType = rset.getString("requestType");
-                    priority = rset.getInt("priority");
-                    isComplete =rset.getBoolean("isComplete");
-                    adminConfirm = rset.getBoolean("adminConfirm");
-                    nodeID = rset.getString("nodeID");
-                    messageID = rset.getString("messageID");
-
-                    // Add the new edge to the list
-                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
-                    requestList.add(requestObject);
-                    System.out.println("Request added to the list: "+requestID);
-                }
-                rset.close();
-                stmt.close();
-                System.out.println("Done adding Requests");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    } // retrieveRequest() ends
 
     /**
      *  get data from UserAccount table in database and put them into the list of request objects
@@ -616,11 +293,11 @@ public class NodesEditor {
         if(ans.equals("y")) {
             try {
                 // Variables we need to make the tables
-                NodesEditor a_database = new NodesEditor();
+                CsvFileController csvFileControl = new CsvFileController();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = a_database.parseCsvFile("./nodesDB/MapGnodes.csv");
-                list_of_edges = a_database.parseCsvFile("./nodesDB/MapGedges.csv");
+                list_of_nodes = csvFileControl.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_edges = csvFileControl.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
                 Connection connection;
