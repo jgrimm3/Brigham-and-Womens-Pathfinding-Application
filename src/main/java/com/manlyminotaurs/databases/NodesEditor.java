@@ -3,6 +3,7 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.nodes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.w3c.dom.traversal.NodeIterator;
 
 import java.io.*;
 import java.sql.*;
@@ -44,7 +45,7 @@ public class NodesEditor {
 
         // run to create the database table
         NodesEditor nodesEditor = new NodesEditor();
-
+        TableInitializer initializer = new TableInitializer();
         initializer.initTables();
         initializer.populateNodeEdgeTables();
         initializer.populateUserAccountTable();
@@ -1116,7 +1117,7 @@ public class NodesEditor {
             Node a_node = iterator.next();
             if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
                 selectedNodes.add(a_node);
-                nodeNames.add(a_node.getShortName());
+                nodeNames.add(a_node.getID());
             }
         }
         return nodeNames;
