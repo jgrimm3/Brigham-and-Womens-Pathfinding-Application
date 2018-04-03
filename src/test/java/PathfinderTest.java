@@ -1,8 +1,10 @@
+import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.manlyminotaurs.nodes.Restroom;
 import com.manlyminotaurs.core.Pathfinder;
@@ -18,11 +20,13 @@ public class PathfinderTest {
     private NodesEditor ne;
     private LinkedList<Node> fixture;
     Node node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, fakeNode;
+    private PathfinderUtil pu;
 
     @Before
     public void createFixtures(){
         pf = new Pathfinder();
         ne = new NodesEditor();
+        pu = new PathfinderUtil();
         ne.retrieveNodes();
         ne.retrieveEdges();
 
@@ -45,6 +49,16 @@ public class PathfinderTest {
 
         fixture = new LinkedList<Node>();
     }
+    @Test
+    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
+        ArrayList<String> fixture = new ArrayList<>();
+        fixture.add("Turn left at Staircase Node 13 Floor 1");
+        fixture.add("Turn left at Hallway Node 6 Floor 1");
+        fixture.add("Turn right at Hallway Node 7 Floor 1");
+        fixture.add("Continue straight at Hallway Node 8 Floor 1");
+        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
+    }
+
 
     @Test
     public void Find_WhenOnlyOneNode_ShouldReturnNode(){
