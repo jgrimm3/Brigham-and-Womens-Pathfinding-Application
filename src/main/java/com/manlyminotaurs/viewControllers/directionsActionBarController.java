@@ -89,7 +89,6 @@ public class directionsActionBarController {
 
 
     public void checkStartEnd(ActionEvent event) {
-        lblEnd.setText("Please Select Destination");
 
         if(lblEnd.getText().equals("End Location")){
         lblEnd.setText("Please Select Destination");
