@@ -38,6 +38,7 @@ public class MessagesDBUtil {
         } catch (SQLException e)
         {
             System.out.println("Message already in the database");
+            e.printStackTrace();
         }
         return messageObject;
     }

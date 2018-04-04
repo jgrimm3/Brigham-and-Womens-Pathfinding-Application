@@ -44,6 +44,7 @@ public class RequestsDBUtil {
         } catch (SQLException e)
         {
             System.out.println("Request already in the database");
+            e.printStackTrace();
         }
     }
     public ObservableList<Request> searchRequestByReceiver(String userID){
