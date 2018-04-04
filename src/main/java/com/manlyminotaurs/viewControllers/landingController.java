@@ -81,6 +81,15 @@ public class landingController {
 		printEdgePath(l2List);
     }
 
+    private static landingController instance;
+    public landingController() {
+        instance = this;
+    }
+    // static method to get instance of view
+    public static landingController getInstance() {
+        return instance;
+    }
+
     /**
      * Opens the login prompt
      * @param event login button clicked

@@ -65,6 +65,7 @@ public class directionsActionBarController {
             lblEnd.setText("Please Select Destination");
         } else{
             //pathfind
+
         }
 
     }
