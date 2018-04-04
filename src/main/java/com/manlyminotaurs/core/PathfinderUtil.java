@@ -98,6 +98,10 @@ public class PathfinderUtil {
         return tbt;
     }
 
+    /**
+     * @author Crunchify.com
+     * Updated: 03/20/2016 - added code to narrow border size
+     */
     public void generateQR(ArrayList<String> directions) {
         String path = "";
         for (int i=0; i<directions.size(); i++) {
