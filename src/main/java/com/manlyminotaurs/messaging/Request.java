@@ -54,7 +54,6 @@ public class Request {
 
     public void setComplete(Boolean complete) {
         isComplete = complete;
-        new RequestsDBUtil().setIsComplete(this, complete);
     }
 
     public Boolean getAdminConfirm() {

@@ -1,5 +1,7 @@
 package com.manlyminotaurs.messaging;
 
+import com.manlyminotaurs.databases.MessagesDBUtil;
+
 public class Message {
 
     String messageID;

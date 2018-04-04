@@ -1,6 +1,5 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.manlyminotaurs.core.Kiosk;
 import com.manlyminotaurs.databases.MessagesDBUtil;
 import com.manlyminotaurs.databases.RequestsDBUtil;
 import com.manlyminotaurs.messaging.Request;
@@ -23,7 +22,8 @@ public class manageRequestsActionBarController implements Initializable{
     MessagesDBUtil msgUtil = new MessagesDBUtil();
     RequestsDBUtil reqUtil = new RequestsDBUtil();
     ObservableList<Request> reqestList = reqUtil.searchRequestBySender("user");
-    ObservableList<requestInfo> finalList = FXCollections.observableArrayList();
+    ObservableList<requestInfo> openList = FXCollections.observableArrayList();
+    ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
 
 
     public class requestInfo{
@@ -101,36 +101,62 @@ public class manageRequestsActionBarController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TableColumn typeCol = new TableColumn("Request Type");
-        TableColumn msgCol = new TableColumn("Request Message");
-        TableColumn isAssignedCol = new TableColumn("Is Assigned");
+        //OPEN LIST-----------------------
+        TableColumn typeColOpen = new TableColumn("Request Type");
+        TableColumn msgColOpen = new TableColumn("Request Message");
+        TableColumn isAssignedColOpen = new TableColumn("Is Assigned");
 
-        tblOpenRequests.getColumns().addAll(typeCol, msgCol, isAssignedCol);
+        tblOpenRequests.getColumns().addAll(typeColOpen, msgColOpen, isAssignedColOpen);
 
-        typeCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
-        msgCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
-        isAssignedCol.setCellValueFactory(new PropertyValueFactory<requestInfo, Boolean>("isAssigned"));
+        typeColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
+        msgColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
+        isAssignedColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, Boolean>("isAssigned"));
 
+        //CLOSED LIST----------------------
+        TableColumn typeColClosed = new TableColumn("Request Type");
+        TableColumn msgColClosed = new TableColumn("Request Message");
+        TableColumn reqConfirmedClosed = new TableColumn("Was Confirmed");
+
+        tblClosedRequests.getColumns().addAll(typeColClosed, msgColClosed, reqConfirmedClosed);
+
+        typeColClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
+        msgColClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
+        reqConfirmedClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("isAssigned"));
+
+        //POPULATE LISTS----------------------------------------
         for(Request currReq : reqestList) {
-            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            if (!currReq.getComplete()) {
+                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            } else {
+                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            }
         }
 
-        tblOpenRequests.setItems(finalList);
+        tblOpenRequests.setItems(openList);
+        tblClosedRequests.setItems(closedList);
     }
 
     public void refreshReqList(ActionEvent event){
         reqestList = reqUtil.searchRequestBySender("user");
         System.out.println("Requests From User: " + reqestList.size());
-        finalList.clear();
+
+        openList.clear();
+        closedList.clear();
 
         for(Request currReq : reqestList) {
             if (!currReq.getComplete()) {
-                finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            } else {
+                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             }
         }
 
-        System.out.println("Requests In List: " + finalList.size());
-        tblOpenRequests.setItems(finalList);
+        System.out.println("Requests In List: " + openList.size());
+
+        tblOpenRequests.setItems(openList);
         tblOpenRequests.refresh();
+
+        tblClosedRequests.setItems(closedList);
+        tblClosedRequests.refresh();
     }
 }

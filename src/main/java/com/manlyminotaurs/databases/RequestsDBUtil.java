@@ -114,7 +114,6 @@ public class RequestsDBUtil {
     }
 
     public void setIsAdminConfim(Request request, boolean newConfirmStatus){
-        request.setComplete(newConfirmStatus);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
