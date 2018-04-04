@@ -8,7 +8,7 @@ import com.manlyminotaurs.nodes.ScoredNode;
 import java.util.*;
 
 /* TODO:
-    - Add floor switch functionality. calcPath(toElev) + calcPath(toDest). 
+    - Add floor switch functionality. calcPath(toElev) + calcPath(toDest).
  */
 
 public class Pathfinder {

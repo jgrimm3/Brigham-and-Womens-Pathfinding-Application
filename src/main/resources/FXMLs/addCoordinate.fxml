@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -60,6 +61,9 @@
                   <Font size="23.0" />
                </font>
             </Label>
+            <ComboBox fx:id="comType" layoutX="540.0" layoutY="313.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Type" />
+            <ComboBox fx:id="comFloor" layoutX="540.0" layoutY="392.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Floor" />
+            <ComboBox fx:id="comBuilding" layoutX="540.0" layoutY="472.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Building" />
          </children>
       </Pane>
    </children>

@@ -1,57 +1,13 @@
 package com.manlyminotaurs.nodes;
 
-public class ScoredNode implements Comparable<ScoredNode> {
-    Node node;
-    ScoredNode parent;
+public abstract class ScoredNode implements Comparable<ScoredNode> {
     double gScore;
     double hScore;
     double fScore;
 
-    public ScoredNode(Node node, ScoredNode parent, double gScore, double hScore, double fScore) {
-        this.node = node;
-        this.parent = parent;
+    public ScoredNode(double gScore, double hScore, double fScore) {
         this.gScore = gScore;
         this.hScore = hScore;
-        this.fScore = fScore;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void setNode(Node node) {
-        this.node = node;
-    }
-
-    public ScoredNode getParent() {
-        return parent;
-    }
-
-    public void setParent(ScoredNode parent) {
-        this.parent = parent;
-    }
-
-    public double getgScore() {
-        return gScore;
-    }
-
-    public void setgScore(double gScore) {
-        this.gScore = gScore;
-    }
-
-    public double gethScore() {
-        return hScore;
-    }
-
-    public void sethScore(double hScore) {
-        this.hScore = hScore;
-    }
-
-    public double getfScore() {
-        return fScore;
-    }
-
-    public void setfScore(double fScore) {
         this.fScore = fScore;
     }
 
@@ -62,6 +18,6 @@ public class ScoredNode implements Comparable<ScoredNode> {
      */
     @Override
     public int compareTo(ScoredNode other){
-        return Double.compare(this.getfScore(), other.getfScore());
+        return 1;
     }
 }

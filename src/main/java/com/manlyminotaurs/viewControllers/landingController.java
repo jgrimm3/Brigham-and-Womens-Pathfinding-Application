@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class landingController {
+
+
+    private static int curActionPane = 0;
 
     final double NODEXMIN = 0;
     final double NODEXMAX = 5000;
@@ -91,10 +95,10 @@ public class landingController {
      */
     public void nurseRequestAction(ActionEvent event){
        Pane action = Main.setActionBars(0);
-       action.setTranslateY(715);
+       action.setTranslateY(735);
        action.setTranslateX(85);
     }
-  
+
     /**
      * Prints points on the map
      * @param floor the floor that you wish to print nodes onto
@@ -241,7 +245,7 @@ public class landingController {
     public void directionAction(ActionEvent event){
         //open direction actionBar
         Pane action = Main.setActionBars(1);
-        action.setTranslateY(715);
+        action.setTranslateY(755);
         action.setTranslateX(85);
 
     }

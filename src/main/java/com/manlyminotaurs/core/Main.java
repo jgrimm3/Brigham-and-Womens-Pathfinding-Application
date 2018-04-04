@@ -42,10 +42,16 @@ public class Main extends Application {
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/editNodesActionBar.fxml")));//2
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/manageRequestsActionBar.fxml")));//3
 
+
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminNurseSend.fxml"))); //login prompt index 2
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/addCoordinate.fxml"))); //login prompt index 3
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/editCoordinate.fxml"))); //login prompt index 4
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeConfirmation.fxml"))); //login prompt index 5
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeSelection.fxml"))); //login prompt index 6
+
+
 
         root.getChildren().add(screens.get(0));
 
@@ -62,7 +68,6 @@ public class Main extends Application {
         primaryStage.setY(primaryScreenBounds.getMinY());
         primaryStage.setWidth(primaryScreenBounds.getWidth());
         primaryStage.setHeight(primaryScreenBounds.getHeight());
-
 
         primaryStage.show();
     }catch(Exception e){
