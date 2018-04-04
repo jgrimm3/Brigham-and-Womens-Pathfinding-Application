@@ -99,7 +99,7 @@ public class NodesEditor {
         NodesEditor nodesEditor = new NodesEditor();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodesEdited.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
         initializer.populateMessageTable("./nodesDB/MessageTable.csv");
         initializer.populateRequestTable("./nodesDB/RequestTable.csv");
