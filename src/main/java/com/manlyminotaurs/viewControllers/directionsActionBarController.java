@@ -45,7 +45,6 @@ public class directionsActionBarController {
     LinkedList<Node> pathForTurns;
     ArrayList<String> textDirections;
     String directions = "";
-    landingController land1;
 
     @FXML
     Label lblStart;
@@ -105,6 +104,36 @@ public class directionsActionBarController {
 			lblDirections.setText(directions);
 			pUtil.generateQR(textDirections);
 			visTurnByTurn();
+
+            switch(Main.getScreen()) {
+                case 1:{
+                    path = pFind.find(startNode, endNode);
+                    landingController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+                case 3:{
+                    path = pFind.find(startNode, endNode);
+                    userHomeController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+            }
+
         }
 
     }
