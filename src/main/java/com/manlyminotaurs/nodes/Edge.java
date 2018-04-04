@@ -2,7 +2,8 @@ package com.manlyminotaurs.nodes;
 
 public class Edge {
 
- 
+
+
 	Node startNode;
 	Node endNode;
 	String edgeID;

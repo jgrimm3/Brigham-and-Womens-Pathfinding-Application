@@ -7,6 +7,7 @@ import com.manlyminotaurs.users.Patient;
 import com.manlyminotaurs.users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.w3c.dom.traversal.NodeIterator;
 
 import java.io.*;
 import java.sql.*;
@@ -284,7 +285,7 @@ public class NodesEditor {
             e.printStackTrace();
         }
     } // retrieveUser() ends
-  
+
     public void populateNodeEdgeTables() {
         // Make sure we aren't ruining the database
         Scanner scanner = new Scanner(System.in);
@@ -1114,12 +1115,12 @@ public class NodesEditor {
         }
         return buildings;
     }
-  
+
   public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
         ObservableList<String> types= FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
        iterator.next(); // get rid of the header
-  
+
         //insert rows
         while (iterator.hasNext()) {
             Node a_node = iterator.next();
@@ -1140,7 +1141,7 @@ public class NodesEditor {
             Node a_node = iterator.next();
             if(building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())){
                 selectedNodes.add(a_node);
-                nodeNames.add(a_node.getShortName());
+                nodeNames.add(a_node.getID());
             }
         }
         return nodeNames;

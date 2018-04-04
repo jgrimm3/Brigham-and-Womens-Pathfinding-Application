@@ -31,14 +31,14 @@ public class adminHomeController {
 
     public void editNodesAction(ActionEvent event){
         Pane action = Main.setActionBars(2);
-        action.setTranslateY(715);
+        action.setTranslateY(735);
         action.setTranslateX(85);
 
     }
     public void manageRequestsAction(ActionEvent event){
         //open direction actionBar
         Pane action = Main.setActionBars(3);
-        action.setTranslateY(715);
+        action.setTranslateY(735);
         action.setTranslateX(85);
     }
 }
