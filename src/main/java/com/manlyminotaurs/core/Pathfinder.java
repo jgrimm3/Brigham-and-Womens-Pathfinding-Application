@@ -22,7 +22,7 @@ public class Pathfinder {
      * @param endNode
      * @retur LinkedList<Node>
      */
-    public LinkedList<Node> find(Node startNode, Node endNode) {
+    public LinkedList<Node> find(Node startNode, Node endNode){
 
         PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
         HashMap<String, ScoredNode> closedList = new HashMap<>();
@@ -36,7 +36,13 @@ public class Pathfinder {
         ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
         ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
 
-        return stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
+        LinkedList<Node> path = null;
+        try {
+            path  = stripScores(calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges));
+        } catch (PathNotFoundException e) {
+            e.printStackTrace();
+        }
+        return path;
     }
 
     /**
@@ -49,9 +55,11 @@ public class Pathfinder {
      * @return
      */
 
-    LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges){
+    public LinkedList<ScoredNode> calcPath(ScoredNode startNode, ScoredNode endNode, PriorityQueue<ScoredNode> openList, HashMap<String, ScoredNode> closedList, ArrayList<Node> nodes, ArrayList<Edge> edges) throws PathNotFoundException {
         /* check for edgeless-node */
-        if (startNode.getNode() == null) { return null; }
+        if (startNode.getNode() == null) throw new PathNotFoundException();
+        if (getEdges(startNode, edges) == null) throw new PathNotFoundException();
+
         if (startNode.getNode().equals(endNode.getNode())) return getNodeTrail(startNode);
         ArrayList<ScoredNode> children = expandNode(startNode, edges);
 
@@ -71,16 +79,18 @@ public class Pathfinder {
 
     /**
      * Finds all the other nodes connected by edges to given node
-     * @param node
+     * @param sNode
      * @return children
      */
-    ArrayList<ScoredNode> expandNode(ScoredNode node, ArrayList<Edge> edges){
+    ArrayList<ScoredNode> expandNode(ScoredNode sNode, ArrayList<Edge> edges){
         ArrayList<ScoredNode> children = new ArrayList<>();
-        ArrayList<Edge> childEdges = getEdges(node, edges);
+        ArrayList<Edge> childEdges = getEdges(sNode, edges);
         for (Edge edge: childEdges){
-            // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
-            ScoredNode scoredChild = new ScoredNode(findOtherNode(edge, node), node, -1, -1, -1);
-            children.add(scoredChild);
+            if(isValidNode(sNode)){
+                // Finds the node on the other end of an edge and converts it to a ScoredNode before adding
+                ScoredNode scoredChild = new ScoredNode(findOtherNode(edge, sNode), sNode, -1, -1, -1);
+                children.add(scoredChild);
+            }
         }
         return children;
     }
@@ -147,11 +157,10 @@ public class Pathfinder {
      * @return strippedNodes
      */
 
-    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes){
+    LinkedList<Node> stripScores(LinkedList<ScoredNode> scoredNodes) throws PathNotFoundException{
         LinkedList<Node> strippedNodes = new LinkedList<>();
         if (scoredNodes == null) {
-            System.out.println("ERROR: No Edges fot this node!");
-            return null;
+            throw new PathNotFoundException();
         }
         for(ScoredNode scoredNode: scoredNodes){
             strippedNodes.add(scoredNode.getNode());
@@ -168,7 +177,7 @@ public class Pathfinder {
 
     LinkedList<ScoredNode> getNodeTrail(ScoredNode node){
         if (node.getNode() == null) {
-            System.out.println("ERROR: No Edges fot this node!");
+            System.out.println("ERROR: No Edges for this node!");
             return null;
         }
         LinkedList<ScoredNode> nodeTrail = new LinkedList<>();
@@ -246,6 +255,15 @@ public class Pathfinder {
         }
         return nodeEdges;
     }
+
+    /**
+     * Checks to see if A* is allowed to route through the given node
+     * @param sNode
+     * @return True if allowed to visit node, false if not
+     */
+    boolean isValidNode(ScoredNode sNode){
+        return sNode.getNode().getStatus() == 1;
+    };
 
 
 }
