@@ -58,6 +58,7 @@ Create Table Request (
   adminConfirm  BOOLEAN,
   nodeID        VARCHAR(10),
   messageID     VARCHAR(10) UNIQUE,
+  password      VARCHAR(255),
   CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Request(messageID),
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID));
 
@@ -67,6 +68,5 @@ Create Table Message (
   isRead        BOOLEAN,
   senderID      VARCHAR(10),
   receiverID    VARCHAR(10),
-  
   CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID),
   CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID));

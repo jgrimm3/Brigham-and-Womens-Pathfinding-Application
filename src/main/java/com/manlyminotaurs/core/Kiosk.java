@@ -8,8 +8,9 @@ public class Kiosk {
 
     public Kiosk(){}
 
-    Kiosk(Node kioskLocation) {
+    Kiosk(Node kioskLocation, String user) {
         this.kioskLocation = kioskLocation;
+        this.User = user;
     }
 
     public Node getKioskLocation() {

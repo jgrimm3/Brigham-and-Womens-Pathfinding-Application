@@ -84,10 +84,10 @@ public class TableInitializer {
     public void populateNodeEdgeTables(String CsvNodeFileName, String CsvEdgeFileName) {
 
         // Make sure we aren't ruining the database
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
-        String ans = scanner.nextLine();
-
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
+//        String ans = scanner.nextLine();
+        String ans = "y";
         // If you're positive...
         if(ans.equals("y")) {
             try {

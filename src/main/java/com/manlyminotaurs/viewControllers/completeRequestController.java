@@ -34,6 +34,7 @@ public class completeRequestController {
     }
 
     public void completeRequest(ActionEvent event) {
+
         if (txtConfirmationCode.getText().trim().isEmpty()) {
             lblError.setText("Please Enter a Correct Confirmation Code");
         } else {
