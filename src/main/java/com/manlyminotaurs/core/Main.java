@@ -53,6 +53,8 @@ public class Main extends Application {
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeSelection.fxml"))); //login prompt index 6
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/modifyNodeSelector.fxml"))); //login prompt index 7
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/addEdgeSelection.fxml"))); //login prompt index 8
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteEdgeSelection.fxml"))); //login prompt index 9
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/modifyEdgeSelection.fxml"))); //login prompt index 10
 
 
 
@@ -86,14 +88,14 @@ public class Main extends Application {
         return root;
     }
     public static int getScreen(){return curScreen;}
-    public static void removeScreen(int oldIndex){
-        root.getChildren().remove(screens.get(oldIndex));
+    public static void removeScreen(int old){
+        root.getChildren().remove(screens.get(old));
     }
     public static int getAction(){
         return curAction;
     }
-    public static void removeAction(int curAction){
-        root.getChildren().remove(actionBars.get(curAction));
+    public static void removeAction(int Action){
+        root.getChildren().remove(actionBars.get(Action));
     }
 
     public static Pane setActionBars(int indxNxtBar){
@@ -103,9 +105,9 @@ public class Main extends Application {
         return actionBars.get(indxNxtBar);
     }
 
-    public static void addPrompt(int indxNxt) {
-        root.getChildren().add(prompts.get(indxNxt));
-        curScreen = indxNxt;
+    public static void addPrompt(int promptnxt) {
+        root.getChildren().add(prompts.get(promptnxt));
+        curScreen = promptnxt;
     }
 
     public static void removePrompt(int indxNxt) {

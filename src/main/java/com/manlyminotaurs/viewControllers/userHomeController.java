@@ -254,7 +254,6 @@ public class userHomeController {
      */
     public void logOut(ActionEvent event){
         //logout and go back to landing page
-
         Main.setScreen(1); //go to landing screen
     }
 

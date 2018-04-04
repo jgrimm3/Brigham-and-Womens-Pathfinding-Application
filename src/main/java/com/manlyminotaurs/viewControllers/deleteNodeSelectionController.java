@@ -95,12 +95,15 @@ public class deleteNodeSelectionController {
         lstBuilding.getSelectionModel().selectedItemProperty().removeListener(Object::notifyAll);
     }
 
+
+
     public void cancel(ActionEvent event) {
         lstType.setItems(null);
         lstBuilding.setItems(null);
         lstLocation.setItems(null);
         lblNodeDeleted.setText("Node to be Deleted");
         Main.removePrompt(6);
+
     }
 
 

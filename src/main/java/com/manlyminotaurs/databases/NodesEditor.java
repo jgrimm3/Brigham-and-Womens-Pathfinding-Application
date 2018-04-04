@@ -1072,7 +1072,17 @@ public class NodesEditor {
             i++;
         }
     } // end printEdgeList
-
+    public Edge getEdgeFromList(String edgeID){
+        Iterator<Edge> iterator = edgeList.iterator();
+        while (iterator.hasNext()) {
+            Edge a_edge = iterator.next();
+            if (a_edge.getEdgeID().equals(edgeID)) {
+                return a_edge;
+            }
+        }
+        //System.out.println("getNdeFromList: Null-----------Something might break");
+        return null;
+    }
     /**
      * find all adjacent edges from the node object using sql query
      * @param node

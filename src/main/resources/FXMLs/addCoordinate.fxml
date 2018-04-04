@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.addCoordinateController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.addCoordinateController">
    <children>
       <Pane layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1;">
          <children>
@@ -64,6 +64,7 @@
             <ComboBox fx:id="comType" layoutX="540.0" layoutY="313.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Type" />
             <ComboBox fx:id="comFloor" layoutX="540.0" layoutY="392.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Floor" />
             <ComboBox fx:id="comBuilding" layoutX="540.0" layoutY="472.0" prefHeight="50.0" prefWidth="360.0" promptText="Select Building" />
+            <Label fx:id="lblNodeInfo" layoutX="64.0" layoutY="180.0" prefHeight="31.0" prefWidth="240.0" textFill="#fcfcfc" wrapText="true" />
          </children>
       </Pane>
    </children>

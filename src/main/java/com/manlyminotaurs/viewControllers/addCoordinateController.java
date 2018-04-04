@@ -75,6 +75,9 @@ public class addCoordinateController implements Initializable{
     @FXML
     Button btnChooseCoord;
 
+    @FXML
+    Label lblNodeInfo;
+
     // Population for ComboBoxes
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1","2","3");
@@ -121,8 +124,8 @@ public class addCoordinateController implements Initializable{
         comFloor.getSelectionModel().clearSelection();
         comBuilding.getSelectionModel().clearSelection();
 
+        //lblNodeInfo.setText(nodeEditor.generateNodeID("G",comType.getValue(), comFloor.getValue(),"A" ));
 
-        Main.removePrompt(3);
     }
 
 

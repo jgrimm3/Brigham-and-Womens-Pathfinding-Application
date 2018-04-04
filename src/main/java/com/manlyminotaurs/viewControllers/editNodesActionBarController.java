@@ -51,10 +51,12 @@ public class editNodesActionBarController {
         // allows user to select 2 nodes
         // to select an edge
         // which will bring up a confirmation notice
+        Main.addPrompt(9);
     }
 
     public void modifyEdge(ActionEvent event) {
         // allows user to modify edge
         // expand on description
+        Main.addPrompt(10);
     }
 }

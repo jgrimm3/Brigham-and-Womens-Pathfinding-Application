@@ -21,8 +21,7 @@ public class deleteNodeConfirmationController {
     Button btnNo;
 
     public void no(ActionEvent event) {
-        Main.removePrompt(5);
-    }
+        Main.removePrompt(5); }
 
     public void yes(ActionEvent event) {
         Main.removePrompt(5);

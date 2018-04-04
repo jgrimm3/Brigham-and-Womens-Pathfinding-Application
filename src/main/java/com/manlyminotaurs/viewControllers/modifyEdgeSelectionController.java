@@ -2,10 +2,7 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
-import com.manlyminotaurs.nodes.Node;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,13 +14,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class deleteEdgeSelectionController implements Initializable{
+public class modifyEdgeSelectionController implements Initializable{
 
     Edge endEdge;
     String endEdgeID;
@@ -39,7 +34,10 @@ public class deleteEdgeSelectionController implements Initializable{
     TableView<tableEdge> tblEdges;
 
     @FXML
-    Button btnDeleteEdge;
+    Button btnDisableEdge;
+
+    @FXML
+    Button btnEnableEdge;
 
     @FXML
     Button btnCancel;
@@ -118,15 +116,19 @@ public String getEdgeID(){return this.edgeID;}
         tblEdges.refresh();
     }
 
-    public void deleteEdge(ActionEvent event) {
-       Edge edgeDel =  edgeHome.getEdgeFromList(tblEdges.getSelectionModel().getSelectedItem().edgeID);
-       lblEdgeID.setText("Edge to Be Deleted" + edgeDel.getEdgeID());
-       edgeHome.removeEdge(edgeDel);
+    public void disableEdge(ActionEvent event) {
+       Edge edgeDis =  edgeHome.getEdgeFromList(tblEdges.getSelectionModel().getSelectedItem().edgeID);
+       edgeHome.modifyEdgeStatus(edgeDis, 0);
+       lblEdgeID.setText("Edge to Modify" + edgeDis.getEdgeID());
     }
-
+    public void enableEdge(ActionEvent event) {
+        Edge edgeEn =  edgeHome.getEdgeFromList(tblEdges.getSelectionModel().getSelectedItem().edgeID);
+        edgeHome.modifyEdgeStatus(edgeEn, 1);
+        lblEdgeID.setText("Edge to Modify" + edgeEn.getEdgeID());
+    }
     public void cancel(ActionEvent event) {
 
-        Main.removePrompt(9);
+        Main.removePrompt(10);
 
     }
 }
