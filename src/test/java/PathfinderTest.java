@@ -96,14 +96,6 @@ public class PathfinderTest {
         assertEquals(fixture, result);
     }
 
-//    @Test
-//    public void Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG(){
-//        LinkedList<Node> result = pf.find(fakeNode, node1);
-//        assertEquals(null, result);
-//    }
-
-//    @Rule
-//    public ExpectedException thrown = ExpectedException.none();
 
     @Test(expected = PathNotFoundException.class)
     public void Find_WhenGivenOrphanNode_ShouldThrowPathNotFoundException() throws PathNotFoundException{
@@ -121,17 +113,6 @@ public class PathfinderTest {
 
 
         LinkedList<ScoredNode> result = pf.calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges);
-    }
-
-    @Test
-    public void GetEdges_WhenGivenNodeWithOneEdge_ShouldReturnThatEdge(){
-        LinkedList<Edge> edgeFixture = new LinkedList<>();
-        Edge testEdge = new Edge(node2, node1, "GDEPT01901_GCONF02001");
-        edgeFixture.add(testEdge);
-        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
-        System.out.println(result.get(0).getStartNode().getID());
-        System.out.println(result.get(0).getEndNode().getID());
-        assertEquals(edgeFixture, result);
     }
 
     @Test
