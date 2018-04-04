@@ -127,6 +127,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
+        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
     }
     public void setIsComplete(Request request, boolean newCompleteStatus){
         request.setComplete(newCompleteStatus);
@@ -142,6 +143,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
+        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
     }
 
     /**

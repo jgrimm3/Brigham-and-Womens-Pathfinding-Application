@@ -1,5 +1,7 @@
 package com.manlyminotaurs.messaging;
 
+import com.manlyminotaurs.databases.RequestsDBUtil;
+
 public class Request {
 
     String requestID;
@@ -52,6 +54,7 @@ public class Request {
 
     public void setComplete(Boolean complete) {
         isComplete = complete;
+        new RequestsDBUtil().setIsComplete(this, complete);
     }
 
     public Boolean getAdminConfirm() {
@@ -60,6 +63,7 @@ public class Request {
 
     public void setAdminConfirm(Boolean adminConfirm) {
         this.adminConfirm = adminConfirm;
+        new RequestsDBUtil().setIsAdminConfim(this, adminConfirm);
     }
 
     public String getNodeID() {

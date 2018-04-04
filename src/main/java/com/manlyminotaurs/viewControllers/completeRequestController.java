@@ -31,6 +31,8 @@ public class completeRequestController {
     Label lblError;
 
     public void back(ActionEvent event) {
+        lblError.setText("");
+        txtConfirmationCode.clear();
         Main.removePrompt(1);
     }
 
@@ -44,7 +46,8 @@ public class completeRequestController {
         if (!txtConfirmationCode.getText().trim().equals(reqUtil.searchRequestsByID(selectedRequestedID).getPassword())) {
             lblError.setText("Please Enter a Correct Confirmation Code");
         } else {
-            Main.removePrompt(1);
+            reqUtil.searchRequestsByID(selectedRequestedID).setComplete(true);
+            back(null);
         }
     }
 
