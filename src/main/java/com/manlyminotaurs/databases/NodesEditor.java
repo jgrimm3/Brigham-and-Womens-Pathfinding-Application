@@ -57,8 +57,8 @@ public class NodesEditor {
         CsvFileController csvFileController = new CsvFileController();
         nodesEditor.setupDatabase();
 
-        initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
-        initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
+        initializer.populateExitTable("./NodeExitTable.csv");
+        initializer.populateHallwayTable("./NodeHallwayTable.csv");
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
@@ -81,15 +81,15 @@ public class NodesEditor {
 //        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
 //        requestsDB.printRequestList();
 
-        csvFileController.updateRequestCSVFile("./nodesDB/RequestTable.csv");
-//        csvFileController.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
-//        csvFileController.updateMessageCSVFile("./nodesDB/MessageTable.csv");
-//        csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
-//        csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
-//        csvFileController.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
-//        csvFileController.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
-//        csvFileController.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
-//        csvFileController.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
+        csvFileController.updateRequestCSVFile("./RequestTable.csv");
+//        csvFileController.updateUserCSVFile("./UserAccountTable2.csv");
+//        csvFileController.updateMessageCSVFile("./MessageTable.csv");
+//        csvFileController.updateNodeCSVFile("./MapGNodes2.csv");
+//        csvFileController.updateEdgeCSVFile("./MapGEdges2.csv");
+//        csvFileController.updateExitCSVFile("./NodeExitTable.csv");
+//        csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
+//        csvFileController.updateRoomCSVFile("./NodeRoomTable.csv");
+//        csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
 
         System.out.println("main function ended");
     }
@@ -101,10 +101,10 @@ public class NodesEditor {
         NodesEditor nodesEditor = new NodesEditor();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("./nodesDB/MapGNodesEdited.csv","./nodesDB/MapGEdges.csv");
-        initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
-        initializer.populateMessageTable("./nodesDB/MessageTable.csv");
-        initializer.populateRequestTable("./nodesDB/RequestTable.csv");
+        initializer.populateNodeEdgeTables("./MapGNodesEdited.csv","./MapGEdges.csv");
+        initializer.populateUserAccountTable("./UserAccountTable.csv");
+        initializer.populateMessageTable("./MessageTable.csv");
+        initializer.populateRequestTable("./RequestTable.csv");
 
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
@@ -316,8 +316,8 @@ public class NodesEditor {
                 CsvFileController csvFileControl = new CsvFileController();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = csvFileControl.parseCsvFile("./nodesDB/MapGnodes.csv");
-                list_of_edges = csvFileControl.parseCsvFile("./nodesDB/MapGedges.csv");
+                list_of_nodes = csvFileControl.parseCsvFile("./MapGnodes.csv");
+                list_of_edges = csvFileControl.parseCsvFile("./MapGedges.csv");
 
                 // Get the database connection
                 Connection connection;
@@ -583,7 +583,7 @@ public class NodesEditor {
             statement.executeUpdate();
             System.out.println("Node added to database");
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes.csv");
+            csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e)
         {
             System.out.println("Node already in the database");
@@ -804,7 +804,7 @@ public class NodesEditor {
             connection.close();
             System.out.println("Node removed from database");
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes.csv");
+            csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -832,7 +832,7 @@ public class NodesEditor {
             connection.close();
             System.out.println("room removed from database: " + node.getID());
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateNodeCSVFile("./nodesDB/NodeRoomTable.csv");
+            csvFileController.updateNodeCSVFile("./NodeRoomTable.csv");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -859,7 +859,7 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
+            csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
             System.out.println("hallway removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -887,7 +887,7 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
+            csvFileController.updateExitCSVFile("./NodeExitTable.csv");
             System.out.println("EXIT removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -915,7 +915,7 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
+            csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
             System.out.println("Transport removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -950,7 +950,7 @@ public class NodesEditor {
             statement.executeUpdate();
             System.out.println("Node added to database");
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges.csv");
+            csvFileController.updateEdgeCSVFile("./MapGEdges.csv");
         } catch (SQLException e)
         {
             System.out.println("Node already in the database");
@@ -1044,7 +1044,7 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             CsvFileController csvFileController = new CsvFileController();
-            csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges.csv");
+            csvFileController.updateEdgeCSVFile("./MapGEdges.csv");
             System.out.println("Edge removed from database: " + edge.getEdgeID());
         } catch (SQLException e) {
             e.printStackTrace();

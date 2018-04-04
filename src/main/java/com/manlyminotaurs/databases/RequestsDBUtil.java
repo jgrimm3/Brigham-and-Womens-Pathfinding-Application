@@ -47,7 +47,7 @@ public class RequestsDBUtil {
             System.out.println("Request already in the database");
             e.printStackTrace();
         }
-        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
+        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
     public ObservableList<Request> searchRequestByReceiver(String userID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
@@ -126,7 +126,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
+        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
     public void setIsComplete(Request request, boolean newCompleteStatus){
         request.setComplete(newCompleteStatus);
@@ -142,7 +142,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
+        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
     /**

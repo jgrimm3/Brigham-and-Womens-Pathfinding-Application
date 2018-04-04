@@ -40,7 +40,7 @@ public class MessagesDBUtil {
             System.out.println("Message already in the database");
             e.printStackTrace();
         }
-        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
+        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
         return messageObject;
     }
 
@@ -64,7 +64,7 @@ public class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
+        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
     public void setIsRead(Message message, boolean newReadStatus){
         message.setRead(newReadStatus);
@@ -80,7 +80,7 @@ public class MessagesDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
+        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
     public void setMessage(Message message, String newMessage){
         message.setMessage(newMessage);
@@ -112,7 +112,7 @@ public class MessagesDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
+        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
 
 
