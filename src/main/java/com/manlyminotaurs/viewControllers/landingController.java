@@ -79,12 +79,18 @@ public class landingController {
             i++;
         }
 
-		printEdgePath(l2List);
-		*/
+		printEdgePath(l2List);*/
     }
- public void setController(landingController land){
-       land = this;
+
+    private static landingController instance;
+    public landingController() {
+        instance = this;
     }
+    // static method to get instance of view
+    public static landingController getInstance() {
+        return instance;
+    }
+
     /**
      * Opens the login prompt
      * @param event login button clicked

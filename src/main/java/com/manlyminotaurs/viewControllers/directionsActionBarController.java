@@ -75,7 +75,7 @@ public class directionsActionBarController {
         if(lblEnd.getText().equals("End Location")) {
             lblEnd.setText("Please Select Destination");
         } else{
-           land1.setController(land1);
+      //     land1.setController(land1);
             path = pFind.find(startNode, endNode);
             //land.printNodePath(path);
         }
@@ -131,6 +131,7 @@ public class directionsActionBarController {
         lststartBuilding.setItems(null);
         // allows user to select a location from either map or list of locations
         // which sets location to the end location
+        NodesEditor node = new NodesEditor();
         node.retrieveNodes();
         lstendBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstendBuilding.setVisible(true);
