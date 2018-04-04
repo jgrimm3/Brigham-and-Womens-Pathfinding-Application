@@ -22,6 +22,7 @@ public class Main extends Application {
     public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
     private static int curScreen = 0;
     private static int curAction = 0;
+    private static int curPrompt = 0;
 
 
     @Override
@@ -107,7 +108,7 @@ public class Main extends Application {
 
     public static void addPrompt(int promptnxt) {
         root.getChildren().add(prompts.get(promptnxt));
-        curScreen = promptnxt;
+        curPrompt = promptnxt;
     }
 
     public static void removePrompt(int indxNxt) {
