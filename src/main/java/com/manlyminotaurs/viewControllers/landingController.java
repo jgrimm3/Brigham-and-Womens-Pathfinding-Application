@@ -32,6 +32,7 @@ public class landingController {
     final double NEWMAPYMIN = 0;
     final double NEWMAPYMAX = 693.8;
 
+
     @FXML
     Button btnLogin;
 

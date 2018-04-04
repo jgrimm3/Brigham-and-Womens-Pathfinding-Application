@@ -20,6 +20,7 @@ public class RequestsDBUtil {
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
         Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID);
+        requestObject.setPassword(requestType);
         requestList.add(requestObject);
 
         try {
@@ -161,6 +162,7 @@ public class RequestsDBUtil {
             Boolean adminConfirm;
             String nodeID;
             String messageID;
+            String password;
 
             try {
                 Statement stmt = connection.createStatement();
@@ -175,7 +177,6 @@ public class RequestsDBUtil {
                     adminConfirm = rset.getBoolean("adminConfirm");
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
-
                     // Add the new edge to the list
                     requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
                     requestList.add(requestObject);
