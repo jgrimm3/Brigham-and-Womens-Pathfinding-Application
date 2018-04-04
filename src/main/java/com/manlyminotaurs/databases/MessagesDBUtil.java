@@ -12,10 +12,10 @@ import java.util.List;
 
 public class MessagesDBUtil {
     public static List<Message> messageList = new ArrayList<>();
-    private static int messageIDCounter = 10;
+    private static int messageIDCounter = 1;
 
-    public void addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
-        Message messageObject = new Message(messageID, message, false, senderID, receiverID);
+    public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
+        Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
         messageList.add(messageObject);
 
         try {
@@ -23,7 +23,7 @@ public class MessagesDBUtil {
             System.out.println("Getting connection to database...");
             Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            String str = "INSERT INTO Message(messageID, message, false, senderID, receiverID) VALUES (?,?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -39,10 +39,29 @@ public class MessagesDBUtil {
         {
             System.out.println("Message already in the database");
         }
+        return messageObject;
     }
 
     public void removeMessage(Message message){
-
+        for(int i = 0; i < messageList.size(); i++){
+            if(messageList.get(i).getMessageID().equals(message.getMessageID())) {
+                // remove the node
+                System.out.println("Node removed from object list...");
+                messageList.remove(i);
+            }
+        }
+        try {
+            // Get connection to database and delete the node from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MESSAGE WHERE messageID = '" + message.getMessageID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Node removed from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setIsRead(Message message, boolean newReadStatus){
         message.setRead(newReadStatus);
@@ -132,7 +151,7 @@ public class MessagesDBUtil {
         return listOfMessages;
     }
 
-    public String getMessageIDCounter(){
+    public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
@@ -169,6 +188,7 @@ public class MessagesDBUtil {
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead,senderID,receiverID);
                     MessagesDBUtil.messageList.add(messageObject);
+                    messageIDCounter++;
                     System.out.println("Message added to the list: "+messageID);
                 }
                 rset.close();

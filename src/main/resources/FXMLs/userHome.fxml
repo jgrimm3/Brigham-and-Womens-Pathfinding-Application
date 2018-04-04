@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userHomeController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userHomeController">
     <children>
         <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="132.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="877.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="61.0">
             <fill>
@@ -30,7 +30,7 @@
                 <Image url="@02_thesecondfloor.png" />
             </image>
         </ImageView>
-      <TableView fx:id="tblProfileInfo" layoutX="29.0" layoutY="284.0" prefHeight="440.0" prefWidth="334.0">
+      <TableView fx:id="tblProfileInfo" layoutX="29.0" layoutY="284.0" prefHeight="440.0" prefWidth="334.0" visible="false">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -48,6 +48,10 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Circle fx:id="circ" fill="#25415b" layoutX="170.0" layoutY="132.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
+      <Button fx:id="btnProfile" layoutX="110.0" layoutY="72.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #25415b;" text="User" textFill="#fcfcfc">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

@@ -1,7 +1,9 @@
+import com.manlyminotaurs.core.PathNotFoundException;
 import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,9 +12,12 @@ import com.manlyminotaurs.nodes.Restroom;
 import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.Edge;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 
 public class PathfinderTest {
@@ -49,22 +54,9 @@ public class PathfinderTest {
 
         fixture = new LinkedList<Node>();
     }
-    @Test
-    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
-        ArrayList<String> fixture = new ArrayList<>();
-        fixture.add("Left");
-        fixture.add("Left");
-        fixture.add("Right");
-        fixture.add("Straight");
-        //ScoredNode sNode1 = new ScoredNode(node5, null, -1, -1, -1);
-        //ScoredNode sNode2 = new ScoredNode(node6, null, -1, -1, -1);
-        //ScoredNode sNode3 = new ScoredNode(node7, null, -1, -1, -1);
-        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
-    }
-
 
     @Test
-    public void Find_WhenOnlyOneNode_ShouldReturnNode(){
+    public void Find_WhenStartAndEndNodesAreSame_ShouldReturnNode(){
         fixture.add(node1);
 
         LinkedList<Node> result = pf.find(node1, node1);
@@ -72,7 +64,7 @@ public class PathfinderTest {
     }
 
     @Test
-    public void Find_WhenOnlyTwoNodes_ShouldReturnPath(){
+    public void Find_WhenStartAndEndNodesAreOnSameEdge_ShouldReturnPath(){
         fixture.add(node1);
         fixture.add(node2);
 
@@ -104,21 +96,33 @@ public class PathfinderTest {
         assertEquals(fixture, result);
     }
 
-    @Test
-    public void Find_NodeWithNoPath_ShouldReturnNullAndErrorMSG(){
-        LinkedList<Node> result = pf.find(fakeNode, node1);
-        assertEquals(null, result);
+
+    @Test(expected = PathNotFoundException.class)
+    public void Find_WhenGivenOrphanNode_ShouldThrowPathNotFoundException() throws PathNotFoundException{
+        PriorityQueue<ScoredNode> openList = new PriorityQueue<>();
+        HashMap<String, ScoredNode> closedList = new HashMap<>();
+
+        ScoredNode scoredStart = new ScoredNode(fakeNode, null, -1, -1, -1);
+        ScoredNode scoredEnd = new ScoredNode(node1, null, -1, -1, -1);
+
+        NodesEditor ne = new NodesEditor();
+        ne.retrieveNodes();
+        ne.retrieveEdges();
+        ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
+        ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
+
+
+        LinkedList<ScoredNode> result = pf.calcPath(scoredStart, scoredEnd, openList, closedList, nodes, edges);
     }
 
     @Test
-    public void GetEdges_WhenGivenNodeWithOneEdge_ShouldReturnThatEdge(){
-        LinkedList<Edge> edgeFixture = new LinkedList<>();
-        Edge testEdge = new Edge(node2, node1, "GDEPT01901_GCONF02001");
-        edgeFixture.add(testEdge);
-        ArrayList<Edge> result = pf.getEdges(new ScoredNode(node1, null, -1, -1, -1), new ArrayList<Edge>(ne.getEdgeList()));
-        System.out.println(result.get(0).getStartNode().getID());
-        System.out.println(result.get(0).getEndNode().getID());
-        assertEquals(edgeFixture, result);
+    public void Find_TbtDirectionsForPath_ShouldReturnDirectionList() {
+        ArrayList<String> fixture = new ArrayList<>();
+        fixture.add("Turn left at Staircase Node 13 Floor 1");
+        fixture.add("Turn left at Hallway Node 6 Floor 1");
+        fixture.add("Turn right at Hallway Node 7 Floor 1");
+        fixture.add("Continue straight at Hallway Node 8 Floor 1");
+        assertEquals(fixture, pu.angleToText(pf.find(node5, node10)));
     }
 
     @Test

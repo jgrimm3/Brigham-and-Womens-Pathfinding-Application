@@ -21,18 +21,23 @@ public class editNodesActionBarController {
     Button btnModifyEdge;
 
 
-    public void promptAddCoordinate(ActionEvent event){
+    public void addNode(ActionEvent event){
         Main.addPrompt(3); //prompt add node
     }
 
     public void deleteNode(ActionEvent event) {
         // allows user to select a node from either map or list of nodes
         // which deletes node at selection point
+        // bring up confirmation after user selects node
+
+        Main.addPrompt(6);
     }
 
     public void modifyNode(ActionEvent event) {
         // allows user to select a node from either map or list of nodes
         // which will bring up prompt to edit selected node
+
+        Main.addPrompt(4);
     }
 
     public void addEdge(ActionEvent event) {

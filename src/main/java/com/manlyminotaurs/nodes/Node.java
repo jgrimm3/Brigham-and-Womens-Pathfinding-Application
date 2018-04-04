@@ -19,25 +19,6 @@ public abstract class Node {
         status = 1;
     }
 
-    /**
-     * Overrides default equals method so that nodes are compared by their IDs
-     *
-     * @param o
-     * @return True if Node IDs are the same
-     */
-
-    @Override
-    public boolean equals(Object o){
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Node)) {
-            return false;
-        }
-        Node n = (Node) o;
-        return n.ID.equals(this.ID);
-    }
-
     public void setLoc(Location loc) { this.loc = loc; }
 
     public void setLongName(String longName) { this.longName = longName; }

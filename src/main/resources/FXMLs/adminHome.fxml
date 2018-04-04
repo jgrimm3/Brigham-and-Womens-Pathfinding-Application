@@ -25,7 +25,7 @@
                 </LinearGradient>
             </fill>
         </Circle>
-        <Button fx:id="btnProfile" layoutX="109.0" layoutY="87.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #ffffff;" text="Profile Pic" textFill="#43607e" AnchorPane.bottomAnchor="890.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="1691.0" AnchorPane.topAnchor="70.0">
+        <Button fx:id="btnProfile" layoutX="109.0" layoutY="87.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #25415b;" text="Admin" textFill="#fcfcfc" AnchorPane.bottomAnchor="890.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="1691.0" AnchorPane.topAnchor="70.0">
             <font>
                 <Font size="24.0" />
             </font>

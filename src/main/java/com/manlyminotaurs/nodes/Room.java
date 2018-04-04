@@ -54,4 +54,5 @@ public class Room extends Node {
     public void setOpen(boolean open) {
         isOpen = open;
     }
+
 }

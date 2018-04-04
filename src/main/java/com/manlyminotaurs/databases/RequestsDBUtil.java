@@ -13,13 +13,13 @@ import java.util.List;
 public class RequestsDBUtil {
 
     public static List<Request> requestList = new ArrayList<>();
-    private static int requestIDCounter = 10;
+    private static int requestIDCounter = 1;
 
     public void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
-        MessagesDBUtil messagesDB = new MessagesDBUtil();
-        String messageID = messagesDB.getMessageIDCounter();
-        messagesDB.addMessage(messageID,message,false,senderID,"admin");
-        Request requestObject = new Request(getRequestIDCounter(), requestType, priority, false, false, nodeID, messageID);
+        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+        String messageID = messagesDBUtil.generateMessageID();
+        Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
+        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID);
         requestList.add(requestObject);
 
         try {
@@ -89,8 +89,27 @@ public class RequestsDBUtil {
     }
 
     public void removeRequest(Request request){
-
+        for(int i = 0; i < requestList.size(); i++){
+            if(requestList.get(i).getRequestID().equals(request.getRequestID())) {
+                // remove the node
+                System.out.println("Node removed from object list...");
+                requestList.remove(i);
+            }
+        }
+        try {
+            // Get connection to database and delete the node from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM REQUEST WHERE requestID = '" + request.getRequestID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Node removed from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
     public void setIsAdminConfim(Request request, boolean newConfirmStatus){
         request.setComplete(newConfirmStatus);
         try {
@@ -158,6 +177,7 @@ public class RequestsDBUtil {
                     // Add the new edge to the list
                     requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
                     requestList.add(requestObject);
+                    requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
                 }
                 rset.close();
@@ -172,7 +192,7 @@ public class RequestsDBUtil {
         }
     } // retrieveRequest() ends
 
-    public String getRequestIDCounter(){
+    public String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }

@@ -59,15 +59,15 @@ public class directionsActionBarController {
     ListView<String> lstendLocation;
 
 
-    public  void checkStartEnd(ActionEvent event){
-    if(lblEnd.getText().equals("End Location")) {
-        lblEnd.setText("PLease Select Destination");
-    }
-        else{
-            //pathfind
-            }
+    public void checkStartEnd(ActionEvent event){
 
-}
+        if(lblEnd.getText().equals("End Location")) {
+            lblEnd.setText("Please Select Destination");
+        } else{
+            //pathfind
+        }
+
+    }
 
     public void getStartLocation(String location){
         startLocation = location;
@@ -90,8 +90,8 @@ public class directionsActionBarController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-    NodesEditor node = new NodesEditor();
-    node.retrieveNodes();
+        NodesEditor node = new NodesEditor();
+        node.retrieveNodes();
         lststartBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lststartBuilding.setVisible(true);
 
