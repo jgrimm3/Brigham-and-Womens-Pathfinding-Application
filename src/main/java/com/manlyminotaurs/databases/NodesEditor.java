@@ -54,7 +54,7 @@ public class NodesEditor {
         TableInitializer initializer = new TableInitializer();
         RequestsDBUtil requestsDB = new RequestsDBUtil();
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-
+        CsvFileController csvFileController = new CsvFileController();
         nodesEditor.setupDatabase();
 
         initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
@@ -64,30 +64,32 @@ public class NodesEditor {
 
 //        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
 //        nodesEditor.removeNode(oneNode);
-        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
-        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
-        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
-        messagesDBUtil.printMessageList();
+//        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
+//        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
+//        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
+//        messagesDBUtil.printMessageList();
 
 
-        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
-        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
-        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
+      //  ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
+      //  ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
+        messagesDBUtil.addMessage("15", "This is second", false, "5", "doctor");
         requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
+
+
 //
 //        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
 //        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
 //        requestsDB.printRequestList();
 
-//        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
-//        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
-//        csvFileControl.updateMessageCSVFile("./nodesDB/MessageTable.csv");
-//        csvFileControl.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
-//        csvFileControl.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
-//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
-//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
-//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
-//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
+        csvFileController.updateRequestCSVFile("./nodesDB/RequestTable.csv");
+//        csvFileController.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
+//        csvFileController.updateMessageCSVFile("./nodesDB/MessageTable.csv");
+//        csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
+//        csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
+//        csvFileController.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
+//        csvFileController.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
+//        csvFileController.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
+//        csvFileController.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
 
         System.out.println("main function ended");
     }
@@ -99,7 +101,7 @@ public class NodesEditor {
         NodesEditor nodesEditor = new NodesEditor();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodesEdited.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
         initializer.populateMessageTable("./nodesDB/MessageTable.csv");
         initializer.populateRequestTable("./nodesDB/RequestTable.csv");

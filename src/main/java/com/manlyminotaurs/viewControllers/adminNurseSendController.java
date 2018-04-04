@@ -1,5 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.databases.MessagesDBUtil;
+import com.manlyminotaurs.databases.RequestsDBUtil;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -11,6 +13,8 @@ import com.manlyminotaurs.core.Main;
 import java.awt.*;
 
 public class adminNurseSendController {
+    MessagesDBUtil msgUtil = new MessagesDBUtil();
+    RequestsDBUtil reqUtil = new RequestsDBUtil();
 
     @FXML
     Button btnBack;
@@ -40,6 +44,8 @@ public class adminNurseSendController {
     Label lblError;
 
     public void back(ActionEvent event) {
+        lblError.setText("");
+        txtNurse.clear();
         Main.removePrompt(2);
     }
 
@@ -48,8 +54,16 @@ public class adminNurseSendController {
             lblError.setText("Please Enter a Correct Nurse Name");
         }
         else{
-            Main.removePrompt(2);
+            String selectedRequestID = new userNrActionBarController().selectedRequestID;
+            msgUtil.getMessageFromList(reqUtil.searchRequestsByID(selectedRequestID).getMessageID()).setReceiverID(txtNurse.getText());
+            reqUtil.searchRequestsByID(selectedRequestID).setAdminConfirm(true);
+            back(null);
         }
+    }
+
+
+    public void start(){
+        System.out.println("Loaded");
     }
 
 }

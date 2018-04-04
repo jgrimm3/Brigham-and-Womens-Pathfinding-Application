@@ -1,5 +1,7 @@
 package com.manlyminotaurs.messaging;
 
+import com.manlyminotaurs.databases.RequestsDBUtil;
+
 public class Request {
 
     String requestID;
@@ -11,7 +13,7 @@ public class Request {
     String messageID;
     String password;
 
-    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID) {
+    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.priority = priority;
@@ -19,7 +21,7 @@ public class Request {
         this.adminConfirm = adminConfirm;
         this.nodeID = nodeID;
         this.messageID = messageID;
-        this.password = "default_password";
+        this.password = password;
     }
 
     public String getRequestID() {
@@ -60,6 +62,7 @@ public class Request {
 
     public void setAdminConfirm(Boolean adminConfirm) {
         this.adminConfirm = adminConfirm;
+        new RequestsDBUtil().setIsAdminConfim(this, adminConfirm);
     }
 
     public String getNodeID() {

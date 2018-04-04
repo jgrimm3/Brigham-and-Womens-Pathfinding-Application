@@ -2,14 +2,21 @@
 
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userHomeController">
@@ -25,11 +32,6 @@
             </fill>
         </Circle>
         <Accordion layoutX="582.0" layoutY="337.0" />
-        <ImageView fx:id="imgMap" fitHeight="702.0" fitWidth="941.0" layoutX="585.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="281.0" AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="301.6470947265625" AnchorPane.topAnchor="97.0">
-            <image>
-                <Image url="@02_thesecondfloor.png" />
-            </image>
-        </ImageView>
       <TableView fx:id="tblProfileInfo" layoutX="29.0" layoutY="284.0" prefHeight="440.0" prefWidth="334.0" visible="false">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
@@ -53,5 +55,31 @@
             <Font size="24.0" />
          </font>
       </Button>
+      <ScrollPane fx:id="scrollPane" layoutX="625.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.5" prefWidth="1250.0">
+         <content>
+            <StackPane prefHeight="2774.0" prefWidth="5000.0">
+               <children>
+                  <ImageView fx:id="mapImg" fitHeight="2774.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../MapImages/L2-NO-ICONS.png" />
+                     </image>
+                  </ImageView>
+                  <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="2774.0" prefWidth="5000.0">
+                     <children>
+                        <Path fx:id="path" blendMode="DARKEN" fill="WHITE" stroke="#d63e15" strokeType="INSIDE">
+                           <elements>
+                              <MoveTo />
+                              <LineTo x="5000.0" />
+                              <LineTo x="5000.0" y="2774.0" />
+                              <LineTo y="2774.0" />
+                              <ClosePath />
+                           </elements>
+                        </Path>
+                     </children>
+                  </Pane>
+               </children>
+            </StackPane>
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>

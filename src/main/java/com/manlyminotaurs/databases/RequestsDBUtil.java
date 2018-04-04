@@ -19,8 +19,7 @@ public class RequestsDBUtil {
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
-        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID);
-        requestObject.setPassword(requestType);
+        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID, requestType);
         requestList.add(requestObject);
 
         try {
@@ -28,7 +27,7 @@ public class RequestsDBUtil {
             System.out.println("Getting connection to database...");
             Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID) VALUES (?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -39,6 +38,7 @@ public class RequestsDBUtil {
             statement.setBoolean(5, requestObject.getAdminConfirm());
             statement.setString(6, requestObject.getNodeID());
             statement.setString(7, messageID);
+            statement.setString(8, requestType);
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Request added to database");
@@ -114,7 +114,6 @@ public class RequestsDBUtil {
     }
 
     public void setIsAdminConfim(Request request, boolean newConfirmStatus){
-        request.setComplete(newConfirmStatus);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -127,6 +126,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
+        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
     }
     public void setIsComplete(Request request, boolean newCompleteStatus){
         request.setComplete(newCompleteStatus);
@@ -142,6 +142,7 @@ public class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
+        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
     }
 
     /**
@@ -177,8 +178,9 @@ public class RequestsDBUtil {
                     adminConfirm = rset.getBoolean("adminConfirm");
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
+                    password = rset.getString("password");
                     // Add the new edge to the list
-                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
+                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
                     requestList.add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
@@ -200,7 +202,7 @@ public class RequestsDBUtil {
         return Integer.toString(requestIDCounter-1);
     }
 
-    public Request getRequestFromList(String requestID){
+    public Request searchRequestsByID(String requestID){
         Iterator<Request> iterator = requestList.iterator();
         while (iterator.hasNext()) {
             Request a_request = iterator.next();

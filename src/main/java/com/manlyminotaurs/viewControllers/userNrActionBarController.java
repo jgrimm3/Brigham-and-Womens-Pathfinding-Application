@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 
 public class userNrActionBarController implements Initializable{
-    String selectedRequestID;
+    static String selectedRequestID;
 
     MessagesDBUtil msgUtil = new MessagesDBUtil();
     RequestsDBUtil reqUtil = new RequestsDBUtil();
@@ -49,15 +49,29 @@ public class userNrActionBarController implements Initializable{
     @FXML
     TableView tblOpenRequests;
 
-    class requestInfo{
-       // protected String requestID;
+    public class requestInfo{
+        protected String requestID;
         String requestType;
         String message;
+        Boolean isAssigned;
 
-        requestInfo(String requestType, String message, String requestID){
+        requestInfo(String requestType, String message, Boolean isAssigned, String requestID){
             this.requestType = requestType;
             this.message = message;
-        //    this.requestID = requestID;
+            this.isAssigned = isAssigned;
+            this.requestID = requestID;
+        }
+
+        public String getRequestType() {
+            return requestType;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public Boolean getIsAssigned() {
+            return isAssigned;
         }
     }
 
@@ -67,18 +81,23 @@ public class userNrActionBarController implements Initializable{
      */
     public void promptCompleteRequest(ActionEvent event){
         requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
-       // selectedRequestID = selectedRequest.requestID;
+        selectedRequestID = selectedRequest.requestID;
         System.out.println(selectedRequestID);
         Main.addPrompt(1); //go to complete request
     }
 
+    //TODO: when removeRequest deletes the message remove my line that does that
     /**
      *
      * @param event btnDeleteRequest pressed
      */
     public void promptDeleteRequest(ActionEvent event) {
-        // assuming that a request has been selected from the table,
-        // the request will be deleted
+        Request reqToDelete = reqUtil.searchRequestsByID(((requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem()).requestID);
+        if(reqToDelete != null ){
+            reqUtil.removeRequest(reqToDelete);
+            msgUtil.removeMessage(msgUtil.getMessageFromList(reqToDelete.getMessageID()));
+        }
+        refreshReqList(null);
     }
 
     /**
@@ -96,32 +115,35 @@ public class userNrActionBarController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         TableColumn typeCol = new TableColumn("Request Type");
         TableColumn msgCol = new TableColumn("Request Message");
+        TableColumn isAssignedCol = new TableColumn("Is Assigned");
 
-        tblOpenRequests.getColumns().addAll(typeCol, msgCol);
+        tblOpenRequests.getColumns().addAll(typeCol, msgCol, isAssignedCol);
 
         typeCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
         msgCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
+        isAssignedCol.setCellValueFactory(new PropertyValueFactory<requestInfo, Boolean>("isAssigned"));
 
         for(Request currReq : reqestList) {
-            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
+            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
         }
 
         tblOpenRequests.setItems(finalList);
-        tblOpenRequests.refresh();
+//        tblOpenRequests.refresh();
     }
 
     public void refreshReqList(ActionEvent event){
         reqestList = reqUtil.searchRequestBySender("user");
         System.out.println("Requests From User: " + reqestList.size());
-        tblOpenRequests.getItems().clear();
+        finalList.clear();
 
         for(Request currReq : reqestList) {
-            System.out.println("Type: " + currReq.getRequestType() +" Message: " + msgUtil.getMessageFromList(currReq.getMessageID()).getMessage());
-            tblOpenRequests.getItems().add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
+            if (!currReq.getComplete()) {
+                finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            }
         }
 
         System.out.println("Requests In List: " + finalList.size());
-
+        tblOpenRequests.setItems(finalList);
         tblOpenRequests.refresh();
     }
 }
