@@ -75,9 +75,8 @@ public class directionsActionBarController {
         if(lblEnd.getText().equals("End Location")) {
             lblEnd.setText("Please Select Destination");
         } else{
-      //     land1.setController(land1);
-            path = pFind.find(startNode, endNode);
-            //land.printNodePath(path);
+        	path = pFind.find(startNode, endNode);
+        	landingController.getInstance().printNodePath(path);
         }
 
     }
