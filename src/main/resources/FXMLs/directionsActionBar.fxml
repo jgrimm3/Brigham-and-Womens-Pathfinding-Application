@@ -22,7 +22,7 @@
             <Font size="44.0" />
          </font></Button>
       <Accordion accessibleRole="BUTTON" layoutX="533.0" layoutY="50.0" />
-      <ListView fx:id="lststartBuilding" layoutX="555.0" layoutY="22.0" prefHeight="217.0" prefWidth="191.0" visible="false" />
+      <ListView fx:id="lststartBuilding" layoutX="555.0" layoutY="22.0" prefHeight="217.0" prefWidth="906.0" visible="false" />
       <ListView fx:id="lststartType" layoutX="769.0" layoutY="22.0" prefHeight="217.0" prefWidth="316.0" visible="false" />
       <ListView fx:id="lststartLocation" layoutX="1113.0" layoutY="22.0" prefHeight="217.0" prefWidth="305.0" visible="false" />
       <Label fx:id="lblStart" alignment="CENTER" contentDisplay="CENTER" layoutX="1427.0" layoutY="20.0" prefHeight="31.0" prefWidth="305.0" text="Start Location" textAlignment="CENTER" textFill="WHITE" wrapText="true">
@@ -38,5 +38,10 @@
       <ListView fx:id="lstendBuilding" layoutX="555.0" layoutY="22.0" prefHeight="217.0" prefWidth="191.0" visible="false" />
       <ListView fx:id="lstendType" layoutX="769.0" layoutY="22.0" prefHeight="217.0" prefWidth="316.0" visible="false" />
       <ListView fx:id="lstendLocation" layoutX="1113.0" layoutY="22.0" prefHeight="217.0" prefWidth="305.0" visible="false" />
+      <Label fx:id="lblDirections" alignment="CENTER" contentDisplay="CENTER" layoutX="-10.0" layoutY="-653.0" prefHeight="903.0" prefWidth="440.0" text="Turn by turn directions: " textAlignment="CENTER" textFill="WHITE" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

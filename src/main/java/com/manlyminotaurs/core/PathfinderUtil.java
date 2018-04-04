@@ -55,25 +55,25 @@ public class PathfinderUtil {
     public ArrayList<String> angleToText(LinkedList<Node> path) {
         ArrayList<String> tbt = new ArrayList<>();
         /* check for <= 2 node path */
-        if (path.size() <= 2) { tbt.add("Go straight to" + nameToString(path.getLast())); return tbt; }
+        if (path.size() <= 2) { tbt.add("Go straight" + nameToString(path.getLast())); return tbt; }
         /* loop through path */
         for (int i = 0; i < path.size() - 2; i++) {
             System.out.println("Intersection: " + (i + 1));
             double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
-            if (angle > 5 && angle <= 45) {
-                tbt.add("Make a slight left" + nameToString(path.get((i+2))));
+            if (angle > 30 && angle <= 45) {
+                tbt.add("Make a slight right" + nameToString(path.get((i+2))));
             } else if (angle > 45 && angle <= 135) {
-                tbt.add("Turn left" + nameToString(path.get((i+2))));
+                tbt.add("Turn right" + nameToString(path.get((i+2))));
             } else if (angle > 135 && angle <= 175) {
-                tbt.add("Make a sharp left" + nameToString(path.get((i+2))));
+                tbt.add("Make a sharp right" + nameToString(path.get((i+2))));
             } else if (angle > 175 && angle <= 185) {
                 tbt.add("Turn around" + nameToString(path.get((i+2))));
             } else if (angle > 185 && angle <= 225) {
-                tbt.add("Make a sharp right" + nameToString(path.get((i+2))));
+                tbt.add("Make a sharp left" + nameToString(path.get((i+2))));
             } else if (angle > 225 && angle <= 315) {
-                tbt.add("Turn right" + nameToString(path.get((i+2))));
-            } else if (angle > 315 && angle <= 355) {
-                tbt.add("Make a slight right" + nameToString(path.get((i+2))));
+                tbt.add("Turn left" + nameToString(path.get((i+2))));
+            } else if (angle > 315 && angle <= 330) {
+                tbt.add("Make a slight left" + nameToString(path.get((i+2))));
             } else { tbt.add("Continue straight" + nameToString(path.get((i+2)))); }
         }
         return tbt;

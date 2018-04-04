@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Pathfinder;
+import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.Node;
 import javafx.beans.property.Property;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Path;
 import javax.annotation.Resources;
 import javax.xml.transform.stream.StreamSource;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,7 +36,11 @@ public class directionsActionBarController {
     Node endNode;
     NodesEditor node = new NodesEditor();
     Pathfinder pFind = new Pathfinder();
+    PathfinderUtil pUtil = new PathfinderUtil();
     List<Node> path;
+    LinkedList<Node> pathForTurns;
+    ArrayList<String> textDirections;
+    String directions = "";
     landingController land1;
 
     @FXML
@@ -42,6 +48,9 @@ public class directionsActionBarController {
 
     @FXML
     Label lblEnd;
+
+    @FXML
+	Label lblDirections;
 
     @FXML
     Button btnSelectDestination;
@@ -77,9 +86,34 @@ public class directionsActionBarController {
         } else{
         	path = pFind.find(startNode, endNode);
         	landingController.getInstance().printNodePath(path);
+        	pathForTurns = (LinkedList)path;
+        	textDirections = pUtil.angleToText(pathForTurns);
+        	for(int i = 0; i<textDirections.size(); i++) {
+        		directions = directions + textDirections.get(i) + "\n";
+			}
+			System.out.println(directions);
+        	visTurnByTurn();
+			lblDirections.setText(directions);
         }
 
     }
+
+    public void visTurnByTurn () {
+    	lblDirections.setVisible(true);
+    	lststartLocation.setVisible(false);
+    	lblStart.setVisible(false);
+    	lblEnd.setVisible(false);
+    	lststartLocation.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	lststartType.setVisible(false);
+    	lstendType.setVisible(false);
+    	lststartBuilding.setVisible(false);
+    	lstendBuilding.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	btnPathfind.setVisible(false);
+    	btnSelectStart.setVisible(false);
+    	btnSelectDestination.setVisible(false);
+	}
 
     public void getStartLocation(String startID){
 
