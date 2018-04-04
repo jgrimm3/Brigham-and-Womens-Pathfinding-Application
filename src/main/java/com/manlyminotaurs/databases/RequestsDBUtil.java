@@ -28,7 +28,7 @@ public class RequestsDBUtil {
             System.out.println("Getting connection to database...");
             Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID) VALUES (?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -39,6 +39,7 @@ public class RequestsDBUtil {
             statement.setBoolean(5, requestObject.getAdminConfirm());
             statement.setString(6, requestObject.getNodeID());
             statement.setString(7, messageID);
+            statement.setString(8, requestType);
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Request added to database");
@@ -177,8 +178,10 @@ public class RequestsDBUtil {
                     adminConfirm = rset.getBoolean("adminConfirm");
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
+                    password = rset.getString("password");
                     // Add the new edge to the list
                     requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
+                    requestObject.setPassword(password);
                     requestList.add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
