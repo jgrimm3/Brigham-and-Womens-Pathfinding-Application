@@ -734,6 +734,27 @@ public class NodesEditor {
     } // end modifyNodeBuilding
 
     /**
+     * modify status field of the Node
+     * @param node
+     * @param status
+     */
+    public void modifyNodeStatus(Node node, int status){
+        node.setStatus(status);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE map_nodes SET status = '" + status + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+            System.out.println("Modification successful");
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    } // end modifyNodeStatus
+
+    /**
      * Removes a node from the list of objects as well as the database
      * @param node
      */
@@ -963,6 +984,24 @@ public class NodesEditor {
             se.printStackTrace();
         }
     } // end modifyEdgeEndNode
+
+    public void modifyEdgeStatus(Edge edge, int status){
+        edge.setStatus(status);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE MAP_EDGES SET status = '" + status + "'" + " WHERE edgeID = '" + edge.getEdgeID() + "'";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.close();
+            System.out.println("Modification successful");
+        }catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+    } // end modifyEdgeStatus
+
+
 
     /**
      * Removes a node from the list of objects as well as the database
