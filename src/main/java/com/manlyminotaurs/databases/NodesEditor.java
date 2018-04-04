@@ -80,8 +80,8 @@ public class NodesEditor {
 
         ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
         ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
-        messagesDBUtil.addMessage("second message", "This is second", false, "5", "nurse");
-        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "user");
+        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
+        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
         ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
         ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
         requestsDB.printRequestList();

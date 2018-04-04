@@ -12,10 +12,10 @@ import java.util.List;
 
 public class MessagesDBUtil {
     public static List<Message> messageList = new ArrayList<>();
-    private static int messageIDCounter = 10;
+    private static int messageIDCounter = 1;
 
-    public void addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
-        Message messageObject = new Message(messageID, message, false, senderID, receiverID);
+    public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
+        Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
         messageList.add(messageObject);
 
         try {
@@ -23,7 +23,7 @@ public class MessagesDBUtil {
             System.out.println("Getting connection to database...");
             Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            String str = "INSERT INTO Message(messageID, message, false, senderID, receiverID) VALUES (?,?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -39,6 +39,7 @@ public class MessagesDBUtil {
         {
             System.out.println("Message already in the database");
         }
+        return messageObject;
     }
 
     public Message getMessageUsingID(int MessageID){
@@ -144,7 +145,7 @@ public class MessagesDBUtil {
         return listOfMessages;
     }
 
-    public String getMessageIDCounter(){
+    public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
@@ -181,6 +182,7 @@ public class MessagesDBUtil {
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead,senderID,receiverID);
                     MessagesDBUtil.messageList.add(messageObject);
+                    messageIDCounter++;
                     System.out.println("Message added to the list: "+messageID);
                 }
                 rset.close();
