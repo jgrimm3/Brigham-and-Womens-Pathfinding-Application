@@ -38,24 +38,32 @@ public class MessagesDBUtil {
         } catch (SQLException e)
         {
             System.out.println("Message already in the database");
+            e.printStackTrace();
         }
+        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
         return messageObject;
     }
 
-    public Message getMessageUsingID(int MessageID){
-        Iterator<Message> iterator = messageList.iterator();
-        while (iterator.hasNext()) {
-            Message messageObject = iterator.next();
-            if (messageObject.getMessageID().equals(MessageID)) {
-                return messageObject;
+    public void removeMessage(Message message){
+        for(int i = 0; i < messageList.size(); i++){
+            if(messageList.get(i).getMessageID().equals(message.getMessageID())) {
+                // remove the node
+                System.out.println("Node removed from object list...");
+                messageList.remove(i);
             }
         }
-        //System.out.println("getNdeFromList: Null-----------Something might break");
-        return null;
-    }
-
-    public void removeMessage(Message message){
-
+        try {
+            // Get connection to database and delete the node from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MESSAGE WHERE messageID = '" + message.getMessageID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Node removed from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setIsRead(Message message, boolean newReadStatus){
         message.setRead(newReadStatus);
@@ -196,6 +204,10 @@ public class MessagesDBUtil {
             e.printStackTrace();
         }
     } // retrieveMessage() ends
+
+    public void getMessageFromList(){
+
+    }
 
     /**
      * Print the messageList

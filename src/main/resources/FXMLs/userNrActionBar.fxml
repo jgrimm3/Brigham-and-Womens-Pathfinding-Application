@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
@@ -10,19 +9,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userNrActionBarController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="1750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.userNrActionBarController">
    <children>
-      <Button fx:id="btnSendCustom" layoutX="343.0" layoutY="55.0" mnemonicParsing="false" prefHeight="194.0" prefWidth="132.0" style="-fx-background-color: #c9d5e1;" text="Send Custom Request" textAlignment="CENTER" wrapText="true" />
-      <TableView fx:id="tblOpenRequests" layoutX="1115.0" layoutY="51.0" prefHeight="200.0" prefWidth="444.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-      <Label fx:id="lblOpenRequests" alignment="CENTER" layoutX="976.0" layoutY="51.0" prefHeight="200.0" prefWidth="139.0" style="-fx-background-color: #c9d5e1;" text="Open Requests" textAlignment="CENTER" />
-      <TextArea fx:id="txtCustomRequest" layoutX="475.0" layoutY="55.0" prefHeight="194.0" prefWidth="428.0" promptText="Type Custom Request..." />
-      <Button fx:id="btnReqNurse" layoutX="173.0" layoutY="76.0" mnemonicParsing="false" onAction="#requestNurse" prefHeight="33.0" prefWidth="132.0" text="Request Nurse" />
-      <Button fx:id="btnCompleteRequest" layoutX="1583.0" layoutY="70.0" mnemonicParsing="false" onAction="#promptCompleteRequest" prefHeight="40.0" prefWidth="132.0" text="Complete Request" />
+      <Button fx:id="btnSendCustom" layoutX="343.0" layoutY="75.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="132.0" style="-fx-background-color: #c9d5e1;" text="Send Custom Request" textAlignment="CENTER" wrapText="true" />
+      <TableView fx:id="tblOpenRequests" layoutX="1115.0" layoutY="75.0" prefHeight="200.0" prefWidth="444.0" />
+      <Label fx:id="lblOpenRequests" alignment="CENTER" layoutX="976.0" layoutY="75.0" prefHeight="200.0" prefWidth="139.0" style="-fx-background-color: #c9d5e1;" text="Open Requests" textAlignment="CENTER" />
+      <TextArea fx:id="txtCustomRequest" layoutX="475.0" layoutY="75.0" prefHeight="200.0" prefWidth="428.0" promptText="Type Custom Request..." />
+      <Button fx:id="btnReqNurse" layoutX="343.0" layoutY="24.0" mnemonicParsing="false" onAction="#requestNurse" prefHeight="33.0" prefWidth="132.0" text="Request Nurse" />
+      <Button fx:id="btnCompleteRequest" layoutX="980.0" layoutY="24.0" mnemonicParsing="false" onAction="#promptCompleteRequest" prefHeight="33.0" prefWidth="132.0" text="Complete Request" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c5e3ff" height="241.0" layoutX="33.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="241.0" />
       <Circle fill="#ff775c" layoutX="154.0" layoutY="104.0" radius="63.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
       <Label id="lblDoctorInfo" fx:id="lblDoctorInfo" layoutX="69.0" layoutY="190.0" text="Doctor Information" textFill="#073d8e" visible="false">
@@ -30,6 +24,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnDeleteRequest" layoutX="1138.0" layoutY="13.0" mnemonicParsing="false" onAction="#promptDeleteRequest" prefHeight="57.0" prefWidth="132.0" text="Delete Request" visible="false" />
+      <Button fx:id="btnDeleteRequest" layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onAction="#promptDeleteRequest" prefHeight="33.0" prefWidth="132.0" text="Delete Request" />
+      <Button fx:id="btnRefresh" layoutX="1491.0" layoutY="28.0" mnemonicParsing="false" onAction="#refreshReqList" text="Refresh" />
    </children>
 </Pane>

@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
-    static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
+    public static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
     public static List<Pane> actionBars = new ArrayList<Pane>(); // list of action bar displays
     public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
     private static int curScreen = 0;
@@ -34,15 +34,16 @@ public class Main extends Application {
         //add screens here
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/idleMap.fxml"))); //map page index 0
         screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/landing.fxml"))); //landing page index 1
-        screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminHome.fxml"))); //Admin page index 3
-        screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/userHome.fxml"))); //Admin page index 4
+        screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminHome.fxml"))); //Admin page index 2
+        screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/userHome.fxml"))); //Admin page index 3
 
+            //add action bars here
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/userNrActionBar.fxml")));//0
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/directionsActionBar.fxml")));//1
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/editNodesActionBar.fxml")));//2
             actionBars.add((Pane)FXMLLoader.load(getClass().getResource("/FXMLs/manageRequestsActionBar.fxml")));//3
 
-
+            //add prompts here
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/login.fxml"))); //login prompt index 0
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/completeRequest.fxml"))); //login prompt index 1
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/adminNurseSend.fxml"))); //login prompt index 2
@@ -82,7 +83,7 @@ public class Main extends Application {
         curScreen = indxNxt;
         return root;
     }
-
+    public static int getScreen(){return curScreen;}
     public static void removeScreen(int oldIndex){
         root.getChildren().remove(screens.get(oldIndex));
     }
@@ -110,8 +111,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        new NodesEditor().retrieveNodes();
-        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"));
+        new NodesEditor().setupDatabase();
+        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"), "user");
 
         launch(args);
     }

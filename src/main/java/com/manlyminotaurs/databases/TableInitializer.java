@@ -84,10 +84,10 @@ public class TableInitializer {
     public void populateNodeEdgeTables(String CsvNodeFileName, String CsvEdgeFileName) {
 
         // Make sure we aren't ruining the database
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
-        String ans = scanner.nextLine();
-
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
+//        String ans = scanner.nextLine();
+        String ans = "y";
         // If you're positive...
         if(ans.equals("y")) {
             try {
@@ -486,7 +486,7 @@ public class TableInitializer {
             //insert rows
             while (iterator.hasNext()) {
                 String[] node_row = iterator.next();
-                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID) VALUES (?,?,?,?,?,?,?)";
+                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
@@ -495,6 +495,7 @@ public class TableInitializer {
                 statement.setBoolean(5, Boolean.valueOf(node_row[4]));
                 statement.setString(6, node_row[5]);
                 statement.setString(7, node_row[6]);
+                statement.setString(8, node_row[7]);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {

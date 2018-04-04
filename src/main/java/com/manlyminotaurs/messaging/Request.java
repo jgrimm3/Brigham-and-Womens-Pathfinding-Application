@@ -9,8 +9,9 @@ public class Request {
     Boolean adminConfirm;
     String nodeID;
     String messageID;
+    String password;
 
-    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID) {
+    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.priority = priority;
@@ -18,6 +19,7 @@ public class Request {
         this.adminConfirm = adminConfirm;
         this.nodeID = nodeID;
         this.messageID = messageID;
+        this.password = password;
     }
 
     public String getRequestID() {
@@ -74,5 +76,13 @@ public class Request {
 
     public void setMessageID(String messageID) {
         this.messageID = messageID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

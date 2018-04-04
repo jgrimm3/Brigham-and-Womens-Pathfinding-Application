@@ -1,6 +1,9 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.Pathfinder;
+import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.nodes.Node;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -13,9 +16,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.manlyminotaurs.core.Main;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Path;
+import javafx.scene.text.Text;
+
 import javax.annotation.Resources;
 import javax.xml.transform.stream.StreamSource;
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,12 +36,30 @@ public class directionsActionBarController {
     public String type;
     String startLocation;
     String endLocation;
+    Node startNode;
+    Node endNode;
+    NodesEditor node = new NodesEditor();
+    Pathfinder pFind = new Pathfinder();
+    PathfinderUtil pUtil = new PathfinderUtil();
+    List<Node> path;
+    LinkedList<Node> pathForTurns;
+    ArrayList<String> textDirections;
+    String directions = "";
 
     @FXML
     Label lblStart;
 
     @FXML
     Label lblEnd;
+
+    @FXML
+	ImageView qrCode;
+
+    @FXML
+	Text qrText;
+
+    @FXML
+	Label lblDirections;
 
     @FXML
     Button btnSelectDestination;
@@ -64,19 +93,83 @@ public class directionsActionBarController {
         if(lblEnd.getText().equals("End Location")) {
             lblEnd.setText("Please Select Destination");
         } else{
-            //pathfind
+        	path = pFind.find(startNode, endNode);
+        	landingController.getInstance().printNodePath(path);
+        	pathForTurns = (LinkedList)path;
+        	textDirections = pUtil.angleToText(pathForTurns);
+        	for(int i = 0; i<textDirections.size(); i++) {
+        		directions = directions + textDirections.get(i) + "\n";
+			}
+			System.out.println(directions);
+			lblDirections.setText(directions);
+			pUtil.generateQR(textDirections);
+			visTurnByTurn();
+
+            switch(Main.getScreen()) {
+                case 1:{
+                    path = pFind.find(startNode, endNode);
+                    landingController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+                case 3:{
+                    path = pFind.find(startNode, endNode);
+                    userHomeController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+            }
+
         }
 
     }
 
-    public void getStartLocation(String location){
-        startLocation = location;
-        lblStart.setText(location);
+    public void visTurnByTurn () {
+    	lblDirections.setVisible(true);
+		//Image image = new Image("/Users/andrew/Documents/Soft Eng Rep/CS3733TeamM-Proj/src/main/resources/QR/CrunchifyQR.png");
+		//qrCode.setImage(image);
+    	//qrCode.setVisible(true);
+    	//qrText.setVisible(true);
+    	lststartLocation.setVisible(false);
+    	lblStart.setVisible(false);
+    	lblEnd.setVisible(false);
+    	lststartLocation.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	lststartType.setVisible(false);
+    	lstendType.setVisible(false);
+    	lststartBuilding.setVisible(false);
+    	lstendBuilding.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	btnPathfind.setVisible(false);
+    	btnSelectStart.setVisible(false);
+    	btnSelectDestination.setVisible(false);
+	}
+
+    public void getStartLocation(String startID){
+
+        startNode = node.getNodeFromList(startID);
+        startLocation = startNode.getLongName();
+        lblStart.setText(startLocation);
 
     }
-    public void getEndLocation(String location){
-        endLocation = location;
-        lblEnd.setText(location);
+    public void getEndLocation(String endID){
+        endNode = node.getNodeFromList(endID);
+        endLocation = endNode.getLongName();
+        lblEnd.setText(endLocation);
     }
 
     public void changeStartingLocation(ActionEvent event) {
@@ -90,7 +183,7 @@ public class directionsActionBarController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+
         node.retrieveNodes();
         lststartBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lststartBuilding.setVisible(true);
