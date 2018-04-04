@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Pathfinder;
+import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.Node;
 import javafx.beans.property.Property;
@@ -15,11 +16,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.manlyminotaurs.core.Main;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Text;
 
 import javax.annotation.Resources;
 import javax.xml.transform.stream.StreamSource;
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,14 +40,26 @@ public class directionsActionBarController {
     Node endNode;
     NodesEditor node = new NodesEditor();
     Pathfinder pFind = new Pathfinder();
+    PathfinderUtil pUtil = new PathfinderUtil();
     List<Node> path;
-    landingController land1;
+    LinkedList<Node> pathForTurns;
+    ArrayList<String> textDirections;
+    String directions = "";
 
     @FXML
     Label lblStart;
 
     @FXML
     Label lblEnd;
+
+    @FXML
+	ImageView qrCode;
+
+    @FXML
+	Text qrText;
+
+    @FXML
+	Label lblDirections;
 
     @FXML
     Button btnSelectDestination;
@@ -70,16 +88,82 @@ public class directionsActionBarController {
     ListView<String> lstendLocation;
 
 
-    public void checkStartEnd(ActionEvent event){
+    public void checkStartEnd(ActionEvent event) {
+        lblEnd.setText("Please Select Destination");
 
-        if(lblEnd.getText().equals("End Location")) {
-            lblEnd.setText("Please Select Destination");
-        } else{
+        if(lblEnd.getText().equals("End Location")){
+        lblEnd.setText("Please Select Destination");
+    }
+        else if(lblStart.getText().equals("Start Location")){
+            lblStart.setText("Please select a Start");
+        }
+
+        else{
         	path = pFind.find(startNode, endNode);
         	landingController.getInstance().printNodePath(path);
+        	pathForTurns = (LinkedList)path;
+        	textDirections = pUtil.angleToText(pathForTurns);
+        	for(int i = 0; i<textDirections.size(); i++) {
+        		directions = directions + textDirections.get(i) + "\n";
+			}
+			System.out.println(directions);
+			lblDirections.setText(directions);
+			pUtil.generateQR(textDirections);
+			visTurnByTurn();
+
+            switch(Main.getScreen()) {
+                case 1:{
+                    path = pFind.find(startNode, endNode);
+                    landingController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+                case 3:{
+                    path = pFind.find(startNode, endNode);
+                    userHomeController.getInstance().printNodePath(path);
+                    pathForTurns = (LinkedList)path;
+                    textDirections = pUtil.angleToText(pathForTurns);
+                    for(int i = 0; i<textDirections.size(); i++) {
+                        directions = directions + textDirections.get(i) + "\n";
+                    }
+                    System.out.println(directions);
+                    visTurnByTurn();
+                    lblDirections.setText(directions);
+                    break;
+                }
+            }
+
         }
 
     }
+
+    public void visTurnByTurn () {
+    	lblDirections.setVisible(true);
+		//Image image = new Image("/Users/andrew/Documents/Soft Eng Rep/CS3733TeamM-Proj/src/main/resources/QR/CrunchifyQR.png");
+		//qrCode.setImage(image);
+    	//qrCode.setVisible(true);
+    	//qrText.setVisible(true);
+    	lststartLocation.setVisible(false);
+    	lblStart.setVisible(false);
+    	lblEnd.setVisible(false);
+    	lststartLocation.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	lststartType.setVisible(false);
+    	lstendType.setVisible(false);
+    	lststartBuilding.setVisible(false);
+    	lstendBuilding.setVisible(false);
+    	lstendLocation.setVisible(false);
+    	btnPathfind.setVisible(false);
+    	btnSelectStart.setVisible(false);
+    	btnSelectDestination.setVisible(false);
+	}
 
     public void getStartLocation(String startID){
 
