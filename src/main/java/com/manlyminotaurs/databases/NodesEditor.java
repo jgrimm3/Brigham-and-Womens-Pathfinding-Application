@@ -73,18 +73,19 @@ public class NodesEditor {
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
-        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
-        nodesEditor.removeNode(oneNode);
-//        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
-//        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
-//        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
-//        messagesDBUtil.printMessageList();
+//        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
+//        nodesEditor.removeNode(oneNode);
+        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
+        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
+        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
+        messagesDBUtil.printMessageList();
+
+
+        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
+        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
+        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
+        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
 //
-//
-//        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
-//        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
-//        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
-//        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
 //        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
 //        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
 //        requestsDB.printRequestList();
@@ -122,6 +123,7 @@ public class NodesEditor {
             int yCoord;
             String floor;
             String building;
+            int status;
 
             try {
                 Statement stmt = connection.createStatement();
@@ -138,6 +140,7 @@ public class NodesEditor {
                     yCoord = rset.getInt("yCoord");
                     longName = rset.getString("longName");
                     shortName = rset.getString("shortName");
+                    status = rset.getInt("status");
 
                     // Create the java objects based on the node type
                     if (nodeType.equals("CONF")) {
@@ -175,6 +178,7 @@ public class NodesEditor {
                         //System.out.println("Serv created");
                     }
                     // Add the new node to the list
+                    node.setStatus(status);
                     nodeList.add(node);
                     System.out.println("Node added to list...");
                 }
@@ -204,6 +208,7 @@ public class NodesEditor {
             String edgeID;
             String startNode;
             String endNode;
+            int status;
 
             try {
                 Statement stmt = connection.createStatement();
@@ -215,12 +220,14 @@ public class NodesEditor {
                     edgeID = rset.getString("edgeID");
                     startNode = rset.getString("startNode");
                     endNode = rset.getString("endNode");
+                    status = rset.getInt("status");
 
                     // Add the new edge to the list
                     Node startNodeObject = getNodeFromList(startNode);
                     Node endNodeObject = getNodeFromList(endNode);
                     if(startNode != null && endNode != null) {
                         edge = new Edge(startNodeObject, endNodeObject, edgeID);
+                        edge.setStatus(status);
                         edgeList.add(edge);
                         System.out.println("Edge added to the list: " + edgeID);
                     }
@@ -635,22 +642,6 @@ public class NodesEditor {
             se.printStackTrace();
         }
     } // end modifyNodeType
-
-/* not in use because nodeID is primary Key
-    public void modifyNodeID(Node node, String ID){
-        node.setID(ID);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET nodeID = '" + ID + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            int count = stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    }*/
 
     /**
      * Modifies building attribute of a node
@@ -1154,7 +1145,7 @@ public class NodesEditor {
      * @param elevatorLetter
      * @return
      */
-    String nodeIDGenerator(String TeamLetter, String nodeType, String floor, String elevatorLetter){
+    String generateNodeID(String TeamLetter, String nodeType, String floor, String elevatorLetter){
         String nodeID = TeamLetter; // change this later
         nodeID += nodeType;
 

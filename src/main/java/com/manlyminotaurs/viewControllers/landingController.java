@@ -64,7 +64,7 @@ public class landingController {
         System.out.println("initializing");
         printPoints("L2");
 
-        NodesEditor ne = new NodesEditor();
+       /* NodesEditor ne = new NodesEditor();
         ne.retrieveNodes();
         ne.retrieveEdges();
         List<Edge> edgelist = ne.edgeList;
@@ -78,7 +78,16 @@ public class landingController {
             i++;
         }
 
-		printEdgePath(l2List);
+		printEdgePath(l2List);*/
+    }
+
+    private static landingController instance;
+    public landingController() {
+        instance = this;
+    }
+    // static method to get instance of view
+    public static landingController getInstance() {
+        return instance;
     }
 
     /**
