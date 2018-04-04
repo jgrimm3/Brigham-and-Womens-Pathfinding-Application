@@ -116,6 +116,7 @@ public class userNrActionBarController implements Initializable{
         tblOpenRequests.getItems().clear();
 
         for(Request currReq : reqestList) {
+            System.out.println("Type: " + currReq.getRequestType() +" Message: " + msgUtil.getMessageFromList(currReq.getMessageID()).getMessage());
             tblOpenRequests.getItems().add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
         }
 

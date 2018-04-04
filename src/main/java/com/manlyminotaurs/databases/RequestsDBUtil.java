@@ -46,6 +46,7 @@ public class RequestsDBUtil {
             System.out.println("Request already in the database");
             e.printStackTrace();
         }
+        new CsvFileController().updateRequestCSVFile("./nodesDB/RequestTable.csv");
     }
     public ObservableList<Request> searchRequestByReceiver(String userID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();

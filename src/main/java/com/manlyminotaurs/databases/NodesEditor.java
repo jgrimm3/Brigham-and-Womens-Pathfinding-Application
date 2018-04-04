@@ -55,19 +55,6 @@ public class NodesEditor {
         RequestsDBUtil requestsDB = new RequestsDBUtil();
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
 
-        initializer.initTables();
-        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
-        initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
-        initializer.populateMessageTable("./nodesDB/MessageTable.csv");
-        initializer.populateRequestTable("./nodesDB/RequestTable.csv");
-
-        nodesEditor.retrieveNodes();
-        nodesEditor.retrieveEdges();
-
-        messagesDBUtil.retrieveMessage();
-        requestsDB.retrieveRequest();
-        nodesEditor.retrieveUser();
-
         initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
         initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
         initializer.populateRoomTable();
@@ -103,6 +90,25 @@ public class NodesEditor {
         System.out.println("main function ended");
     }
 
+    public void setupDatabase(){
+        TableInitializer initializer = new TableInitializer();
+        RequestsDBUtil requestsDB = new RequestsDBUtil();
+        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+        NodesEditor nodesEditor = new NodesEditor();
+
+        initializer.initTables();
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
+        initializer.populateMessageTable("./nodesDB/MessageTable.csv");
+        initializer.populateRequestTable("./nodesDB/RequestTable.csv");
+
+        nodesEditor.retrieveNodes();
+        nodesEditor.retrieveEdges();
+
+        messagesDBUtil.retrieveMessage();
+        requestsDB.retrieveRequest();
+        nodesEditor.retrieveUser();
+    }
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList

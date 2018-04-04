@@ -40,6 +40,7 @@ public class MessagesDBUtil {
             System.out.println("Message already in the database");
             e.printStackTrace();
         }
+        new CsvFileController().updateMessageCSVFile("./nodesDB/MessageTable.csv");
         return messageObject;
     }
 
