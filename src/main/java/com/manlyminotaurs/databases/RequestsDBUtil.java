@@ -200,7 +200,7 @@ public class RequestsDBUtil {
         return Integer.toString(requestIDCounter-1);
     }
 
-    public Request getRequestFromList(String requestID){
+    public Request searchRequestsByID(String requestID){
         Iterator<Request> iterator = requestList.iterator();
         while (iterator.hasNext()) {
             Request a_request = iterator.next();
