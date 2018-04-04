@@ -36,6 +36,7 @@ public class directionsActionBarController {
     Pathfinder pFind = new Pathfinder();
     List<Node> path;
     landingController land1;
+
     @FXML
     Label lblStart;
 
@@ -76,7 +77,7 @@ public class directionsActionBarController {
         } else{
            land1.setController(land1);
             path = pFind.find(startNode, endNode);
-            land1.printNodePath(path);
+            //land.printNodePath(path);
         }
 
     }
