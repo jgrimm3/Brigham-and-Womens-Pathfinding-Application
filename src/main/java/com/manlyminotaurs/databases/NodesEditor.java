@@ -54,7 +54,7 @@ public class NodesEditor {
         TableInitializer initializer = new TableInitializer();
         RequestsDBUtil requestsDB = new RequestsDBUtil();
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-
+        CsvFileController csvFileController = new CsvFileController();
         nodesEditor.setupDatabase();
 
         initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
@@ -81,15 +81,15 @@ public class NodesEditor {
 //        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
 //        requestsDB.printRequestList();
 
-//        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
-//        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
-//        csvFileControl.updateMessageCSVFile("./nodesDB/MessageTable.csv");
-//        csvFileControl.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
-//        csvFileControl.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
-//        csvFileControl.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
-//        csvFileControl.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
-//        csvFileControl.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
-//        csvFileControl.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
+        csvFileController.updateRequestCSVFile("./nodesDB/RequestTable.csv");
+//        csvFileController.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
+//        csvFileController.updateMessageCSVFile("./nodesDB/MessageTable.csv");
+//        csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes2.csv");
+//        csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges2.csv");
+//        csvFileController.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
+//        csvFileController.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
+//        csvFileController.updateRoomCSVFile("./nodesDB/NodeRoomTable.csv");
+//        csvFileController.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
 
         System.out.println("main function ended");
     }

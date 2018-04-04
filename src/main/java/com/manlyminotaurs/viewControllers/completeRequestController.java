@@ -38,7 +38,10 @@ public class completeRequestController {
         RequestsDBUtil reqUtil = new RequestsDBUtil();
         String selectedRequestedID = (new userNrActionBarController()).selectedRequestID;
 
-        if (!txtConfirmationCode.getText().trim().equals(reqUtil)) {
+        System.out.println("Selected Request ID: " + selectedRequestedID);
+        System.out.println("PassWord To Enter: " + reqUtil.searchRequestsByID(selectedRequestedID).getPassword());
+
+        if (!txtConfirmationCode.getText().trim().equals(reqUtil.searchRequestsByID(selectedRequestedID).getPassword())) {
             lblError.setText("Please Enter a Correct Confirmation Code");
         } else {
             Main.removePrompt(1);

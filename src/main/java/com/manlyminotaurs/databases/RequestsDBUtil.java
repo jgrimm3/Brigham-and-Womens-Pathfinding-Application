@@ -19,8 +19,7 @@ public class RequestsDBUtil {
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
-        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID);
-        requestObject.setPassword(requestType);
+        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID, requestType);
         requestList.add(requestObject);
 
         try {
@@ -180,8 +179,7 @@ public class RequestsDBUtil {
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
                     // Add the new edge to the list
-                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID);
-                    requestObject.setPassword(password);
+                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
                     requestList.add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
