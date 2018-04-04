@@ -72,19 +72,21 @@ public class NodesEditor {
         initializer.populateRoomTable();
         initializer.populateTransportTable();
 
-        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
-        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
-        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
-        messagesDBUtil.printMessageList();
-
-
-        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
-        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
-        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
-        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
-        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
-        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
-        requestsDB.printRequestList();
+        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
+        nodesEditor.removeNode(oneNode);
+//        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
+//        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
+//        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
+//        messagesDBUtil.printMessageList();
+//
+//
+//        ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
+//        ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
+//        messagesDBUtil.addMessage("second", "This is second", false, "5", "doctor");
+//        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
+//        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
+//        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
+//        requestsDB.printRequestList();
 
 //        csvFileControl.updateRequestCSVFile("./nodesDB/RequestTable.csv");
 //        csvFileControl.updateUserCSVFile("./nodesDB/UserAccountTable2.csv");
@@ -735,12 +737,39 @@ public class NodesEditor {
 
     /**
      * Removes a node from the list of objects as well as the database
-     * @param node is the node to be removed
+     * @param node
      */
     public void removeNode (Node node) {
-        // remove the node from the nodeList
-        nodeList.remove(node);
-        System.out.println("Node removed from object list...");
+        //first remove any adjacent edges from this node
+        List<Edge> listOfEdges = getEdgesFromNode(node);
+        Iterator<Edge> iterator = listOfEdges.iterator();
+        while (iterator.hasNext()) {
+            Edge a_edge = iterator.next();
+            removeEdge(a_edge);
+        }
+        // then remove node from room table
+        if(node.getNodeType().equals("EXIT")) {
+            removeExitNode(node);
+        }
+        else if(node.getNodeType().equals("HALL")) {
+            removeHallwayNode(node);
+        }
+        else if(node.getNodeType().equals("REST") || node.getNodeType().equals("STAI")) {
+            removeTransportNode(node);
+        }
+        else {
+            removeRoomNode(node);
+        }
+        // Find the node to remove from the nodeList
+        int i = 0;
+        while(i < nodeList.size()){
+            if(nodeList.get(i).getID().equals(node.getID())) {
+                // remove the node
+                System.out.println("Node removed from object list: "+node.getID());
+                nodeList.remove(i);
+            }
+            i++;
+        }
         try {
             // Get connection to database and delete the node from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -755,34 +784,109 @@ public class NodesEditor {
         }
     } // removeNode
 
-    /**
-     * Removes a node from the list of objects as well as the database
-     * @param nodeID is the nodeID of the node to be removed
-     */
-    public void removeNode (String nodeID) {
-        // Find the node to remove from the nodeList
+    public void removeRoomNode(Node node){
+        // Find the node to remove from the edgeList
         int i = 0;
-        while(i < nodeList.size()){
-            if(nodeList.get(i).getID().equals(nodeID)) {
+        while(i < roomList.size()){
+            if(roomList.get(i).getID().equals(node.getID())) {
                 // remove the node
-                System.out.println("Node removed from object list...");
-                nodeList.remove(i);
+                System.out.println("node removed from object list: "+node.getID());
+                roomList.remove(i);
             }
             i++;
         }
+
         try {
-            // Get connection to database and delete the node from the database
+            // Get connection to database and delete the edge from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
-            String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + nodeID + "'";
+            String str = "DELETE FROM ROOM WHERE nodeID = '" + node.getID() + "'";
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            System.out.println("Node removed from database");
+            System.out.println("room removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } // removeNode
+    }
+
+    public void removeHallwayNode(Node node){
+        // Find the node to remove from the edgeList
+        int i = 0;
+        while(i < hallwayList.size()){
+            if(hallwayList.get(i).getID().equals(node.getID())) {
+                // remove the node
+                System.out.println("node removed from object list: "+node.getID());
+                hallwayList.remove(i);
+            }
+            i++;
+        }
+
+        try {
+            // Get connection to database and delete the edge from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM HALLWAY WHERE nodeID = '" + node.getID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("hallway removed from database: " + node.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeExitNode(Node node){
+        // Find the node to remove from the edgeList
+        int i = 0;
+        while(i < exitList.size()){
+            if(exitList.get(i).getID().equals(node.getID())) {
+                // remove the node
+                System.out.println("node removed from object list: "+node.getID());
+                exitList.remove(i);
+            }
+            i++;
+        }
+
+        try {
+            // Get connection to database and delete the edge from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM EXIT WHERE nodeID = '" + node.getID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("EXIT removed from database: " + node.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeTransportNode(Node node){
+        // Find the node to remove from the edgeList
+        int i = 0;
+        while(i < transportList.size()){
+            if(transportList.get(i).getID().equals(node.getID())) {
+                // remove the node
+                System.out.println("node removed from object list: "+node.getID());
+                transportList.remove(i);
+            }
+            i++;
+        }
+
+        try {
+            // Get connection to database and delete the edge from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM TRANSPORT WHERE nodeID = '" + node.getID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Transport removed from database: " + node.getID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /*---------------------------------------- Add/delete/edit edges -------------------------------------------------*/
 
@@ -867,9 +971,16 @@ public class NodesEditor {
      * @param edge is the edge to be removed
      */
     public void removeEdge (Edge edge) {
-        // remove the node from the nodeList
-        edgeList.remove(edge);
-        System.out.println("Edge removed from object list...");
+        // Find the node to remove from the edgeList
+        int i = 0;
+        while(i < edgeList.size()){
+            if(edgeList.get(i).getEdgeID().equals(edge.getEdgeID())) {
+                // remove the node
+                System.out.println("edge removed from object list: "+edge.getEdgeID());
+                edgeList.remove(i);
+            }
+            i++;
+        }
         try {
             // Get connection to database and delete the edge from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -878,7 +989,7 @@ public class NodesEditor {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            System.out.println("Edge removed from database");
+            System.out.println("Edge removed from database: " + edge.getEdgeID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -905,6 +1016,56 @@ public class NodesEditor {
             i++;
         }
     } // end printEdgeList
+
+    /**
+     * find all adjacent edges from the node object using sql query
+     * @param node
+     * @return
+     */
+    public List<Edge> getEdgesFromNode(Node node){
+        List<Edge> listOfEdges = new ArrayList<Edge>();
+        try {
+            // Connection
+            Connection connection;
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+
+            Edge edge;
+            String edgeID;
+            String startNode;
+            String endNode;
+
+            try {
+                Statement stmt = connection.createStatement();
+                String str = "SELECT * FROM MAP_EDGES WHERE STARTNODE = '"+ node.getID() +"'"+ "OR ENDNODE = '" + node.getID() +"'";
+                ResultSet rset = stmt.executeQuery(str);
+
+                // For every edge, get the information
+                while (rset.next()) {
+                    edgeID = rset.getString("edgeID");
+                    startNode = rset.getString("startNode");
+                    endNode = rset.getString("endNode");
+
+                    // Add the new edge to the list
+                    Node startNodeObject = getNodeFromList(startNode);
+                    Node endNodeObject = getNodeFromList(endNode);
+                    if(startNode != null && endNode != null) {
+                        edge = new Edge(startNodeObject, endNodeObject, edgeID);
+                        listOfEdges.add(edge);
+                        System.out.println("Edge added to the list: " + edgeID);
+                    }
+                }
+                rset.close();
+                stmt.close();
+                System.out.println("Done adding edges");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return listOfEdges;
+    }
 
     /**
      * return the node object that has the matching nodeID with the ID provided in the argument
