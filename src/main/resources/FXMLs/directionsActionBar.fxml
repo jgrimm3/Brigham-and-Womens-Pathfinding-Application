@@ -41,9 +41,9 @@
       <ListView fx:id="lstendBuilding" layoutX="555.0" layoutY="22.0" prefHeight="217.0" prefWidth="191.0" visible="false" />
       <ListView fx:id="lstendType" layoutX="769.0" layoutY="22.0" prefHeight="217.0" prefWidth="316.0" visible="false" />
       <ListView fx:id="lstendLocation" layoutX="1113.0" layoutY="22.0" prefHeight="217.0" prefWidth="305.0" visible="false" />
-      <Label fx:id="lblDirections" alignment="CENTER" contentDisplay="CENTER" layoutX="-10.0" layoutY="-653.0" prefHeight="903.0" prefWidth="440.0" text="Turn by turn directions: " textAlignment="CENTER" textFill="WHITE" visible="false">
+      <Label fx:id="lblDirections" alignment="CENTER" contentDisplay="CENTER" layoutX="-10.0" layoutY="-546.0" prefHeight="796.0" prefWidth="440.0" text="Turn by turn directions: " textAlignment="CENTER" textFill="#e46d6d" visible="false">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
          </font>
       </Label>
       <ImageView fx:id="qrCode" fitHeight="250.0" fitWidth="250.0" layoutX="512.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true" visible="false">
