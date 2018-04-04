@@ -58,7 +58,7 @@
             <Insets />
          </opaqueInsets>
       </TilePane>
-      <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.5" prefWidth="1250.0" translateX="625.0" translateY="50.0">
+      <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.5" prefWidth="1250.0" translateX="625.0" translateY="50.0" AnchorPane.rightAnchor="670.0" AnchorPane.topAnchor="0.0">
          <content>
             <StackPane prefHeight="2774.0" prefWidth="5000.0">
                <children>
