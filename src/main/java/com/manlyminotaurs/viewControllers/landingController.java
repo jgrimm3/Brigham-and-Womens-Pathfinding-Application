@@ -62,23 +62,10 @@ public class landingController {
      */
     protected void initialize() {
         System.out.println("initializing");
+        scrollPane.setVvalue(0.65);
+        scrollPane.setHvalue(0.25);
+        path.setStrokeWidth(5);
         printPoints("L2");
-
-       /* NodesEditor ne = new NodesEditor();
-        ne.retrieveNodes();
-        ne.retrieveEdges();
-        List<Edge> edgelist = ne.edgeList;
-        List<Edge> l2List = new ArrayList<>();
-
-        int i = 0;
-        while(i < edgelist.size()) {
-            if (edgelist.get(i).getStartNode().getFloor().equals("L2") && edgelist.get(i).getEndNode().getFloor().equals("L2")) {
-                l2List.add(edgelist.get(i));
-            }
-            i++;
-        }
-
-		printEdgePath(l2List);*/
     }
 
     private static landingController instance;
@@ -116,6 +103,7 @@ public class landingController {
         // Connection for the database
         Connection connection;
         Circle circle;
+        Circle outline;
         List<Node> nodeList;
         NodesEditor nodeEditor = new NodesEditor();
         nodeEditor.retrieveNodes();
@@ -145,8 +133,12 @@ public class landingController {
 
 
                 // draw the point on the image
-                circle = new Circle(x, y, 2);
-                circle.setFill(Color.DARKRED);
+                circle = new Circle(x, y, 3);
+                outline = new Circle(x,y, 5);
+                circle.setFill(Color.RED);
+                outline.setFill(Color.BLACK);
+                circle.setId("circle" + i);
+                pane.getChildren().add(outline);
                 pane.getChildren().add(circle);
             }
             i++;
@@ -178,6 +170,19 @@ public class landingController {
             // add the elements to the path
             path.getElements().add(moveTo);
             path.getElements().add(lineTo);
+        }
+    }
+
+    /**
+     * Will clear all the points on the map... for some reason only deletes a few at a time...
+     */
+    public void clearPoints() {
+        int i = 0;
+        while (i < pane.getChildren().size()) {
+            if (pane.getChildren().get(i).getId().contains("circle")) {
+                pane.getChildren().remove(pane.getChildren().get(i));
+            }
+            i++;
         }
     }
 

@@ -56,7 +56,7 @@ public class NodesEditor {
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("./nodesDB/MapGNodes.csv","./nodesDB/MapGEdges.csv");
+        initializer.populateNodeEdgeTables("./nodesDB/MapGNodesEdited.csv","./nodesDB/MapGEdges.csv");
         initializer.populateUserAccountTable("./nodesDB/UserAccountTable.csv");
         initializer.populateMessageTable("./nodesDB/MessageTable.csv");
         initializer.populateRequestTable("./nodesDB/RequestTable.csv");
@@ -74,7 +74,7 @@ public class NodesEditor {
         initializer.populateTransportTable();
 
         Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
-        nodesEditor.removeNode(oneNode);
+       // nodesEditor.removeNode(oneNode);
 //        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
 //        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
 //        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
@@ -305,7 +305,7 @@ public class NodesEditor {
                 CsvFileController csvFileControl = new CsvFileController();
                 List<String[]> list_of_nodes;
                 List<String[]> list_of_edges;
-                list_of_nodes = csvFileControl.parseCsvFile("./nodesDB/MapGnodes.csv");
+                list_of_nodes = csvFileControl.parseCsvFile("./nodesDB/AndrewNodes.csv");
                 list_of_edges = csvFileControl.parseCsvFile("./nodesDB/MapGedges.csv");
 
                 // Get the database connection
