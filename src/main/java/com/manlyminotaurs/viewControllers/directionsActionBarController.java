@@ -16,10 +16,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.manlyminotaurs.core.Main;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Text;
 
 import javax.annotation.Resources;
 import javax.xml.transform.stream.StreamSource;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -48,6 +52,12 @@ public class directionsActionBarController {
 
     @FXML
     Label lblEnd;
+
+    @FXML
+	ImageView qrCode;
+
+    @FXML
+	Text qrText;
 
     @FXML
 	Label lblDirections;
@@ -92,14 +102,19 @@ public class directionsActionBarController {
         		directions = directions + textDirections.get(i) + "\n";
 			}
 			System.out.println(directions);
-        	visTurnByTurn();
 			lblDirections.setText(directions);
+			pUtil.generateQR(textDirections);
+			visTurnByTurn();
         }
 
     }
 
     public void visTurnByTurn () {
     	lblDirections.setVisible(true);
+		//Image image = new Image("/Users/andrew/Documents/Soft Eng Rep/CS3733TeamM-Proj/src/main/resources/QR/CrunchifyQR.png");
+		//qrCode.setImage(image);
+    	//qrCode.setVisible(true);
+    	//qrText.setVisible(true);
     	lststartLocation.setVisible(false);
     	lblStart.setVisible(false);
     	lblEnd.setVisible(false);
