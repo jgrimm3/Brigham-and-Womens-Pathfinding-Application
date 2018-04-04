@@ -88,11 +88,17 @@ public class directionsActionBarController {
     ListView<String> lstendLocation;
 
 
-    public void checkStartEnd(ActionEvent event){
+    public void checkStartEnd(ActionEvent event) {
+        lblEnd.setText("Please Select Destination");
 
-        if(lblEnd.getText().equals("End Location")) {
-            lblEnd.setText("Please Select Destination");
-        } else{
+        if(lblEnd.getText().equals("End Location")){
+        lblEnd.setText("Please Select Destination");
+    }
+        else if(lblStart.getText().equals("Start Location")){
+            lblStart.setText("Please select a Start");
+        }
+
+        else{
         	path = pFind.find(startNode, endNode);
         	landingController.getInstance().printNodePath(path);
         	pathForTurns = (LinkedList)path;
