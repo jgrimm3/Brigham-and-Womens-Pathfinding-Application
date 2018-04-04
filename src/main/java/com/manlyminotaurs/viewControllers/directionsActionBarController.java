@@ -35,7 +35,7 @@ public class directionsActionBarController {
     NodesEditor node = new NodesEditor();
     Pathfinder pFind = new Pathfinder();
     List<Node> path;
-    landingController land1;
+
 
     @FXML
     Label lblStart;
@@ -75,8 +75,19 @@ public class directionsActionBarController {
         if(lblEnd.getText().equals("End Location")) {
             lblEnd.setText("Please Select Destination");
         } else{
-        	path = pFind.find(startNode, endNode);
-        	landingController.getInstance().printNodePath(path);
+            switch(Main.getScreen()) {
+                case 1:{
+                    path = pFind.find(startNode, endNode);
+                    landingController.getInstance().printNodePath(path);
+                    break;
+                }
+                case 3:{
+                    path = pFind.find(startNode, endNode);
+                    userHomeController.getInstance().printNodePath(path);
+                    break;
+                }
+            }
+
         }
 
     }
