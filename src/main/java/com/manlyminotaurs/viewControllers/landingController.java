@@ -64,7 +64,7 @@ public class landingController {
         System.out.println("initializing");
         printPoints("L2");
 
-        NodesEditor ne = new NodesEditor();
+       /* NodesEditor ne = new NodesEditor();
         ne.retrieveNodes();
         ne.retrieveEdges();
         List<Edge> edgelist = ne.edgeList;
@@ -79,8 +79,11 @@ public class landingController {
         }
 
 		printEdgePath(l2List);
+		*/
     }
-
+ public void setController(landingController land){
+       land = this;
+    }
     /**
      * Opens the login prompt
      * @param event login button clicked
