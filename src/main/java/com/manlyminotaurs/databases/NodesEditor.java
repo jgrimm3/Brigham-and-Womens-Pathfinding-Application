@@ -55,6 +55,8 @@ public class NodesEditor {
         RequestsDBUtil requestsDB = new RequestsDBUtil();
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
 
+        nodesEditor.setupDatabase();
+
         initializer.populateExitTable("./nodesDB/NodeExitTable.csv");
         initializer.populateHallwayTable("./nodesDB/NodeHallwayTable.csv");
         initializer.populateRoomTable();
