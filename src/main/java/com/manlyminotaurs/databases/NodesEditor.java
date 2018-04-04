@@ -533,15 +533,14 @@ public class NodesEditor {
      * Adds the java object and the corresponding entry in the database table
      * @param longName
      * @param shortName
-     * @param ID
      * @param nodeType
      * @param xcoord
      * @param ycoord
-     * @param floor
-     * @param building
      */
-    public void addNode(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building)
+    public void addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building)
     {
+        String ID = generateNodeID("G",nodeType,floor,"A");
+
         Node node;
         if(nodeType.equals("HALL")) {
             node = new Hallway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
@@ -581,6 +580,8 @@ public class NodesEditor {
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes.csv");
         } catch (SQLException e)
         {
             System.out.println("Node already in the database");
@@ -745,7 +746,7 @@ public class NodesEditor {
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET status = '" + status + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            String sql = "UPDATE map_nodes SET status = " + status + " WHERE nodeID = '" + node.getID() + "'";
             stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
@@ -800,6 +801,8 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             System.out.println("Node removed from database");
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateNodeCSVFile("./nodesDB/MapGNodes.csv");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -826,6 +829,8 @@ public class NodesEditor {
             stmt.close();
             connection.close();
             System.out.println("room removed from database: " + node.getID());
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateNodeCSVFile("./nodesDB/NodeRoomTable.csv");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -851,6 +856,8 @@ public class NodesEditor {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateHallwayCSVFile("./nodesDB/NodeHallwayTable.csv");
             System.out.println("hallway removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -877,6 +884,8 @@ public class NodesEditor {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateExitCSVFile("./nodesDB/NodeExitTable.csv");
             System.out.println("EXIT removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -903,6 +912,8 @@ public class NodesEditor {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateTransportCSVFile("./nodesDB/NodeTransportTable.csv");
             System.out.println("Transport removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -936,6 +947,8 @@ public class NodesEditor {
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges.csv");
         } catch (SQLException e)
         {
             System.out.println("Node already in the database");
@@ -1028,6 +1041,8 @@ public class NodesEditor {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
+            CsvFileController csvFileController = new CsvFileController();
+            csvFileController.updateEdgeCSVFile("./nodesDB/MapGEdges.csv");
             System.out.println("Edge removed from database: " + edge.getEdgeID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1185,6 +1200,8 @@ public class NodesEditor {
         return nodeNames;
     }
 
+    int elevatorCounter = 0;
+
     /**
      * used to generate unique nodeID when adding a new node on the map
      * @param nodeType
@@ -1192,9 +1209,19 @@ public class NodesEditor {
      * @param elevatorLetter
      * @return
      */
-    String generateNodeID(String TeamLetter, String nodeType, String floor, String elevatorLetter){
+    public String generateNodeID(String TeamLetter, String nodeType, String floor, String elevatorLetter){
         String nodeID = TeamLetter; // change this later
         nodeID += nodeType;
+
+        ArrayList<String> elevatorLetters = new ArrayList<String>();
+        elevatorLetters.add("A");
+        elevatorLetters.add("B");
+        elevatorLetters.add("C");
+        elevatorLetters.add("D");
+        elevatorLetters.add("E");
+        elevatorLetters.add("F");
+        elevatorLetters.add("G");
+        elevatorLetters.add("H");
 
         if(nodeType.equals("ELEV")){
             if(elevatorLetter == null || elevatorLetter.equals("")){
@@ -1202,7 +1229,8 @@ public class NodesEditor {
                 return "ERROR";
             }
             else {
-                nodeID = nodeID + "00" + elevatorLetter;
+                nodeID = nodeID + "00" + elevatorLetters.get(elevatorCounter);
+                elevatorCounter++;
             }
         }
         else{

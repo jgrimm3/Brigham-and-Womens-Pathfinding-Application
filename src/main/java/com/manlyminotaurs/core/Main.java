@@ -50,6 +50,8 @@ public class Main extends Application {
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/editCoordinate.fxml"))); //login prompt index 4
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeConfirmation.fxml"))); //login prompt index 5
             prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/deleteNodeSelection.fxml"))); //login prompt index 6
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/modifyNodeSelector.fxml"))); //login prompt index 7
+            prompts.add((AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/addEdgeSelection.fxml"))); //login prompt index 8
 
 
 

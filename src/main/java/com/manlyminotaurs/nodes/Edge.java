@@ -48,6 +48,14 @@ public class Edge {
 		return status;
 	}
 
+	public String getStartNodeName() {
+		return startNode.longName;
+	}
+
+	public String getEndNodeName() {
+		return endNode.longName;
+	}
+
     @Override
     public boolean equals(Object o){
         if (o == this) {

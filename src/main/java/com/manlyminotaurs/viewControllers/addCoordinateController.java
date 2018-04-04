@@ -108,6 +108,10 @@ public class addCoordinateController implements Initializable{
     }
 
     public void addNode(ActionEvent event1) {
+
+        NodesEditor nodeEditor = new NodesEditor();
+        nodeEditor.addNode(txtLongName.getText(),txtShortName.getText(),comType.getValue(),Integer.parseInt(txtXCoord.getText()),Integer.parseInt(txtYCoord.getText()),comFloor.getValue(),comBuilding.getValue());
+
         // clear populated fields back to default
         txtLongName.clear();
         txtShortName.clear();
@@ -117,9 +121,7 @@ public class addCoordinateController implements Initializable{
         comFloor.getSelectionModel().clearSelection();
         comBuilding.getSelectionModel().clearSelection();
 
-        //NodesEditor node = new NodesEditor();
-        //Node newNode = new Node(txtLongName.getText(),txtShortName.getText(),idGenerator(txtType.getText(),txtFloor.getText(),txtFloor.getText()),txtType.getText(),5,5,txtFloor.getText(),txtBuilding.getText());
-        //node.addNode(newNode);
+
         Main.removePrompt(3);
     }
 

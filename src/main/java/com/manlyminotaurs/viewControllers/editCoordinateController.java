@@ -1,6 +1,9 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
+import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.nodes.Location;
+import com.manlyminotaurs.nodes.Node;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +19,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class editCoordinateController implements Initializable {
+
+    String longName;
+    String shortName;
+    int xCoord;
+    int yCoord;
+    String building;
+    String floor;
+    String type;
 
     @FXML
     Button btnBack;
@@ -80,9 +91,35 @@ public class editCoordinateController implements Initializable {
         comType.setItems(types);
         comFloor.setItems(floors);
         comBuilding.setItems(buildings);
+
+        String id = (new modifyNodeSelectorController()).nodeToBeModified;
+
+        NodesEditor nodeEditor = new NodesEditor();
+        Node node = nodeEditor.getNodeFromList(id);
+
+        /*
+        if (node != null) {
+
+            type = node.getNodeType();
+            longName = node.getLongName();
+            shortName = node.getShortName();
+            floor = node.getFloor();
+            building = node.getBuilding();
+            xCoord = node.getXCoord();
+            yCoord = node.getYCoord();
+
+            txtLongName.setText(longName);
+            txtShortName.setText(shortName);
+            txtXCoord.setText(Integer.toString(xCoord));
+            txtYCoord.setText(Integer.toString(yCoord));
+            comBuilding.setValue(building);
+            comFloor.setValue(floor);
+            comType.setValue(type);
+        } */
+
     }
 
-    public void back(ActionEvent event) {
+    public void cancel(ActionEvent event) {
 
         // clear populated fields back to default
         txtLongName.clear();
@@ -97,6 +134,15 @@ public class editCoordinateController implements Initializable {
     }
     public void saveNode(ActionEvent event1){
 
+        // edit node
+        NodesEditor nodeEditor = new NodesEditor();
+        Node node = nodeEditor.getNodeFromList((new modifyNodeSelectorController()).nodeToBeModified);
+        node.setLongName(txtLongName.getText());
+        node.setShortName(txtShortName.getText());
+        node.setNodeType(comType.getValue());
+        node.setLoc(new Location(Integer.parseInt(txtXCoord.getText()),Integer.parseInt(txtYCoord.getText()),comFloor.getValue(),comBuilding.getValue()));
+        node.setID(nodeEditor.generateNodeID("G",comType.getValue(),comFloor.getValue(),"A"));
+
         // clear populated fields back to default
         txtLongName.clear();
         txtShortName.clear();
@@ -105,8 +151,6 @@ public class editCoordinateController implements Initializable {
         comType.getSelectionModel().clearSelection();
         comFloor.getSelectionModel().clearSelection();
         comBuilding.getSelectionModel().clearSelection();
-
-        //put all fields from text boxes and update database
 
         Main.removePrompt(4);
     }

@@ -7,17 +7,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.deleteNodeSelectionController">
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.modifyNodeSelectorController">
    <children>
       <Pane layoutX="350.0" layoutY="200.0" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1 #c9d5e1;">
          <children>
-            <Label fx:id="lblTitle" contentDisplay="CENTER" layoutX="150.0" layoutY="50.0" text="Select Node to Delete Location" textFill="#eb8070">
+            <Label fx:id="lblTitle" contentDisplay="CENTER" layoutX="330.0" layoutY="50.0" text="Select Node to Edit" textFill="#eb8070">
                <font>
                   <Font size="61.0" />
                </font>
             </Label>
-            <Button fx:id="btnDeleteNode" layoutX="1086.0" layoutY="557.0" mnemonicParsing="false" onAction="#deleteNode" prefHeight="127.0" prefWidth="99.0" text="Delete" />
-            <Label fx:id="lblNodeDeleted" contentDisplay="CENTER" layoutX="775.0" layoutY="640.0" prefHeight="26.0" prefWidth="295.0" text="Node to be deleted" textAlignment="CENTER" textFill="#e86767">
+            <Button fx:id="btnModifyNode" layoutX="1086.0" layoutY="557.0" mnemonicParsing="false" onAction="#editNode" prefHeight="127.0" prefWidth="99.0" text="Edit" />
+            <Label fx:id="lblNodeModified" contentDisplay="CENTER" layoutX="775.0" layoutY="640.0" prefHeight="26.0" prefWidth="295.0" text="Node to be modified" textAlignment="CENTER" textFill="#e86767">
                <font>
                   <Font size="15.0" />
                </font>

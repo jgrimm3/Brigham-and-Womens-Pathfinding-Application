@@ -2,29 +2,27 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.nodes.Node;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-import javafx.event.ActionEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
-public class deleteNodeSelectionController {
+public class modifyNodeSelectorController {
 
-    String nodeToBeDeleted;
+    String nodeToBeModified;
 
     @FXML
     Label lblTitle;
 
     @FXML
-    Button btnDeleteNode;
+    Button btnModifyNode;
 
     @FXML
-    Label lblNodeDeleted;
+    Label lblNodeModified;
 
     @FXML
     Button btnSelectDestination;
@@ -50,23 +48,24 @@ public class deleteNodeSelectionController {
     @FXML
     Button btnCancel;
 
-    public void deleteNode(ActionEvent event) {
+    public void editNode(ActionEvent event) {
 
-        NodesEditor nodesEditor = new NodesEditor();
-        nodesEditor.removeNode(nodesEditor.getNodeFromList(nodeToBeDeleted));
+        NodesEditor nodeEditor = new NodesEditor();
+        nodeEditor.modifyNodeStatus(nodeEditor.getNodeFromList(nodeToBeModified),0);
+
+        System.out.println(nodeToBeModified);
 
         lstType.setItems(null);
         lstBuilding.setItems(null);
         lstLocation.setItems(null);
-        lblNodeDeleted.setText("Node to be Deleted");
-
-        Main.removePrompt(6);
+        lblNodeModified.setText("Node to be Modified");
+        Main.removePrompt(7);
     }
 
     public void getDeletedLocation(String location){
-        nodeToBeDeleted = location;
-        lblNodeDeleted.setText(location);
-        System.out.println("Text" + lblNodeDeleted.getText());
+        nodeToBeModified = location;
+        lblNodeModified.setText(location);
+        System.out.println("Text" + lblNodeModified.getText());
     }
 
     public void selectDestination(ActionEvent event) {
@@ -99,10 +98,7 @@ public class deleteNodeSelectionController {
         lstType.setItems(null);
         lstBuilding.setItems(null);
         lstLocation.setItems(null);
-        lblNodeDeleted.setText("Node to be Deleted");
-        Main.removePrompt(6);
+        lblNodeModified.setText("Node to be Modified");
+        Main.removePrompt(7);
     }
-
-
-
 }

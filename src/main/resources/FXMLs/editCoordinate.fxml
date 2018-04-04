@@ -12,7 +12,7 @@
    <children>
       <Pane layoutX="350.0" layoutY="150.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1;">
          <children>
-            <Button fx:id="btnBack" layoutX="50.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="80.0" text="Back" />
+            <Button fx:id="btnBack" layoutX="50.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="80.0" text="Cancel" />
             <Label fx:id="lblTitle" alignment="CENTER" layoutX="100.0" layoutY="19.0" prefHeight="75.0" prefWidth="985.0" text="Modify Node" textAlignment="CENTER" textFill="#eb8070">
                <font>
                   <Font size="84.0" />

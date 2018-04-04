@@ -37,12 +37,14 @@ public class editNodesActionBarController {
         // allows user to select a node from either map or list of nodes
         // which will bring up prompt to edit selected node
 
-        Main.addPrompt(4);
+        Main.addPrompt(7);
     }
 
     public void addEdge(ActionEvent event) {
         // allows user to select 2 nodes
         // which will bring up a confirmation notice
+
+        Main.addPrompt(8);
     }
 
     public void deleteEdge(ActionEvent event) {
