@@ -1,6 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.nodes.Node;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -13,9 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.manlyminotaurs.core.Main;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.shape.Path;
+
 import javax.annotation.Resources;
 import javax.xml.transform.stream.StreamSource;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,7 +30,12 @@ public class directionsActionBarController {
     public String type;
     String startLocation;
     String endLocation;
-
+    Node startNode;
+    Node endNode;
+    NodesEditor node = new NodesEditor();
+    Pathfinder pFind = new Pathfinder();
+    List<Node> path;
+    landingController land1;
     @FXML
     Label lblStart;
 
@@ -64,20 +74,24 @@ public class directionsActionBarController {
         if(lblEnd.getText().equals("End Location")) {
             lblEnd.setText("Please Select Destination");
         } else{
-            //pathfind
-
+           land1.setController(land1);
+            path = pFind.find(startNode, endNode);
+            land1.printNodePath(path);
         }
 
     }
 
-    public void getStartLocation(String location){
-        startLocation = location;
-        lblStart.setText(location);
+    public void getStartLocation(String startID){
+
+        startNode = node.getNodeFromList(startID);
+        startLocation = startNode.getLongName();
+        lblStart.setText(startLocation);
 
     }
-    public void getEndLocation(String location){
-        endLocation = location;
-        lblEnd.setText(location);
+    public void getEndLocation(String endID){
+        endNode = node.getNodeFromList(endID);
+        endLocation = endNode.getLongName();
+        lblEnd.setText(endLocation);
     }
 
     public void changeStartingLocation(ActionEvent event) {
@@ -91,7 +105,7 @@ public class directionsActionBarController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+
         node.retrieveNodes();
         lststartBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lststartBuilding.setVisible(true);

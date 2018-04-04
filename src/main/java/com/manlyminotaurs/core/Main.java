@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
-    static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
+    public static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
     public static List<Pane> actionBars = new ArrayList<Pane>(); // list of action bar displays
     public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
     private static int curScreen = 0;

@@ -55,7 +55,25 @@ public class MessagesDBUtil {
     }
 
     public void removeMessage(Message message){
-
+        for(int i = 0; i < messageList.size(); i++){
+            if(messageList.get(i).getMessageID().equals(message.getMessageID())) {
+                // remove the node
+                System.out.println("Node removed from object list...");
+                messageList.remove(i);
+            }
+        }
+        try {
+            // Get connection to database and delete the node from the database
+            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Statement stmt = connection.createStatement();
+            String str = "DELETE FROM MESSAGE WHERE messageID = '" + message.getMessageID() + "'";
+            stmt.executeUpdate(str);
+            stmt.close();
+            connection.close();
+            System.out.println("Node removed from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setIsRead(Message message, boolean newReadStatus){
         message.setRead(newReadStatus);
