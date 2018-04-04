@@ -130,6 +130,7 @@ public class directionsActionBarController {
         lststartBuilding.setItems(null);
         // allows user to select a location from either map or list of locations
         // which sets location to the end location
+        NodesEditor node = new NodesEditor();
         node.retrieveNodes();
         lstendBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstendBuilding.setVisible(true);
