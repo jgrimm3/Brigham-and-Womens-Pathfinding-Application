@@ -205,6 +205,10 @@ public class MessagesDBUtil {
         }
     } // retrieveMessage() ends
 
+    public void getMessageFromList(){
+
+    }
+
     /**
      * Print the messageList
      */

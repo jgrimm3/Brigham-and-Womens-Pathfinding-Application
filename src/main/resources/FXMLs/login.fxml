@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1085.0" prefWidth="1911.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.loginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1085.0" prefWidth="1911.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.loginController">
    <children>
       <Pane focusTraversable="true" layoutX="475.0" layoutY="135.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #c9d5e1;" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="150.0">
          <children>
@@ -23,8 +23,8 @@
                </font>
             </Label>
             <TextField fx:id="txtUser" layoutX="300.0" layoutY="270.0" prefHeight="50.0" prefWidth="600.0" promptText="Enter Username" />
-            <Button fx:id="btnLogin" layoutX="480.0" layoutY="525.0" mnemonicParsing="false" onAction="#login" prefHeight="59.0" prefWidth="225.0" text="Login" />
             <PasswordField fx:id="txtPassword" layoutX="300.0" layoutY="390.0" prefHeight="50.0" prefWidth="600.0" promptText="Enter Password" />
+            <Button fx:id="btnLogin" layoutX="480.0" layoutY="525.0" mnemonicParsing="false" onAction="#login" prefHeight="59.0" prefWidth="225.0" text="Login" />
             <Label fx:id="lblTitle" alignment="CENTER" layoutX="100.0" layoutY="65.0" prefHeight="75.0" prefWidth="985.0" text="Login" textAlignment="CENTER" textFill="#dd745f">
                <font>
                   <Font size="84.0" />

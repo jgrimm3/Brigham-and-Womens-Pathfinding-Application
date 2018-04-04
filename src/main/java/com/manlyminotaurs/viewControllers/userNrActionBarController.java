@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 
 public class userNrActionBarController implements Initializable{
-    String selectedRequestID;
+    static String selectedRequestID;
 
     MessagesDBUtil msgUtil = new MessagesDBUtil();
     RequestsDBUtil reqUtil = new RequestsDBUtil();
@@ -49,15 +49,23 @@ public class userNrActionBarController implements Initializable{
     @FXML
     TableView tblOpenRequests;
 
-    class requestInfo{
-       // protected String requestID;
+    public class requestInfo{
+        protected String requestID;
         String requestType;
         String message;
 
         requestInfo(String requestType, String message, String requestID){
             this.requestType = requestType;
             this.message = message;
-        //    this.requestID = requestID;
+                this.requestID = requestID;
+        }
+
+        public String getRequestType() {
+            return requestType;
+        }
+
+        public String getMessage() {
+            return message;
         }
     }
 
@@ -67,7 +75,7 @@ public class userNrActionBarController implements Initializable{
      */
     public void promptCompleteRequest(ActionEvent event){
         requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
-       // selectedRequestID = selectedRequest.requestID;
+        selectedRequestID = selectedRequest.requestID;
         System.out.println(selectedRequestID);
         Main.addPrompt(1); //go to complete request
     }
@@ -107,21 +115,21 @@ public class userNrActionBarController implements Initializable{
         }
 
         tblOpenRequests.setItems(finalList);
-        tblOpenRequests.refresh();
+//        tblOpenRequests.refresh();
     }
 
     public void refreshReqList(ActionEvent event){
         reqestList = reqUtil.searchRequestBySender("user");
         System.out.println("Requests From User: " + reqestList.size());
-        tblOpenRequests.getItems().clear();
+        finalList.clear();
 
         for(Request currReq : reqestList) {
             System.out.println("Type: " + currReq.getRequestType() +" Message: " + msgUtil.getMessageFromList(currReq.getMessageID()).getMessage());
-            tblOpenRequests.getItems().add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
+            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
         }
 
         System.out.println("Requests In List: " + finalList.size());
-
+        tblOpenRequests.setItems(finalList);
         tblOpenRequests.refresh();
     }
 }
