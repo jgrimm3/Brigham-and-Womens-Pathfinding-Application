@@ -220,12 +220,19 @@ public class landingController {
             MoveTo moveTo = new MoveTo();
             LineTo lineTo = new LineTo();
             Node startNode = nodeList.get(i);
-            Node endNode = nodeList.get(i+1);
-            // add the path
-            addPath(startNode, endNode, moveTo, lineTo);
+            Node endNode;
+            if(i+1<nodeList.size()) {
+				endNode = nodeList.get(i + 1);
+				// add the path
+				addPath(startNode, endNode, moveTo, lineTo);
+			}
             i++;
             System.out.println("Path added...");
         }
+    }
+
+    public void turnByTurn(List<Node> nodeList) {
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
+import com.manlyminotaurs.databases.RequestsDBUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,8 +35,13 @@ public class completeRequestController {
     }
 
     public void completeRequest(ActionEvent event) {
+        RequestsDBUtil reqUtil = new RequestsDBUtil();
+        String selectedRequestedID = (new userNrActionBarController()).selectedRequestID;
 
-        if (txtConfirmationCode.getText().trim().isEmpty()) {
+        System.out.println("Selected Request ID: " + selectedRequestedID);
+        System.out.println("PassWord To Enter: " + reqUtil.searchRequestsByID(selectedRequestedID).getPassword());
+
+        if (!txtConfirmationCode.getText().trim().equals(reqUtil.searchRequestsByID(selectedRequestedID).getPassword())) {
             lblError.setText("Please Enter a Correct Confirmation Code");
         } else {
             Main.removePrompt(1);
