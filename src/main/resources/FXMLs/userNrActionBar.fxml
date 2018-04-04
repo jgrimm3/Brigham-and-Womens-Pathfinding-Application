@@ -25,5 +25,6 @@
          </font>
       </Label>
       <Button fx:id="btnDeleteRequest" layoutX="1133.0" layoutY="24.0" mnemonicParsing="false" onAction="#promptDeleteRequest" prefHeight="33.0" prefWidth="132.0" text="Delete Request" />
+      <Button fx:id="btnRefresh" layoutX="1491.0" layoutY="28.0" mnemonicParsing="false" onAction="#refreshReqList" text="Refresh" />
    </children>
 </Pane>

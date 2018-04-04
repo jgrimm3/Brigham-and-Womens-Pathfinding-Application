@@ -106,7 +106,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         new NodesEditor().retrieveNodes();
-        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"));
+        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"), "user");
 
         launch(args);
     }

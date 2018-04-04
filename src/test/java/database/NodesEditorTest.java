@@ -45,23 +45,23 @@ public class NodesEditorTest {
         assertTrue(editor.getNodeList().size() > 0 && editor.getNodeList().size() < 200);
     }
 
-    @Test
-    public void addAndRemoveNode_Data_Correct() {
-        editor.retrieveNodes();
-        editor.addNode(addNode);
-        assertTrue(editor.getNodeList().contains(addNode));
-        editor.removeNode(addNode);
-        assertTrue(!editor.getNodeList().contains(addNode));
-    }
-
-    @Test
-    public void addAndRemoveNodebyID_Data_Correct() {
-        editor.retrieveNodes();
-        editor.addNode(addNode);
-        assertTrue(editor.getNodeList().contains(addNode));
-        editor.removeNode(addNode.getID());
-        assertTrue(!editor.getNodeList().contains(addNode));
-    }
+//    @Test
+//    public void addAndRemoveNode_Data_Correct() {
+//        editor.retrieveNodes();
+//        editor.addNode(addNode);
+//        assertTrue(editor.getNodeList().contains(addNode));
+//        editor.removeNode(addNode);
+//        assertTrue(!editor.getNodeList().contains(addNode));
+//    }
+//
+//    @Test
+//    public void addAndRemoveNodebyID_Data_Correct() {
+//        editor.retrieveNodes();
+//        editor.addNode(addNode);
+//        assertTrue(editor.getNodeList().contains(addNode));
+//        editor.removeNode(addNode.getID());
+//        assertTrue(!editor.getNodeList().contains(addNode));
+//    }
 
 	@Test
 	public void printEdges_CheckObjects_Created() {

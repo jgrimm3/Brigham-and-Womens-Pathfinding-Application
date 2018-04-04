@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Kiosk;
+import com.manlyminotaurs.databases.MessagesDBUtil;
 import com.manlyminotaurs.databases.RequestsDBUtil;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
@@ -21,8 +22,11 @@ import java.util.ResourceBundle;
 public class userNrActionBarController implements Initializable{
     String selectedRequestID;
 
+    MessagesDBUtil msgUtil = new MessagesDBUtil();
     RequestsDBUtil reqUtil = new RequestsDBUtil();
     Kiosk kiosk = new Kiosk();
+    ObservableList<Request> reqestList = reqUtil.searchRequestBySender("user");
+    ObservableList<requestInfo> finalList = FXCollections.observableArrayList();
 
     @FXML
     Label lblDoctorInfo;
@@ -46,14 +50,14 @@ public class userNrActionBarController implements Initializable{
     TableView tblOpenRequests;
 
     class requestInfo{
-        protected String requestID;
+       // protected String requestID;
         String requestType;
         String message;
 
         requestInfo(String requestType, String message, String requestID){
             this.requestType = requestType;
             this.message = message;
-            this.requestID = requestID;
+        //    this.requestID = requestID;
         }
     }
 
@@ -63,7 +67,7 @@ public class userNrActionBarController implements Initializable{
      */
     public void promptCompleteRequest(ActionEvent event){
         requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
-        selectedRequestID = selectedRequest.requestID;
+       // selectedRequestID = selectedRequest.requestID;
         System.out.println(selectedRequestID);
         Main.addPrompt(1); //go to complete request
     }
@@ -90,14 +94,6 @@ public class userNrActionBarController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<Request> reqestList = reqUtil.searchRequest("user");
-
-        ObservableList<requestInfo> finalList = FXCollections.observableArrayList();
-
-        for(Request currReq : reqestList) {
-            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.searchMsg(currReq.getMessageID()).message, currReq.getRequestID()));
-        }
-
         TableColumn typeCol = new TableColumn("Request Type");
         TableColumn msgCol = new TableColumn("Request Message");
 
@@ -106,6 +102,25 @@ public class userNrActionBarController implements Initializable{
         typeCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
         msgCol.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
 
+        for(Request currReq : reqestList) {
+            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
+        }
+
         tblOpenRequests.setItems(finalList);
+        tblOpenRequests.refresh();
+    }
+
+    public void refreshReqList(ActionEvent event){
+        reqestList = reqUtil.searchRequestBySender("user");
+        System.out.println("Requests From User: " + reqestList.size());
+        tblOpenRequests.getItems().clear();
+
+        for(Request currReq : reqestList) {
+            tblOpenRequests.getItems().add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getRequestID()));
+        }
+
+        System.out.println("Requests In List: " + finalList.size());
+
+        tblOpenRequests.refresh();
     }
 }

@@ -41,18 +41,6 @@ public class MessagesDBUtil {
         }
     }
 
-    public Message getMessageUsingID(int MessageID){
-        Iterator<Message> iterator = messageList.iterator();
-        while (iterator.hasNext()) {
-            Message messageObject = iterator.next();
-            if (messageObject.getMessageID().equals(MessageID)) {
-                return messageObject;
-            }
-        }
-        //System.out.println("getNdeFromList: Null-----------Something might break");
-        return null;
-    }
-
     public void removeMessage(Message message){
 
     }
