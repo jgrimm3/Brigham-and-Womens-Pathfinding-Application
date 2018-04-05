@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +118,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println("version 7");
         new NodesEditor().setupDatabase();
         Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"), "user");
 

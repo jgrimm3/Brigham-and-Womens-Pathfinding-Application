@@ -57,11 +57,6 @@ public class NodesEditor {
         CsvFileController csvFileController = new CsvFileController();
         nodesEditor.setupDatabase();
 
-        initializer.populateExitTable("./NodeExitTable.csv");
-        initializer.populateHallwayTable("./NodeHallwayTable.csv");
-        initializer.populateRoomTable();
-        initializer.populateTransportTable();
-
 //        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
 //        nodesEditor.removeNode(oneNode);
 //        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
@@ -95,6 +90,7 @@ public class NodesEditor {
     }
 
     public void setupDatabase(){
+       // System.out.println("yolo is: " + getClass().getResource("./src/main/resources/DropTables.sql").toString());
         TableInitializer initializer = new TableInitializer();
         RequestsDBUtil requestsDB = new RequestsDBUtil();
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
@@ -108,6 +104,11 @@ public class NodesEditor {
 
         nodesEditor.retrieveNodes();
         nodesEditor.retrieveEdges();
+
+        initializer.populateExitTable("./NodeExitTable.csv");
+        initializer.populateHallwayTable("./NodeHallwayTable.csv");
+        initializer.populateRoomTable();
+        initializer.populateTransportTable();
 
         messagesDBUtil.retrieveMessage();
         requestsDB.retrieveRequest();

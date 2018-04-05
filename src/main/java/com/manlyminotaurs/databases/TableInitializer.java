@@ -5,9 +5,7 @@ import com.manlyminotaurs.nodes.Hallway;
 import com.manlyminotaurs.nodes.Room;
 import com.manlyminotaurs.nodes.Transport;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
@@ -26,8 +24,10 @@ public class TableInitializer {
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             stmt = connection.createStatement();
-            tableInit.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
-            tableInit.executeDBScripts("./src/main/resources/CreateTables.sql", stmt);
+
+            tableInit.executeDBScripts("./DropTables.sql", stmt);
+            //tableInit.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
+            tableInit.executeDBScripts("./CreateTables.sql", stmt);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -48,12 +48,15 @@ public class TableInitializer {
      */
     public boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
         boolean isScriptExecuted = false;
+        InputStream inputStream = null;
         try {
-            BufferedReader in = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            System.out.println("executeDBScripts: "+ getClass().getName());
+            inputStream = getClass().getClassLoader().getResourceAsStream(aSQLScriptFilePath);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String str;
             StringBuffer sb;
             sb = new StringBuffer();
-            while ((str = in.readLine()) != null) {
+            while ((str = bufferedReader.readLine()) != null) {
                 if (str.contains(";")) {
                     sb.append(str.replace(";",""));
                     try {
@@ -69,12 +72,14 @@ public class TableInitializer {
                 }
             }
 
-            in.close();
+            bufferedReader.close();
             isScriptExecuted = true;
         } catch (Exception e) {
-            System.err.println("Failed to Execute" + aSQLScriptFilePath +". The error is"+ e.getMessage());
+            System.err.println("Failed to Execute " + aSQLScriptFilePath +". The error is "+ e.getMessage());
+            if(inputStream == null){
+                System.err.println("in is null");
+            }
         }
-        System.out.println("Tables created: "+aSQLScriptFilePath);
         return isScriptExecuted;
     }
 
