@@ -2,7 +2,7 @@ package com.manlyminotaurs.nodes;
 
 import java.util.ArrayList;
 
-public abstract class Transport extends Node {
+public class Transport extends Node {
 
     private String directionality;
     private ArrayList<String> floors;

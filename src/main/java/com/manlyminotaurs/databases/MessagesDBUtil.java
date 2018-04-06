@@ -5,6 +5,7 @@ import com.manlyminotaurs.messaging.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,13 +14,13 @@ import java.util.List;
 class MessagesDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
-    public static List<Message> messageList = new ArrayList<>();
     private static int messageIDCounter = 1;
+    DataModelI dataModelI = DataModelI.getInstance();
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
         Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
-        messageList.add(messageObject);
+        dataModelI.getMessageList().add(messageObject);
 
         try {
             // Connect to the database
@@ -48,11 +49,11 @@ class MessagesDBUtil {
     }
 
     public void removeMessage(Message message){
-        for(int i = 0; i < messageList.size(); i++){
-            if(messageList.get(i).getMessageID().equals(message.getMessageID())) {
+        for(int i = 0; i < dataModelI.getMessageList().size(); i++){
+            if(dataModelI.getMessageList().get(i).getMessageID().equals(message.getMessageID())) {
                 // remove the node
                 System.out.println("Node removed from object list...");
-                messageList.remove(i);
+                dataModelI.getMessageList().remove(i);
             }
         }
         try {
@@ -121,7 +122,7 @@ class MessagesDBUtil {
     }
 
     public Message getMessageFromList(String messageID){
-        Iterator<Message> iterator = messageList.iterator();
+        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
         while (iterator.hasNext()) {
             Message a_message = iterator.next();
             if (a_message.getMessageID().equals(messageID)) {
@@ -134,7 +135,7 @@ class MessagesDBUtil {
 
     public ObservableList<Message> searchMessageByReceiver(String userID){
         ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
-        Iterator<Message> iterator = messageList.iterator();
+        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
         //insert rows
         while (iterator.hasNext()) {
@@ -148,7 +149,7 @@ class MessagesDBUtil {
 
     public ObservableList<Message> searchMessageBySender(String userID){
         ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
-        Iterator<Message> iterator = messageList.iterator();
+        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
         //insert rows
         while (iterator.hasNext()) {
@@ -166,7 +167,7 @@ class MessagesDBUtil {
     }
 
     /**
-     * Creates a list of objects and stores them in the global variable messageList
+     * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()
      */
     public void retrieveMessage() {
         try {
@@ -196,7 +197,7 @@ class MessagesDBUtil {
 
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead,senderID,receiverID);
-                    MessagesDBUtil.messageList.add(messageObject);
+                    dataModelI.getMessageList().add(messageObject);
                     messageIDCounter++;
                     System.out.println("Message added to the list: "+messageID);
                 }
@@ -217,10 +218,10 @@ class MessagesDBUtil {
     }
 
     /**
-     * Print the messageList
+     * Print the message list
      */
-    public void printMessageList() {
+    public void printMessageList (){
         int i = 0;
-        while(i < messageList.size()) { System.out.println("Object " + i + ": " + messageList.get(i).getMessageID()); i++; }
+        while(i < dataModelI.getMessageList().size()) { System.out.println("Object " + i + ": " + dataModelI.getMessageList().get(i).getMessageID()); i++; }
     } // end printNodeList
 }

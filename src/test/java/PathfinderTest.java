@@ -3,16 +3,12 @@ import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.manlyminotaurs.nodes.Restroom;
 import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.Edge;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

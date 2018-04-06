@@ -1,7 +1,6 @@
 package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.databases.NodesDBUtil;
-import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
 

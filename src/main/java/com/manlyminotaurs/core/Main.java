@@ -1,7 +1,6 @@
 package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.databases.NodesDBUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +24,7 @@ public class Main extends Application {
     private static int curScreen = 0;
     private static int curAction = 0;
     private static int curPrompt = 0;
+    private static DataModelI dataModelI = DataModelI.getInstance();
 
 
     @Override
@@ -120,7 +120,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         System.out.println("version 7");
         DataModelI.getInstance().initializeTable();
-        Kiosk kiosk = new Kiosk(new NodesDBUtil().getNodeFromList("GCONF02001"), "user");
+        Kiosk kiosk = new Kiosk(dataModelI.getNodeFromList("GCONF02001", "CONF"), "user");
 
         launch(args);
     }

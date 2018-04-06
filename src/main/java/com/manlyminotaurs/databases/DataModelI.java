@@ -2,13 +2,14 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
-import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.nodes.*;
 import com.manlyminotaurs.users.User;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataModelI implements IDataModel{
@@ -19,7 +20,44 @@ public class DataModelI implements IDataModel{
     private NodesDBUtil nodesDBUtil;
     private RequestsDBUtil requestsDBUtil;
 
-    //private CsvFileController csvFileController;
+    // list of all objects
+    private static List<Node> nodeList = new ArrayList<>();
+    private static List<User> userList = new ArrayList<>();
+    private static List<Exit> exitList = new ArrayList<>();
+    private static List<Room> roomList = new ArrayList<>();
+    private static List<Hallway> hallwayList = new ArrayList<>();
+
+    public static List<Node> getNodeList() {
+        return nodeList;
+    }
+
+    public static List<User> getUserList() {
+        return userList;
+    }
+
+    public static List<Exit> getExitList() {
+        return exitList;
+    }
+
+    public static List<Room> getRoomList() {
+        return roomList;
+    }
+
+    public static List<Hallway> getHallwayList() {
+        return hallwayList;
+    }
+
+    public static List<Transport> getTransportList() {
+        return transportList;
+    }
+
+    public static List<Message> getMessageList() {
+        return messageList;
+    }
+
+    static List<Transport> transportList = new ArrayList<>();
+    static List<Message> messageList = new ArrayList<>();
+
     private TableInitializer tableInitializer = new TableInitializer();
     private static DataModelI dataModelI;
     private static Connection connection;
@@ -93,17 +131,17 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes) {
+    public ObservableList<String> getBuildingsFromList() {
         return null;
     }
 
     @Override
-    public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes) {
+    public ObservableList<String> getTypesFromList(String building) {
         return null;
     }
 
     @Override
-    public ObservableList<String> getNodeFromList(String building, String type, List<Node> listOfNodes) {
+    public Node getNodeFromList(String building, String type) {
         return null;
     }
 

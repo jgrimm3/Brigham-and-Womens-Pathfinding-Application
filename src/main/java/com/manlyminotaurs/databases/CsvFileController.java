@@ -73,7 +73,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateEdgeCSVFile(String csvFileName) {
-        Statement stmt = null;
+        /*Statement stmt = null;
         Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -97,7 +97,7 @@ public class CsvFileController {
         }
         catch(IOException e){
             e.printStackTrace();
-        }
+        } */
     }
 
 

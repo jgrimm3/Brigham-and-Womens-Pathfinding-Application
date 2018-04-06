@@ -1,5 +1,7 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.List;
+
 public abstract class Node {
 
     Location loc;
@@ -7,9 +9,11 @@ public abstract class Node {
     String shortName;
     String ID;
     String nodeType;
+    List<Edge> edges;
     int status;
 
-    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
+    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
+				String floor, String building) {
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
@@ -50,5 +54,9 @@ public abstract class Node {
     public int getStatus() { return status; }
 
     public void setStatus(int status) { this.status = status; }
+
+    public void addEdge(Edge edge) {
+    	edges.add(edge);
+	}
 
 }

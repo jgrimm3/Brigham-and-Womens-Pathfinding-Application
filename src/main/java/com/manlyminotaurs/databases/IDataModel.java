@@ -22,9 +22,9 @@ public interface IDataModel {
     List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
     List<Node> getNodesByFloor(String floor);
-    ObservableList<String> getBuildingsFromList(List<Node> listOfNodes);
-    ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes);
-    ObservableList<String> getNodeFromList(String building, String type, List<Node> listOfNodes);
+    ObservableList<String> getBuildingsFromList();
+    ObservableList<String> getTypesFromList(String building);
+    Node getNodeFromList(String building, String type);
 
 
     List<Message>retrieveMessages();
