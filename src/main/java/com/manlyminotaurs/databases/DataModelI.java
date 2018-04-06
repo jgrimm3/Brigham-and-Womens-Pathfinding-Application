@@ -6,17 +6,25 @@ import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 public class DataModelI implements IDataModel{
-    MessagesDBUtil messagesDBUtil;
-    NodesDBUtil nodesDBUtil;
-    RequestsDBUtil requestsDBUtil;
-    CsvFileController csvFileController;
-    TableInitializer tableInitializer;
-    private static DataModelI dataModelI;
 
-    private DataModelI(){}
+    /*---------------------------------------------- Variables -------------------------------------------------------*/
+    // All the utils for each database
+    private MessagesDBUtil messagesDBUtil;
+    private NodesDBUtil nodesDBUtil;
+    private RequestsDBUtil requestsDBUtil;
+
+    //private CsvFileController csvFileController;
+    private TableInitializer tableInitializer = new TableInitializer();
+    private static DataModelI dataModelI;
+    private static Connection connection;
+
+    /*------------------------------------------------ Methods -------------------------------------------------------*/
+    private DataModelI() {}
 
     public static DataModelI getInstance(){
         if(dataModelI == null) {
@@ -27,12 +35,30 @@ public class DataModelI implements IDataModel{
 
     @Override
     public void initializeTable() {
-
+        tableInitializer.initTables();
     }
 
     @Override
     public Connection getNewConnection() {
-        return null;
+        if(connection == null) {
+            try {
+                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+
+    @Override
+    public boolean closeConnection(Connection connection) {
+        try {
+            connection.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

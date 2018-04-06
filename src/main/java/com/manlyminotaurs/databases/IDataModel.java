@@ -11,7 +11,10 @@ import java.util.List;
 public interface IDataModel {
 
     void initializeTable();
+
     Connection getNewConnection();
+    boolean closeConnection(Connection connection);
+
     List<Node> retrieveNodes();
     boolean modifyNode(Node newNode);
     boolean addNode(Node newNode);

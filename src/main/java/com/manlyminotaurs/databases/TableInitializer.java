@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
 
-public class TableInitializer {
+class TableInitializer {
     NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /**
      * Delete any pre-existing tables and create new tables in the database

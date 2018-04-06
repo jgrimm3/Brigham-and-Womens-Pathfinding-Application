@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class RequestsDBUtil {
+class RequestsDBUtil {
 
+    /*------------------------------------------------ Variables -----------------------------------------------------*/
     public static List<Request> requestList = new ArrayList<>();
     private static int requestIDCounter = 1;
 
+    /*------------------------------------------------ Methods -------------------------------------------------------*/
     public void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
@@ -49,6 +51,7 @@ public class RequestsDBUtil {
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
+
     public ObservableList<Request> searchRequestByReceiver(String userID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
@@ -128,6 +131,7 @@ public class RequestsDBUtil {
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
+
     public void setIsComplete(Request request, boolean newCompleteStatus){
         request.setComplete(newCompleteStatus);
         try {
