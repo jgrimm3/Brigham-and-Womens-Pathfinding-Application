@@ -252,7 +252,7 @@ public class NodesDBUtil {
      */
     public void addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building)
     {
-        String ID = generateNodeID("G",nodeType,floor,"A");
+        String ID = generateNodeID(nodeType,floor,"A");
 
         Node node;
         if(nodeType.equals("HALL")) {
@@ -303,16 +303,14 @@ public class NodesDBUtil {
     } // end addNode()
 
     /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param longName new longName
+     *
+     * @param node
      */
-    public void modifyNodeLongName(Node node, String longName){
-        node.setLongName(longName);
+    public void modifyNode(Node node){
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET longName = '" + longName + "'" + " WHERE nodeID = '" + node.getID() + "'";
+            String sql = "UPDATE map_nodes SET longName = gg" + " WHERE nodeID = '" + node.getID() + "'";
             stmt.executeUpdate(sql);
             stmt.close();
             connection.close();
@@ -322,153 +320,6 @@ public class NodesDBUtil {
             se.printStackTrace();
         }
     } // end modifyNodeLongName
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param shortName new shortName
-     */
-    public void modifyNodeShortName(Node node, String shortName){
-        node.setShortName(shortName);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET shortName = '" + shortName + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeShortName
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param nodeType new nodeType
-     */
-    public void modifyNodeType(Node node, String nodeType){
-        node.setNodeType(nodeType);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET nodeType = '" + nodeType + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeType
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param floor new floor
-     */
-    public void modifyNodeFloor(Node node, String floor){
-        node.getLoc().setFloor(floor);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET floor = '" + floor + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeFloor
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param xCoord new xCoord
-     */
-    public void modifyNodeXcoord(Node node, int xCoord){
-        node.getLoc().setxCoord(xCoord);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET xCoord = " + xCoord + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeXcoord
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param yCoord new yCoord
-     */
-    public void modifyNodeYcoord(Node node, int yCoord){
-        node.getLoc().setyCoord(yCoord);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET yCoord = " + yCoord + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeYcoord
-
-    /**
-     * Modifies building attribute of a node
-     * @param node node to be modified
-     * @param building new building
-     */
-    public void modifyNodeBuilding(Node node, String building){
-        node.getLoc().setBuilding(building);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET building = '" + building + "'" + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeBuilding
-
-    /**
-     * modify status field of the Node
-     * @param node
-     * @param status
-     */
-    public void modifyNodeStatus(Node node, int status){
-        node.setStatus(status);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE map_nodes SET status = " + status + " WHERE nodeID = '" + node.getID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    } // end modifyNodeStatus
 
     /**
      * Removes a node from the list of objects as well as the database
@@ -721,6 +572,7 @@ public class NodesDBUtil {
             i++;
         }
     } // end printEdgeList
+
     public Edge getEdgeFromList(String edgeID){
         Iterator<Edge> iterator = edgeList.iterator();
         while (iterator.hasNext()) {
@@ -854,8 +706,8 @@ public class NodesDBUtil {
      * @param elevatorLetter
      * @return
      */
-    public String generateNodeID(String TeamLetter, String nodeType, String floor, String elevatorLetter){
-        String nodeID = TeamLetter; // change this later
+    public String generateNodeID(String nodeType, String floor, String elevatorLetter){
+        String nodeID = "X";
         nodeID += nodeType;
 
         ArrayList<String> elevatorLetters = new ArrayList<String>();
