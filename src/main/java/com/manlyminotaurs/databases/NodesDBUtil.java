@@ -23,25 +23,6 @@ class NodesDBUtil {
     DataModelI dataModelI = DataModelI.getInstance();
     int nodeIDGeneratorCount = 200;
 
-    /*------------------------------------------------ Main ----------------------------------------------------------*/
-    public static void main(String [] args) {
-
-        System.out.println("-------- Step 1: Registering Oracle Driver ------");
-        try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
-            System.out.println("*****Open the file and read the comments in the beginning of the file****");
-            e.printStackTrace();
-            return;
-        }
-
-        System.out.println("Oracle JDBC Driver Registered Successfully !");
-
-        System.out.println("main function ended");
-    }
-
-
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList

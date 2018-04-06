@@ -27,19 +27,25 @@ public interface IDataModel {
     Node getNodeFromList(String building, String type);
 
 
-    List<Message>retrieveMessages();
+    Message addMessage(Message newMessage);
+    boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
-    boolean addMessage(Message newMessage);
-    List<Message> getMessageBySender();
+    List<Message> retrieveMessages();
+    List<Message> getMessageBySender(String senderID);
+    List<Message> getMessageByReceiver(String receiverID);
     Message getMessageByID(String ID);
 
-    List<Request> retrieveRequest();
+    Request addRequest(Request newRequest);
+    boolean removeRequest(Request oldRequest);
     boolean modifyRequest(Request newRequest);
-    boolean addRequest(Request newRequest);
+    List<Request> retrieveRequest();
+    List<Request> getRequestBySender(String senderID);
+    List<Request> getRequestByReceiver(String receiverID);
     Request getRequestByID(String ID);
 
-    List<User> retrieveUser();
+    boolean addUser(String userID, String firstName, String middleName, String lastName, String language);
+    boolean removeUser(User oldUser);
     boolean modifyUser(String stuff);
-    boolean addUser(User newUser);
+    List<User> retrieveUser();
     User getUserByID(String ID);
 }

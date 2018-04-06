@@ -54,8 +54,8 @@ class TableInitializer {
 
         initializer.populateExitTable("./NodeExitTable.csv");
         initializer.populateHallwayTable("./NodeHallwayTable.csv");
-        initializer.populateRoomTable();
-        initializer.populateTransportTable();
+        initializer.populateRoomTable(null);
+        initializer.populateTransportTable(null);
 
         messagesDBUtil.retrieveMessage();
         requestsDB.retrieveRequest();
@@ -212,7 +212,7 @@ class TableInitializer {
             populateExitTableFromCsv(listOfExit);
         }
         else{
-            populateExitTableFromList();
+            populateExitTableFromList(null);
         }
     }
 
@@ -250,7 +250,7 @@ class TableInitializer {
     /**
      * insert values into Exit table by identifying nodes having nodeType = EXIT in the nodeList
      */
-    public void populateExitTableFromList() {
+    public void populateExitTableFromList(List<Node> nodeList) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -258,11 +258,11 @@ class TableInitializer {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             stmt = connection.createStatement();
 
-            for(int i = 0; i< nodesDBUtil.nodeList.size(); i++) {
-                if(nodesDBUtil.nodeList.get(i).getNodeType().equals("EXIT")) {
+            for(int i = 0; i< nodeList.size(); i++) {
+                if(nodeList.get(i).getNodeType().equals("EXIT")) {
                     System.out.println("Found an exit...");
-                    Exit exit = (Exit) nodesDBUtil.nodeList.get(i);
-                    nodesDBUtil.exitList.add(exit);
+                    Exit exit = (Exit) nodeList.get(i);
+                    DataModelI.getExitList().add(exit);
 
                     String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
@@ -339,12 +339,12 @@ class TableInitializer {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             stmt = connection.createStatement();
 
-            for(int i = 0; i<NodesDBUtil.nodeList.size(); i++) {
-                if(NodesDBUtil.nodeList.get(i).getNodeType().equals("HALL")) {
+            for(int i = 0; i<DataModelI.getHallwayList().size(); i++) {
+                if(DataModelI.getHallwayList().get(i).getNodeType().equals("HALL")) {
                     try {
                         System.out.println("Found an hallway...");
-                        Hallway hall = (Hallway) nodesDBUtil.nodeList.get(i);
-                        nodesDBUtil.hallwayList.add(hall);
+                        Hallway hall = (Hallway) DataModelI.getHallwayList().get(i);
+                        DataModelI.getHallwayList().add(hall);
 
                         String str = "INSERT INTO hallway(popularity, nodeID) VALUES (?,?)";
                         PreparedStatement statement = connection.prepareStatement(str);
@@ -618,7 +618,7 @@ class TableInitializer {
         }
     }
 
-    public void populateRoomTable() {
+    public void populateRoomTable(List<Node> nodeList) {
         int i = 0;
         String type;
         Statement stmt = null;
@@ -629,13 +629,13 @@ class TableInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        while(i < nodesDBUtil.nodeList.size()) {
-            type = nodesDBUtil.nodeList.get(i).getNodeType();
+        while(i < nodeList.size()) {
+            type = nodeList.get(i).getNodeType();
             if(type.equals("DEPT") || type.equals("RETA") || type.equals("LABS") || type.equals("REST") || type.equals("SERV") || type.equals("INFO") || type.equals("CONF")) {
                 try {
                     System.out.println("Found an room...");
-                    Room room = (Room) nodesDBUtil.nodeList.get(i);
-                    nodesDBUtil.roomList.add(room);
+                    Room room = (Room) nodeList.get(i);
+                    DataModelI.getRoomList().add(room);
 
                     String str = "INSERT INTO room(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
@@ -655,7 +655,7 @@ class TableInitializer {
         }
     }
 
-    public void populateTransportTable() {
+    public void populateTransportTable(List<Node> nodeList) {
         int i = 0;
         Statement stmt = null;
         Connection connection = null;
@@ -665,13 +665,13 @@ class TableInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        while(i < nodesDBUtil.nodeList.size()) {
-            String type = nodesDBUtil.nodeList.get(i).getNodeType();
+        while(i < nodeList.size()) {
+            String type = nodeList.get(i).getNodeType();
             if(type.equals("STAI") || type.equals("ELEV")) {
                 try {
                     System.out.println("Found an transport...");
-                    Transport transport = (Transport) nodesDBUtil.nodeList.get(i);
-                    nodesDBUtil.transportList.add(transport);
+                    Transport transport = (Transport) nodeList.get(i);
+                    DataModelI.getTransportList().add(transport);
 
                     String str = "INSERT INTO transport(directionality, floors, nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);

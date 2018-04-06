@@ -26,6 +26,9 @@ public class DataModelI implements IDataModel{
     private static List<Exit> exitList = new ArrayList<>();
     private static List<Room> roomList = new ArrayList<>();
     private static List<Hallway> hallwayList = new ArrayList<>();
+    static List<Transport> transportList = new ArrayList<>();
+    static List<Message> messageList = new ArrayList<>();
+    static List<Request> requestList = new ArrayList<>();
 
     public static List<Node> getNodeList() {
         return nodeList;
@@ -55,8 +58,9 @@ public class DataModelI implements IDataModel{
         return messageList;
     }
 
-    static List<Transport> transportList = new ArrayList<>();
-    static List<Message> messageList = new ArrayList<>();
+    public static List<Request> getRequestList() {
+        return requestList;
+    }
 
     private TableInitializer tableInitializer = new TableInitializer();
     private static DataModelI dataModelI;
@@ -146,8 +150,13 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<Message> retrieveMessages() {
+    public Message addMessage(Message newMessage) {
         return null;
+    }
+
+    @Override
+    public boolean removeMessage(Message oldMessage) {
+        return false;
     }
 
     @Override
@@ -156,12 +165,17 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean addMessage(Message newMessage) {
-        return false;
+    public List<Message> retrieveMessages() {
+        return null;
     }
 
     @Override
-    public List<Message> getMessageBySender() {
+    public List<Message> getMessageBySender(String senderID) {
+        return null;
+    }
+
+    @Override
+    public List<Message> getMessageByReceiver(String receiverID) {
         return null;
     }
 
@@ -171,8 +185,13 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<Request> retrieveRequest() {
+    public Request addRequest(Request newRequest) {
         return null;
+    }
+
+    @Override
+    public boolean removeRequest(Request oldRequest) {
+        return false;
     }
 
     @Override
@@ -181,8 +200,18 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean addRequest(Request newRequest) {
-        return false;
+    public List<Request> retrieveRequest() {
+        return null;
+    }
+
+    @Override
+    public List<Request> getRequestBySender(String senderID) {
+        return null;
+    }
+
+    @Override
+    public List<Request> getRequestByReceiver(String receiverID) {
+        return null;
     }
 
     @Override
@@ -191,8 +220,13 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<User> retrieveUser() {
-        return null;
+    public boolean addUser(String userID, String firstName, String middleName, String lastName, String language) {
+        return false;
+    }
+
+    @Override
+    public boolean removeUser(User oldUser) {
+        return false;
     }
 
     @Override
@@ -201,8 +235,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean addUser(User newUser) {
-        return false;
+    public List<User> retrieveUser() {
+        return null;
     }
 
     @Override

@@ -50,7 +50,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = nodesDBUtil.nodeList.iterator();
+        Iterator<Node> iterator = DataModelI.getNodeList().iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -106,7 +106,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateExitCSVFile(String csvFileName) {
-        Iterator<Exit> iterator = nodesDBUtil.exitList.iterator();
+        Iterator<Exit> iterator = DataModelI.getExitList().iterator();
         System.out.println("Updating exit csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -129,7 +129,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateHallwayCSVFile(String csvFileName) {
-        Iterator<Hallway> iterator = nodesDBUtil.hallwayList.iterator();
+        Iterator<Hallway> iterator = DataModelI.getHallwayList().iterator();
         System.out.println("Updating hallway csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -152,7 +152,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRoomCSVFile(String csvFileName) {
-        Iterator<Room> iterator = nodesDBUtil.roomList.iterator();
+        Iterator<Room> iterator = DataModelI.getRoomList().iterator();
         System.out.println("Updating room csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -175,7 +175,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateTransportCSVFile(String csvFileName) {
-        Iterator<Transport> iterator = nodesDBUtil.transportList.iterator();
+        Iterator<Transport> iterator = DataModelI.getTransportList().iterator();
         System.out.println("Updating transport csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -198,7 +198,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateMessageCSVFile(String csvFileName) {
-        Iterator<Message> iterator = MessagesDBUtil.messageList.iterator();
+        Iterator<Message> iterator = DataModelI.getMessageList().iterator();
         System.out.println("Updating message csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -221,7 +221,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRequestCSVFile(String csvFileName) {
-        Iterator<Request> iterator = RequestsDBUtil.requestList.iterator();
+        Iterator<Request> iterator = DataModelI.getRequestList().iterator();
         System.out.println("Updating request csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -244,7 +244,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateUserCSVFile(String csvFileName) {
-        Iterator<User> iterator = nodesDBUtil.userList.iterator();
+        Iterator<User> iterator = DataModelI.getUserList().iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
