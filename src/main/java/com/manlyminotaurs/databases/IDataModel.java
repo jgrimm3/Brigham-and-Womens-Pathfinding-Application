@@ -4,6 +4,7 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.util.List;
@@ -18,6 +19,10 @@ public interface IDataModel {
     List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
     List<Node> getNodesByFloor(String floor);
+    ObservableList<String> getBuildingsFromList(List<Node> listOfNodes);
+    ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes);
+    ObservableList<String> getNodeFromList(String building, String type, List<Node> listOfNodes);
+
 
     List<Message>retrieveMessages();
     boolean modifyMessage(Message newMessage);
