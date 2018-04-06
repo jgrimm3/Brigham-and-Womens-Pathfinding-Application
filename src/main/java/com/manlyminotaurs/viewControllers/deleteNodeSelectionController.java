@@ -1,16 +1,13 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import javafx.event.ActionEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class deleteNodeSelectionController {
@@ -52,8 +49,8 @@ public class deleteNodeSelectionController {
 
     public void deleteNode(ActionEvent event) {
 
-        NodesEditor nodesEditor = new NodesEditor();
-        nodesEditor.removeNode(nodesEditor.getNodeFromList(nodeToBeDeleted));
+        NodesDBUtil nodesDBUtil = new NodesDBUtil();
+        nodesDBUtil.removeNode(nodesDBUtil.getNodeFromList(nodeToBeDeleted));
 
         lstType.setItems(null);
         lstBuilding.setItems(null);
@@ -80,7 +77,7 @@ public class deleteNodeSelectionController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+        NodesDBUtil node = new NodesDBUtil();
         node.retrieveNodes();
         lstBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstBuilding.setVisible(true);

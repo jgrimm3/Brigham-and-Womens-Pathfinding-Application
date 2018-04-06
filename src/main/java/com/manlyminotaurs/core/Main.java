@@ -1,13 +1,13 @@
 package com.manlyminotaurs.core;
 
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,8 +119,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         System.out.println("version 7");
-        new NodesEditor().setupDatabase();
-        Kiosk kiosk = new Kiosk(new NodesEditor().getNodeFromList("GCONF02001"), "user");
+        DataModelI.getInstance().initializeTable();
+        Kiosk kiosk = new Kiosk(new NodesDBUtil().getNodeFromList("GCONF02001"), "user");
 
         launch(args);
     }

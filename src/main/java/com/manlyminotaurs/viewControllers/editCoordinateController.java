@@ -1,7 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
+import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,7 +93,7 @@ public class editCoordinateController implements Initializable {
 
         String id = (new modifyNodeSelectorController()).nodeToBeModified;
 
-        NodesEditor nodeEditor = new NodesEditor();
+        NodesDBUtil nodeEditor = new NodesDBUtil();
         Node node = nodeEditor.getNodeFromList(id);
 
         /*
@@ -133,7 +134,7 @@ public class editCoordinateController implements Initializable {
     public void saveNode(ActionEvent event1){
 
         // edit node
-        NodesEditor nodeEditor = new NodesEditor();
+        NodesDBUtil nodeEditor = new NodesDBUtil();
         Node node = nodeEditor.getNodeFromList((new modifyNodeSelectorController()).nodeToBeModified);
         node.setLongName(txtLongName.getText());
         node.setShortName(txtShortName.getText());

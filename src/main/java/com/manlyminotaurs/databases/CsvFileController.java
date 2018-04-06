@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CsvFileController {
-    NodesEditor nodesEditor = new NodesEditor();
+    NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
      * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
@@ -50,7 +50,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = nodesEditor.nodeList.iterator();
+        Iterator<Node> iterator = nodesDBUtil.nodeList.iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -82,7 +82,7 @@ public class CsvFileController {
             e.printStackTrace();
         }
 
-        Iterator<Edge> iterator = nodesEditor.edgeList.iterator();
+        Iterator<Edge> iterator = nodesDBUtil.edgeList.iterator();
         System.out.println("Updating edge csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -106,7 +106,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateExitCSVFile(String csvFileName) {
-        Iterator<Exit> iterator = nodesEditor.exitList.iterator();
+        Iterator<Exit> iterator = nodesDBUtil.exitList.iterator();
         System.out.println("Updating exit csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -129,7 +129,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateHallwayCSVFile(String csvFileName) {
-        Iterator<Hallway> iterator = nodesEditor.hallwayList.iterator();
+        Iterator<Hallway> iterator = nodesDBUtil.hallwayList.iterator();
         System.out.println("Updating hallway csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -152,7 +152,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRoomCSVFile(String csvFileName) {
-        Iterator<Room> iterator = nodesEditor.roomList.iterator();
+        Iterator<Room> iterator = nodesDBUtil.roomList.iterator();
         System.out.println("Updating room csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -175,7 +175,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateTransportCSVFile(String csvFileName) {
-        Iterator<Transport> iterator = nodesEditor.transportList.iterator();
+        Iterator<Transport> iterator = nodesDBUtil.transportList.iterator();
         System.out.println("Updating transport csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -244,7 +244,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateUserCSVFile(String csvFileName) {
-        Iterator<User> iterator = nodesEditor.userList.iterator();
+        Iterator<User> iterator = nodesDBUtil.userList.iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);

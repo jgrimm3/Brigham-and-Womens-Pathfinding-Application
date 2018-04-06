@@ -1,8 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.manlyminotaurs.pathfinding.AStarStrategyI;
-import com.manlyminotaurs.pathfinding.PathfinderUtil;
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.core.Pathfinder;
+import com.manlyminotaurs.core.PathfinderUtil;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,8 +23,8 @@ public class directionsActionBarController {
     String endLocation;
     Node startNode;
     Node endNode;
-    NodesEditor node = new NodesEditor();
-    AStarStrategyI pFind = new AStarStrategyI();
+    NodesDBUtil node = new NodesDBUtil();
+    Pathfinder pFind = new Pathfinder();
     PathfinderUtil pUtil = new PathfinderUtil();
     List<Node> path;
     LinkedList<Node> pathForTurns;
@@ -198,7 +198,7 @@ public class directionsActionBarController {
         lststartBuilding.setItems(null);
         // allows user to select a location from either map or list of locations
         // which sets location to the end location
-        NodesEditor node = new NodesEditor();
+        NodesDBUtil node = new NodesDBUtil();
         node.retrieveNodes();
         lstendBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstendBuilding.setVisible(true);
