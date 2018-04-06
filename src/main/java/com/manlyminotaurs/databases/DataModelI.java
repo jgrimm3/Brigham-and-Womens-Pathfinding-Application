@@ -4,6 +4,7 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -88,6 +89,21 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Node> getNodesByFloor(String floor) {
+        return null;
+    }
+
+    @Override
+    public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes) {
+        return null;
+    }
+
+    @Override
+    public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes) {
+        return null;
+    }
+
+    @Override
+    public ObservableList<String> getNodeFromList(String building, String type, List<Node> listOfNodes) {
         return null;
     }
 
