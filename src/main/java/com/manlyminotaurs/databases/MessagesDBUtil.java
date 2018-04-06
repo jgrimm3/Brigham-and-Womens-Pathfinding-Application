@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MessagesDBUtil {
+class MessagesDBUtil {
+
+    /*------------------------------------------------ Variables -----------------------------------------------------*/
     public static List<Message> messageList = new ArrayList<>();
     private static int messageIDCounter = 1;
 
+    /*------------------------------------------------ Methods -------------------------------------------------------*/
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
         Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
         messageList.add(messageObject);
@@ -66,6 +69,7 @@ public class MessagesDBUtil {
         }
         new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
+
     public void setIsRead(Message message, boolean newReadStatus){
         message.setRead(newReadStatus);
         try {
@@ -82,6 +86,7 @@ public class MessagesDBUtil {
         }
         new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
+
     public void setMessage(Message message, String newMessage){
         message.setMessage(newMessage);
         try {
@@ -114,7 +119,6 @@ public class MessagesDBUtil {
         }
         new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
-
 
     public Message getMessageFromList(String messageID){
         Iterator<Message> iterator = messageList.iterator();

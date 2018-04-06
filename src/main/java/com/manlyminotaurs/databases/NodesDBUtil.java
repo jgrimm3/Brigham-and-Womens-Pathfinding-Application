@@ -16,7 +16,10 @@ import java.util.Scanner;
 
 //update CSV file from room, exit, hallway, transport nodes.
 //finish erd diagram and create request table
-public class NodesDBUtil {
+class NodesDBUtil {
+
+    // Get a csv file controller
+    private CsvFileController csvFileController = new CsvFileController();
 
     // global nodeList holds all the java objects for the nodes
     public static List<Node> nodeList = new ArrayList<>();
@@ -29,7 +32,7 @@ public class NodesDBUtil {
     public static List<Transport> transportList = new ArrayList<>();
 
     int nodeIDGeneratorCount = 200;
-    static TableInitializer initializer = new TableInitializer();
+
     /*------------------------------------------------ Main ----------------------------------------------------------*/
     public static void main(String [] args) {
 
@@ -293,7 +296,6 @@ public class NodesDBUtil {
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e)
         {
@@ -365,7 +367,6 @@ public class NodesDBUtil {
             stmt.close();
             connection.close();
             System.out.println("Node removed from database");
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -393,7 +394,6 @@ public class NodesDBUtil {
             stmt.close();
             connection.close();
             System.out.println("room removed from database: " + node.getID());
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateNodeCSVFile("./NodeRoomTable.csv");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -420,7 +420,6 @@ public class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
             System.out.println("hallway removed from database: " + node.getID());
         } catch (SQLException e) {
@@ -448,7 +447,6 @@ public class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateExitCSVFile("./NodeExitTable.csv");
             System.out.println("EXIT removed from database: " + node.getID());
         } catch (SQLException e) {
@@ -476,7 +474,6 @@ public class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
             System.out.println("Transport removed from database: " + node.getID());
         } catch (SQLException e) {
@@ -511,7 +508,6 @@ public class NodesDBUtil {
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateEdgeCSVFile("./MapGEdges.csv");
         } catch (SQLException e)
         {
@@ -543,7 +539,6 @@ public class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            CsvFileController csvFileController = new CsvFileController();
             csvFileController.updateEdgeCSVFile("./MapGEdges.csv");
             System.out.println("Edge removed from database: " + edge.getEdgeID());
         } catch (SQLException e) {
