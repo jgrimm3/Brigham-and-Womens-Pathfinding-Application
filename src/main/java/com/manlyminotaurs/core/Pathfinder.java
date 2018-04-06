@@ -1,6 +1,6 @@
 package com.manlyminotaurs.core;
 
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
@@ -30,7 +30,7 @@ public class Pathfinder {
         ScoredNode scoredStart = new ScoredNode(startNode, null, -1, -1, -1);
         ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
-        NodesEditor ne = new NodesEditor();
+        NodesDBUtil ne = new NodesDBUtil();
         ne.retrieveNodes();
         ne.retrieveEdges();
         ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());

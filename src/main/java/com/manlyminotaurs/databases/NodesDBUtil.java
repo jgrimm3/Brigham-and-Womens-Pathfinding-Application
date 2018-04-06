@@ -1,15 +1,11 @@
 package com.manlyminotaurs.databases;
 
-import com.manlyminotaurs.messaging.Message;
-import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
 import com.manlyminotaurs.users.Patient;
 import com.manlyminotaurs.users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.w3c.dom.traversal.NodeIterator;
 
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +16,7 @@ import java.util.Scanner;
 
 //update CSV file from room, exit, hallway, transport nodes.
 //finish erd diagram and create request table
-public class NodesEditor {
+public class NodesDBUtil {
 
     // global nodeList holds all the java objects for the nodes
     public static List<Node> nodeList = new ArrayList<>();
@@ -49,71 +45,10 @@ public class NodesEditor {
 
         System.out.println("Oracle JDBC Driver Registered Successfully !");
 
-        // run to create the database table
-        NodesEditor nodesEditor = new NodesEditor();
-        TableInitializer initializer = new TableInitializer();
-        RequestsDBUtil requestsDB = new RequestsDBUtil();
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        CsvFileController csvFileController = new CsvFileController();
-        nodesEditor.setupDatabase();
-
-//        Node oneNode = new Room("", "", "WHALL00902","", 23, 46,"2", "yolobuil");
-//        nodesEditor.removeNode(oneNode);
-//        ObservableList<Message> list1 = messagesDBUtil.searchMessageByReceiver("1");
-//        messagesDBUtil.addMessage("doctor", "hello world", false, "2", "1");
-//        ObservableList<Message> list2 = messagesDBUtil.searchMessageByReceiver("1");
-//        messagesDBUtil.printMessageList();
-
-
-      //  ObservableList<Request> list6 = requestsDB.searchRequestByReceiver("2");
-      //  ObservableList<Request> list3 = requestsDB.searchRequestByReceiver("6");
-        messagesDBUtil.addMessage("15", "This is second", false, "5", "doctor");
-        requestsDB.addRequest("help", 3, "GHALL00201", "hi nurse, can you help me", "nurse");
-
-
-//
-//        ObservableList<Request> list4 = requestsDB.searchRequestByReceiver("nurse");
-//        ObservableList<Request> list5 = requestsDB.searchRequestBySender("user");
-//        requestsDB.printRequestList();
-
-        csvFileController.updateRequestCSVFile("./RequestTable.csv");
-//        csvFileController.updateUserCSVFile("./UserAccountTable2.csv");
-//        csvFileController.updateMessageCSVFile("./MessageTable.csv");
-//        csvFileController.updateNodeCSVFile("./MapGNodes2.csv");
-//        csvFileController.updateEdgeCSVFile("./MapGEdges2.csv");
-//        csvFileController.updateExitCSVFile("./NodeExitTable.csv");
-//        csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
-//        csvFileController.updateRoomCSVFile("./NodeRoomTable.csv");
-//        csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
-
         System.out.println("main function ended");
     }
 
-    public void setupDatabase(){
-       // System.out.println("yolo is: " + getClass().getResource("./src/main/resources/DropTables.sql").toString());
-        TableInitializer initializer = new TableInitializer();
-        RequestsDBUtil requestsDB = new RequestsDBUtil();
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        NodesEditor nodesEditor = new NodesEditor();
 
-        initializer.initTables();
-        initializer.populateNodeEdgeTables("./MapGNodesEdited.csv","./MapGEdges.csv");
-        initializer.populateUserAccountTable("./UserAccountTable.csv");
-        initializer.populateMessageTable("./MessageTable.csv");
-        initializer.populateRequestTable("./RequestTable.csv");
-
-        nodesEditor.retrieveNodes();
-        nodesEditor.retrieveEdges();
-
-        initializer.populateExitTable("./NodeExitTable.csv");
-        initializer.populateHallwayTable("./NodeHallwayTable.csv");
-        initializer.populateRoomTable();
-        initializer.populateTransportTable();
-
-        messagesDBUtil.retrieveMessage();
-        requestsDB.retrieveRequest();
-        nodesEditor.retrieveUser();
-    }
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
@@ -1267,4 +1202,4 @@ public class NodesEditor {
     }
 
 
-} // end NodesEditor class
+} // end NodesDBUtil class

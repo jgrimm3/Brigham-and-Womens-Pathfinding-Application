@@ -1,8 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Node;
-import javafx.application.Application;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,12 +11,7 @@ import com.manlyminotaurs.core.Main;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import javax.annotation.Resource;
-import javax.swing.*;
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -112,7 +105,7 @@ public class addCoordinateController implements Initializable{
 
     public void addNode(ActionEvent event1) {
 
-        NodesEditor nodeEditor = new NodesEditor();
+        NodesDBUtil nodeEditor = new NodesDBUtil();
         nodeEditor.addNode(txtLongName.getText(),txtShortName.getText(),comType.getValue(),Integer.parseInt(txtXCoord.getText()),Integer.parseInt(txtYCoord.getText()),comFloor.getValue(),comBuilding.getValue());
 
         // clear populated fields back to default

@@ -1,8 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -50,7 +49,7 @@ public class modifyNodeSelectorController {
 
     public void editNode(ActionEvent event) {
 
-        NodesEditor nodeEditor = new NodesEditor();
+        NodesDBUtil nodeEditor = new NodesDBUtil();
         nodeEditor.modifyNodeStatus(nodeEditor.getNodeFromList(nodeToBeModified),0);
 
         System.out.println(nodeToBeModified);
@@ -79,7 +78,7 @@ public class modifyNodeSelectorController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+        NodesDBUtil node = new NodesDBUtil();
         node.retrieveNodes();
         lstBuilding.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstBuilding.setVisible(true);

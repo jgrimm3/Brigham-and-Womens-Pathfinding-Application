@@ -1,7 +1,5 @@
 package com.manlyminotaurs.nodes;
 
-import com.manlyminotaurs.databases.NodesEditor;
-
 public abstract class Node {
 
     Location loc;

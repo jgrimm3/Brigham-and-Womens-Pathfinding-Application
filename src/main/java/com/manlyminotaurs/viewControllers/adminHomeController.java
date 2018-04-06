@@ -1,6 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,7 +62,7 @@ public class adminHomeController {
         Circle circle;
         Circle outline;
         List<Node> nodeList;
-        NodesEditor nodeEditor = new NodesEditor();
+        NodesDBUtil nodeEditor = new NodesDBUtil();
         nodeEditor.retrieveNodes();
         nodeList = nodeEditor.nodeList;
 

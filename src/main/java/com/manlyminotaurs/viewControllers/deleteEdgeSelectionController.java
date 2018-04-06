@@ -1,11 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.messaging.Request;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Edge;
-import com.manlyminotaurs.nodes.Node;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,8 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,7 +22,7 @@ public class deleteEdgeSelectionController implements Initializable{
 
     Edge endEdge;
     String endEdgeID;
-    NodesEditor edgeHome = new NodesEditor();
+    NodesDBUtil edgeHome = new NodesDBUtil();
 
     @FXML
     Label lblTitle;

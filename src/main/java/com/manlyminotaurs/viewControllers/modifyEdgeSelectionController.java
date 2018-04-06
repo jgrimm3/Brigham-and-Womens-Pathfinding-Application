@@ -1,7 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Edge;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +22,7 @@ public class modifyEdgeSelectionController implements Initializable{
 
     Edge endEdge;
     String endEdgeID;
-    NodesEditor edgeHome = new NodesEditor();
+    NodesDBUtil edgeHome = new NodesDBUtil();
 
     @FXML
     Label lblTitle;

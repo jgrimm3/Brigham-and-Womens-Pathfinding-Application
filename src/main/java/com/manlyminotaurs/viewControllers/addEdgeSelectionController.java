@@ -1,7 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,10 +87,10 @@ public class addEdgeSelectionController {
 
     public void addEdge(ActionEvent event) {
 
-        NodesEditor nodesEditor = new NodesEditor();
-        Node startNode = nodesEditor.getNodeFromList(node1);
-        Node endNode = nodesEditor.getNodeFromList(node2);
-        nodesEditor.addEdge(startNode,endNode);
+        NodesDBUtil nodesDBUtil = new NodesDBUtil();
+        Node startNode = nodesDBUtil.getNodeFromList(node1);
+        Node endNode = nodesDBUtil.getNodeFromList(node2);
+        nodesDBUtil.addEdge(startNode,endNode);
 
         lstType1.setItems(null);
         lstBuilding1.setItems(null);
@@ -125,7 +125,7 @@ public class addEdgeSelectionController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+        NodesDBUtil node = new NodesDBUtil();
         node.retrieveNodes();
         lstBuilding1.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstBuilding1.setVisible(true);
@@ -151,7 +151,7 @@ public class addEdgeSelectionController {
 
         // allows user to select a location from either map or list of locations
         // which sets location to the start location
-        NodesEditor node = new NodesEditor();
+        NodesDBUtil node = new NodesDBUtil();
         node.retrieveNodes();
         lstBuilding2.setItems(node.getBuildingsFromList(node.getNodeList()));
         lstBuilding2.setVisible(true);
