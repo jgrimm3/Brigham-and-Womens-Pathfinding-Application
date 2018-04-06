@@ -1,34 +1,19 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.manlyminotaurs.core.Pathfinder;
-import com.manlyminotaurs.core.PathfinderUtil;
+import com.manlyminotaurs.pathfinding.AStarStrategyI;
+import com.manlyminotaurs.pathfinding.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.Node;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.manlyminotaurs.core.Main;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 
-import javax.annotation.Resources;
-import javax.xml.transform.stream.StreamSource;
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class directionsActionBarController {
 
@@ -39,7 +24,7 @@ public class directionsActionBarController {
     Node startNode;
     Node endNode;
     NodesEditor node = new NodesEditor();
-    Pathfinder pFind = new Pathfinder();
+    AStarStrategyI pFind = new AStarStrategyI();
     PathfinderUtil pUtil = new PathfinderUtil();
     List<Node> path;
     LinkedList<Node> pathForTurns;

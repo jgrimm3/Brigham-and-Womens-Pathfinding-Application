@@ -1,13 +1,11 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -15,7 +13,6 @@ import com.manlyminotaurs.core.Main;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class landingController {

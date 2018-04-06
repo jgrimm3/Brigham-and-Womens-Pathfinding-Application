@@ -2,7 +2,6 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +13,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 

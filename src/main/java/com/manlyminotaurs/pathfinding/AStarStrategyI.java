@@ -1,7 +1,6 @@
-package com.manlyminotaurs.core;
+package com.manlyminotaurs.pathfinding;
 
 import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
 
@@ -11,9 +10,8 @@ import java.util.*;
     - Add floor switch functionality. calcPath(toElev) + calcPath(toDest).
  */
 
-public class Pathfinder {
+public class AStarStrategyI implements IPathFindingStrategy {
     ArrayList nodeSet;
-    Hospital hospital;
 
     /**
      * Wrapper for calcPath function. Creates empty data structures.

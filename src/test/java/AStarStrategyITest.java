@@ -1,18 +1,14 @@
-import com.manlyminotaurs.core.PathNotFoundException;
-import com.manlyminotaurs.core.PathfinderUtil;
+import com.manlyminotaurs.pathfinding.PathNotFoundException;
+import com.manlyminotaurs.pathfinding.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.manlyminotaurs.nodes.Restroom;
-import com.manlyminotaurs.core.Pathfinder;
+import com.manlyminotaurs.pathfinding.AStarStrategyI;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.Edge;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +16,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 
-public class PathfinderTest {
-    private Pathfinder pf;
+public class AStarStrategyITest {
+    private AStarStrategyI pf;
     private NodesEditor ne;
     private LinkedList<Node> fixture;
     Node node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, fakeNode;
@@ -29,7 +25,7 @@ public class PathfinderTest {
 
     @Before
     public void createFixtures(){
-        pf = new Pathfinder();
+        pf = new AStarStrategyI();
         ne = new NodesEditor();
         pu = new PathfinderUtil();
         ne.retrieveNodes();

@@ -1,4 +1,4 @@
-package com.manlyminotaurs.core;
+package com.manlyminotaurs.pathfinding;
 
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingDeque;
-//package com.manlyminotaurs.core;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -27,7 +26,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-public class PathfinderUtil {
+public class PathfinderUtil extends PathfindingContext {
 
     /**
      * calculates angle from 3 Nodes

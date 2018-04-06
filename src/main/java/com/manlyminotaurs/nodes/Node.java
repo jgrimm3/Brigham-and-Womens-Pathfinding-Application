@@ -2,9 +2,12 @@ package com.manlyminotaurs.nodes;
 
 import com.manlyminotaurs.databases.NodesEditor;
 
-public abstract class Node {
+public class Node implements INode {
 
-    Location loc;
+    int xCoord;
+    int yCoord;
+    String floor;
+    String building;
     String longName;
     String shortName;
     String ID;
@@ -12,16 +15,32 @@ public abstract class Node {
     int status;
 
     public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
-        this.loc = loc;
+        this.xCoord = xcoord;
+        this.yCoord = ycoord;
+        this.floor = floor;
+        this.building = building;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
-        this.loc = new Location(xcoord, ycoord, floor, building);
         status = 1;
     }
 
-    public void setLoc(Location loc) { this.loc = loc; }
+    public int getxCoord() { return xCoord; }
+
+    public void setxCoord(int xCoord) { this.xCoord = xCoord; }
+
+    public int getyCoord() { return yCoord; }
+
+    public void setyCoord(int yCoord) { this.yCoord = yCoord; }
+
+    public String getFloor() { return floor; }
+
+    public void setFloor(String floor) { this.floor = floor; }
+
+    public String getBuilding() { return building; }
+
+    public void setBuilding(String building) { this.building = building; }
 
     public void setLongName(String longName) { this.longName = longName; }
 
@@ -31,8 +50,6 @@ public abstract class Node {
 
     public void setNodeType(String nodeType) { this.nodeType = nodeType; }
 
-    public Location getLoc() { return loc; }
-
     public String getID() { return ID; }
 
     public String getLongName(){return longName; }
@@ -41,16 +58,9 @@ public abstract class Node {
 
     public String getNodeType() { return nodeType; }
 
-    public int getXCoord() { return loc.xCoord; }
-
-    public int getYCoord() { return loc.yCoord; }
-
-    public String getFloor() { return loc.floor; }
-
-    public String getBuilding() { return loc.building; }
-
     public int getStatus() { return status; }
 
     public void setStatus(int status) { this.status = status; }
 
+    public boolean isType(String type) { return false; }
 }

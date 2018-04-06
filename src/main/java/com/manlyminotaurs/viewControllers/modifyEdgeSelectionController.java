@@ -2,7 +2,6 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.NodesEditor;
-import com.manlyminotaurs.nodes.Edge;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
