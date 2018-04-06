@@ -196,11 +196,11 @@ public class AStarStrategyI implements IPathFindingStrategy {
      */
 
     double distanceBetweenNodes(ScoredNode node1, ScoredNode node2){
-        int x1 = node1.getNode().getXCoord();
-        int y1 = node1.getNode().getYCoord();
+        int x1 = node1.getNode().getxCoord();
+        int y1 = node1.getNode().getyCoord();
 
-        int x2 = node2.getNode().getXCoord();
-        int y2 = node2.getNode().getYCoord();
+        int x2 = node2.getNode().getxCoord();
+        int y2 = node2.getNode().getyCoord();
 
         double xDist = x2 - x1;
         double yDist = y2 - y1;

@@ -1,6 +1,6 @@
 package com.manlyminotaurs.nodes;
 
-import com.manlyminotaurs.databases.NodesEditor;
+//import com.manlyminotaurs.databases.NodesEditor;
 
 public class Node implements INode {
 
