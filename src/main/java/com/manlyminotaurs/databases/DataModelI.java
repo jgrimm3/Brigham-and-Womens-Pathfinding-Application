@@ -97,6 +97,7 @@ public class DataModelI implements IDataModel{
         }
     }
 
+	/*------------------------------------------------ Nodes -------------------------------------------------------*/
     @Override
     public void retrieveNodes() {
         nodesDBUtil.retrieveNodes();
@@ -143,6 +144,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
+
+	/*------------------------------------------------ Messages -------------------------------------------------------*/
+    @Override
     public Message addMessage(Message newMessage) {
         return null;
     }
@@ -176,6 +181,7 @@ public class DataModelI implements IDataModel{
         return null;
     }
 
+	/*------------------------------------------------ Requests -------------------------------------------------------*/
     @Override
     public Request addRequest(Request newRequest) {
         return null;
@@ -209,6 +215,8 @@ public class DataModelI implements IDataModel{
     public Request getRequestByID(String ID) {
         return null;
     }
+
+	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
     public boolean addUser(String userID, String firstName, String middleName, String lastName, String language) {

@@ -148,7 +148,7 @@ class NodesDBUtil {
 	 * @param xCoord3D  xCoord3D
 	 * @param yCoord3D  yCoord3D
 	 */
-	Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+	Node addNode(String longName, String shortName, String nodeType, int xCoord, int yCoord, String floor, String building, int xCoord3D, int yCoord3D) {
 		String ID = generateNodeID(nodeType, floor, "A");
 
 		Node node;
@@ -287,7 +287,7 @@ class NodesDBUtil {
 	 * @param startNode the start node
 	 * @param endNode   the end node
 	 */
-	void addAdjacentNode(Node startNode, Node endNode) {
+	void addEdge(Node startNode, Node endNode) {
 		Connection connection = dataModelI.getNewConnection();
 		startNode.getAdjacentNodes().add(endNode);
 		endNode.getAdjacentNodes().add(startNode);
@@ -311,7 +311,7 @@ class NodesDBUtil {
 			dataModelI.closeConnection(connection);
 		}
 
-	} // end addAdjacentNode()
+	} // end addEdge()
 
 	/**
 	 * Removes the connection between nodes
@@ -473,7 +473,7 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	public List<Node> getNodesByType(String type, List<Node> listOfNodes) {
+	List<Node> getNodesByType(String type, List<Node> listOfNodes) {
 		List<Node> selectedNodes = new ArrayList<>();
 		Iterator<Node> iterator = listOfNodes.iterator();
 
@@ -487,7 +487,7 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	public List<Node> getNodesByFloor(String floor, List<Node> listOfNodes) {
+	List<Node> getNodesByFloor(String floor, List<Node> listOfNodes) {
 		List<Node> selectedNodes = new ArrayList<>();
 		Iterator<Node> iterator = listOfNodes.iterator();
 
@@ -502,7 +502,7 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	public Node getNodesByID(String nodeID, List<Node> listOfNodes) {
+	Node getNodesByID(String nodeID, List<Node> listOfNodes) {
 		Iterator<Node> iterator = listOfNodes.iterator();
 
 		//insert rows
@@ -524,7 +524,7 @@ class NodesDBUtil {
 	 * @param elevatorLetter
 	 * @return
 	 */
-	public String generateNodeID(String nodeType, String floor, String elevatorLetter) {
+	String generateNodeID(String nodeType, String floor, String elevatorLetter) {
 		String nodeID = "X";
 		nodeID += nodeType;
 

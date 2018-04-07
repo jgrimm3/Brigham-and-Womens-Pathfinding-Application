@@ -25,7 +25,11 @@ public interface IDataModel {
     List<String> getBuildingsFromList();
     List<String> getTypesFromList(String building);
     List<Node> getNodesFromList(String building, String type);
-    List<Node> getAdjacentNodes();
+    List<Node> getAdjacentNodes(Node node);
+    void addEdge(Node startNode, Node endNode);
+    void removeEdge(Node startNode, Node endNode);
+    boolean hasEdge(Node startNode, Node endNode);
+    void removeNode (Node node);
 
 
     Message addMessage(Message newMessage);
