@@ -18,13 +18,14 @@ public interface IDataModel {
 
     void retrieveNodes();
     boolean modifyNode(Node newNode);
-    boolean addNode(Node newNode);
+    Node addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D);
     List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
     List<Node> getNodesByFloor(String floor);
-    ObservableList<String> getBuildingsFromList();
-    ObservableList<String> getTypesFromList(String building);
-    Node getNodeFromList(String building, String type);
+    List<String> getBuildingsFromList();
+    List<String> getTypesFromList(String building);
+    List<Node> getNodesFromList(String building, String type);
+
 
     Message addMessage(Message newMessage);
     boolean removeMessage(Message oldMessage);

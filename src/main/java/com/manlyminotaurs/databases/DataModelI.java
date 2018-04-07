@@ -4,7 +4,6 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
 import com.manlyminotaurs.users.User;
-import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,8 +28,6 @@ public class DataModelI implements IDataModel{
     private static List<Edge> edgeList = new ArrayList<>();
     private static List<Message> messageList = new ArrayList<>();
     private static List<Request> requestList = new ArrayList<>();
-
-    NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
     public static List<Node> getNodeList() {
         return nodeList;
@@ -107,42 +104,42 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean modifyNode(Node newNode) {
-        return false;
+        return nodesDBUtil.modifyNode(newNode);
     }
 
     @Override
-    public boolean addNode(Node newNode) {
-        return false;
+    public Node addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D) {
+        return nodesDBUtil.addNode(longName, shortName, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
     }
 
     @Override
     public List<Node> getNodesByType(String type) {
-        return null;
+        return nodesDBUtil.getNodesByType(type, nodeList);
     }
 
     @Override
-    public Node getNodeByID(String ID) {
-        return null;
+    public Node getNodeByID(String nodeID) {
+        return nodesDBUtil.getNodesByID(nodeID, nodeList);
     }
 
     @Override
     public List<Node> getNodesByFloor(String floor) {
-        return null;
+        return nodesDBUtil.getNodesByFloor(floor, nodeList);
     }
 
     @Override
-    public ObservableList<String> getBuildingsFromList() {
-        return null;
+    public List<String> getBuildingsFromList() {
+        return nodesDBUtil.getBuildingsFromList(nodeList);
     }
 
     @Override
-    public ObservableList<String> getTypesFromList(String building) {
-        return null;
+    public List<String> getTypesFromList(String building) {
+        return nodesDBUtil.getTypesFromList(building, nodeList);
     }
 
     @Override
-    public Node getNodeFromList(String building, String type) {
-        return null;
+    public List<Node> getNodesFromList(String building, String type) {
+        return nodesDBUtil.getNodesFromList(building, type, nodeList);
     }
 
     @Override

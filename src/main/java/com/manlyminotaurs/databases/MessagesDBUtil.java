@@ -16,6 +16,7 @@ class MessagesDBUtil {
     /*------------------------------------------------ Variables -----------------------------------------------------*/
     private static int messageIDCounter = 1;
     DataModelI dataModelI = DataModelI.getInstance();
+    CsvFileController csvFileController = new CsvFileController();
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
@@ -82,22 +83,19 @@ class MessagesDBUtil {
             // Connect to the database
             System.out.println("Getting connection to database...");
             Connection connection = dataModelI.getNewConnection();
-            String str = "INSERT INTO map_nodes(messageID, ) VALUES (?,?,?,?,?,?,?,?)";
+            String str = "UPDATE map_nodes SET messageID = ?, message = ?, isRead = ?, senderID = ?, receiver = ?";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
-            statement.setString(1, node.getID());
-            statement.setInt(2, node.getXCoord());
-            statement.setInt(3, node.getYCoord());
-            statement.setString(4, node.getFloor());
-            statement.setString(5, node.getBuilding());
-            statement.setString(6, node.getNodeType());
-            statement.setString(7, node.getLongName());
-            statement.setString(8, node.getShortName());
+            statement.setString(1, newMessage.getMessageID());
+            statement.setString(2, newMessage.getMessage());
+            statement.setBoolean(3, newMessage.getRead());
+            statement.setString(4, newMessage.getSenderID());
+            statement.setString(5, newMessage.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Node added to database");
-            csvFileController.updateNodeCSVFile("./MapGNodes.csv");
+            csvFileController.updateMessageCSVFile("./MessageTable.csv");
         } catch (SQLException e)
         {
             System.out.println("Node already in the database");
