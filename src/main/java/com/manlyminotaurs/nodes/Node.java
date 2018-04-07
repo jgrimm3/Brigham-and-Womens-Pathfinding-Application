@@ -2,25 +2,27 @@ package com.manlyminotaurs.nodes;
 
 import java.util.List;
 
-public abstract class Node {
+public abstract class Node implements INode {
 
-    Location loc;
-    String longName;
-    String shortName;
-    String ID;
-    String nodeType;
-    List<Edge> edges;
-    int status;
+    private Location loc;
+    private String longName;
+    private String shortName;
+    private String ID;
+    private String nodeType;
+    private List<Edge> edges;
+    private int status;
+    private int popularity;
 
     public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
-				String floor, String building) {
+				String floor, String building, int xCoord3D, int yCoord3D) {
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
-        this.loc = new Location(xcoord, ycoord, floor, building);
+        this.loc = new Location(xcoord, ycoord, xCoord3D, yCoord3D, floor, building);
         status = 1;
+        popularity = 0;
     }
 
     public void setLoc(Location loc) { this.loc = loc; }
@@ -46,6 +48,10 @@ public abstract class Node {
     public int getXCoord() { return loc.xCoord; }
 
     public int getYCoord() { return loc.yCoord; }
+
+    public int getXCoord3D() { return loc.xCoord3D; }
+
+    public int getYCoord3D() { return loc.yCoord3D; }
 
     public String getFloor() { return loc.floor; }
 

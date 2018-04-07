@@ -15,18 +15,20 @@ import java.util.List;
 public class DataModelI implements IDataModel{
 
     /*---------------------------------------------- Variables -------------------------------------------------------*/
-    // All the utils for each database
+
+    // all the utils
+	MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+	NodesDBUtil nodesDBUtil = new NodesDBUtil();
+	RequestsDBUtil requestsDBUtil = new RequestsDBUtil();
+	UserDBUtil userDBUtil = new UserDBUtil();
 
     // list of all objects
     private static List<Node> nodeList = new ArrayList<>();
     private static List<User> userList = new ArrayList<>();
-    private static List<Exit> exitList = new ArrayList<>();
     private static List<Room> roomList = new ArrayList<>();
-    private static List<Hallway> hallwayList = new ArrayList<>();
     private static List<Edge> edgeList = new ArrayList<>();
-    static List<Transport> transportList = new ArrayList<>();
-    static List<Message> messageList = new ArrayList<>();
-    static List<Request> requestList = new ArrayList<>();
+    private static List<Message> messageList = new ArrayList<>();
+    private static List<Request> requestList = new ArrayList<>();
 
     NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
@@ -38,20 +40,8 @@ public class DataModelI implements IDataModel{
         return userList;
     }
 
-    public static List<Exit> getExitList() {
-        return exitList;
-    }
-
     public static List<Room> getRoomList() {
         return roomList;
-    }
-
-    public static List<Hallway> getHallwayList() {
-        return hallwayList;
-    }
-
-    public static List<Transport> getTransportList() {
-        return transportList;
     }
 
     public static List<Edge> getEdgeList() {
@@ -69,6 +59,7 @@ public class DataModelI implements IDataModel{
     private TableInitializer tableInitializer = new TableInitializer();
 
     private static DataModelI dataModelI;
+
     private static Connection connection;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
@@ -82,8 +73,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void initializeTable() {
-        tableInitializer.initTables();
+    public void startDB() {
+        tableInitializer.setupDatabase();
     }
 
     @Override

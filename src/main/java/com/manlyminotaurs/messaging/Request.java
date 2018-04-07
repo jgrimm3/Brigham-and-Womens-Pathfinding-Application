@@ -1,6 +1,6 @@
 package com.manlyminotaurs.messaging;
 
-import com.manlyminotaurs.databases.RequestsDBUtil;
+//import com.manlyminotaurs.databases.RequestsDBUtil;
 
 public class Request {
 

@@ -71,66 +71,37 @@ class MessagesDBUtil {
         new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
     }
 
-    public void setIsRead(Message message, boolean newReadStatus){
-        message.setRead(newReadStatus);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET ISREAD = '" + newReadStatus + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
-    }
+    public void modifyMessage(Message newMessage) {
+        Message oldMessage = getMessageFromList(newMessage.getMessageID());
+        oldMessage.setMessage(newMessage.getMessage());
+        oldMessage.setRead(newMessage.getRead());
+        oldMessage.setReceiverID(newMessage.getReceiverID());
+        oldMessage.setSenderID(newMessage.getSenderID());
 
-    public void setMessage(Message message, String newMessage){
-        message.setMessage(newMessage);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET MESSAGE = '" + newMessage + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-    }
+            // Connect to the database
+            System.out.println("Getting connection to database...");
+            Connection connection = dataModelI.getNewConnection();
+            String str = "INSERT INTO map_nodes(messageID, ) VALUES (?,?,?,?,?,?,?,?)";
 
-    public void setReceiver(Message message, String receiverID){
-        message.setReceiverID(receiverID);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET RECEIVERID = '" + receiverID + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, node.getID());
+            statement.setInt(2, node.getXCoord());
+            statement.setInt(3, node.getYCoord());
+            statement.setString(4, node.getFloor());
+            statement.setString(5, node.getBuilding());
+            statement.setString(6, node.getNodeType());
+            statement.setString(7, node.getLongName());
+            statement.setString(8, node.getShortName());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            System.out.println("Node added to database");
+            csvFileController.updateNodeCSVFile("./MapGNodes.csv");
+        } catch (SQLException e)
+        {
+            System.out.println("Node already in the database");
         }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
-    }
-
-    public Message getMessageFromList(String messageID){
-        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if (a_message.getMessageID().equals(messageID)) {
-                return a_message;
-            }
-        }
-        System.out.println("getMessageFromList: Something might break--------------------");
-        return null;
     }
 
     public ObservableList<Message> searchMessageByReceiver(String userID){
@@ -213,8 +184,18 @@ class MessagesDBUtil {
         }
     } // retrieveMessage() ends
 
-    public void getMessageFromList(){
+    public void getMessageFromList(){ } // needs implementation
 
+    public Message getMessageFromList(String messageID){
+        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
+        while (iterator.hasNext()) {
+            Message a_message = iterator.next();
+            if (a_message.getMessageID().equals(messageID)) {
+                return a_message;
+            }
+        }
+        System.out.println("getMessageFromList: Something might break--------------------");
+        return null;
     }
 
     /**
