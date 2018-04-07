@@ -4,10 +4,8 @@ import com.manlyminotaurs.nodes.*;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 class TableInitializer {
     /*------------------------------------------------ Initialize Tables -----------------------------------------------------*/
@@ -57,8 +55,8 @@ class TableInitializer {
         initializer.populateRoomTable(null);
         //initializer.populateTransportTable(null);
 
-        messagesDBUtil.retrieveMessage();
-        requestsDB.retrieveRequest();
+        messagesDBUtil.retrieveMessages();
+        requestsDB.retrieveRequests();
         nodesDBUtil.retrieveUser();
     }
 
