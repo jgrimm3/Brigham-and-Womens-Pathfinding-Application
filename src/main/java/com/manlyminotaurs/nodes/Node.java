@@ -2,6 +2,9 @@ package com.manlyminotaurs.nodes;
 
 //import com.manlyminotaurs.databases.NodesEditor;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Node implements INode {
 
     int xCoord;
@@ -12,17 +15,19 @@ public class Node implements INode {
     String shortName;
     String ID;
     String nodeType;
+    ArrayList<Node> edgeNodes = new ArrayList<Node>();
     int status;
 
-    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
-        this.xCoord = xcoord;
-        this.yCoord = ycoord;
+    public Node(String longName, String shortName, String ID, String nodeType, int xCoord, int yCoord, String floor, String building, ArrayList<Node> edgeNodes) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
         this.floor = floor;
         this.building = building;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
+        this.edgeNodes = edgeNodes;
         status = 1;
     }
 

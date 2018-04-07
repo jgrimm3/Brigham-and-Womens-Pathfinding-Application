@@ -38,12 +38,12 @@ public class PathfinderUtil extends PathfindingContext {
      */
 
     private int calcAngle(Node node1, Node node2, Node node3) {
-        double n1x = node1.getXCoord();
-        double n1y = node1.getYCoord();
-        double n2x = node2.getXCoord();
-        double n2y = node2.getYCoord();
-        double n3x = node3.getXCoord();
-        double n3y = node3.getYCoord();
+        double n1x = node1.getxCoord();
+        double n1y = node1.getyCoord();
+        double n2x = node2.getxCoord();
+        double n2y = node2.getyCoord();
+        double n3x = node3.getxCoord();
+        double n3y = node3.getyCoord();
         double angle1 = Math.atan2(n1y - n2y, n1x - n2x);
         double angle2 = Math.atan2(n2y - n3y, n2x - n3x);
         double finalAngle = (angle2 - angle1) * (180 / Math.PI);

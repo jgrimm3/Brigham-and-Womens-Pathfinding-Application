@@ -1,6 +1,6 @@
 package com.manlyminotaurs.pathfinding;
 
-import com.manlyminotaurs.databases.NodesEditor;
+import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.ScoredNode;
 
@@ -28,11 +28,11 @@ public class AStarStrategyI implements IPathFindingStrategy {
         ScoredNode scoredStart = new ScoredNode(startNode, null, -1, -1, -1);
         ScoredNode scoredEnd = new ScoredNode(endNode, null, -1, -1, -1);
 
-        NodesEditor ne = new NodesEditor();
+        NodesDBUtil ne = new NodesDBUtil();
         ne.retrieveNodes();
         ne.retrieveEdges();
         ArrayList<Node> nodes = new ArrayList<>(ne.getNodeList());
-        ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
+        //ArrayList<Edge> edges = new ArrayList<>(ne.getEdgeList());
 
         LinkedList<Node> path = null;
         try {
