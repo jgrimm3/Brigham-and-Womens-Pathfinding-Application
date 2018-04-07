@@ -129,7 +129,7 @@ public class DataModelI implements IDataModel{
     public Set<Edge> getEdgeList(List<Node> nodeList) {
         return nodesDBUtil.getEdgeList(nodeList);
     }
-
+/*
     @Override
 	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
@@ -147,13 +147,7 @@ public class DataModelI implements IDataModel{
     public boolean hasEdge(Node startNode, Node endNode) {
         return nodesDBUtil.hasEdge(startNode, endNode);
     }
-
-    @Override
-    public void removeNode(Node node) {
-        nodesDBUtil.removeNode(node);
-    }
-
-
+*/
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
