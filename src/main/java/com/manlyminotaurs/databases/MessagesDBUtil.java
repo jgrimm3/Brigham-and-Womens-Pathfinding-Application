@@ -83,19 +83,19 @@ class MessagesDBUtil {
             // Connect to the database
             System.out.println("Getting connection to database...");
             Connection connection = dataModelI.getNewConnection();
-            String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
+            String str = "UPDATE map_nodes SET messageID = ?, message = ?, isRead = ?, senderID = ?, receiver = ?";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
-            statement.setString(1, oldMessage.getMessageID());
-            statement.setString(2, oldMessage.getMessage());
-            statement.setBoolean(3, oldMessage.getRead());
-            statement.setString(4, oldMessage.getSenderID());
-            statement.setString(5, oldMessage.getReceiverID());
+            statement.setString(1, newMessage.getMessageID());
+            statement.setString(2, newMessage.getMessage());
+            statement.setBoolean(3, newMessage.getRead());
+            statement.setString(4, newMessage.getSenderID());
+            statement.setString(5, newMessage.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
-            System.out.println("Message added to database");
-            csvFileController.updateNodeCSVFile("./MapGNodes.csv");
+            System.out.println("Node added to database");
+            csvFileController.updateMessageCSVFile("./MessageTable.csv");
         } catch (SQLException e)
         {
             System.out.println("Message already in the database");

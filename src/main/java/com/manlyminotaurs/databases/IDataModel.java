@@ -16,20 +16,21 @@ public interface IDataModel {
     Connection getNewConnection();
     boolean closeConnection(Connection connection);
 
-    List<Node> retrieveNodes();
+    void retrieveNodes();
     boolean modifyNode(Node newNode);
-    boolean addNode(Node newNode);
+    Node addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D);
     List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
     List<Node> getNodesByFloor(String floor);
-    ObservableList<String> getBuildingsFromList();
-    ObservableList<String> getTypesFromList(String building);
-    Node getNodeFromList(String building, String type);
+    List<String> getBuildingsFromList();
+    List<String> getTypesFromList(String building);
+    List<Node> getNodesFromList(String building, String type);
+
 
     Message addMessage(Message newMessage);
     boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
-    List<Message> retrieveMessages();
+    void retrieveMessages();
     List<Message> getMessageBySender(String senderID);
     List<Message> getMessageByReceiver(String receiverID);
     Message getMessageByID(String ID);
@@ -37,7 +38,7 @@ public interface IDataModel {
     Request addRequest(Request newRequest);
     boolean removeRequest(Request oldRequest);
     boolean modifyRequest(Request newRequest);
-    List<Request> retrieveRequest();
+    void retrieveRequest();
     List<Request> getRequestBySender(String senderID);
     List<Request> getRequestByReceiver(String receiverID);
     Request getRequestByID(String ID);
@@ -45,6 +46,6 @@ public interface IDataModel {
     boolean addUser(String userID, String firstName, String middleName, String lastName, String language);
     boolean removeUser(User oldUser);
     boolean modifyUser(String stuff);
-    List<User> retrieveUser();
+    void retrieveUser();
     User getUserByID(String ID);
 }

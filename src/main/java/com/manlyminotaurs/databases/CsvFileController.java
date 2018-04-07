@@ -141,7 +141,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-   /* public void updateUserCSVFile(String csvFileName) {
+    public void updateUserCSVFile(String csvFileName) {
         Iterator<User> iterator = DataModelI.getUserList().iterator();
         System.out.println("Updating user csv file...");
         try {
@@ -158,5 +158,5 @@ public class CsvFileController {
         catch(IOException e){
             e.printStackTrace();
         }
-    }//updateUserCSVFile ends */
+    }//updateUserCSVFile ends
 }

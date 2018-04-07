@@ -50,7 +50,7 @@ class TableInitializer {
         initializer.populateRequestTable("./RequestTable.csv");
 
         nodesDBUtil.retrieveNodes();
-        nodesDBUtil.retrieveEdges();
+     //   nodesDBUtil.retrieveEdges();
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");

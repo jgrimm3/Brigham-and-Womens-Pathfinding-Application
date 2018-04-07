@@ -9,7 +9,7 @@ public abstract class Node implements INode {
     private String shortName;
     private String ID;
     private String nodeType;
-    private List<Edge> edges;
+    private List<Node> adjacentNodes;
     private int status;
     private int popularity;
 
@@ -61,8 +61,19 @@ public abstract class Node implements INode {
 
     public void setStatus(int status) { this.status = status; }
 
-    public void addEdge(Edge edge) {
-    	edges.add(edge);
-	}
+    public void setAdjacentNodes(List<Node> adjacentNodes){
+        this.adjacentNodes = adjacentNodes;
+    }
 
+    public List<Node> getAdjacentNodes(List<Node> adjacentNodes){
+        return this.adjacentNodes;
+    }
+
+    public boolean addAdjacentNode(Node node){
+        return this.adjacentNodes.add(node);
+    }
+
+    public boolean removeAdjacentNode(Node node){
+        return this.adjacentNodes.remove(node);
+    }
 }
