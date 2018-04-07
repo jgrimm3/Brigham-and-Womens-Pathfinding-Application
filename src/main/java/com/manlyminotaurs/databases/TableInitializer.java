@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 class TableInitializer {
+    /*------------------------------------------------ Initialize Tables -----------------------------------------------------*/
     /**
      * Delete any pre-existing tables and create new tables in the database
      */
@@ -61,51 +62,8 @@ class TableInitializer {
         nodesDBUtil.retrieveUser();
     }
 
-    /**
-     *
-     * @param aSQLScriptFilePath path to the sql file to run
-     * @param stmt statement object passed from callee
-     * @return true if sql file is executed successfully.
-     * @throws IOException
-     * @throws SQLException
-     */
-    private boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
-        boolean isScriptExecuted = false;
-        InputStream inputStream = null;
-        try {
-            System.out.println("executeDBScripts: "+ getClass().getName());
-            inputStream = getClass().getClassLoader().getResourceAsStream(aSQLScriptFilePath);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String str;
-            StringBuffer sb;
-            sb = new StringBuffer();
-            while ((str = bufferedReader.readLine()) != null) {
-                if (str.contains(";")) {
-                    sb.append(str.replace(";",""));
-                    try {
-                        stmt.executeUpdate(sb.toString());
-                    }
-                    catch(SQLException e){
-                        e.printStackTrace();
-                    }
-                    sb.delete(0,sb.length());
-                }
-                else {
-                    sb.append(str + "\n ");
-                }
-            }
 
-            bufferedReader.close();
-            isScriptExecuted = true;
-        } catch (Exception e) {
-            System.err.println("Failed to Execute " + aSQLScriptFilePath +". The error is "+ e.getMessage());
-            if(inputStream == null){
-                System.err.println("in is null");
-            }
-        }
-        return isScriptExecuted;
-    }
-
+    /*------------------------------------------------ Populate Tables -----------------------------------------------------*/
     /**
      * Populate the database tables from the csv files
      */
@@ -331,6 +289,53 @@ class TableInitializer {
             }
             i++;
         }
+    }
+
+
+    /*------------------------------------------------ Execute Database Scripts -----------------------------------------------------*/
+    /**
+     *
+     * @param aSQLScriptFilePath path to the sql file to run
+     * @param stmt statement object passed from callee
+     * @return true if sql file is executed successfully.
+     * @throws IOException
+     * @throws SQLException
+     */
+    private boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
+        boolean isScriptExecuted = false;
+        InputStream inputStream = null;
+        try {
+            System.out.println("executeDBScripts: "+ getClass().getName());
+            inputStream = getClass().getClassLoader().getResourceAsStream(aSQLScriptFilePath);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String str;
+            StringBuffer sb;
+            sb = new StringBuffer();
+            while ((str = bufferedReader.readLine()) != null) {
+                if (str.contains(";")) {
+                    sb.append(str.replace(";",""));
+                    try {
+                        stmt.executeUpdate(sb.toString());
+                    }
+                    catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                    sb.delete(0,sb.length());
+                }
+                else {
+                    sb.append(str + "\n ");
+                }
+            }
+
+            bufferedReader.close();
+            isScriptExecuted = true;
+        } catch (Exception e) {
+            System.err.println("Failed to Execute " + aSQLScriptFilePath +". The error is "+ e.getMessage());
+            if(inputStream == null){
+                System.err.println("in is null");
+            }
+        }
+        return isScriptExecuted;
     }
 
 }

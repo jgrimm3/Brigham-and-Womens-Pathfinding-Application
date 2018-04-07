@@ -16,8 +16,9 @@ class MessagesDBUtil {
     /*------------------------------------------------ Variables -----------------------------------------------------*/
     private static int messageIDCounter = 1;
     DataModelI dataModelI = DataModelI.getInstance();
+    CsvFileController csvFileController = new CsvFileController();
 
-    /*------------------------------------------------ Methods -------------------------------------------------------*/
+    /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
         Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
         dataModelI.getMessageList().add(messageObject);
@@ -82,28 +83,26 @@ class MessagesDBUtil {
             // Connect to the database
             System.out.println("Getting connection to database...");
             Connection connection = dataModelI.getNewConnection();
-            String str = "INSERT INTO map_nodes(messageID, ) VALUES (?,?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
-            statement.setString(1, node.getID());
-            statement.setInt(2, node.getXCoord());
-            statement.setInt(3, node.getYCoord());
-            statement.setString(4, node.getFloor());
-            statement.setString(5, node.getBuilding());
-            statement.setString(6, node.getNodeType());
-            statement.setString(7, node.getLongName());
-            statement.setString(8, node.getShortName());
+            statement.setString(1, oldMessage.getMessageID());
+            statement.setString(2, oldMessage.getMessage());
+            statement.setBoolean(3, oldMessage.getRead());
+            statement.setString(4, oldMessage.getSenderID());
+            statement.setString(5, oldMessage.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
-            System.out.println("Node added to database");
+            System.out.println("Message added to database");
             csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e)
         {
-            System.out.println("Node already in the database");
+            System.out.println("Message already in the database");
         }
     }
 
+    /*------------------------------------ Search message by Receiver/Sender -------------------------------------------------*/
     public ObservableList<Message> searchMessageByReceiver(String userID){
         ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
         Iterator<Message> iterator = dataModelI.getMessageList().iterator();
@@ -132,6 +131,7 @@ class MessagesDBUtil {
         return listOfMessages;
     }
 
+    /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
     public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
@@ -183,8 +183,6 @@ class MessagesDBUtil {
             e.printStackTrace();
         }
     } // retrieveMessage() ends
-
-    public void getMessageFromList(){ } // needs implementation
 
     public Message getMessageFromList(String messageID){
         Iterator<Message> iterator = dataModelI.getMessageList().iterator();

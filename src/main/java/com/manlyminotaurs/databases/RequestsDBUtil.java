@@ -17,7 +17,8 @@ class RequestsDBUtil {
     private DataModelI dataModelI = DataModelI.getInstance();
     private static int requestIDCounter = 1;
 
-    /*------------------------------------------------ Methods -------------------------------------------------------*/
+    /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
+    //TODO addRequest - add a request object instead of all of the attributes
     public void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
@@ -53,48 +54,6 @@ class RequestsDBUtil {
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
-    public ObservableList<Request> searchRequestByReceiver(String userID){
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
-        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
-        Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
-
-        //insert rows
-        while (iteratorRequest.hasNext()) {
-            Request a_request = iteratorRequest.next();
-            iteratorMessage = listOfMessages.iterator();
-            while (iteratorMessage.hasNext()) {
-                Message a_message = iteratorMessage.next();
-                if (a_request.getMessageID().equals(a_message.getMessageID())) {
-                    listOfRequests.add(a_request);
-                }
-            }
-        }
-        return listOfRequests;
-    }
-
-    public ObservableList<Request> searchRequestBySender(String userID){
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
-        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
-        Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
-
-        //insert rows
-        while (iteratorRequest.hasNext()) {
-            Request a_request = iteratorRequest.next();
-            iteratorMessage = listOfMessages.iterator();
-            while (iteratorMessage.hasNext()) {
-                Message a_message = iteratorMessage.next();
-                if (a_request.getMessageID().equals(a_message.getMessageID())) {
-                    listOfRequests.add(a_request);
-                }
-            }
-        }
-        return listOfRequests;
-    }
-
     public void removeRequest(Request request){
         for(int i = 0; i < dataModelI.getRequestList().size(); i++){
             if(dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
@@ -117,6 +76,13 @@ class RequestsDBUtil {
         }
     }
 
+    public String generateRequestID(){
+        requestIDCounter++;
+        return Integer.toString(requestIDCounter-1);
+    }
+
+
+    /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
     public void setIsAdminConfim(Request request, boolean newConfirmStatus){
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -150,6 +116,7 @@ class RequestsDBUtil {
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
+    /*------------------------------------------------ Retrieve Request / Search by ID / Print all -------------------------------------------------------*/
     /**
      *  get data from request table in database and put them into the list of request objects
      */
@@ -202,11 +169,6 @@ class RequestsDBUtil {
         }
     } // retrieveRequest() ends
 
-    public String generateRequestID(){
-        requestIDCounter++;
-        return Integer.toString(requestIDCounter-1);
-    }
-
     public Request searchRequestsByID(String requestID){
         Iterator<Request> iterator = dataModelI.getRequestList().iterator();
         while (iterator.hasNext()) {
@@ -219,7 +181,6 @@ class RequestsDBUtil {
         return null;
     }
 
-
     /**
      * Print the requestList
      */
@@ -227,5 +188,52 @@ class RequestsDBUtil {
         int i = 0;
         while(i < dataModelI.getRequestList().size()) { System.out.println("Object " + i + ": " + dataModelI.getRequestList().get(i).getRequestID()); i++; }
     } // end printNodeList
+
+    /*------------------------------------ Search Request by Receiver/Sender -------------------------------------------------*/
+    public ObservableList<Request> searchRequestByReceiver(String userID){
+        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
+        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
+        Iterator<Message> iteratorMessage = listOfMessages.iterator();
+        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
+
+        //insert rows
+        while (iteratorRequest.hasNext()) {
+            Request a_request = iteratorRequest.next();
+            iteratorMessage = listOfMessages.iterator();
+            while (iteratorMessage.hasNext()) {
+                Message a_message = iteratorMessage.next();
+                if (a_request.getMessageID().equals(a_message.getMessageID())) {
+                    listOfRequests.add(a_request);
+                }
+            }
+        }
+        return listOfRequests;
+    }
+
+    public ObservableList<Request> searchRequestBySender(String userID){
+        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
+        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
+        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
+        Iterator<Message> iteratorMessage = listOfMessages.iterator();
+        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
+
+        //insert rows
+        while (iteratorRequest.hasNext()) {
+            Request a_request = iteratorRequest.next();
+            iteratorMessage = listOfMessages.iterator();
+            while (iteratorMessage.hasNext()) {
+                Message a_message = iteratorMessage.next();
+                if (a_request.getMessageID().equals(a_message.getMessageID())) {
+                    listOfRequests.add(a_request);
+                }
+            }
+        }
+        return listOfRequests;
+    }
+
+
+
+
 
 }
