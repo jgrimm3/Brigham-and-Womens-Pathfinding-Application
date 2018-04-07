@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DataModelI implements IDataModel{
 
@@ -22,36 +23,6 @@ public class DataModelI implements IDataModel{
 	UserDBUtil userDBUtil = new UserDBUtil();
 
     // list of all objects
-    private static List<Node> nodeList = new ArrayList<>();
-    private static List<User> userList = new ArrayList<>();
-    private static List<Room> roomList = new ArrayList<>();
-    private static List<Edge> edgeList = new ArrayList<>();
-    private static List<Message> messageList = new ArrayList<>();
-    private static List<Request> requestList = new ArrayList<>();
-
-    public static List<Node> getNodeList() {
-        return nodeList;
-    }
-
-    public static List<User> getUserList() {
-        return userList;
-    }
-
-    public static List<Room> getRoomList() {
-        return roomList;
-    }
-
-    public static List<Edge> getEdgeList() {
-        return edgeList;
-    }
-
-    public static List<Message> getMessageList() {
-        return messageList;
-    }
-
-    public static List<Request> getRequestList() {
-        return requestList;
-    }
 
     private TableInitializer tableInitializer = new TableInitializer();
 
@@ -98,8 +69,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveNodes() {
-        nodesDBUtil.retrieveNodes();
+    public List<Node> retrieveNodes() {
+        return nodesDBUtil.retrieveNodes();
     }
 
     @Override
@@ -108,38 +79,54 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public Node addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D) {
-        return nodesDBUtil.addNode(longName, shortName, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
+    public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+        return nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
     }
 
     @Override
+    public boolean removeNode(Node badNode) {
+        return nodesDBUtil.removeNode(badNode);
+    }
+
+
+    @Override
     public List<Node> getNodesByType(String type) {
-        return nodesDBUtil.getNodesByType(type, nodeList);
+        return nodesDBUtil.getNodesByType(type);
     }
 
     @Override
     public Node getNodeByID(String nodeID) {
-        return nodesDBUtil.getNodesByID(nodeID, nodeList);
+        return nodesDBUtil.getNodesByID(nodeID);
     }
 
     @Override
     public List<Node> getNodesByFloor(String floor) {
-        return nodesDBUtil.getNodesByFloor(floor, nodeList);
+        return nodesDBUtil.getNodesByFloor(floor);
     }
 
     @Override
     public List<String> getBuildingsFromList() {
-        return nodesDBUtil.getBuildingsFromList(nodeList);
+        return nodesDBUtil.getBuildingsFromList();
     }
 
     @Override
     public List<String> getTypesFromList(String building) {
-        return nodesDBUtil.getTypesFromList(building, nodeList);
+        return nodesDBUtil.getTypesFromList(building);
     }
 
     @Override
     public List<Node> getNodesFromList(String building, String type) {
-        return nodesDBUtil.getNodesFromList(building, type, nodeList);
+        return nodesDBUtil.getNodesFromList(building, type);
+    }
+
+    @Override
+    public List<Node> getAdjacentNodes() {
+        return null;
+    }
+
+    @Override
+    public Set<Edge> getEdgeList(List<Node> nodeList) {
+        return nodesDBUtil.getEdgeList(nodeList);
     }
 
     @Override
@@ -158,8 +145,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveMessages() {
-        messagesDBUtil.retrieveMessages();
+    public List<Message> retrieveMessages() {
+        return messagesDBUtil.retrieveMessages();
     }
 
     @Override
@@ -189,23 +176,12 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean modifyRequest(Request newRequest) {
-        Request oldRequest = getRequestByID(newRequest.getRequestID());
-        if (oldRequest == null){
-            return false;
-        }
-        oldRequest.setRequestType(newRequest.getRequestType());
-        oldRequest.setPriority(newRequest.getPriority());
-        oldRequest.setComplete(newRequest.getComplete());
-        oldRequest.setAdminConfirm(newRequest.getAdminConfirm());
-        oldRequest.setNodeID(newRequest.getNodeID());
-        oldRequest.setMessageID(newRequest.getMessageID());
-        oldRequest.setPassword(newRequest.getPassword());
-        return true;
+        return requestsDBUtil.modifyRequest(newRequest);
     }
 
     @Override
-    public void retrieveRequests() {
-        requestsDBUtil.retrieveRequests();
+    public List<Request> retrieveRequests() {
+        return requestsDBUtil.retrieveRequests();
     }
 
     @Override
@@ -220,7 +196,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public Request getRequestByID(String requestID) {
-        return requestsDBUtil.searchRequestsByID(requestID);
+        return requestsDBUtil.getRequestByID(requestID);
     }
 
     @Override
@@ -247,8 +223,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveUsers() {
-        userDBUtil.retrieveUsers();
+    public List<User> retrieveUsers() {
+        return userDBUtil.retrieveUsers();
     }
 
     @Override

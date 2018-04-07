@@ -21,7 +21,6 @@ class MessagesDBUtil {
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
         Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
-        dataModelI.getMessageList().add(messageObject);
 
         try {
             // Connect to the database
@@ -51,15 +50,7 @@ class MessagesDBUtil {
 
     public boolean removeMessage(Message message){
         boolean isSuccess = false;
-        for(int i = 0; i < dataModelI.getMessageList().size(); i++){
-            if(dataModelI.getMessageList().get(i).getMessageID().equals(message.getMessageID())) {
-                // remove the node
-                System.out.println("Node removed from object list...");
-                dataModelI.getMessageList().remove(i);
-                isSuccess = true;
-                break;
-            }
-        }
+
         try {
             // Get connection to database and delete the node from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -111,29 +102,13 @@ class MessagesDBUtil {
     /*------------------------------------ Search message by Receiver/Sender -------------------------------------------------*/
     public List<Message> searchMessageByReceiver(String userID){
         ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
-        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
-        //insert rows
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if(a_message.getReceiverID().equals(userID)){
-                listOfMessages.add(a_message);
-            }
-        }
         return listOfMessages;
     }
 
     public List<Message> searchMessageBySender(String userID){
         List<Message> listOfMessages = new ArrayList<>();
-        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
-        //insert rows
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if(a_message.getSenderID().equals(userID)){
-                listOfMessages.add(a_message);
-            }
-        }
         return listOfMessages;
     }
 
@@ -146,11 +121,9 @@ class MessagesDBUtil {
     /**
      * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()
      */
-    public void retrieveMessages() {
-        try {
+    public List<Message> retrieveMessages() {
             // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Connection connection = DataModelI.getInstance().getNewConnection();
 
             // Variables
             Message messageObject;
@@ -159,6 +132,7 @@ class MessagesDBUtil {
             Boolean isRead;
             String senderID;
             String receiverID;
+            List<Message> listOfMessages = new ArrayList<>();
 
             try {
                 Statement stmt = connection.createStatement();
@@ -174,7 +148,7 @@ class MessagesDBUtil {
 
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead,senderID,receiverID);
-                    dataModelI.getMessageList().add(messageObject);
+                    listOfMessages.add(messageObject);
                     messageIDCounter++;
                     System.out.println("Message added to the list: "+messageID);
                 }
@@ -184,29 +158,12 @@ class MessagesDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        return listOfMessages;
     } // retrieveMessages() ends
 
     public Message getMessageFromList(String messageID){
-        Iterator<Message> iterator = dataModelI.getMessageList().iterator();
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if (a_message.getMessageID().equals(messageID)) {
-                return a_message;
-            }
-        }
+
         System.out.println("getMessageFromList: Something might break--------------------");
         return null;
     }
-
-    /**
-     * Print the message list
-     */
-    public void printMessageList (){
-        int i = 0;
-        while(i < dataModelI.getMessageList().size()) { System.out.println("Object " + i + ": " + dataModelI.getMessageList().get(i).getMessageID()); i++; }
-    } // end printNodeList
 }

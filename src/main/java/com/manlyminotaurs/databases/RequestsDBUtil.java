@@ -2,8 +2,6 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ class RequestsDBUtil {
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
         Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID, requestType);
-        dataModelI.getRequestList().add(requestObject);
 
         try {
             // Connect to the database
@@ -57,15 +54,6 @@ class RequestsDBUtil {
 
     boolean removeRequest(Request request) {
         boolean isSucessful = true;
-        for (int i = 0; i < dataModelI.getRequestList().size(); i++) {
-            if (dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
-                // remove the node
-                System.out.println("Node removed from object list...");
-                dataModelI.getRequestList().remove(i);
-                isSucessful = true;
-                break;
-            }
-        }
         try {
             // Get connection to database and delete the node from the database
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -79,6 +67,21 @@ class RequestsDBUtil {
             e.printStackTrace();
         }
         return isSucessful;
+    }
+
+    public boolean modifyRequest(Request newRequest) {
+        Request oldRequest = getRequestByID(newRequest.getRequestID());
+        if (oldRequest == null){
+            return false;
+        }
+        oldRequest.setRequestType(newRequest.getRequestType());
+        oldRequest.setPriority(newRequest.getPriority());
+        oldRequest.setComplete(newRequest.getComplete());
+        oldRequest.setAdminConfirm(newRequest.getAdminConfirm());
+        oldRequest.setNodeID(newRequest.getNodeID());
+        oldRequest.setMessageID(newRequest.getMessageID());
+        oldRequest.setPassword(newRequest.getPassword());
+        return true;
     }
 
     String generateRequestID(){
@@ -124,11 +127,9 @@ class RequestsDBUtil {
     /**
      *  get data from request table in database and put them into the list of request objects
      */
-    void retrieveRequests() {
-        try {
+    List<Request> retrieveRequests() {
             // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Connection connection = DataModelI.getInstance().getNewConnection();
 
             // Variables
             Request requestObject;
@@ -140,7 +141,7 @@ class RequestsDBUtil {
             String nodeID;
             String messageID;
             String password;
-
+            List<Request> listOfRequest = new ArrayList<>();
             try {
                 Statement stmt = connection.createStatement();
                 String str = "SELECT * FROM Request";
@@ -157,7 +158,7 @@ class RequestsDBUtil {
                     password = rset.getString("password");
                     // Add the new edge to the list
                     requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
-                    dataModelI.getRequestList().add(requestObject);
+                    listOfRequest.add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
                 }
@@ -167,31 +168,14 @@ class RequestsDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        return listOfRequest;
     } // retrieveRequests() ends
 
-	Request searchRequestsByID(String requestID){
-        Iterator<Request> iterator = dataModelI.getRequestList().iterator();
-        while (iterator.hasNext()) {
-            Request a_request = iterator.next();
-            if (a_request.getRequestID().equals(requestID)) {
-                return a_request;
-            }
-        }
+	Request getRequestByID(String requestID){
+
         System.out.println("getMessageFromList: Something might break--------------------");
         return null;
     }
-
-    /**
-     * Print the requestList
-     */
-    void printRequestList() {
-        int i = 0;
-        while(i < dataModelI.getRequestList().size()) { System.out.println("Object " + i + ": " + dataModelI.getRequestList().get(i).getRequestID()); i++; }
-    } // end printNodeList
 
     /*------------------------------------ Search Request by Receiver/Sender -------------------------------------------------*/
     List<Request> searchRequestByReceiver(String userID){
@@ -199,23 +183,12 @@ class RequestsDBUtil {
         List<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
         List<Request> listOfRequests = new ArrayList<>();
         Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
 
-        //insert rows
-        while (iteratorRequest.hasNext()) {
-            Request a_request = iteratorRequest.next();
-            iteratorMessage = listOfMessages.iterator();
-            while (iteratorMessage.hasNext()) {
-                Message a_message = iteratorMessage.next();
-                if (a_request.getMessageID().equals(a_message.getMessageID())) {
-                    listOfRequests.add(a_request);
-                }
-            }
-        }
         return listOfRequests;
     }
 
     List<Request> searchRequestBySender(String userID){
+        /*
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         List<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
         List<Request> listOfRequests = new ArrayList<>();
@@ -232,8 +205,8 @@ class RequestsDBUtil {
                     listOfRequests.add(a_request);
                 }
             }
-        }
-        return listOfRequests;
+        }*/
+        return null;
     }
 
 }

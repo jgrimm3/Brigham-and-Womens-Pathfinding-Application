@@ -1,10 +1,26 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.Objects;
+
 public class Edge {
 	Node startNode;
 	Node endNode;
 	String edgeID;
 	int status;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Edge edge = (Edge) o;
+		return Objects.equals(startNode, edge.startNode) &&
+				Objects.equals(endNode, edge.endNode);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(startNode, endNode);
+	}
 
 	public Node getStartNode() {
 		return startNode;

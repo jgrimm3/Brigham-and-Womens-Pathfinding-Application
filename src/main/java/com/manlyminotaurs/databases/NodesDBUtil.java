@@ -6,9 +6,7 @@ import com.manlyminotaurs.users.User;
 import javafx.collections.FXCollections;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 //update CSV file from room, exit, hallway, transport nodes.
@@ -25,7 +23,7 @@ class NodesDBUtil {
 	/**
 	 * Creates a list of objects and stores them in the global variable nodeList
 	 */
-	void retrieveNodes() {
+	List<Node> retrieveNodes() {
 		// Connection
 		Connection connection = dataModelI.getNewConnection();
 
@@ -42,7 +40,7 @@ class NodesDBUtil {
 		String floor = "";
 		String building = "";
 		int status = 0;
-
+		List<Node> listOfNodes = null;
 		try {
 			Statement stmt = connection.createStatement();
 			String str = "SELECT * FROM MAP_NODES";
@@ -79,7 +77,7 @@ class NodesDBUtil {
 				// Add the new node to the list
 				node.setStatus(status);
 				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
-				dataModelI.getNodeList().add(node);
+				listOfNodes.add(node);
 				System.out.println("Node added to list...");
 			}
 			rset.close();
@@ -89,50 +87,11 @@ class NodesDBUtil {
 			e.printStackTrace();
 		} finally {
 			dataModelI.closeConnection(connection);
+			return listOfNodes;
 		}
 	} // retrieveNodes() ends
 
-    /*
-    /** NOT IN USE
-     *  get data from UserAccount table in database and put them into the list of request objects
-     */void retrieveUser() {
-		// Connection
-		Connection connection = dataModelI.getNewConnection();
 
-		// Variables
-		User userObject;
-		String userID;
-		String firstName;
-		String middleInitial;
-		String lastName;
-		String language;
-
-		try {
-			Statement stmt = connection.createStatement();
-			String str = "SELECT * FROM UserAccount";
-			ResultSet rset = stmt.executeQuery(str);
-
-			while (rset.next()) {
-				userID = rset.getString("userID");
-				firstName = rset.getString("firstName");
-				middleInitial = rset.getString("middleInitial");
-				lastName = rset.getString("lastName");
-				language = rset.getString("language");
-
-				// Add the new edge to the list
-				userObject = new Patient(userID, firstName, middleInitial, lastName, language);
-				dataModelI.getUserList().add(userObject);
-				System.out.println("User added to the list: " + userID);
-			}
-			rset.close();
-			stmt.close();
-			System.out.println("Done adding users");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			dataModelI.closeConnection(connection);
-		}
-	} // retrieveUser() ends
 
 
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
@@ -164,7 +123,6 @@ class NodesDBUtil {
 			node = new Room(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 		}
 
-		dataModelI.getNodeList().add(node);
 		System.out.println("Node added to object list...");
 		try {
 			// Connect to the database
@@ -194,34 +152,12 @@ class NodesDBUtil {
 		return node;
 	} // end addNode()
 
-	void removeAdjacentNodes(Node node) {
-		List<Node> adjacentNodeList = node.getAdjacentNodes();
-		for (Node x : adjacentNodeList) {
-			for (Node y : x.getAdjacentNodes()) {
-				if (y.getID() == node.getID()) {
-					x.getAdjacentNodes().remove(y);
-				}
-			}
-		}
-	}
-
 	/**
 	 * @param node
 	 */
 	boolean modifyNode(Node node) {
+		boolean isSucessful = false;
 		Connection connection = dataModelI.getNewConnection();
-		List<Node> nodeList = dataModelI.getNodeList();
-		Node oldNode = getNodesFromList(node.getID());
-		oldNode.getLoc().setBuilding(node.getBuilding());
-		oldNode.getLoc().setFloor(node.getFloor());
-		oldNode.getLoc().setxCoord(node.getXCoord());
-		oldNode.getLoc().setyCoord(node.getYCoord());
-		oldNode.getLoc().setxCoord3D(node.getXCoord3D());
-		oldNode.getLoc().setyCoord3D(node.getYCoord3D());
-		oldNode.setLongName(node.getLongName());
-		oldNode.setShortName(node.getShortName());
-		oldNode.setStatus(node.getStatus());
-
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
@@ -243,11 +179,12 @@ class NodesDBUtil {
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
+			isSucessful = true;
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
 			dataModelI.closeConnection(connection);
-			return true;
+			return isSucessful;
 		}
 	}
 
@@ -257,10 +194,8 @@ class NodesDBUtil {
 	 *
 	 * @param node
 	 */
-	void removeNode(Node node) {
-		// Remove from the list
-		removeAdjacentNodes(node);
-		dataModelI.getNodeList().remove(node);
+	boolean removeNode(Node node) {
+		boolean isSucessful = false;
 
 		// Remove from the database
 		Connection connection = dataModelI.getNewConnection();
@@ -272,11 +207,13 @@ class NodesDBUtil {
 			stmt.close();
 			connection.close();
 			System.out.println("Node removed from database");
+			isSucessful = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			dataModelI.closeConnection(connection);
 		}
+		return isSucessful;
 	}
 
 	/*---------------------------------------- Add/delete/edit "edges" -------------------------------------------------*/
@@ -313,6 +250,34 @@ class NodesDBUtil {
 
 	} // end addAdjacentNode()
 
+	private Edge makeEdge(Node startNode, Node endNode){
+		Edge edge = null;
+		int caseInt = startNode.getID().compareTo(endNode.getID());
+		if(caseInt < 0){
+			String edgeID = startNode.getID() + "_" + endNode.getID();
+			edge = new Edge(startNode, endNode, edgeID);
+		}
+		else if(caseInt == 0){
+			System.out.println("you fucked up");
+			return null;
+		}
+		else if(caseInt > 0){
+			String edgeID = endNode.getID() + "_" + startNode.getID();
+			edge = new Edge(endNode, startNode, edgeID);
+		}
+		return edge;
+	}
+
+	Set<Edge> getEdgeList(List<Node> listOfNodes){
+		Set<Edge> edgeSet = new HashSet<Edge>();
+		for(Node a_node : listOfNodes) {
+			for(Node b_node : a_node.getAdjacentNodes()) {
+				edgeSet.add(makeEdge(b_node, a_node));
+			}
+		}
+		return edgeSet;
+	}
+
 	/**
 	 * Removes the connection between nodes
 	 *
@@ -338,17 +303,6 @@ class NodesDBUtil {
 	} // removeEdge
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
-
-	/**
-	 * Print the nodeList
-	 */
-	void printNodeList() {
-		int i = 0;
-		while (i < dataModelI.getNodeList().size()) {
-			System.out.println("Object " + i + ": " + dataModelI.getNodeList().get(i).getLongName());
-			i++;
-		}
-	} // end printNodeList
 
 	List<Node> getAdjacentNodesFromNode(Node node) {
 		List<Edge> listOfEdges = getEdgesFromNode(node);
@@ -377,8 +331,8 @@ class NodesDBUtil {
 		Connection connection = dataModelI.getNewConnection();
 		Edge edge;
 		String edgeID;
-		String startNode;
-		String endNode;
+		String startNodeID;
+		String endNodeID;
 
 		try {
 			Statement stmt = connection.createStatement();
@@ -388,13 +342,13 @@ class NodesDBUtil {
 			// For every edge, get the information
 			while (rset.next()) {
 				edgeID = rset.getString("edgeID");
-				startNode = rset.getString("startNode");
-				endNode = rset.getString("endNode");
+				startNodeID = rset.getString("startNode");
+				endNodeID = rset.getString("endNode");
 
 				// Add the new edge to the list
-				Node startNodeObject = getNodesFromList(startNode);
-				Node endNodeObject = getNodesFromList(endNode);
-				if (startNode != null && endNode != null) {
+				Node startNodeObject = getNodesFromList(startNodeID);
+				Node endNodeObject = getNodesFromList(endNodeID);
+				if (startNodeID != null && endNodeID != null) {
 					edge = new Edge(startNodeObject, endNodeObject, edgeID);
 					listOfEdges.add(edge);
 					System.out.println("Edge added to the list: " + edgeID);
@@ -411,6 +365,12 @@ class NodesDBUtil {
 		return listOfEdges;
 	}
 
+	List<String> getBuildingsFromList() {
+		List<String> buildings = new ArrayList<>();
+
+		return buildings;
+	}
+
 	/**
 	 * return the node object that has the matching nodeID with the ID provided in the argument
 	 * return null if it can't  find any
@@ -419,99 +379,34 @@ class NodesDBUtil {
 	 * @return
 	 */
 	Node getNodesFromList(String nodeID) {
-		Iterator<Node> iterator = dataModelI.getNodeList().iterator();
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (a_node.getID().equals(nodeID)) {
-				return a_node;
-			}
-		}
-		//System.out.println("getNdeFromList: Null-----------Something might break");
 		return null;
 	}
 
-	List<String> getBuildingsFromList(List<Node> listOfNodes) {
-		List<String> buildings = new ArrayList<>();
-		Iterator<Node> iterator = listOfNodes.iterator();
-
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (buildings.contains(a_node.getBuilding()) == false) {
-				buildings.add(a_node.getBuilding());
-			}
-		}
-		return buildings;
-	}
-
-	List<String> getTypesFromList(String building, List<Node> listOfNodes) {
+	List<String> getTypesFromList(String building) {
 		List<String> types = new ArrayList<>();
-		Iterator<Node> iterator = listOfNodes.iterator();
-		iterator.next(); // get rid of the header
 
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (building.equals(a_node.getBuilding()) && types.contains(a_node.getNodeType()) == false) {
-				types.add(a_node.getNodeType());
-			}
-		}
 		return types;
 	}
 
-	List<Node> getNodesFromList(String building, String type, List<Node> listOfNodes) {
+	List<Node> getNodesFromList(String building, String type) {
 		List<Node> selectedNodes = new ArrayList<>();
-		Iterator<Node> iterator = listOfNodes.iterator();
 
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (building.equals(a_node.getBuilding()) && type.equals(a_node.getNodeType())) {
-				selectedNodes.add(a_node);
-			}
-		}
-		return selectedNodes;
+		return null;
 	}
 
-	public List<Node> getNodesByType(String type, List<Node> listOfNodes) {
+	public List<Node> getNodesByType(String type) {
 		List<Node> selectedNodes = new ArrayList<>();
-		Iterator<Node> iterator = listOfNodes.iterator();
-
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (type.equals(a_node.getNodeType())) {
-				selectedNodes.add(a_node);
-			}
-		}
-		return selectedNodes;
-	}
-
-	public List<Node> getNodesByFloor(String floor, List<Node> listOfNodes) {
-		List<Node> selectedNodes = new ArrayList<>();
-		Iterator<Node> iterator = listOfNodes.iterator();
-
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (floor.equals(a_node.getFloor())) {
-				selectedNodes.add(a_node);
-			}
-		}
 
 		return selectedNodes;
 	}
 
-	public Node getNodesByID(String nodeID, List<Node> listOfNodes) {
-		Iterator<Node> iterator = listOfNodes.iterator();
+	public List<Node> getNodesByFloor(String floor) {
+		List<Node> selectedNodes = new ArrayList<>();
 
-		//insert rows
-		while (iterator.hasNext()) {
-			Node a_node = iterator.next();
-			if (nodeID.equals(a_node.getID())) {
-				return a_node;
-			}
-		}
+		return selectedNodes;
+	}
+
+	public Node getNodesByID(String nodeID) {
 		System.out.println("getNodesByID: returned null ");
 		return null;
 	}
