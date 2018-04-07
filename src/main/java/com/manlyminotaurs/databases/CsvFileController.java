@@ -55,7 +55,7 @@ public class CsvFileController {
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
+            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
             while (iterator.hasNext()) {
                 Node a_node = iterator.next();
                 printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus());
@@ -63,6 +63,37 @@ public class CsvFileController {
             printWriter.close();
             System.out.println("csv node file updated");
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
+    public void updateEdgeCSVFile(String csvFileName) {
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Iterator<Edge> iterator = nodesEditor.edgeList.iterator();
+        System.out.println("Updating edge csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("edgeID,startNode,endNode,status\n");
+            while (iterator.hasNext()) {
+                Edge a_edge = iterator.next();
+                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID(), a_edge.getStatus());
+            }
+            printWriter.close();
+            System.out.println("csv edge file updated");
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
     }
