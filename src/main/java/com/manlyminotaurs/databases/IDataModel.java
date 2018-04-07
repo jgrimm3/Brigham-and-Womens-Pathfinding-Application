@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IDataModel {
 
-    void initializeTable();
+    void startDB();
 
     Connection getNewConnection();
     boolean closeConnection(Connection connection);
@@ -25,7 +25,6 @@ public interface IDataModel {
     ObservableList<String> getBuildingsFromList();
     ObservableList<String> getTypesFromList(String building);
     Node getNodeFromList(String building, String type);
-
 
     Message addMessage(Message newMessage);
     boolean removeMessage(Message oldMessage);

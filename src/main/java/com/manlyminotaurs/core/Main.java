@@ -119,7 +119,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         System.out.println("version 7");
-        DataModelI.getInstance().initializeTable();
+        DataModelI.getInstance().startDB();
         Kiosk kiosk = new Kiosk(dataModelI.getNodeFromList("GCONF02001", "CONF"), "user");
 
         launch(args);

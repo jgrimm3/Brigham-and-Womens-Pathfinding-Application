@@ -4,6 +4,7 @@ public class Edge {
 	Node startNode;
 	Node endNode;
 	String edgeID;
+	int status;
 
 	public Node getStartNode() {
 		return startNode;
@@ -37,11 +38,14 @@ public class Edge {
 		this.status = status;
 	}
 
-	int status;
-
 	public Edge(Node startNode, Node endNode, String edgeID) {
 		this.startNode = startNode;
 		this.endNode = endNode;
 		this.edgeID = edgeID;
+	}
+
+	public boolean isType(String type) {
+		if(type == "EDGE") { return true; }
+		return false;
 	}
 }
