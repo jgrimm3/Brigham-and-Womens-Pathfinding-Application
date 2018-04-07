@@ -25,6 +25,7 @@ public interface IDataModel {
     List<String> getBuildingsFromList();
     List<String> getTypesFromList(String building);
     List<Node> getNodesFromList(String building, String type);
+    List<Node> getAdjacentNodes();
 
 
     Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID);

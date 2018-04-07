@@ -65,7 +65,7 @@ public abstract class Node implements INode {
         this.adjacentNodes = adjacentNodes;
     }
 
-    public List<Node> getAdjacentNodes(List<Node> adjacentNodes){
+    public List<Node> getAdjacentNodes(){
         return this.adjacentNodes;
     }
 
