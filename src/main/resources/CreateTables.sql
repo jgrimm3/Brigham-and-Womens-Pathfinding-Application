@@ -25,24 +25,6 @@ Create Table Room (
   nodeID         VARCHAR(10) UNIQUE,
   CONSTRAINT fk_nodeID1 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
 
-Create Table Transport (
-  directionality VARCHAR(255),
-  floors         VARCHAR(255),
-  nodeID         VARCHAR(10) UNIQUE,
-  CONSTRAINT fk_nodeID2 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
-
-Create Table Exit (
-  isFireExit      BOOLEAN,
-  isArmed         BOOLEAN,
-  nodeID          VARCHAR(10) UNIQUE,
-  CONSTRAINT fk_nodeID3 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
-
-Create Table Hallway (
-  popularity     INT,
-  nodeID         VARCHAR(10) UNIQUE,
-  CONSTRAINT fk_nodeID4 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID));
-
-
 Create Table UserAccount (
   userID        VARCHAR(10) PRIMARY KEY,
   firstName     VARCHAR(255),

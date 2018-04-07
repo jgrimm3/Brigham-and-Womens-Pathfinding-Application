@@ -19,7 +19,7 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
-    public void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
+	void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
@@ -54,7 +54,7 @@ class RequestsDBUtil {
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
-    public void removeRequest(Request request){
+    void removeRequest(Request request){
         for(int i = 0; i < dataModelI.getRequestList().size(); i++){
             if(dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
                 // remove the node
@@ -76,14 +76,14 @@ class RequestsDBUtil {
         }
     }
 
-    public String generateRequestID(){
+    String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }
 
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
-    public void setIsAdminConfim(Request request, boolean newConfirmStatus){
+    void setIsAdminConfim(Request request, boolean newConfirmStatus){
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -99,7 +99,7 @@ class RequestsDBUtil {
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
-    public void setIsComplete(Request request, boolean newCompleteStatus){
+    void setIsComplete(Request request, boolean newCompleteStatus){
         request.setComplete(newCompleteStatus);
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -120,7 +120,7 @@ class RequestsDBUtil {
     /**
      *  get data from request table in database and put them into the list of request objects
      */
-    public void retrieveRequest() {
+    void retrieveRequest() {
         try {
             // Connection
             Connection connection;
@@ -169,7 +169,7 @@ class RequestsDBUtil {
         }
     } // retrieveRequest() ends
 
-    public Request searchRequestsByID(String requestID){
+	Request searchRequestsByID(String requestID){
         Iterator<Request> iterator = dataModelI.getRequestList().iterator();
         while (iterator.hasNext()) {
             Request a_request = iterator.next();
@@ -184,16 +184,16 @@ class RequestsDBUtil {
     /**
      * Print the requestList
      */
-    public void printRequestList() {
+    void printRequestList() {
         int i = 0;
         while(i < dataModelI.getRequestList().size()) { System.out.println("Object " + i + ": " + dataModelI.getRequestList().get(i).getRequestID()); i++; }
     } // end printNodeList
 
     /*------------------------------------ Search Request by Receiver/Sender -------------------------------------------------*/
-    public ObservableList<Request> searchRequestByReceiver(String userID){
+    List<Request> searchRequestByReceiver(String userID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
-        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
+        List<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
+        List<Request> listOfRequests = new ArrayList<>();
         Iterator<Message> iteratorMessage = listOfMessages.iterator();
         Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
 
@@ -211,10 +211,10 @@ class RequestsDBUtil {
         return listOfRequests;
     }
 
-    public ObservableList<Request> searchRequestBySender(String userID){
+    List<Request> searchRequestBySender(String userID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
-        ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
+        List<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
+        List<Request> listOfRequests = new ArrayList<>();
         Iterator<Message> iteratorMessage = listOfMessages.iterator();
         Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
 

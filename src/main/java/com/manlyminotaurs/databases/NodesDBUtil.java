@@ -94,8 +94,7 @@ class NodesDBUtil {
             e.printStackTrace();
         }
     } // retrieveNodes() ends
-
-    // TODO test
+	
     /**
      * Creates a list of objects and stores them in the global variable edgeList
      */
