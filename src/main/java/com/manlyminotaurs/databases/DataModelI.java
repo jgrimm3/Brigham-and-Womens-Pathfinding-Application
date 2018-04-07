@@ -28,6 +28,8 @@ public class DataModelI implements IDataModel{
     static List<Message> messageList = new ArrayList<>();
     static List<Request> requestList = new ArrayList<>();
 
+    NodesDBUtil nodesDBUtil = new NodesDBUtil();
+
     public static List<Node> getNodeList() {
         return nodeList;
     }
@@ -108,8 +110,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<Node> retrieveNodes() {
-        return null;
+    public void retrieveNodes() {
+        nodesDBUtil.retrieveNodes();
     }
 
     @Override
@@ -168,8 +170,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<Message> retrieveMessages() {
-        return null;
+    public void retrieveMessages() {
     }
 
     @Override
@@ -203,8 +204,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<Request> retrieveRequest() {
-        return null;
+    public void retrieveRequest() {
     }
 
     @Override
@@ -238,8 +238,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<User> retrieveUser() {
-        return null;
+    public void retrieveUser() {
     }
 
     @Override
