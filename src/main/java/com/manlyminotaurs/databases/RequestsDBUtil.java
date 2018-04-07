@@ -19,7 +19,7 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
-	void addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
+	Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
@@ -52,14 +52,18 @@ class RequestsDBUtil {
             e.printStackTrace();
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
+        return requestObject;
     }
 
-    void removeRequest(Request request){
-        for(int i = 0; i < dataModelI.getRequestList().size(); i++){
-            if(dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
+    boolean removeRequest(Request request) {
+        boolean isSucessful = true;
+        for (int i = 0; i < dataModelI.getRequestList().size(); i++) {
+            if (dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
                 // remove the node
                 System.out.println("Node removed from object list...");
                 dataModelI.getRequestList().remove(i);
+                isSucessful = true;
+                break;
             }
         }
         try {
@@ -74,13 +78,13 @@ class RequestsDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return isSucessful;
     }
 
     String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }
-
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
     void setIsAdminConfim(Request request, boolean newConfirmStatus){
@@ -120,7 +124,7 @@ class RequestsDBUtil {
     /**
      *  get data from request table in database and put them into the list of request objects
      */
-    void retrieveRequest() {
+    void retrieveRequests() {
         try {
             // Connection
             Connection connection;
@@ -167,7 +171,7 @@ class RequestsDBUtil {
         {
             e.printStackTrace();
         }
-    } // retrieveRequest() ends
+    } // retrieveRequests() ends
 
 	Request searchRequestsByID(String requestID){
         Iterator<Request> iterator = dataModelI.getRequestList().iterator();
@@ -231,9 +235,5 @@ class RequestsDBUtil {
         }
         return listOfRequests;
     }
-
-
-
-
 
 }

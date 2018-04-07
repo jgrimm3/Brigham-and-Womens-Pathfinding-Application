@@ -200,7 +200,7 @@ class NodesDBUtil {
         {
             e.printStackTrace();
         }
-    } // retrieveUser() ends
+    } // retrieveUsers() ends
 
 
     /*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/

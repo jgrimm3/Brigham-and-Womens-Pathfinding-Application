@@ -5,6 +5,7 @@ import com.manlyminotaurs.users.User;
 import java.util.List;
 
 public class UserDBUtil {
+    /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, String language){
         return null;
     }
@@ -14,8 +15,8 @@ public class UserDBUtil {
     boolean modifyUser(String stuff){
         return false;
     }
-    List<User> retrieveUser(){
-        return null;
+    /*------------------------------------ List all users / find a user -------------------------------------------------*/
+    void retrieveUsers(){
     }
     User getUserByID(String ID){
         return null;

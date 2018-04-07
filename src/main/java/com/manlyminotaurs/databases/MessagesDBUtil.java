@@ -49,12 +49,15 @@ class MessagesDBUtil {
         return messageObject;
     }
 
-    public void removeMessage(Message message){
+    public boolean removeMessage(Message message){
+        boolean isSuccess = false;
         for(int i = 0; i < dataModelI.getMessageList().size(); i++){
             if(dataModelI.getMessageList().get(i).getMessageID().equals(message.getMessageID())) {
                 // remove the node
                 System.out.println("Node removed from object list...");
                 dataModelI.getMessageList().remove(i);
+                isSuccess = true;
+                break;
             }
         }
         try {
@@ -70,15 +73,16 @@ class MessagesDBUtil {
             e.printStackTrace();
         }
         new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
+        return isSuccess;
     }
 
-    public void modifyMessage(Message newMessage) {
+    public boolean modifyMessage(Message newMessage) {
         Message oldMessage = getMessageFromList(newMessage.getMessageID());
         oldMessage.setMessage(newMessage.getMessage());
         oldMessage.setRead(newMessage.getRead());
         oldMessage.setReceiverID(newMessage.getReceiverID());
         oldMessage.setSenderID(newMessage.getSenderID());
-
+        boolean isSuccess = false;
         try {
             // Connect to the database
             System.out.println("Getting connection to database...");
@@ -96,14 +100,16 @@ class MessagesDBUtil {
             statement.executeUpdate();
             System.out.println("Node added to database");
             csvFileController.updateMessageCSVFile("./MessageTable.csv");
+            isSuccess = true;
         } catch (SQLException e)
         {
             System.out.println("Message already in the database");
         }
+        return isSuccess;
     }
 
     /*------------------------------------ Search message by Receiver/Sender -------------------------------------------------*/
-    public ObservableList<Message> searchMessageByReceiver(String userID){
+    public List<Message> searchMessageByReceiver(String userID){
         ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
         Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
@@ -117,8 +123,8 @@ class MessagesDBUtil {
         return listOfMessages;
     }
 
-    public ObservableList<Message> searchMessageBySender(String userID){
-        ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
+    public List<Message> searchMessageBySender(String userID){
+        List<Message> listOfMessages = new ArrayList<>();
         Iterator<Message> iterator = dataModelI.getMessageList().iterator();
 
         //insert rows
@@ -140,7 +146,7 @@ class MessagesDBUtil {
     /**
      * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()
      */
-    public void retrieveMessage() {
+    public void retrieveMessages() {
         try {
             // Connection
             Connection connection;
@@ -182,7 +188,7 @@ class MessagesDBUtil {
         {
             e.printStackTrace();
         }
-    } // retrieveMessage() ends
+    } // retrieveMessages() ends
 
     public Message getMessageFromList(String messageID){
         Iterator<Message> iterator = dataModelI.getMessageList().iterator();

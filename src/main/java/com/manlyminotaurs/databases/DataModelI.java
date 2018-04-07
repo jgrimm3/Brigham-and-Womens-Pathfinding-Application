@@ -143,94 +143,116 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public Message addMessage(Message newMessage) {
-        return null;
+    public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
+        return messagesDBUtil.addMessage(messageID, message, isRead, senderID, receiverID);
     }
 
     @Override
     public boolean removeMessage(Message oldMessage) {
-        return false;
+        return messagesDBUtil.removeMessage(oldMessage);
     }
 
     @Override
     public boolean modifyMessage(Message newMessage) {
-        return false;
+        return messagesDBUtil.modifyMessage(newMessage);
     }
 
     @Override
     public void retrieveMessages() {
+        messagesDBUtil.retrieveMessages();
     }
 
     @Override
     public List<Message> getMessageBySender(String senderID) {
-        return null;
+        return messagesDBUtil.searchMessageBySender(senderID);
     }
 
     @Override
     public List<Message> getMessageByReceiver(String receiverID) {
-        return null;
+        return messagesDBUtil.searchMessageByReceiver(receiverID);
     }
 
     @Override
     public Message getMessageByID(String ID) {
-        return null;
+        return messagesDBUtil.getMessageFromList(ID);
     }
 
     @Override
-    public Request addRequest(Request newRequest) {
-        return null;
+    public Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID) {
+        return requestsDBUtil.addRequest(requestType,priority,nodeID,message,senderID);
     }
 
     @Override
     public boolean removeRequest(Request oldRequest) {
-        return false;
+        return requestsDBUtil.removeRequest(oldRequest);
     }
 
     @Override
     public boolean modifyRequest(Request newRequest) {
-        return false;
+        Request oldRequest = getRequestByID(newRequest.getRequestID());
+        if (oldRequest == null){
+            return false;
+        }
+        oldRequest.setRequestType(newRequest.getRequestType());
+        oldRequest.setPriority(newRequest.getPriority());
+        oldRequest.setComplete(newRequest.getComplete());
+        oldRequest.setAdminConfirm(newRequest.getAdminConfirm());
+        oldRequest.setNodeID(newRequest.getNodeID());
+        oldRequest.setMessageID(newRequest.getMessageID());
+        oldRequest.setPassword(newRequest.getPassword());
+        return true;
     }
 
     @Override
-    public void retrieveRequest() {
+    public void retrieveRequests() {
+        requestsDBUtil.retrieveRequests();
     }
 
     @Override
     public List<Request> getRequestBySender(String senderID) {
-        return null;
+        return requestsDBUtil.searchRequestBySender(senderID);
     }
 
     @Override
     public List<Request> getRequestByReceiver(String receiverID) {
-        return null;
+        return requestsDBUtil.searchRequestByReceiver(receiverID);
     }
 
     @Override
-    public Request getRequestByID(String ID) {
-        return null;
+    public Request getRequestByID(String requestID) {
+        return requestsDBUtil.searchRequestsByID(requestID);
     }
 
     @Override
-    public boolean addUser(String userID, String firstName, String middleName, String lastName, String language) {
-        return false;
+    public User addUser(String userID, String firstName, String middleName, String lastName, String language) {
+        return userDBUtil.addUser(userID, firstName, middleName, lastName, language);
     }
 
     @Override
     public boolean removeUser(User oldUser) {
-        return false;
+        return userDBUtil.removeUser(oldUser);
     }
 
     @Override
-    public boolean modifyUser(String stuff) {
-        return false;
+    public boolean modifyUser(User newUser) {
+        User oldUser = getUserByID(newUser.getUserID());
+        if (oldUser == null){
+            return false;
+        }
+        oldUser.setFirstName(newUser.getFirstName());
+        oldUser.setMiddleInitial(newUser.getMiddleInitial());
+        oldUser.setLastName(newUser.getLastName());
+        oldUser.setLanguage(newUser.getLanguage());
+        return true;
     }
 
     @Override
-    public void retrieveUser() {
+    public void retrieveUsers() {
+        userDBUtil.retrieveUsers();
     }
 
     @Override
-    public User getUserByID(String ID) {
-        return null;
+    public User getUserByID(String userID) {
+        return userDBUtil.getUserByID(userID);
     }
 }
