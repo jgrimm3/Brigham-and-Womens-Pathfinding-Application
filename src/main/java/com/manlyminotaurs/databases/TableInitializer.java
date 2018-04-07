@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 
 class TableInitializer {
-    NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /**
      * Delete any pre-existing tables and create new tables in the database
      */
@@ -52,10 +51,10 @@ class TableInitializer {
         nodesDBUtil.retrieveNodes();
         nodesDBUtil.retrieveEdges();
 
-        initializer.populateExitTable("./NodeExitTable.csv");
-        initializer.populateHallwayTable("./NodeHallwayTable.csv");
+        //initializer.populateExitTable("./NodeExitTable.csv");
+        //initializer.populateHallwayTable("./NodeHallwayTable.csv");
         initializer.populateRoomTable(null);
-        initializer.populateTransportTable(null);
+        //initializer.populateTransportTable(null);
 
         messagesDBUtil.retrieveMessage();
         requestsDB.retrieveRequest();
@@ -70,7 +69,7 @@ class TableInitializer {
      * @throws IOException
      * @throws SQLException
      */
-    public boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
+    private boolean executeDBScripts(String aSQLScriptFilePath, Statement stmt) throws IOException,SQLException {
         boolean isScriptExecuted = false;
         InputStream inputStream = null;
         try {
@@ -110,7 +109,7 @@ class TableInitializer {
     /**
      * Populate the database tables from the csv files
      */
-    public void populateNodeEdgeTables(String CsvNodeFileName, String CsvEdgeFileName) {
+    private void populateNodeEdgeTables(String CsvNodeFileName, String CsvEdgeFileName) {
 
         // Make sure we aren't ruining the database
 //        Scanner scanner = new Scanner(System.in);
@@ -205,7 +204,8 @@ class TableInitializer {
      * populates the exit table in database either from csvFIle or nodeLists
      * @param csvFileName
      */
-    public void populateExitTable(String csvFileName){
+    /*
+    private void populateExitTable(String csvFileName){
         CsvFileController csvFileControl = new CsvFileController();
         List<String[]> listOfExit = csvFileControl.parseCsvFile(csvFileName);
         if(listOfExit != null){
@@ -214,13 +214,14 @@ class TableInitializer {
         else{
             populateExitTableFromList(null);
         }
-    }
+    } */
 
     /**
      * Use listOfExit node objects parsed from the csv file to populate Exit table
      * @param listOfExit
      */
-    public void populateExitTableFromCsv(List<String[]> listOfExit) {
+    /*
+    private void populateExitTableFromCsv(List<String[]> listOfExit) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -245,12 +246,13 @@ class TableInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     /**
      * insert values into Exit table by identifying nodes having nodeType = EXIT in the nodeList
      */
-    public void populateExitTableFromList(List<Node> nodeList) {
+    /*
+    private void populateExitTableFromList(List<Node> nodeList) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -266,8 +268,8 @@ class TableInitializer {
 
                     String str = "INSERT INTO exit(isFireExit,isArmed,nodeID) VALUES (?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setBoolean(1, exit.isFireExit());
-                    statement.setBoolean(2, exit.isArmed());
+                    //statement.setBoolean(1, exit.isFireExit());
+                    //statement.setBoolean(2, exit.isArmed());
                     statement.setString(3, exit.getID());
                     statement.executeUpdate();
                     System.out.println("Added exit to table...");
@@ -278,14 +280,15 @@ class TableInitializer {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }//populateExitTableFromList
+    }//populateExitTableFromList */
 
 //--------------------------------------------------------------------------------------
     /**
      * populates the hallway table in database either from csvFIle or nodeLists
      * @param csvFileName
      */
-    public void populateHallwayTable(String csvFileName){
+    /*
+    private void populateHallwayTable(String csvFileName){
         CsvFileController csvFileControl = new CsvFileController();
         List<String[]> listOfNodes = csvFileControl.parseCsvFile(csvFileName);
         if(listOfNodes != null){
@@ -296,13 +299,14 @@ class TableInitializer {
             System.out.println("populateHallwayTableFromList");
             populateHallwayTableFromList();
         }
-    }
+    } */
 
     /**
      * Use list of nodes parsed from the csv file to populate Hallway table
      * @param listOfNodes
      */
-    public void populateHallwayTableFromCsv(List<String[]> listOfNodes) {
+    /*
+    private void populateHallwayTableFromCsv(List<String[]> listOfNodes) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -326,12 +330,13 @@ class TableInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     /**
      * insert values into Exit table by identifying nodes having nodeType = EXIT in the nodeList
      */
-    public void populateHallwayTableFromList() {
+    /*
+    private void populateHallwayTableFromList() {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -363,9 +368,9 @@ class TableInitializer {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    }//populateHallwayTableFromList
+    }//populateHallwayTableFromList */
 
-    public void populateMessageTable(String CsvFileName) {
+    private void populateMessageTable(String CsvFileName) {
         try {
             // parse MessageTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
@@ -396,7 +401,7 @@ class TableInitializer {
         }
     }
 
-    public void populateUserAccountTable(String CsvFileName) {
+    private void populateUserAccountTable(String CsvFileName) {
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
@@ -427,7 +432,7 @@ class TableInitializer {
         }
     }
 
-    public void populateRequestTable(String CsvFileName) {
+    private void populateRequestTable(String CsvFileName) {
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
@@ -551,6 +556,7 @@ class TableInitializer {
         }
     }
 
+    /*
     public void populateExitTable(List<Node> nodeList) {
         int i = 0;
         Statement stmt = null;
@@ -583,8 +589,9 @@ class TableInitializer {
             }
             i++;
         }
-    }
+    } */
 
+    /*
     public void populateHallwayTable(List<Node> nodeList) {
         int i = 0;
         Statement stmt = null;
@@ -616,9 +623,9 @@ class TableInitializer {
             }
             i++;
         }
-    }
+    } */
 
-    public void populateRoomTable(List<Node> nodeList) {
+    private void populateRoomTable(List<Node> nodeList) {
         int i = 0;
         String type;
         Statement stmt = null;
@@ -655,7 +662,7 @@ class TableInitializer {
         }
     }
 
-    public void populateTransportTable(List<Node> nodeList) {
+    /* private void populateTransportTable(List<Node> nodeList) {
         int i = 0;
         Statement stmt = null;
         Connection connection = null;
@@ -687,6 +694,6 @@ class TableInitializer {
             }
             i++;
         }
-    }// populateTransportTable Ends
+    }// populateTransportTable Ends */
 
 }

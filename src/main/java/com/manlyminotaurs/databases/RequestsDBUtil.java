@@ -13,7 +13,8 @@ import java.util.List;
 class RequestsDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
-    public static List<Request> requestList = new ArrayList<>();
+    //public static List<Request> requestList = new ArrayList<>();
+    private DataModelI dataModelI = DataModelI.getInstance();
     private static int requestIDCounter = 1;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
@@ -22,7 +23,7 @@ class RequestsDBUtil {
         String messageID = messagesDBUtil.generateMessageID();
         Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
         Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID, requestType);
-        requestList.add(requestObject);
+        dataModelI.getRequestList().add(requestObject);
 
         try {
             // Connect to the database
@@ -57,7 +58,7 @@ class RequestsDBUtil {
         ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
         ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
         Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = requestList.iterator();
+        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
 
         //insert rows
         while (iteratorRequest.hasNext()) {
@@ -78,7 +79,7 @@ class RequestsDBUtil {
         ObservableList<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
         ObservableList<Request> listOfRequests = FXCollections.observableArrayList();
         Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = requestList.iterator();
+        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
 
         //insert rows
         while (iteratorRequest.hasNext()) {
@@ -95,11 +96,11 @@ class RequestsDBUtil {
     }
 
     public void removeRequest(Request request){
-        for(int i = 0; i < requestList.size(); i++){
-            if(requestList.get(i).getRequestID().equals(request.getRequestID())) {
+        for(int i = 0; i < dataModelI.getRequestList().size(); i++){
+            if(dataModelI.getRequestList().get(i).getRequestID().equals(request.getRequestID())) {
                 // remove the node
                 System.out.println("Node removed from object list...");
-                requestList.remove(i);
+                dataModelI.getRequestList().remove(i);
             }
         }
         try {
@@ -185,7 +186,7 @@ class RequestsDBUtil {
                     password = rset.getString("password");
                     // Add the new edge to the list
                     requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
-                    requestList.add(requestObject);
+                    dataModelI.getRequestList().add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
                 }
@@ -207,7 +208,7 @@ class RequestsDBUtil {
     }
 
     public Request searchRequestsByID(String requestID){
-        Iterator<Request> iterator = requestList.iterator();
+        Iterator<Request> iterator = dataModelI.getRequestList().iterator();
         while (iterator.hasNext()) {
             Request a_request = iterator.next();
             if (a_request.getRequestID().equals(requestID)) {
@@ -224,7 +225,7 @@ class RequestsDBUtil {
      */
     public void printRequestList() {
         int i = 0;
-        while(i < requestList.size()) { System.out.println("Object " + i + ": " + requestList.get(i).getRequestID()); i++; }
+        while(i < dataModelI.getRequestList().size()) { System.out.println("Object " + i + ": " + dataModelI.getRequestList().get(i).getRequestID()); i++; }
     } // end printNodeList
 
 }

@@ -22,12 +22,13 @@ class NodesDBUtil {
     private CsvFileController csvFileController = new CsvFileController();
     DataModelI dataModelI = DataModelI.getInstance();
     int nodeIDGeneratorCount = 200;
+    int elevatorCounter;
 
     /*---------------------------------------- Create java objects ---------------------------------------------------*/
     /**
      * Creates a list of objects and stores them in the global variable nodeList
      */
-    public void retrieveNodes() {
+    void retrieveNodes() {
         try {
             // Connection
             Connection connection;
@@ -41,6 +42,8 @@ class NodesDBUtil {
             String shortName = "";
             int xCoord = 0;
             int yCoord = 0;
+            int xCoord3D = 0;
+            int yCoord3D = 0;
             String floor = "";
             String building = "";
             int status = 0;
@@ -61,19 +64,21 @@ class NodesDBUtil {
                     longName = rset.getString("longName");
                     shortName = rset.getString("shortName");
                     status = rset.getInt("status");
+                    xCoord3D = rset.getInt("xCoord3D");
+                    yCoord3D = rset.getInt("yCoord3D");
 
                     // Create the java objects based on the node type
                     } if (nodeType.equals("ELEV")) {
-                        node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                        node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
                         //System.out.println("Elev created");
                     } else if (nodeType.equals("EXIT")) {
-                        node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                        node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
                         //System.out.println("Exit created");
                     } else if (nodeType.equals("HALL")) {
-                        node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                        node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
                         //System.out.println("Hall created");
                     } else if (nodeType.equals("STAI")) {
-                        node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building);
+                        node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
                         //System.out.println("Stai created");
                     // Add the new node to the list
                     node.setStatus(status);
@@ -92,12 +97,12 @@ class NodesDBUtil {
         }
     } // retrieveNodes() ends
 
-    // TODO fix
+    // TODO test
     /**
      * Creates a list of objects and stores them in the global variable edgeList
      */
-    public void retrieveEdges() {
-        /*try {
+    void retrieveEdges() {
+        try {
             // Connection
             Connection connection;
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -124,11 +129,21 @@ class NodesDBUtil {
                     // Add the new edge to the list
                     Node startNodeObject = getNodeFromList(startNode);
                     Node endNodeObject = getNodeFromList(endNode);
+
+                    //
                     if(startNode != null && endNode != null) {
                         edge = new Edge(startNodeObject, endNodeObject, edgeID);
                         edge.setStatus(status);
-                        edgeList.add(edge);
-                        System.out.println("Edge added to the list: " + edgeID);
+
+                        Node sNode = getNodeFromList(startNode);
+                        Node eNode = getNodeFromList(startNode);
+
+                        sNode.addEdge(edge);
+                        eNode.addEdge(edge);
+
+                        dataModelI.getEdgeList().add(edge);
+
+                        System.out.println("Edge added to corresponding nodes: " + edgeID);
                     }
                 }
                 rset.close();
@@ -140,16 +155,13 @@ class NodesDBUtil {
         } catch(SQLException e)
         {
             e.printStackTrace();
-        } */
+        }
     } // retrieveEdges() ends
 
-    /*---------------------------------- Insert values into database ---------------------------------------------------*/
-
-
-    /**
+    /*
+    /** NOT IN USE
      *  get data from UserAccount table in database and put them into the list of request objects
-     */
-    public void retrieveUser() {
+     */void retrieveUser() {
         try {
             // Connection
             Connection connection;
@@ -197,31 +209,32 @@ class NodesDBUtil {
 
     /**
      * Adds the java object and the corresponding entry in the database table
-     * @param longName
-     * @param shortName
-     * @param nodeType
-     * @param xcoord
-     * @param ycoord
+     * @param longName long name of the node
+     * @param shortName short name of the node
+     * @param nodeType node type
+     * @param xcoord xcoord
+     * @param ycoord ycoord
+     *
      */
-    public void addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building)
+    void addNode(String longName, String shortName, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D)
     {
         String ID = generateNodeID(nodeType,floor,"A");
 
         Node node;
         if(nodeType.equals("HALL")) {
-            node = new Hallway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+            node = new Hallway(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         }
         else if(nodeType.equals("ELEV")) {
-            node = new Transport(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+            node = new Transport(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         }
         else if(nodeType.equals("STAI")){
-            node = new Transport(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+            node = new Transport(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         }
         else if(nodeType.equals("EXIT")) {
-            node = new Exit(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+            node = new Exit(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         }
         else {
-            node = new Room(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+            node = new Room(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         }
 
         dataModelI.getNodeList().add(node);
@@ -258,7 +271,7 @@ class NodesDBUtil {
      *
      * @param node
      */
-    public void modifyNode(Node node){
+    void modifyNode(Node node){
         try {
             Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
@@ -271,15 +284,16 @@ class NodesDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         }
-    } // end modifyNodeLongName
+    }
 
-    // TODO fix
+    // TODO test
+    // TODO should we remove edges
     /**
      * Removes a node from the list of objects as well as the database
      * @param node
      */
-    public void removeNode (Node node) {
-        /*//first remove any adjacent edges from this node
+    void removeNode (Node node) {
+        //first remove any adjacent edges from this node
         List<Edge> listOfEdges = getEdgesFromNode(node);
         Iterator<Edge> iterator = listOfEdges.iterator();
         while (iterator.hasNext()) {
@@ -297,7 +311,7 @@ class NodesDBUtil {
             removeTransportNode(node);
         }
         else {
-            removeRoomNode(node);
+            dataModelI.getNodeList().remove(node);
         }
         // Find the node to remove from the nodeList
         int i = 0;
@@ -321,10 +335,10 @@ class NodesDBUtil {
             csvFileController.updateNodeCSVFile("./MapGNodes.csv");
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
-    } // removeNode
+        }
+    }
 
-    public void removeHallwayNode(Node node){
+    void removeHallwayNode(Node node){
         // Find the node to remove from the edgeList
         int i = 0;
         while(i < dataModelI.getHallwayList().size()){
@@ -344,14 +358,14 @@ class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
+            //csvFileController.updateHallwayCSVFile("./NodeHallwayTable.csv");
             System.out.println("hallway removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void removeExitNode(Node node){
+    void removeExitNode(Node node){
         // Find the node to remove from the edgeList
         int i = 0;
         while(i < dataModelI.getExitList().size()){
@@ -371,14 +385,14 @@ class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            csvFileController.updateExitCSVFile("./NodeExitTable.csv");
+            // csvFileController.updateExitCSVFile("./NodeExitTable.csv");
             System.out.println("EXIT removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void removeTransportNode(Node node){
+    void removeTransportNode(Node node){
         // Find the node to remove from the edgeList
         int i = 0;
         while(i < dataModelI.getTransportList().size()){
@@ -398,7 +412,7 @@ class NodesDBUtil {
             stmt.executeUpdate(str);
             stmt.close();
             connection.close();
-            csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
+            // csvFileController.updateTransportCSVFile("./NodeTransportTable.csv");
             System.out.println("Transport removed from database: " + node.getID());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -413,7 +427,7 @@ class NodesDBUtil {
      * @param startNode
      * @param endNode
      */
-    public void addEdge(Node startNode, Node endNode) {
+    void addEdge(Node startNode, Node endNode) {
         /*
         String edgeID = startNode.getID() + "_" + endNode.getID();
         Edge edge = new Edge(startNode , endNode, edgeID);
@@ -447,7 +461,7 @@ class NodesDBUtil {
      * Removes a node from the list of objects as well as the database
      * @param edge is the edge to be removed
      */
-    public void removeEdge (Edge edge) {
+    void removeEdge (Edge edge) {
         /*// Find the node to remove from the edgeList
         int i = 0;
         while(i < edgeList.size()){
@@ -478,7 +492,7 @@ class NodesDBUtil {
     /**
      * Print the nodeList
      */
-    public void printNodeList() {
+    void printNodeList() {
         int i = 0;
         while(i < dataModelI.getNodeList().size()) { System.out.println("Object " + i + ": " + dataModelI.getNodeList().get(i).getLongName()); i++; }
     } // end printNodeList
@@ -487,7 +501,7 @@ class NodesDBUtil {
     /**
      * Print the edgeList
      */
-    public void printEdgeList() {
+    void printEdgeList() {
         /*
         int i = 0;
         while(i < edgeList.size()) {
@@ -498,7 +512,7 @@ class NodesDBUtil {
     } // end printEdgeList
 
     // TODO fix
-    public Edge getEdgeFromList(String edgeID){
+    Edge getEdgeFromList(String edgeID){
         /*
         Iterator<Edge> iterator = edgeList.iterator();
         while (iterator.hasNext()) {
@@ -517,7 +531,7 @@ class NodesDBUtil {
      * @param node
      * @return
      */
-    public List<Edge> getEdgesFromNode(Node node){
+    List<Edge> getEdgesFromNode(Node node){
         List<Edge> listOfEdges = new ArrayList<Edge>();
         try {
             // Connection
@@ -568,7 +582,7 @@ class NodesDBUtil {
      * @param nodeID
      * @return
      */
-    public Node getNodeFromList(String nodeID){
+    Node getNodeFromList(String nodeID){
         Iterator<Node> iterator = dataModelI.getNodeList().iterator();
         while (iterator.hasNext()) {
             Node a_node = iterator.next();
@@ -579,8 +593,8 @@ class NodesDBUtil {
         //System.out.println("getNdeFromList: Null-----------Something might break");
         return null;
     }
-  
-   public ObservableList<String> getBuildingsFromList(List<Node> listOfNodes){
+
+    ObservableList<String> getBuildingsFromList(List<Node> listOfNodes){
         ObservableList<String> buildings = FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
 
@@ -594,7 +608,7 @@ class NodesDBUtil {
         return buildings;
     }
 
-  public ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
+    ObservableList<String> getTypesFromList(String building, List<Node> listOfNodes){
         ObservableList<String> types= FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
        iterator.next(); // get rid of the header
@@ -609,7 +623,7 @@ class NodesDBUtil {
         return types;
     }
 
-   public ObservableList<String> getNodeFromList(String building, String type,List<Node> listOfNodes){
+    ObservableList<String> getNodeFromList(String building, String type,List<Node> listOfNodes){
         ObservableList<Node> selectedNodes = FXCollections.observableArrayList();
         ObservableList<String> nodeNames = FXCollections.observableArrayList();
         Iterator<Node> iterator = listOfNodes.iterator();
@@ -624,8 +638,6 @@ class NodesDBUtil {
         }
         return nodeNames;
     }
-
-    int elevatorCounter = 0;
 
     /**
      * used to generate unique nodeID when adding a new node on the map

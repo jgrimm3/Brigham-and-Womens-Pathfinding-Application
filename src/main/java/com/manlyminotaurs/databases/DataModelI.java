@@ -16,9 +16,6 @@ public class DataModelI implements IDataModel{
 
     /*---------------------------------------------- Variables -------------------------------------------------------*/
     // All the utils for each database
-    private MessagesDBUtil messagesDBUtil;
-    private NodesDBUtil nodesDBUtil;
-    private RequestsDBUtil requestsDBUtil;
 
     // list of all objects
     private static List<Node> nodeList = new ArrayList<>();
@@ -26,6 +23,7 @@ public class DataModelI implements IDataModel{
     private static List<Exit> exitList = new ArrayList<>();
     private static List<Room> roomList = new ArrayList<>();
     private static List<Hallway> hallwayList = new ArrayList<>();
+    private static List<Edge> edgeList = new ArrayList<>();
     static List<Transport> transportList = new ArrayList<>();
     static List<Message> messageList = new ArrayList<>();
     static List<Request> requestList = new ArrayList<>();
@@ -54,6 +52,10 @@ public class DataModelI implements IDataModel{
         return transportList;
     }
 
+    public static List<Edge> getEdgeList() {
+        return edgeList;
+    }
+
     public static List<Message> getMessageList() {
         return messageList;
     }
@@ -63,6 +65,7 @@ public class DataModelI implements IDataModel{
     }
 
     private TableInitializer tableInitializer = new TableInitializer();
+
     private static DataModelI dataModelI;
     private static Connection connection;
 
