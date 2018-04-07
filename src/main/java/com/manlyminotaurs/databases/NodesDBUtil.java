@@ -563,5 +563,15 @@ class NodesDBUtil {
 		return nodeID;
 	}
 
+	boolean hasEdge(Node startNode, Node endNode) {
+		if(startNode.getAdjacentNodes().contains(endNode))
+		{
+			assert (endNode.getAdjacentNodes().contains(startNode));
+			return true;
+		}
+		assert(!endNode.getAdjacentNodes().contains(startNode));
+		return false;
+	}
+
 
 } // end NodesDBUtil class

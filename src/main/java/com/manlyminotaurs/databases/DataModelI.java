@@ -146,7 +146,28 @@ public class DataModelI implements IDataModel{
     @Override
 	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
-	/*------------------------------------------------ Messages -------------------------------------------------------*/
+    @Override
+    public void addEdge(Node startNode, Node endNode) {
+        nodesDBUtil.addEdge(startNode, endNode);
+    }
+
+    @Override
+    public void removeEdge(Node startNode, Node endNode) {
+        nodesDBUtil.removeEdge(startNode, endNode);
+    }
+
+    @Override
+    public boolean hasEdge(Node startNode, Node endNode) {
+        return nodesDBUtil.hasEdge(startNode, endNode);
+    }
+
+    @Override
+    public void removeNode(Node node) {
+        nodesDBUtil.removeNode(node);
+    }
+
+
+    /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
     public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
         return messagesDBUtil.addMessage(messageID, message, isRead, senderID, receiverID);
