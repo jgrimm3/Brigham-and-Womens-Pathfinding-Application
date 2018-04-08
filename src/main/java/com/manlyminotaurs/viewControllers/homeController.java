@@ -135,7 +135,8 @@ public class homeController {
     }
 
     public void drawPath(ActionEvent event) {
-        // Flip to directions panel
+        panePathfinding.setVisible(false);
+        paneDirections.setVisible(true);
     }
 
     // Directions Panel
@@ -171,7 +172,8 @@ public class homeController {
     }
 
     public void restartNavigation(ActionEvent event) {
-
+        panePathfinding.setVisible(true);
+        paneDirections.setVisible(false);
     }
 
     public void closeQRCodePanel(ActionEvent event) {
