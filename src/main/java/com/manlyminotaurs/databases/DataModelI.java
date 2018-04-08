@@ -56,12 +56,12 @@ public class DataModelI implements IDataModel{
 
     @Override
     public Connection getNewConnection() {
-        if(connection == null) {
-            try {
-                connection = DriverManager.getConnection("jdbc:derby:/Users/andrew/Documents/Soft Eng Rep/CS3733_TeamM_Iter2/nodesDB;create=true");
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            if(connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection("jdbc:derby:C:/Users/junbong/IdeaProjects/CS3733_TeamM_Iter2/nodesDB;create=true");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return connection;
     }

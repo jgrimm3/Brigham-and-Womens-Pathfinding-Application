@@ -31,7 +31,8 @@ Create Table UserAccount (
   firstName     VARCHAR(255),
   middleName VARCHAR(255),
   lastName      VARCHAR(255),
-  language      VARCHAR(255));
+  language      VARCHAR(255),
+  userType      VARCHAR(255));
 
 Create Table Request (
   requestID     VARCHAR(10) PRIMARY KEY,
