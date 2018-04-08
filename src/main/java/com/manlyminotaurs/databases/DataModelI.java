@@ -67,7 +67,7 @@ public class DataModelI implements IDataModel{
         }
     }
 
-	/*------------------------------------------------ Nodes -------------------------------------------------------*/
+	/*------------------------------------------------ Nodes/Edges -------------------------------------------------------*/
     @Override
     public List<Node> retrieveNodes() {
         return nodesDBUtil.retrieveNodes();
