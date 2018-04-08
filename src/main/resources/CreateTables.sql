@@ -11,12 +11,12 @@ CREATE TABLE Map_Nodes (
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
-  startNode           VARCHAR(10),
-  endNode             VARCHAR(10),
+  startNodeID           VARCHAR(10),
+  endNodeID             VARCHAR(10),
   status              INTEGER,
-  CONSTRAINT fk_startNode FOREIGN KEY (startNode) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
-  CONSTRAINT fk_endNode FOREIGN KEY (endNode) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
-  CONSTRAINT unique_edge UNIQUE (startNode,endNode));
+  CONSTRAINT fk_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
+  CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
+  CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
 
 Create Table Room (
   specialization VARCHAR(255),

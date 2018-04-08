@@ -85,10 +85,10 @@ public class CsvFileController {
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("edgeID,startNode,endNode,status\n");
+            printWriter.print("edgeID,startNodeID,endNodeID,status\n");
             while (iterator.hasNext()) {
                 Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID(), a_edge.getStatus());
+                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNodeID(), a_edge.getEndNodeID(), a_edge.getStatus());
             }
             printWriter.close();
             System.out.println("csv edge file updated");
