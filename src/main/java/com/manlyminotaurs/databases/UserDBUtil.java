@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDBUtil {
-    DataModelI dataModelI = DataModelI.getInstance();
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType){
         User userObject = new Patient(userID,firstName,middleName,lastName,language, userType);
@@ -46,7 +45,7 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSuccess;
     }
@@ -71,7 +70,7 @@ public class UserDBUtil {
         {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSuccess;
     }
@@ -82,7 +81,7 @@ public class UserDBUtil {
      */
     public List<User> retrieveUsers() {
         // Connection
-        Connection connection = dataModelI.getNewConnection();
+        Connection connection = DataModelI.getInstance().getNewConnection();
 
         // Variables
         User userObject;
@@ -118,7 +117,7 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
 
         return listOfUsers;
@@ -126,7 +125,7 @@ public class UserDBUtil {
 
     User getUserByID(String userID){
         // Connection
-        Connection connection = dataModelI.getNewConnection();
+        Connection connection = DataModelI.getInstance().getNewConnection();
 
         // Variables
         User userObject = null;
@@ -158,47 +157,12 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return userObject;
     }
 
-    public enum userTypes {PATIENT, STAFF, DOCTOR, NURSE, SECURITY, JANITOR};
-
-    public boolean isType(userTypes userType){
-        switch (userType) {
-            case PATIENT:
-                System.out.println("Mondays are bad.");
-                break;
-
-            case STAFF:
-                System.out.println("Fridays are better.");
-                break;
-
-            case DOCTOR:
-                System.out.println("Weekends are best.");
-                break;
-
-            case NURSE:
-                System.out.println("Weekends are best.");
-                break;
-
-            case SECURITY:
-                System.out.println("Weekends are best.");
-                break;
-
-            case JANITOR:
-                System.out.println("Weekends are best.");
-                break;
-
-            default:
-                System.out.println("bad userType!");
-                break;
-        }
-        return true;
-    }
-
-    public User userBuilder(String userID, String firstName, String middleName, String lastName, String language, String userType){
+    public static User userBuilder(String userID, String firstName, String middleName, String lastName, String language, String userType){
         User userObject = null;
         switch (userType) {
             case "patient":

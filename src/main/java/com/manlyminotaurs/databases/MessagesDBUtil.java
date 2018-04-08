@@ -15,7 +15,6 @@ class MessagesDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
     private static int messageIDCounter = 1;
-    DataModelI dataModelI = DataModelI.getInstance();
     CsvFileController csvFileController = new CsvFileController();
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
@@ -41,7 +40,7 @@ class MessagesDBUtil {
             System.out.println("Message already in the database");
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return messageObject;
     }
@@ -58,7 +57,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSuccess;
     }
@@ -82,7 +81,7 @@ class MessagesDBUtil {
         {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSuccess;
     }
@@ -122,7 +121,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return listOfMessages;
     }
@@ -161,7 +160,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return listOfMessages;
     }
@@ -211,7 +210,7 @@ class MessagesDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                dataModelI.closeConnection(connection);
+                DataModelI.getInstance().closeConnection(connection);
             }
         return listOfMessages;
     } // retrieveMessages() ends
@@ -250,7 +249,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return messageObject;
     }

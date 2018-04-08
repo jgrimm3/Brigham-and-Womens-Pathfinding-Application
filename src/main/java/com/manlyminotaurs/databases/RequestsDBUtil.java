@@ -12,7 +12,6 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
     //public static List<Request> requestList = new ArrayList<>();
-    private DataModelI dataModelI = DataModelI.getInstance();
     private static int requestIDCounter = 1;
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
@@ -44,7 +43,7 @@ class RequestsDBUtil {
         {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return requestObject;
     }
@@ -61,7 +60,7 @@ class RequestsDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSucessful;
     }
@@ -88,7 +87,7 @@ class RequestsDBUtil {
         {
             System.out.println("Request already in the database");
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return isSuccess;
     }
@@ -111,7 +110,7 @@ class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
@@ -129,7 +128,7 @@ class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
@@ -179,7 +178,7 @@ class RequestsDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                dataModelI.closeConnection(connection);
+                DataModelI.getInstance().closeConnection(connection);
             }
         return listOfRequest;
     } // retrieveRequests() ends
@@ -222,7 +221,7 @@ class RequestsDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dataModelI.closeConnection(connection);
+            DataModelI.getInstance().closeConnection(connection);
         }
         return requestObject;
     }
@@ -237,7 +236,7 @@ class RequestsDBUtil {
     List<Request> searchRequestsByReceiver(String receiverID){
         List<Request> selectedRequests = new ArrayList<>();
         List<Request> listOfRequests = retrieveRequests();
-        List<Message> listOfMessages = dataModelI.getMessageByReceiver(receiverID);
+        List<Message> listOfMessages = DataModelI.getInstance().getMessageByReceiver(receiverID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){
                 if(a_request.getMessageID().equals(a_message.getMessageID())){
@@ -257,7 +256,7 @@ class RequestsDBUtil {
     List<Request> searchRequestsBySender(String senderID){
         List<Request> selectedRequests = new ArrayList<>();
         List<Request> listOfRequests = retrieveRequests();
-        List<Message> listOfMessages = dataModelI.getMessageBySender(senderID);
+        List<Message> listOfMessages = DataModelI.getInstance().getMessageBySender(senderID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){
                 if(a_request.getMessageID().equals(a_message.getMessageID())){

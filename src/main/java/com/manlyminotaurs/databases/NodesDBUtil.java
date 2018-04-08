@@ -13,8 +13,6 @@ import java.util.*;
 //finish erd diagram and create request table
 class NodesDBUtil {
 
-	// Get a csv file controller
-	DataModelI dataModelI = DataModelI.getInstance();
 	int nodeIDGeneratorCount = 200;
 	int elevatorCounter;
 
@@ -25,7 +23,7 @@ class NodesDBUtil {
 	 */
 	List<Node> retrieveNodes() {
 		// Connection
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 
 		// Variables
 		Node node = null;
@@ -85,7 +83,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 			return listOfNodes;
 		}
 	} // retrieveNodes() ends
@@ -156,7 +154,7 @@ class NodesDBUtil {
 	 */
 	boolean modifyNode(Node node) {
 		boolean isSucessful = false;
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
@@ -181,7 +179,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 			return isSucessful;
 		}
 	}
@@ -196,7 +194,7 @@ class NodesDBUtil {
 		boolean isSucessful = false;
 
 		// Remove from the database
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			// Get connection to database and delete the node from the database
 			Statement stmt = connection.createStatement();
@@ -208,7 +206,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 		return isSucessful;
 	}
@@ -222,7 +220,7 @@ class NodesDBUtil {
 	 * @param endNode   the end node
 	 */
 	void addAdjacentNode(Node startNode, Node endNode) {
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		startNode.getAdjacentNodes().add(endNode);
 		endNode.getAdjacentNodes().add(startNode);
 		System.out.println("Node added to adjacent node...");
@@ -242,7 +240,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 	} // end addAdjacentNode()
 
@@ -284,7 +282,7 @@ class NodesDBUtil {
 		// Find the node to remove from the edgeList
 		startNode.getAdjacentNodes().remove(endNode);
 		endNode.getAdjacentNodes().remove(startNode);
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			// Get connection to database and delete the edge from the database
 			Statement stmt = connection.createStatement();
@@ -294,7 +292,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 	} // removeEdge
 
@@ -324,7 +322,7 @@ class NodesDBUtil {
 	 */
 	private List<Edge> getEdgesFromNode(Node node) {
 		List<Edge> listOfEdges = new ArrayList<Edge>();
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		Edge edge;
 		String edgeID;
 		String startNodeID;
@@ -356,7 +354,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 		return listOfEdges;
 	}
@@ -365,7 +363,7 @@ class NodesDBUtil {
 		List<String> buildings = new ArrayList<>();
 		String building;
 
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			Statement stmt = connection.createStatement();
 			String str = "SELECT building FROM MAP_NODES";
@@ -382,7 +380,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 		return buildings;
 	}
@@ -391,7 +389,7 @@ class NodesDBUtil {
 		List<String> types = new ArrayList<>();
 		String type;
 
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			Statement stmt = connection.createStatement();
 			String str = "SELECT nodeType FROM MAP_NODES";
@@ -408,7 +406,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 		return types;
 	}
@@ -458,7 +456,7 @@ class NodesDBUtil {
 	 */
 	public Node getNodeByID(String nodeID) {
 		// Connection
-		Connection connection = dataModelI.getNewConnection();
+		Connection connection = DataModelI.getInstance().getNewConnection();
 
 		// Variables
 		Node node = null;
@@ -514,7 +512,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			dataModelI.closeConnection(connection);
+			DataModelI.getInstance().closeConnection(connection);
 		}
 		return node;
 	}

@@ -32,18 +32,28 @@ class TableInitializer {
     }
 
     void setupDatabase(){
+        System.out.println("Registering Oracle Driver");
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("Oracle JDBC Driver Registered Successfully !");
+
+
         TableInitializer initializer = new TableInitializer();
         NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("./MapGNodesEdited.csv","./MapGEdges.csv");
-        initializer.populateUserAccountTable("./UserAccountTable.csv");
-        initializer.populateMessageTable("./MessageTable.csv");
-        initializer.populateRequestTable("./RequestTable.csv");
+        initializer.populateNodeEdgeTables("MapGNodesEdited.csv","MapGEdges.csv");
+        initializer.populateUserAccountTable("UserAccountTable.csv");
+        initializer.populateMessageTable("MessageTable.csv");
+        initializer.populateRequestTable("RequestTable.csv");
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
-        initializer.populateRoomTable(nodesDBUtil.retrieveNodes());
+//        initializer.populateRoomTable(nodesDBUtil.retrieveNodes());
         //initializer.populateTransportTable(null);
     }
 
