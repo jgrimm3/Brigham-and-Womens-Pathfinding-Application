@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
+   <children>
+      <StackPane layoutX="340.0" prefHeight="1080.0" prefWidth="1580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1580.0">
+               <content>
+                  <StackPane prefHeight="2774.0" prefWidth="5000.0">
+                     <children>
+                        <ImageView fx:id="mapImg" fitHeight="2774.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../Iteration2UI/resources/MapImages/L2-NO-ICONS.png" />
+                           </image>
+                        </ImageView>
+                        <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="2774.0" prefWidth="5000.0">
+                           <children>
+                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" layoutX="4.0" layoutY="98.0" stroke="#d63e15" strokeType="INSIDE">
+                                  <elements>
+                                    <MoveTo />
+                                    <LineTo x="5000.0" />
+                                    <LineTo x="5000.0" y="2774.0" />
+                                    <LineTo y="2774.0" />
+                                      <ClosePath />
+                                  </elements>
+                              </Path>
+                           </children>
+                        </Pane>
+                     </children>
+                  </StackPane>
+               </content>
+            </ScrollPane>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="20.0" />
+               </StackPane.margin>
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/HelpIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/NearestIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="30.0" />
+               </StackPane.margin>
+            </Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="TOP_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/ProfileIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets right="30.0" top="20.0" />
+               </StackPane.margin>
+            </Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/BathroomIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="190.0" />
+               </StackPane.margin>
+            </Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/DiningIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="350.0" />
+               </StackPane.margin>
+            </Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/GiftShopIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="670.0" />
+               </StackPane.margin>
+            </Button>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/CoffeeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="510.0" />
+               </StackPane.margin>
+            </Button>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="TOP_RIGHT">
+               <StackPane.margin>
+                  <Insets right="30.0" top="20.0" />
+               </StackPane.margin>
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
+                     <children>
+                        <Label layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
+                           <font>
+                              <Font size="55.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="330.0" layoutY="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/ExitIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
+                     <children>
+                        <Label layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="360.0" text="USERNAME" textFill="WHITE">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="20.0" layoutY="80.0" prefHeight="40.0" prefWidth="360.0" />
+                        <Label layoutX="20.0" layoutY="130.0" prefHeight="60.0" prefWidth="360.0" text="PASSWORD" textFill="WHITE">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="20.0" layoutY="190.0" prefHeight="40.0" prefWidth="360.0" />
+                        <Button layoutX="20.0" layoutY="270.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+      <Pane prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1580.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
+               <children>
+                  <Label graphicTextGap="0.0" layoutY="20.0" prefHeight="70.0" prefWidth="340.0" text="NAVIGATION">
+                     <padding>
+                        <Insets left="100.0" />
+                     </padding>
+                     <font>
+                        <Font size="34.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="WHITE" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
+                  <ImageView fitHeight="70.0" fitWidth="80.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/NavigationIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutY="110.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
+                     <children>
+                        <Label graphicTextGap="0.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #1f1f1f;" text="HANDICAP">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="170.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
+                     <children>
+                        <Label graphicTextGap="0.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2f2f2f;" text="MAP">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="170.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
+                           <children>
+                              <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="340.0" text="START" textFill="WHITE">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="210.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="235.0" prefWidth="125.0" style="-fx-background-color: #2b65ac;">
+                           <children>
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="40.0" prefWidth="95.0" />
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="115.0" prefWidth="95.0" />
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="190.0" prefWidth="95.0" />
+                           </children></Pane>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="125.0" layoutY="60.0" prefHeight="235.0" prefWidth="215.0" style="-fx-background-color: #2f2f2f;">
+                     <children>
+                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets left="20.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <ListView layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                     </children></Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="465.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
+                           <children>
+                              <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="340.0" text="END" textFill="WHITE">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="250.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="235.0" prefWidth="125.0" style="-fx-background-color: #2b65ac;">
+                           <children>
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="40.0" prefWidth="95.0" />
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="115.0" prefWidth="95.0" />
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <ComboBox layoutX="15.0" layoutY="190.0" prefWidth="95.0" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="125.0" layoutY="60.0" prefHeight="235.0" prefWidth="215.0" style="-fx-background-color: #2f2f2f;">
+                     <children>
+                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets left="20.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <ListView layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="760.0" prefHeight="220.0" prefWidth="340.0" style="-fx-background-color: #545b66;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
+                     <children>
+                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="OVERVIEW">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets left="20.0" />
+                           </opaqueInsets>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="60.0" prefHeight="160.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                           <children>
+                              <Label alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
+                                 <font>
+                                    <Font name="System Bold" size="25.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                           <children>
+                              <Label alignment="CENTER" graphicTextGap="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="340.0" text="TO">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="100.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                           <children>
+                              <Label alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
+                                 <font>
+                                    <Font name="System Bold" size="25.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Button layoutY="980.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="340.0" text="GO" textFill="WHITE">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" visible="false">
+         <children>
+            <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
+               <children>
+                  <Label graphicTextGap="0.0" layoutY="20.0" prefHeight="70.0" prefWidth="340.0" text="NAVIGATION">
+                     <padding>
+                        <Insets left="100.0" />
+                     </padding>
+                     <font>
+                        <Font size="34.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="WHITE" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
+                  <ImageView fitHeight="70.0" fitWidth="80.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/NavigationIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutY="110.0" prefHeight="360.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                           <children>
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="DIRECTIONS">
+                                 <font>
+                                    <Font name="System Bold" size="30.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="300.0" prefWidth="340.0" style="-fx-background-color: #2f2f2f;">
+                           <children>
+                              <ListView layoutX="15.0" layoutY="15.0" prefHeight="260.0" prefWidth="310.0" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="465.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                           <children>
+                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="QR CODE">
+                                 <font>
+                                    <Font name="System Bold" size="30.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="235.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                           <children>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/QRCodePlaceHolderIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="760.0" prefHeight="320.0" prefWidth="340.0" style="-fx-background-color: #545b66;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                     <children>
+                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="RESTART">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets left="20.0" />
+                           </opaqueInsets>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="60.0" prefHeight="260.0" prefWidth="340.0" style="-fx-background-color: #2f2f2f;">
+                     <children>
+                        <Button layoutX="60.0" layoutY="25.0" mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../Iteration2UI/resources/MapImages/Icons/RefreshIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
