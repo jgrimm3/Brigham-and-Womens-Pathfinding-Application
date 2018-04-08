@@ -12,9 +12,6 @@ import static junit.framework.TestCase.assertTrue;
 
 public class NodesDBUtilTest {
 
-	// Variables
-	DataModelI dataModelI = DataModelI.getInstance();
-
 	final int THREED_STARTX = 950;
 	final int THREED_ENDX = 1500;
 	final int THREED_STARTY = 1500;
@@ -23,8 +20,8 @@ public class NodesDBUtilTest {
 	// Tests
 	@Test
 	public void retrieveNodes_returnsCorrectList_xCoord3DandyCorrd3D() {
-		dataModelI.startDB();
-		List<Node> listOfNodes = dataModelI.retrieveNodes();
+		DataModelI.getInstance().startDB();
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 		int i = 0;
 		while(i<listOfNodes.size()) {
 			assertTrue(listOfNodes.get(i).getXCoord3D() < THREED_ENDX && listOfNodes.get(i).getXCoord3D() > THREED_STARTX);
@@ -36,7 +33,7 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void retrieveNodes_returnsCorrectList_Floor() {
-		List<Node> listOfNodes = dataModelI.retrieveNodes();
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 
 		List<String> listOfFloors = new ArrayList<>();
 		listOfFloors.add("Floor 1");
@@ -54,7 +51,7 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void retrieveNodes_returnsCorrectList_Building() {
-		List<Node> listOfNodes = dataModelI.retrieveNodes();
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 
 		List<String> listOfBuildings = new ArrayList<>();
 		listOfBuildings.add("Shapiro");
@@ -71,7 +68,11 @@ public class NodesDBUtilTest {
 		}
 	}
 
-
+	@Test
+	public void addNode_CorrectlyAddsNode() {
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
+		DataModelI.getInstance().addNode("lol", 5, 3, "4", "Hello", "Node", "yoo", "yo", 48, 20);
+	}
 
 
 }
