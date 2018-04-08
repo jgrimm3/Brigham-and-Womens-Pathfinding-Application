@@ -16,27 +16,37 @@ public class DataModelI implements IDataModel{
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 
     // all the utils
-	MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-	NodesDBUtil nodesDBUtil = new NodesDBUtil();
-	RequestsDBUtil requestsDBUtil = new RequestsDBUtil();
-	UserDBUtil userDBUtil = new UserDBUtil();
+	private MessagesDBUtil messagesDBUtil;
+	private NodesDBUtil nodesDBUtil;
+	private RequestsDBUtil requestsDBUtil;
+	private UserDBUtil userDBUtil;
+	private TableInitializer tableInitializer;
 
     // list of all objects
-
-    private TableInitializer tableInitializer = new TableInitializer();
 
     private static DataModelI dataModelI;
 
     private static Connection connection;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
-    private DataModelI() {}
+
+    public static void main(String[] args){
+        DataModelI.getInstance().startDB();
+    }
+
+    private DataModelI() {
+        messagesDBUtil = new MessagesDBUtil();
+        nodesDBUtil = new NodesDBUtil();
+        requestsDBUtil = new RequestsDBUtil();
+        userDBUtil = new UserDBUtil();
+        tableInitializer = new TableInitializer();
+    }
 
     public static DataModelI getInstance(){
-        if(dataModelI == null) {
-            dataModelI = new DataModelI();
-        }
-        return dataModelI;
+       if(dataModelI == null) {
+           dataModelI = new DataModelI();
+       }
+       return dataModelI;
     }
 
     @Override
@@ -48,7 +58,7 @@ public class DataModelI implements IDataModel{
     public Connection getNewConnection() {
         if(connection == null) {
             try {
-                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+                connection = DriverManager.getConnection("jdbc:derby:C:/Users/junbong/IdeaProjects/CS3733_TeamM_Iter2/nodesDB;create=true");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

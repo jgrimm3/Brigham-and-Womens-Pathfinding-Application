@@ -65,4 +65,8 @@ public abstract class User {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+    public boolean isType(String userType) {
+        return this.userType.equals(userType);
+    }
 }

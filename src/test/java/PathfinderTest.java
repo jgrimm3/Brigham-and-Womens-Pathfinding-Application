@@ -1,5 +1,4 @@
 import com.manlyminotaurs.core.PathNotFoundException;
-import com.manlyminotaurs.core.PathfinderUtil;
 import com.manlyminotaurs.databases.NodesEditor;
 import com.manlyminotaurs.nodes.ScoredNode;
 import org.junit.Before;
@@ -7,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.manlyminotaurs.core.Pathfinder;
 import com.manlyminotaurs.nodes.Node;
 
 import java.util.ArrayList;
