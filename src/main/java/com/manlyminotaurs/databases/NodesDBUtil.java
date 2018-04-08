@@ -463,10 +463,11 @@ class NodesDBUtil {
 		String floor = "";
 		String building = "";
 		int status = 0;
+		List<Node> listOfNodes = new ArrayList<>();
 		try {
-			Statement stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_NODES WHERE nodeID = '" + nodeID+"'";
-			ResultSet rset = stmt.executeQuery(str);
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM MapGNode INNER JOIN MapGEdge ON MapGNode.nodeID = MapGEdge.startNodeID OR MapGNode.nodeID = MapGEdge.endNodeID";
+            ResultSet rset = stmt.executeQuery(str);
 
 			// For every node, get the information
 			if (rset.next()) {
@@ -497,8 +498,10 @@ class NodesDBUtil {
 				}
 				// Add the new node to the list
 				node.setStatus(status);
-				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
+				node.setAdjacentNodes(null);
+				listOfNodes.add(node);
 			}
+            node.setAdjacentNodes(listOfNodes);
 			rset.close();
 			stmt.close();
 			System.out.println("Done adding nodes");
