@@ -1,4 +1,4 @@
-package com.manlyminotaurs.viewControllers;
+package com.manlyminotaurs.viewControllers.newViewControllers;
 
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.fxml.FXML;
@@ -9,6 +9,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 
 import javax.swing.text.html.ImageView;
+import java.awt.event.ActionEvent;
 
 
 public class createRequestController {
@@ -31,15 +32,31 @@ public class createRequestController {
     ComboBox cmboBuilding;
 
     @FXML
-    Button btnAddNode;
+    Button btnSubmitRequest;
 
     @FXML
-    ComboBox cmboBuilding11;
+    ComboBox cmboType;
 
     @FXML
-    ComboBox cmboType11;
+    ComboBox cmboNode;
 
     @FXML
-    ComboBox cmboType111;
+    CheckBox chkHighPriority;
+    @FXML
+    CheckBox chkMedPriority;
+    @FXML
+    CheckBox chkLowPriority;
+    @FXML
+    Button btnLogout;
+
+    String requestType;
+    String message;
+    int priority;
+
+    public void submitRequest(javafx.event.ActionEvent event){
+
+    }
+
+
 
 }
