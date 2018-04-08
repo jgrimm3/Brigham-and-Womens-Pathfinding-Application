@@ -47,9 +47,9 @@ class TableInitializer {
 
         initializer.initTables();
         initializer.populateNodeEdgeTables("MapGNodesEdited.csv","MapGEdges.csv");
-        initializer.populateUserAccountTable("UserAccountTable.csv");
-        initializer.populateMessageTable("MessageTable.csv");
-        initializer.populateRequestTable("RequestTable.csv");
+     //   initializer.populateUserAccountTable("UserAccountTable.csv");
+     //   initializer.populateMessageTable("MessageTable.csv");
+     //   initializer.populateRequestTable("RequestTable.csv");
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
