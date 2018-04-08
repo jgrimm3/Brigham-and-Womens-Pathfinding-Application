@@ -23,6 +23,7 @@ public class NodesDBUtilTest {
 	// Tests
 	@Test
 	public void retrieveNodes_returnsCorrectList_xCoord3DandyCorrd3D() {
+		dataModelI.startDB();
 		List<Node> listOfNodes = dataModelI.retrieveNodes();
 		int i = 0;
 		while(i<listOfNodes.size()) {
