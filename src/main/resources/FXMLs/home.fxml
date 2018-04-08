@@ -51,7 +51,7 @@
                   </StackPane>
                </content>
             </ScrollPane>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_LEFT">
+            <Button fx:id="btnHelp" ellipsisString="" mnemonicParsing="false" onAction="#getHelp" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
                   <Insets bottom="30.0" left="20.0" />
                </StackPane.margin>
@@ -62,7 +62,7 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickDirections" ellipsisString="" mnemonicParsing="false" onAction="#toggleQuickButtons" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -74,9 +74,9 @@
                   <Insets bottom="30.0" right="30.0" />
                </StackPane.margin>
             </Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="TOP_RIGHT">
+            <Button fx:id="btnOpenLogin" ellipsisString="" mnemonicParsing="false" onAction="#openLoginPanel" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="TOP_RIGHT">
                <graphic>
-                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnOpenLogin" fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Icons/ProfileIcon.png" />
                      </image>
@@ -86,7 +86,7 @@
                   <Insets right="30.0" top="20.0" />
                </StackPane.margin>
             </Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickBathroom" ellipsisString="" mnemonicParsing="false" onAction="#findQuickBathroom" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -98,7 +98,7 @@
                   <Insets bottom="30.0" right="190.0" />
                </StackPane.margin>
             </Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickCafe" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCafe" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -110,7 +110,7 @@
                   <Insets bottom="30.0" right="350.0" />
                </StackPane.margin>
             </Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickShop" ellipsisString="" mnemonicParsing="false" onAction="#findQuickShop" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -122,7 +122,7 @@
                   <Insets bottom="30.0" right="670.0" />
                </StackPane.margin>
             </Button>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickCoffee" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCoffee" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -134,7 +134,7 @@
                   <Insets bottom="30.0" right="510.0" />
                </StackPane.margin>
             </Button>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="TOP_RIGHT">
+            <Pane fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="TOP_RIGHT">
                <StackPane.margin>
                   <Insets right="30.0" top="20.0" />
                </StackPane.margin>
@@ -146,7 +146,7 @@
                               <Font size="55.0" />
                            </font>
                         </Label>
-                        <Button layoutX="330.0" layoutY="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0">
+                        <Button fx:id="btnCloseLogin" layoutX="330.0" layoutY="30.0" mnemonicParsing="false" onAction="#closeLoginPanel" prefHeight="30.0" prefWidth="30.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -164,14 +164,14 @@
                               <Font size="40.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="20.0" layoutY="80.0" prefHeight="40.0" prefWidth="360.0" />
+                        <TextField fx:id="txtUsername" layoutX="20.0" layoutY="80.0" prefHeight="40.0" prefWidth="360.0" />
                         <Label layoutX="20.0" layoutY="130.0" prefHeight="60.0" prefWidth="360.0" text="PASSWORD" textFill="WHITE">
                            <font>
                               <Font size="40.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="20.0" layoutY="190.0" prefHeight="40.0" prefWidth="360.0" />
-                        <Button layoutX="20.0" layoutY="270.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
+                        <TextField fx:id="txtPassword" layoutX="20.0" layoutY="190.0" prefHeight="40.0" prefWidth="360.0" />
+                        <Button fx:id="btnLogin" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#login" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
                            <font>
                               <Font size="25.0" />
                            </font>
@@ -180,9 +180,27 @@
                   </Pane>
                </children>
             </Pane>
+            <Pane fx:id="paneQRCode" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: #f1f1f1;" visible="false">
+               <children>
+                  <Button fx:id="btnCloseQRCode" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#closeQRCodePanel">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/ExitIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <ImageView fx:id="imgQRCode" fitHeight="550.0" fitWidth="550.0" layoutX="160.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/QRCodePlaceHolderIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children>
       </StackPane>
-      <Pane prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1580.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="panePathfinding" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1580.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                <children>
@@ -213,7 +231,7 @@
                <children>
                   <Pane prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
                      <children>
-                        <Label graphicTextGap="0.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #1f1f1f;" text="HANDICAP">
+                        <Label fx:id="lblHandicap" graphicTextGap="0.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #1f1f1f;" text="HANDICAP">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -232,12 +250,12 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <JFXToggleButton ellipsisString="" layoutX="95.0" prefHeight="60.0" prefWidth="0.0" />
+                        <JFXToggleButton fx:id="tglHandicap" ellipsisString="" layoutX="95.0" onAction="#toggleHandicap" prefHeight="60.0" prefWidth="0.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="170.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
                      <children>
-                        <Label graphicTextGap="0.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2f2f2f;" text="MAP: 2-D">
+                        <Label fx:id="lblMap" graphicTextGap="0.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2f2f2f;" text="MAP: 2-D">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -256,7 +274,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <JFXToggleButton ellipsisString="" layoutX="95.0" prefHeight="60.0" prefWidth="0.0" />
+                        <JFXToggleButton fx:id="tglMap" ellipsisString="" layoutX="95.0" onAction="#toggleMap" prefHeight="60.0" prefWidth="0.0" />
                      </children>
                   </Pane>
                </children>
@@ -267,7 +285,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="340.0" text="START" textFill="WHITE">
+                              <Button fx:id="btnStart" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#chooseStartNode" prefHeight="60.0" prefWidth="340.0" text="START" textFill="WHITE">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -279,7 +297,7 @@
                         </Pane>
                         <Pane layoutY="60.0" prefHeight="235.0" prefWidth="125.0" style="-fx-background-color: #2b65ac;">
                            <children>
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
+                              <Label fx:id="lblBuildingStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -298,8 +316,8 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="40.0" prefWidth="95.0" />
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
+                              <ComboBox fx:id="comBuildingStart" layoutX="15.0" layoutY="40.0" onAction="#initializeBuildingStart" prefWidth="95.0" />
+                              <Label fx:id="lblFloorStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -318,8 +336,8 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="115.0" prefWidth="95.0" />
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
+                              <ComboBox fx:id="comFloorStart" layoutX="15.0" layoutY="115.0" onAction="#initializeFloorStart" prefWidth="95.0" />
+                              <Label fx:id="lblTypeStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -338,13 +356,13 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="190.0" prefWidth="95.0" />
+                              <ComboBox fx:id="comTypeStart" layoutX="15.0" layoutY="190.0" onAction="#initializeTypeStart" prefWidth="95.0" />
                            </children></Pane>
                      </children>
                   </Pane>
                   <Pane layoutX="125.0" layoutY="60.0" prefHeight="235.0" prefWidth="215.0" style="-fx-background-color: #2f2f2f;">
                      <children>
-                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
+                        <Label fx:id="lblLocationStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -363,7 +381,7 @@
                               <Insets left="20.0" />
                            </opaqueInsets>
                         </Label>
-                        <ListView layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                        <ListView fx:id="lstLocationStart" layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
                      </children></Pane>
                </children>
             </Pane>
@@ -373,7 +391,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="340.0" text="END" textFill="WHITE">
+                              <Button fx:id="btnEnd" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#chooseEndNode" prefHeight="60.0" prefWidth="340.0" text="END" textFill="WHITE">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -385,7 +403,7 @@
                         </Pane>
                         <Pane layoutY="60.0" prefHeight="235.0" prefWidth="125.0" style="-fx-background-color: #2b65ac;">
                            <children>
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
+                              <Label fx:id="lblBuildingEnd" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="BUILDING">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -404,8 +422,8 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="40.0" prefWidth="95.0" />
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
+                              <ComboBox fx:id="comBuildingEnd" layoutX="15.0" layoutY="40.0" onAction="#initializeBuildingEnd" prefWidth="95.0" />
+                              <Label fx:id="lblFloorEnd" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="90.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="FLOOR">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -424,8 +442,8 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="115.0" prefWidth="95.0" />
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
+                              <ComboBox fx:id="comFloorEnd" layoutX="15.0" layoutY="115.0" onAction="#initializeFloorEnd" prefWidth="95.0" />
+                              <Label fx:id="lblTypeEnd" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="95.0" text="TYPE">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -444,14 +462,14 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
-                              <ComboBox layoutX="15.0" layoutY="190.0" prefWidth="95.0" />
+                              <ComboBox fx:id="comTypeEnd" layoutX="15.0" layoutY="190.0" onAction="#initializeTypeEnd" prefWidth="95.0" />
                            </children>
                         </Pane>
                      </children>
                   </Pane>
                   <Pane layoutX="125.0" layoutY="60.0" prefHeight="235.0" prefWidth="215.0" style="-fx-background-color: #2f2f2f;">
                      <children>
-                        <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
+                        <Label fx:id="lblLocationEnd" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="185.0" text="LOCATION">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -470,7 +488,7 @@
                               <Insets left="20.0" />
                            </opaqueInsets>
                         </Label>
-                        <ListView layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                        <ListView fx:id="lstLocationEnd" layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
                      </children>
                   </Pane>
                </children>
@@ -502,9 +520,9 @@
                   </Pane>
                   <Pane layoutY="60.0" prefHeight="160.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                      <children>
-                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                        <Pane fx:id="paneStartLocation" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
                            <children>
-                              <Label alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
+                              <Label fx:id="lblStartLocation" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
@@ -548,9 +566,9 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane layoutY="100.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                        <Pane fx:id="paneEndLocation" layoutY="100.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
                            <children>
-                              <Label alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
+                              <Label fx:id="lblEndLocation" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
@@ -575,14 +593,14 @@
                   </Pane>
                </children>
             </Pane>
-            <Button layoutY="980.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="340.0" text="GO" textFill="WHITE">
+            <Button fx:id="btnGo" layoutY="980.0" mnemonicParsing="false" onAction="#drawPath" prefHeight="100.0" prefWidth="340.0" text="GO" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
          </children>
       </Pane>
-      <Pane prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;">
+      <Pane fx:id="paneDirections" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;">
          <children>
             <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                <children>
@@ -609,7 +627,111 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutY="110.0" prefHeight="360.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+            <Pane layoutY="110.0" prefHeight="220.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                           <children>
+                              <Label fx:id="lblDirections" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="OVERVIEW">
+                                 <font>
+                                    <Font name="System Bold" size="30.0" />
+                                 </font>
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="WHITE" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets left="20.0" />
+                                 </opaqueInsets>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="60.0" prefHeight="300.0" prefWidth="340.0" style="-fx-background-color: #2f2f2f;">
+                           <children>
+                              <Pane fx:id="paneStartLocation1" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                                 <children>
+                                    <Label fx:id="lblStartLocation1" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="WHITE" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <padding>
+                                          <Insets right="20.0" />
+                                       </padding>
+                                       <opaqueInsets>
+                                          <Insets left="20.0" />
+                                       </opaqueInsets>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Pane layoutY="60.0" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
+                                 <children>
+                                    <Label alignment="CENTER" graphicTextGap="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="340.0" text="TO">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="WHITE" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <padding>
+                                          <Insets right="20.0" />
+                                       </padding>
+                                       <opaqueInsets>
+                                          <Insets left="20.0" />
+                                       </opaqueInsets>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="paneEndLocation1" layoutY="100.0" prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #2b65ac;">
+                                 <children>
+                                    <Label fx:id="lblEndLocation1" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="WHITE" />
+                                                <Stop color="WHITE" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <padding>
+                                          <Insets right="20.0" />
+                                       </padding>
+                                       <opaqueInsets>
+                                          <Insets left="20.0" />
+                                       </opaqueInsets>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="330.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                <children>
                   <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                      <children>
@@ -634,51 +756,20 @@
                                     <Insets left="20.0" />
                                  </opaqueInsets>
                               </Label>
+                              <Button fx:id="btnOpenQRCode" layoutX="280.0" layoutY="10.0" mnemonicParsing="false" onAction="#openQRCodePanel" prefHeight="10.0" prefWidth="10.0">
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/QRCodePlaceHolderIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
                            </children>
                         </Pane>
-                        <Pane layoutY="60.0" prefHeight="300.0" prefWidth="340.0" style="-fx-background-color: #2f2f2f;">
+                        <Pane layoutY="60.0" prefHeight="370.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                            <children>
-                              <ListView layoutX="15.0" layoutY="15.0" prefHeight="260.0" prefWidth="310.0" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
-            <Pane layoutY="465.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
-               <children>
-                  <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
-                     <children>
-                        <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #edbf54;">
-                           <children>
-                              <Label alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="QR CODE">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                                 <textFill>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="1.0" />
-                                       </stops>
-                                    </LinearGradient>
-                                 </textFill>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                                 <opaqueInsets>
-                                    <Insets left="20.0" />
-                                 </opaqueInsets>
-                              </Label>
-                           </children>
-                        </Pane>
-                        <Pane layoutY="60.0" prefHeight="235.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
-                           <children>
-                              <ImageView fitHeight="230.0" fitWidth="230.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Icons/QRCodePlaceHolderIcon.png" />
-                                 </image>
-                              </ImageView>
+                              <ListView fx:id="lstDirections" layoutX="15.0" layoutY="15.0" prefHeight="340.0" prefWidth="310.0" />
                            </children>
                         </Pane>
                      </children>
@@ -712,7 +803,7 @@
                   </Pane>
                   <Pane layoutY="60.0" prefHeight="260.0" prefWidth="340.0" style="-fx-background-color: #2f2f2f;">
                      <children>
-                        <Button layoutX="60.0" layoutY="25.0" mnemonicParsing="false">
+                        <Button fx:id="btnRestart" layoutX="60.0" layoutY="25.0" mnemonicParsing="false" onAction="#restartNavigation">
                            <graphic>
                               <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
