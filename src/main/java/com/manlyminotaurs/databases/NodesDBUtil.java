@@ -1,9 +1,6 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
-import com.manlyminotaurs.users.Patient;
-import com.manlyminotaurs.users.User;
-import javafx.collections.FXCollections;
 
 import java.sql.*;
 import java.util.*;
@@ -248,20 +245,20 @@ class NodesDBUtil {
 		}
 	} // end addAdjacentNode()
 
-	private Edge makeEdge(Node startNode, Node endNode){
+	private Edge makeEdge(String startNodeID, String endNodeID){
 		Edge edge = null;
-		int caseInt = startNode.getID().compareTo(endNode.getID());
+		int caseInt = startNodeID.compareTo(endNodeID);
 		if(caseInt < 0){
-			String edgeID = startNode.getID() + "_" + endNode.getID();
-			edge = new Edge(startNode, endNode, edgeID);
+			String edgeID = startNodeID + "_" + endNodeID;
+			edge = new Edge(startNodeID, endNodeID, edgeID);
 		}
 		else if(caseInt == 0){
 			System.out.println("you fucked up");
 			return null;
 		}
 		else if(caseInt > 0){
-			String edgeID = endNode.getID() + "_" + startNode.getID();
-			edge = new Edge(endNode, startNode, edgeID);
+			String edgeID = endNodeID + "_" + startNodeID;
+			edge = new Edge(endNodeID, startNodeID, edgeID);
 		}
 		return edge;
 	}
@@ -270,7 +267,7 @@ class NodesDBUtil {
 		Set<Edge> edgeSet = new HashSet<Edge>();
 		for(Node a_node : listOfNodes) {
 			for(Node b_node : a_node.getAdjacentNodes()) {
-				edgeSet.add(makeEdge(b_node, a_node));
+				edgeSet.add(makeEdge(b_node.getID(), a_node.getID()));
 			}
 		}
 		return edgeSet;
@@ -308,10 +305,10 @@ class NodesDBUtil {
 		Iterator<Edge> iterator = listOfEdges.iterator();
 		while (iterator.hasNext()) {
 			Edge a_edge = iterator.next();
-			if (a_edge.getStartNode().getID() != node.getID()) {
-				adjacentNodes.add(a_edge.getEndNode());
+			if (a_edge.getStartNodeID() != node.getID()) {
+				adjacentNodes.add(getNodeByID(a_edge.getEndNodeID()));
 			} else {
-				adjacentNodes.add(a_edge.getStartNode());
+				adjacentNodes.add(getNodeByID(a_edge.getStartNodeID()));
 			}
 		}
 		return adjacentNodes;
@@ -342,21 +339,12 @@ class NodesDBUtil {
 				edgeID = rset.getString("edgeID");
 				startNodeID = rset.getString("startNode");
 				endNodeID = rset.getString("endNode");
-				Node startNodeObject;
-				Node endNodeObject;
 
 				// Add the new edge to the list
-				if (startNodeID != null && endNodeID != null) {
-					startNodeObject = getNodeByID(startNodeID);
-					endNodeObject = getNodeByID(endNodeID);
-
-					if(startNodeObject != null && endNodeObject != null) {
-						edge = new Edge(startNodeObject, endNodeObject, edgeID);
-						listOfEdges.add(edge);
-						System.out.println("Edge added to the list: " + edgeID);
-					}
+				edge = new Edge(startNodeID, endNodeID, edgeID);
+				listOfEdges.add(edge);
+				System.out.println("Edge added to the list: " + edgeID);
 				}
-			}
 			rset.close();
 			stmt.close();
 			System.out.println("Done adding edges");
@@ -515,9 +503,7 @@ class NodesDBUtil {
 				}
 				// Add the new node to the list
 				node.setStatus(status);
-				if(node != null) {
-					//node.setAdjacentNodes(getAdjacentNodesFromNode(node));
-				}
+				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
 			}
 			rset.close();
 			stmt.close();

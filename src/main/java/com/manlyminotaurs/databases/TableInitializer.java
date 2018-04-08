@@ -140,7 +140,7 @@ class TableInitializer {
                 String[] node_row = iterator2.next();
                 System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
+                String str = "INSERT INTO map_edges(edgeID,startNodeID, endNodeID,status) VALUES (?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);

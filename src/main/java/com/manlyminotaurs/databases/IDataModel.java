@@ -18,10 +18,18 @@ public interface IDataModel {
     Connection getNewConnection();
     boolean closeConnection(Connection connection);
 
+    //
+    //                        _   _    ___                 _
+    //                       | \ |_)    |  ._ _|_  _  ._ _|_ _.  _  _
+    //                       |_/ |_)   _|_ | | |_ (/_ |   | (_| (_ (/_
+    //
 
+    /*------------------------------------------ Nodes --------------------------------------------------------------*/
+    /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
     Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
+    /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
     List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
@@ -29,29 +37,41 @@ public interface IDataModel {
     List<String> getBuildingsFromList();
     List<String> getTypesFromList(String building);
     List<Node> getNodesFromList(String building, String type);
+    /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<Node> getAdjacentNodes();
     Set<Edge> getEdgeList(List<Node> nodeList);
 
 
+    /*----------------------------------------- Messages -------------------------------------------------------------*/
+    /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
     Message addMessage(String message, Boolean isRead, String senderID, String receiverID);
     boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
+    /*--------------------- Retrieve List of Messages / All or by Attribute ------------------------------------------*/
     List<Message> retrieveMessages();
     List<Message> getMessageBySender(String senderID);
     List<Message> getMessageByReceiver(String receiverID);
     Message getMessageByID(String ID);
 
+
+    /*----------------------------------------- Requests ------------------------------------------------------------*/
+    /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
     Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID);
     boolean removeRequest(Request oldRequest);
     boolean modifyRequest(Request newRequest);
+    /*-------------------------- Retrieve List of Requests / All or by Attribute ------------------------------------*/
     List<Request> retrieveRequests();
     List<Request> getRequestBySender(String senderID);
     List<Request> getRequestByReceiver(String receiverID);
     Request getRequestByID(String ID);
 
+
+    /*------------------------------------------ Users -------------------------------------------------------------*/
+    /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
+    /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
     User getUserByID(String ID);
 }
