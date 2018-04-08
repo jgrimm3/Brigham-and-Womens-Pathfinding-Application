@@ -68,10 +68,14 @@ class NodesDBUtil {
 				} else if (nodeType.equals("STAI")) {
 					node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 					//System.out.println("Stai created");
+				} else {
+					node = new Room(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 				}
 				// Add the new node to the list
 				node.setStatus(status);
-				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
+				if(node != null) {
+					node.setAdjacentNodes(getAdjacentNodesFromNode(node));
+				}
 				listOfNodes.add(node);
 			}
 			rset.close();
@@ -81,8 +85,8 @@ class NodesDBUtil {
 			e.printStackTrace();
 		} finally {
 			DataModelI.getInstance().closeConnection(connection);
-			return listOfNodes;
 		}
+		return listOfNodes;
 	} // retrieveNodes() ends
 
 
@@ -495,6 +499,8 @@ class NodesDBUtil {
 				} else if (nodeType.equals("STAI")) {
 					node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 					//System.out.println("Stai created");
+				} else {
+					node = new Room(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 				}
 				// Add the new node to the list
 				node.setStatus(status);

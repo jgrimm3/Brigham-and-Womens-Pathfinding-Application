@@ -58,7 +58,7 @@ public class DataModelI implements IDataModel{
     public Connection getNewConnection() {
         try {
             if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:C:/Users/junbong/IdeaProjects/CS3733_TeamM_Iter2/nodesDB;create=true");
+                connection = DriverManager.getConnection("jdbc:derby:/Users/andrew/Documents/Soft Eng Rep/CS3733_TeamM_Iter2/nodesDB;create=true");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class DataModelI implements IDataModel{
         }
     }
 
-	/*------------------------------------------------ Nodes -------------------------------------------------------*/
+	/*------------------------------------------------ Nodes/Edges -------------------------------------------------------*/
     @Override
     public List<Node> retrieveNodes() {
         return nodesDBUtil.retrieveNodes();

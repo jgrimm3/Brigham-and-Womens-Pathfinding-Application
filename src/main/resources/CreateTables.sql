@@ -4,10 +4,12 @@ CREATE TABLE Map_Nodes (
   yCoord              INTEGER,
   floor               VARCHAR(2),
   building            VARCHAR(255),
-  nodeType           VARCHAR(4),
-  longName           VARCHAR(255),
-  shortName          VARCHAR(255),
-  status             INTEGER);
+  nodeType            VARCHAR(4),
+  longName            VARCHAR(255),
+  shortName           VARCHAR(255),
+  status              INTEGER,
+  xCoord3D            INTEGER,
+  yCoord3D            Integer);
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
