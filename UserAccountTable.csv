@@ -1,0 +1,13 @@
+userID,firstName,middleInitial,lastName,language,userType
+1,Andrew,,Morrison,English,admin
+2,Edward,,Jang,Korean,patient
+patient,Chirstian,,Cedrone,Spanish,patient
+4,Oliver,,Sanderson,English,doctor
+5,Peter,,Christakos,German,patient
+6,Joseph,,Yuen,Italian,patient
+7,Zachary,G,Emil,French,nurse
+user,Jared,,Grimm,Chinese,admin
+admin,Andre,,Imperiali,Russian,patient
+doctor,Rohit,,Unnam,Indian,janitor
+nurse,Ebenezer,,Ampiah,Greek,patient
+12345,Fuck,,You,Shit,patient

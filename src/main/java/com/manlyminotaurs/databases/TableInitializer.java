@@ -46,7 +46,7 @@ class TableInitializer {
         NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
+        initializer.populateNodeEdgeTables("MapGNodesEdited.csv","MapGEdges.csv");
         initializer.populateUserAccountTable("UserAccountTable.csv");
         initializer.populateMessageTable("MessageTable.csv");
         initializer.populateRequestTable("RequestTable.csv");
@@ -84,8 +84,6 @@ class TableInitializer {
             String node_id;
             String xcoord;
             String ycoord;
-            String xCoord3D;
-            String yCoord3D;
             String floor;
             String building;
             String nodeType;
@@ -110,12 +108,10 @@ class TableInitializer {
                 short_name = node_row[7];
                 team_assigned = node_row[8];
                 status = node_row[9];
-                xCoord3D =  node_row[10];
-                yCoord3D = node_row[11];
                 System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
                 // Add to the database table
-                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status,xCoord3D,yCoord3D) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_id);
                 statement.setInt(2, Integer.parseInt(xcoord));
@@ -126,8 +122,6 @@ class TableInitializer {
                 statement.setString(7, long_name);
                 statement.setString(8, short_name);
                 statement.setInt(9, Integer.parseInt(status));
-                statement.setInt(10, Integer.parseInt(xCoord3D));
-                statement.setInt(11, Integer.parseInt(yCoord3D));
                 statement.executeUpdate();
             }// while loop ends
 
