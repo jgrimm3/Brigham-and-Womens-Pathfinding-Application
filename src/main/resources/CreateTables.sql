@@ -29,7 +29,7 @@ Create Table Room (
 Create Table UserAccount (
   userID        VARCHAR(10) PRIMARY KEY,
   firstName     VARCHAR(255),
-  middleInitial VARCHAR(255),
+  middleName VARCHAR(255),
   lastName      VARCHAR(255),
   language      VARCHAR(255));
 

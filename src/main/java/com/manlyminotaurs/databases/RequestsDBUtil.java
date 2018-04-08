@@ -18,16 +18,13 @@ class RequestsDBUtil {
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
 	Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        String messageID = messagesDBUtil.generateMessageID();
-        Message mObject= messagesDBUtil.addMessage(messageID,message,false,senderID,"admin");
-        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, messageID, requestType);
+        Message mObject= messagesDBUtil.addMessage(message,false,senderID,"admin");
+        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, mObject.getMessageID(), requestType);
 
         try {
-            // Connect to the database
-            System.out.println("Getting connection to database...");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
@@ -38,87 +35,101 @@ class RequestsDBUtil {
             statement.setBoolean(4, requestObject.getComplete());
             statement.setBoolean(5, requestObject.getAdminConfirm());
             statement.setString(6, requestObject.getNodeID());
-            statement.setString(7, messageID);
+            statement.setString(7, mObject.getMessageID());
             statement.setString(8, requestType);
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Request added to database");
         } catch (SQLException e)
         {
-            System.out.println("Request already in the database");
             e.printStackTrace();
+        } finally {
+            dataModelI.closeConnection(connection);
         }
-        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
         return requestObject;
     }
 
     boolean removeRequest(Request request) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
         try {
-            // Get connection to database and delete the node from the database
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String str = "DELETE FROM REQUEST WHERE requestID = '" + request.getRequestID() + "'";
             stmt.executeUpdate(str);
             stmt.close();
-            connection.close();
             System.out.println("Node removed from database");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            dataModelI.closeConnection(connection);
         }
         return isSucessful;
     }
 
     public boolean modifyRequest(Request newRequest) {
-        Request oldRequest = getRequestByID(newRequest.getRequestID());
-        if (oldRequest == null){
-            return false;
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Request SET requestType= ?,priority = ?,isComplete= ?,adminConfirm= ?,nodeID= ?,messageID= ?,password= ? WHERE requestID = '"+ newRequest.getRequestID()+ "'";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, newRequest.getRequestType());
+            statement.setInt(2, newRequest.getPriority());
+            statement.setBoolean(3, newRequest.getComplete());
+            statement.setBoolean(4, newRequest.getAdminConfirm());
+            statement.setString(5, newRequest.getNodeID());
+            statement.setString(6, newRequest.getMessageID());
+            statement.setString(7, newRequest.getPassword());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Request already in the database");
+        } finally {
+            dataModelI.closeConnection(connection);
         }
-        oldRequest.setRequestType(newRequest.getRequestType());
-        oldRequest.setPriority(newRequest.getPriority());
-        oldRequest.setComplete(newRequest.getComplete());
-        oldRequest.setAdminConfirm(newRequest.getAdminConfirm());
-        oldRequest.setNodeID(newRequest.getNodeID());
-        oldRequest.setMessageID(newRequest.getMessageID());
-        oldRequest.setPassword(newRequest.getPassword());
-        return true;
+        return isSuccess;
     }
 
-    String generateRequestID(){
+    private String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
     void setIsAdminConfim(Request request, boolean newConfirmStatus){
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE Request SET ADMINCONFIRM = '" + newConfirmStatus + "'" + " WHERE requestID = '" + request.getRequestID() + "'";
             stmt.executeUpdate(sql);
             stmt.close();
-            connection.close();
             System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
+        } finally {
+            dataModelI.closeConnection(connection);
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
     void setIsComplete(Request request, boolean newCompleteStatus){
+        Connection connection = DataModelI.getInstance().getNewConnection();
         request.setComplete(newCompleteStatus);
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
             String sql = "UPDATE Request SET ISCOMPLETE = '" + newCompleteStatus + "'" + " WHERE requestID = '" + request.getRequestID() + "'";
             stmt.executeUpdate(sql);
             stmt.close();
-            connection.close();
             System.out.println("Modification successful");
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
+        } finally {
+            dataModelI.closeConnection(connection);
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
@@ -167,46 +178,95 @@ class RequestsDBUtil {
                 System.out.println("Done adding Requests");
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                dataModelI.closeConnection(connection);
             }
         return listOfRequest;
     } // retrieveRequests() ends
 
 	Request getRequestByID(String requestID){
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
 
-        System.out.println("getMessageFromList: Something might break--------------------");
-        return null;
+        // Variables
+        Request requestObject = null;
+        String requestType;
+        int priority;
+        Boolean isComplete;
+        Boolean adminConfirm;
+        String nodeID;
+        String messageID;
+        String password;
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM Request WHERE requestID = '" + requestID + "'";
+            ResultSet rset = stmt.executeQuery(str);
+
+            if (rset.next()) {
+                requestID = rset.getString("requestID");
+                requestType = rset.getString("requestType");
+                priority = rset.getInt("priority");
+                isComplete =rset.getBoolean("isComplete");
+                adminConfirm = rset.getBoolean("adminConfirm");
+                nodeID = rset.getString("nodeID");
+                messageID = rset.getString("messageID");
+                password = rset.getString("password");
+                // Add the new edge to the list
+                requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
+
+                System.out.println("Request added to the list: "+requestID);
+            }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding Request");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dataModelI.closeConnection(connection);
+        }
+        return requestObject;
     }
 
     /*------------------------------------ Search Request by Receiver/Sender -------------------------------------------------*/
-    List<Request> searchRequestByReceiver(String userID){
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        List<Message> listOfMessages = messagesDBUtil.searchMessageByReceiver(userID);
-        List<Request> listOfRequests = new ArrayList<>();
-        Iterator<Message> iteratorMessage = listOfMessages.iterator();
 
-        return listOfRequests;
-    }
-
-    List<Request> searchRequestBySender(String userID){
-        /*
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        List<Message> listOfMessages = messagesDBUtil.searchMessageBySender(userID);
-        List<Request> listOfRequests = new ArrayList<>();
-        Iterator<Message> iteratorMessage = listOfMessages.iterator();
-        Iterator<Request> iteratorRequest = dataModelI.getRequestList().iterator();
-
-        //insert rows
-        while (iteratorRequest.hasNext()) {
-            Request a_request = iteratorRequest.next();
-            iteratorMessage = listOfMessages.iterator();
-            while (iteratorMessage.hasNext()) {
-                Message a_message = iteratorMessage.next();
-                if (a_request.getMessageID().equals(a_message.getMessageID())) {
-                    listOfRequests.add(a_request);
+    /**
+     * to find requests that has message object which has given receiverID
+     * @param receiverID
+     * @return
+     */
+    List<Request> searchRequestsByReceiver(String receiverID){
+        List<Request> selectedRequests = new ArrayList<>();
+        List<Request> listOfRequests = retrieveRequests();
+        List<Message> listOfMessages = dataModelI.getMessageByReceiver(receiverID);
+        for(Request a_request: listOfRequests){
+            for(Message a_message: listOfMessages){
+                if(a_request.getMessageID().equals(a_message.getMessageID())){
+                    selectedRequests.add(a_request);
+                    break;
                 }
             }
-        }*/
-        return null;
+        }
+        return selectedRequests;
+    }
+
+    /**
+     * To find requests that has message object which has given senderID
+     * @param senderID
+     * @return
+     */
+    List<Request> searchRequestsBySender(String senderID){
+        List<Request> selectedRequests = new ArrayList<>();
+        List<Request> listOfRequests = retrieveRequests();
+        List<Message> listOfMessages = dataModelI.getMessageBySender(senderID);
+        for(Request a_request: listOfRequests){
+            for(Message a_message: listOfMessages){
+                if(a_request.getMessageID().equals(a_message.getMessageID())){
+                    selectedRequests.add(a_request);
+                    break;
+                }
+            }
+        }
+        return selectedRequests;
     }
 
 }

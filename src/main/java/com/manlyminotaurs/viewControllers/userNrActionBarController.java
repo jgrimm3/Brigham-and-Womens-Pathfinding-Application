@@ -3,9 +3,7 @@ package com.manlyminotaurs.viewControllers;
 import com.manlyminotaurs.core.Kiosk;
 import com.manlyminotaurs.databases.MessagesDBUtil;
 import com.manlyminotaurs.databases.RequestsDBUtil;
-import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
-import com.manlyminotaurs.nodes.Node;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -95,7 +93,7 @@ public class userNrActionBarController implements Initializable{
         Request reqToDelete = reqUtil.searchRequestsByID(((requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem()).requestID);
         if(reqToDelete != null ){
             reqUtil.removeRequest(reqToDelete);
-            msgUtil.removeMessage(msgUtil.getMessageFromList(reqToDelete.getMessageID()));
+            msgUtil.removeMessage(msgUtil.getMessageByID(reqToDelete.getMessageID()));
         }
         refreshReqList(null);
     }
@@ -124,7 +122,7 @@ public class userNrActionBarController implements Initializable{
         isAssignedCol.setCellValueFactory(new PropertyValueFactory<requestInfo, Boolean>("isAssigned"));
 
         for(Request currReq : reqestList) {
-            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+            finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
         }
 
         tblOpenRequests.setItems(finalList);
@@ -138,7 +136,7 @@ public class userNrActionBarController implements Initializable{
 
         for(Request currReq : reqestList) {
             if (!currReq.getComplete()) {
-                finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                finalList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             }
         }
 

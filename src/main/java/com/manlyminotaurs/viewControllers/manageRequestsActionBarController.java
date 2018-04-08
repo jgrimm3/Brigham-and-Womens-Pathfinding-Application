@@ -95,7 +95,7 @@ public class manageRequestsActionBarController implements Initializable{
         Request reqToDelete = reqUtil.searchRequestsByID(((requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem()).requestID);
         if(reqToDelete != null ){
             reqUtil.removeRequest(reqToDelete);
-            msgUtil.removeMessage(msgUtil.getMessageFromList(reqToDelete.getMessageID()));
+            msgUtil.removeMessage(msgUtil.getMessageByID(reqToDelete.getMessageID()));
         }
         refreshReqList(null);    }
 
@@ -126,9 +126,9 @@ public class manageRequestsActionBarController implements Initializable{
         //POPULATE LISTS----------------------------------------
         for(Request currReq : reqestList) {
             if (!currReq.getComplete()) {
-                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             } else {
-                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             }
         }
 
@@ -145,9 +145,9 @@ public class manageRequestsActionBarController implements Initializable{
 
         for(Request currReq : reqestList) {
             if (!currReq.getComplete()) {
-                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                openList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             } else {
-                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageFromList(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                closedList.add(new requestInfo(currReq.getRequestType(), msgUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
             }
         }
 

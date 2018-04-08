@@ -8,7 +8,6 @@ import com.manlyminotaurs.users.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -97,7 +96,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public Node getNodeByID(String nodeID) {
-        return nodesDBUtil.getNodesByID(nodeID);
+        return nodesDBUtil.getNodeByID(nodeID);
     }
 
     @Override
@@ -150,8 +149,8 @@ public class DataModelI implements IDataModel{
 */
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
-    public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
-        return messagesDBUtil.addMessage(messageID, message, isRead, senderID, receiverID);
+    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID) {
+        return messagesDBUtil.addMessage(message, isRead, senderID, receiverID);
     }
 
     @Override
@@ -181,7 +180,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public Message getMessageByID(String ID) {
-        return messagesDBUtil.getMessageFromList(ID);
+        return messagesDBUtil.getMessageByID(ID);
     }
 
 	/*------------------------------------------------ Requests -------------------------------------------------------*/
@@ -207,12 +206,12 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Request> getRequestBySender(String senderID) {
-        return requestsDBUtil.searchRequestBySender(senderID);
+        return requestsDBUtil.searchRequestsBySender(senderID);
     }
 
     @Override
     public List<Request> getRequestByReceiver(String receiverID) {
-        return requestsDBUtil.searchRequestByReceiver(receiverID);
+        return requestsDBUtil.searchRequestsByReceiver(receiverID);
     }
 
     @Override
@@ -223,8 +222,8 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String userID, String firstName, String middleName, String lastName, String language) {
-        return userDBUtil.addUser(userID, firstName, middleName, lastName, language);
+    public User addUser(String userID, String firstName, String middleName, String lastName, String language,String userType) {
+        return userDBUtil.addUser(userID, firstName, middleName, lastName, language, userType);
     }
 
     @Override
@@ -234,15 +233,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean modifyUser(User newUser) {
-        User oldUser = getUserByID(newUser.getUserID());
-        if (oldUser == null){
-            return false;
-        }
-        oldUser.setFirstName(newUser.getFirstName());
-        oldUser.setMiddleInitial(newUser.getMiddleInitial());
-        oldUser.setLastName(newUser.getLastName());
-        oldUser.setLanguage(newUser.getLanguage());
-        return true;
+        return userDBUtil.modifyUser(newUser);
     }
 
     @Override

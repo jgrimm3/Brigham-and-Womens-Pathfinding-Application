@@ -4,16 +4,18 @@ public abstract class User {
 
     String userID;
     String firstName;
-    String middleInitial;
+    String middleName;
     String lastName;
     String language;
+    String userType;
 
-    public User(String userID, String firstName, String middleInitial, String lastName, String language) {
+    public User(String userID, String firstName, String middleName, String lastName, String language, String userType) {
         this.userID = userID;
         this.firstName = firstName;
-        this.middleInitial = middleInitial;
+        this.middleName = middleName;
         this.lastName = lastName;
         this.language = language;
+        this.userType = userType;
     }
 
     public String getUserID() {
@@ -32,12 +34,12 @@ public abstract class User {
         this.firstName = firstName;
     }
 
-    public String getMiddleInitial() {
-        return middleInitial;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddleInitial(String middleInitial) {
-        this.middleInitial = middleInitial;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
@@ -54,5 +56,13 @@ public abstract class User {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

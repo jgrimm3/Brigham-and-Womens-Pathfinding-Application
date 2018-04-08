@@ -6,11 +6,8 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import com.manlyminotaurs.core.Main;
-
-import java.awt.*;
 
 public class adminNurseSendController {
     MessagesDBUtil msgUtil = new MessagesDBUtil();
@@ -55,7 +52,7 @@ public class adminNurseSendController {
         }
         else{
             String selectedRequestID = new userNrActionBarController().selectedRequestID;
-            msgUtil.getMessageFromList(reqUtil.searchRequestsByID(selectedRequestID).getMessageID()).setReceiverID(txtNurse.getText());
+            msgUtil.getMessageByID(reqUtil.searchRequestsByID(selectedRequestID).getMessageID()).setReceiverID(txtNurse.getText());
             reqUtil.searchRequestsByID(selectedRequestID).setAdminConfirm(true);
             back(null);
         }

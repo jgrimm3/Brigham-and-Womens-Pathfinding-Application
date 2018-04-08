@@ -33,7 +33,7 @@ public interface IDataModel {
     Set<Edge> getEdgeList(List<Node> nodeList);
 
 
-    Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID);
+    Message addMessage(String message, Boolean isRead, String senderID, String receiverID);
     boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
     List<Message> retrieveMessages();
@@ -49,7 +49,7 @@ public interface IDataModel {
     List<Request> getRequestByReceiver(String receiverID);
     Request getRequestByID(String ID);
 
-    User addUser(String userID, String firstName, String middleName, String lastName, String language);
+    User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     List<User> retrieveUsers();

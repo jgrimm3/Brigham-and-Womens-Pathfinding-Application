@@ -61,24 +61,23 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
 				// Create the java objects based on the node type
-			}
-			if (nodeType.equals("ELEV")) {
-				node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-				//System.out.println("Elev created");
-			} else if (nodeType.equals("EXIT")) {
-				node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-				//System.out.println("Exit created");
-			} else if (nodeType.equals("HALL")) {
-				node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-				//System.out.println("Hall created");
-			} else if (nodeType.equals("STAI")) {
-				node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-				//System.out.println("Stai created");
+				if (nodeType.equals("ELEV")) {
+					node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Elev created");
+				} else if (nodeType.equals("EXIT")) {
+					node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Exit created");
+				} else if (nodeType.equals("HALL")) {
+					node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Hall created");
+				} else if (nodeType.equals("STAI")) {
+					node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Stai created");
+				}
 				// Add the new node to the list
 				node.setStatus(status);
 				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
 				listOfNodes.add(node);
-				System.out.println("Node added to list...");
 			}
 			rset.close();
 			stmt.close();
@@ -162,20 +161,19 @@ class NodesDBUtil {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
 			connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-			String str = "UPDATE map_nodes SET nodeID = ?,xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ?";
+			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + node.getID() +"'";
 
 			// Create the prepared statement
 			PreparedStatement statement = connection.prepareStatement(str);
-			statement.setString(1, node.getID());
-			statement.setInt(2, node.getXCoord());
-			statement.setInt(3, node.getYCoord());
-			statement.setString(4, node.getFloor());
-			statement.setString(5, node.getBuilding());
-			statement.setString(6, node.getNodeType());
-			statement.setString(7, node.getLongName());
-			statement.setString(8, node.getShortName());
+			statement.setInt(1, node.getXCoord());
+			statement.setInt(2, node.getYCoord());
+			statement.setString(3, node.getFloor());
+			statement.setString(4, node.getBuilding());
+			statement.setString(5, node.getNodeType());
+			statement.setString(6, node.getLongName());
+			statement.setString(7, node.getShortName());
+			statement.setInt(8, node.getXCoord3D());
 			statement.setInt(9, node.getXCoord3D());
-			statement.setInt(10, node.getXCoord3D());
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
@@ -205,7 +203,6 @@ class NodesDBUtil {
 			String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getID() + "'";
 			stmt.executeUpdate(str);
 			stmt.close();
-			connection.close();
 			System.out.println("Node removed from database");
 			isSucessful = true;
 		} catch (SQLException e) {
@@ -247,7 +244,6 @@ class NodesDBUtil {
 		} finally {
 			dataModelI.closeConnection(connection);
 		}
-
 	} // end addAdjacentNode()
 
 	private Edge makeEdge(Node startNode, Node endNode){
@@ -346,8 +342,8 @@ class NodesDBUtil {
 				endNodeID = rset.getString("endNode");
 
 				// Add the new edge to the list
-				Node startNodeObject = getNodesFromList(startNodeID);
-				Node endNodeObject = getNodesFromList(endNodeID);
+				Node startNodeObject = getNodeByID(startNodeID);
+				Node endNodeObject = getNodeByID(endNodeID);
 				if (startNodeID != null && endNodeID != null) {
 					edge = new Edge(startNodeObject, endNodeObject, edgeID);
 					listOfEdges.add(edge);
@@ -367,48 +363,160 @@ class NodesDBUtil {
 
 	List<String> getBuildingsFromList() {
 		List<String> buildings = new ArrayList<>();
+		String building;
 
+		Connection connection = dataModelI.getNewConnection();
+		try {
+			Statement stmt = connection.createStatement();
+			String str = "SELECT building FROM MAP_NODES";
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			while (rset.next()) {
+				building = rset.getString("building");
+				buildings.add(building);
+			}
+			rset.close();
+			stmt.close();
+			System.out.println("Done adding buildings");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dataModelI.closeConnection(connection);
+		}
 		return buildings;
-	}
-
-	/**
-	 * return the node object that has the matching nodeID with the ID provided in the argument
-	 * return null if it can't  find any
-	 *
-	 * @param nodeID
-	 * @return
-	 */
-	Node getNodesFromList(String nodeID) {
-		return null;
 	}
 
 	List<String> getTypesFromList(String building) {
 		List<String> types = new ArrayList<>();
+		String type;
 
+		Connection connection = dataModelI.getNewConnection();
+		try {
+			Statement stmt = connection.createStatement();
+			String str = "SELECT nodeType FROM MAP_NODES";
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			while (rset.next()) {
+				type = rset.getString("nodeType");
+				types.add(type);
+			}
+			rset.close();
+			stmt.close();
+			System.out.println("Done adding types");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dataModelI.closeConnection(connection);
+		}
 		return types;
 	}
 
 	List<Node> getNodesFromList(String building, String type) {
 		List<Node> selectedNodes = new ArrayList<>();
+		List<Node> allNodes = retrieveNodes();
 
-		return null;
+		for(Node a_node : allNodes){
+			if(a_node.getBuilding().equals(building) && a_node.getNodeType().equals(type)){
+				selectedNodes.add(a_node);
+			}
+		}
+
+		return selectedNodes;
 	}
 
 	public List<Node> getNodesByType(String type) {
 		List<Node> selectedNodes = new ArrayList<>();
+		List<Node> allNodes = retrieveNodes();
 
+		for(Node a_node : allNodes){
+			if(a_node.getNodeType().equals(type)){
+				selectedNodes.add(a_node);
+			}
+		}
 		return selectedNodes;
 	}
 
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
+		List<Node> allNodes = retrieveNodes();
 
+		for(Node a_node : allNodes){
+			if(a_node.getFloor().equals(floor)){
+				selectedNodes.add(a_node);
+			}
+		}
 		return selectedNodes;
 	}
 
-	public Node getNodesByID(String nodeID) {
-		System.out.println("getNodesByID: returned null ");
-		return null;
+	/**
+	 * return the node object that has the matching nodeID with the ID provided in the argument
+	 * return null if it can't  find any
+	 * @param nodeID
+	 * @return
+	 */
+	public Node getNodeByID(String nodeID) {
+		// Connection
+		Connection connection = dataModelI.getNewConnection();
+
+		// Variables
+		Node node = null;
+		String nodeType = "";
+		String longName = "";
+		String shortName = "";
+		int xCoord = 0;
+		int yCoord = 0;
+		int xCoord3D = 0;
+		int yCoord3D = 0;
+		String floor = "";
+		String building = "";
+		int status = 0;
+		try {
+			Statement stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_NODES WHERE nodeID = '" + nodeID+"'";
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			if (rset.next()) {
+				nodeType = rset.getString("nodeType");
+				floor = rset.getString("floor");
+				building = rset.getString("building");
+				xCoord = rset.getInt("xCoord");
+				yCoord = rset.getInt("yCoord");
+				longName = rset.getString("longName");
+				shortName = rset.getString("shortName");
+				status = rset.getInt("status");
+				xCoord3D = rset.getInt("xCoord3D");
+				yCoord3D = rset.getInt("yCoord3D");
+
+				// Create the java objects based on the node type
+				if (nodeType.equals("ELEV")) {
+					node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Elev created");
+				} else if (nodeType.equals("EXIT")) {
+					node = new Exit(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Exit created");
+				} else if (nodeType.equals("HALL")) {
+					node = new Hallway(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Hall created");
+				} else if (nodeType.equals("STAI")) {
+					node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+					//System.out.println("Stai created");
+				}
+				// Add the new node to the list
+				node.setStatus(status);
+				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
+			}
+			rset.close();
+			stmt.close();
+			System.out.println("Done adding nodes");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dataModelI.closeConnection(connection);
+		}
+		return node;
 	}
 
 	/**

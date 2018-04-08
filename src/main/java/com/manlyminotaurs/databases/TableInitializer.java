@@ -15,14 +15,11 @@ class TableInitializer {
     private void initTables(){
         TableInitializer tableInit = new TableInitializer();
         // Get the database connection
-        Connection connection = null;
+        Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             stmt = connection.createStatement();
-
             tableInit.executeDBScripts("./DropTables.sql", stmt);
-            //tableInit.executeDBScripts("./src/main/resources/DropTables.sql", stmt);
             tableInit.executeDBScripts("./CreateTables.sql", stmt);
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,15 +27,12 @@ class TableInitializer {
             e.printStackTrace();
         } finally {
             try { stmt.close(); } catch (Exception e) { /* ignored */ }
-            try { connection.close(); } catch (Exception e) { /* ignored */ }
+            DataModelI.getInstance().closeConnection(connection);
         }
     }
 
     void setupDatabase(){
-        // System.out.println("yolo is: " + getClass().getResource("./src/main/resources/DropTables.sql").toString());
         TableInitializer initializer = new TableInitializer();
-        RequestsDBUtil requestsDB = new RequestsDBUtil();
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
@@ -47,17 +41,10 @@ class TableInitializer {
         initializer.populateMessageTable("./MessageTable.csv");
         initializer.populateRequestTable("./RequestTable.csv");
 
-        nodesDBUtil.retrieveNodes();
-     //   nodesDBUtil.retrieveEdges();
-
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
-        initializer.populateRoomTable(null);
+        initializer.populateRoomTable(nodesDBUtil.retrieveNodes());
         //initializer.populateTransportTable(null);
-
-        messagesDBUtil.retrieveMessages();
-        requestsDB.retrieveRequests();
-        nodesDBUtil.retrieveUser();
     }
 
 
@@ -71,100 +58,94 @@ class TableInitializer {
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.println("Are you sure you want to recreate the database from the csv files? (y/n): ");
 //        String ans = scanner.nextLine();
-        String ans = "y";
-        // If you're positive...
-        if(ans.equals("y")) {
-            try {
-                // Variables we need to make the tables
-                CsvFileController csvFileControl = new CsvFileController();
-                List<String[]> list_of_nodes;
-                List<String[]> list_of_edges;
-                list_of_nodes = csvFileControl.parseCsvFile(CsvNodeFileName);
-                list_of_edges = csvFileControl.parseCsvFile(CsvEdgeFileName);
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        try {
+            // Variables we need to make the tables
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> list_of_nodes;
+            List<String[]> list_of_edges;
+            list_of_nodes = csvFileControl.parseCsvFile(CsvNodeFileName);
+            list_of_edges = csvFileControl.parseCsvFile(CsvEdgeFileName);
 
-                // Get the database connection
-                Connection connection;
-                connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-                Statement stmt = connection.createStatement();
+            Statement stmt = connection.createStatement();
 
-                // Print parsed array
-                // This portion can be used to send each row to database also.
-                String node_id;
-                String xcoord;
-                String ycoord;
-                String floor;
-                String building;
-                String nodeType;
-                String long_name;
-                String short_name;
-                String team_assigned;
-                String status;
+            // Print parsed array
+            // This portion can be used to send each row to database also.
+            String node_id;
+            String xcoord;
+            String ycoord;
+            String floor;
+            String building;
+            String nodeType;
+            String long_name;
+            String short_name;
+            String team_assigned;
+            String status;
 
-                Iterator<String[]> iterator = list_of_nodes.iterator();
-                iterator.next(); // get rid of header of csv file
+            Iterator<String[]> iterator = list_of_nodes.iterator();
+            iterator.next(); // get rid of header of csv file
 
-                //insert data for every row
-                while (iterator.hasNext()) {
-                    String[] node_row = iterator.next();
-                    node_id = node_row[0];
-                    xcoord = node_row[1];
-                    ycoord = node_row[2];
-                    floor = node_row[3];
-                    building = node_row[4];
-                    nodeType = node_row[5];
-                    long_name = node_row[6];
-                    short_name = node_row[7];
-                    team_assigned = node_row[8];
-                    status = node_row[9];
-                    System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
+            //insert data for every row
+            while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                node_id = node_row[0];
+                xcoord = node_row[1];
+                ycoord = node_row[2];
+                floor = node_row[3];
+                building = node_row[4];
+                nodeType = node_row[5];
+                long_name = node_row[6];
+                short_name = node_row[7];
+                team_assigned = node_row[8];
+                status = node_row[9];
+                System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
 
-                    // Add to the database table
-                    String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
-                    PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setString(1, node_id);
-                    statement.setInt(2, Integer.parseInt(xcoord));
-                    statement.setInt(3, Integer.parseInt(ycoord));
-                    statement.setString(4, floor);
-                    statement.setString(5, building);
-                    statement.setString(6, nodeType);
-                    statement.setString(7, long_name);
-                    statement.setString(8, short_name);
-                    statement.setInt(9, Integer.parseInt(status));
-                    statement.executeUpdate();
-                }// while loop ends
+                // Add to the database table
+                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_id);
+                statement.setInt(2, Integer.parseInt(xcoord));
+                statement.setInt(3, Integer.parseInt(ycoord));
+                statement.setString(4, floor);
+                statement.setString(5, building);
+                statement.setString(6, nodeType);
+                statement.setString(7, long_name);
+                statement.setString(8, short_name);
+                statement.setInt(9, Integer.parseInt(status));
+                statement.executeUpdate();
+            }// while loop ends
 
-                System.out.println("----------------------------------------------------");
-                Iterator<String[]> iterator2 = list_of_edges.iterator();
-                iterator2.next(); // get rid of the header
+            System.out.println("----------------------------------------------------");
+            Iterator<String[]> iterator2 = list_of_edges.iterator();
+            iterator2.next(); // get rid of the header
 
-                //insert rows
-                while (iterator2.hasNext()) {
-                    String[] node_row = iterator2.next();
-                    System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
+            //insert rows
+            while (iterator2.hasNext()) {
+                String[] node_row = iterator2.next();
+                System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                    String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
-                    PreparedStatement statement = connection.prepareStatement(str);
-                    statement.setString(1, node_row[0]);
-                    statement.setString(2, node_row[1]);
-                    statement.setString(3, node_row[2]);
-                    statement.setInt(4,Integer.parseInt(node_row[3]));
-                    statement.executeUpdate();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                String str = "INSERT INTO map_edges(edgeID,startNode, endNode,status) VALUES (?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setString(3, node_row[2]);
+                statement.setInt(4,Integer.parseInt(node_row[3]));
+                statement.executeUpdate();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
     }
 
     private void populateMessageTable(String CsvFileName) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             // parse MessageTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
             List<String[]> messageList = csvFileControl.parseCsvFile(CsvFileName);
 
-            // Get the database connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
 
             Iterator<String[]> iterator = messageList.iterator();
@@ -184,18 +165,18 @@ class TableInitializer {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
     }
 
     private void populateUserAccountTable(String CsvFileName) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
             List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
 
-            // Get the database connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
 
             Iterator<String[]> iterator = userAccountList.iterator();
@@ -204,29 +185,30 @@ class TableInitializer {
             //insert rows
             while (iterator.hasNext()) {
                 String[] node_row = iterator.next();
-                String str = "INSERT INTO UserAccount(userID,firstName,middleInitial,lastName,language) VALUES (?,?,?,?,?)";
+                String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language, userType) VALUES (?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
                 statement.setString(3, node_row[2]);
                 statement.setString(4, node_row[3]);
                 statement.setString(5, node_row[4]);
+                statement.setString(6, node_row[5]);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
     }
 
     private void populateRequestTable(String CsvFileName) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
             List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
 
-            // Get the database connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
 
             Iterator<String[]> iterator = userAccountList.iterator();
@@ -249,6 +231,8 @@ class TableInitializer {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
     }
 
@@ -256,20 +240,13 @@ class TableInitializer {
         int i = 0;
         String type;
         Statement stmt = null;
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            stmt = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Connection connection = DataModelI.getInstance().getNewConnection();
         while(i < nodeList.size()) {
             type = nodeList.get(i).getNodeType();
             if(type.equals("DEPT") || type.equals("RETA") || type.equals("LABS") || type.equals("REST") || type.equals("SERV") || type.equals("INFO") || type.equals("CONF")) {
                 try {
                     System.out.println("Found an room...");
                     Room room = (Room) nodeList.get(i);
-                    DataModelI.getRoomList().add(room);
 
                     String str = "INSERT INTO room(specialization, detail, popularity, isOpen, nodeID) VALUES (?,?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
