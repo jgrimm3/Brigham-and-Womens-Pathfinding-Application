@@ -217,7 +217,7 @@ public class nodeEditorController {
         type = cmboType.getValue().toString();
     }
 
-    }
+
 
     //modify node
     public void modifyNode(ActionEvent event){
