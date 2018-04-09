@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -168,12 +169,43 @@ public class homeController implements Initializable {
             // Switch 3-D
             tglMap.setText("3-D");
             lblMap.setText("MAP: 3-D");
+
+            // !!!
+            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            }
+
         } else {
 
             // Switch 2-D
             tglMap.setText("2-D");
             lblMap.setText("MAP: 2-D");
+
+            // !!!
+            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+            }
         }
+
+
+
+
 
     }
 
@@ -346,29 +378,29 @@ public class homeController implements Initializable {
         if (tglMap.isSelected()) { // 3-D
 
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             }
 
         } else { // 2-D
 
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                //mapImg.setImage();
+                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
             }
         }
 
@@ -451,6 +483,11 @@ public class homeController implements Initializable {
             lblStartLocation.setText("START LOCATION");
             lblEndLocation.setText("END LOCATION");
 
+            if (paneHelp.isVisible()) {
+                lblHelp1.setVisible(false);
+                lblHelp2.setVisible(true);
+            }
+
             // Update Directions
         }
     }
@@ -532,6 +569,11 @@ public class homeController implements Initializable {
         tglMap.setSelected(false);
         tglMap.setText("2-D");
         lblMap.setText("MAP: 2-D");
+
+        if (paneHelp.isVisible()) {
+            lblHelp1.setVisible(true);
+            lblHelp2.setVisible(false);
+        }
 
     }
 

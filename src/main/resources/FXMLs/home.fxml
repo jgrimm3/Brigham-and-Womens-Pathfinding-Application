@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fx:id="mapImg" fitHeight="2774.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../MapImages/2-ICONS.png" />
+                              <Image url="@../MapImages/00_thelowerlevel2.png" />
                            </image>
                         </ImageView>
                         <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="2774.0" prefWidth="5000.0">
