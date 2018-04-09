@@ -11,7 +11,7 @@ import java.util.*;
 class NodesDBUtil {
 
 	int nodeIDGeneratorCount = 200;
-	int elevatorCounter;
+	int elevatorCounter = 0;
 
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
@@ -76,8 +76,8 @@ class NodesDBUtil {
 				}
 				// Add the new node to the list
 				node.setStatus(status);
-				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
-				listOfNodes.add(node);
+				node.setAdjacentNodes(getAdjacentNodes(node));
+                listOfNodes.add(node);
 			}
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
@@ -88,10 +88,10 @@ class NodesDBUtil {
 				rset.close();
 				stmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return listOfNodes;
+                e.printStackTrace();
+            }
 		}
+        return listOfNodes;
 	} // retrieveNodes() ends
 
 
@@ -114,17 +114,18 @@ class NodesDBUtil {
 		String ID = generateNodeID(nodeType, floor, "A");
 
 		Node node;
-		if (nodeType.equals("HALL")) {
-			node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-		} else if (nodeType.equals("ELEV")) {
-			node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-		} else if (nodeType.equals("STAI")) {
-			node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-		} else if (nodeType.equals("EXIT")) {
-			node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-		} else {
-			node = new Room(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-		}
+		switch (nodeType){
+            case "Hall":
+                node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+            case "ELEV":
+                node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+            case "STAI":
+                node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+            case "EXIT":
+                node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+            default:
+                node = new Room(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+            }
 
 
 		Connection connection;
@@ -354,18 +355,15 @@ class NodesDBUtil {
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
-	List<Node> getAdjacentNodesFromNode(Node node) {
+	List<Node> getAdjacentNodes(Node node) {
 		List<Edge> listOfEdges = getEdgesFromNode(node);
 		List<Node> adjacentNodes = new ArrayList<>();
-		Iterator<Edge> iterator = listOfEdges.iterator();
-		while (iterator.hasNext()) {
-			Edge a_edge = iterator.next();
-			if (a_edge.getStartNodeID() != node.getID()) {
-				adjacentNodes.add(getNodeByID(a_edge.getEndNodeID()));
-			} else {
-				adjacentNodes.add(getNodeByID(a_edge.getStartNodeID()));
-			}
-		}
+        for ( Edge anEdge:listOfEdges) {
+            if (anEdge.getStartNodeID().equals(node.getID())) {
+                adjacentNodes.add(getNodeByID(anEdge.getEndNodeID()));
+            }
+            else{ adjacentNodes.add(getNodeByID(anEdge.getStartNodeID())); }
+        }
 		return adjacentNodes;
 	}
 
@@ -495,13 +493,11 @@ class NodesDBUtil {
 
 	public boolean doesNodeExist(String nodeID) {
 		List<Node> allNodes = retrieveNodes();
-
+        boolean isReal = false;
 		for(Node a_node : allNodes){
-			if(a_node.getID().equals(nodeID)){
-				return true;
-			}
+			if(a_node.getID().equals(nodeID)){ isReal = true; }
 		}
-		return false;
+		return isReal;
 	}
 
 	public List<Node> getNodesByFloor(String floor) {
@@ -558,22 +554,25 @@ class NodesDBUtil {
 				xCoord3D = rset.getInt("xCoord3D");
 				yCoord3D = rset.getInt("yCoord3D");
 
-				// Create the java objects based on the node type
-				if (nodeType.equals("ELEV")) {
-					node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Elev created");
-				} else if (nodeType.equals("EXIT")) {
-					node = new Exit(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Exit created");
-				} else if (nodeType.equals("HALL")) {
-					node = new Hallway(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Hall created");
-				} else if (nodeType.equals("STAI")) {
-					node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Stai created");
-				} else {
-					node = new Room(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-				}
+                // Create the java objects based on the node type
+				switch (nodeType) {
+                    case "ELEV":
+                        node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+                        //System.out.println("Elevator created");
+                    case "EXIT":
+                        node = new Exit(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+                        //System.out.println("Exit created");
+                    case "HALL":
+                        node = new Hallway(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+                        //System.out.println("Hall created");
+                    case "STAI":
+                        node = new Transport(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+                        //System.out.println("Stair created");
+                    default:
+                        node = new Room(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
+                }
+
+
 				// Add the new node to the list
 				node.setStatus(status);
 				node.setAdjacentNodes(null);
@@ -604,10 +603,9 @@ class NodesDBUtil {
 	 * @return
 	 */
 	public String generateNodeID(String nodeType, String floor, String elevatorLetter) {
-		String nodeID = "X";
-		nodeID += nodeType;
+		String nodeID = "X" + nodeType;
 
-		ArrayList<String> elevatorLetters = new ArrayList<String>();
+		ArrayList<String> elevatorLetters = new ArrayList<>();
 		elevatorLetters.add("A");
 		elevatorLetters.add("B");
 		elevatorLetters.add("C");
@@ -630,27 +628,26 @@ class NodesDBUtil {
 			nodeIDGeneratorCount++;
 		}
 
-		if (floor.equals("1")) {
-			nodeID += "01";
-		} else if (floor.equals("2")) {
-			nodeID += "02";
-		} else if (floor.equals("3")) {
-			nodeID += "03";
-		} else {
-			nodeID += floor;
-		}
+		switch (floor){
+            case "1":
+                nodeID += "01";
+            case "2":
+                nodeID += "02";
+            case "3":
+                nodeID += "03";
+            default:
+                nodeID += floor;
+        }
 		return nodeID;
 	}
 
 	boolean hasEdge(Node startNode, Node endNode) {
-		if(startNode.getAdjacentNodes().contains(endNode))
-		{
+		boolean isSuccessful = false;
+		if(startNode.getAdjacentNodes().contains(endNode)) {
 			assert (endNode.getAdjacentNodes().contains(startNode));
-			return true;
-		}
-		assert(!endNode.getAdjacentNodes().contains(startNode));
-		return false;
+			isSuccessful = true;
+		} else{assert(!endNode.getAdjacentNodes().contains(startNode));}
+		return isSuccessful;
 	}
-
 
 } // end NodesDBUtil class
