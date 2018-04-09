@@ -74,7 +74,7 @@
                   <Insets bottom="30.0" right="30.0" />
                </StackPane.margin>
             </Button>
-            <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="200.0" promptText="FLOOR" StackPane.alignment="TOP_LEFT">
+            <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="300.0" promptText="FLOOR" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="20.0" top="20.0" />
                </StackPane.margin>
@@ -91,7 +91,7 @@
                   <Insets right="30.0" top="20.0" />
                </StackPane.margin>
             </Button>
-            <Button fx:id="btnQuickBathroom" ellipsisString="" mnemonicParsing="false" onAction="#findQuickBathroom" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickBathroom" ellipsisString="" mnemonicParsing="false" onAction="#findQuickBathroom" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -103,7 +103,7 @@
                   <Insets bottom="30.0" right="190.0" />
                </StackPane.margin>
             </Button>
-            <Button fx:id="btnQuickCafe" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCafe" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickCafe" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCafe" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -115,7 +115,7 @@
                   <Insets bottom="30.0" right="350.0" />
                </StackPane.margin>
             </Button>
-            <Button fx:id="btnQuickShop" ellipsisString="" mnemonicParsing="false" onAction="#findQuickShop" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickShop" ellipsisString="" mnemonicParsing="false" onAction="#findQuickShop" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -127,7 +127,7 @@
                   <Insets bottom="30.0" right="670.0" />
                </StackPane.margin>
             </Button>
-            <Button fx:id="btnQuickCoffee" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCoffee" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+            <Button fx:id="btnQuickCoffee" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCoffee" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -203,7 +203,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="paneHelp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="BOTTOM_LEFT">
+            <Pane fx:id="paneHelp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="BOTTOM_LEFT">
                <children>
                   <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
                      <children>
@@ -225,9 +225,9 @@
                   </Pane>
                   <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
                      <children>
-                        <Label fx:id="lblDetails" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Details" textFill="WHITE">
+                        <Label fx:id="lblDetails" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Select a location and ending location via the panel to the left. To select a starting location, either press the start/end button and select a location OR manually find the location via the fields. Press GO when you want view the path." textFill="WHITE" wrapText="true">
                            <font>
-                              <Font size="40.0" />
+                              <Font size="27.0" />
                            </font>
                         </Label>
                      </children>
@@ -420,7 +420,7 @@
                               <Insets left="20.0" />
                            </opaqueInsets>
                         </Label>
-                        <ListView fx:id="lstLocationStart" layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                        <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="40.0" onAction="#setStartLocation" prefWidth="185.0" />
                      </children></Pane>
                </children>
             </Pane>
@@ -527,7 +527,7 @@
                               <Insets left="20.0" />
                            </opaqueInsets>
                         </Label>
-                        <ListView fx:id="lstLocationEnd" layoutX="15.0" layoutY="40.0" prefHeight="180.0" prefWidth="185.0" />
+                        <ComboBox fx:id="comLocationEnd" layoutX="15.0" layoutY="40.0" onAction="#setEndLocation" prefWidth="185.0" />
                      </children>
                   </Pane>
                </children>
