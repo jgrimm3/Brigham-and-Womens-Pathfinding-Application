@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -72,6 +73,8 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtXCoordMod;
     @FXML
+    JFXTextField txtYCoordMod;
+    @FXML
     JFXTextField txtYCoordDel;
     @FXML
     JFXTextField txtShortNameDel;
@@ -82,16 +85,26 @@ public class nodeEditorController {
     @FXML
     ToggleButton tglGeofence;
     @FXML
+    ComboBox cmboFloor;
+    @FXML
+    ComboBox cmboFloorAdd;
+    @FXML
+    ComboBox cmboFloorDel;
+    @FXML
     Pane pane;
     @FXML
     ScrollPane scrollPane;
     @FXML
     Button btnLogOut;
 
-    String newShortName;
-    String newLongName;
-    String modShortName;
-    String modLongName;
+    String longName;
+    String shortName;
+    String type;
+    String floor;
+    String building;
+    String node;
+    String xCoord;
+    String yCoord;
 
 
 
@@ -104,6 +117,15 @@ public class nodeEditorController {
      paneModify.setDisable(false);
      paneModify.setVisible(true);
 
+        txtLongName.clear();
+        txtShortName.clear();
+        txtXCoord.clear();
+        txtYCoord.clear();
+        txtLongNameDel.clear();
+        txtShortNameDel.clear();
+        txtXCoordDel.clear();
+        txtYCoordDel.clear();
+
   }
     public void displayAddPane(ActionEvent event){   //add Node
         paneDelete.setVisible((false));
@@ -112,6 +134,17 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneAdd.setDisable(false);
         paneAdd.setVisible(true);
+
+        //clear other panes children
+
+        txtLongNameMod.clear();
+        txtShortNameMod.clear();
+        txtXCoordMod.clear();
+        txtYCoordMod.clear();
+        txtLongNameDel.clear();
+        txtShortNameDel.clear();
+        txtXCoordDel.clear();
+        txtYCoordDel.clear();
     }
 
     public void displayDeletePane(ActionEvent event){   //delete Node
@@ -121,16 +154,37 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneDelete.setDisable(false);
         paneDelete.setVisible((true));
+
+
+        txtLongName.clear();
+        txtShortName.clear();
+        txtXCoord.clear();
+        txtYCoord.clear();
+        txtLongNameMod.clear();
+        txtShortNameMod.clear();
+        txtXCoordMod.clear();
+        txtYCoordMod.clear();
     }
 
     @FXML
     protected void initialize() {
+
         System.out.println("initializing");
+        paneDelete.setVisible((false));
+        paneDelete.setDisable(true);
+        paneModify.setVisible(false);
+        paneModify.setDisable(true);
+        paneAdd.setDisable(false);
+        paneAdd.setVisible(true);
         scrollPane.setVvalue(0.65);
         scrollPane.setHvalue(0.25);
         path.setStrokeWidth(5);
         //printPoints("L2");
     }
+    public void getXandY(MouseEvent event) throws Exception{
+
+    }
+
 
 //logout and return to the home screen
     public void logOut(ActionEvent event) throws Exception{
@@ -140,7 +194,7 @@ public class nodeEditorController {
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            root=FXMLLoader.load(getClass().getResource("FXMLs/home.fxml"));
+            root=FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);
@@ -150,5 +204,45 @@ public class nodeEditorController {
         catch (Exception e){
             e.printStackTrace();}
     }
+
+    //Add Node
+    public void addNode(ActionEvent event){
+
+        longName = txtLongName.getText();
+        shortName = txtShortName.getText();
+        xCoord = txtXCoord.getText();
+        yCoord = txtYCoord.getText();
+        building = cmboBuilding.getValue().toString();
+        floor = cmboFloorAdd.getValue().toString();
+        type = cmboType.getValue().toString();
+    }
+
+
+
+    //modify node
+    public void modifyNode(ActionEvent event){
+        longName = txtLongNameMod.getText();
+        shortName = txtShortNameMod.getText();
+        xCoord = txtXCoordMod.getText();
+        yCoord = txtYCoordMod.getText();
+        building = cmboBuildingMod.getValue().toString();
+        floor = cmboFloor.getValue().toString();
+        type = cmboTypeMod.getValue().toString();
+    }
+
+
+    //delete ode
+    public void deleteNode(ActionEvent event){
+        longName = txtLongNameDel.getText();
+        shortName = txtShortNameDel.getText();
+        xCoord = txtXCoordDel.getText();
+        yCoord = txtYCoordDel.getText();
+        building = cmboBuildingDel.getValue().toString();
+        floor = cmboFloorDel.getValue().toString();
+        type = cmboTypeDel.getValue().toString();
+    }
+
+
+
 
 }
