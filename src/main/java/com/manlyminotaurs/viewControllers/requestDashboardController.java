@@ -1,4 +1,4 @@
-package com.manlyminotaurs.viewControllers.newViewControllers;
+package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.fxml.FXML;
