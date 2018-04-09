@@ -96,6 +96,9 @@ public class homeController implements Initializable {
     @FXML
     Label lblEndLocation;
 
+    @FXML
+    ComboBox<String> comChangeFloor;
+
     public void initialize(URL location, ResourceBundle resources) {
 
         // set comboboxes for buildings to default lists
@@ -105,19 +108,21 @@ public class homeController implements Initializable {
         comFloorEnd.setDisable(true);
         comTypeStart.setDisable(true);
         comTypeEnd.setDisable(true);
+
+        // Set Floor Map and Floor Combobox to correct setting
     }
 
     public void toggleHandicap(ActionEvent event) {
 
         if (tglHandicap.isSelected()) {
 
-            // Switch off
-            tglHandicap.setText("Off");
+            // Switch on
+            tglHandicap.setText("On");
 
         } else {
 
-            // Switch on
-            tglHandicap.setText("On");
+            // Switch off
+            tglHandicap.setText("Off");
         }
     }
 
@@ -125,13 +130,14 @@ public class homeController implements Initializable {
 
         if (tglMap.isSelected()) {
 
-            // Switch 2-D
-            tglMap.setText("2-D");
-
-        } else {
-
             // Switch 3-D
             tglMap.setText("3-D");
+            lblMap.setText("Map: 3-D");
+        } else {
+
+            // Switch 2-D
+            tglMap.setText("2-D");
+            lblMap.setText("Map: 2-D");
         }
 
     }
@@ -166,6 +172,10 @@ public class homeController implements Initializable {
     }
 
     public void initializeTypeEnd(ActionEvent event) {
+
+    }
+
+    public void changeFloorMap(ActionEvent event) {
 
     }
 
@@ -230,9 +240,6 @@ public class homeController implements Initializable {
 
     @FXML
     ImageView imgQRCode;
-
-    @FXML
-    ComboBox<String> comChangeFloor;
 
     public void openQRCodePanel(ActionEvent event) {
 
