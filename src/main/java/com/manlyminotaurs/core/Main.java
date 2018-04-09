@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class Main extends Application {
     }
 }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("version 7");
         DataModelI.getInstance().initializeTable();
         Kiosk kiosk = new Kiosk(new NodesDBUtil().getNodeFromList("GCONF02001"), "user");
