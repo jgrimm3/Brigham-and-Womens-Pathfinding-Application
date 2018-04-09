@@ -1,4 +1,4 @@
-package com.manlyminotaurs.pathfinding;
+package com.manlyminotaurs.core;
 
 public class PathNotFoundException extends Exception {
 

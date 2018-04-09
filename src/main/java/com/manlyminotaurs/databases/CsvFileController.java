@@ -50,24 +50,22 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = nodesDBUtil.nodeList.iterator();
+        Iterator<Node> iterator = DataModelI.getInstance().retrieveNodes().iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned\n");
+            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
             while (iterator.hasNext()) {
                 Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(),a_node.getStatus());
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
             }
             printWriter.close();
             System.out.println("csv node file updated");
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -82,65 +80,18 @@ public class CsvFileController {
             e.printStackTrace();
         }
 
-        Iterator<Edge> iterator = nodesDBUtil.edgeList.iterator();
+        Iterator<Edge> iterator = DataModelI.getInstance().getEdgeList(DataModelI.getInstance().retrieveNodes()).iterator();
         System.out.println("Updating edge csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("edgeID,startNode,endNode,status\n");
+            printWriter.print("edgeID,startNodeID,endNodeID,status\n");
             while (iterator.hasNext()) {
                 Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNode().getID(), a_edge.getEndNode().getID(), a_edge.getStatus());
+                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNodeID(), a_edge.getEndNodeID(), a_edge.getStatus());
             }
             printWriter.close();
             System.out.println("csv edge file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateExitCSVFile(String csvFileName) {
-        Iterator<Exit> iterator = nodesDBUtil.exitList.iterator();
-        System.out.println("Updating exit csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("isFireExit, isArmed, nodeID\n");
-            while (iterator.hasNext()) {
-                Exit a_node = iterator.next();
-                printWriter.printf("%b,%b,%s\n", a_node.isFireExit(), a_node.isArmed(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateHallwayCSVFile(String csvFileName) {
-        Iterator<Hallway> iterator = nodesDBUtil.hallwayList.iterator();
-        System.out.println("Updating hallway csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("popularity, nodeID\n");
-            while (iterator.hasNext()) {
-                Hallway a_node = iterator.next();
-                printWriter.printf("%d,%s\n", a_node.getPopularity(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
         }
         catch(IOException e){
             e.printStackTrace();
@@ -152,7 +103,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRoomCSVFile(String csvFileName) {
-        Iterator<Room> iterator = nodesDBUtil.roomList.iterator();
+        Iterator<Room> iterator = null;//DataModelI.getInstance().retrieveNodes();
         System.out.println("Updating room csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -170,35 +121,13 @@ public class CsvFileController {
         }
     }
 
-    /**
-     * Write formatted String to CSVFile using PrintWriter class
-     * @param csvFileName the csv file to be updated
-     */
-    public void updateTransportCSVFile(String csvFileName) {
-        Iterator<Transport> iterator = nodesDBUtil.transportList.iterator();
-        System.out.println("Updating transport csv file...");
-        try {
-            FileWriter fileWriter = new FileWriter(csvFileName);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("directionality, floors, nodeID\n");
-            while (iterator.hasNext()) {
-                Transport a_node = iterator.next();
-                printWriter.printf("%s,%s,%s\n", a_node.getDirectionality(), a_node.floorsToString(), a_node.getID());
-            }
-            printWriter.close();
-            System.out.println("csv file updated");
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-    }//updateTransportCSVFile ends
 
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
     public void updateMessageCSVFile(String csvFileName) {
-        Iterator<Message> iterator = MessagesDBUtil.messageList.iterator();
+        Iterator<Message> iterator = DataModelI.getInstance().retrieveMessages().iterator();
         System.out.println("Updating message csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -221,7 +150,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateRequestCSVFile(String csvFileName) {
-        Iterator<Request> iterator = RequestsDBUtil.requestList.iterator();
+        Iterator<Request> iterator = DataModelI.getInstance().retrieveRequests().iterator();
         System.out.println("Updating request csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -244,15 +173,15 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateUserCSVFile(String csvFileName) {
-        Iterator<User> iterator = nodesDBUtil.userList.iterator();
+        Iterator<User> iterator = DataModelI.getInstance().retrieveUsers().iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("userID,firstName,middleInitial,lastName,language\n");
+            printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
             while (iterator.hasNext()) {
                 User a_user = iterator.next();
-                printWriter.printf("%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleInitial(),a_user.getLastName(),a_user.getLanguage());
+                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),a_user.getLanguage(),a_user.getUserType());
             }
             printWriter.close();
             System.out.println("csv file updated");

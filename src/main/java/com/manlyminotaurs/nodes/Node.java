@@ -1,51 +1,31 @@
 package com.manlyminotaurs.nodes;
 
-//import com.manlyminotaurs.databases.NodesEditor;
+import java.util.List;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+public abstract class Node implements INode {
 
-public class Node implements INode {
+    private Location loc;
+    private String longName;
+    private String shortName;
+    private String ID;
+    private String nodeType;
+    private List<Node> adjacentNodes;
+    private int status;
+    private int popularity;
 
-    int xCoord;
-    int yCoord;
-    String floor;
-    String building;
-    String longName;
-    String shortName;
-    String ID;
-    String nodeType;
-    ArrayList<Node> edgeNodes = new ArrayList<Node>();
-    int status;
-
-    public Node(String longName, String shortName, String ID, String nodeType, int xCoord, int yCoord, String floor, String building, ArrayList<Node> edgeNodes) {
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
-        this.floor = floor;
-        this.building = building;
+    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
+				String floor, String building, int xCoord3D, int yCoord3D) {
+        this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.ID = ID;
         this.nodeType = nodeType;
-        this.edgeNodes = edgeNodes;
+        this.loc = new Location(xcoord, ycoord, xCoord3D, yCoord3D, floor, building);
         status = 1;
+        popularity = 0;
     }
 
-    public int getxCoord() { return xCoord; }
-
-    public void setxCoord(int xCoord) { this.xCoord = xCoord; }
-
-    public int getyCoord() { return yCoord; }
-
-    public void setyCoord(int yCoord) { this.yCoord = yCoord; }
-
-    public String getFloor() { return floor; }
-
-    public void setFloor(String floor) { this.floor = floor; }
-
-    public String getBuilding() { return building; }
-
-    public void setBuilding(String building) { this.building = building; }
+    public void setLoc(Location loc) { this.loc = loc; }
 
     public void setLongName(String longName) { this.longName = longName; }
 
@@ -55,6 +35,8 @@ public class Node implements INode {
 
     public void setNodeType(String nodeType) { this.nodeType = nodeType; }
 
+    public Location getLoc() { return loc; }
+
     public String getID() { return ID; }
 
     public String getLongName(){return longName; }
@@ -63,9 +45,35 @@ public class Node implements INode {
 
     public String getNodeType() { return nodeType; }
 
+    public int getXCoord() { return loc.xCoord; }
+
+    public int getYCoord() { return loc.yCoord; }
+
+    public int getXCoord3D() { return loc.xCoord3D; }
+
+    public int getYCoord3D() { return loc.yCoord3D; }
+
+    public String getFloor() { return loc.floor; }
+
+    public String getBuilding() { return loc.building; }
+
     public int getStatus() { return status; }
 
     public void setStatus(int status) { this.status = status; }
 
-    public boolean isType(String type) { return false; }
+    public void setAdjacentNodes(List<Node> adjacentNodes){
+        this.adjacentNodes = adjacentNodes;
+    }
+
+    public List<Node> getAdjacentNodes(){
+        return this.adjacentNodes;
+    }
+
+    public boolean addAdjacentNode(Node node){
+        return this.adjacentNodes.add(node);
+    }
+
+    public boolean removeAdjacentNode(Node node){
+        return this.adjacentNodes.remove(node);
+    }
 }
