@@ -44,7 +44,7 @@ public interface IDataModel {
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
-    Message addMessage(String message, Boolean isRead, String senderID, String receiverID);
+    Message addMessage(Message messageObject);
     boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
     /*--------------------- Retrieve List of Messages / All or by Attribute ------------------------------------------*/
@@ -56,7 +56,7 @@ public interface IDataModel {
 
     /*----------------------------------------- Requests ------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
-    Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID);
+    Request addRequest(Request requestObject, Message messageObject);
     boolean removeRequest(Request oldRequest);
     boolean modifyRequest(Request newRequest);
     /*-------------------------- Retrieve List of Requests / All or by Attribute ------------------------------------*/
