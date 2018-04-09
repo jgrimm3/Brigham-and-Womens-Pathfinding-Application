@@ -132,8 +132,8 @@ public class nodeEditorController {
         txtXCoordDel.clear();
         txtYCoordDel.clear();
 
-        BooleanBinding booleanBind = Bindings.and(txtYCoordMod.textProperty().isEmpty(),
-                txtXCoordMod.textProperty().isEmpty()).and(txtShortNameMod.textProperty().isEmpty()).and(txtLongNameMod.textProperty().isEmpty());
+        BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
+                txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty());
         btnModify.disableProperty().bind(booleanBind);
   }
     public void displayAddPane(ActionEvent event){   //add Node
@@ -154,8 +154,8 @@ public class nodeEditorController {
         txtShortNameDel.clear();
         txtXCoordDel.clear();
         txtYCoordDel.clear();
-        BooleanBinding booleanBind = Bindings.and(txtYCoord.textProperty().isEmpty(),
-                txtXCoord.textProperty().isEmpty()).and(txtShortName.textProperty().isEmpty()).and(txtLongName.textProperty().isEmpty());
+        BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
+                txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
         btnAddNode.disableProperty().bind(booleanBind);
     }
 
@@ -164,8 +164,12 @@ public class nodeEditorController {
         paneAdd.setDisable(true);
         paneModify.setVisible(false);
         paneModify.setDisable(true);
+
         paneDelete.setDisable(false);
         paneDelete.setVisible((true));
+
+        txtLongNameDel.setEditable(true);
+        txtShortNameDel.setEditable(true);
 
 
         txtLongName.clear();
@@ -177,8 +181,8 @@ public class nodeEditorController {
         txtXCoordMod.clear();
         txtYCoordMod.clear();
 
-        BooleanBinding booleanBind = Bindings.and(txtYCoordDel.textProperty().isEmpty(),
-                txtXCoordDel.textProperty().isEmpty()).and(txtShortNameDel.textProperty().isEmpty()).and(txtLongNameDel.textProperty().isEmpty());
+        BooleanBinding booleanBind = Bindings.or(txtYCoordDel.textProperty().isEmpty(),
+                txtXCoordDel.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
     }
 
@@ -193,6 +197,10 @@ public class nodeEditorController {
         paneAdd.setDisable(false);
         paneAdd.setVisible(true);
         btnAddNode.setDisable(true);
+        BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
+                txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
+        btnAddNode.disableProperty().bind(booleanBind);
+
         scrollPane.setVvalue(0.65);
         scrollPane.setHvalue(0.25);
         path.setStrokeWidth(5);

@@ -55,9 +55,9 @@
             <ComboBox fx:id="cmboBuilding" layoutX="100.0" layoutY="400.0" prefHeight="76.0" prefWidth="700.0" promptText="Building" />
             <ComboBox fx:id="cmboType" layoutX="100.0" layoutY="498.0" prefHeight="76.0" prefWidth="700.0" promptText="Type" />
             <ComboBox fx:id="cmboNode" layoutX="100.0" layoutY="592.0" prefHeight="76.0" prefWidth="700.0" promptText="Node" />
-            <CheckBox fx:id="chkHighPriority" layoutX="93.0" layoutY="700.0" mnemonicParsing="false" text="High Priority" />
-            <CheckBox fx:id="chkLowPriority" layoutX="93.0" layoutY="801.5" mnemonicParsing="false" text="Low Priority" />
-            <CheckBox fx:id="chkMedPriority" layoutX="93.0" layoutY="750.75" mnemonicParsing="false" text="Medium Proirity" />
+            <CheckBox fx:id="chkHighPriority" layoutX="93.0" layoutY="700.0" mnemonicParsing="false" onAction="#setHighPriority" text="High Priority" />
+            <CheckBox fx:id="chkLowPriority" layoutX="93.0" layoutY="801.5" mnemonicParsing="false" onAction="#setLowPriority" text="Low Priority" />
+            <CheckBox fx:id="chkMedPriority" layoutX="93.0" layoutY="750.75" mnemonicParsing="false" onAction="#setMedPriority" text="Medium Proirity" />
          </children>
       </Pane>
       <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE">
@@ -65,7 +65,7 @@
             <Font size="28.0" />
          </font>
       </Button>
-      <Button layoutX="1750.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
+      <Button fx:id="btnlogOut" layoutX="1750.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
          <font>
             <Font size="28.0" />
          </font>

@@ -80,7 +80,7 @@
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnModify" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Update Node" />
+            <Button fx:id="btnModify" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" onAction="#modifyNode" prefHeight="130.0" prefWidth="150.0" text="Update Node" />
             <JFXTextField fx:id="txtXCoordMod" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="X Coordinate or tap on Map">
                <font>
                   <Font size="18.0" />
@@ -110,7 +110,7 @@
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnAddNode" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Add Node" />
+            <Button fx:id="btnAddNode" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" onAction="#addNode" prefHeight="130.0" prefWidth="150.0" text="Add Node" />
             <JFXTextField fx:id="txtXCoord" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="X Coordinate or tap on Map">
                <font>
                   <Font size="18.0" />
@@ -139,7 +139,7 @@
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnDeleteNode" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Delete Node" />
+            <Button fx:id="btnDeleteNode" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" onAction="#deleteNode" prefHeight="130.0" prefWidth="150.0" text="Delete Node" />
             <JFXTextField fx:id="txtXCoordDel" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="Admin User Name">
                <font>
                   <Font size="18.0" />
