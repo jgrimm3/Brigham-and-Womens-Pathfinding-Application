@@ -621,7 +621,7 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
 				// Create the java objects based on the node type
-				buildNode(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, 1, xCoord3D, yCoord3D);
+                buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 
 				// Add the new node to the list
 				node.setAdjacentNodes(null);
@@ -672,7 +672,7 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
 				// Create the java objects based on the node type
-				buildNode(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, 1, xCoord3D, yCoord3D);
+				buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 				node.setAdjacentNodes(null);
 			}
 			rset.close();
