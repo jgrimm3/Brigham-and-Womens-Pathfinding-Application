@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import com.manlyminotaurs.nodes.Node;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,6 +98,10 @@ public class nodeEditorController {
     ScrollPane scrollPane;
     @FXML
     Button btnLogOut;
+    @FXML
+    Button btnAddNode;
+    @FXML
+    Button btnModify;
 
     String longName;
     String shortName;
@@ -126,6 +132,9 @@ public class nodeEditorController {
         txtXCoordDel.clear();
         txtYCoordDel.clear();
 
+        BooleanBinding booleanBind = Bindings.and(txtYCoordMod.textProperty().isEmpty(),
+                txtXCoordMod.textProperty().isEmpty()).and(txtShortNameMod.textProperty().isEmpty()).and(txtLongNameMod.textProperty().isEmpty());
+        btnModify.disableProperty().bind(booleanBind);
   }
     public void displayAddPane(ActionEvent event){   //add Node
         paneDelete.setVisible((false));
@@ -145,6 +154,9 @@ public class nodeEditorController {
         txtShortNameDel.clear();
         txtXCoordDel.clear();
         txtYCoordDel.clear();
+        BooleanBinding booleanBind = Bindings.and(txtYCoord.textProperty().isEmpty(),
+                txtXCoord.textProperty().isEmpty()).and(txtShortName.textProperty().isEmpty()).and(txtLongName.textProperty().isEmpty());
+        btnAddNode.disableProperty().bind(booleanBind);
     }
 
     public void displayDeletePane(ActionEvent event){   //delete Node
@@ -164,6 +176,10 @@ public class nodeEditorController {
         txtShortNameMod.clear();
         txtXCoordMod.clear();
         txtYCoordMod.clear();
+
+        BooleanBinding booleanBind = Bindings.and(txtYCoordDel.textProperty().isEmpty(),
+                txtXCoordDel.textProperty().isEmpty()).and(txtShortNameDel.textProperty().isEmpty()).and(txtLongNameDel.textProperty().isEmpty());
+        btnDeleteNode.disableProperty().bind(booleanBind);
     }
 
     @FXML
@@ -176,6 +192,7 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneAdd.setDisable(false);
         paneAdd.setVisible(true);
+        btnAddNode.setDisable(true);
         scrollPane.setVvalue(0.65);
         scrollPane.setHvalue(0.25);
         path.setStrokeWidth(5);
@@ -218,7 +235,6 @@ public class nodeEditorController {
     }
 
 
-
     //modify node
     public void modifyNode(ActionEvent event){
         longName = txtLongNameMod.getText();
@@ -241,8 +257,5 @@ public class nodeEditorController {
         floor = cmboFloorDel.getValue().toString();
         type = cmboTypeDel.getValue().toString();
     }
-
-
-
 
 }
