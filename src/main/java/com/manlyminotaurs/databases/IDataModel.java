@@ -27,15 +27,18 @@ public interface IDataModel {
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
+    boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
     Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
     Node getNodeByID(String ID);
+    Node getNodeByIDSimple(String ID);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
     List<Node> getNodesByBuildingTypeFloor(String building, String type, String floor);
+    // List<Edge> getEdgesFromNode(Node node); TESTING ONLY
     List<String> getBuildingsFromList();
     List<String> getTypesFromList();
     boolean doesNodeExist(String type);

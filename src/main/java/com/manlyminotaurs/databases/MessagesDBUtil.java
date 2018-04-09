@@ -255,4 +255,5 @@ class MessagesDBUtil {
         }
         return messageObject;
     }
+
 }

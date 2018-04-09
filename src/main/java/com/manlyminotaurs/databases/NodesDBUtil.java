@@ -13,6 +13,20 @@ class NodesDBUtil {
 	int nodeIDGeneratorCount = 200;
 	int elevatorCounter;
 
+	static void closeConnection(Connection connection) {
+		try {
+			if(connection != null) {
+				connection.commit();
+				connection.close();
+			}
+			else {
+				System.out.println("Connection not established");
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
 	/**
@@ -34,15 +48,15 @@ class NodesDBUtil {
 		String floor = "";
 		String building = "";
 		int status = 0;
-		Statement stmt = null;
-		ResultSet rset = null;
+		PreparedStatement stmt = null;
+		Connection connection = null;
 
 		List<Node> listOfNodes = new ArrayList<>();
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:derby:/Users/andrew/Documents/Soft Eng Rep/CS3733_TeamM_Iter2/nodesDB;create=true");
-			stmt = connection.createStatement();
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			String str = "SELECT * FROM MAP_NODES";
-			rset = stmt.executeQuery(str);
+			stmt = connection.prepareStatement(str);
+			ResultSet rset = stmt.executeQuery();
 
 			// For every node, get the information
  			while (rset.next()) {
@@ -61,16 +75,12 @@ class NodesDBUtil {
 				// Create the java objects based on the node type
 				if (nodeType.equals("ELEV")) {
 					node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Elev created");
 				} else if (nodeType.equals("EXIT")) {
 					node = new Exit(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Exit created");
 				} else if (nodeType.equals("HALL")) {
 					node = new Hallway(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Hall created");
 				} else if (nodeType.equals("STAI")) {
 					node = new Transport(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
-					//System.out.println("Stai created");
 				} else {
 					node = new Room(longName, shortName, ID, nodeType, xCoord, yCoord, floor, building, xCoord3D, yCoord3D);
 				}
@@ -79,23 +89,20 @@ class NodesDBUtil {
 				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
 				listOfNodes.add(node);
 			}
+			rset.close();
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//DataModelI.getInstance().closeConnection(connection);
 			try {
-				rset.close();
 				stmt.close();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			return listOfNodes;
 		}
 	} // retrieveNodes() ends
-
-
-
 
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
 
@@ -155,9 +162,9 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
 			try {
 				statement.close();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -196,9 +203,47 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
 			try {
 				statement.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return isSucessful;
+		}
+	}
+
+	boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+		boolean isSucessful = false;
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		PreparedStatement statement = null;
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			connection = DataModelI.getInstance().getNewConnection();
+			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + nodeID +"'";
+
+			// Create the prepared statement
+			statement = connection.prepareStatement(str);
+			statement.setInt(1, xCoord);
+			statement.setInt(2, yCoord);
+			statement.setString(3, floor);
+			statement.setString(4, building);
+			statement.setString(5, nodeType);
+			statement.setString(6, longName);
+			statement.setString(7, shortName);
+			statement.setInt(8, xCoord3D);
+			statement.setInt(9, yCoord3D);
+			System.out.println("Prepared statement created...");
+			statement.executeUpdate();
+			System.out.println("Node added to database");
+			isSucessful = true;
+		} catch (SQLException e) {
+			System.out.println("Node already in the database");
+		} finally {
+			try {
+				statement.close();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -228,7 +273,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 		return isSucessful;
 	}
@@ -255,7 +300,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 		return isSucessful;
 	}
@@ -290,7 +335,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 	} // end addAdjacentNode()
 
@@ -348,7 +393,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 	} // removeEdge
 
@@ -368,7 +413,6 @@ class NodesDBUtil {
 		}
 		return adjacentNodes;
 	}
-
 
 	/**
 	 * find all adjacent edges from the node object using sql query
@@ -406,9 +450,9 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
 			try {
 				stmt.close();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -437,7 +481,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 		return buildings;
 	}
@@ -463,7 +507,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			closeConnection(connection);
 		}
 		return types;
 	}
@@ -515,6 +559,19 @@ class NodesDBUtil {
 			}
 		}
 		return selectedNodes;
+	}
+
+	public Node getNodeByIDSimple(String ID) {
+		List<Node> allNodes = retrieveNodes();
+		Node node = null;
+
+		for(Node a_node : allNodes){
+			if(a_node.getID().equals(ID)){
+				node = a_node;
+				break;
+			}
+		}
+		return node;
 	}
 
 	public boolean doesNodeExist(String nodeID) {
@@ -597,9 +654,9 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
 			try {
 				stmt.close();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

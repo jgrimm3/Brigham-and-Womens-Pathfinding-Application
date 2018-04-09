@@ -4,6 +4,7 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
 import com.manlyminotaurs.users.User;
+import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,8 +27,8 @@ public class DataModelI implements IDataModel{
     // list of all objects
 
     private static DataModelI dataModelI;
-
-    private static Connection connection;
+	EmbeddedDataSource ds;
+	private static Connection connection;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
@@ -36,6 +37,9 @@ public class DataModelI implements IDataModel{
     }
 
     private DataModelI() {
+		ds = new EmbeddedDataSource();
+		ds.setCreateDatabase("create");
+		ds.setDatabaseName("nodesDB");
         messagesDBUtil = new MessagesDBUtil();
         nodesDBUtil = new NodesDBUtil();
         requestsDBUtil = new RequestsDBUtil();
@@ -59,7 +63,7 @@ public class DataModelI implements IDataModel{
     public Connection getNewConnection() {
         try {
             if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+                connection = ds.getConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,6 +94,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+	public boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+    	return nodesDBUtil.modifyNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
+	}
+
+    @Override
     public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
         return nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
     }
@@ -116,6 +125,11 @@ public class DataModelI implements IDataModel{
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
+
+    @Override
+	public Node getNodeByIDSimple(String ID) {
+    	return nodesDBUtil.getNodeByIDSimple(ID);
+	}
 
     @Override
     public List<Node> getNodesByFloor(String floor) {
@@ -149,6 +163,11 @@ public class DataModelI implements IDataModel{
     public Set<Edge> getEdgeList(List<Node> nodeList) {
         return nodesDBUtil.getEdgeList(nodeList);
     }
+
+    /*@Override
+	public List<Edge> getEdgesFromNode(Node node) {
+    	return nodesDBUtil.getEdgesFromNode(node);
+	}*/
 /*
     @Override
 	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }

@@ -1,14 +1,18 @@
 package database;
 
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.nodes.Room;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
@@ -33,6 +37,16 @@ public class NodesDBUtilTest {
 			i++;
 
 		}
+	}
+
+	@Test
+	public void retrieveNodes_time() {
+		long startTime = System.nanoTime();
+		DataModelI.getInstance().retrieveNodes();
+		long endTime = System.nanoTime();
+		long timeTaken = (endTime - startTime) / 1000000;
+
+		System.out.println("It takes " + timeTaken + " ms to retrieve nodes");
 	}
 
 	@Test
@@ -141,6 +155,27 @@ public class NodesDBUtilTest {
 		}
 
 	}
+
+	@Test
+	public void modifyNode_editsNode() {
+		Node addedNode = DataModelI.getInstance().addNode("lmao", 5, 3, "4", "Hello", "lmao", "yoo", "yo", 48, 20);
+		DataModelI.getInstance().modifyNode(addedNode.getID(), 5, 3, "4", "yolo", "lmao", "yoo", "yo", 48, 20);
+		List<Node> nodeList = DataModelI.getInstance().getNodesByBuilding("yolo");
+		System.out.println(DataModelI.getInstance().getNodeByID(addedNode.getID()).getID());
+		System.out.println(DataModelI.getInstance().getNodeByID(addedNode.getID()).getBuilding()); // Why does this return shapiro?
+		assertTrue(nodeList.get(0).getBuilding().equals("yolo"));
+		//DataModelI.getInstance().removeNode(addedNode.getID());
+	}
+
+	/*@Test EDGES ARE PRIVATE
+	public void getEdgesFromNodes () {
+		Node node = DataModelI.getInstance().getNodeByID("GHALL013L2");
+		List<Edge> edgeList = DataModelI.getInstance().getEdgesFromNode(node);
+		for(Edge e: edgeList) {
+			System.out.println("Edge is: " + e.getEdgeID());
+			assertTrue(!e.getEdgeID().isEmpty());
+		}
+	}*/
 
 }
 
