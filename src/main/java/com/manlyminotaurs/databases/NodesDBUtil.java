@@ -77,6 +77,7 @@ class NodesDBUtil {
 				// Add the new node to the list
 				node.setStatus(status);
 				node.setAdjacentNodes(getAdjacentNodesFromNode(node));
+				listOfNodes.add(node);
 			}
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
@@ -232,6 +233,11 @@ class NodesDBUtil {
 		return isSucessful;
 	}
 
+	/**
+	 * Removes a node by id
+	 * @param nodeID ID of the node to be removed
+	 * @return true if successful, false otherwise
+	 */
 	boolean removeNodeByID(String nodeID) {
 		boolean isSucessful = false;
 
@@ -242,6 +248,7 @@ class NodesDBUtil {
 			Statement stmt = connection.createStatement();
 			String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + nodeID + "'";
 			stmt.executeUpdate(str);
+			connection.commit();
 			stmt.close();
 			System.out.println("Node removed from database");
 			isSucessful = true;
@@ -287,6 +294,12 @@ class NodesDBUtil {
 		}
 	} // end addAdjacentNode()
 
+	/**
+	 * Makes an "edge" between nodes
+	 * @param startNodeID
+	 * @param endNodeID
+	 * @return
+	 */
 	private Edge makeEdge(String startNodeID, String endNodeID){
 		Edge edge = null;
 		int caseInt = startNodeID.compareTo(endNodeID);
@@ -295,7 +308,7 @@ class NodesDBUtil {
 			edge = new Edge(startNodeID, endNodeID, edgeID);
 		}
 		else if(caseInt == 0){
-			System.out.println("you fucked up");
+			System.out.println("you messed up");
 			return null;
 		}
 		else if(caseInt > 0){
@@ -478,6 +491,17 @@ class NodesDBUtil {
 			}
 		}
 		return selectedNodes;
+	}
+
+	public boolean doesNodeExist(String nodeID) {
+		List<Node> allNodes = retrieveNodes();
+
+		for(Node a_node : allNodes){
+			if(a_node.getID().equals(nodeID)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<Node> getNodesByFloor(String floor) {

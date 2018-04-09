@@ -37,6 +37,7 @@ public interface IDataModel {
     List<String> getBuildingsFromList();
     List<String> getTypesFromList(String building);
     List<Node> getNodesFromList(String building, String type);
+    boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<Node> getAdjacentNodes();
     Set<Edge> getEdgeList(List<Node> nodeList);

@@ -107,6 +107,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public boolean doesNodeExist(String nodeID) {
+        return nodesDBUtil.doesNodeExist(nodeID);
+    }
+
+    @Override
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }

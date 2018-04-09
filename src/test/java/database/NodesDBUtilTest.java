@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 public class NodesDBUtilTest {
 
 	final int THREED_STARTX = 950;
-	final int THREED_ENDX = 1500;
+	final int THREED_ENDX = 1600;
 	final int THREED_STARTY = 1500;
 	final int THREED_ENDY = 2100;
 
@@ -22,7 +23,9 @@ public class NodesDBUtilTest {
 
 	// Tests
 	@Test
-	public void retrieveNodes_returnsCorrectList_xCoord3DandyCorrd3D() {
+	public void retrieveNodes_returnsCorrectList_xCoord3DandyCoord3D() {
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+
 		int i = 0;
 		while (i < listOfNodes.size()) {
 			assertTrue(listOfNodes.get(i).getXCoord3D() < THREED_ENDX && listOfNodes.get(i).getXCoord3D() > THREED_STARTX);
@@ -36,9 +39,8 @@ public class NodesDBUtilTest {
 	public void printNodes() {
 		int i = 0;
 		listOfNodes = DataModelI.getInstance().retrieveNodes();
-		System.out.println("Yoo");
 		while(i < listOfNodes.size()) {
-			System.out.println(listOfNodes.get(i));
+			System.out.println(listOfNodes.get(i).getLongName());
 			i++;
 		}
 	}
@@ -48,9 +50,9 @@ public class NodesDBUtilTest {
 		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 
 		List<String> listOfFloors = new ArrayList<>();
-		listOfFloors.add("Floor 1");
-		listOfFloors.add("Floor 2");
-		listOfFloors.add("Floor 3");
+		listOfFloors.add("1");
+		listOfFloors.add("2");
+		listOfFloors.add("3");
 		listOfFloors.add("L1");
 		listOfFloors.add("L2");
 
@@ -82,10 +84,10 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void addNode_CorrectlyAddsNode() {
-		DataModelI.getInstance().addNode("lol", 5, 3, "4", "Hello", "Node", "yoo", "yo", 48, 20);
-		assertTrue(DataModelI.getInstance().getNodesByType("Node") != null);
-		DataModelI.getInstance().removeNode("lol");
-		assertTrue(DataModelI.getInstance().getNodesByType("Node") == null);
+		Node addedNode = DataModelI.getInstance().addNode("lmao", 5, 3, "4", "Hello", "lmao", "yoo", "yo", 48, 20);
+		assertTrue(DataModelI.getInstance().doesNodeExist(addedNode.getID()));
+		DataModelI.getInstance().removeNode(addedNode.getID());
+		assertFalse(DataModelI.getInstance().doesNodeExist(addedNode.getID()));
 	}
 
 }
