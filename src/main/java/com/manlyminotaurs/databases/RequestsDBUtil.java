@@ -38,6 +38,7 @@ class RequestsDBUtil {
             statement.setString(8, requestType);
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
+            statement.close();
             System.out.println("Request added to database");
         } catch (SQLException e)
         {
@@ -82,6 +83,7 @@ class RequestsDBUtil {
             statement.setString(7, newRequest.getPassword());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
+            statement.close();
             isSuccess = true;
         } catch (SQLException e)
         {

@@ -46,7 +46,7 @@ class TableInitializer {
         NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("MapGNodesEdited3D.csv","MapGEdges.csv");
+        initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
         initializer.populateUserAccountTable("UserAccountTable.csv");
         initializer.populateMessageTable("MessageTable.csv");
         initializer.populateRequestTable("RequestTable.csv");
@@ -91,6 +91,8 @@ class TableInitializer {
             String short_name;
             String team_assigned;
             String status;
+            String xCoord3D;
+            String yCoord3D;
 
             Iterator<String[]> iterator = list_of_nodes.iterator();
             iterator.next(); // get rid of header of csv file
@@ -108,10 +110,12 @@ class TableInitializer {
                 short_name = node_row[7];
                 team_assigned = node_row[8];
                 status = node_row[9];
-                System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned);
+                xCoord3D = node_row[10];
+                yCoord3D = node_row[11];
+                System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned + " " + xCoord3D + " " + yCoord3D);
 
                 // Add to the database table
-                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status) VALUES (?,?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status,xCoord3D,yCoord3d) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_id);
                 statement.setInt(2, Integer.parseInt(xcoord));
@@ -122,6 +126,8 @@ class TableInitializer {
                 statement.setString(7, long_name);
                 statement.setString(8, short_name);
                 statement.setInt(9, Integer.parseInt(status));
+                statement.setInt(10, Integer.parseInt(xCoord3D));
+                statement.setInt(11, Integer.parseInt(yCoord3D));
                 statement.executeUpdate();
             }// while loop ends
 
@@ -134,7 +140,7 @@ class TableInitializer {
                 String[] node_row = iterator2.next();
                 System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
-                String str = "INSERT INTO map_edges(edgeID,startNodeID, endNodeID,status) VALUES (?,?,?,?)";
+                String str = "INSERT INTO map_edges(edgeID, startNodeID, endNodeID,status) VALUES (?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);

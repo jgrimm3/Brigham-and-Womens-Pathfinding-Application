@@ -2,6 +2,7 @@ package database;
 
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,17 +18,28 @@ public class NodesDBUtilTest {
 	final int THREED_STARTY = 1500;
 	final int THREED_ENDY = 2100;
 
+	List<Node> listOfNodes = new ArrayList<>();
+
 	// Tests
 	@Test
 	public void retrieveNodes_returnsCorrectList_xCoord3DandyCorrd3D() {
-		DataModelI.getInstance().startDB();
-		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 		int i = 0;
-		while(i<listOfNodes.size()) {
+		while (i < listOfNodes.size()) {
 			assertTrue(listOfNodes.get(i).getXCoord3D() < THREED_ENDX && listOfNodes.get(i).getXCoord3D() > THREED_STARTX);
 			assertTrue(listOfNodes.get(i).getYCoord3D() < THREED_ENDY && listOfNodes.get(i).getYCoord3D() > THREED_STARTY);
-			i ++;
+			i++;
 
+		}
+	}
+
+	@Test
+	public void printNodes() {
+		int i = 0;
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+		System.out.println("Yoo");
+		while(i < listOfNodes.size()) {
+			System.out.println(listOfNodes.get(i));
+			i++;
 		}
 	}
 
@@ -43,7 +55,7 @@ public class NodesDBUtilTest {
 		listOfFloors.add("L2");
 
 		int i = 0;
-		while(i<listOfNodes.size()) {
+		while (i < listOfNodes.size()) {
 			assertTrue(listOfFloors.contains(listOfNodes.get(i).getFloor()));
 			i++;
 		}
@@ -62,7 +74,7 @@ public class NodesDBUtilTest {
 
 
 		int i = 0;
-		while(i<listOfNodes.size()) {
+		while (i < listOfNodes.size()) {
 			assertTrue(listOfBuildings.contains(listOfNodes.get(i).getBuilding()));
 			i++;
 		}
@@ -70,10 +82,11 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void addNode_CorrectlyAddsNode() {
-		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
 		DataModelI.getInstance().addNode("lol", 5, 3, "4", "Hello", "Node", "yoo", "yo", 48, 20);
+		assertTrue(DataModelI.getInstance().getNodesByType("Node") != null);
+		DataModelI.getInstance().removeNode("lol");
+		assertTrue(DataModelI.getInstance().getNodesByType("Node") == null);
 	}
-
 
 }
 

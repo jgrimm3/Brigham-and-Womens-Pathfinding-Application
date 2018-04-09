@@ -34,6 +34,7 @@ class MessagesDBUtil {
             statement.setString(5, messageObject.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
+            statement.close();
             System.out.println("Node added to database");
         } catch (SQLException e)
         {
@@ -76,6 +77,7 @@ class MessagesDBUtil {
             statement.setString(4, newMessage.getReceiverID());
             statement.executeUpdate();
             System.out.println("Message added to database");
+            statement.close();
             isSuccess = true;
         } catch (SQLException e)
         {

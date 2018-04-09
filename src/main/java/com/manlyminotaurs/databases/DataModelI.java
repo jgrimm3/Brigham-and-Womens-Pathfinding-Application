@@ -98,6 +98,8 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.removeNode(badNode);
     }
 
+    public boolean removeNode(String nodeID) { return nodesDBUtil.removeNodeByID(nodeID); }
+
 
     @Override
     public List<Node> getNodesByType(String type) {
