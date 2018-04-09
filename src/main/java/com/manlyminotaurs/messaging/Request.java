@@ -2,8 +2,7 @@ package com.manlyminotaurs.messaging;
 
 import com.manlyminotaurs.databases.RequestsDBUtil;
 
-public class Request {
-
+public abstract class Request implements IRequest {
     String requestID;
     String requestType;
     int priority;
@@ -28,16 +27,8 @@ public class Request {
         return requestID;
     }
 
-    public void setRequestID(String requestID) {
-        this.requestID = requestID;
-    }
-
     public String getRequestType() {
         return requestType;
-    }
-
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
     }
 
     public int getPriority() {
@@ -88,4 +79,5 @@ public class Request {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

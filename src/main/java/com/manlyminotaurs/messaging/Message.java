@@ -1,7 +1,5 @@
 package com.manlyminotaurs.messaging;
 
-import com.manlyminotaurs.databases.MessagesDBUtil;
-
 public class Message {
 
     String messageID;
@@ -9,6 +7,8 @@ public class Message {
     Boolean isRead;
     String senderID;
     String receiverID;
+
+
     public Message(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
         this.messageID = messageID;
         this.message = message;
