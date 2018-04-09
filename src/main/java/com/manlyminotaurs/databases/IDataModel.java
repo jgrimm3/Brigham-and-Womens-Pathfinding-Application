@@ -47,18 +47,19 @@ public interface IDataModel {
     Message addMessage(Message messageObject);
     boolean removeMessage(Message oldMessage);
     boolean modifyMessage(Message newMessage);
+    String getNextMessageID();
     /*--------------------- Retrieve List of Messages / All or by Attribute ------------------------------------------*/
     List<Message> retrieveMessages();
     List<Message> getMessageBySender(String senderID);
     List<Message> getMessageByReceiver(String receiverID);
     Message getMessageByID(String ID);
 
-
     /*----------------------------------------- Requests ------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
     Request addRequest(Request requestObject, Message messageObject);
     boolean removeRequest(Request oldRequest);
     boolean modifyRequest(Request newRequest);
+    String getNextRequestID();
     /*-------------------------- Retrieve List of Requests / All or by Attribute ------------------------------------*/
     List<Request> retrieveRequests();
     List<Request> getRequestBySender(String senderID);

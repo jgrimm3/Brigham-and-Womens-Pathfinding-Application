@@ -89,7 +89,7 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
-    private String generateRequestID(){
+    public String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }
