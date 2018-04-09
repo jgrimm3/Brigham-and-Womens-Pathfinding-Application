@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.createRequestController">
@@ -39,7 +38,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
       <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="38.0" layoutY="600.0" prefHeight="75.0" prefWidth="762.0" text="Request Details..." />
-      <Button layoutX="76.0" layoutY="991.0" mnemonicParsing="false" onAction="#refreshReqList" prefHeight="59.0" prefWidth="81.0" text="Refresh" />
       <JFXProgressBar layoutX="50.0" layoutY="781.0" prefHeight="35.0" prefWidth="677.0" progress="0.0" />
       <Label layoutX="1308.0" layoutY="560.0" text="Statistics" AnchorPane.rightAnchor="350.0">
          <font>
@@ -55,29 +53,22 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="209.0" layoutY="1007.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="81.0" text="logout" />
-      <Pane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: radial-gradient(center 50% 0%, radius 80%,#2b65ac,#102c57);">
+      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Button layoutX="1750.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Pane prefHeight="60.0" prefWidth="1580.0" style="-fx-background-color: #102c57;">
          <children>
-            <Label layoutX="32.0" layoutY="13.0" text="Admin Dashboard" textFill="WHITE">
+            <Label layoutX="32.0" layoutY="13.0" text="User Dashboard" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
-            </Label>
-            <Label layoutX="1720.0" layoutY="13.0" text="Log Out" textFill="WHITE">
-               <font>
-                  <Font size="28.0" />
-               </font>
-               <graphic>
-                  <Line layoutY="30.0" rotate="90.0" startX="59.0" />
-               </graphic>
-            </Label>
-            <Label layoutX="1550.0" layoutY="12.0" text="Refresh" textFill="WHITE">
-               <font>
-                  <Font size="28.0" />
-               </font>
-               <graphic>
-                  <Line layoutX="1550.0" layoutY="30.0" rotate="90.0" startX="59.0" />
-               </graphic>
             </Label>
          </children>
       </Pane>
