@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.manlyminotaurs.databases.NodesDBUtil;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.viewControllers.userHomeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -152,6 +151,6 @@ public class nodeEditorController {
         catch (Exception e){
             e.printStackTrace();}
     }
-    }
+    
 
 }
