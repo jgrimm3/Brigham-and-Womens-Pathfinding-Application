@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.adminHomeController">
+    <children>
+        <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="148.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="878.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="60.0">
+            <fill>
+                <LinearGradient endX="0.5409523736862909" endY="0.9866666657584054" startX="0.04952380770728704" startY="0.4247618902297247">
+                    <stops>
+                        <Stop color="#e86858" />
+                        <Stop color="#c9d5e1" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Circle>
+        <Button fx:id="btnProfile" layoutX="109.0" layoutY="87.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 100; -fx-background-color: #25415b;" text="Admin" textFill="#fcfcfc" AnchorPane.bottomAnchor="890.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="1691.0" AnchorPane.topAnchor="70.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Button>
+        <Accordion layoutX="582.0" layoutY="337.0" />
+      <GridPane layoutX="54.0" layoutY="271.0" prefHeight="309.0" prefWidth="252.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btnEditNodes" mnemonicParsing="false" onAction="#editNodesAction" prefHeight="53.0" prefWidth="248.0" text="Edit Nodes" />
+            <Button fx:id="btnMngReq" mnemonicParsing="false" onAction="#manageRequestsAction" prefHeight="55.0" prefWidth="249.0" text="Manage Requests" GridPane.rowIndex="1" />
+            <Button id="btnLogout" fx:id="btnLogout" mnemonicParsing="false" onAction="#logOut" prefHeight="65.0" prefWidth="255.0" text="Logout" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <ScrollPane fx:id="scrollPane" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="693.5" prefWidth="1250.0" translateX="625.0" translateY="50.0" AnchorPane.rightAnchor="670.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <StackPane prefHeight="2774.0" prefWidth="5000.0">
+               <children>
+                  <ImageView fx:id="mapImg" fitHeight="2774.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../MapImages/L2-NO-ICONS.png" />
+                     </image>
+                  </ImageView>
+                  <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2774.0" prefWidth="5000.0">
+                     <children>
+                        <Path fx:id="path" blendMode="DARKEN" fill="WHITE" stroke="#d63e15" strokeType="INSIDE">
+                           <elements>
+                              <MoveTo />
+                              <LineTo x="5000.0" />
+                              <LineTo x="5000.0" y="2774.0" />
+                              <LineTo y="2774.0" />
+                              <ClosePath />
+                           </elements>
+                        </Path>
+                     </children>
+                  </Pane>
+               </children>
+            </StackPane>
+         </content>
+      </ScrollPane>
+    </children>
+</AnchorPane>

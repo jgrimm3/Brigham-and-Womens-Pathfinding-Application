@@ -1,32 +1,47 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.Objects;
+
 public class Edge {
-	String startNode;
-	String endNode;
+
+	String startNodeID;
+	String endNodeID;
 	String edgeID;
 	int status;
 
-	public Edge(String startNode, String endNode, String edgeID) {
-		this.startNode = startNode;
-		this.endNode = endNode;
-		this.edgeID = edgeID;
-		status = 1;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Edge edge = (Edge) o;
+		return Objects.equals(startNodeID, edge.startNodeID) &&
+				Objects.equals(endNodeID, edge.endNodeID);
 	}
 
-	public String getStartNode() {
-		return startNode;
+	@Override
+	public int hashCode() {
+		return Objects.hash(startNodeID, endNodeID);
 	}
 
-	public void setStartNode(String startNode) {
-		this.startNode = startNode;
+	public boolean isType(String type) {
+		if(type == "EDGE") { return true; }
+		return false;
 	}
 
-	public String getEndNode() {
-		return endNode;
+	public String getStartNodeID() {
+		return startNodeID;
 	}
 
-	public void setEndNode(String endNode) {
-		this.endNode = endNode;
+	public void setStartNodeID(String startNodeID) {
+		this.startNodeID = startNodeID;
+	}
+
+	public String getEndNodeID() {
+		return endNodeID;
+	}
+
+	public void setEndNodeID(String endNodeID) {
+		this.endNodeID = endNodeID;
 	}
 
 	public String getEdgeID() {
@@ -37,12 +52,19 @@ public class Edge {
 		this.edgeID = edgeID;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
 	public int getStatus() {
 		return status;
 	}
 
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Edge(String startNodeID, String endNodeID, String edgeID) {
+		this.startNodeID = startNodeID;
+		this.endNodeID = endNodeID;
+		this.edgeID = edgeID;
+
+		this.status = 1;
+	}
 }
