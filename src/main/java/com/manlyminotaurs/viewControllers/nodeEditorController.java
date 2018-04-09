@@ -134,9 +134,23 @@ public class nodeEditorController {
     }
 
 //logout and return to the home screen
-    public void logOut(ActionEvent event) {
+    public void logOut(ActionEvent event) throws Exception{
+        try{
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage=(Stage)btnLogOut.getScene().getWindow();
+            //load up Home FXML document
+            root=FXMLLoader.load(getClass().getResource("FXMLs/home.fxml"));
 
-
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();}
     }
+    
 
 }
