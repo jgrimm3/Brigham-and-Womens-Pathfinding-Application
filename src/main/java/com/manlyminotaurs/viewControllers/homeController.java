@@ -304,6 +304,10 @@ public class homeController implements Initializable {
         }
     }
 
+    public void getXandY(ActionEvent event){
+
+    }
+
     public void findQuickBathroom(ActionEvent event) {
 
         // Pathfind to nearest bathroom
@@ -361,7 +365,7 @@ public class homeController implements Initializable {
     Pane paneLogin;
 
     @FXML
-    Button btnOpenLogin;
+     Button btnOpenLogin;
 
     @FXML
     Button btnCloseLogin;

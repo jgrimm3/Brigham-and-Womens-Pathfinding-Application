@@ -3,7 +3,7 @@ package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import com.manlyminotaurs.databases.NodesDBUtil;
+
 import com.manlyminotaurs.nodes.Node;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,7 +80,7 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtXCoordDel;
     @FXML
-    JFXToggleButton tglGeofence;
+    ToggleButton tglGeofence;
     @FXML
     Pane pane;
     @FXML
@@ -112,7 +112,6 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneAdd.setDisable(false);
         paneAdd.setVisible(true);
-
     }
 
     public void displayDeletePane(ActionEvent event){   //delete Node
@@ -151,6 +150,5 @@ public class nodeEditorController {
         catch (Exception e){
             e.printStackTrace();}
     }
-    
 
 }

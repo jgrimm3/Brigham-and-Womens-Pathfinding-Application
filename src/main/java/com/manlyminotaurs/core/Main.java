@@ -32,7 +32,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try{
         //root is anchor pane that all other screens will be held in
-        root = (AnchorPane)FXMLLoader.load(getClass().getResource("/FXMLs/world.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/FXMLs/home.fxml"));
 
 
         Scene world = new Scene(root, 1920, 1080);
@@ -57,8 +57,8 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
-        DataModelI.getInstance().startDB();
-        Kiosk kiosk = new Kiosk(dataModelI.getNodeByID("GCONF02001"), "user");
+       // DataModelI.getInstance().startDB();
+       // Kiosk kiosk = new Kiosk(dataModelI.getNodeByID("GCONF02001"), "user");
 
         launch(args);
     }
