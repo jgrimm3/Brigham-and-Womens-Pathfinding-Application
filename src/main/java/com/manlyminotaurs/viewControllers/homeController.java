@@ -2,14 +2,29 @@ package com.manlyminotaurs.viewControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import javax.swing.*;
 import javax.xml.soap.Text;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class homeController {
+public class homeController implements Initializable {
+
+
+    public void initialize(URL location, ResourceBundle resources) {
+
+        // set comboboxes for buildings to default lists
+        // comBuildingStart.setItems(types);
+        // comBuildingEnd.setItems(floors);
+        comFloorStart.setDisable(true);
+        comFloorEnd.setDisable(true);
+        comTypeStart.setDisable(true);
+        comTypeEnd.setDisable(true);
+    }
 
     // Pathfinding Panel
     @FXML
@@ -93,8 +108,9 @@ public class homeController {
     @FXML
     Label lblEndLocation;
 
-
     public void toggleHandicap(ActionEvent event) {
+
+
 
     }
 
@@ -135,6 +151,12 @@ public class homeController {
     }
 
     public void drawPath(ActionEvent event) {
+
+        // Draw path code
+
+        // Clear old fields
+
+        // Show directions interface and hide pathfinding interface
         panePathfinding.setVisible(false);
         paneDirections.setVisible(true);
     }
@@ -169,15 +191,39 @@ public class homeController {
 
     public void openQRCodePanel(ActionEvent event) {
 
+        // Generate QR Code
+
+        // Load QR Code into panel
+
+        // Show QR code
+        paneQRCode.setVisible(true);
+
     }
 
     public void restartNavigation(ActionEvent event) {
+
+
+        // Clear Fields
+        comBuildingStart.getSelectionModel().clearSelection();
+
+
+        // Disable Fields
+        comFloorStart.setDisable(true);
+        comFloorEnd.setDisable(true);
+        comTypeStart.setDisable(true);
+        comTypeEnd.setDisable(true);
+
+        // Show pathfinding interface and hide directions interface
         panePathfinding.setVisible(true);
         paneDirections.setVisible(false);
+
+
     }
 
     public void closeQRCodePanel(ActionEvent event) {
 
+        // Hide QR code
+        paneQRCode.setVisible(false);
     }
 
 
@@ -199,30 +245,73 @@ public class homeController {
 
     public void toggleQuickButtons(ActionEvent event) {
 
+        if (btnQuickBathroom.isVisible() == true) {
+
+            btnQuickBathroom.setVisible(false);
+            btnQuickCafe.setVisible(false);
+            btnQuickCoffee.setVisible(false);
+            btnQuickShop.setVisible(false);
+
+        } else if (btnQuickBathroom.isVisible() == false) {
+
+            btnQuickBathroom.setVisible(true);
+            btnQuickCafe.setVisible(true);
+            btnQuickCoffee.setVisible(true);
+            btnQuickShop.setVisible(true);
+
+        }
     }
 
     public void findQuickBathroom(ActionEvent event) {
+
+        // Pathfind to nearest bathroom
 
     }
 
     public void findQuickCafe(ActionEvent event) {
 
+        // Pathfind to nearest cafe
+
     }
 
     public void findQuickCoffee(ActionEvent event) {
+
+        // Pathfind to nearest coffee shop
 
     }
 
     public void findQuickShop(ActionEvent event) {
 
+        // Pathfind to nearest gift shop
     }
 
     // Help
     @FXML
     Button btnHelp;
 
-    public void getHelp(ActionEvent event) {
+    @FXML
+    Pane paneHelp;
 
+    @FXML
+    Button btnCloseHelp;
+
+    @FXML
+    Label lblDetails;
+
+    @FXML
+    Label lblHelp;
+
+
+    public void openHelpPanel(ActionEvent event) {
+
+        // Show help panel
+        paneHelp.setVisible(true);
+    }
+
+    public void closeHelpPanel(ActionEvent event) {
+
+        // Hide help panel
+        paneHelp.setVisible(false);
     }
 
     // Login
@@ -246,14 +335,34 @@ public class homeController {
 
     public void openLoginPanel(ActionEvent event) {
 
+        // Show login panel
+        paneLogin.setVisible(true);
     }
 
     public void closeLoginPanel(ActionEvent event) {
 
+        // Hide login panel
+        paneLogin.setVisible(false);
     }
 
     public void login(ActionEvent event) {
 
+        if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
+
+            // print message
+            System.out.println("Please completely fill in the username and password fields");
+
+        } else if (txtUsername.getText().equals("user") && txtPassword.getText().equals("password")){
+
+            // print message
+            System.out.println("User logged in");
+
+        } else {
+
+            // print message
+            System.out.println("Wrong username and password!");
+
+        }
     }
 
 
