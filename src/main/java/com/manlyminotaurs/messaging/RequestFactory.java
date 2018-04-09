@@ -15,31 +15,45 @@ public class RequestFactory {
      * @param senderID the ID of the user sending the request
      * @return the request that was added to the DB or null if adding failed.
      */
-    public Request getRequest(RequestType requestType, Node nodeAt, String message, String senderID) {
+    public Request genNewRequest(RequestType requestType, Node nodeAt, String message, String senderID) {
+        Message newMsg;
+        Request newReq;
         switch (requestType) {
             case MedicalRequest:
                 //TODO: Check ID's are correct
 
-                Message newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
-                Request newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, nodeAt.getID(), message, "Password123");
+                newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, nodeAt.getID(), message, "Password123");
 
-                if(dataModel.addMessage(newMsg) && dataModel.addRequest(newReq)) {
-                    return newReq;
-                }
-                return null;
-
-                break;
+                return dataModel.addRequest(newReq, newMsg);
+            break;
             case JanitorialRequest:
                 //TODO: Check ID's are correct
 
-                Message newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
-                Request newReq = new MedicalRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, nodeAt.getID(), message, "Password123");
+                newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, nodeAt.getID(), message, "Password123");
 
-                if(dataModel.addMessage(newMsg) && dataModel.addRequest(newReq)) {
-                    return newReq;
-                }                break;
+                return dataModel.addRequest(newReq, newMsg);
+            break;
             default:
-                break;
+                return null;
+            break;
         }
+    }
+
+    public Request genExistingRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password){
+        Request newReq;
+        if(requestType.equals("MedicalRequest")) {
+            //TODO: Check ID's are correct
+
+            newReq = new MedicalRequest(requestID, "MedicalRequest", priority, isComplete, adminConfirm, nodeID, messageID, password);
+        }else if(requestType.equals("JanitorialRequest")) {
+            //TODO: Check ID's are correct
+
+            newReq = new JanitorialRequest(requestID, "JanitorialRequest", priority, isComplete, adminConfirm, nodeID, messageID, password);
+        }else {
+            newReq = null;
+        }
+        return newReq;
     }
 }
