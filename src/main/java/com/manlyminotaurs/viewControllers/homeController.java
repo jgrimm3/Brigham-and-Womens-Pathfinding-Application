@@ -132,6 +132,7 @@ public class homeController implements Initializable {
         paneDirections.setVisible(false);
         panePathfinding.setVisible(true);
         paneLogin.setVisible(false);
+        paneHelp.setVisible(false);
 
         txtUsername.setText("");
         txtPassword.setText("");
