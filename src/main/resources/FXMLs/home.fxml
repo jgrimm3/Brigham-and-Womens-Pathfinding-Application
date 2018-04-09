@@ -203,7 +203,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="paneHelp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="BOTTOM_LEFT">
+            <Pane fx:id="paneHelp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="BOTTOM_LEFT">
                <children>
                   <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
                      <children>
@@ -225,9 +225,14 @@
                   </Pane>
                   <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
                      <children>
-                        <Label fx:id="lblDetails" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Select a location and ending location via the panel to the left. To select a starting location, either press the start/end button and select a location OR manually find the location via the fields. Press GO when you want view the path." textFill="WHITE" wrapText="true">
+                        <Label fx:id="lblHelp1" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Turn on/off handicap accessibility and set the map to the 2-D/3-D map. Select a location and ending location via the panel to the left. To select a starting location, either press the start/end button and select a location OR manually find the location via the fields. Press GO when you want view the path. Press the Quick Navigation buttons in the bottom right corner to get directions to the nearest bathroom/cafe/coffee shop/gift shop." textFill="WHITE" wrapText="true">
                            <font>
-                              <Font size="27.0" />
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblHelp2" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Text step-by-step directions are displayed in the box to the left. Press the QR Code button to display a QR Code. Scan the QR Code with your mobile device to download the step-by-step directions. Press the restart button to make another path." textFill="WHITE" visible="false" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
                            </font>
                         </Label>
                      </children>
@@ -313,7 +318,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <ToggleButton fx:id="tglMap" layoutX="108.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleMap" prefHeight="20.0" prefWidth="48.0" text="2-D" />
+                        <ToggleButton fx:id="tglMap" layoutX="105.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleMap" prefHeight="20.0" prefWidth="48.0" text="2-D" />
                      </children>
                   </Pane>
                </children>

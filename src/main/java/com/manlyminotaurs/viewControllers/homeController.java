@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.nodes.INode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -133,13 +134,15 @@ public class homeController implements Initializable {
         panePathfinding.setVisible(true);
         paneLogin.setVisible(false);
         paneHelp.setVisible(false);
+        lblHelp1.setVisible(false);
+        lblHelp2.setVisible(false);
 
         txtUsername.setText("");
         txtPassword.setText("");
 
         comChangeFloor.getSelectionModel().select(0);
 
-        // Remember to refresh
+        // Remember to refresh nodes
 
         // Set Floor Map and Floor Combobox to correct setting
     }
@@ -638,13 +641,11 @@ public class homeController implements Initializable {
     public void findQuickCafe(ActionEvent event) {
 
         // Pathfind to nearest cafe
-
     }
 
     public void findQuickCoffee(ActionEvent event) {
 
         // Pathfind to nearest coffee shop
-
     }
 
     public void findQuickShop(ActionEvent event) {
@@ -663,7 +664,10 @@ public class homeController implements Initializable {
     Button btnCloseHelp;
 
     @FXML
-    Label lblDetails;
+    Label lblHelp1;
+
+    @FXML
+    Label lblHelp2;
 
     @FXML
     Label lblHelp;
@@ -671,14 +675,23 @@ public class homeController implements Initializable {
 
     public void openHelpPanel(ActionEvent event) {
 
-        // Show help panel
-        paneHelp.setVisible(true);
+        if(panePathfinding.isVisible()) {
+            paneHelp.setVisible(true);
+            lblHelp1.setVisible(true);
+            lblHelp2.setVisible(false);
+        } else if(paneDirections.isVisible()) {
+            paneHelp.setVisible(true);
+            lblHelp1.setVisible(false);
+            lblHelp2.setVisible(true);
+        }
     }
 
     public void closeHelpPanel(ActionEvent event) {
 
         // Hide help panel
         paneHelp.setVisible(false);
+        lblHelp1.setVisible(false);
+        lblHelp2.setVisible(false);
     }
 
     // Login
@@ -779,6 +792,39 @@ public class homeController implements Initializable {
         }
     }
 
+    /*
+    // Fill in node manual items based on node selected
+    // !!! method not finished...
+    public void touchNode(INode node, String type) {
+        if (type.equals("Start")) {
 
+            comBuildingStart.getSelectionModel().select(node.getBuilding);
+            //initializeBuildingStart(new ActionEvent()); // don't need this BUT keep for potential reference
+
+            comFloorStart.getSelectionModel().select(node.getFloor);
+            //initializeFloorStart(new ActionEvent());
+
+            comTypeStart.getSelectionModel().select(node.getType);
+            //initializeTypeStart(new ActionEvent());
+
+            comLocationStart.getSelectionModel().select(node.getLongName);
+
+
+        } else if (type.equals("End")) {
+
+            comBuildingEnd.getSelectionModel().select(node.getBuilding);
+            //initializeBuildingEnd(new ActionEvent());
+
+            comFloorEnd.getSelectionModel().select(node.getFloor);
+            //initializeFloorEnd(new ActionEvent());
+
+            comTypeEnd.getSelectionModel().select(node.getType);
+            //initializeTypeEnd(new ActionEvent());
+
+            comLocationEnd.getSelectionModel().select(node.getLongName);
+
+        }
+    }
+    */
 
 }
