@@ -30,6 +30,8 @@ public class adminDashBoardController  implements Initializable {
     Label lblTotalActive;
     @FXML
     Label lblTotalInactive;
+    @FXML
+    Button btnLogOut;
 
 //initialize screen with updated info of open reqestsm, node ctive and inactive information.
 public void initialize(URL location, ResourceBundle resources) {
@@ -99,6 +101,23 @@ public void initialize(URL location, ResourceBundle resources) {
             e.printStackTrace();}
     }
 
+    public void logOut(ActionEvent event) throws Exception{
+        try{
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage=(Stage)btnLogOut.getScene().getWindow();
+            //load up Home FXML document
+            root=FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();}
+    }
 
 
 }
