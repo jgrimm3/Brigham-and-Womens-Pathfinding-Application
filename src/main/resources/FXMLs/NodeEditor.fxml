@@ -66,7 +66,7 @@
             </Button>
         </buttons>
       </ButtonBar>
-      <Pane id="Add" fx:id="paneModify" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0" visible="false">
+      <Pane id="Add" fx:id="paneModify" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0">
          <children>
             <ComboBox fx:id="cmboBuildingMod" layoutX="92.0" layoutY="31.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
             <ComboBox fx:id="cmboTypeMod" layoutX="92.0" layoutY="206.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
@@ -86,7 +86,7 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord1" layoutX="117.0" layoutY="707.0" prefHeight="25.0" prefWidth="306.0" promptText="Y Coordinate or Tap on Map">
+            <JFXTextField fx:id="txtYCoordMod" layoutX="117.0" layoutY="707.0" prefHeight="25.0" prefWidth="306.0" promptText="Y Coordinate or Tap on Map">
                <font>
                   <Font size="18.0" />
                </font>
@@ -96,7 +96,7 @@
             <ComboBox fx:id="cmboFloor" layoutX="92.0" layoutY="119.0" prefHeight="76.0" prefWidth="704.0" promptText="Floor" />
          </children>
       </Pane>
-      <Pane id="Add" fx:id="paneAdd" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0">
+      <Pane id="Add" fx:id="paneAdd" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0" visible="false">
          <children>
             <ComboBox fx:id="cmboBuilding" layoutX="92.0" layoutY="31.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
             <ComboBox fx:id="cmboType" layoutX="92.0" layoutY="206.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />

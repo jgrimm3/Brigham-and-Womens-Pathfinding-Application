@@ -83,14 +83,14 @@ public void initialize(URL location, ResourceBundle resources) {
             e.printStackTrace();}
     }
     //View Requests pressed, open respective scene
-    public void openRequestDashBoard(ActionEvent event)throws Exception{
+    public void openViewRequests(ActionEvent event)throws Exception{
         try{
             Stage stage;
             Parent root;
             //get reference to the button's stage
             stage=(Stage)btnManageRequests.getScene().getWindow();
             //load up OTHER FXML document
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequests.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);

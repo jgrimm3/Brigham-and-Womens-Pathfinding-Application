@@ -72,6 +72,8 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtXCoordMod;
     @FXML
+    JFXTextField txtYCoordMod;
+    @FXML
     JFXTextField txtYCoordDel;
     @FXML
     JFXTextField txtShortNameDel;
@@ -110,6 +112,15 @@ public class nodeEditorController {
      paneModify.setDisable(false);
      paneModify.setVisible(true);
 
+        txtLongName.clear();
+        txtShortName.clear();
+        txtXCoord.setText("X Coordinate orTap on Map");
+        txtYCoord.setText("Y Coordinate or Tap on Map");
+        txtLongName.setText("Long Name");
+        txtShortNameDel.setText("Short Name");
+        txtXCoordDel.setText("X Coordinate orTap on Map");
+        txtYCoordDel.setText("Y Coordinate or Tap on Map");
+
   }
     public void displayAddPane(ActionEvent event){   //add Node
         paneDelete.setVisible((false));
@@ -118,6 +129,16 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneAdd.setDisable(false);
         paneAdd.setVisible(true);
+
+        //clear other panes children
+        txtLongNameDel.setText("Long Name");
+        txtShortNameDel.setText("Short Name");
+        txtXCoordDel.setText("X Coordinate orTap on Map");
+        txtYCoordDel.setText("Y Coordinate or Tap on Map");
+        txtLongNameMod.setText("Long Name");
+        txtShortNameMod.setText("Short Name");
+        txtXCoordMod.setText("X Coordinate orTap on Map");
+        txtYCoordMod.setText("Y Coordinate or Tap on Map");
     }
 
     public void displayDeletePane(ActionEvent event){   //delete Node
@@ -127,6 +148,15 @@ public class nodeEditorController {
         paneModify.setDisable(true);
         paneDelete.setDisable(false);
         paneDelete.setVisible((true));
+
+        txtLongName.setText("Long Name");
+        txtShortName.setText("Short Name");
+        txtXCoord.setText("X Coordinate orTap on Map");
+        txtYCoord.setText("Y Coordinate or Tap on Map");
+        txtLongNameMod.setText("Long Name");
+        txtShortNameMod.setText("Short Name");
+        txtXCoordMod.setText("X Coordinate orTap on Map");
+        txtYCoordMod.setText("Y Coordinate or Tap on Map");
     }
 
     @FXML
