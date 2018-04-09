@@ -14,18 +14,6 @@ import java.util.ResourceBundle;
 
 public class homeController implements Initializable {
 
-
-    public void initialize(URL location, ResourceBundle resources) {
-
-        // set comboboxes for buildings to default lists
-        // comBuildingStart.setItems(types);
-        // comBuildingEnd.setItems(floors);
-        comFloorStart.setDisable(true);
-        comFloorEnd.setDisable(true);
-        comTypeStart.setDisable(true);
-        comTypeEnd.setDisable(true);
-    }
-
     // Pathfinding Panel
     @FXML
     Pane panePathfinding;
@@ -108,6 +96,17 @@ public class homeController implements Initializable {
     @FXML
     Label lblEndLocation;
 
+    public void initialize(URL location, ResourceBundle resources) {
+
+        // set comboboxes for buildings to default lists
+        // comBuildingStart.setItems(types);
+        // comBuildingEnd.setItems(floors);
+        comFloorStart.setDisable(true);
+        comFloorEnd.setDisable(true);
+        comTypeStart.setDisable(true);
+        comTypeEnd.setDisable(true);
+    }
+
     public void toggleHandicap(ActionEvent event) {
 
         if (tglHandicap.isSelected()) {
@@ -146,6 +145,7 @@ public class homeController implements Initializable {
     }
 
     public void initializeBuildingStart(ActionEvent event) {
+
 
     }
 
@@ -231,6 +231,9 @@ public class homeController implements Initializable {
     @FXML
     ImageView imgQRCode;
 
+    @FXML
+    ComboBox<String> comChangeFloor;
+
     public void openQRCodePanel(ActionEvent event) {
 
         // Generate QR Code
@@ -266,6 +269,11 @@ public class homeController implements Initializable {
 
         // Hide QR code
         paneQRCode.setVisible(false);
+    }
+
+    public void changeMapFloor(ActionEvent event) {
+
+
     }
 
 

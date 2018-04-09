@@ -74,6 +74,11 @@
                   <Insets bottom="30.0" right="30.0" />
                </StackPane.margin>
             </Button>
+            <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="200.0" promptText="FLOOR" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets left="20.0" top="20.0" />
+               </StackPane.margin>
+            </ComboBox>
             <Button fx:id="btnOpenLogin" ellipsisString="" mnemonicParsing="false" onAction="#openLoginPanel" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="TOP_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
@@ -284,7 +289,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <ToggleButton fx:id="tglHandicap" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" onAction="#toggleHandicap" prefHeight="20.0" prefWidth="48.0" text="Off" />
+                        <ToggleButton fx:id="tglHandicap" layoutX="108.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleHandicap" prefHeight="20.0" prefWidth="48.0" text="Off" />
                      </children>
                   </Pane>
                   <Pane layoutX="170.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
@@ -308,7 +313,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <ToggleButton fx:id="tglMap" layoutX="106.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleMap" prefHeight="20.0" prefWidth="48.0" text="2-D" />
+                        <ToggleButton fx:id="tglMap" layoutX="108.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleMap" prefHeight="20.0" prefWidth="48.0" text="2-D" />
                      </children>
                   </Pane>
                </children>
