@@ -110,11 +110,30 @@ public class homeController implements Initializable {
 
     public void toggleHandicap(ActionEvent event) {
 
+        if (tglHandicap.isSelected()) {
 
+            // Switch off
+            tglHandicap.setText("Off");
 
+        } else {
+
+            // Switch on
+            tglHandicap.setText("On");
+        }
     }
 
     public void toggleMap(ActionEvent event) {
+
+        if (tglMap.isSelected()) {
+
+            // Switch 2-D
+            tglMap.setText("2-D");
+
+        } else {
+
+            // Switch 3-D
+            tglMap.setText("3-D");
+        }
 
     }
 
@@ -153,6 +172,29 @@ public class homeController implements Initializable {
     public void drawPath(ActionEvent event) {
 
         // Draw path code
+
+        if (tglHandicap.isSelected()) {
+            // use elevator
+
+            if (tglMap.isSelected()) {
+                // use 3-D
+
+            } else {
+                // use 2-D
+            }
+
+        } else {
+            // use stairs
+
+            if (tglMap.isSelected()) {
+                // use 3-D
+
+            } else {
+                // use 2-D
+
+            }
+
+        }
 
         // Clear old fields
 
