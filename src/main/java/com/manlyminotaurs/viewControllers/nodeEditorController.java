@@ -33,7 +33,14 @@ import java.util.List;
 
 
 public class nodeEditorController {
-
+    final double NODEXMIN = 0;
+    final double NODEXMAX = 5000;
+    final double NODEYMIN = 0;
+    final double NODEYMAX = 2774;
+    final double NEWMAPXMIN = 0;
+    final double NEWMAPXMAX = 1250;
+    final double NEWMAPYMIN = 0;
+    final double NEWMAPYMAX = 693.8;
     @FXML
     Path path;
     @FXML
@@ -338,6 +345,10 @@ public class nodeEditorController {
         building = cmboBuilding.getValue().toString();
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
+        //call add node function
+
+        //redraw map
+
     }
 
 
@@ -350,6 +361,10 @@ public class nodeEditorController {
         building = cmboBuildingMod.getValue().toString();
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
+
+        //call modify node function
+
+        //redraw map
     }
 
 
@@ -362,6 +377,11 @@ public class nodeEditorController {
         building = cmboBuildingDel.getValue().toString();
         floor = cmboFloorDel.getValue().toString();
         type = cmboTypeDel.getValue().toString();
-    }
+
+        //call delete node function
+
+        //redraw map
+
+        }
 
 }
