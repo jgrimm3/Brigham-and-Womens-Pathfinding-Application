@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="160.0" layoutY="149.0" prefHeight="838.0" prefWidth="1578.0" style="-fx-background-color: #2f2f2f;" AnchorPane.bottomAnchor="93.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0">
+      <Pane layoutX="160.0" layoutY="149.0" prefHeight="838.0" prefWidth="1578.0" style="-fx-background-color: #2f2f2f;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="160.0">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -35,22 +35,22 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tblOpenRequests" prefHeight="375.0" prefWidth="725.0">
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
                   <Button fx:id="btnCompleteRequest" mnemonicParsing="false" onAction="#promptCompleteRequest" prefHeight="36.0" prefWidth="144.0" text="Complete" />
                   <Button fx:id="btnDeleteRequest" mnemonicParsing="false" onAction="#promptDeleteRequest" prefHeight="36.0" prefWidth="144.0" text="Delete" />
-                  <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" prefHeight="122.0" prefWidth="725.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="WHITE" />
                   <JFXProgressBar prefHeight="35.0" prefWidth="725.0" progress="0.0" />
                </children>
             </AnchorPane>
-            <TableView fx:id="tblClosedRequests" layoutX="839.0" layoutY="341.0" prefHeight="375.0" prefWidth="725.0">
+            <TableView fx:id="tblClosedRequests" layoutX="879.0" layoutY="231.0" prefHeight="375.0" prefWidth="725.0">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <TableView fx:id="tblOpenRequests" layoutX="60.0" layoutY="231.0" prefHeight="375.0" prefWidth="725.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="56.0" layoutY="628.0" prefHeight="122.0" prefWidth="728.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="WHITE" />
          </children>
       </Pane>
       <Button layoutX="1825.0" layoutY="888.0" mnemonicParsing="false" onAction="#refreshReqList" prefHeight="71.0" prefWidth="81.0" text="Refresh" />
