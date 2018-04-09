@@ -131,6 +131,10 @@ public class nodeEditorController {
         path.setStrokeWidth(5);
         //printPoints("L2");
     }
+    public void getXandY(ActionEvent event) throws Exception{
+   //do that hockey
+    }
+
 
 //logout and return to the home screen
     public void logOut(ActionEvent event) throws Exception{
