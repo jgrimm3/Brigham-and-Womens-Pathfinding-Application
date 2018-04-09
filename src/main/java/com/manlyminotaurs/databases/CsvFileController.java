@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CsvFileController {
-    NodesDBUtil nodesDBUtil = new NodesDBUtil();
+    //NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
      * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
