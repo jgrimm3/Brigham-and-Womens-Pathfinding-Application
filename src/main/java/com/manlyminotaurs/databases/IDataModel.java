@@ -31,17 +31,18 @@ public interface IDataModel {
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
-    List<Node> getNodesByType(String type);
     Node getNodeByID(String ID);
     List<Node> getNodesByFloor(String floor);
+    List<Node> getNodesByType(String type);
+    List<Node> getNodesByBuilding(String building);
+    List<Node> getNodesByBuildingTypeFloor(String building, String type, String floor);
     List<String> getBuildingsFromList();
-    List<String> getTypesFromList(String building);
-    List<Node> getNodesFromList(String building, String type);
+    List<String> getTypesFromList();
     boolean doesNodeExist(String type);
+
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<Node> getAdjacentNodes();
     Set<Edge> getEdgeList(List<Node> nodeList);
-
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/

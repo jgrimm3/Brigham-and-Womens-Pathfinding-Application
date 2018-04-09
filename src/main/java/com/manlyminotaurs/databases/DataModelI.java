@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class DataModelI implements IDataModel{
 
+
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 
     // all the utils
@@ -122,18 +123,21 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
+
+    @Override
     public List<String> getBuildingsFromList() {
         return nodesDBUtil.getBuildingsFromList();
     }
 
     @Override
-    public List<String> getTypesFromList(String building) {
-        return nodesDBUtil.getTypesFromList(building);
+    public List<String> getTypesFromList() {
+        return nodesDBUtil.getTypesFromList();
     }
 
     @Override
-    public List<Node> getNodesFromList(String building, String type) {
-        return nodesDBUtil.getNodesFromList(building, type);
+    public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
+        return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
     }
 
     @Override

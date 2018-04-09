@@ -442,7 +442,7 @@ class NodesDBUtil {
 		return buildings;
 	}
 
-	List<String> getTypesFromList(String building) {
+	List<String> getTypesFromList() {
 		List<String> types = new ArrayList<>();
 		String type;
 
@@ -468,12 +468,12 @@ class NodesDBUtil {
 		return types;
 	}
 
-	List<Node> getNodesFromList(String building, String type) {
+	List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
 		List<Node> allNodes = retrieveNodes();
 
 		for(Node a_node : allNodes){
-			if(a_node.getBuilding().equals(building) && a_node.getNodeType().equals(type)){
+			if(a_node.getBuilding().equals(building) && a_node.getNodeType().equals(type) && a_node.getFloor().equals(floor)){
 				selectedNodes.add(a_node);
 			}
 		}
@@ -493,17 +493,6 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	public boolean doesNodeExist(String nodeID) {
-		List<Node> allNodes = retrieveNodes();
-
-		for(Node a_node : allNodes){
-			if(a_node.getID().equals(nodeID)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
 		List<Node> allNodes = retrieveNodes();
@@ -514,6 +503,29 @@ class NodesDBUtil {
 			}
 		}
 		return selectedNodes;
+	}
+
+	public List<Node> getNodesByBuilding(String building) {
+		List<Node> selectedNodes = new ArrayList<>();
+		List<Node> allNodes = retrieveNodes();
+
+		for(Node a_node : allNodes){
+			if(a_node.getBuilding().equals(building)){
+				selectedNodes.add(a_node);
+			}
+		}
+		return selectedNodes;
+	}
+
+	public boolean doesNodeExist(String nodeID) {
+		List<Node> allNodes = retrieveNodes();
+
+		for(Node a_node : allNodes){
+			if(a_node.getID().equals(nodeID)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
