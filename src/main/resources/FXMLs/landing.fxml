@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.landingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #43607e;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.newViewControllers.landingController">
    <children>
       <Circle id="userGradient" fx:id="userGradient" layoutX="170.0" layoutY="148.0" radius="71.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="878.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="1679.0" AnchorPane.topAnchor="60.0">
          <fill>
