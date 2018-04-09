@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.MoveTo?>
 <?import javafx.scene.shape.Path?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="createRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.newViewControllers.createRequestController">
    <children>
       <ScrollPane fx:id="scrollPane" layoutX="958.0" layoutY="116.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="960.0">
          <content>
@@ -50,7 +50,7 @@
       <Pane id="Add" fx:id="paneAdd" layoutX="21.0" layoutY="189.0" prefHeight="861.0" prefWidth="905.0">
          <children>
             <ComboBox fx:id="cmboReqType" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Request Type" />
-            <Button fx:id="btnSubmitRequest" layoutX="571.0" layoutY="695.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Submit Request" />
+            <Button fx:id="btnSubmitRequest" layoutX="571.0" layoutY="695.0" mnemonicParsing="false" onAction="#submitRequest" prefHeight="130.0" prefWidth="150.0" text="Submit Request" />
             <TextArea fx:id="txtMessage" layoutX="91.0" layoutY="178.0" prefHeight="200.0" prefWidth="698.0" promptText="Enter Request Message" />
             <ComboBox fx:id="cmboBuilding" layoutX="93.0" layoutY="400.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
             <ComboBox fx:id="cmboType" layoutX="93.0" layoutY="498.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />

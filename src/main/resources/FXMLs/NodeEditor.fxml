@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.newViewControllers.nodeEditorController">
    <children>
       <ScrollPane fx:id="scrollPane" layoutX="958.0" layoutY="116.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="960.0">
          <content>
@@ -49,24 +49,24 @@
       </ScrollPane>
       <ButtonBar layoutX="292.0" layoutY="116.0" prefHeight="54.0" prefWidth="364.0">
         <buttons>
-          <Button fx:id="btnMenuAdd" mnemonicParsing="false" prefHeight="54.0" prefWidth="105.0" text="Add">
+          <Button fx:id="btnMenuAdd" mnemonicParsing="false" onAction="#displayAddPane" prefHeight="54.0" prefWidth="105.0" text="Add">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="btnModifyNode" mnemonicParsing="false" text="Modify">
+            <Button fx:id="btnModifyNode" mnemonicParsing="false" onAction="#displayModifyPane" text="Modify">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="btnDeleteNode" mnemonicParsing="false" text="Delete">
+            <Button fx:id="btnDeleteNode" mnemonicParsing="false" onAction="#displayDeletePane" text="Delete">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
         </buttons>
       </ButtonBar>
-      <Pane id="Add" fx:id="paneAdd" layoutX="21.0" layoutY="189.0" prefHeight="861.0" prefWidth="905.0" visible="false">
+      <Pane id="Add" fx:id="paneAdd" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0">
          <children>
             <ComboBox fx:id="cmboBuilding" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
             <ComboBox fx:id="cmboType" layoutX="90.0" layoutY="170.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
@@ -95,20 +95,20 @@
       </Pane>
       <Pane id="Add" fx:id="paneModify" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0" visible="false">
          <children>
-            <ComboBox fx:id="cmboBuilding1" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
-            <ComboBox fx:id="cmboType1" layoutX="90.0" layoutY="170.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
-            <JFXTextField fx:id="txtLongName1" layoutX="89.0" layoutY="493.0" prefHeight="63.0" prefWidth="704.0" promptText="LongName">
+            <ComboBox fx:id="cmboBuildingMod" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
+            <ComboBox fx:id="cmboTypeMod" layoutX="90.0" layoutY="170.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
+            <JFXTextField fx:id="txtLongNameMod" layoutX="89.0" layoutY="493.0" prefHeight="63.0" prefWidth="704.0" promptText="LongName">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtShortName1" layoutX="92.0" layoutY="400.0" prefHeight="63.0" prefWidth="704.0" promptText="ShortName">
+            <JFXTextField fx:id="txtShortNameMod" layoutX="92.0" layoutY="400.0" prefHeight="63.0" prefWidth="704.0" promptText="ShortName">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnAddNode1" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Update Node" />
-            <JFXTextField fx:id="txtXCoord1" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="X Coordinate or tap on Map">
+            <Button fx:id="btnModify" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Update Node" />
+            <JFXTextField fx:id="txtXCoordMod" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="X Coordinate or tap on Map">
                <font>
                   <Font size="18.0" />
                </font>
@@ -118,38 +118,38 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <ComboBox fx:id="cmboType11" layoutX="90.0" layoutY="264.0" prefHeight="76.0" prefWidth="704.0" promptText="Node" />
-            <JFXToggleButton layoutX="344.0" layoutY="570.0" text="Available for Pathfinding" />
+            <ComboBox fx:id="cmboNodeMod" layoutX="90.0" layoutY="264.0" prefHeight="76.0" prefWidth="704.0" promptText="Node" />
+            <JFXToggleButton fx:id="tglGeofence" layoutX="344.0" layoutY="570.0" text="Available for Pathfinding" />
          </children>
       </Pane>
-      <Pane id="Add" fx:id="paneDelete" layoutX="32.0" layoutY="198.0" prefHeight="861.0" prefWidth="905.0">
+      <Button fx:id="btnLogOut" layoutX="1644.0" layoutY="30.0" mnemonicParsing="false" onAction="#logOut" prefHeight="71.0" prefWidth="81.0" text="logout" />
+      <Pane id="Add" fx:id="paneDelete" layoutX="22.0" layoutY="188.0" prefHeight="861.0" prefWidth="905.0" visible="false">
          <children>
-            <ComboBox fx:id="cmboBuilding11" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
-            <ComboBox fx:id="cmboType11" layoutX="90.0" layoutY="170.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
-            <JFXTextField fx:id="txtLongName11" editable="false" layoutX="89.0" layoutY="493.0" prefHeight="63.0" prefWidth="704.0" promptText="LongName">
+            <ComboBox fx:id="cmboBuildingDel" layoutX="90.0" layoutY="72.0" prefHeight="76.0" prefWidth="704.0" promptText="Building" />
+            <ComboBox fx:id="cmboTypeDel" layoutX="90.0" layoutY="170.0" prefHeight="76.0" prefWidth="704.0" promptText="Type" />
+            <JFXTextField fx:id="txtLongNameDel" editable="false" layoutX="89.0" layoutY="493.0" prefHeight="63.0" prefWidth="704.0" promptText="LongName">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtShortName11" editable="false" layoutX="92.0" layoutY="400.0" prefHeight="63.0" prefWidth="704.0" promptText="ShortName">
+            <JFXTextField fx:id="txtShortNameDel" editable="false" layoutX="92.0" layoutY="400.0" prefHeight="63.0" prefWidth="704.0" promptText="ShortName">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnAddNode11" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Delete Node" />
-            <JFXTextField fx:id="txtXCoord11" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="Admin User Name">
+            <Button fx:id="btnDeleteNode" layoutX="532.0" layoutY="642.0" mnemonicParsing="false" prefHeight="130.0" prefWidth="150.0" text="Delete Node" />
+            <JFXTextField fx:id="txtXCoordDel" layoutX="117.0" layoutY="651.0" prefHeight="25.0" prefWidth="306.0" promptText="Admin User Name">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord11" layoutX="117.0" layoutY="707.0" prefHeight="25.0" prefWidth="306.0" promptText="Admin Password">
+            <JFXTextField fx:id="txtYCoordDel" layoutX="117.0" layoutY="707.0" prefHeight="25.0" prefWidth="306.0" promptText="Admin Password">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <ComboBox fx:id="cmboType111" layoutX="90.0" layoutY="264.0" prefHeight="76.0" prefWidth="704.0" promptText="Node" />
+            <ComboBox fx:id="cmboNodeDel" layoutX="90.0" layoutY="264.0" prefHeight="76.0" prefWidth="704.0" promptText="Node" />
          </children>
       </Pane>
-      <Button layoutX="1644.0" layoutY="30.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="81.0" text="logout" />
    </children>
 </AnchorPane>

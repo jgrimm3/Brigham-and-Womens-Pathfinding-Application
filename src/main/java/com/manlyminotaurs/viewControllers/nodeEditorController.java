@@ -1,5 +1,5 @@
 
-package com.manlyminotaurs.viewControllers.newViewControllers;
+package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
