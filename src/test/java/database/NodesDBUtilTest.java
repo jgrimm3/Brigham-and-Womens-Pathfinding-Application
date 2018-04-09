@@ -90,6 +90,58 @@ public class NodesDBUtilTest {
 		assertFalse(DataModelI.getInstance().doesNodeExist(addedNode.getID()));
 	}
 
+	@Test
+	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
+		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
+		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
+		assertTrue(testList.get(0).getNodeType().equals("CONF"));
+		assertTrue(testList.get(0).getFloor().equals("1"));
+	}
+
+	@Test
+	public void getByAdjacentNodes_ReturnsCorrectList() {
+		Node node = DataModelI.getInstance().getNodeByID("GCONF02001");
+		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(Node n : testList) {
+			System.out.println(n.getLongName());
+			assertTrue(!n.getLongName().isEmpty());
+		}
+
+	}
+
+	@Test
+	public void getByAdjacentNodes_ReturnsCorrectList2() {
+		Node node = DataModelI.getInstance().getNodeByID("GEXIT001L1");
+		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(Node n : testList) {
+			System.out.println(n.getLongName());
+			assertTrue(!n.getLongName().isEmpty());
+		}
+
+	}
+
+	@Test
+	public void getByAdjacentNodes_ReturnsCorrectList3() {
+		Node node = DataModelI.getInstance().getNodeByID("WHALL002L2");
+		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(Node n : testList) {
+			System.out.println(n.getLongName());
+			assertTrue(!n.getLongName().isEmpty());
+		}
+
+	}
+
+	@Test
+	public void getByAdjacentNodes_ReturnsCorrectList4() {
+		Node node = DataModelI.getInstance().getNodeByID("GHALL013L2");
+		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(Node n : testList) {
+			System.out.println(n.getLongName());
+			assertTrue(!n.getLongName().isEmpty());
+		}
+
+	}
+
 }
 
 
