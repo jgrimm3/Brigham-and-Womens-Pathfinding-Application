@@ -1,8 +1,9 @@
 package com.manlyminotaurs.messaging;
 
-import com.manlyminotaurs.databases.RequestsDBUtil;
+import com.manlyminotaurs.databases.DataModelI;
 
 public abstract class Request implements IRequest {
+	DataModelI dataModelI = DataModelI.getInstance();
     String requestID;
     String requestType;
     int priority;
@@ -53,7 +54,7 @@ public abstract class Request implements IRequest {
 
     public void setAdminConfirm(Boolean adminConfirm) {
         this.adminConfirm = adminConfirm;
-        new RequestsDBUtil().setIsAdminConfim(this, adminConfirm);
+       	//dataModelI..setIsAdminConfim(this, adminConfirm);
     }
 
     public String getNodeID() {

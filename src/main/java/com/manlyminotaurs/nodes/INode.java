@@ -1,5 +1,5 @@
 package com.manlyminotaurs.nodes;
 
 public interface INode {
-    boolean isType(String type);
+	boolean isType(String type);
 }

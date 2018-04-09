@@ -6,8 +6,8 @@ public class Room extends Node {
     private int popularity;
     private boolean isOpen;
 
-    public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+    public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D) {
+        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         this.specialization = "yolo";
         this.detailedInfo = "lala";
         this.popularity = 1;
@@ -15,8 +15,8 @@ public class Room extends Node {
     }
 
     public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
-                String floor, String building, String specialization,String detailedInfo, int popularity, boolean isOpen) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building);
+                String floor, String building, String specialization, String detailedInfo, int popularity, boolean isOpen, int xCoord3D, int yCoord3D) {
+        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
         this.specialization = specialization;
         this.detailedInfo = detailedInfo;
         this.popularity = popularity;
@@ -53,6 +53,11 @@ public class Room extends Node {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public boolean isType(String type) {
+        if(type == "ROOM") { return true; }
+        return false;
     }
 
 }

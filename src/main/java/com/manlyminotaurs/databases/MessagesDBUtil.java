@@ -5,24 +5,24 @@ import com.manlyminotaurs.messaging.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MessagesDBUtil {
-    public static List<Message> messageList = new ArrayList<>();
+class MessagesDBUtil {
+
+    /*------------------------------------------------ Variables -----------------------------------------------------*/
     private static int messageIDCounter = 1;
+    CsvFileController csvFileController = new CsvFileController();
 
-    public Message addMessage(String messageID, String message, Boolean isRead, String senderID, String receiverID){
+    /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
+    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID){
+        String messageID = generateMessageID();
         Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
-        messageList.add(messageObject);
-
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
-            // Connect to the database
-            System.out.println("Getting connection to database...");
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
 
             // Create the prepared statement
@@ -39,136 +39,144 @@ public class MessagesDBUtil {
         {
             System.out.println("Message already in the database");
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
         return messageObject;
     }
 
-    public void removeMessage(Message message){
-        for(int i = 0; i < messageList.size(); i++){
-            if(messageList.get(i).getMessageID().equals(message.getMessageID())) {
-                // remove the node
-                System.out.println("Node removed from object list...");
-                messageList.remove(i);
-            }
-        }
+    public boolean removeMessage(Message message){
+        boolean isSuccess = false;
+        Connection connection = DataModelI.getInstance().getNewConnection();
         try {
-            // Get connection to database and delete the node from the database
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             Statement stmt = connection.createStatement();
-            String str = "DELETE FROM MESSAGE WHERE messageID = '" + message.getMessageID() + "'";
+            String str = "DELETE FROM Message WHERE messageID = '" + message.getMessageID() + "'";
             stmt.executeUpdate(str);
             stmt.close();
-            connection.close();
             System.out.println("Node removed from database");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
-    }
-    public void setIsRead(Message message, boolean newReadStatus){
-        message.setRead(newReadStatus);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET ISREAD = '" + newReadStatus + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
-    }
-    public void setMessage(Message message, String newMessage){
-        message.setMessage(newMessage);
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET MESSAGE = '" + newMessage + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }
+        return isSuccess;
     }
 
-    public void setReceiver(Message message, String receiverID){
-        message.setReceiverID(receiverID);
+    public boolean modifyMessage(Message newMessage) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
         try {
-            Connection connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
-            Statement stmt = connection.createStatement();
-            String sql = "UPDATE Message SET RECEIVERID = '" + receiverID + "'" + " WHERE messageID = '" + message.getMessageID() + "'";
-            stmt.executeUpdate(sql);
-            stmt.close();
-            connection.close();
-            System.out.println("Modification successful");
-        }catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
+            String str = "UPDATE Message SET message = ?, isRead = ?, senderID = ?, receiver = ? WHERE messageID = '"+ newMessage.getMessageID() +"'" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, newMessage.getMessage());
+            statement.setBoolean(2, newMessage.getRead());
+            statement.setString(3, newMessage.getSenderID());
+            statement.setString(4, newMessage.getReceiverID());
+            statement.executeUpdate();
+            System.out.println("Message added to database");
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
-        new CsvFileController().updateMessageCSVFile("./MessageTable.csv");
+        return isSuccess;
     }
 
+    /*------------------------------------ Search message by Receiver/Sender -------------------------------------------------*/
+    public List<Message> searchMessageByReceiver(String receiverID){
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
 
-    public Message getMessageFromList(String messageID){
-        Iterator<Message> iterator = messageList.iterator();
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if (a_message.getMessageID().equals(messageID)) {
-                return a_message;
+        // Variables
+        Message messageObject = null;
+        String messageID;
+        String message;
+        Boolean isRead;
+        String senderID;
+        List<Message> listOfMessages = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM Message Where receiverID = '" + receiverID + "'";
+            ResultSet rset = stmt.executeQuery(str);
+
+            while (rset.next()) {
+                messageID = rset.getString("messageID");
+                message = rset.getString("message");
+                isRead = rset.getBoolean("isRead");
+                senderID =rset.getString("senderID");
+
+                // Add the new edge to the list
+                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                listOfMessages.add(messageObject);
+                System.out.println("Message added to the list: "+messageID);
             }
-        }
-        System.out.println("getMessageFromList: Something might break--------------------");
-        return null;
-    }
-
-    public ObservableList<Message> searchMessageByReceiver(String userID){
-        ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
-        Iterator<Message> iterator = messageList.iterator();
-
-        //insert rows
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if(a_message.getReceiverID().equals(userID)){
-                listOfMessages.add(a_message);
-            }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding Messages");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
         return listOfMessages;
     }
 
-    public ObservableList<Message> searchMessageBySender(String userID){
-        ObservableList<Message> listOfMessages = FXCollections.observableArrayList();
-        Iterator<Message> iterator = messageList.iterator();
+    public List<Message> searchMessageBySender(String senderID){
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
 
-        //insert rows
-        while (iterator.hasNext()) {
-            Message a_message = iterator.next();
-            if(a_message.getSenderID().equals(userID)){
-                listOfMessages.add(a_message);
+        // Variables
+        Message messageObject = null;
+        String messageID;
+        String message;
+        Boolean isRead;
+        String receiverID;
+        List<Message> listOfMessages = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM Message Where senderID = '" + senderID + "'";
+            ResultSet rset = stmt.executeQuery(str);
+
+            while (rset.next()) {
+                messageID = rset.getString("messageID");
+                message = rset.getString("message");
+                isRead = rset.getBoolean("isRead");
+                receiverID =rset.getString("receiver");
+
+                // Add the new edge to the list
+                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                listOfMessages.add(messageObject);
+                System.out.println("Message added to the list: "+messageID);
             }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding Messages");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
         return listOfMessages;
     }
 
-    public String generateMessageID(){
+    /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
+    private String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
 
     /**
-     * Creates a list of objects and stores them in the global variable messageList
+     * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()
      */
-    public void retrieveMessage() {
-        try {
+    public List<Message> retrieveMessages() {
             // Connection
-            Connection connection;
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            Connection connection = DataModelI.getInstance().getNewConnection();
 
             // Variables
             Message messageObject;
@@ -177,6 +185,7 @@ public class MessagesDBUtil {
             Boolean isRead;
             String senderID;
             String receiverID;
+            List<Message> listOfMessages = new ArrayList<>();
 
             try {
                 Statement stmt = connection.createStatement();
@@ -192,8 +201,7 @@ public class MessagesDBUtil {
 
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead,senderID,receiverID);
-                    MessagesDBUtil.messageList.add(messageObject);
-                    messageIDCounter++;
+                    listOfMessages.add(messageObject);
                     System.out.println("Message added to the list: "+messageID);
                 }
                 rset.close();
@@ -201,22 +209,48 @@ public class MessagesDBUtil {
                 System.out.println("Done adding Messages");
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                DataModelI.getInstance().closeConnection(connection);
             }
-        } catch(SQLException e)
-        {
+        return listOfMessages;
+    } // retrieveMessages() ends
+
+    public Message getMessageByID(String messageID){
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
+
+        // Variables
+        Message messageObject = null;
+        String message;
+        Boolean isRead;
+        String senderID;
+        String receiverID;
+        List<Message> listOfMessages = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM Message Where messageID = '" + messageID + "'";
+            ResultSet rset = stmt.executeQuery(str);
+
+            if (rset.next()) {
+                message = rset.getString("message");
+                isRead = rset.getBoolean("isRead");
+                senderID =rset.getString("senderID");
+                receiverID = rset.getString("receiverID");
+
+                // Add the new edge to the list
+                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                listOfMessages.add(messageObject);
+                System.out.println("Message added to the list: "+messageID);
+            }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding Messages");
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
         }
-    } // retrieveMessage() ends
-
-    public void getMessageFromList(){
-
+        return messageObject;
     }
-
-    /**
-     * Print the messageList
-     */
-    public void printMessageList() {
-        int i = 0;
-        while(i < messageList.size()) { System.out.println("Object " + i + ": " + messageList.get(i).getMessageID()); i++; }
-    } // end printNodeList
 }
