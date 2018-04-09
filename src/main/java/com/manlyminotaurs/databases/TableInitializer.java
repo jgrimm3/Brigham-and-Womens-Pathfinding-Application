@@ -270,7 +270,7 @@ class TableInitializer {
                     statement.setString(2, room.getDetailedInfo());
                     statement.setInt(3, room.getPopularity());
                     statement.setBoolean(4, room.isOpen());
-                    statement.setString(5, room.getID());
+                    statement.setInt(5, room.getStatus());
                     statement.executeUpdate();
                     System.out.println("Added room to table...");
                 }catch (SQLException se) {

@@ -90,8 +90,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
-        return nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
+    public Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
+        return nodesDBUtil.addNode(xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
     }
 
     @Override
@@ -100,7 +100,6 @@ public class DataModelI implements IDataModel{
     }
 
     public boolean removeNode(String nodeID) { return nodesDBUtil.removeNodeByID(nodeID); }
-
 
     @Override
     public List<Node> getNodesByType(String type) {
@@ -142,7 +141,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Node> getAdjacentNodesFromNode(Node node) {
-        return nodesDBUtil.getAdjacentNodesFromNode(node);
+        return nodesDBUtil.getAdjacentNodes(node);
     }
 
     @Override
