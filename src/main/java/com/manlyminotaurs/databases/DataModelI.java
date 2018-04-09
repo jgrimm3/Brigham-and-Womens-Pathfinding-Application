@@ -174,6 +174,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public String getNextMessageID() {
+        return messagesDBUtil.generateMessageID();
+    }
+
+    @Override
     public List<Message> retrieveMessages() {
         return messagesDBUtil.retrieveMessages();
     }
@@ -193,7 +198,8 @@ public class DataModelI implements IDataModel{
         return messagesDBUtil.getMessageByID(ID);
     }
 
-	/*------------------------------------------------ Requests -------------------------------------------------------*/
+
+    /*------------------------------------------------ Requests -------------------------------------------------------*/
     @Override
     public Request addRequest(Request requestObject, Message messageObject) {
         return requestsDBUtil.addRequest(requestObject, messageObject);
@@ -207,6 +213,11 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyRequest(Request newRequest) {
         return requestsDBUtil.modifyRequest(newRequest);
+    }
+
+    @Override
+    public String getNextRequestID() {
+        return requestsDBUtil.generateRequestID();
     }
 
     @Override
