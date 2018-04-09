@@ -3,42 +3,38 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="btnManageRequests" alignment="TOP_CENTER" layoutX="2.0" layoutY="167.0" mnemonicParsing="false" prefHeight="711.0" prefWidth="600.0" text="View Requests" textAlignment="CENTER">
+      <Button fx:id="btnManageRequests" alignment="TOP_CENTER" layoutX="30.0" layoutY="168.0" mnemonicParsing="false" prefHeight="711.0" prefWidth="600.0" text="View Requests" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
       </Button>
-      <Button alignment="TOP_CENTER" layoutX="657.0" layoutY="165.0" mnemonicParsing="false" prefHeight="714.0" prefWidth="600.0" text="Create Requests" textAlignment="CENTER">
+      <Button alignment="TOP_CENTER" layoutX="660.0" layoutY="166.0" mnemonicParsing="false" prefHeight="714.0" prefWidth="600.0" text="Create Requests" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
       </Button>
-      <Label layoutX="235.0" layoutY="35.0" prefHeight="121.0" prefWidth="642.0" text="Admin Dashboard">
-         <font>
-            <Font size="71.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblOpenRequests" layoutX="167.0" layoutY="375.0" text="Open Requests:">
+      <Label fx:id="lblOpenRequests" layoutX="112.0" layoutY="376.0" text="Open Requests:">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label fx:id="lblAssignedRequests" layoutX="133.0" layoutY="520.0" text="Assigned Requests:">
+      <Label fx:id="lblAssignedRequests" layoutX="59.0" layoutY="519.0" text="Assigned Requests:">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Button layoutX="1728.0" layoutY="42.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="99.0" text="logout" />
-      <Button alignment="TOP_CENTER" layoutX="1318.0" layoutY="163.0" mnemonicParsing="false" prefHeight="714.0" prefWidth="600.0" text="Node Editor" textAlignment="CENTER">
+      <Button alignment="TOP_CENTER" layoutX="1290.0" layoutY="166.0" mnemonicParsing="false" prefHeight="714.0" prefWidth="600.0" text="Node Editor" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
       </Button>
-      <Label fx:id="lbl" layoutX="1384.0" layoutY="402.0" text="Total Active:">
+      <Label fx:id="lbl" layoutX="1418.0" layoutY="404.0" text="Total Active:">
          <font>
             <Font size="29.0" />
          </font>
@@ -48,5 +44,31 @@
             <Font size="29.0" />
          </font>
       </Label>
+      <Pane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: radial-gradient(center 50% 0%, radius 80%,#2b65ac,#102c57);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label layoutX="32.0" layoutY="13.0" text="Admin Dashboard" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Button layoutX="1750.0" layoutY="-7.0" mnemonicParsing="false" opacity="0.0" prefHeight="66.0" prefWidth="171.0" />
+            <Label layoutX="1720.0" layoutY="13.0" text="Log Out" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <graphic>
+                  <Line layoutY="30.0" rotate="90.0" startX="59.0" />
+               </graphic>
+            </Label>
+            <Label layoutX="1550.0" layoutY="12.0" text="Refresh" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <graphic>
+                  <Line layoutX="1550.0" layoutY="30.0" rotate="90.0" startX="59.0" />
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
