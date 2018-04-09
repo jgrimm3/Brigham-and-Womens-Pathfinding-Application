@@ -58,7 +58,7 @@ public class DataModelI implements IDataModel{
     public Connection getNewConnection() {
         try {
             if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:/nodesDB;create=true");
+                connection = DriverManager.getConnection("jdbc:derby:nodesDB");
             }
         } catch (SQLException e) {
             e.printStackTrace();
