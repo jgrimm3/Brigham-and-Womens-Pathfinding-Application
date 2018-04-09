@@ -226,16 +226,16 @@ public class nodeEditorController {
     public void getXandY(MouseEvent event) throws Exception{
         //see which pane is visible and set the corresponding x and y coordinates
         if (paneAdd.isVisible() == true){
-            txtXCoord.setText("%1.3f" + event.getX());
-            txtYCoord.setText("%1.3f" + event.getX());
+            txtXCoord.setText(String.format("%1.3f" , event.getX()));
+            txtYCoord.setText(String.format("%1.3f" , event.getY()));
         }
         else if (paneModify.isVisible() == true){
-            txtXCoordMod.setText("%1.3f" + event.getX());
-            txtYCoordMod.setText("%1.3f" + event.getX());
+            txtXCoordMod.setText(String.format("%1.3f" , event.getX()));
+            txtYCoordMod.setText(String.format("%1.3f" , event.getY()));
         }
         else if(paneDelete.isVisible() == true){
-            txtXCoordDel.setText("%1.3f" + event.getX());
-            txtYCoordDel.setText("%1.3f" + event.getY());
+            txtXCoordDel.setText(String.format("%1.3f" ,  event.getX()));
+            txtYCoordDel.setText(String.format("%1.3f" , event.getY()));
         }
     }
 
