@@ -101,7 +101,7 @@ public void initialize(URL location, ResourceBundle resources) {
             e.printStackTrace();}
     }
 
-    public void logOut(ActionEvent event) throws Exception{
+    public void LogOut(ActionEvent event) throws Exception{
         try{
             Stage stage;
             Parent root;
