@@ -135,6 +135,16 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public Node getNodeByCoords(int xCoord, int yCoord) {
+        return nodesDBUtil.getNodeByCoords(xCoord, yCoord);
+    }
+
+    @Override
+    public Node getNodeByLongName(String longName) {
+        return nodesDBUtil.getNodeByLongName(longName);
+    }
+
+    @Override
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
     }

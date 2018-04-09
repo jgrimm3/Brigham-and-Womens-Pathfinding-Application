@@ -586,6 +586,105 @@ class NodesDBUtil {
 		return node;
 	}
 
+
+	Node getNodeByCoords(int xCoord, int yCoord) {
+		// Connection
+		Connection connection = DataModelI.getInstance().getNewConnection();
+
+		// Variables
+		Node node = null;
+		String nodeID = "";
+		String nodeType = "";
+		String longName = "";
+		String shortName = "";
+		int xCoord3D = 0;
+		int yCoord3D = 0;
+		String floor = "";
+		String building = "";
+		int status = 0;
+		Statement stmt = null;
+		try {
+			stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_NODES WHERE xCoord= " + xCoord + " yCoord = " +  yCoord;
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			if (rset.next()) {
+				nodeID = rset.getString("nodeID");
+				nodeType = rset.getString("nodeType");
+				floor = rset.getString("floor");
+				building = rset.getString("building");
+				longName = rset.getString("longName");
+				shortName = rset.getString("shortName");
+				status = rset.getInt("status");
+				xCoord3D = rset.getInt("xCoord3D");
+				yCoord3D = rset.getInt("yCoord3D");
+
+				// Create the java objects based on the node type
+				buildNode(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, 1, xCoord3D, yCoord3D);
+
+				// Add the new node to the list
+				node.setAdjacentNodes(null);
+			}
+			rset.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DataModelI.getInstance().closeConnection(connection);
+		}
+		return node;
+	}
+
+	Node getNodeByLongName(String longName){
+		// Connection
+		Connection connection = DataModelI.getInstance().getNewConnection();
+
+		// Variables
+		Node node = null;
+		String nodeID = "";
+		int xCoord = 0;
+		int yCoord = 0;
+		String nodeType = "";
+		String shortName = "";
+		int xCoord3D = 0;
+		int yCoord3D = 0;
+		String floor = "";
+		String building = "";
+		int status = 0;
+		Statement stmt = null;
+		try {
+			stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_NODES WHERE longName= '" + longName + "'";
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			if (rset.next()) {
+				nodeID = rset.getString("nodeID");
+				xCoord = rset.getInt("xCoord");
+				yCoord = rset.getInt("yCoord");
+				nodeType = rset.getString("nodeType");
+				floor = rset.getString("floor");
+				building = rset.getString("building");
+				shortName = rset.getString("shortName");
+				status = rset.getInt("status");
+				xCoord3D = rset.getInt("xCoord3D");
+				yCoord3D = rset.getInt("yCoord3D");
+
+				// Create the java objects based on the node type
+				buildNode(longName, shortName, nodeID, nodeType, xCoord, yCoord, floor, building, 1, xCoord3D, yCoord3D);
+				node.setAdjacentNodes(null);
+			}
+			rset.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DataModelI.getInstance().closeConnection(connection);
+		}
+		return node;
+	}
+
 	/**
 	 * used to generate unique nodeID when adding a new node on the map
 	 *

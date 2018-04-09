@@ -37,6 +37,8 @@ public interface IDataModel {
     List<Node> getNodesByBuildingTypeFloor(String building, String type, String floor);
     List<String> getBuildingsFromList();
     List<String> getTypesFromList();
+    Node getNodeByCoords(int xCoord, int yCoord);
+    Node getNodeByLongName(String longName);
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<Node> getAdjacentNodesFromNode(Node node);
