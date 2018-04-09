@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -8,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,7 +51,7 @@
                   </StackPane>
                </content>
             </ScrollPane>
-            <Button fx:id="btnHelp" ellipsisString="" mnemonicParsing="false" onAction="#getHelp" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_LEFT">
+            <Button fx:id="btnHelp" ellipsisString="" mnemonicParsing="false" onAction="#openHelpPanel" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_LEFT">
                <StackPane.margin>
                   <Insets bottom="30.0" left="20.0" />
                </StackPane.margin>
@@ -198,6 +198,40 @@
                   </ImageView>
                </children>
             </Pane>
+            <Pane fx:id="paneHelp" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="BOTTOM_LEFT">
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
+                     <children>
+                        <Label fx:id="lblHelp" layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="360.0" text="HELP" textFill="WHITE">
+                           <font>
+                              <Font size="55.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnCloseHelp" layoutX="330.0" layoutY="30.0" mnemonicParsing="false" onAction="#closeHelpPanel" prefHeight="30.0" prefWidth="30.0">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Icons/ExitIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
+                     <children>
+                        <Label fx:id="lblDetails" layoutX="20.0" layoutY="20.0" prefHeight="320.0" prefWidth="360.0" text="Details" textFill="WHITE">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="20.0" />
+               </StackPane.margin>
+            </Pane>
          </children>
       </StackPane>
       <Pane fx:id="panePathfinding" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1580.0" AnchorPane.topAnchor="0.0">
@@ -250,7 +284,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <JFXToggleButton fx:id="tglHandicap" ellipsisString="" layoutX="95.0" onAction="#toggleHandicap" prefHeight="60.0" prefWidth="0.0" />
+                        <ToggleButton fx:id="tglHandicap" layoutX="108.0" layoutY="17.0" mnemonicParsing="false" onAction="#toggleHandicap" prefHeight="20.0" prefWidth="48.0" text="Off" />
                      </children>
                   </Pane>
                   <Pane layoutX="170.0" prefHeight="60.0" prefWidth="170.0" style="-fx-background-color: #2b65ac;">
@@ -274,7 +308,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <JFXToggleButton fx:id="tglMap" ellipsisString="" layoutX="95.0" onAction="#toggleMap" prefHeight="60.0" prefWidth="0.0" />
+                        <ToggleButton fx:id="tglMap" layoutX="106.0" layoutY="15.0" mnemonicParsing="false" onAction="#toggleMap" prefHeight="20.0" prefWidth="48.0" text="2-D" />
                      </children>
                   </Pane>
                </children>
@@ -600,7 +634,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="paneDirections" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;">
+      <Pane fx:id="paneDirections" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" visible="false">
          <children>
             <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                <children>
@@ -731,7 +765,7 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane layoutY="330.0" prefHeight="295.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
+            <Pane layoutY="330.0" prefHeight="428.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                <children>
                   <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #f1f1f1;">
                      <children>
