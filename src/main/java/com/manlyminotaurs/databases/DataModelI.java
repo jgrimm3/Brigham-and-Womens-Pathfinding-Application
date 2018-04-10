@@ -122,11 +122,6 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-	public Node getNodeByIDSimple(String ID) {
-    	return nodesDBUtil.getNodeByIDSimple(ID);
-	}
-
-    @Override
     public List<Node> getNodesByFloor(String floor) {
         return nodesDBUtil.getNodesByFloor(floor);
     }
