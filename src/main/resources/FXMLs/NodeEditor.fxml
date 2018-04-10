@@ -21,12 +21,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.nodeEditorController">
    <children>
-      <Pane id="Add" fx:id="paneAdd1" layoutX="30.0" layoutY="200.0" minWidth="0.0" prefHeight="860.0" prefWidth="900.0" style="-fx-background-color: #2b65ac;">
-         <effect>
-            <DropShadow />
-         </effect>
-      </Pane>
-      <ScrollPane fx:id="scrollPane" layoutX="958.0" layoutY="116.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="960.0">
+      <ScrollPane fx:id="scrollPane" layoutX="960.0" layoutY="120.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="960.0">
          <content>
             <StackPane prefHeight="2774.0" prefWidth="5000.0">
                <children>
@@ -54,65 +49,92 @@
             </StackPane>
          </content>
       </ScrollPane>
-      <Pane id="Add" fx:id="paneModify" layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0" visible="false">
+      <Pane id="Add" fx:id="paneAdd1" layoutX="30.0" layoutY="200.0" minWidth="0.0" prefHeight="860.0" prefWidth="900.0" style="-fx-background-color: #2b65ac;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <Pane id="Add" fx:id="paneModify" layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0">
          <children>
-            <ComboBox fx:id="cmboBuildingMod" layoutX="100.0" layoutY="60.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateY="15.0" />
-            <ComboBox fx:id="cmboTypeMod" layoutX="100.0" layoutY="260.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateY="15.0" />
-            <JFXTextField fx:id="txtLongNameMod" layoutX="100.0" layoutY="540.0" prefHeight="60.0" prefWidth="700.0" promptText="LongName" translateY="15.0">
+            <ComboBox fx:id="cmboBuildingMod" layoutX="100.0" layoutY="60.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateY="-7.5" />
+            <ComboBox fx:id="cmboTypeMod" layoutX="100.0" layoutY="260.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateY="-7.5" />
+            <JFXTextField fx:id="txtLongNameMod" layoutX="100.0" layoutY="540.0" prefHeight="60.0" prefWidth="700.0" promptText="LongName" translateY="-7.5">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtShortNameMod" layoutX="100.0" layoutY="460.0" prefHeight="60.0" prefWidth="700.0" promptText="ShortName" translateY="15.0">
+            <JFXTextField fx:id="txtShortNameMod" layoutX="100.0" layoutY="460.0" prefHeight="60.0" prefWidth="700.0" promptText="ShortName" translateY="-7.5">
                <font>
                   <Font size="20.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnModify" layoutX="670.0" layoutY="680.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="130.0" text="Update Node" translateY="15.0" />
-            <JFXTextField fx:id="txtXCoordMod" layoutX="100.0" layoutY="680.0" prefWidth="300.0" promptText="X Coordinate or tap on Map" translateY="15.0">
+            <Button fx:id="btnModify" layoutX="340.0" layoutY="785.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="Update Node" translateY="-7.5" />
+            <JFXTextField fx:id="txtXCoordMod" layoutX="100.0" layoutY="670.0" prefHeight="35.0" prefWidth="270.0" promptText="2D X Coordinate or tap on Map" translateY="-7.5">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord1" layoutX="100.0" layoutY="735.0" prefWidth="300.0" promptText="Y Coordinate or Tap on Map" translateY="15.0">
+            <JFXTextField fx:id="txtYCoord1" layoutX="100.0" layoutY="725.0" prefWidth="270.0" promptText="2D Y Coordinate or Tap on Map" translateY="-7.5">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <ComboBox fx:id="cmboNodeMod" layoutX="100.0" layoutY="360.0" prefHeight="80.0" prefWidth="700.0" promptText="Node" translateY="15.0" />
-            <ToggleButton fx:id="tglGeofence" layoutX="340.0" layoutY="620.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="Toggle Pathfinding Availability" translateY="15.0" />
-            <ComboBox fx:id="cmboFloor" layoutX="100.0" layoutY="160.0" prefHeight="80.0" prefWidth="700.0" promptText="Floor" translateY="15.0" />
+            <ComboBox fx:id="cmboNodeMod" layoutX="100.0" layoutY="360.0" prefHeight="80.0" prefWidth="700.0" promptText="Node" translateY="-7.5" />
+            <ToggleButton fx:id="tglGeofence" layoutX="230.0" layoutY="620.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="Toggle Pathfinding Availability" translateY="-7.5" />
+            <ToggleButton layoutX="460.0" layoutY="620.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="Toggle 3D Map" translateY="-7.5" />
+            <ComboBox fx:id="cmboFloor" layoutX="100.0" layoutY="160.0" prefHeight="80.0" prefWidth="700.0" promptText="Floor" translateY="-7.5" />
+            <JFXTextField fx:id="txtXCoordMod1" layoutX="530.0" layoutY="670.0" prefWidth="270.0" promptText="3D X Coordinate or tap on Map" translateY="-7.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtYCoord11" layoutX="530.0" layoutY="725.0" prefWidth="270.0" promptText="3D Y Coordinate or Tap on Map" translateY="-7.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
          </children>
       </Pane>
       <Pane id="Add" fx:id="paneAdd" layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0" visible="false">
          <children>
-            <ComboBox fx:id="cmboBuilding" layoutX="100.0" layoutY="30.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateY="105.0" />
-            <ComboBox fx:id="cmboType" layoutX="100.0" layoutY="230.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateY="105.0" />
-            <JFXTextField fx:id="txtLongName" layoutX="100.0" layoutY="410.0" prefHeight="60.0" prefWidth="700.0" promptText="LongName" translateY="105.0">
+            <ComboBox fx:id="cmboBuilding" layoutX="100.0" layoutY="30.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateY="80.0" />
+            <ComboBox fx:id="cmboType" layoutX="100.0" layoutY="230.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateY="80.0" />
+            <JFXTextField fx:id="txtLongName" layoutX="100.0" layoutY="410.0" prefHeight="60.0" prefWidth="700.0" promptText="LongName" translateY="80.0">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtShortName" layoutX="100.0" layoutY="330.0" prefHeight="60.0" prefWidth="700.0" promptText="ShortName" translateY="105.0">
+            <JFXTextField fx:id="txtShortName" layoutX="100.0" layoutY="330.0" prefHeight="60.0" prefWidth="700.0" promptText="ShortName" translateY="80.0">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <Button fx:id="btnAddNode" layoutX="670.0" layoutY="500.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="130.0" text="Add Node" translateY="105.0" />
-            <JFXTextField fx:id="txtXCoord" layoutX="100.0" layoutY="490.0" prefWidth="306.0" promptText="X Coordinate or tap on Map" translateY="105.0">
+            <Button fx:id="btnAddNode" layoutX="340.0" layoutY="650.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="Add Node" translateY="80.0" />
+            <JFXTextField fx:id="txtXCoord" layoutX="100.0" layoutY="540.0" prefWidth="270.0" promptText="2D X Coordinate or tap on Map" translateY="80.0">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord" layoutX="100.0" layoutY="555.0" prefHeight="25.0" prefWidth="306.0" promptText="Y Coordinate or Tap on Map" translateY="105.0">
+            <JFXTextField fx:id="txtYCoord" layoutX="100.0" layoutY="595.0" prefWidth="270.0" promptText="2D Y Coordinate or Tap on Map" translateY="80.0">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <ComboBox fx:id="cmboFloorAdd" layoutX="100.0" layoutY="130.0" prefHeight="80.0" prefWidth="700.0" promptText="Floor" translateY="105.0" />
+            <ComboBox fx:id="cmboFloorAdd" layoutX="100.0" layoutY="130.0" prefHeight="80.0" prefWidth="700.0" promptText="Floor" translateY="80.0" />
+            <ToggleButton layoutX="340.0" layoutY="490.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" text="3D Map/Coordinates" translateY="80.0" />
+            <JFXTextField fx:id="txtXCoord1" layoutX="530.0" layoutY="540.0" prefWidth="270.0" promptText="2D X Coordinate or tap on Map" translateY="80.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtYCoord2" layoutX="530.0" layoutY="595.0" prefHeight="25.0" prefWidth="270.0" promptText="2D Y Coordinate or Tap on Map" translateY="80.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
          </children>
       </Pane>
-      <Pane id="Add" fx:id="paneDelete" layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0">
+      <Pane id="Add" fx:id="paneDelete" layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0" visible="false">
          <children>
             <ComboBox fx:id="cmboBuildingDel" layoutX="100.0" layoutY="30.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateY="60.0" />
             <ComboBox fx:id="cmboTypeDel" layoutX="100.0" layoutY="230.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateY="60.0" />
