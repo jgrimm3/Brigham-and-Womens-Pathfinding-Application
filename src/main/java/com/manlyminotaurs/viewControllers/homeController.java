@@ -167,7 +167,7 @@ Parent staffRequest;
     @FXML
     ComboBox<String> comChangeFloor;
 
-    public void initialize(URL location, ResourceBundle resources) throws Exception{
+    public void initialize(URL location, ResourceBundle resources) {
 try {
     // Set comboboxes for buildings to default lists
     comBuildingStart.setItems(buildings);
@@ -193,7 +193,7 @@ try {
     comChangeFloor.getSelectionModel().select(0);
 
     staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+    //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 }
 
         catch (Exception e){
@@ -834,7 +834,7 @@ try {
             // print message
             System.out.println("Please completely fill in the username and password fields");
 
-        } else if (txtUsername.getText().toLowerCase().equals("user") && txtPassword.getText().toLowerCase().equals("password")) {
+        } else if (txtUsername.getText().toLowerCase().equals("staff") && txtPassword.getText().toLowerCase().equals("staff")) {
             try {
                 // Reset Fields
                 panePathfinding.setVisible(true);
@@ -891,7 +891,7 @@ try {
                 e.printStackTrace();
             }
         }
-                else if (txtUsername.getText().toLowerCase().equals("user") && txtPassword.getText().toLowerCase().equals("password")) {
+                else if (txtUsername.getText().toLowerCase().equals("admin") && txtPassword.getText().toLowerCase().equals("admin")) {
                 try {
                     // Reset Fields
                     panePathfinding.setVisible(true);
