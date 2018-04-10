@@ -14,8 +14,12 @@ import java.util.List;
 class MessagesDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
-    private static int messageIDCounter = 1;
+    private static int messageIDCounter = 0;
     CsvFileController csvFileController = new CsvFileController();
+
+    public static void setMessageIDCounter(int messageIDCounter) {
+        MessagesDBUtil.messageIDCounter = messageIDCounter;
+    }
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
     public Message addMessage(Message messageObject){
@@ -170,7 +174,7 @@ class MessagesDBUtil {
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
     public String generateMessageID(){
         messageIDCounter++;
-        return Integer.toString(messageIDCounter-1);
+        return Integer.toString(messageIDCounter);
     }
 
     /**

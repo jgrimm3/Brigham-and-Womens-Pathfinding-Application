@@ -31,10 +31,23 @@ Create Table Room (
 Create Table UserAccount (
   userID        VARCHAR(10) PRIMARY KEY,
   firstName     VARCHAR(255),
-  middleName VARCHAR(255),
+  middleName    VARCHAR(255),
   lastName      VARCHAR(255),
   language      VARCHAR(255),
   userType      VARCHAR(255));
+
+CREATE TABLE UserPassword (
+  userName    VARCHAR(15) UNIQUE,
+  password    VARCHAR(15),
+  userID      VARCHAR(10) UNIQUE,
+  CONSTRAINT fk_password_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
+
+CREATE TABLE Staff (
+  isWorking           BOOLEAN,
+  isAvailable         BOOLEAN,
+  languageSpoken      VARCHAR(255),
+  userID              VARCHAR(10) UNIQUE,
+  CONSTRAINT fk_staff_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 Create Table Request (
   requestID     VARCHAR(10) PRIMARY KEY,

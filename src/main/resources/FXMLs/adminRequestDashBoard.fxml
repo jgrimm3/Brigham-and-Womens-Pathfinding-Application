@@ -60,7 +60,7 @@
             <Font size="28.0" />
          </font>
       </Button>
-      <Button layoutX="1750.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
+      <Button fx:id="btnLogOut" layoutX="1750.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
          <font>
             <Font size="28.0" />
          </font>
@@ -78,12 +78,12 @@
       <Button fx:id="btnDeleteRequest" layoutX="600.0" layoutY="906.0" mnemonicParsing="false" onAction="#deleteSelected" prefHeight="40.0" prefWidth="150.0" text="Delete" />
       <Pane layoutY="60.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: #edbf54;">
          <children>
-            <Button fx:id="navBtnNewRequest" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
+            <Button fx:id="navBtnNewRequest" mnemonicParsing="false" onAction="#createRequest" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
+            <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" onAction="#nodeEditor" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>

@@ -33,6 +33,8 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
+        DataModelI.getInstance().retrieveNodes();
+      //  DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","2");
     }
 
     private DataModelI() {
@@ -88,11 +90,6 @@ public class DataModelI implements IDataModel{
     public boolean modifyNode(Node newNode) {
         return nodesDBUtil.modifyNode(newNode);
     }
-
-    @Override
-	public boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
-    	return nodesDBUtil.modifyNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
-	}
 
     @Override
     public Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
@@ -178,25 +175,31 @@ public class DataModelI implements IDataModel{
     public Set<Edge> getEdgeList(List<Node> nodeList) {
         return nodesDBUtil.getEdgeList(nodeList);
     }
-/*
-    @Override
-	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
     @Override
     public void addEdge(Node startNode, Node endNode) {
         nodesDBUtil.addEdge(startNode, endNode);
     }
 
-    @Override
-    public void removeEdge(Node startNode, Node endNode) {
-        nodesDBUtil.removeEdge(startNode, endNode);
-    }
+    /*
+        @Override
+        public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
-    @Override
-    public boolean hasEdge(Node startNode, Node endNode) {
-        return nodesDBUtil.hasEdge(startNode, endNode);
-    }
-*/
+        @Override
+        public void addEdge(Node startNode, Node endNode) {
+            nodesDBUtil.addEdge(startNode, endNode);
+        }
+
+        @Override
+        public void removeEdge(Node startNode, Node endNode) {
+            nodesDBUtil.removeEdge(startNode, endNode);
+        }
+
+        @Override
+        public boolean hasEdge(Node startNode, Node endNode) {
+            return nodesDBUtil.hasEdge(startNode, endNode);
+        }
+    */
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
     public Message addMessage(Message messageObject) {
@@ -283,8 +286,8 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String userID, String firstName, String middleName, String lastName, String language,String userType) {
-        return userDBUtil.addUser(userID, firstName, middleName, lastName, language, userType);
+    public User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
+        return userDBUtil.addUser(firstName, middleName, lastName, language, userType, userName, password);
     }
 
     @Override
@@ -305,6 +308,12 @@ public class DataModelI implements IDataModel{
     @Override
     public User getUserByID(String userID) {
         return userDBUtil.getUserByID(userID);
+    }
+
+    @Override
+    public String getIDByUserPassword(String userName, String password) {
+        UserSecurity userSecurity = new UserSecurity();
+        return userSecurity.getIDByUserPassword(userName, password);
     }
 
 }

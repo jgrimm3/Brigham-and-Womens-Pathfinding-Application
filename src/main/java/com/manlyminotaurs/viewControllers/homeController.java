@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -274,6 +275,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
@@ -288,7 +290,7 @@ Parent staffRequest;
             tglMap.setText("2-D");
             lblMap.setText("MAP: 2-D");
 
-            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
+            if(comChangeFloor.getValue().equals("FLOOR: L2")) { ;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
@@ -394,6 +396,7 @@ Parent staffRequest;
         // Clear Past Selection
         comLocationStart.getSelectionModel().clearSelection();
 
+
         // Set Start Location Label to Default
         lblStartLocation.setText("START LOCATION");
 
@@ -477,6 +480,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
@@ -492,6 +496,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
@@ -514,7 +519,7 @@ Parent staffRequest;
     public void drawPath(ActionEvent event) {
 
 
-        if (lblStartLocation.equals("START LOCATION") || lblEndLocation.equals("END LOCATION")) { // !!! add .equals using as a tester
+        if (lblStartLocation.getText().equals("START LOCATION") || lblEndLocation.getText().equals("END LOCATION")) { // !!! add .equals using as a tester
 
             System.out.println("Pick a start and end location!");
 
@@ -529,12 +534,15 @@ Parent staffRequest;
 
             try {
                 pathList = pathfindingContext.getPath(DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList),DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList),new AStarStrategyI());
+
             } catch (PathNotFoundException e) {
                 e.printStackTrace();
             }
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText(pathList));
             lstDirections.setItems(directions);
+            pathfinderUtil.generateQR(pathfinderUtil.angleToText(pathList));
+            new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 
             // Draw path code
@@ -748,10 +756,6 @@ Parent staffRequest;
             btnQuickShop.setVisible(true);
 
         }
-    }
-
-    public void getXandY(ActionEvent event){
-
     }
 
     public void findQuickBathroom(ActionEvent event) {
@@ -1056,5 +1060,18 @@ Parent staffRequest;
         }
     }
     */
+
+    // Map Touch Capability
+
+    @FXML
+    Pane paneMap;
+
+    public void getXandY(MouseEvent event) throws Exception{
+        //see which pane is visible and set the corresponding x and y coordinates
+        if (paneMap.isVisible() == true) {
+            System.out.println("X: " + String.format("%1.3f", event.getX()));
+            System.out.println("Y: " + String.format("%1.3f", event.getY()));
+        }
+    }
 
 }

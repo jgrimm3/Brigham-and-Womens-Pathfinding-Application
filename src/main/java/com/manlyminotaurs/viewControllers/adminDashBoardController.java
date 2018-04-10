@@ -54,7 +54,7 @@ public void initialize(URL location, ResourceBundle resources) {
             //get reference to the button's stage
             stage=(Stage)btnCreateRequests.getScene().getWindow();
             //load up OTHER FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/CreateRequest.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);

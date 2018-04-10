@@ -46,17 +46,17 @@ public abstract class Node implements INode {
 
     public String getNodeID(){ return this.nodeID; }
 
-    public int getXCoord() { return loc.xCoord; }
+    public int getXCoord() { return loc.getxCoord(); }
 
-    public int getYCoord() { return loc.yCoord; }
+    public int getYCoord() { return loc.getyCoord(); }
 
-    public int getXCoord3D() { return loc.xCoord3D; }
+    public int getXCoord3D() { return loc.getxCoord3D(); }
 
-    public int getYCoord3D() { return loc.yCoord3D; }
+    public int getYCoord3D() { return loc.getyCoord3D(); }
 
-    public String getFloor() { return loc.floor; }
+    public String getFloor() { return loc.getFloor(); }
 
-    public String getBuilding() { return loc.building; }
+    public String getBuilding() { return loc.getBuilding(); }
 
     public int getStatus() { return status; }
 

@@ -19,6 +19,9 @@ public class createRequestController{
     DataModelI dbUtil = DataModelI.getInstance();
     RequestFactory rFactory = new RequestFactory();
 
+    Parent manageRequests;
+    Parent nodeEdit;
+
     @FXML
     ScrollPane scrollPane;
     @FXML
@@ -53,6 +56,10 @@ public class createRequestController{
     ComboBox<RequestType> cmboReqType;
     @FXML
     Button btnLogOut;
+    @FXML
+    Button navBtnManageRequests;
+    @FXML
+    Button navBtnNodeEditor;
 
     String requestType;
     String message;
@@ -124,7 +131,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage=(Stage)btnlogOut.getScene().getWindow();
             //load up Home FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);
@@ -134,5 +141,38 @@ public class createRequestController{
         catch (Exception e){
             e.printStackTrace();}
     }
+    public void manageRequests (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void nodeEditor(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(nodeEdit);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
