@@ -82,4 +82,8 @@ public abstract class Node implements INode {
         Node n = (Node) other;
         return this.getNodeID().equals(n.getNodeID());
     }
+    @Override
+    public String toString(){
+        return this.getNodeID();
+    }
 }
