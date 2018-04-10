@@ -42,7 +42,7 @@ public class DatabasePathfindingTest {
 
         LinkedList<Node> expected = new LinkedList<>();
         expected.add(startNode);
-        expected.add(startNode);
+        expected.add(endNode);
 
         PathfindingContext pf = new PathfindingContext();
         LinkedList<Node> result = new LinkedList<>();
@@ -53,6 +53,29 @@ public class DatabasePathfindingTest {
         }
         assertEquals(expected, result);
 
+    }
+
+    @Test
+    public void PathfindWithDBNodesWithFloorChange(){
+        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
+        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes);
+        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes);
+        // GHALL02401, GELEV00N01, GELEV00N02, GDEPT02402
+
+        LinkedList<Node> expected = new LinkedList<>();
+        expected.add(DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes));
+        expected.add(DataModelI.getInstance().getNodeByIDFromList("GELEV00N01", nodes));
+        expected.add(DataModelI.getInstance().getNodeByIDFromList("GELEV00N02", nodes));
+        expected.add(DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes));
+
+        PathfindingContext pf = new PathfindingContext();
+        LinkedList<Node> result = new LinkedList<>();
+        try {
+            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+        } catch (PathNotFoundException e){
+            e.printStackTrace();
+        }
+        assertEquals(expected, result);
     }
 
 
