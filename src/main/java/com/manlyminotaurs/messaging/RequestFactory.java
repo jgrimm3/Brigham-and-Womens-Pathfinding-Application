@@ -35,6 +35,18 @@ public class RequestFactory {
         }
     }
 
+    /**
+     *  Makes a new request object with all fields populated. This should only be called if the data is coming from the database as the DB is not updated with this call
+     * @param requestID The ID of the Request in the DB
+     * @param requestType The request type
+     * @param priority the priority level of the request
+     * @param isComplete represents if the request has been marked complete
+     * @param adminConfirm represents if the request has been confirmed by an admin
+     * @param nodeID the ID of the node that the request is based out of
+     * @param messageID the ID of the message tied to the Request
+     * @param password the password used to complete the request
+     * @return a Request object with the fields populated with the parameters
+     */
     public Request genExistingRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password){
         Request newReq;
         if(requestType.equals("MedicalRequest")) {

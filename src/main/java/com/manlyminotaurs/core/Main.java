@@ -58,8 +58,6 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
        // DataModelI.getInstance().startDB();
-       // Kiosk kiosk = new Kiosk(dataModelI.getNodeByID("GCONF02001"), "user");
-
         launch(args);
     }
 }

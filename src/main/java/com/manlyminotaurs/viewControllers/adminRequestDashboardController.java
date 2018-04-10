@@ -1,6 +1,10 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXProgressBar;
+import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.messaging.Request;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +13,46 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
 public class adminRequestDashboardController  {
+    DataModelI dBUtil = DataModelI.getInstance();
+    ObservableList<requestInfo> openList = FXCollections.observableArrayList();
+    ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
+    ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
+
+    public class requestInfo{
+        protected String requestID;
+        String requestType;
+        String message;
+        Boolean isAssigned;
+
+        requestInfo(String requestType, String message, Boolean isAssigned, String requestID){
+            this.requestType = requestType;
+            this.message = message;
+            this.isAssigned = isAssigned;
+            this.requestID = requestID;
+        }
+
+        public String getRequestType() {
+            return requestType;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public Boolean getIsAssigned() {
+            return isAssigned;
+        }
+    }
+
     @FXML
     TableView tblOpenRequests;
     @FXML
@@ -35,9 +72,43 @@ public class adminRequestDashboardController  {
             public void initialize() throws Exception{
         try{
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            //OPEN LIST-----------------------
+            TableColumn typeColOpen = new TableColumn("Request Type");
+            TableColumn msgColOpen = new TableColumn("Request Message");
+            TableColumn isAssignedColOpen = new TableColumn("Is Assigned");
+
+            tblOpenRequests.getColumns().addAll(typeColOpen, msgColOpen, isAssignedColOpen);
+
+            typeColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
+            msgColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
+            isAssignedColOpen.setCellValueFactory(new PropertyValueFactory<requestInfo, Boolean>("isAssigned"));
+
+            //CLOSED LIST----------------------
+            TableColumn typeColClosed = new TableColumn("Request Type");
+            TableColumn msgColClosed = new TableColumn("Request Message");
+            TableColumn reqConfirmedClosed = new TableColumn("Was Confirmed");
+
+            tblClosedRequests.getColumns().addAll(typeColClosed, msgColClosed, reqConfirmedClosed);
+
+            typeColClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("requestType"));
+            msgColClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("message"));
+            reqConfirmedClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("isAssigned"));
+
+            //POPULATE LISTS----------------------------------------
+            for(Request currReq : reqestList) {
+                if (!currReq.getComplete()) {
+                    openList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                } else {
+                    closedList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                }
+            }
+
+            tblOpenRequests.setItems(openList);
+            tblClosedRequests.setItems(closedList);
         }
         catch (Exception e){
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
 
     }
 
@@ -56,5 +127,6 @@ public class adminRequestDashboardController  {
         catch (Exception e){
             e.printStackTrace();}
     }
+
 
 }

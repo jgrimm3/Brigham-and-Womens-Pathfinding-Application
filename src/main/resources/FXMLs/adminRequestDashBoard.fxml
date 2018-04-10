@@ -60,7 +60,7 @@
             <Font size="28.0" />
          </font>
       </Button>
-      <Button layoutX="1750.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
+      <Button layoutX="1750.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE">
          <font>
             <Font size="28.0" />
          </font>
@@ -97,14 +97,14 @@
                   <Font size="28.0" />
                </font>
             </Label>
+            <Label layoutX="1411.0" layoutY="-2.0" prefHeight="61.0" prefWidth="303.0" text="Closed Requests" textFill="#f1f1f1">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Label layoutX="300.0" layoutY="680.0" text="Request Details" textFill="WHITE">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Label layoutX="1419.0" layoutY="120.0" prefHeight="55.0" prefWidth="223.0" text="Closed Requests" textFill="#f1f1f1" AnchorPane.rightAnchor="286.0">
          <font>
             <Font size="27.0" />
          </font>
