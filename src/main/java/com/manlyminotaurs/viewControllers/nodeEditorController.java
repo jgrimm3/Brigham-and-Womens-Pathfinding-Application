@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
 import com.manlyminotaurs.nodes.Node;
+import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -118,6 +119,9 @@ public class nodeEditorController {
     @FXML
     Button btnModify;
 
+    @FXML
+    ImageView mapImg;
+
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro", "Jank", "Somerset");
@@ -153,7 +157,48 @@ public class nodeEditorController {
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
+
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            // Load 2D Map
+            txtXCoord.setOnMouseClicked(e -> {
+                System.out.println("map loading");
+
+                if(cmboFloor.getValue().equals("L2")) {
+                    System.out.println("L2 map loaded");
+
+                    new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+                    System.out.println("L2 map loaded");
+                } else if(cmboFloor.getValue().equals("L1")) {
+                    new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+                } else if(cmboFloor.getValue().equals("1")) {
+                    new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+                } else if(cmboFloor.getValue().equals("2")) {
+                    new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+                } else if(cmboFloor.getValue().equals("3")) {
+                    new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+                }
+
+            });
+
+            txtYCoord.setOnMouseClicked(e -> {
+
+                if(cmboFloor.getValue().equals("L2")) {
+                    new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+                } else if(cmboFloor.getValue().equals("L1")) {
+                    new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+                } else if(cmboFloor.getValue().equals("1")) {
+                    new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+                } else if(cmboFloor.getValue().equals("2")) {
+                    new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+                } else if(cmboFloor.getValue().equals("3")) {
+                    new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+                }
+
+            });
+
+            // Load 3D Map
+
         }
         catch (Exception e){
             e.printStackTrace();}
@@ -284,7 +329,7 @@ public class nodeEditorController {
     public void addSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorAdd.getValue().toString();
-        cmboType.setItems((ObservableList)(DataModelI.getInstance().getNodesByType(building)));
+        cmboType.setItems(floors);
 
     }
 
@@ -402,6 +447,8 @@ public class nodeEditorController {
         }
         public void clearPoints(){
     }
+
+
 }
 
 

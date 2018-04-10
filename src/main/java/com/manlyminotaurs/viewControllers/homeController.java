@@ -19,7 +19,7 @@ import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class homeController implements Initializable {
+public class homeController {
 
     // Test Objects
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
@@ -117,8 +117,8 @@ public class homeController implements Initializable {
 
     @FXML
     ComboBox<String> comChangeFloor;
-
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
 
         // Set comboboxes for buildings to default lists
         comBuildingStart.setItems(buildings);
