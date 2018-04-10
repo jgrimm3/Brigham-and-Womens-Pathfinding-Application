@@ -274,6 +274,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
@@ -478,6 +479,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
@@ -493,6 +495,7 @@ Parent staffRequest;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+                System.out.println("L1");
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
