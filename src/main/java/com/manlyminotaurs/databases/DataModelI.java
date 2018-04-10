@@ -122,6 +122,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+	public Node getNodeByIDFromList(String nodeID, List<Node> nodeList) {
+    	return nodesDBUtil.getNodeByIDFromList(nodeID, nodeList);
+	}
+
+    @Override
     public List<Node> getNodesByFloor(String floor) {
         return nodesDBUtil.getNodesByFloor(floor);
     }
@@ -150,12 +155,22 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
+        return nodesDBUtil.getNodeByLongNameFromList(longName, nodeList);
+    }
+
+    @Override
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
     }
 
     @Override
-    public List<Node> getAdjacentNodesFromNode(Node node) {
+    public List<String> getLongNameByBuildingTypeFloor(String building, String type, String floor) {
+        return nodesDBUtil.getLongNameByBuildingTypeFloor(building,type,floor);
+    }
+
+    @Override
+    public List<String> getAdjacentNodesFromNode(Node node) {
         return nodesDBUtil.getAdjacentNodes(node);
     }
 

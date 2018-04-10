@@ -32,17 +32,20 @@ public interface IDataModel {
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
     Node getNodeByID(String ID);
+    public Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
     List<Node> getNodesByBuildingTypeFloor(String building, String type, String floor);
+    List<String> getLongNameByBuildingTypeFloor(String building, String type, String floor);
     List<String> getBuildingsFromList();
     List<String> getTypesFromList();
     Node getNodeByCoords(int xCoord, int yCoord);
     Node getNodeByLongName(String longName);
+    Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
-    List<Node> getAdjacentNodesFromNode(Node node);
+    List<String> getAdjacentNodesFromNode(Node node);
     Set<Edge> getEdgeList(List<Node> nodeList);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
