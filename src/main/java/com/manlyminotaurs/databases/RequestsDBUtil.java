@@ -12,7 +12,11 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
     //public static List<Request> requestList = new ArrayList<>();
-    private static int requestIDCounter = 1;
+    private static int requestIDCounter = 0;
+
+    public static void setRequestIDCounter(int requestIDCounter) {
+        RequestsDBUtil.requestIDCounter = requestIDCounter;
+    }
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
@@ -93,7 +97,7 @@ class RequestsDBUtil {
 
     public String generateRequestID(){
         requestIDCounter++;
-        return Integer.toString(requestIDCounter-1);
+        return Integer.toString(requestIDCounter);
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
@@ -169,7 +173,6 @@ class RequestsDBUtil {
                     // Add the new edge to the list
                     requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
                     listOfRequest.add(requestObject);
-                    requestIDCounter++;
                 }
                 rset.close();
                 stmt.close();

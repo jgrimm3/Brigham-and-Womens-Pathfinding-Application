@@ -2,10 +2,8 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.sql.*;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,9 +49,11 @@ class TableInitializer {
         initializer.initTables();
         initializer.populateAllNodeEdgeTables();
       //  initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
-        initializer.populateUserAccountTable("UserAccountTable.csv");
-        initializer.populateMessageTable("MessageTable.csv");
-        initializer.populateRequestTable("RequestTable.csv");
+        UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("UserAccountTable.csv"));
+        MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("MessageTable.csv"));
+        RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("RequestTable.csv"));
+        initializer.populateStaffTable("StaffTable.csv");
+        initializer.populateUserPasswordTable("UserPasswordTable.csv");
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
@@ -259,7 +259,8 @@ class TableInitializer {
         }
     }
 
-    private void populateMessageTable(String CsvFileName) {
+    private int populateMessageTable(String CsvFileName) {
+        int messageIDCounter = 0;
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             // parse MessageTable.csv file
@@ -273,6 +274,7 @@ class TableInitializer {
 
             //insert rows
             while (iterator.hasNext()) {
+                messageIDCounter++;
                 String[] node_row = iterator.next();
                 String str = "INSERT INTO message(messageID,message,isRead,senderID,receiverID) VALUES (?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
@@ -288,10 +290,12 @@ class TableInitializer {
         } finally {
             DataModelI.getInstance().closeConnection(connection);
         }
+        return messageIDCounter;
     }
 
-    private void populateUserAccountTable(String CsvFileName) {
+    private int populateUserAccountTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
+        int userIDCounter = 0;
         try {
             // parse UserTable.csv file
             CsvFileController csvFileControl = new CsvFileController();
@@ -304,6 +308,7 @@ class TableInitializer {
 
             //insert rows
             while (iterator.hasNext()) {
+                userIDCounter++;
                 String[] node_row = iterator.next();
                 String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language, userType) VALUES (?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
@@ -320,9 +325,10 @@ class TableInitializer {
         } finally {
             DataModelI.getInstance().closeConnection(connection);
         }
+        return userIDCounter;
     }
 
-    private void populateRequestTable(String CsvFileName) {
+    private void populateStaffTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             // parse UserTable.csv file
@@ -336,6 +342,68 @@ class TableInitializer {
 
             //insert rows
             while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                String str = "INSERT INTO Staff(isWorking, isAvailable, languageSpoken, userID) VALUES (?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setBoolean(1, Boolean.valueOf(node_row[0]));
+                statement.setBoolean(2, Boolean.valueOf(node_row[1]));
+                statement.setString(3, node_row[2]);
+                statement.setString(4, node_row[3]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
+        }
+    }
+
+    private void populateUserPasswordTable(String CsvFileName) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        try {
+            // parse UserTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
+
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = userAccountList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                String[] node_row = iterator.next();
+                String str = "INSERT INTO UserPassword(userName, password, userID) VALUES (?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setString(3, node_row[2]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
+        }
+    }
+
+
+    private int populateRequestTable(String CsvFileName) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        int requestIDCounter = 0;
+        try {
+            // parse UserTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> userAccountList = csvFileControl.parseCsvFile(CsvFileName);
+
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = userAccountList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                requestIDCounter++;
                 String[] node_row = iterator.next();
                 String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
@@ -354,6 +422,7 @@ class TableInitializer {
         } finally {
             DataModelI.getInstance().closeConnection(connection);
         }
+        return requestIDCounter;
     }
 
     private void populateRoomTable(List<Node> nodeList) {
