@@ -26,6 +26,7 @@ public interface IDataModel {
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
+    boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
     Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/

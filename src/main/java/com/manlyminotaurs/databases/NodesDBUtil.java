@@ -110,9 +110,8 @@ class NodesDBUtil {
      * @param xCoord3D  xCoord3D
      */
 	Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int yCoord3D, int xCoord3D) {
-		String ID = generateNodeID(nodeType, floor, "A");
 
-		Node aNode = buildNode(ID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status , xCoord3D, yCoord3D);
+		Node aNode = buildNode("", xCoord, yCoord, floor, building, nodeType, longName, shortName, status , xCoord3D, yCoord3D);
 
 		Connection connection;
 		connection = DataModelI.getInstance().getNewConnection();
@@ -126,7 +125,7 @@ class NodesDBUtil {
 
 			// Create the prepared statement
 			statement = connection.prepareStatement(str);
-			statement.setInt(1, aNode.getStatus());
+			statement.setString(1, aNode.getNodeID());
 			statement.setInt(2, aNode.getXCoord());
 			statement.setInt(3, aNode.getYCoord());
 			statement.setString(4, aNode.getFloor());
@@ -541,18 +540,17 @@ class NodesDBUtil {
 
     public boolean doesNodeExist(String nodeID) {
         List<Node> allNodes = retrieveNodes();
-        boolean isReal = false;
         for(Node a_node : allNodes){
-            if(a_node.getNodeID().equals(nodeID)){ isReal = true; return isReal; }
+            if(a_node.getNodeID().equals(nodeID)){ return true; }
         }
-        return isReal;
+        return false;
     }
 
 
     public Node buildNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D){
         Node aNode;
 
-	    if (nodeID.equals("")) {nodeID = generateNodeID(nodeType, floor, "A"); }
+	    if (nodeID.equals("") || nodeID.isEmpty()) {nodeID = generateNodeID(nodeType, floor, "A"); }
         switch (nodeType){
             case "Hall":
                 aNode = new Hallway(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);

@@ -15,13 +15,14 @@ public abstract class Node implements INode {
 
     public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status,
                 int xCoord3D, int yCoord3D) {
+        this.nodeID = nodeID;
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.status = status;
         this.nodeType = nodeType;
         this.loc = new Location(xCoord, yCoord, xCoord3D, yCoord3D, floor, building);
-        status = 1;
+        this.status = status;
         popularity = 0;
     }
 
