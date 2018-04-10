@@ -170,7 +170,6 @@ class RequestsDBUtil {
                     requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
                     listOfRequest.add(requestObject);
                     requestIDCounter++;
-                    System.out.println("Request added to the list: "+requestID);
                 }
                 rset.close();
                 stmt.close();
@@ -215,7 +214,7 @@ class RequestsDBUtil {
                 requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
 
 
-                System.out.println("Request added to the list: "+requestID);
+                System.out.println("Request added to the list: " + requestID);
             }
             rset.close();
             stmt.close();

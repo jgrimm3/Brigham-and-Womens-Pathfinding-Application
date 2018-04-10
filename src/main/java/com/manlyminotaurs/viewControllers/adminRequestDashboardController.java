@@ -20,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
+
 
 public class adminRequestDashboardController  {
     DataModelI dBUtil = DataModelI.getInstance();
@@ -69,7 +71,7 @@ public class adminRequestDashboardController  {
     Parent logout;
 
     @FXML
-            public void initialize() throws Exception{
+    public void initialize() throws Exception{
         try{
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             //OPEN LIST-----------------------
@@ -95,6 +97,7 @@ public class adminRequestDashboardController  {
             reqConfirmedClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("isAssigned"));
 
             //POPULATE LISTS----------------------------------------
+            System.out.println(reqestList.get(0).getMessageID());
             for(Request currReq : reqestList) {
                 if (!currReq.getComplete()) {
                     openList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
@@ -112,10 +115,12 @@ public class adminRequestDashboardController  {
 
     }
 
-    public void LogOut(ActionEvent event) throws Exception{
+
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
+            //TODO: Figure out why this is giving a NullPointerException
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
 
@@ -129,4 +134,42 @@ public class adminRequestDashboardController  {
     }
 
 
+    public void openListClicked(){
+        if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){
+            lblRequestDetails.setText("");
+        }
+        else {
+            requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()).getSenderID() + "\n" +
+                                      "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
+                                      "Location: " + dBUtil.getNodeByID(dBUtil.getRequestByID(selectedRequest.requestID).getNodeID()).getLongName() + "\n" +
+                                      "Message: " + dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()).getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void testController(){
+        System.out.println("YOU SUMMONED ME?" +  tblOpenRequests.getSelectionModel().getSelectedItem());
+    }
 }

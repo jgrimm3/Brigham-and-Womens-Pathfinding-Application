@@ -970,7 +970,7 @@ Parent staffRequest;
 
 
                     //create a new scene with root and set the stage
-                    Scene scene = new Scene(staffRequest);
+                    Scene scene = new Scene(adminRequest);
                     stage.setScene(scene);
                     stage.show();
                 } catch (Exception e) {

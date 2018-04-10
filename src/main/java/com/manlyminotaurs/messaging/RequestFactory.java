@@ -56,7 +56,7 @@ public class RequestFactory {
 
             newReq = new JanitorialRequest(requestID, "JanitorialRequest", priority, isComplete, adminConfirm, nodeID, messageID, password);
         }else {
-            newReq = null;
+            newReq = new MedicalRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
         }
         return newReq;
     }
