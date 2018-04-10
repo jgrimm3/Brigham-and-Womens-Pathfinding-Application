@@ -49,7 +49,8 @@ class TableInitializer {
         NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
-        initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
+        initializer.populateAllNodeEdgeTables();
+      //  initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
         initializer.populateUserAccountTable("UserAccountTable.csv");
         initializer.populateMessageTable("MessageTable.csv");
         initializer.populateRequestTable("RequestTable.csv");
