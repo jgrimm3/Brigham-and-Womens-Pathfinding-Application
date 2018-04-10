@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,10 +30,12 @@ public class homeController implements Initializable {
     // Test Objects
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1","1","2","3");
-    final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro", "Jank", "Somerset");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd","sfdd","SFd");
-    final static ObservableList<String> finalFloors = FXCollections.observableArrayList("BUILDING: SHAPIRO | FLOOR: L2", "BUILDING: SHAPIRO | FLOOR: L1", "BUILDING: SHAPIRO | FLOOR: 1","BUILDING: SHAPIRO | FLOOR: 2","BUILDING: SHAPIRO | FLOOR: 3");
+    final static ObservableList<String> finalFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1","FLOOR: 2","FLOOR: 3");
     final static ObservableList<String> empty = FXCollections.observableArrayList();
+    //final static ObservableList<String> buildings = (ObservableList<String>)DataModelI.getInstance().getBuildingsFromList();
+    final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro");
+
 
     /*
     // Files
@@ -168,41 +171,67 @@ Parent staffRequest;
     ComboBox<String> comChangeFloor;
 
     public void initialize(URL location, ResourceBundle resources) {
-try {
-    // Set comboboxes for buildings to default lists
-    comBuildingStart.setItems(buildings);
-    comBuildingEnd.setItems(buildings);
-    comFloorStart.setDisable(true);
-    comFloorEnd.setDisable(true);
-    comTypeStart.setDisable(true);
-    comTypeEnd.setDisable(true);
-    comChangeFloor.setItems(finalFloors);
-    comLocationStart.setDisable(true);
-    comLocationEnd.setDisable(true);
+    try {
+        // Set comboboxes for buildings to default lists
+        comBuildingStart.setItems(buildings);
+        comBuildingEnd.setItems(buildings);
+        comFloorStart.setDisable(true);
+        comFloorEnd.setDisable(true);
+        comTypeStart.setDisable(true);
+        comTypeEnd.setDisable(true);
+        comChangeFloor.setItems(finalFloors);
+        comLocationStart.setDisable(true);
+        comLocationEnd.setDisable(true);
 
-    paneDirections.setVisible(false);
-    panePathfinding.setVisible(true);
-    paneLogin.setVisible(false);
-    paneHelp.setVisible(false);
-    lblHelp1.setVisible(false);
-    lblHelp2.setVisible(false);
+        paneDirections.setVisible(false);
+        panePathfinding.setVisible(true);
+        paneLogin.setVisible(false);
+        paneHelp.setVisible(false);
+        lblHelp1.setVisible(false);
+        lblHelp2.setVisible(false);
 
-    txtUsername.setText("");
-    txtPassword.setText("");
+        txtUsername.setText("");
+        txtPassword.setText("");
 
-    comChangeFloor.getSelectionModel().select(0);
+        comChangeFloor.getSelectionModel().select(0);
 
-    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-    //staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/userRequestDashBoard.fxml"));
-}
+        //staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+        //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+
+    }
 
         catch (Exception e){
         e.printStackTrace();}
-}
+    }
         // Remember to refresh nodes
 
         // Set Floor Map and Floor Combobox to correct setting
 
+    @FXML
+    public void initialize() {
+        comBuildingStart.setItems(buildings);
+        comBuildingEnd.setItems(buildings);
+        comFloorStart.setDisable(true);
+        comFloorEnd.setDisable(true);
+        comTypeStart.setDisable(true);
+        comTypeEnd.setDisable(true);
+        comChangeFloor.setItems(finalFloors);
+        comLocationStart.setDisable(true);
+        comLocationEnd.setDisable(true);
+
+        paneDirections.setVisible(false);
+        panePathfinding.setVisible(true);
+        paneLogin.setVisible(false);
+        paneHelp.setVisible(false);
+        lblHelp1.setVisible(false);
+        lblHelp2.setVisible(false);
+
+        txtUsername.setText("");
+        txtPassword.setText("");
+
+        comChangeFloor.getSelectionModel().select(0);
+
+    }
 
     public void toggleHandicap(ActionEvent event) {
 
@@ -227,15 +256,15 @@ try {
             lblMap.setText("MAP: 3-D");
 
             // !!!
-            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"2-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
             }
 
@@ -245,15 +274,15 @@ try {
             tglMap.setText("2-D");
             lblMap.setText("MAP: 2-D");
 
-            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+            if(comChangeFloor.getValue().equals("FLOOR: L2")) { ;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
             }
         }
@@ -429,30 +458,30 @@ try {
         if (tglMap.isSelected()) { // 3-D
 
             // !!!
-            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"2-ICONS.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
             }
 
         } else { // 2-D
 
             // !!!
-            if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
+            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-            } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
+            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
             }
         }
@@ -880,6 +909,8 @@ try {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+
 
                 //create a new scene with root and set the stage
                 Scene scene = new Scene(staffRequest);
@@ -935,6 +966,7 @@ try {
                     //get reference to the button's stage
                     stage = (Stage) btnLogin.getScene().getWindow();
                     //load up Home FXML document
+                    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
 
                     //create a new scene with root and set the stage
