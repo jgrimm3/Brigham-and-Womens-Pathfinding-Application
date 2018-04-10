@@ -64,6 +64,7 @@ public class UserDBUtil {
             statement.setString(4, newUser.getLanguage());
             statement.setString(5, newUser.getUserType());
             statement.executeUpdate();
+            statement.close();
             System.out.println("User added to database");
             isSuccess = true;
         } catch (SQLException e)

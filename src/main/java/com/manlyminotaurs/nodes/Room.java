@@ -6,21 +6,12 @@ public class Room extends Node {
     private int popularity;
     private boolean isOpen;
 
-    public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
+    public Room(String nodeID, int xcoord, int ycoord, String floor, String building, String nodeType, String longName, String shortName, int status, int yCoord3D, int xCoord3D) {
+        super(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
         this.specialization = "yolo";
         this.detailedInfo = "lala";
         this.popularity = 1;
         this.isOpen = true;
-    }
-
-    public Room(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
-                String floor, String building, String specialization, String detailedInfo, int popularity, boolean isOpen, int xCoord3D, int yCoord3D) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
-        this.specialization = specialization;
-        this.detailedInfo = detailedInfo;
-        this.popularity = popularity;
-        this.isOpen = isOpen;
     }
 
     public String getSpecialization() {

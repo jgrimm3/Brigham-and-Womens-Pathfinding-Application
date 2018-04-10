@@ -2,8 +2,8 @@ package com.manlyminotaurs.nodes;
 
 public class Hallway extends Node {
 
-    public Hallway(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord, String floor, String building, int xCoord3D, int yCoord3D) {
-        super(longName, shortName, ID, nodeType, xcoord, ycoord, floor, building, xCoord3D, yCoord3D);
+    public Hallway(String nodeID, int xcoord, int ycoord, String floor, String building, String nodeType, String longName, String shortName, int status, int yCoord3D, int xCoord3D) {
+		super(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
     }
 
 	public boolean isType(String type) {
