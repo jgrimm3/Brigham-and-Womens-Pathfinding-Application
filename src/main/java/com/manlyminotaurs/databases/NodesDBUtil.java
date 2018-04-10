@@ -35,6 +35,7 @@ class NodesDBUtil {
 	 */
 	List<Node> retrieveNodes() {
 		// Connection
+		nodes.clear();
 
 		// Variables
 		Node node = null;
@@ -93,16 +94,27 @@ class NodesDBUtil {
 		return nodes;
 	} // retrieveNodes() ends
 
-	public void addAllEdges() {
+	 private void addAllEdges() {
 		for(Node x: nodes) {
 			List<String> nodeIDs = getAdjacentNodes(x);
 			for(Node y: nodes) {
 				if(nodeIDs.contains(y.getNodeID())) {
-					x.addAdjacentNode(y);
-					y.addAdjacentNode(x);
+					if(!areNeighbors(x,y))
+						x.addAdjacentNode(y);
+					if(!areNeighbors(y,x))
+						y.addAdjacentNode(x);
 				}
 			}
 		}
+	}
+
+	private boolean areNeighbors(Node start, Node end) {
+		for(Node x: start.getAdjacentNodes()) {
+			if(x.getNodeID().equals(end.getNodeID())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
@@ -247,7 +259,7 @@ class NodesDBUtil {
 	 */
 	boolean removeNode(Node node) {
 		boolean isSucessful = false;
-
+		nodes.remove(node);
 		// Remove from the database
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
