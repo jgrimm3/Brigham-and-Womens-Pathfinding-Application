@@ -67,6 +67,6 @@ public abstract class User {
     }
 
     public boolean isType(String userType) {
-        return this.userType.equals(userType);
+        return this.userType.equalsIgnoreCase(userType);
     }
 }

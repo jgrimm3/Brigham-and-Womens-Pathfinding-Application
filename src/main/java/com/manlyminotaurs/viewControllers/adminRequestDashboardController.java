@@ -2,7 +2,10 @@ package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXProgressBar;
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
+import com.manlyminotaurs.users.User;
+import com.manlyminotaurs.users.UserType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,16 +14,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.junit.Test;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class adminRequestDashboardController  {
@@ -67,8 +70,11 @@ public class adminRequestDashboardController  {
     Label lblRequestDetails;
     @FXML
     Button btnLogOut;
-
+    @FXML
     Parent logout;
+    @FXML
+    ComboBox<String> combBoxAssignNurse;
+
 
     @FXML
     public void initialize() throws Exception{
@@ -97,7 +103,6 @@ public class adminRequestDashboardController  {
             reqConfirmedClosed.setCellValueFactory(new PropertyValueFactory<requestInfo, String>("isAssigned"));
 
             //POPULATE LISTS----------------------------------------
-            System.out.println(reqestList.get(0).getMessageID());
             for(Request currReq : reqestList) {
                 if (!currReq.getComplete()) {
                     openList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
@@ -108,6 +113,16 @@ public class adminRequestDashboardController  {
 
             tblOpenRequests.setItems(openList);
             tblClosedRequests.setItems(closedList);
+
+            List<User> userList = dBUtil.retrieveUsers();
+            List<String> nurseNames = new ArrayList<>();
+            for(User currUser : userList){
+                if(currUser != null && currUser.isType("Nurse")){
+                    nurseNames.add(currUser.getFirstName() + " " + currUser.getLastName());
+                }
+            }
+
+            combBoxAssignNurse.setItems(FXCollections.observableArrayList(nurseNames));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -142,16 +157,63 @@ public class adminRequestDashboardController  {
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
             Request actualRequest = dBUtil.getRequestByID(selectedRequest.requestID);
             lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
-                                      "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                                      "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
-                                      "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
+                    "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
+                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }
 
-    public void assignClicked(){
-
+    public void closedListClicked(){
+        if(tblClosedRequests.getSelectionModel().getSelectedItem() == null){
+            lblRequestDetails.setText("");
+        }
+        else {
+            requestInfo selectedRequest = (requestInfo) tblClosedRequests.getSelectionModel().getSelectedItem();
+            Request actualRequest = dBUtil.getRequestByID(selectedRequest.requestID);
+            lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
+                    "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
+                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
+        }
     }
 
+    public void completeClicked() {
+        if (tblOpenRequests.getSelectionModel().getSelectedItem() == null) {
+        } else {
+
+            requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
+            newReq.setComplete(true);
+            dBUtil.modifyRequest(newReq);
+        }
+    }
+
+    public void nurseSelected(){
+        if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){}
+        else {
+            requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+            String NurseName = combBoxAssignNurse.getSelectionModel().getSelectedItem();
+            System.out.println("You have selected: " + combBoxAssignNurse.getSelectionModel().getSelectedItem());
+
+            Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
+            Message newMsg = dBUtil.getMessageByID(newReq.getMessageID());
+            newReq.setAdminConfirm(true);
+            newMsg.setReceiverID(NurseName);
+
+            dBUtil.modifyRequest(newReq);
+        }
+    }
+
+    public void deleteSelected(){
+        if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){}
+        else {
+            requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            dBUtil.removeMessage(dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()));
+            dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
+        }
+    }
 
 
 
