@@ -121,7 +121,7 @@ public class userRequestDashBoardController implements Initializable{
 
             updateTextBox("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
                     "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Location: " + dBUtil.getNodeByIDFromList(actualRequest.getNodeID(), dBUtil.retrieveNodes()).getLongName() + "\n" +
                     "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }
@@ -136,7 +136,7 @@ public class userRequestDashBoardController implements Initializable{
 
             updateTextBox("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
                     "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Location: " + dBUtil.getNodeByIDFromList(actualRequest.getNodeID(), dBUtil.retrieveNodes()).getLongName() + "\n" +
                     "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }

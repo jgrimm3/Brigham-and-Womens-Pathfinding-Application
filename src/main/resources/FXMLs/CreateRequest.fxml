@@ -111,12 +111,12 @@
       </Pane>
       <Pane layoutY="60.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: #edbf54;">
          <children>
-            <Button fx:id="navBtnNewRequest" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
+            <Button fx:id="navBtnManageRequests" mnemonicParsing="false" onAction="#manageRequests" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="Manage Requests" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
+            <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" onAction="#nodeEditor" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
