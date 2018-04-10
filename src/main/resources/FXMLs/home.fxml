@@ -40,8 +40,8 @@
                                   <elements>
                                     <MoveTo />
                                     <LineTo x="5000.0" />
-                                    <LineTo x="5000.0" y="2774.0" />
-                                    <LineTo y="3400.0" />
+                                    <LineTo x="5000.0" y="5000.0" />
+                                    <LineTo y="5000.0" />
                                       <ClosePath />
                                   </elements>
                               </Path>

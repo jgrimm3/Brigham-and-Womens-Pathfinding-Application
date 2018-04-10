@@ -1025,12 +1025,14 @@ public class homeController implements Initializable {
 
     public void login(ActionEvent event)throws Exception {
 
-        if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
+        String userName = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        if (userName.equals("") || password.equals("")) {
 
             // print message
             System.out.println("Please completely fill in the username and password fields");
-
-        } else if (txtUsername.getText().toLowerCase().equals("staff") && txtPassword.getText().toLowerCase().equals("staff")) {
+        } else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
             try {
                 // Reset Fields
                 panePathfinding.setVisible(true);
@@ -1076,7 +1078,7 @@ public class homeController implements Initializable {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
-                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashboard.fxml"));
 
 
                 //create a new scene with root and set the stage
@@ -1192,9 +1194,6 @@ public class homeController implements Initializable {
     */
 
     // Map Touch Capability
-
-    @FXML
-    Pane paneMap;
 
     public void getXandY(MouseEvent event) throws Exception{
         //see which pane is visible and set the corresponding x and y coordinates

@@ -22,11 +22,11 @@ public class DataModelI implements IDataModel{
 	private RequestsDBUtil requestsDBUtil;
 	private UserDBUtil userDBUtil;
 	private TableInitializer tableInitializer;
+	private UserSecurity userSecurity = new UserSecurity();
 
     // list of all objects
 
     private static DataModelI dataModelI;
-
     private static Connection connection;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
@@ -316,4 +316,8 @@ public class DataModelI implements IDataModel{
         return userSecurity.getIDByUserPassword(userName, password);
     }
 
+    @Override
+    public boolean doesUserPasswordExist(String userName, String password) {
+        return userSecurity.doesUserPasswordExist(userName, password);
+    }
 }
