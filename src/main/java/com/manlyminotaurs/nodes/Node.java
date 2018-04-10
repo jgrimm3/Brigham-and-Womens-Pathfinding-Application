@@ -1,5 +1,6 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Node implements INode {
@@ -24,6 +25,7 @@ public abstract class Node implements INode {
         this.loc = new Location(xCoord, yCoord, xCoord3D, yCoord3D, floor, building);
         this.status = status;
         popularity = 0;
+        this.adjacentNodes = new ArrayList<>();
     }
 
     public void setLoc(Location loc) { this.loc = loc; }
