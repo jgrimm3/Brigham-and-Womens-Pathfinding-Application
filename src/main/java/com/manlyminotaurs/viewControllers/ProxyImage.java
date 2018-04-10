@@ -22,4 +22,10 @@ public class ProxyImage {
         imageView.setImage(image);
     }
 
+    public void display2() {
+        File file = new File(ProxyImage.class.getResource("/QR/"+fileName).getFile());
+        image = new Image(file.toURI().toString());
+        imageView.setImage(image);
+    }
+
 }
