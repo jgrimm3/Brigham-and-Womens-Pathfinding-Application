@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class DataModelI implements IDataModel{
 
+
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 
     // all the utils
@@ -58,7 +59,7 @@ public class DataModelI implements IDataModel{
     public Connection getNewConnection() {
         try {
             if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:C:/Users/junbong/IdeaProjects/CS3733_TeamM_Iter2/nodesDB;create=true");
+                connection = DriverManager.getConnection("jdbc:derby:nodesDB");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,8 +90,13 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
-        return nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
+	public boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+    	return nodesDBUtil.modifyNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, xCoord3D, yCoord3D);
+	}
+
+    @Override
+    public Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
+        return nodesDBUtil.addNode(xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
     }
 
     @Override
@@ -98,10 +104,16 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.removeNode(badNode);
     }
 
+    public boolean removeNode(String nodeID) { return nodesDBUtil.removeNodeByID(nodeID); }
 
     @Override
     public List<Node> getNodesByType(String type) {
         return nodesDBUtil.getNodesByType(type);
+    }
+
+    @Override
+    public boolean doesNodeExist(String nodeID) {
+        return nodesDBUtil.doesNodeExist(nodeID);
     }
 
     @Override
@@ -110,9 +122,17 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+	public Node getNodeByIDSimple(String ID) {
+    	return nodesDBUtil.getNodeByIDSimple(ID);
+	}
+
+    @Override
     public List<Node> getNodesByFloor(String floor) {
         return nodesDBUtil.getNodesByFloor(floor);
     }
+
+    @Override
+	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override
     public List<String> getBuildingsFromList() {
@@ -120,18 +140,28 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<String> getTypesFromList(String building) {
-        return nodesDBUtil.getTypesFromList(building);
+    public List<String> getTypesFromList() {
+        return nodesDBUtil.getTypesFromList();
     }
 
     @Override
-    public List<Node> getNodesFromList(String building, String type) {
-        return nodesDBUtil.getNodesFromList(building, type);
+    public Node getNodeByCoords(int xCoord, int yCoord) {
+        return nodesDBUtil.getNodeByCoords(xCoord, yCoord);
     }
 
     @Override
-    public List<Node> getAdjacentNodes() {
-        return null;
+    public Node getNodeByLongName(String longName) {
+        return nodesDBUtil.getNodeByLongName(longName);
+    }
+
+    @Override
+    public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
+        return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
+    }
+
+    @Override
+    public List<Node> getAdjacentNodesFromNode(Node node) {
+        return nodesDBUtil.getAdjacentNodes(node);
     }
 
     @Override

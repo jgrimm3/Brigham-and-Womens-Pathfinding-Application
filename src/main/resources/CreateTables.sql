@@ -7,7 +7,9 @@ CREATE TABLE Map_Nodes (
   nodeType           VARCHAR(4),
   longName           VARCHAR(255),
   shortName          VARCHAR(255),
-  status             INTEGER);
+  status             INTEGER,
+  xCoord3D            INTEGER,
+  yCoord3D           INTEGER);
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
