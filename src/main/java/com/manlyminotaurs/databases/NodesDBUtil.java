@@ -1,6 +1,7 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.*;
@@ -450,7 +451,8 @@ class NodesDBUtil {
 			// For every node, get the information
 			while (rset.next()) {
 				building = rset.getString("building");
-				buildings.add(building);
+				if(!buildings.contains(building))
+					buildings.add(building);
 			}
 			rset.close();
 			stmt.close();
