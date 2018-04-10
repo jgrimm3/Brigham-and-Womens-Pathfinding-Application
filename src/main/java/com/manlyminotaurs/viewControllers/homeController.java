@@ -192,8 +192,8 @@ try {
 
     comChangeFloor.getSelectionModel().select(0);
 
-    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-    //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/userRequestDashBoard.fxml"));
+    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+    //staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/userRequestDashBoard.fxml"));
 }
 
         catch (Exception e){
@@ -880,8 +880,6 @@ try {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
-                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-
 
                 //create a new scene with root and set the stage
                 Scene scene = new Scene(staffRequest);
@@ -937,11 +935,10 @@ try {
                     //get reference to the button's stage
                     stage = (Stage) btnLogin.getScene().getWindow();
                     //load up Home FXML document
-                    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
 
                     //create a new scene with root and set the stage
-                    Scene scene = new Scene(staffRequest);
+                    Scene scene = new Scene(adminRequest);
                     stage.setScene(scene);
                     stage.show();
                 } catch (Exception e) {
