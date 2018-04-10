@@ -7,15 +7,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.soap.Text;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,12 +28,56 @@ public class homeController implements Initializable {
 
     // Test Objects
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
-    final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1","2","3");
+    final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1","1","2","3");
     final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro", "Jank", "Somerset");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd","sfdd","SFd");
     final static ObservableList<String> finalFloors = FXCollections.observableArrayList("BUILDING: SHAPIRO | FLOOR: L2", "BUILDING: SHAPIRO | FLOOR: L1", "BUILDING: SHAPIRO | FLOOR: 1","BUILDING: SHAPIRO | FLOOR: 2","BUILDING: SHAPIRO | FLOOR: 3");
     final static ObservableList<String> empty = FXCollections.observableArrayList();
 
+    /*
+    // Files
+    File fileL22D = new File("/MapImages/00_thelowerlevel2.png");
+    File fileL12D = new File("/MapImages/00_thelowerlevel1.png");
+    //File fileG2D = new File("/MapImages/00_thegroundfloor.png");
+    File file12D = new File("/MapImages/01_thefirstfloor.png");
+    File file22D = new File("/MapImages/02_thesecondfloor.png");
+    File file32D = new File("/MapImages/03_thethirdfloor.png");
+    File fileL23D = new File("/MapImages/L2-ICONS.png");
+    File fileL13D = new File("/MapImages/L1-ICONS.png");
+    //File fileG3D = new File("/MapImages/G.png");
+    File file13D = new File("/MapImages/1-ICONS.png");
+    File file23D = new File("/MapImages/2-ICONS.png");
+    File file33D = new File("/MapImages/3-ICONS.png");
+
+    // Map Images
+    Image imageL22D = new Image(fileL22D.toURI().toString());
+    Image imageL12D = new Image(fileL12D.toURI().toString());
+    Image image12D = new Image(file12D.toURI().toString());
+    Image image22D = new Image(file22D.toURI().toString());
+    Image image32D = new Image(file32D.toURI().toString());
+
+    Image imageL23D = new Image(fileL23D.toURI().toString());
+    Image imageL13D = new Image(fileL13D.toURI().toString());
+    Image image13D = new Image(file13D.toURI().toString());
+    Image image23D = new Image(file23D.toURI().toString());
+    Image image33D = new Image(file33D.toURI().toString());
+    */
+
+    /*
+    ProxyImage imageL22D = new ProxyImage("00_thelowerlevel2.png");
+    ProxyImage imageL12D = new ProxyImage("00_thelowerlevel1.png");
+    ProxyImage image12D = new ProxyImage("01_thefirstfloor.png");
+    ProxyImage image22D = new ProxyImage("02_thesecondfloor.png");
+    ProxyImage image32D = new ProxyImage("03_thethirdfloor.png");
+
+    ProxyImage imageL23D = new ProxyImage("L2-ICONS.png");
+    ProxyImage imageL13D = new ProxyImage("L1-ICONS.png");
+    ProxyImage image13D = new ProxyImage("1-ICONS.png");
+    ProxyImage image23D = new ProxyImage("2-ICONS.png");
+    ProxyImage image33D = new ProxyImage("3-ICONS.png");
+    */
+Parent adminRequest;
+Parent staffRequest;
 
     // Pathfinding Panel
     @FXML
@@ -119,34 +168,41 @@ public class homeController implements Initializable {
     ComboBox<String> comChangeFloor;
 
     public void initialize(URL location, ResourceBundle resources) {
+try {
+    // Set comboboxes for buildings to default lists
+    comBuildingStart.setItems(buildings);
+    comBuildingEnd.setItems(buildings);
+    comFloorStart.setDisable(true);
+    comFloorEnd.setDisable(true);
+    comTypeStart.setDisable(true);
+    comTypeEnd.setDisable(true);
+    comChangeFloor.setItems(finalFloors);
+    comLocationStart.setDisable(true);
+    comLocationEnd.setDisable(true);
 
-        // Set comboboxes for buildings to default lists
-        comBuildingStart.setItems(buildings);
-        comBuildingEnd.setItems(buildings);
-        comFloorStart.setDisable(true);
-        comFloorEnd.setDisable(true);
-        comTypeStart.setDisable(true);
-        comTypeEnd.setDisable(true);
-        comChangeFloor.setItems(finalFloors);
-        comLocationStart.setDisable(true);
-        comLocationEnd.setDisable(true);
+    paneDirections.setVisible(false);
+    panePathfinding.setVisible(true);
+    paneLogin.setVisible(false);
+    paneHelp.setVisible(false);
+    lblHelp1.setVisible(false);
+    lblHelp2.setVisible(false);
 
-        paneDirections.setVisible(false);
-        panePathfinding.setVisible(true);
-        paneLogin.setVisible(false);
-        paneHelp.setVisible(false);
-        lblHelp1.setVisible(false);
-        lblHelp2.setVisible(false);
+    txtUsername.setText("");
+    txtPassword.setText("");
 
-        txtUsername.setText("");
-        txtPassword.setText("");
+    comChangeFloor.getSelectionModel().select(0);
 
-        comChangeFloor.getSelectionModel().select(0);
+    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+    //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+}
 
+        catch (Exception e){
+        e.printStackTrace();}
+}
         // Remember to refresh nodes
 
         // Set Floor Map and Floor Combobox to correct setting
-    }
+
 
     public void toggleHandicap(ActionEvent event) {
 
@@ -172,15 +228,15 @@ public class homeController implements Initializable {
 
             // !!!
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"L1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"3-ICONS.png").display();
             }
 
         } else {
@@ -189,23 +245,18 @@ public class homeController implements Initializable {
             tglMap.setText("2-D");
             lblMap.setText("MAP: 2-D");
 
-            // !!!
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"01_thefirstfloor.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"02_thesecondfloor.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"03_thethirdfloor.png").display();
             }
         }
-
-
-
-
 
     }
 
@@ -377,30 +428,32 @@ public class homeController implements Initializable {
 
         if (tglMap.isSelected()) { // 3-D
 
+            // !!!
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"L2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"L1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"1-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"2-ICONS.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"3-ICONS.png").display();
             }
 
         } else { // 2-D
 
+            // !!!
             if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: L1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 1")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"01_thefirstfloor.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 2")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"02_thesecondfloor.png").display();
             } else if(comChangeFloor.getValue().equals("BUILDING: SHAPIRO | FLOOR: 3")) {
-                mapImg.setImage(new Image("/MapImages/L2-ICONS"));
+                new ProxyImage(mapImg,"03_thethirdfloor.png").display();
             }
         }
 
@@ -774,59 +827,132 @@ public class homeController implements Initializable {
         paneLogin.setVisible(false);
     }
 
-    public void login(ActionEvent event) {
+    public void login(ActionEvent event)throws Exception {
 
         if (txtUsername.getText().equals("") || txtPassword.getText().equals("")) {
 
             // print message
             System.out.println("Please completely fill in the username and password fields");
 
-        } else if (txtUsername.getText().equals("user") && txtPassword.getText().equals("password")){
+        } else if (txtUsername.getText().toLowerCase().equals("staff") && txtPassword.getText().toLowerCase().equals("staff")) {
+            try {
+                // Reset Fields
+                panePathfinding.setVisible(true);
+                paneDirections.setVisible(false);
+                paneLogin.setVisible(false);
+                btnQuickBathroom.setVisible(false);
+                btnQuickShop.setVisible(false);
+                btnQuickCoffee.setVisible(false);
+                btnQuickCafe.setVisible(false);
+                tglHandicap.setSelected(false);
+                tglHandicap.setText("OFF");
+                lblHandicap.setText("HANDICAP");
+                tglMap.setSelected(false);
+                tglMap.setText("2-D");
+                lblMap.setText("MAP: 2-D");
+                comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
+                comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
+                comBuildingEnd.setItems(buildings);
+                comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
+                comFloorStart.setDisable(true);
+                comFloorStart.getSelectionModel().clearSelection();
+                comFloorStart.setItems(empty);
+                comFloorEnd.setDisable(true);
+                comFloorEnd.getSelectionModel().clearSelection();
+                comFloorEnd.setItems(empty);
+                comTypeStart.setDisable(true);
+                comTypeStart.getSelectionModel().clearSelection();
+                comTypeStart.setItems(empty);
+                comTypeEnd.setDisable(true);
+                comTypeEnd.getSelectionModel().clearSelection();
+                comTypeEnd.setItems(empty);
+                comLocationStart.setDisable(true);
+                comLocationStart.getSelectionModel().clearSelection();
+                comLocationStart.setItems(empty);
+                comLocationEnd.setDisable(true);
+                comLocationEnd.getSelectionModel().clearSelection();
+                comLocationEnd.setItems(empty);
+                lblStartLocation.setText("START LOCATION");
+                lblEndLocation.setText("END LOCATION");
+                // Set floor map !!!
 
-            // Reset Fields
-            panePathfinding.setVisible(true);
-            paneDirections.setVisible(false);
-            paneLogin.setVisible(false);
-            btnQuickBathroom.setVisible(false);
-            btnQuickShop.setVisible(false);
-            btnQuickCoffee.setVisible(false);
-            btnQuickCafe.setVisible(false);
-            tglHandicap.setSelected(false);
-            tglHandicap.setText("OFF");
-            lblHandicap.setText("HANDICAP");
-            tglMap.setSelected(false);
-            tglMap.setText("2-D");
-            lblMap.setText("MAP: 2-D");
-            comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
-            comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
-            comBuildingEnd.setItems(buildings);
-            comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-            comFloorStart.setDisable(true);
-            comFloorStart.getSelectionModel().clearSelection();
-            comFloorStart.setItems(empty);
-            comFloorEnd.setDisable(true);
-            comFloorEnd.getSelectionModel().clearSelection();
-            comFloorEnd.setItems(empty);
-            comTypeStart.setDisable(true);
-            comTypeStart.getSelectionModel().clearSelection();
-            comTypeStart.setItems(empty);
-            comTypeEnd.setDisable(true);
-            comTypeEnd.getSelectionModel().clearSelection();
-            comTypeEnd.setItems(empty);
-            comLocationStart.setDisable(true);
-            comLocationStart.getSelectionModel().clearSelection();
-            comLocationStart.setItems(empty);
-            comLocationEnd.setDisable(true);
-            comLocationEnd.getSelectionModel().clearSelection();
-            comLocationEnd.setItems(empty);
-            lblStartLocation.setText("START LOCATION");
-            lblEndLocation.setText("END LOCATION");
-            // Set floor map !!!
+                Stage stage;
+                //get reference to the button's stage
+                stage = (Stage) btnLogin.getScene().getWindow();
+                //load up Home FXML document
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
-            // Login
-            System.out.println("User logged in");
 
-        } else {
+                //create a new scene with root and set the stage
+                Scene scene = new Scene(staffRequest);
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+                else if (txtUsername.getText().toLowerCase().equals("admin") && txtPassword.getText().toLowerCase().equals("admin")) {
+                try {
+                    // Reset Fields
+                    panePathfinding.setVisible(true);
+                    paneDirections.setVisible(false);
+                    paneLogin.setVisible(false);
+                    btnQuickBathroom.setVisible(false);
+                    btnQuickShop.setVisible(false);
+                    btnQuickCoffee.setVisible(false);
+                    btnQuickCafe.setVisible(false);
+                    tglHandicap.setSelected(false);
+                    tglHandicap.setText("OFF");
+                    lblHandicap.setText("HANDICAP");
+                    tglMap.setSelected(false);
+                    tglMap.setText("2-D");
+                    lblMap.setText("MAP: 2-D");
+                    comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
+                    comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
+                    comBuildingEnd.setItems(buildings);
+                    comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
+                    comFloorStart.setDisable(true);
+                    comFloorStart.getSelectionModel().clearSelection();
+                    comFloorStart.setItems(empty);
+                    comFloorEnd.setDisable(true);
+                    comFloorEnd.getSelectionModel().clearSelection();
+                    comFloorEnd.setItems(empty);
+                    comTypeStart.setDisable(true);
+                    comTypeStart.getSelectionModel().clearSelection();
+                    comTypeStart.setItems(empty);
+                    comTypeEnd.setDisable(true);
+                    comTypeEnd.getSelectionModel().clearSelection();
+                    comTypeEnd.setItems(empty);
+                    comLocationStart.setDisable(true);
+                    comLocationStart.getSelectionModel().clearSelection();
+                    comLocationStart.setItems(empty);
+                    comLocationEnd.setDisable(true);
+                    comLocationEnd.getSelectionModel().clearSelection();
+                    comLocationEnd.setItems(empty);
+                    lblStartLocation.setText("START LOCATION");
+                    lblEndLocation.setText("END LOCATION");
+                    // Set floor map !!!
+
+                    Stage stage;
+                    //get reference to the button's stage
+                    stage = (Stage) btnLogin.getScene().getWindow();
+                    //load up Home FXML document
+                    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+
+
+                    //create a new scene with root and set the stage
+                    Scene scene = new Scene(staffRequest);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                // Login
+                System.out.println("User logged in");
+
+            }else {
 
             // print message
             System.out.println("Wrong username and password!");

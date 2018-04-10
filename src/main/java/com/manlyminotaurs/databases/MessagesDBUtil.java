@@ -166,7 +166,7 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
-    private String generateMessageID(){
+    public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
