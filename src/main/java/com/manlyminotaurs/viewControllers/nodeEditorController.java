@@ -30,6 +30,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.util.List;
 
@@ -122,6 +123,12 @@ public class nodeEditorController {
     @FXML
     ImageView mapImg;
 
+    @FXML
+    Button btn2DMap;
+
+    @FXML
+    Button btn3DMap;
+
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro", "Jank", "Somerset");
@@ -152,6 +159,7 @@ public class nodeEditorController {
             btnAddNode.disableProperty().bind(booleanBind);
 
             cmboBuilding.setItems(buildings);
+            cmboFloorAdd.setItems(floors);
 
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
@@ -159,45 +167,6 @@ public class nodeEditorController {
             //printPoints("L2");
 
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
-            // Load 2D Map
-            txtXCoord.setOnMouseClicked(e -> {
-                System.out.println("map loading");
-
-                if(cmboFloor.getValue().equals("L2")) {
-                    System.out.println("L2 map loaded");
-
-                    new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-                    System.out.println("L2 map loaded");
-                } else if(cmboFloor.getValue().equals("L1")) {
-                    new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-                } else if(cmboFloor.getValue().equals("1")) {
-                    new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-                } else if(cmboFloor.getValue().equals("2")) {
-                    new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-                } else if(cmboFloor.getValue().equals("3")) {
-                    new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-                }
-
-            });
-
-            txtYCoord.setOnMouseClicked(e -> {
-
-                if(cmboFloor.getValue().equals("L2")) {
-                    new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-                } else if(cmboFloor.getValue().equals("L1")) {
-                    new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-                } else if(cmboFloor.getValue().equals("1")) {
-                    new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-                } else if(cmboFloor.getValue().equals("2")) {
-                    new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-                } else if(cmboFloor.getValue().equals("3")) {
-                    new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-                }
-
-            });
-
-            // Load 3D Map
 
         }
         catch (Exception e){
@@ -446,6 +415,37 @@ public class nodeEditorController {
         //check list print points on map
         }
         public void clearPoints(){
+    }
+
+    public void load2DMap(ActionEvent event) {
+
+        if(cmboFloorAdd.getValue().equals("L2")) {
+            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+        } else if(cmboFloorAdd.getValue().equals("L1")) {
+            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+        } else if(cmboFloorAdd.getValue().equals("1")) {
+            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+        } else if(cmboFloorAdd.getValue().equals("2")) {
+            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+        } else if(cmboFloorAdd.getValue().equals("3")) {
+            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+        }
+    }
+
+    public void load3DMap(ActionEvent event) {
+
+        if(cmboFloorAdd.getValue().equals("L2")) {
+            new ProxyImage(mapImg,"L2-ICONS.png").display();
+        } else if(cmboFloorAdd.getValue().equals("L1")) {
+            new ProxyImage(mapImg,"L1-ICONS.png").display();
+        } else if(cmboFloorAdd.getValue().equals("1")) {
+            new ProxyImage(mapImg,"1-ICONS.png").display();
+        } else if(cmboFloorAdd.getValue().equals("2")) {
+            new ProxyImage(mapImg,"2-ICONS.png").display();
+        } else if(cmboFloorAdd.getValue().equals("3")) {
+            new ProxyImage(mapImg,"3-ICONS.png").display();
+        }
+
     }
 
 
