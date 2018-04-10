@@ -2,8 +2,10 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.sql.*;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,9 +17,10 @@ class TableInitializer {
     private void initTables(){
         TableInitializer tableInit = new TableInitializer();
         // Get the database connection
-        Connection connection = DataModelI.getInstance().getNewConnection();
+        Connection connection = null;
         Statement stmt = null;
         try {
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             stmt = connection.createStatement();
             tableInit.executeDBScripts("./DropTables.sql", stmt);
             tableInit.executeDBScripts("./CreateTables.sql", stmt);
@@ -26,8 +29,8 @@ class TableInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try { stmt.close(); } catch (Exception e) { /* ignored */ }
-            DataModelI.getInstance().closeConnection(connection);
+            try { stmt.close();connection.close(); } catch (Exception e) { /* ignored */ }
+
         }
     }
 
