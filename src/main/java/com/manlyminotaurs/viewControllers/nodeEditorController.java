@@ -129,6 +129,11 @@ public class nodeEditorController {
 
     @FXML
     Button btn3DMap;
+    @FXML
+    Button btn2DMapMod;
+
+    @FXML
+    Button btn3DMapMod;
 
     final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
@@ -167,7 +172,7 @@ public class nodeEditorController {
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
         }
         catch (Exception e){
@@ -277,10 +282,10 @@ public class nodeEditorController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
+            ;
 
             //create a new scene with root and set the stage
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(logout);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -299,6 +304,8 @@ public class nodeEditorController {
     public void addSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorAdd.getValue().toString();
+        btn2DMap.setDisable(false);
+        btn3DMap.setDisable(false);
         cmboType.setItems(floors);
 
     }
@@ -318,6 +325,8 @@ public class nodeEditorController {
     public void modSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloor.getValue().toString();
+        btn2DMapMod.setDisable(false);
+        btn3DMapMod.setDisable(false);
         cmboType.setItems(types);
 
     }
@@ -446,6 +455,10 @@ public class nodeEditorController {
         } else if(cmboFloorAdd.getValue().equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
         }
+
+    }
+
+    public void geofence(ActionEvent event){
 
     }
 
