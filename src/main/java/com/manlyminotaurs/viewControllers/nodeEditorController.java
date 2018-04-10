@@ -158,8 +158,10 @@ public class nodeEditorController {
     String floor;
     String building;
     Node node;
-    String xCoord;
-    String yCoord;
+    int xCoord2D;
+    int yCoord2D;
+    int xCoord3D;
+    int yCoord3D;
 
     @FXML
     public void initialize() throws Exception{
@@ -427,13 +429,15 @@ public class nodeEditorController {
 
         longName = txtLongName.getText();
         shortName = txtShortName.getText();
-        xCoord = txtXCoord.getText();
-        yCoord = txtYCoord.getText();
+        xCoord2D = Integer.parseInt(txtXCoord.getText());
+        yCoord2D = Integer.parseInt(txtYCoord.getText());
+        xCoord3D = Integer.parseInt(txtXCoord3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoord3D.getText());
         building = cmboBuilding.getValue().toString();
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
         //call add node function
-
+        DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         //redraw map
 
     }
@@ -443,8 +447,10 @@ public class nodeEditorController {
     public void modifyNode(ActionEvent event) {
         longName = txtLongNameMod.getText();
         shortName = txtShortNameMod.getText();
-        xCoord = txtXCoordMod.getText();
-        yCoord = txtYCoordMod.getText();
+        xCoord2D = Integer.parseInt(txtXCoordMod.getText());
+        yCoord2D = Integer.parseInt(txtYCoordMod.getText());
+        xCoord3D = Integer.parseInt(txtXCoordMod3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoordMod3D.getText());
         building = cmboBuildingMod.getValue().toString();
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
@@ -460,8 +466,10 @@ public class nodeEditorController {
     public void deleteNode(ActionEvent event) {
         longName = txtLongNameDel.getText();
         shortName = txtShortNameDel.getText();
-        xCoord = txtXCoordDel.getText();
-        yCoord = txtYCoordDel.getText();
+
+
+        //set login check
+
         building = cmboBuildingDel.getValue().toString();
         floor = cmboFloorDel.getValue().toString();
         type = cmboTypeDel.getValue().toString();
