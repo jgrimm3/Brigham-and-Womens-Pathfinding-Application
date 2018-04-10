@@ -150,8 +150,18 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
+        return nodesDBUtil.getNodeByLongNameFromList(longName, nodeList);
+    }
+
+    @Override
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
+    }
+
+    @Override
+    public List<String> getLongNameByBuildingTypeFloor(String building, String type, String floor) {
+        return nodesDBUtil.getLongNameByBuildingTypeFloor(building,type,floor);
     }
 
     @Override

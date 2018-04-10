@@ -78,5 +78,4 @@ public abstract class Node implements INode {
         return this.adjacentNodes.remove(node);
     }
 
-
 }

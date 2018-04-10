@@ -94,9 +94,6 @@ class NodesDBUtil {
 		}
 	} // retrieveNodes() ends
 
-
-
-
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
 
 	/**
@@ -163,7 +160,7 @@ class NodesDBUtil {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
 			connection = DataModelI.getInstance().getNewConnection();
-			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + node.getStatus() +"'";
+			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + node.getNodeID() +"'";
 
 			// Create the prepared statement
 			statement = connection.prepareStatement(str);
@@ -245,7 +242,7 @@ class NodesDBUtil {
 		try {
 			// Get connection to database and delete the node from the database
 			Statement stmt = connection.createStatement();
-			String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getStatus() + "'";
+			String str = "DELETE FROM MAP_NODES WHERE nodeID = '" + node.getNodeID() + "'";
 			stmt.executeUpdate(str);
 			stmt.close();
 			System.out.println("Node removed from database");
@@ -305,7 +302,7 @@ class NodesDBUtil {
 
 			// Create the prepared statement
 			PreparedStatement statement = connection.prepareStatement(str);
-			statement.setString(1, startNode.getStatus() + "_" + endNode.getStatus());
+			statement.setString(1, startNode.getNodeID() + "_" + endNode.getNodeID());
 			statement.setString(2, startNode.getNodeID());
 			statement.setString(3, endNode.getNodeID());
 			System.out.println("Prepared statement created...");
@@ -367,7 +364,7 @@ class NodesDBUtil {
 		try {
 			// Get connection to database and delete the edge from the database
 			Statement stmt = connection.createStatement();
-			String str = "DELETE FROM MAP_EDGES WHERE edgeID = '" + startNode.getStatus() + "_" + endNode.getStatus() + "'";
+			String str = "DELETE FROM MAP_EDGES WHERE edgeID = '" + startNode.getNodeID() + "_" + endNode.getNodeID() + "'";
 			stmt.executeUpdate(str);
 			stmt.close();
 		} catch (SQLException e) {
@@ -380,14 +377,58 @@ class NodesDBUtil {
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
 	List<Node> getAdjacentNodes(Node node) {
-		List<Edge> listOfEdges = getEdgesFromNode(node);
 		List<Node> adjacentNodes = new ArrayList<>();
-        for ( Edge anEdge:listOfEdges) {
-            if (anEdge.getStartNodeID().equals(node.getStatus())) {
-                adjacentNodes.add(getNodeByID(anEdge.getEndNodeID()));
+        // Connection
+        Connection connection = null;
+
+        // Variables
+        String nodeID = "";
+        String nodeType = "";
+        String longName = "";
+        String shortName = "";
+        int xCoord = 0;
+        int yCoord = 0;
+        int xCoord3D = 0;
+        int yCoord3D = 0;
+        String floor = "";
+        String building = "";
+        int status = 0;
+        Statement stmt = null;
+        try {
+                connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+                stmt = connection.createStatement();
+                String str = "SELECT * FROM MAP_EDGES WHERE startNodeID = '"+ node.getNodeID()+ "' OR endNodeID = '" + node.getNodeID() +"'";
+                ResultSet rset = stmt.executeQuery(str);
+
+                while(rset.next()) {
+                    String newNodeID;
+                    String startNodeID = rset.getString("startNodeID");
+                    String endNodeID = rset.getString("endNodeID");
+
+                    if (node.getNodeID().equals(startNodeID)) {
+                        newNodeID = endNodeID;
+                    } else {
+                        newNodeID = startNodeID;
+                    }
+
+                    Node newNode = getNodeByID(newNodeID);
+
+                    // Add the new node to the list
+                    adjacentNodes.add(newNode);
+                }
+                rset.close();
+                System.out.println("Done adding nodes");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                closeConnection(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            else{ adjacentNodes.add(getNodeByID(anEdge.getStartNodeID())); }
         }
+
 		return adjacentNodes;
 	}
 
@@ -409,7 +450,7 @@ class NodesDBUtil {
 
 		try {
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_EDGES WHERE STARTNODEID = '" + node.getStatus() + "'" + "OR ENDNODEID = '" + node.getStatus() + "'";
+			String str = "SELECT * FROM MAP_EDGES WHERE STARTNODEID = '" + node.getNodeID() + "'" + "OR ENDNODEID = '" + node.getNodeID() + "'";
 			ResultSet rset = stmt.executeQuery(str);
 
 			// For every edge, get the information
@@ -478,7 +519,8 @@ class NodesDBUtil {
 			// For every node, get the information
 			while (rset.next()) {
 				type = rset.getString("nodeType");
-				types.add(type);
+				if(!types.contains(type))
+				    types.add(type);
 			}
 			rset.close();
 			stmt.close();
@@ -502,6 +544,19 @@ class NodesDBUtil {
 		}
 
 		return selectedNodes;
+	}
+
+	List<String> getLongNameByBuildingTypeFloor (String building, String type, String floor) {
+		List<String> selectedNames = new ArrayList<>();
+		List<Node> allNodes = retrieveNodes();
+
+		for(Node a_node : allNodes){
+			if(a_node.getBuilding().equals(building) && a_node.getNodeType().equals(type) && a_node.getFloor().equals(floor)){
+				selectedNames.add(a_node.getLongName());
+			}
+		}
+
+		return selectedNames;
 	}
 
 	public List<Node> getNodesByType(String type) {
@@ -594,11 +649,12 @@ class NodesDBUtil {
 		String floor = "";
 		String building = "";
 		int status = 0;
-		List<Node> listOfNodes = new ArrayList<>();
+		//List<Node> listOfNodes = new ArrayList<>();
 		Statement stmt = null;
 		try {
             stmt = connection.createStatement();
-            String str = "SELECT * FROM MAP_NODES INNER JOIN MAP_EDGES ON MAP_NODES.nodeID = MAP_EDGES.startNodeID OR MAP_NODES.nodeID = MAP_EDGES.endNodeID";
+            //String str = "SELECT * FROM MAP_NODES INNER JOIN MAP_EDGES ON"+ nodeID +" = MAP_EDGES.startNodeID OR "+ nodeID +"= MAP_EDGES.endNodeID";
+            String str = "SELECT * FROM MAP_NODES WHERE nodeID = '" + nodeID + "'";
             ResultSet rset = stmt.executeQuery(str);
 
 			// For every node, get the information
@@ -615,14 +671,10 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
                 node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
-
-
 				// Add the new node to the list
-				node.setStatus(status);
-				node.setAdjacentNodes(null);
-				listOfNodes.add(node);
+				//listOfNodes.add(node);
 			}
-            node.setAdjacentNodes(listOfNodes);
+            //node.setAdjacentNodes(listOfNodes);
 			rset.close();
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
@@ -676,7 +728,7 @@ class NodesDBUtil {
                 buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 
 				// Add the new node to the list
-				node.setAdjacentNodes(null);
+				node.setAdjacentNodes(getAdjacentNodes(node));
 			}
 			rset.close();
 			stmt.close();
@@ -724,8 +776,8 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
 				// Create the java objects based on the node type
-				buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
-				node.setAdjacentNodes(null);
+				node = buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
+				node.setAdjacentNodes(getAdjacentNodes(node));
 			}
 			rset.close();
 			stmt.close();
@@ -736,6 +788,15 @@ class NodesDBUtil {
 		}
 		return node;
 	}
+
+	Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
+	    for(Node x : nodeList) {
+	        if(x.getLongName().equals(longName)) {
+	            return x;
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * used to generate unique nodeID when adding a new node on the map
