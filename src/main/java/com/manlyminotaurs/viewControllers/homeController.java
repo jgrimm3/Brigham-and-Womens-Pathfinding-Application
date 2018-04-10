@@ -2,6 +2,11 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
+import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.pathfinding.AStarStrategyI;
+import com.manlyminotaurs.pathfinding.PathNotFoundException;
+import com.manlyminotaurs.pathfinding.PathfinderUtil;
+import com.manlyminotaurs.pathfinding.PathfindingContext;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,18 +28,23 @@ import javax.swing.*;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class homeController implements Initializable {
 
     // Test Objects
-    final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
+    //final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1","1","2","3");
-    final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd","sfdd","SFd");
-    final static ObservableList<String> finalFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1","FLOOR: 2","FLOOR: 3");
+    //final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd","sfdd","SFd");
+    final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1","FLOOR: 2","FLOOR: 3");
     final static ObservableList<String> empty = FXCollections.observableArrayList();
-    //final static ObservableList<String> buildings = (ObservableList<String>)DataModelI.getInstance().getBuildingsFromList();
-    final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro");
+    final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
+    final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+    //final ObservableList<String> locations = FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor());
+    //final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro");
 
 
     /*
@@ -172,14 +182,17 @@ Parent staffRequest;
 
     public void initialize(URL location, ResourceBundle resources) {
     try {
+
+        //final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
+
         // Set comboboxes for buildings to default lists
-        comBuildingStart.setItems(buildings);
-        comBuildingEnd.setItems(buildings);
+        comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
+        comBuildingEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
         comFloorStart.setDisable(true);
         comFloorEnd.setDisable(true);
         comTypeStart.setDisable(true);
         comTypeEnd.setDisable(true);
-        comChangeFloor.setItems(finalFloors);
+        comChangeFloor.setItems(mapFloors);
         comLocationStart.setDisable(true);
         comLocationEnd.setDisable(true);
 
@@ -209,13 +222,14 @@ Parent staffRequest;
 
     @FXML
     public void initialize() {
-        comBuildingStart.setItems(buildings);
-        comBuildingEnd.setItems(buildings);
+
+        comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
+        comBuildingEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
         comFloorStart.setDisable(true);
         comFloorEnd.setDisable(true);
         comTypeStart.setDisable(true);
         comTypeEnd.setDisable(true);
-        comChangeFloor.setItems(finalFloors);
+        comChangeFloor.setItems(mapFloors);
         comLocationStart.setDisable(true);
         comLocationEnd.setDisable(true);
 
@@ -371,7 +385,8 @@ Parent staffRequest;
         */
 
         // Set types depending on floor
-        comLocationStart.setItems(locations);
+        comLocationStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(comBuildingStart.getValue(),comTypeStart.getValue(),comFloorStart.getValue())));
+
 
         // Able Objects
         comLocationStart.setDisable(false);
@@ -440,7 +455,7 @@ Parent staffRequest;
         System.out.println("End Type: " + comTypeEnd.getValue());
 
         // Set types depending on floor
-        comLocationEnd.setItems(locations);
+        comLocationEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(comBuildingEnd.getValue(),comTypeEnd.getValue(),comFloorEnd.getValue())));
 
         // Able Objects
         comLocationEnd.setDisable(false);
@@ -498,11 +513,29 @@ Parent staffRequest;
 
     public void drawPath(ActionEvent event) {
 
+
         if (lblStartLocation.equals("START LOCATION") || lblEndLocation.equals("END LOCATION")) { // !!! add .equals using as a tester
 
             System.out.println("Pick a start and end location!");
 
         } else {
+
+            PathfindingContext pathfindingContext = new PathfindingContext();
+            PathfinderUtil pathfinderUtil = new PathfinderUtil();
+
+            List<Node> nodeList = new ArrayList<>();
+            LinkedList<Node> pathList = new LinkedList<>();
+            nodeList = DataModelI.getInstance().retrieveNodes();
+
+            try {
+                pathList = pathfindingContext.getPath(DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList),DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList),new AStarStrategyI());
+            } catch (PathNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText(pathList));
+            lstDirections.setItems(directions);
+
 
             // Draw path code
 
