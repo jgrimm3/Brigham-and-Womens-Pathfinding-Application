@@ -7,17 +7,18 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class DatabasePathfindingTest {
-    static DataModelI dbm = DataModelI.getInstance();
+
 
     @Test
     public void PathfindWithDBNodes(){
-        ArrayList<Node> nodes = new ArrayList<>(dbm.retrieveNodes());
-        Node startNode = dbm.getNodeByID("GHALL00201");
-        Node endNode = dbm.getNodeByID("GHALL00201");
+        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
+        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
+        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
 
         LinkedList<Node> expected = new LinkedList<>();
         expected.add(startNode);
@@ -32,4 +33,27 @@ public class DatabasePathfindingTest {
         assertEquals(expected, result);
 
     }
+
+    @Test
+    public void PathfindWithDBNodes2(){
+        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
+        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
+        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00301", nodes);
+
+        LinkedList<Node> expected = new LinkedList<>();
+        expected.add(startNode);
+        expected.add(startNode);
+
+        PathfindingContext pf = new PathfindingContext();
+        LinkedList<Node> result = new LinkedList<>();
+        try {
+            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+        } catch (PathNotFoundException e){
+            e.printStackTrace();
+        }
+        assertEquals(expected, result);
+
+    }
+
+
 }
