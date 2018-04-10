@@ -1,5 +1,5 @@
 package com.manlyminotaurs.users;
 
 public enum UserType {
-    admin,nurse,doctor
+    admin,nurse,doctor,patient,visitor,janitor,interpreter
 }

@@ -2,14 +2,22 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.users.*;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDBUtil {
+
+    private static int userIDCounter = 0;
+
+    public static void setUserIDCounter(int userIDCounter) {
+        UserDBUtil.userIDCounter = userIDCounter;
+    }
+
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
-    User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType){
+    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password){
+
+        String userID = generateUserID();
         User userObject = new Patient(userID,firstName,middleName,lastName,language, userType);
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -31,8 +39,13 @@ public class UserDBUtil {
         {
             e.printStackTrace();
         }
+        //-----------------Adding username and password later-------------------
+        UserSecurity userSecurity = new UserSecurity();
+        userSecurity.addUserPassword(userName, password, userID);
+
         return userObject;
     }
+
     boolean removeUser(User oldUser){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -164,7 +177,7 @@ public class UserDBUtil {
     }
 
     public static User userBuilder(String userID, String firstName, String middleName, String lastName, String language, String userType){
-        User userObject = null;
+        User userObject;
         switch (userType) {
             case "patient":
                 userObject = new Patient(userID, firstName, middleName, lastName, language, userType);
@@ -190,10 +203,19 @@ public class UserDBUtil {
                 userObject = new Janitor(userID, firstName, middleName, lastName, language, userType);
                 break;
 
+            case "interpreter":
+                userObject = new interpreter(userID, firstName, middleName, lastName, language, userType);
+                break;
+
             default:
-                System.out.println("bad userType!");
+                userObject = new Visitor(userID, firstName, middleName, lastName, language, userType);
                 break;
         }
         return userObject;
+    }
+
+    private String generateUserID(){
+        userIDCounter++;
+        return Integer.toString(userIDCounter);
     }
 }

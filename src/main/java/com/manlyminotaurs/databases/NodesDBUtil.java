@@ -55,7 +55,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES";
+			String str = "SELECT * FROM MAP_NODES WHERE status = 1";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -80,7 +80,6 @@ class NodesDBUtil {
 			}
 			rset.close();
  			addAllEdges();
-			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -183,7 +182,7 @@ class NodesDBUtil {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
 			connection = DataModelI.getInstance().getNewConnection();
-			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + node.getNodeID() +"'";
+			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, status = ?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + node.getNodeID() +"'";
 
 			// Create the prepared statement
 			statement = connection.prepareStatement(str);
@@ -194,8 +193,9 @@ class NodesDBUtil {
 			statement.setString(5, node.getNodeType());
 			statement.setString(6, node.getLongName());
 			statement.setString(7, node.getShortName());
-			statement.setInt(8, node.getXCoord3D());
+            statement.setInt(8, node.getStatus());
 			statement.setInt(9, node.getXCoord3D());
+			statement.setInt(10, node.getXCoord3D());
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
@@ -213,7 +213,7 @@ class NodesDBUtil {
 		}
 	}
 
-	boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D) {
+	boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
 		boolean isSucessful = false;
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		PreparedStatement statement = null;
@@ -221,7 +221,7 @@ class NodesDBUtil {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
 			connection = DataModelI.getInstance().getNewConnection();
-			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + nodeID +"'";
+			String str = "UPDATE map_nodes SET xCoord = ?,yCoord = ?,floor = ?,building = ?,nodeType = ?,longName = ?, shortName =?, status = ?, xCoord3D = ?, yCoord3D = ? WHERE nodeID = '" + nodeID +"'";
 
 			// Create the prepared statement
 			statement = connection.prepareStatement(str);
@@ -232,8 +232,9 @@ class NodesDBUtil {
 			statement.setString(5, nodeType);
 			statement.setString(6, longName);
 			statement.setString(7, shortName);
-			statement.setInt(8, xCoord3D);
-			statement.setInt(9, yCoord3D);
+            statement.setInt(8, status);
+			statement.setInt(9, xCoord3D);
+			statement.setInt(10, yCoord3D);
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
@@ -313,7 +314,7 @@ class NodesDBUtil {
 	 * @param startNode the start node
 	 * @param endNode   the end node
 	 */
-	void addAdjacentNode(Node startNode, Node endNode) {
+	void addEdge(Node startNode, Node endNode) {
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		startNode.getAdjacentNodes().add(endNode);
 		endNode.getAdjacentNodes().add(startNode);
@@ -321,13 +322,14 @@ class NodesDBUtil {
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
-			String str = "INSERT INTO MAP_EDGES(edgeID, startNode, endNode) VALUES (?,?,?)";
+			String str = "INSERT INTO MAP_EDGES(edgeID, startNode, endNode, status) VALUES (?,?,?,?)";
 
 			// Create the prepared statement
 			PreparedStatement statement = connection.prepareStatement(str);
 			statement.setString(1, startNode.getNodeID() + "_" + endNode.getNodeID());
 			statement.setString(2, startNode.getNodeID());
 			statement.setString(3, endNode.getNodeID());
+			statement.setInt(4, 1);
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			statement.close();
@@ -337,7 +339,7 @@ class NodesDBUtil {
 		} finally {
 			closeConnection(connection);
 		}
-	} // end addAdjacentNode()
+	} // end addEdge()
 
 	/**
 	 * Makes an "edge" between nodes
@@ -440,7 +442,6 @@ class NodesDBUtil {
 					adjacentNodes.add(newNodeID);
                 }
                 rset.close();
-                System.out.println("Done adding nodes");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -488,7 +489,6 @@ class NodesDBUtil {
 				System.out.println("Edge added to the list: " + edgeID);
 				}
 			rset.close();
-			System.out.println("Done adding edges");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -578,7 +578,7 @@ class NodesDBUtil {
 				selectedNames.add(a_node.getLongName());
 			}
 		}
-
+		System.out.println("getLongNameByBuildingTypeFloor ends");
 		return selectedNames;
 	}
 
@@ -672,7 +672,6 @@ class NodesDBUtil {
 		String floor = "";
 		String building = "";
 		int status = 0;
-		//List<Node> listOfNodes = new ArrayList<>();
 		Statement stmt = null;
 		try {
             stmt = connection.createStatement();
@@ -694,10 +693,7 @@ class NodesDBUtil {
 				yCoord3D = rset.getInt("yCoord3D");
 
                 node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
-				// Add the new node to the list
-				//listOfNodes.add(node);
 			}
-            //node.setAdjacentNodes(listOfNodes);
 			rset.close();
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
