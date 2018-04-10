@@ -12,14 +12,14 @@ repositories {
 dependencies {
 	testCompile(
 		[group: 'junit', name: 'junit', version: '4.12'],
-		[group: 'com.jfoenix', name: 'jfoenix', version: '9.0.2'],
+		[group: 'com.jfoenix', name: 'jfoenix', version: '8.0.1'],
 		[group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
 		[group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
 		[group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1']
 	)
 	compile(
 		[group: 'junit', name: 'junit', version: '4.12'],
-		[group: 'com.jfoenix', name: 'jfoenix', version: '9.0.2'],
+		[group: 'com.jfoenix', name: 'jfoenix', version: '8.0.1'],
 		[group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
 		[group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
 		[group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1']
@@ -37,4 +37,21 @@ task run(type: JavaExec) {
 	main = 'com.manlyminotaurs.core.Main'
 	classpath = sourceSets.main.runtimeClasspath
 }
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java']
+		}
+		resources{
+			srcDirs = ['src/main/resources']
+		}
+	}
+
+	test {
+		java {
+			srcDirs = ['src/test/java']
+		}
+	}
+}
+
 

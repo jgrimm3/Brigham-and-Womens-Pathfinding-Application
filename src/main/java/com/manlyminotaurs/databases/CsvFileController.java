@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CsvFileController {
-    NodesDBUtil nodesDBUtil = new NodesDBUtil();
+    //NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
      * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
@@ -58,7 +58,7 @@ public class CsvFileController {
             printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
             while (iterator.hasNext()) {
                 Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getStatus(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
             }
             printWriter.close();
             System.out.println("csv node file updated");
@@ -111,7 +111,7 @@ public class CsvFileController {
             printWriter.print("specialization, detail, popularity, isOpen, nodeID\n");
             while (iterator.hasNext()) {
                 Room a_node = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getID());
+                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getStatus());
             }
             printWriter.close();
             System.out.println("csv file updated");

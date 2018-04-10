@@ -18,9 +18,9 @@ class MessagesDBUtil {
     CsvFileController csvFileController = new CsvFileController();
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
-    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID){
+    public Message addMessage(Message messageObject){
         String messageID = generateMessageID();
-        Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
@@ -34,6 +34,7 @@ class MessagesDBUtil {
             statement.setString(5, messageObject.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
+            statement.close();
             System.out.println("Node added to database");
         } catch (SQLException e)
         {
@@ -76,6 +77,7 @@ class MessagesDBUtil {
             statement.setString(4, newMessage.getReceiverID());
             statement.executeUpdate();
             System.out.println("Message added to database");
+            statement.close();
             isSuccess = true;
         } catch (SQLException e)
         {
@@ -166,7 +168,7 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
-    private String generateMessageID(){
+    public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
@@ -253,4 +255,5 @@ class MessagesDBUtil {
         }
         return messageObject;
     }
+
 }
