@@ -27,15 +27,6 @@ import java.util.List;
 
 
 public class adminRequestDashboardController  {
-
-    Parent home;
-    Parent nodeEdit;
-    Parent createRequest;
-
-    @FXML
-    Button navBtnNewRequest;
-    @FXML
-    Button navBtnNodeEditor;
     DataModelI dBUtil = DataModelI.getInstance();
     ObservableList<requestInfo> openList = FXCollections.observableArrayList();
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
@@ -139,13 +130,15 @@ public class adminRequestDashboardController  {
 
     }
 
-    public void LogOut(ActionEvent event) throws Exception{
+
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
+            //TODO: Figure out why this is giving a NullPointerException
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            home = FXMLLoader.load(getClass().getResource("/FXMLs/home.fxml"));
+
             //create a new scene with root and set the stage
             Scene scene=new Scene(logout);
             stage.setScene(scene);
