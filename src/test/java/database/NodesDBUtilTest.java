@@ -27,7 +27,7 @@ public class NodesDBUtilTest {
 		DataModelI.getInstance().removeNode("Xlmao2004");
 
 	}
-
+/*
 	// Tests
 	@Test
 	public void retrieveNodes_returnsCorrectList_xCoord3DandyCoord3D() {
@@ -40,7 +40,7 @@ public class NodesDBUtilTest {
 			i++;
 
 		}
-	}
+	}*/
 
 	@Test
 	public void retrieveNodes_time() {
@@ -86,11 +86,11 @@ public class NodesDBUtilTest {
 
 		List<String> listOfBuildings = new ArrayList<>();
 		listOfBuildings.add("Shapiro");
-		listOfBuildings.add("beachHouse");
-		listOfBuildings.add("FL320");
-		listOfBuildings.add("HL420");
-		listOfBuildings.add("Shapiro2");
-
+		listOfBuildings.add("dff"); // !!! this is necessary because one of the file actually has this string
+		listOfBuildings.add("45 Francis");
+		listOfBuildings.add("Tower");
+		listOfBuildings.add("15 Francis");
+		listOfBuildings.add("BTM");
 
 		int i = 0;
 		while (i < listOfNodes.size()) {
@@ -103,7 +103,7 @@ public class NodesDBUtilTest {
 	public void addNode_CorrectlyAddsNode() {
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "s", "s", "t", "w", "t", 3, 5, 2);
 		System.out.println(addedNode.getNodeID());
-		assertTrue(DataModelI.getInstance().doesNodeExist(addedNode.getNodeID()));
+		assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
 		DataModelI.getInstance().removeNode(addedNode.getNodeID());
 		assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}

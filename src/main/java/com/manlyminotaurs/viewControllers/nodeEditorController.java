@@ -47,6 +47,7 @@ public class nodeEditorController {
     final double NEWMAPYMAX = 693.8;
     Parent logout;
 
+
     @FXML
     Path path;
     @FXML
@@ -86,6 +87,10 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtYCoord;
     @FXML
+    JFXTextField txtXCoord3D;
+    @FXML
+    JFXTextField txtYCoord3D;
+    @FXML
     JFXTextField txtShortNameMod;
     @FXML
     JFXTextField txtLongNameMod;
@@ -93,6 +98,10 @@ public class nodeEditorController {
     JFXTextField txtXCoordMod;
     @FXML
     JFXTextField txtYCoordMod;
+    @FXML
+    JFXTextField txtXCoordMod3D;
+    @FXML
+    JFXTextField txtYCoordMod3D;
     @FXML
     JFXTextField txtYCoordDel;
     @FXML
@@ -128,10 +137,15 @@ public class nodeEditorController {
 
     @FXML
     Button btn3DMap;
+    @FXML
+    Button btn2DMapMod;
 
-    final static ObservableList<String> types = FXCollections.observableArrayList("HALL", "ELEV", "REST", "STAI", "DEPT", "LABS", "INFO", "CONF", "EXIT", "RETL", "SERV");
+    @FXML
+    Button btn3DMapMod;
+
+    final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
+    final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
-    final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro", "Jank", "Somerset");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd", "sfdd", "SFd");
 
     String longName;
@@ -155,7 +169,7 @@ public class nodeEditorController {
             paneAdd.setVisible(true);
             btnAddNode.setDisable(true);
             BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
-                    txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
+                    txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty());
             btnAddNode.disableProperty().bind(booleanBind);
 
             cmboBuilding.setItems(buildings);
@@ -193,8 +207,10 @@ public class nodeEditorController {
         txtYCoordDel.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
-                txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty());
+                txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
         btnModify.disableProperty().bind(booleanBind);
+
+        cmboBuildingMod.setItems(buildings);
     }
 
     public void displayAddPane(ActionEvent event) {   //add Node
@@ -217,6 +233,7 @@ public class nodeEditorController {
         txtYCoordDel.clear();
         BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
                 txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
+
         btnAddNode.disableProperty().bind(booleanBind);
 
 
@@ -250,6 +267,9 @@ public class nodeEditorController {
         BooleanBinding booleanBind = Bindings.or(txtYCoordDel.textProperty().isEmpty(),
                 txtXCoordDel.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
+
+        cmboBuildingDel.setItems(buildings);
+
     }
 
 
@@ -275,11 +295,9 @@ public class nodeEditorController {
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
+            //load up Home FXML document;
             //create a new scene with root and set the stage
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(logout);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -298,26 +316,31 @@ public class nodeEditorController {
     public void addSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorAdd.getValue().toString();
-        cmboType.setItems(floors);
+        btn2DMap.setDisable(false);
+        btn3DMap.setDisable(false);
+        cmboType.setItems(types);
 
     }
 
     public void addSetType(ActionEvent event) {
         //set type to selected value
         type = cmboType.getValue().toString();
+
     }
 
     //modify node
     public void modSetBuilding(ActionEvent event) {
-        building = cmboBuildingMod.getValue().toString();
-        cmboFloorAdd.setItems(floors);
+
+        cmboFloor.setItems(floors);
 
     }
 
     public void modSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloor.getValue().toString();
-        cmboType.setItems(types);
+        btn2DMapMod.setDisable(false);
+        btn3DMapMod.setDisable(false);
+        cmboTypeMod.setItems(types);
 
     }
 
@@ -330,28 +353,28 @@ public class nodeEditorController {
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
-        type = cmboNodeMod.getValue().toString();
+        node = cmboNodeMod.getValue().toString();
 
     }
 
     //delete node
     public void delSetBuilding(ActionEvent event) {
         building = cmboBuildingDel.getValue().toString();
-        cmboFloorAdd.setItems(floors);
+        cmboFloorDel.setItems(floors);
 
     }
 
     public void delSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorDel.getValue().toString();
-        cmboType.setItems(types);
+        cmboTypeDel.setItems(types);
 
     }
 
     public void delSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeDel.getValue().toString();
-        cmboNodeMod.setItems(null);
+        cmboNodeDel.setItems(null);
 
     }
 
@@ -445,6 +468,40 @@ public class nodeEditorController {
         } else if(cmboFloorAdd.getValue().equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
         }
+
+    }
+    public void load2DMapMod(ActionEvent event) {
+
+        if(cmboFloor.getValue().equals("L2")) {
+            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+        } else if(cmboFloor.getValue().equals("L1")) {
+            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+        } else if(cmboFloor.getValue().equals("1")) {
+            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+        } else if(cmboFloor.getValue().equals("2")) {
+            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+        } else if(cmboFloor.getValue().equals("3")) {
+            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+        }
+    }
+
+    public void load3DMapMod(ActionEvent event) {
+
+        if(cmboFloor.getValue().equals("L2")) {
+            new ProxyImage(mapImg,"L2-ICONS.png").display();
+        } else if(cmboFloor.getValue().equals("L1")) {
+            new ProxyImage(mapImg,"L1-ICONS.png").display();
+        } else if(cmboFloor.getValue().equals("1")) {
+            new ProxyImage(mapImg,"1-ICONS.png").display();
+        } else if(cmboFloor.getValue().equals("2")) {
+            new ProxyImage(mapImg,"2-ICONS.png").display();
+        } else if(cmboFloor.getValue().equals("3")) {
+            new ProxyImage(mapImg,"3-ICONS.png").display();
+        }
+
+    }
+
+    public void geofence(ActionEvent event){
 
     }
 
