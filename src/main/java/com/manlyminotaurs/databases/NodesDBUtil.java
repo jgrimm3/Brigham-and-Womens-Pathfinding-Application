@@ -27,6 +27,7 @@ class NodesDBUtil {
 			e.printStackTrace();
 		}
 	}
+	List<Node> nodes = new ArrayList<>();
 
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
@@ -52,7 +53,6 @@ class NodesDBUtil {
 		PreparedStatement stmt = null;
 		Connection connection = null;
 
-		List<Node> listOfNodes = new ArrayList<>();
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			String str = "SELECT * FROM MAP_NODES";
@@ -76,10 +76,10 @@ class NodesDBUtil {
 				// Create the java objects based on the node type
 				node = buildNode(ID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 				// Add the new node to the list
-				node.setAdjacentNodes(getAdjacentNodes(node));
-                listOfNodes.add(node);
+				nodes.add(node);
 			}
 			rset.close();
+ 			addAllEdges();
 			System.out.println("Done adding nodes");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,9 +90,21 @@ class NodesDBUtil {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return listOfNodes;
 		}
+		return nodes;
 	} // retrieveNodes() ends
+
+	public void addAllEdges() {
+		for(Node x: nodes) {
+			List<String> nodeIDs = getAdjacentNodes(x);
+			for(Node y: nodes) {
+				if(nodeIDs.contains(y.getNodeID())) {
+					x.addAdjacentNode(y);
+					y.addAdjacentNode(x);
+				}
+			}
+		}
+	}
 
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
 
@@ -376,8 +388,8 @@ class NodesDBUtil {
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
-	List<Node> getAdjacentNodes(Node node) {
-		List<Node> adjacentNodes = new ArrayList<>();
+	List<String> getAdjacentNodes(Node node) {
+		List<String> adjacentNodes = new ArrayList<>();
         // Connection
         Connection connection = null;
 
@@ -407,14 +419,14 @@ class NodesDBUtil {
 
                     if (node.getNodeID().equals(startNodeID)) {
                         newNodeID = endNodeID;
-                    } else {
+                    } else if(node.getNodeID().equals(startNodeID)){
                         newNodeID = startNodeID;
-                    }
+                    } else
+					{
+						newNodeID = null;
+					}
 
-                    Node newNode = getNodeByID(newNodeID);
-
-                    // Add the new node to the list
-                    adjacentNodes.add(newNode);
+					adjacentNodes.add(newNodeID);
                 }
                 rset.close();
                 System.out.println("Done adding nodes");
@@ -670,7 +682,7 @@ class NodesDBUtil {
 				xCoord3D = rset.getInt("xCoord3D");
 				yCoord3D = rset.getInt("yCoord3D");
 
-                node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
+                //node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 				// Add the new node to the list
 				//listOfNodes.add(node);
 			}
@@ -690,6 +702,14 @@ class NodesDBUtil {
 		return node;
 	}
 
+	public Node getNodeByIDFromList(String nodeID, List<Node> nodeList) {
+		for(Node x: nodeList) {
+			if (x.getNodeID().equals(nodeID)) {
+				return x;
+			}
+		}
+		return null;
+	}
 
 	Node getNodeByCoords(int xCoord, int yCoord) {
 		// Connection
@@ -728,7 +748,7 @@ class NodesDBUtil {
                 buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 
 				// Add the new node to the list
-				node.setAdjacentNodes(getAdjacentNodes(node));
+				//node.setAdjacentNodes(getAdjacentNodes(node));
 			}
 			rset.close();
 			stmt.close();
@@ -777,7 +797,7 @@ class NodesDBUtil {
 
 				// Create the java objects based on the node type
 				node = buildNode(nodeID,xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
-				node.setAdjacentNodes(getAdjacentNodes(node));
+				//node.setAdjacentNodes(getAdjacentNodes(node));
 			}
 			rset.close();
 			stmt.close();
