@@ -105,7 +105,7 @@ public class NodesDBUtilTest {
 		System.out.println(addedNode.getNodeID());
 		assertTrue(DataModelI.getInstance().doesNodeExist(addedNode.getNodeID()));
 		DataModelI.getInstance().removeNode(addedNode.getNodeID());
-		assertFalse(DataModelI.getInstance().doesNodeExist(addedNode.getNodeID()));
+		assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
 
 	/*

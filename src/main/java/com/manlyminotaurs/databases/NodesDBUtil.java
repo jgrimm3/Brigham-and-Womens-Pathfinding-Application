@@ -36,6 +36,7 @@ class NodesDBUtil {
 	 */
 	List<Node> retrieveNodes() {
 		// Connection
+		nodes.clear();
 
 		// Variables
 		Node node = null;
@@ -94,16 +95,27 @@ class NodesDBUtil {
 		return nodes;
 	} // retrieveNodes() ends
 
-	public void addAllEdges() {
+	 private void addAllEdges() {
 		for(Node x: nodes) {
 			List<String> nodeIDs = getAdjacentNodes(x);
 			for(Node y: nodes) {
 				if(nodeIDs.contains(y.getNodeID())) {
-					x.addAdjacentNode(y);
-					y.addAdjacentNode(x);
+					if(!areNeighbors(x,y))
+						x.addAdjacentNode(y);
+					if(!areNeighbors(y,x))
+						y.addAdjacentNode(x);
 				}
 			}
 		}
+	}
+
+	private boolean areNeighbors(Node start, Node end) {
+		for(Node x: start.getAdjacentNodes()) {
+			if(x.getNodeID().equals(end.getNodeID())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*---------------------------------------- Add/edit/delete nodes -------------------------------------------------*/
@@ -248,7 +260,7 @@ class NodesDBUtil {
 	 */
 	boolean removeNode(Node node) {
 		boolean isSucessful = false;
-
+		nodes.remove(node);
 		// Remove from the database
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
@@ -682,7 +694,7 @@ class NodesDBUtil {
 				xCoord3D = rset.getInt("xCoord3D");
 				yCoord3D = rset.getInt("yCoord3D");
 
-                //node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
+                node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 				// Add the new node to the list
 				//listOfNodes.add(node);
 			}
