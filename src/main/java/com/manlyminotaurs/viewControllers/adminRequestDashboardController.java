@@ -140,15 +140,17 @@ public class adminRequestDashboardController  {
         }
         else {
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
-
-            lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()).getSenderID() + "\n" +
+            Request actualRequest = dBUtil.getRequestByID(selectedRequest.requestID);
+            lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
                                       "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                                      "Location: " + dBUtil.getNodeByID(dBUtil.getRequestByID(selectedRequest.requestID).getNodeID()).getLongName() + "\n" +
-                                      "Message: " + dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()).getMessage());
+                                      "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                                      "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }
 
+    public void assignClicked(){
 
+    }
 
 
 

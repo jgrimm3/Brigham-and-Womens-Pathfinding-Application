@@ -1,7 +1,6 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
-import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.*;
@@ -682,7 +681,7 @@ class NodesDBUtil {
 				xCoord3D = rset.getInt("xCoord3D");
 				yCoord3D = rset.getInt("yCoord3D");
 
-                //node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
+                node = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
 				// Add the new node to the list
 				//listOfNodes.add(node);
 			}
