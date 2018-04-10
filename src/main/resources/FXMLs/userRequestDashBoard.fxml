@@ -33,12 +33,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="170.0">
+      <Button fx:id="btnRefresh" layoutX="1580.0" mnemonicParsing="false" onAction="#refresh" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="170.0">
          <font>
             <Font size="28.0" />
          </font>
       </Button>
-      <Button layoutX="1750.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE" AnchorPane.rightAnchor="0.0">
+      <Button fx:id="btnLogOut" layoutX="1750.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE" AnchorPane.rightAnchor="0.0">
          <font>
             <Font size="28.0" />
          </font>
@@ -67,7 +67,7 @@
       </Label>
       <Pane layoutY="60.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: #edbf54;">
          <children>
-            <Button fx:id="newBtnNewRequest" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
+            <Button fx:id="btnNewRequest" mnemonicParsing="false" onAction="#CreateRequest" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
@@ -80,7 +80,6 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button layoutX="520.0" layoutY="16.0" mnemonicParsing="false" text="New" />
          </children>
       </Pane>
       <Label layoutX="1419.0" layoutY="120.0" prefHeight="55.0" prefWidth="223.0" text="Closed Requests" textFill="WHITE" AnchorPane.rightAnchor="278.0">

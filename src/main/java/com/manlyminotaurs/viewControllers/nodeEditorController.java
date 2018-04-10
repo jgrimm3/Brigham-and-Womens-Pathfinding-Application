@@ -31,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.util.List;
 
@@ -156,7 +157,7 @@ public class nodeEditorController {
     String type;
     String floor;
     String building;
-    String node;
+    Node node;
     String xCoord;
     String yCoord;
 
@@ -182,8 +183,6 @@ public class nodeEditorController {
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
-
-
 
         }
         catch (Exception e){
@@ -392,7 +391,7 @@ public class nodeEditorController {
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
-        node = cmboNodeMod.getValue().toString();
+        //node = cmboNodeMod.getValue().toString();
 
     }
 
@@ -452,6 +451,7 @@ public class nodeEditorController {
 
         //call modify node function
 
+
         //redraw map
     }
 
@@ -467,7 +467,8 @@ public class nodeEditorController {
         type = cmboTypeDel.getValue().toString();
 
         //call delete node function
-
+        node = DataModelI.getInstance().getNodeByLongName(longName);
+        DataModelI.getInstance().removeNode(node);
         //redraw map
 
     }
