@@ -1,18 +1,13 @@
 package database;
 
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.Room;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
@@ -98,10 +93,10 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void addNode_CorrectlyAddsNode() {
-		Node addedNode = DataModelI.getInstance().addNode("lmao", 5, 3, "4", "Hello", "lmao", "yoo", "yo", 48, 20);
-		assertTrue(DataModelI.getInstance().doesNodeExist(addedNode.getID()));
-		DataModelI.getInstance().removeNode(addedNode.getID());
-		assertFalse(DataModelI.getInstance().doesNodeExist(addedNode.getID()));
+		Node addedNode = DataModelI.getInstance().addNode(5, 3, "4", "Hello", "lmao", "yoo", "yo",1 , 48, 20);
+		assertTrue(DataModelI.getInstance().doesNodeExist(addedNode.getNodeID()));
+		DataModelI.getInstance().removeNode(addedNode.getNodeID());
+		assertFalse(DataModelI.getInstance().doesNodeExist(addedNode.getNodeID()));
 	}
 
 	@Test

@@ -5,22 +5,22 @@ import java.util.List;
 public abstract class Node implements INode {
 
     private Location loc;
+    private String nodeID;
     private String longName;
     private String shortName;
-    private String ID;
+    private int status;
     private String nodeType;
     private List<Node> adjacentNodes;
-    private int status;
     private int popularity;
 
-    public Node(String longName, String shortName, String ID, String nodeType, int xcoord, int ycoord,
-				String floor, String building, int xCoord3D, int yCoord3D) {
+    public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status,
+                int xCoord3D, int yCoord3D) {
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
-        this.ID = ID;
+        this.status = status;
         this.nodeType = nodeType;
-        this.loc = new Location(xcoord, ycoord, xCoord3D, yCoord3D, floor, building);
+        this.loc = new Location(xCoord, yCoord, xCoord3D, yCoord3D, floor, building);
         status = 1;
         popularity = 0;
     }
@@ -31,19 +31,17 @@ public abstract class Node implements INode {
 
     public void setShortName(String shortName) { this.shortName = shortName; }
 
-    public void setID(String ID) { this.ID = ID; }
-
     public void setNodeType(String nodeType) { this.nodeType = nodeType; }
 
     public Location getLoc() { return loc; }
-
-    public String getID() { return ID; }
 
     public String getLongName(){return longName; }
 
     public String getShortName() { return shortName; }
 
     public String getNodeType() { return nodeType; }
+
+    public String getNodeID(){ return this.nodeID; }
 
     public int getXCoord() { return loc.xCoord; }
 
@@ -76,4 +74,6 @@ public abstract class Node implements INode {
     public boolean removeAdjacentNode(Node node){
         return this.adjacentNodes.remove(node);
     }
+
+
 }

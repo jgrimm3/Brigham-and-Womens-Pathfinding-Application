@@ -5,7 +5,6 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
-import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.util.List;
@@ -27,22 +26,20 @@ public interface IDataModel {
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
-    boolean modifyNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
-    Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int xCoord3D, int yCoord3D);
+    Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
     Node getNodeByID(String ID);
-    Node getNodeByIDSimple(String ID);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
     List<Node> getNodesByBuildingTypeFloor(String building, String type, String floor);
-    // List<Edge> getEdgesFromNode(Node node); TESTING ONLY
     List<String> getBuildingsFromList();
     List<String> getTypesFromList();
+    Node getNodeByCoords(int xCoord, int yCoord);
+    Node getNodeByLongName(String longName);
     boolean doesNodeExist(String type);
-
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<Node> getAdjacentNodesFromNode(Node node);
     Set<Edge> getEdgeList(List<Node> nodeList);
