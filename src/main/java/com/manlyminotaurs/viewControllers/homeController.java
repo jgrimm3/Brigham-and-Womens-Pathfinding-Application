@@ -193,7 +193,7 @@ try {
     comChangeFloor.getSelectionModel().select(0);
 
     staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-    //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+    //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/userRequestDashBoard.fxml"));
 }
 
         catch (Exception e){

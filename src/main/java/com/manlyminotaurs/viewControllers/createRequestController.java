@@ -108,7 +108,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage=(Stage)btnlogOut.getScene().getWindow();
             //load up Home FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);

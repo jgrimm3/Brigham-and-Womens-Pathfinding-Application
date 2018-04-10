@@ -31,15 +31,7 @@ public class adminRequestDashboardController  {
 
     Parent logout;
 
-    @FXML
-            public void initialize() throws Exception{
-        try{
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-        }
-        catch (Exception e){
-            e.printStackTrace();}
 
-    }
 
     public void LogOut(ActionEvent event) throws Exception{
         try{

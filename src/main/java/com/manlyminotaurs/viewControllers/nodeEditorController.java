@@ -158,7 +158,7 @@ public class nodeEditorController {
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
 
             // Load 2D Map
             txtXCoord.setOnMouseClicked(e -> {
