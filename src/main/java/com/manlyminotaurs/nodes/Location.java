@@ -1,12 +1,12 @@
 package com.manlyminotaurs.nodes;
 
 public class Location {
-    int xCoord;
-    int yCoord;
-    int xCoord3D;
-    int yCoord3D;
-    String floor;
-    String building;
+    private int xCoord;
+    private int yCoord;
+    private int xCoord3D;
+    private int yCoord3D;
+    private String floor;
+    private String building;
 
     public Location(int xcoord, int ycoord, int xCoord3D, int yCoord3D, String floor, String building) {
         this.xCoord3D = xCoord3D;
@@ -26,6 +26,15 @@ public class Location {
     }
 
     public String getFloor() {
+        if(floor.equals("03")){
+            floor = "3";
+        }
+        else if(floor.equals("02")){
+            floor = "2";
+        }
+        else if(floor.equals("01")){
+            floor = "1";
+        }
         return floor;
     }
 
