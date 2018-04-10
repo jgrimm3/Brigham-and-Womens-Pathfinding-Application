@@ -11,4 +11,8 @@ public class Exit extends Node {
         return false;
     }
 
+    public boolean equals(Node node) {
+        return false;
+    }
+
 }
