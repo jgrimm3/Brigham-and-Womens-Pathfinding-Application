@@ -11,8 +11,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public class DataModelI implements IDataModel{
+//
+//  '||''|.             .              '||    ||'              '||          '||
+//   ||   ||   ....   .||.   ....       |||  |||    ...      .. ||    ....   ||
+//   ||    || '' .||   ||   '' .||      |'|..'||  .|  '|.  .'  '||  .|...||  ||
+//   ||    || .|' ||   ||   .|' ||      | '|' ||  ||   ||  |.   ||  ||       ||
+//  .||...|'  '|..'|'  '|.' '|..'|'    .|. | .||.  '|..|'  '|..'||.  '|...' .||.
+//
+//
 
+public class DataModelI implements IDataModel{
 
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 

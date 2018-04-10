@@ -5,6 +5,14 @@ import com.manlyminotaurs.nodes.*;
 import java.sql.*;
 import java.util.*;
 
+//   __   __          ___          ___
+//  |  \ |__)    |  |  |  | |    |  |  \ /
+//  |__/ |__)    \__/  |  | |___ |  |   |
+//
+//              __   __   ___  __
+//     __ |\ | /  \ |  \ |__  /__`
+//        | \| \__/ |__/ |___ .__/
+//
 
 //update CSV file from room, exit, hallway, transport nodes.
 //finish erd diagram and create request table
