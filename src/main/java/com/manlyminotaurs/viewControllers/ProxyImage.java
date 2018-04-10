@@ -3,9 +3,9 @@ package com.manlyminotaurs.viewControllers;
         import javafx.scene.image.Image;
         import javafx.scene.image.ImageView;
 
-        import java.io.File;
+import java.io.File;
 
-public class ProxyImage{
+public class ProxyImage {
 
     private ImageView imageView;
     private Image image;
@@ -21,4 +21,5 @@ public class ProxyImage{
         image = new Image(file.toURI().toString());
         imageView.setImage(image);
     }
+
 }
