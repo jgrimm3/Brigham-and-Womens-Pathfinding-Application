@@ -78,5 +78,11 @@ public abstract class Node implements INode {
         return this.adjacentNodes.remove(node);
     }
 
+    @Override
+    public boolean equals(Object other){
+        Node n = (Node) other;
+        return this.getNodeID().equals(n.getNodeID());
+    }
+
 
 }
