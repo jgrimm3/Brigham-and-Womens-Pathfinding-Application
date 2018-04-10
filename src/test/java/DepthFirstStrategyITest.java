@@ -59,7 +59,7 @@ public class DepthFirstStrategyITest {
         node1_2.addAdjacentNode(node2_2);
         node1_2.addAdjacentNode(node1_3);
         node2_2.addAdjacentNode(node2_1);
-        node2_2.addAdjacentNode(node1_2);
+        //node2_2.addAdjacentNode(node1_2);
         node0_3.addAdjacentNode(node0_2);
         node0_3.addAdjacentNode(node1_1);
         node0_3.addAdjacentNode(node1_3);

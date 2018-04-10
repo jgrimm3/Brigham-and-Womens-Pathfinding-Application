@@ -40,7 +40,7 @@ public class DepthFirstStrategyI implements IPathFindingStrategy {
 
     private LinkedList<DFSNode> calcPath(DFSNode currentNode, DFSNode endNode, ArrayList<DFSNode> queue, ArrayList<DFSNode> visited) throws PathNotFoundException {
         visited.add(currentNode);
-        if (!currentNode.equals(endNode)) {
+        if (!currentNode.getNode().equals(endNode.getNode())) {
             for (Node node : currentNode.getNode().getAdjacentNodes()) {
                 boolean wasVisited = false;
                 for (PathfindingNode dfs : visited) {
