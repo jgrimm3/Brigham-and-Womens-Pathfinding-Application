@@ -74,12 +74,16 @@ public class adminRequestDashboardController  {
     Parent logout;
     @FXML
     ComboBox<String> combBoxAssignNurse;
+    @FXML
+    Parent createRequest;
 
+    Parent nodeEdit;
 
     @FXML
     public void initialize() throws Exception{
         try{
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+//            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             //OPEN LIST-----------------------
             TableColumn typeColOpen = new TableColumn("Request Type");
             TableColumn msgColOpen = new TableColumn("Request Message");
@@ -138,7 +142,7 @@ public class adminRequestDashboardController  {
             //TODO: Figure out why this is giving a NullPointerException
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             //create a new scene with root and set the stage
             Scene scene=new Scene(logout);
             stage.setScene(scene);
@@ -147,7 +151,38 @@ public class adminRequestDashboardController  {
         catch (Exception e){
             e.printStackTrace();}
     }
-
+    public void createRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequest);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void nodeEditor(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(nodeEdit);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void openListClicked(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){
@@ -214,19 +249,6 @@ public class adminRequestDashboardController  {
             dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -46,8 +46,14 @@ public class nodeEditorController {
     final double NEWMAPYMIN = 0;
     final double NEWMAPYMAX = 693.8;
     Parent logout;
+    Parent createRequests;
+    Parent manageRequests;
 
 
+    @FXML
+    Button navBtnManageRequests;
+    @FXML
+    Button navBtnCreateRequests;
     @FXML
     Path path;
     @FXML
@@ -128,20 +134,17 @@ public class nodeEditorController {
     Button btnAddNode;
     @FXML
     Button btnModify;
-
     @FXML
     ImageView mapImg;
-
     @FXML
     Button btn2DMap;
-
     @FXML
     Button btn3DMap;
     @FXML
     Button btn2DMapMod;
-
     @FXML
     Button btn3DMapMod;
+
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
@@ -180,7 +183,7 @@ public class nodeEditorController {
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
 
         }
         catch (Exception e){
@@ -296,6 +299,8 @@ public class nodeEditorController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
             //create a new scene with root and set the stage
             Scene scene = new Scene(logout);
             stage.setScene(scene);
@@ -304,6 +309,40 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+    public void CreateRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void manageRequest (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //Combo Box selected update next
     //Add node
@@ -486,7 +525,6 @@ public class nodeEditorController {
     }
 
     public void load3DMapMod(ActionEvent event) {
-
         if(cmboFloor.getValue().equals("L2")) {
             new ProxyImage(mapImg,"L2-ICONS.png").display();
         } else if(cmboFloor.getValue().equals("L1")) {
