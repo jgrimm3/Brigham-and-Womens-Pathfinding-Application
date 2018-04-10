@@ -23,6 +23,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -44,6 +50,8 @@ public class homeController implements Initializable {
     final static ObservableList<String> empty = FXCollections.observableArrayList();
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+    final int MAPX2D = 5000;
+    final int MAPY2D = 3400;
     //final ObservableList<String> locations = FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor());
     //final static ObservableList<String> buildings = FXCollections.observableArrayList("Shapiro");
 
@@ -90,8 +98,13 @@ public class homeController implements Initializable {
     ProxyImage image23D = new ProxyImage("2-ICONS.png");
     ProxyImage image33D = new ProxyImage("3-ICONS.png");
     */
-Parent adminRequest;
-Parent staffRequest;
+
+
+    Parent adminRequest;
+    Parent staffRequest;
+
+    LinkedList<Node> listForQR = new LinkedList<Node>();
+    Image imageQRCode;
 
     // Pathfinding Panel
     @FXML
@@ -180,6 +193,18 @@ Parent staffRequest;
 
     @FXML
     ComboBox<String> comChangeFloor;
+
+    @FXML
+    ScrollPane scrollPaneMap;
+
+    @FXML
+    StackPane stackPaneMap;
+
+    @FXML
+    Pane paneMap;
+
+    @FXML
+    Path path;
 
     public void initialize(URL location, ResourceBundle resources) {
     try {
@@ -516,8 +541,89 @@ Parent staffRequest;
         lblEndLocation.setText(comLocationEnd.getValue());
     }
 
+    /**
+     * Maps the value from the old boundary to the new boundary
+     * @param value the value to be transferred
+     * @param oldMin the old min value (x or y)
+     * @param oldMax the old max value (x or y)
+     * @param newMin the new min value (x or y)
+     * @param newMax the new max calue (x or y)
+     * @return the value mapped from the old boundary to the new boundary
+     */
+    static double map(double value, double oldMin, double oldMax, double newMin, double newMax) {
+        return (((value - oldMin)*(newMax - newMin))/(oldMax-oldMin)) + newMin;
+    }
+
+    /**
+     *
+     * @param startNode node to draw from
+     * @param endNode node to draw to
+     * @param moveTo start point of line to be drawn
+     * @param lineTo end point of line to be drawn
+     *
+     */
+    private void addPath(String dimension, Node startNode, Node endNode, MoveTo moveTo, LineTo lineTo) {
+        if(startNode != null && endNode != null) {
+            System.out.println("Found a path!");
+
+            if(dimension.equals("2-D")) { // if 2D
+                moveTo.setX(startNode.getXCoord());
+                moveTo.setY(startNode.getYCoord());
+                // Draw to end point
+                // Map the x and y coords onto our map
+                lineTo.setX(endNode.getXCoord());
+                lineTo.setY(endNode.getYCoord());
+            } else if(dimension.equals("3-D"))// if 3D
+            {
+                moveTo.setX(startNode.getXCoord3D());
+                moveTo.setY(startNode.getYCoord3D());
+                // Draw to end point
+                // Map the x and y coords onto our map
+                lineTo.setX(endNode.getXCoord3D());
+                lineTo.setY(endNode.getYCoord3D());
+            }
+            else
+            {
+                System.out.println("Invalid dimension");
+            }
+
+            // add the elements to the path
+            path.getElements().add(moveTo);
+            path.getElements().add(lineTo);
+        }
+    }
+
+    /**
+     * Prints the given path on the map
+     * @param nodeList the nodes to draw a path between
+     */
+    public void printNodePath(List<Node> nodeList, String floor, String dimension) {
+        System.out.println("Attempting to print path between nodes...");
+        int i = 0;
+        while(i < nodeList.size()) {
+            // Give starting point
+            MoveTo moveTo = new MoveTo();
+            LineTo lineTo = new LineTo();
+            Node startNode = nodeList.get(i);
+            Node endNode;
+
+            if(i+1<nodeList.size() && nodeList.get(i).getFloor().equals(floor)) {
+                endNode = nodeList.get(i + 1);
+
+                // add the path
+                addPath(dimension, startNode, endNode, moveTo, lineTo);
+            }
+            i++;
+            System.out.println("Path added...");
+        }
+    }
+
     public void drawPath(ActionEvent event) {
 
+        String startFloor;
+        String endFloor;
+        startFloor = comFloorStart.getValue();
+        endFloor = comLocationEnd.getValue();
 
         if (lblStartLocation.getText().equals("START LOCATION") || lblEndLocation.getText().equals("END LOCATION")) { // !!! add .equals using as a tester
 
@@ -541,8 +647,9 @@ Parent staffRequest;
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText(pathList));
             lstDirections.setItems(directions);
+            listForQR = pathList;
             pathfinderUtil.generateQR(pathfinderUtil.angleToText(pathList));
-            new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+            // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 
             // Draw path code
@@ -550,11 +657,13 @@ Parent staffRequest;
             if (tglHandicap.isSelected()) {
                 // use elevator
 
+
                 if (tglMap.isSelected()) {
                     // use 3-D
-
+                    printNodePath(pathList, startFloor, "3-D");
                 } else {
                     // use 2-D
+                    printNodePath(pathList, startFloor, "2-D");
                 }
 
             } else {
@@ -562,11 +671,29 @@ Parent staffRequest;
 
                 if (tglMap.isSelected()) {
                     // use 3-D
+                    printNodePath(pathList, startFloor, "3-D");
 
                 } else {
                     // use 2-D
-
+                    printNodePath(pathList, startFloor, "2-D");
+                    printNodePath(pathList, startFloor, "2-D");
                 }
+                /*
+                int finishX = pathList.get(pathList.size()-1).getXCoord();
+                int finishY = pathList.get(pathList.size()-1).getXCoord();
+                Circle finish = new Circle();
+                finish.setRadius(5);
+                finish.setFill(Color.RED);
+                finish.setCenterX(finishX);
+                finish.setCenterY(finishY);
+                Circle finish2 = new Circle();
+                finish2.setRadius(7);
+                finish2.setFill(Color.BLACK);
+                finish2.setCenterX(finishX);
+                finish2.setCenterY(finishY);
+                paneMap.getChildren().add(finish);
+                paneMap.getChildren().add(finish2);*/
+
 
             }
 
@@ -668,6 +795,8 @@ Parent staffRequest;
         btnOpenQRCode.setDisable(true);
         txtPassword.setDisable(true);
         txtUsername.setDisable(true);
+
+        new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
     }
 
     public void restartNavigation(ActionEvent event) {
@@ -685,6 +814,7 @@ Parent staffRequest;
         // Show pathfinding interface and hide directions interface
         panePathfinding.setVisible(true);
         paneDirections.setVisible(false);
+        path.getElements().clear();
 
         tglHandicap.setSelected(false);
         tglHandicap.setText("OFF");
