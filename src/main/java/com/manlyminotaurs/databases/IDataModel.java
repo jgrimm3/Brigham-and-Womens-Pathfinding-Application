@@ -31,7 +31,7 @@ public interface IDataModel {
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
     Node getNodeByID(String ID);
-    public Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
+    Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
