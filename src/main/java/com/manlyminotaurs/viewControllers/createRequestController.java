@@ -1,53 +1,42 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.jfoenix.controls.JFXProgressBar;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.messaging.RequestFactory;
+import com.manlyminotaurs.messaging.RequestType;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
-import java.awt.event.ActionEvent;
-
-
 public class createRequestController{
+    DataModelI dbUtil = DataModelI.getInstance();
+    RequestFactory rFactory = new RequestFactory();
+
     @FXML
     ScrollPane scrollPane;
-
     @FXML
     ImageView mapImg;
-
     @FXML
     Pane pane;
-
     @FXML
     Path path;
-
     @FXML
     Pane paneAdd;
-
     @FXML
-    ComboBox cmboBuilding;
-
+    ComboBox<String> cmboBuilding;
     @FXML
     Button btnSubmitRequest;
-
     @FXML
-    ComboBox cmboType;
-
+    ComboBox<String> cmboType;
     @FXML
-    ComboBox cmboNode;
-
+    ComboBox<String> cmboNode;
     @FXML
     CheckBox chkHighPriority;
     @FXML
@@ -58,6 +47,12 @@ public class createRequestController{
     Button btnlogOut;
     @FXML
     TextArea txtMessage;
+    @FXML
+    Label lblError;
+    @FXML
+    ComboBox<RequestType> cmboReqType;
+    @FXML
+    Button btnLogOut;
 
     String requestType;
     String message;
@@ -65,24 +60,45 @@ public class createRequestController{
 
     @FXML
     protected void initialize() {
-
+        cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
     }
 
     public void submitRequest(javafx.event.ActionEvent event){
-
-        message = txtMessage.getText();
-        //pull and send all request info.
-
-
-
-
+        boolean isErrored = false;
+        lblError.setText("");
+        if(txtMessage.getText() == ""){
+            lblError.setText("A message is required");
+            isErrored = true;
+        }
+        if(priority == 0){
+            lblError.setText(lblError.getText() + "\n" +
+                    "A priority must be selected");
+            isErrored = true;
+        }
+        if(cmboReqType.getSelectionModel().getSelectedItem() == null){
+            lblError.setText(lblError.getText() + "\n" +
+                    "Please Select A Request Type");
+            isErrored = true;
+        }
+        if(cmboBuilding.getSelectionModel().getSelectedItem() == null ||
+                cmboNode.getSelectionModel().getSelectedItem() == null ||
+                cmboType.getSelectionModel().getSelectedItem() == null){
+            lblError.setText(lblError.getText() + "\n" +
+                    "Please Select A Complete Location");
+            isErrored = true;
+        }
+        if(!isErrored){
+            rFactory.genNewRequest(cmboReqType.getSelectionModel().getSelectedItem(),
+                    (dbUtil.getNodesByBuildingTypeFloor(cmboBuilding.getSelectionModel().getSelectedItem(), cmboType.getSelectionModel().getSelectedItem(), cmboNode.getSelectionModel().getSelectedItem())).get(0),
+                    txtMessage.getText(), "5");
+        }
     }
     public void setHighPriority(javafx.event.ActionEvent event){
         //if high priority slected, clear other selections and set integer 3
-    chkHighPriority.setSelected(true);
-    chkMedPriority.setSelected(false);
-    chkLowPriority.setSelected(false);
-    priority = 3;
+        chkHighPriority.setSelected(true);
+        chkMedPriority.setSelected(false);
+        chkLowPriority.setSelected(false);
+        priority = 3;
     }
     public void setMedPriority(javafx.event.ActionEvent event){
         //if medium priority slected, clear other selections and set integer 2
@@ -101,7 +117,7 @@ public class createRequestController{
 
     public void getXandY(){}
 
-    public void LogOut(javafx.event.ActionEvent event) throws Exception{
+    public void logOut(ActionEvent event){
         try{
             Stage stage;
             Parent root;

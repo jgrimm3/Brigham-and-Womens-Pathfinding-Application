@@ -74,7 +74,7 @@
                   <Insets bottom="30.0" right="30.0" />
                </StackPane.margin>
             </Button>
-            <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="103.0" promptText="FLOOR" StackPane.alignment="TOP_LEFT">
+            <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="120.0" promptText="FLOOR" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="20.0" top="20.0" />
                </StackPane.margin>

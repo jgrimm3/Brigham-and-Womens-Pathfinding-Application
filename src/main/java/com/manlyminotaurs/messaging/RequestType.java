@@ -1,5 +1,5 @@
 package com.manlyminotaurs.messaging;
 
 public enum RequestType {
-    MedicalRequest, JanitorialRequest;
+    MedicalRequest, JanitorialRequest
 }

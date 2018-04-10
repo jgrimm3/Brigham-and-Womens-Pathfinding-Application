@@ -54,7 +54,6 @@ public abstract class Request implements IRequest {
 
     public void setAdminConfirm(Boolean adminConfirm) {
         this.adminConfirm = adminConfirm;
-       	//dataModelI..setIsAdminConfim(this, adminConfirm);
     }
 
     public String getNodeID() {
