@@ -159,8 +159,8 @@ public class DataModelI implements IDataModel{
 */
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
-    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID) {
-        return messagesDBUtil.addMessage(message, isRead, senderID, receiverID);
+    public Message addMessage(Message messageObject) {
+        return messagesDBUtil.addMessage(messageObject);
     }
 
     @Override
@@ -171,6 +171,11 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyMessage(Message newMessage) {
         return messagesDBUtil.modifyMessage(newMessage);
+    }
+
+    @Override
+    public String getNextMessageID() {
+        return messagesDBUtil.generateMessageID();
     }
 
     @Override
@@ -193,10 +198,11 @@ public class DataModelI implements IDataModel{
         return messagesDBUtil.getMessageByID(ID);
     }
 
-	/*------------------------------------------------ Requests -------------------------------------------------------*/
+
+    /*------------------------------------------------ Requests -------------------------------------------------------*/
     @Override
-    public Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID) {
-        return requestsDBUtil.addRequest(requestType,priority,nodeID,message,senderID);
+    public Request addRequest(Request requestObject, Message messageObject) {
+        return requestsDBUtil.addRequest(requestObject, messageObject);
     }
 
     @Override
@@ -207,6 +213,11 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyRequest(Request newRequest) {
         return requestsDBUtil.modifyRequest(newRequest);
+    }
+
+    @Override
+    public String getNextRequestID() {
+        return requestsDBUtil.generateRequestID();
     }
 
     @Override

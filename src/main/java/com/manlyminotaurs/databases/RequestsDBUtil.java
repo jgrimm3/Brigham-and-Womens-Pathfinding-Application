@@ -2,10 +2,10 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
+import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 class RequestsDBUtil {
@@ -16,13 +16,10 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
-	Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID){
+	Request addRequest(Request requestObject, Message message){
         Connection connection = DataModelI.getInstance().getNewConnection();
-
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        Message mObject= messagesDBUtil.addMessage(message,false,senderID,"admin");
-        Request requestObject = new Request(generateRequestID(), requestType, priority, false, false, nodeID, mObject.getMessageID(), requestType);
-
+        Message mObject= messagesDBUtil.addMessage(message);
         try {
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?)";
 
@@ -35,7 +32,7 @@ class RequestsDBUtil {
             statement.setBoolean(5, requestObject.getAdminConfirm());
             statement.setString(6, requestObject.getNodeID());
             statement.setString(7, mObject.getMessageID());
-            statement.setString(8, requestType);
+            statement.setString(8, requestObject.getRequestType());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             System.out.println("Request added to database");
@@ -92,7 +89,7 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
-    private String generateRequestID(){
+    public String generateRequestID(){
         requestIDCounter++;
         return Integer.toString(requestIDCounter-1);
     }
@@ -142,6 +139,7 @@ class RequestsDBUtil {
             Connection connection = DataModelI.getInstance().getNewConnection();
 
             // Variables
+            RequestFactory rFactory = new RequestFactory();
             Request requestObject;
             String requestID;
             String requestType;
@@ -167,7 +165,7 @@ class RequestsDBUtil {
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
                     // Add the new edge to the list
-                    requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
+                    requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
                     listOfRequest.add(requestObject);
                     requestIDCounter++;
                     System.out.println("Request added to the list: "+requestID);
@@ -188,6 +186,7 @@ class RequestsDBUtil {
         Connection connection = DataModelI.getInstance().getNewConnection();
 
         // Variables
+        RequestFactory rFactory = new RequestFactory();
         Request requestObject = null;
         String requestType;
         int priority;
@@ -211,7 +210,8 @@ class RequestsDBUtil {
                 messageID = rset.getString("messageID");
                 password = rset.getString("password");
                 // Add the new edge to the list
-                requestObject = new Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID, messageID, password);
+                requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
+
 
                 System.out.println("Request added to the list: "+requestID);
             }

@@ -18,9 +18,9 @@ class MessagesDBUtil {
     CsvFileController csvFileController = new CsvFileController();
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
-    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID){
+    public Message addMessage(Message messageObject){
         String messageID = generateMessageID();
-        Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
@@ -166,7 +166,7 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
-    private String generateMessageID(){
+    public String generateMessageID(){
         messageIDCounter++;
         return Integer.toString(messageIDCounter-1);
     }
