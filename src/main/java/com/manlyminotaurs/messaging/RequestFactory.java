@@ -21,13 +21,13 @@ public class RequestFactory {
         switch (requestType) {
             case MedicalRequest:
                 newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, nodeAt.getID(), message, "Password123");
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
 
             case JanitorialRequest:
                 newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, nodeAt.getID(), message, "Password123");
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
             default:
