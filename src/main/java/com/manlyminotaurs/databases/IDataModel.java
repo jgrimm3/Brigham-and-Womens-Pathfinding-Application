@@ -81,4 +81,6 @@ public interface IDataModel {
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
     User getUserByID(String ID);
+
+    String getIDByUserPassword(String userName, String password);
 }

@@ -310,4 +310,10 @@ public class DataModelI implements IDataModel{
         return userDBUtil.getUserByID(userID);
     }
 
+    @Override
+    public String getIDByUserPassword(String userName, String password) {
+        UserSecurity userSecurity = new UserSecurity();
+        return userSecurity.getIDByUserPassword(userName, password);
+    }
+
 }
