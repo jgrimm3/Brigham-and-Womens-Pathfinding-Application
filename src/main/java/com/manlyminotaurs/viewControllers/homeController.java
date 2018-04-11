@@ -35,10 +35,7 @@ import javax.swing.*;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class homeController implements Initializable {
 
@@ -66,6 +63,7 @@ public class homeController implements Initializable {
 	String startFloor = "";
 	String endFloor = "";
 	List<Circle> circleList = new ArrayList<>();
+	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
@@ -252,6 +250,7 @@ public class homeController implements Initializable {
 
 		comChangeFloor.getSelectionModel().select(2);
 		pathfloor2DMapLoader("1");
+		//createMap();
 	}
 
 	public void toggleHandicap(ActionEvent event) {
@@ -601,8 +600,6 @@ public class homeController implements Initializable {
 	public void restartNavigation(ActionEvent event) {
 		// Clear path
 		clearPath();
-		//nodeList.clear();
-		//nodeList = DataModelI.getInstance().retrieveNodes();
 		pathList.clear();
 
 		// Clear Fields
@@ -1554,6 +1551,15 @@ public class homeController implements Initializable {
 
 		}
 	}
+
+	/*private void createMap() {
+		Map<Integer, Node> embeddedMap;
+		for (Node node : nodeList) {
+			embeddedMap = new HashMap<>();
+			embeddedMap.put(node.getYCoord(), node);
+			nodeMap.put(node.getXCoord(), embeddedMap);
+		}
+	} */
 
 
 }
