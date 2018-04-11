@@ -99,12 +99,13 @@ public class NodesDBUtilTest {
 	@Test
 	public void addNode_CorrectlyAddsNode() {
 		List<Node> oldList = DataModelI.getInstance().retrieveNodes();
-		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "fuck is wrong", "yolo it", 3, 5, 2);
+		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
 		List<Node> newList = DataModelI.getInstance().retrieveNodes();
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
 
 		boolean trueOrFalse = newList.contains(addedNode);
 		Node compareNode = newList.get(582);
+		boolean checkEquals = newList.get(582).equals(newList.get(582));
 		assertTrue(trueOrFalse);
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
