@@ -350,7 +350,7 @@ public class nodeEditorController {
         txtYCoordMod.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
-                txtAdminUser.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
+                txtAdminUser.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
@@ -467,6 +467,7 @@ public class nodeEditorController {
         //set type to selected value
         type = cmboTypeMod.getValue().toString();
         List<Node> curNode = DataModelI.getInstance().retrieveNodes();
+        System.out.println((int) curNode.size());
         List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue());
         cmboNodeMod.setItems(FXCollections.observableArrayList(currentN));
 
@@ -571,7 +572,10 @@ public class nodeEditorController {
             txtAdminUser.setText("incorrect User and Password");
             txtAdminPassword.clear();
         }
+
         //redraw map
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        btnAddNode.setText("Delete Node");
     }
 
 
