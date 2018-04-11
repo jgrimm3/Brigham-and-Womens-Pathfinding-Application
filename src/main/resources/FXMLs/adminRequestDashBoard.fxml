@@ -51,7 +51,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
       <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="50.0" layoutY="760.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="#f1f1f1" />
-      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE">
+      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" textFill="WHITE">
          <font>
             <Font size="28.0" />
          </font>
@@ -80,6 +80,11 @@
                </font>
             </Button>
             <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" onAction="#nodeEditor" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="navManageAcc" layoutX="600.0" layoutY="-1.0" mnemonicParsing="false" onAction="#manageAcc" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Manage Accounts" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
