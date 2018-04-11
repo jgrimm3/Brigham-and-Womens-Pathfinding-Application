@@ -42,9 +42,7 @@ public class CsvFileController {
         System.out.println("Parsing csv file");
         List<String[]> list_of_rows = new ArrayList<>();
         try {
-            /*
-            File file = new File(csv_file_name);
-            FileReader fileReader = new FileReader(getClass().getResource(csv_file_name).getFile());
+            FileReader fileReader = new FileReader(csv_file_name);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
 
@@ -54,8 +52,8 @@ public class CsvFileController {
                 list_of_rows.add(node_row);
             }
             fileReader.close();
-            System.out.println("csv file parsed");*/
-
+            System.out.println("csv file parsed");
+/*
             InputStream inputStream = getClass().getResourceAsStream(csv_file_name);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
@@ -65,7 +63,7 @@ public class CsvFileController {
                 list_of_rows.add(node_row);
             }
             inputStream.close();
-            System.out.println("csv file parsed");
+            System.out.println("csv file parsed");*/
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -192,7 +190,7 @@ public class CsvFileController {
             printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password\n");
             while (iterator.hasNext()) {
                 Request a_request = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(), a_request.getStartTime(), a_request.getEndTime(),a_request.getNodeID(),a_request.getMessageID(),a_request.getPassword());
+                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(), a_request.getStartTime().toString().replace("T"," ").replace(".",":"), a_request.getEndTime().toString().replace("T"," ").replace(".",":"),a_request.getNodeID(),a_request.getMessageID(),a_request.getPassword());
             }
             printWriter.close();
             System.out.println("csv file updated");
