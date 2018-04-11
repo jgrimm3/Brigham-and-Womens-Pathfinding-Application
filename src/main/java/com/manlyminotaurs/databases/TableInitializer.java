@@ -50,13 +50,15 @@ class TableInitializer {
         //NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
-        initializer.populateAllNodeEdgeTables();
+
         UserSecurity userSecurity = new UserSecurity();
-        UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("/CSV/UserAccountTable.csv"));
-        MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("/CSV/MessageTable.csv"));
-        RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("/CSV/RequestTable.csv"));
-        initializer.populateStaffTable("/CSV/StaffTable.csv");
-        initializer.populateUserPasswordTable("/CSV/UserPasswordTable.csv");
+        //initializer.populateAllNodeEdgeTables();
+        initializer.populateNodeEdgeTables("./nodes.csv","./edges.csv");
+        UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("./UserAccountTable.csv"));
+        MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("./MessageTable.csv"));
+        RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("./RequestTable.csv"));
+        initializer.populateStaffTable("./StaffTable.csv");
+        initializer.populateUserPasswordTable("./UserPasswordTable.csv");
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
@@ -78,7 +80,7 @@ class TableInitializer {
         CsvFileController csvFileControl = new CsvFileController();
         try {
             for(int i=0; i< listOfCsvFiles.length ;i++) {
-                String csvNodeFileName = "/CSV/Map"+listOfCsvFiles[i]+"nodes.csv";
+                String csvNodeFileName = "./Map"+listOfCsvFiles[i]+"nodes.csv";
                 List<String[]> list_of_nodes;
                 list_of_nodes = csvFileControl.parseCsvFile(csvNodeFileName);
 
@@ -137,7 +139,7 @@ class TableInitializer {
             }
 
             for(int i=0; i< listOfCsvFiles.length ;i++) {
-                String csvEdgeFileName = "/CSV/Map" + listOfCsvFiles[i] + "edges.csv";
+                String csvEdgeFileName = "./Map" + listOfCsvFiles[i] + "edges.csv";
                 List<String[]> list_of_edges;
                 list_of_edges = csvFileControl.parseCsvFile(csvEdgeFileName);
                 Iterator<String[]> iterator2 = list_of_edges.iterator();
@@ -284,7 +286,7 @@ class TableInitializer {
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
                 statement.setBoolean(3, Boolean.valueOf(node_row[2]));
-                statement.setTimestamp(4,convertStringToTimestamp(node_row[3]));
+                statement.setDate(4,convertStringToDate(node_row[3]));
                 statement.setString(5, node_row[4]);
                 statement.setString(6, node_row[5]);
                 statement.executeUpdate();
@@ -522,5 +524,22 @@ class TableInitializer {
             e.printStackTrace();
         }
         return new Timestamp(parsedTimeStamp.getTime());
+    }
+
+    public java.sql.Date convertStringToDate(String timeString) {/*
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
+       // formatter = formatter.withLocale( putAppropriateLocaleHere );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+        LocalDateTime date = LocalDateTime.parse(timeString, formatter);
+        return Timestamp.valueOf(date);*/
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf1.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+        return sqlStartDate;
     }
 }

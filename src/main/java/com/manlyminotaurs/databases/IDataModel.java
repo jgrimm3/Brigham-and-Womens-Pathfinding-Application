@@ -105,4 +105,5 @@ public interface IDataModel {
     void updateRequestCSVFile(String csvFileName);
     void updateUserCSVFile(String csvFileName);
     void updateUserPasswordFile(String csvFileName);
+    void updateStaffTable(String csvFileName);
 }

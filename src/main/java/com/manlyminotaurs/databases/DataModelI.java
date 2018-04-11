@@ -10,6 +10,7 @@ import com.manlyminotaurs.users.UserPassword;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +44,9 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
+        TableInitializer tableInitializer = new TableInitializer();
+    //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
+     //   System.out.println(tableInitializer.convertStringToTimestamp("2018-04-06 07:43:10:2").toLocalDateTime().toString().replace("T"," "));
     }
 
     private DataModelI() {
@@ -319,7 +323,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<StaffFields> retrieveStaffs() {
-        return null;
+        return userDBUtil.retrieveStaffs();
     }
 
     @Override
@@ -371,6 +375,11 @@ public class DataModelI implements IDataModel{
     @Override
     public void updateUserPasswordFile(String csvFileName) {
         new CsvFileController().updateUserPasswordFile(csvFileName);
+    }
+
+    @Override
+    public void updateStaffTable(String csvFileName) {
+        new CsvFileController().updateStaffTable(csvFileName);
     }
 
     @Override

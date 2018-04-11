@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
 import com.manlyminotaurs.nodes.Node;
@@ -54,8 +55,22 @@ public class nodeEditorController {
     Parent logout;
     Parent createRequests;
     Parent manageRequests;
+    Node edgeNodeAdd = null;
+    Circle finishCircle = new Circle();
+    Circle startCircle = new Circle();
+    Circle finishCircle2 = new Circle();
+    List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+    List<Node> pathList = new ArrayList<>();
+    LinkedList<Node> listForQR = new LinkedList<Node>();
+    Image imageQRCode;
+    String startFloor = "";
+    String endFloor = "";
+    List<Circle> circleList = new ArrayList<>();
+    Boolean mapNodeChoice;
+    Boolean selectNode = false;
 
-
+    @FXML
+    Button btnSelectEdgeNode;
     @FXML
     Button navBtnManageRequests;
     @FXML
@@ -270,7 +285,6 @@ public class nodeEditorController {
         }
         catch (Exception e){
             e.printStackTrace();}
-
     }
 
     //Swap active panes
@@ -350,7 +364,7 @@ public class nodeEditorController {
         txtYCoordMod.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
-                txtAdminUser.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
+                txtAdminUser.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
@@ -360,14 +374,44 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if (paneAdd.isVisible() == true) {
-            txtXCoord.setText(String.format("%1.0f", event.getX()));
-            txtYCoord.setText(String.format("%1.0f", event.getY()));
-        } else if (paneModify.isVisible() == true) {
-            txtXCoordMod.setText(String.format("%1.0f", event.getX()));
-            txtYCoordMod.setText(String.format("%1.0f", event.getY()));
+        if (selectNode == false) {
+            if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
+                txtXCoord.setText(String.format("%1.0f", event.getX()));
+                txtYCoord.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
+                txtXCoord3D.setText(String.format("%1.0f", event.getX()));
+                txtYCoord3D.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
+                txtXCoordMod.setText(String.format("%1.0f", event.getX()));
+                txtYCoordMod.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
+                txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
+                txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
+            }
         }
+        else {
+
+            if ((paneModify.isVisible() == true) && (selectNode == true)) {
+                double tapX = event.getX();
+                double tapY = event.getY();
+                System.out.println("looking for edge node");
+                List<Node> nodesXY = DataModelI.getInstance().retrieveNodes();
+
+                for (Node cur : nodesXY) {
+                    if (((tapX - 30 <= cur.getXCoord()) && (cur.getXCoord() <= tapX + 30)) || ((tapY - 30 <= cur.getYCoord()) && (cur.getYCoord() <= tapY + 30))) {
+                        edgeNodeAdd = cur;
+                        btnSelectEdgeNode.setText(edgeNodeAdd.getLongName());
+                        selectNode = false;
+                    } else {
+                        btnSelectEdgeNode.setText("no Node found");
+                    }
+
+                }
+            }
+        }
+
     }
+
 
 
     //logout and return to the home screen
@@ -379,6 +423,8 @@ public class nodeEditorController {
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
 
             //create a new scene with root and set the stage
             Scene scene = new Scene(logout);
@@ -422,7 +468,6 @@ public class nodeEditorController {
         }
     }
 
-
     //Combo Box selected update next
     //Add node
     public void addSetBuilding(ActionEvent event) {
@@ -445,7 +490,6 @@ public class nodeEditorController {
     public void addSetType(ActionEvent event) {
         //set type to selected value
         type = cmboType.getValue().toString();
-
     }
 
     //modify node
@@ -468,13 +512,17 @@ public class nodeEditorController {
     public void modSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeMod.getValue().toString();
-        cmboNodeMod.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue())));
+        List<Node> curNode = DataModelI.getInstance().retrieveNodes();
+        System.out.println((int) curNode.size());
+        List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue());
+        cmboNodeMod.setItems(FXCollections.observableArrayList(currentN));
 
 
     }
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
+        DataModelI.getInstance().retrieveNodes();
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
         txtLongNameMod.setText(node.getLongName());
         txtShortNameMod.setText(node.getShortName());
@@ -504,6 +552,7 @@ public class nodeEditorController {
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
+        DataModelI.getInstance().retrieveNodes();
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
         txtLongNameDel.setText(node.getLongName());
         txtShortNameDel.setText(node.getShortName());
@@ -524,8 +573,13 @@ public class nodeEditorController {
         type = cmboType.getValue().toString();
         //call add node function
         DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
+        btnAddNode.setText("Node Added!");
         //redraw map
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        btnAddNode.setText("Add Node");
     }
+
+
 
 
     //modify node
@@ -540,8 +594,11 @@ public class nodeEditorController {
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
 
+
         //call modify node function
 
+        DataModelI.getInstance().addEdge(edgeNodeAdd, node);
+        DataModelI.getInstance().modifyNode(node);
         //redraw map
     }
 
@@ -566,24 +623,39 @@ public class nodeEditorController {
             txtAdminUser.setText("incorrect User and Password");
             txtAdminPassword.clear();
         }
+
         //redraw map
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        btnAddNode.setText("Delete Node");
     }
 
 
     public void load2DMap(ActionEvent event) {
         drawCircles(cmboFloorAdd.getValue(),"2-D");
+        mapNodeChoice = true;
     }
 
     public void load3DMap(ActionEvent event) {
         drawCircles(cmboFloorAdd.getValue(),"3-D");
+        mapNodeChoice = false;
     }
 
     public void load2DMapMod(ActionEvent event) {
         drawCircles(cmboFloor.getValue(),"2-D");
+        mapNodeChoice = true; //select 2d coord
+
     }
 
     public void load3DMapMod(ActionEvent event) {
         drawCircles(cmboFloor.getValue(),"3-D");
+        mapNodeChoice = false; //select 3d coord
+
+
+    }
+
+    public void waitOnTapNode(ActionEvent event){
+        selectNode = true;
+
     }
 
     public void geofence(ActionEvent event){
@@ -704,6 +776,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
             pathfloor2DMapLoader(floor);
 
             List<Node> nodeList = new ArrayList<>();
+            DataModelI.getInstance().retrieveNodes();
             nodeList = DataModelI.getInstance().getNodesByFloor(floor);
 
             for(int x=0;x<nodeList.size(); x++) {
@@ -733,6 +806,48 @@ public void setPathfindAlgorithm(ActionEvent event) {
             }
         }
 
+
+       /* private void printPoints(String floor, String dimension) {
+            // Connection for the database
+            //List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+
+            // map boundaries
+
+            int i = 0;
+            int x = 0;
+            int y = 0;
+            // Iterate through each node
+            while (i < nodeList.size()) {
+
+                // If the node is on the correct floor
+                if (nodeList.get(i).getFloor().equals(floor)) {
+
+                    if (dimension.equals("2-D")) {
+                        // Get x and y coords
+                        x = nodeList.get(i).getXCoord();
+                        y = nodeList.get(i).getYCoord();
+                    } else if (dimension.equals("3-D")) {
+                        x = nodeList.get(i).getXCoord3D();
+                        y = nodeList.get(i).getYCoord3D();
+                    } else {
+                        System.out.println("Invalid dimension");
+                    }
+
+                    Circle circle = new Circle(x, y, 5);
+                    Circle outline = new Circle(x, y, 10);
+                    circle.setFill(Color.WHITE);
+                    outline.setFill(Color.NAVY);
+
+                        //circle.setOnMouseClicked(this::chooseEndNode);
+
+                    circleList.add(outline);
+                    circleList.add(circle);
+                    paneMap.getChildren().add(outline);
+                    paneMap.getChildren().add(circle);
+                }
+                i++;
+            }
+        }*/
 
 
     }

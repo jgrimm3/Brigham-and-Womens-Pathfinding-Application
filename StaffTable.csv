@@ -1,4 +1,4 @@
-isWorking, isAvailable, languageSpoken, userID
+userID,firstName,middleName,lastName,language, userType
 false,true,english/spanish,1
 true,true,mandarin/spanish,3
 true,false,french/english,5

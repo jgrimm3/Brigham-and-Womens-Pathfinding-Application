@@ -91,9 +91,13 @@ public abstract class Node implements INode {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
+        if(Objects.equals(nodeID, node.nodeID)){
+            System.out.println("hello");
+        }
         return status == node.status &&
                 popularity == node.popularity &&
                 Objects.equals(loc, node.loc) &&
@@ -106,7 +110,6 @@ public abstract class Node implements INode {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(loc, nodeID, longName, shortName, status, nodeType, adjacentNodes, popularity);
     }
 }

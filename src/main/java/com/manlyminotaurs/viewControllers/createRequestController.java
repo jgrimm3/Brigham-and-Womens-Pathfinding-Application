@@ -74,8 +74,13 @@ public class createRequestController{
         cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
         cmboBuilding.setItems(FXCollections.observableArrayList(dbUtil.getBuildingsFromList()));
         cmboType.setItems(FXCollections.observableArrayList(dbUtil.getTypesFromList()));
-        cmboFloor.setItems(FXCollections.observableArrayList("L2", "L1","1","2","3"));
+        cmboFloor.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
         cmboNode.setItems(FXCollections.observableArrayList());
+
+        if (!dbUtil.getUserByID(KioskInfo.currentUserID).isType("admin")) {
+            navBtnNodeEditor.setVisible(false);
+            navBtnNodeEditor.setDisable(true);
+        }
     }
 
     public void submitRequest(javafx.event.ActionEvent event){
@@ -151,9 +156,11 @@ public class createRequestController{
             Stage stage;
             Parent root;
             //get reference to the button's stage
-            stage=(Stage)btnlogOut.getScene().getWindow();
+            stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
             root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);
@@ -170,8 +177,11 @@ public class createRequestController{
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            }else{
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+            }
             //create a new scene with root and set the stage
             Scene scene = new Scene(manageRequests);
             stage.setScene(scene);
