@@ -5,7 +5,6 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +30,12 @@ class RequestsDBUtil {
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
 	Request addRequest(Request requestObject, Message message){
-        Connection connection = DataModelI.getInstance().getNewConnection();
+     //   Connection connection = DataModelI.getInstance().getNewConnection();
+        Connection connection = null;
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         Message mObject= messagesDBUtil.addMessage(message);
         try {
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
@@ -45,7 +46,7 @@ class RequestsDBUtil {
             statement.setBoolean(4, requestObject.getComplete());
             statement.setBoolean(5, requestObject.getAdminConfirm());
             statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
-            statement.setTimestamp(7, Timestamp.valueOf("0000-01-01 00:00:01"));
+            statement.setTimestamp(7, Timestamp.valueOf(requestObject.getEndTime()));
             statement.setString(8, requestObject.getNodeID());
             statement.setString(9, mObject.getMessageID());
             statement.setString(10, requestObject.getRequestType());
@@ -57,7 +58,7 @@ class RequestsDBUtil {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return requestObject;
     }
@@ -74,7 +75,7 @@ class RequestsDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSucessful;
     }
@@ -104,7 +105,7 @@ class RequestsDBUtil {
         {
             System.out.println("Request already in the database");
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
     }
@@ -127,7 +128,7 @@ class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
@@ -145,7 +146,7 @@ class RequestsDBUtil {
             //Handle errors for JDBC
             se.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
@@ -200,7 +201,7 @@ class RequestsDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                DataModelI.getInstance().closeConnection(connection);
+                DataModelI.getInstance().closeConnection();
             }
         return listOfRequest;
     } // retrieveRequests() ends
@@ -249,7 +250,7 @@ class RequestsDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return requestObject;
     }

@@ -39,6 +39,29 @@ import java.util.*;
 
 public class homeController implements Initializable {
 
+	//Nested Private Singleton
+	private static class Singleton {
+		private static Singleton instance = null;
+
+		private Singleton() {
+			PathfindingContext Pf = new PathfindingContext();
+
+		}
+
+		private static class SingletonHolder {
+			private static Singleton MapController = new Singleton();
+
+		}
+
+		public static Singleton getInstance() {
+			return homeController.Singleton.SingletonHolder.MapController;
+		}
+	}
+
+	public void testSingleton() {
+		Singleton.getInstance();
+	}
+
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Create objects

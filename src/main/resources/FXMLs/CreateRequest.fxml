@@ -51,40 +51,41 @@
       </ScrollPane>
       <Pane layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0" style="-fx-background-color: #2b65ac;">
          <children>
-            <ComboBox fx:id="cmboReqType" prefHeight="80.0" prefWidth="700.0" promptText="Request Type" translateX="100.0" translateY="72.5" />
-            <Button fx:id="btnSubmitRequest" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" onAction="#submitRequest" prefHeight="115.0" prefWidth="200.0" text="Submit Request" translateX="100.0" translateY="72.5">
+            <ComboBox fx:id="cmboReqType" layoutX="-2.0" layoutY="-48.0" prefHeight="80.0" prefWidth="700.0" promptText="Request Type" translateX="100.0" translateY="72.5" />
+            <Button fx:id="btnSubmitRequest" layoutX="500.0" layoutY="646.0" mnemonicParsing="false" onAction="#submitRequest" prefHeight="115.0" prefWidth="200.0" text="Submit Request" translateX="100.0" translateY="72.5">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextArea fx:id="txtMessage" layoutY="100.0" prefHeight="180.0" prefWidth="700.0" promptText="Enter Request Message" translateX="100.0" translateY="72.5">
+            <TextArea fx:id="txtMessage" layoutX="-2.0" layoutY="52.0" prefHeight="180.0" prefWidth="700.0" promptText="Enter Request Message" translateX="100.0" translateY="72.5">
                <font>
                   <Font size="18.0" />
                </font>
             </TextArea>
-            <ComboBox fx:id="cmboBuilding" layoutY="300.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateX="100.0" translateY="72.5" />
-            <ComboBox fx:id="cmboType" layoutY="400.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateX="100.0" translateY="72.5" />
-            <ComboBox fx:id="cmboNode" layoutY="500.0" prefHeight="80.0" prefWidth="700.0" promptText="Node" translateX="100.0" translateY="72.5" />
-            <CheckBox fx:id="chkHighPriority" layoutY="600.0" mnemonicParsing="false" onAction="#setHighPriority" text="High Priority" translateX="100.0" translateY="72.5">
+            <ComboBox fx:id="cmboBuilding" layoutX="-2.0" layoutY="252.0" onAction="#updateNodeSet" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateX="100.0" translateY="72.5" />
+            <ComboBox fx:id="cmboType" layoutY="446.0" onAction="#updateNodeSet" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateX="100.0" translateY="72.5" />
+            <ComboBox fx:id="cmboNode" layoutY="546.0" prefHeight="80.0" prefWidth="700.0" promptText="Node" translateX="100.0" translateY="72.5" />
+            <CheckBox fx:id="chkHighPriority" layoutY="646.0" mnemonicParsing="false" onAction="#setHighPriority" text="High Priority" translateX="100.0" translateY="72.5">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="chkLowPriority" layoutY="690.0" mnemonicParsing="false" onAction="#setLowPriority" text="Low Priority" translateX="100.0" translateY="72.5">
+            <CheckBox fx:id="chkLowPriority" layoutY="736.0" mnemonicParsing="false" onAction="#setLowPriority" text="Low Priority" translateX="100.0" translateY="72.5">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="chkMedPriority" layoutY="645.0" mnemonicParsing="false" onAction="#setMedPriority" text="Medium Proirity" translateX="100.0" translateY="72.5">
+            <CheckBox fx:id="chkMedPriority" layoutY="691.0" mnemonicParsing="false" onAction="#setMedPriority" text="Medium Proirity" translateX="100.0" translateY="72.5">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <Label fx:id="lblError" alignment="CENTER" layoutX="244.0" layoutY="751.0" prefHeight="115.0" prefWidth="361.0" textFill="RED">
+            <Label fx:id="lblError" alignment="CENTER" layoutX="244.0" layoutY="731.0" prefHeight="115.0" prefWidth="361.0" textFill="RED">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <ComboBox fx:id="cmboFloor" layoutX="98.0" layoutY="421.0" onAction="#updateNodeSet" prefHeight="80.0" prefWidth="700.0" promptText="Floor" />
          </children>
          <effect>
             <DropShadow />

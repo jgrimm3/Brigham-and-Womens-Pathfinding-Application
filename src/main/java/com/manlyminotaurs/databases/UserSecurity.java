@@ -21,7 +21,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
     }
 
@@ -36,7 +36,7 @@ public class UserSecurity {
             statement.setString(1, userName);
             statement.setString(2, password);
 
-            ResultSet rset = statement.executeQuery(str);
+            ResultSet rset = statement.executeQuery( );
             if (rset.next()) {
                 userID = rset.getString("userID");
             }
@@ -45,7 +45,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return userID;
     }
@@ -70,7 +70,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return false;
     }

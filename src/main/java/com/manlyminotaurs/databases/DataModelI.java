@@ -8,13 +8,6 @@ import com.manlyminotaurs.users.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -41,8 +34,8 @@ public class DataModelI implements IDataModel{
 
     // list of all objects
 
-    private static DataModelI dataModelI;
-    private static Connection connection;
+    private static DataModelI dataModelI = null;
+    private Connection connection = null;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
@@ -87,19 +80,19 @@ public class DataModelI implements IDataModel{
     @Override
     public Connection getNewConnection() {
         try {
-            if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
+            if(DataModelI.getInstance().connection == null || DataModelI.getInstance().connection.isClosed()) {
+                DataModelI.getInstance().connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return connection;
+        return DataModelI.getInstance().connection;
     }
 
     @Override
-    public boolean closeConnection(Connection connection) {
+    public boolean closeConnection() {
         try {
-            connection.close();
+            DataModelI.getInstance().connection.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

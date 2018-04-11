@@ -25,7 +25,7 @@ public interface IDataModel {
     void startDB();
 
     Connection getNewConnection();
-    boolean closeConnection(Connection connection);
+    boolean closeConnection();
 
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/

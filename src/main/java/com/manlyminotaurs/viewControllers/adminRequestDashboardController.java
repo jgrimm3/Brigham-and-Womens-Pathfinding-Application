@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -31,7 +32,7 @@ public class adminRequestDashboardController  {
     ObservableList<requestInfo> openList = FXCollections.observableArrayList();
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
     ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
-
+    ObservableList<PieChart.Data> pieChartData;
     public class requestInfo{
         protected String requestID;
         String requestType;
@@ -76,12 +77,16 @@ public class adminRequestDashboardController  {
     ComboBox<String> combBoxAssignNurse;
     @FXML
     Parent createRequest;
+    @FXML
+    PieChart pieChart;
 
     Parent nodeEdit;
 
     @FXML
     public void initialize() throws Exception{
         try{
+            reqestList.clear();
+            reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             //OPEN LIST-----------------------
@@ -127,6 +132,17 @@ public class adminRequestDashboardController  {
             }
 
             combBoxAssignNurse.setItems(FXCollections.observableArrayList(nurseNames));
+
+            System.out.println("Number of Requests: " + reqestList);
+
+            pieChartData =
+                    FXCollections.observableArrayList(
+                            new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
+                            new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
+                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+            pieChart.getData().clear();
+            pieChart.setData(pieChartData);
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -174,7 +190,7 @@ public class adminRequestDashboardController  {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);
@@ -217,6 +233,10 @@ public class adminRequestDashboardController  {
         } else {
 
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            closedList.add((requestInfo)tblOpenRequests.getSelectionModel().getSelectedItem());
+            openList.remove(tblOpenRequests.getSelectionModel().getSelectedItem());
+
 
             Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
             newReq.setComplete(true);
