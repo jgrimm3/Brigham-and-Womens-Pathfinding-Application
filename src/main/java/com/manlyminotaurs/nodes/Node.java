@@ -2,6 +2,7 @@ package com.manlyminotaurs.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Node implements INode {
 
@@ -77,13 +78,39 @@ public abstract class Node implements INode {
     public boolean removeAdjacentNode(Node node){
         return this.adjacentNodes.remove(node);
     }
+    /*
     @Override
     public boolean equals(Object other){
         Node n = (Node) other;
         return this.getNodeID().equals(n.getNodeID());
-    }
+    }*/
     @Override
     public String toString(){
         return this.getNodeID();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        if(Objects.equals(nodeID, node.nodeID)){
+            System.out.println("hello");
+        }
+        return status == node.status &&
+                popularity == node.popularity &&
+                Objects.equals(loc, node.loc) &&
+                Objects.equals(nodeID, node.nodeID) &&
+                Objects.equals(longName, node.longName) &&
+                Objects.equals(shortName, node.shortName) &&
+                Objects.equals(nodeType, node.nodeType) &&
+                Objects.equals(adjacentNodes, node.adjacentNodes);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(loc, nodeID, longName, shortName, status, nodeType, adjacentNodes, popularity);
     }
 }
