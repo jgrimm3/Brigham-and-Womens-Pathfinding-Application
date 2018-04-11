@@ -306,6 +306,7 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(2774);
             paneMap.setPrefWidth(5000);
             floor3DMapLoader(comChangeFloor.getValue());
+
         } else {
 
             // Switch 2-D
@@ -517,6 +518,7 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
             floor2DMapLoader(comChangeFloor.getValue());
+
         }
 
     }
