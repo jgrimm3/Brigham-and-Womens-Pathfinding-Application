@@ -18,7 +18,7 @@ public class UserDBUtil {
     User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password){
 
         String userID = generateUserID();
-        User userObject = new Patient(userID,firstName,middleName,lastName,language, userType);
+        User userObject = userBuilder(userID,firstName,middleName,lastName,language, userType);
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");

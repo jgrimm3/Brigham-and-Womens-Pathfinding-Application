@@ -8,6 +8,7 @@ import com.manlyminotaurs.users.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-   //     DataModelI.getInstance().retrieveNodes();
+        System.out.println(LocalDate.now());
       //  DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","2");
     }
 
@@ -55,6 +56,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+        //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
 
     @Override

@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 public class DatabasePathfindingTest {
 
-
     @Test
     public void PathfindWithDBNodes(){
         List<Node> nodes = DataModelI.getInstance().retrieveNodes();

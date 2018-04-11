@@ -9,6 +9,7 @@ import org.junit.Test;
 import javax.xml.crypto.Data;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UserDBUtilTest {
@@ -17,53 +18,56 @@ public class UserDBUtilTest {
         DataModelI.getInstance().startDB();
     }
 
+
     @Test
-    public void retrieveUsers_returnsCorrectList() {
+    public void retrieveUsersReturnsCorrectList() {
         UserDBUtil userDBUtil = new UserDBUtil();
         User a_user = userDBUtil.userBuilder("3","Christian","","Cedrone","Spanish","interpreter");
         List<User> listOfUsers= userDBUtil.retrieveUsers();
-        for(User given_user: listOfUsers) {
-            if(given_user.getUserID().equals(a_user.getUserID())) {
-                assertTrue(given_user.getUserID().equals(a_user.getUserID()));
-                assertTrue(given_user.getFirstName().equals(a_user.getFirstName()));
-                assertTrue(given_user.getLastName().equals(a_user.getLastName()));
-                assertTrue(given_user.getLanguage().equals(a_user.getLanguage()));
-                assertTrue(given_user.getUserType().equals(a_user.getUserType()));
-            }
-        }
+        assertTrue(listOfUsers.contains(a_user));
     }
+    //test size
+    //test someone exists
+    //
 
     @Test
     public void retrieveUsers_returnsCorrectList2() {
         UserDBUtil userDBUtil = new UserDBUtil();
         User a_user = userDBUtil.userBuilder("11","Ebenezer","","Ampiah","Greek","admin");
         List<User> listOfUsers= userDBUtil.retrieveUsers();
-        for(User given_user: listOfUsers) {
-            if(given_user.getUserID().equals(a_user.getUserID())) {
-                assertTrue(given_user.getUserID().equals(a_user.getUserID()));
-                assertTrue(given_user.getFirstName().equals(a_user.getFirstName()));
-                assertTrue(given_user.getLastName().equals(a_user.getLastName()));
-                assertTrue(given_user.getLanguage().equals(a_user.getLanguage()));
-                assertTrue(given_user.getUserType().equals(a_user.getUserType()));
-            }
-        }
+        assertTrue(listOfUsers.contains(a_user));
+        DataModelI.getInstance().removeUser(a_user);
     }
 
     @Test
     public void addUser_addCorrectUser() {
         UserDBUtil userDBUtil = new UserDBUtil();
-        List<User> listOfUsers= DataModelI.getInstance().retrieveUsers();
         User a_user = DataModelI.getInstance().addUser("Oreo","","Thins","Spanish","janitor","janitorUserName","janitorPassword");
-/*
-        for(int i =0;i < listOfUsers.size();i++) {
-            if(given_user.getUserID().equals(a_user.getUserID())) {
-                assertTrue(given_user.getUserID().equals(a_user.getUserID()));
-                assertTrue(given_user.getFirstName().equals(a_user.getFirstName()));
-                assertTrue(given_user.getLastName().equals(a_user.getLastName()));
-                assertTrue(given_user.getLanguage().equals(a_user.getLanguage()));
-                assertTrue(given_user.getUserType().equals(a_user.getUserType()));
-            }
-        }*/
+        List<User> listOfUsers= DataModelI.getInstance().retrieveUsers();
+        System.out.println(listOfUsers.contains(a_user));
+        assertTrue(listOfUsers.contains(a_user));
+        DataModelI.getInstance().removeUser(a_user);
+    }
+
+
+    @Test
+    public void addUser_removeCorrectUser() {
+        UserDBUtil userDBUtil = new UserDBUtil();
+        User a_user = DataModelI.getInstance().addUser("Wafers","Price","Vinilla","English","Doctor","doctorUserName","doctorPassword");
+        User a_user2 = DataModelI.getInstance().addUser("Oreo","","Thins","Spanish","janitor","janitorUserName","janitorPassword");
+        List<User> listOfUsers= DataModelI.getInstance().retrieveUsers();
+        assertTrue(listOfUsers.contains(a_user));
+        assertTrue(listOfUsers.contains(a_user2));
+
+        DataModelI.getInstance().removeUser(a_user);
+        listOfUsers = DataModelI.getInstance().retrieveUsers();
+        assertFalse(listOfUsers.contains(a_user));
+        assertTrue(listOfUsers.contains(a_user2));
+
+        DataModelI.getInstance().removeUser(a_user2);
+        listOfUsers = DataModelI.getInstance().retrieveUsers();
+        assertFalse(listOfUsers.contains(a_user));
+        assertFalse(listOfUsers.contains(a_user2));
     }
 
 }
