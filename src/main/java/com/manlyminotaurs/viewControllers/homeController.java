@@ -913,6 +913,7 @@ public class homeController implements Initializable {
 
 		try {
 			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1439,7 +1440,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size());
+			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
