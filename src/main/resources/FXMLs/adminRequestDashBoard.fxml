@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,7 +18,7 @@
             <DropShadow />
          </effect>
          <children>
-            <PieChart fx:id="pieChart" layoutX="186.0" layoutY="524.0" legendSide="LEFT" prefHeight="303.0" prefWidth="399.0" title="All Requests By Priority" />
+            <PieChart fx:id="pieChart" layoutX="94.0" layoutY="528.0" legendSide="LEFT" prefHeight="313.0" prefWidth="562.0" snapToPixel="false" title="All Requests By Priority" />
          </children></Pane>
       <Pane layoutX="1145.0" layoutY="665.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
          <children>
@@ -32,7 +32,10 @@
       <Pane layoutX="25.0" layoutY="200.0" prefHeight="841.0" prefWidth="750.0" style="-fx-background-color: #2b65ac;">
          <effect>
             <DropShadow />
-         </effect></Pane>
+         </effect>
+         <children>
+            <Label fx:id="lblCompleteError" alignment="TOP_CENTER" layoutX="161.0" layoutY="811.0" prefHeight="34.0" prefWidth="357.0" textAlignment="CENTER" textFill="RED" />
+         </children></Pane>
       <Pane layoutX="25.0" layoutY="665.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;" />
       <Label layoutX="310.0" layoutY="560.0" text="Request  Details" AnchorPane.leftAnchor="310.0">
          <font>
@@ -48,7 +51,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
       <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="50.0" layoutY="760.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="#f1f1f1" />
-      <JFXProgressBar layoutX="50.0" layoutY="969.0" prefHeight="40.0" prefWidth="700.0" progress="0.0" />
       <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE">
          <font>
             <Font size="28.0" />
@@ -104,5 +106,6 @@
          </font>
       </Label>
       <ComboBox fx:id="combBoxAssignNurse" layoutX="325.0" layoutY="906.0" onAction="#nurseSelected" prefHeight="40.0" prefWidth="150.0" promptText="Assign Nurse" />
+      <PasswordField fx:id="txtPassword" layoutX="50.0" layoutY="969.0" prefHeight="40.0" prefWidth="700.0" />
    </children>
 </AnchorPane>
