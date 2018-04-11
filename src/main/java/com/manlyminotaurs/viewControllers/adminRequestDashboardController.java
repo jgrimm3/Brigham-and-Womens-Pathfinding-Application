@@ -22,13 +22,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.junit.Test;
-
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class adminRequestDashboardController  {
+public class adminRequestDashboardController {
     DataModelI dBUtil = DataModelI.getInstance();
     ObservableList<requestInfo> openList = FXCollections.observableArrayList();
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
@@ -84,8 +82,11 @@ public class adminRequestDashboardController  {
     PasswordField txtPassword;
     @FXML
     Label lblCompleteError;
+    @FXML
+    Button navBtnManageAccounts;
 
     Parent nodeEdit;
+    Parent accountManager;
 
     @FXML
     public void initialize() throws Exception{
@@ -156,7 +157,7 @@ public class adminRequestDashboardController  {
     }
 
 
-    public void LogOut(ActionEvent event){
+    public void logOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
@@ -173,6 +174,23 @@ public class adminRequestDashboardController  {
         }
         catch (Exception e){
             e.printStackTrace();}
+    }
+    public void accountManager(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
+            //load up Home FXML document;
+            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(accountManager);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void createRequest(ActionEvent event) throws Exception {
         try {

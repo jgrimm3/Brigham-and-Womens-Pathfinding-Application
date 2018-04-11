@@ -55,8 +55,8 @@ public class nodeEditorController {
     final double NEWMAPYMIN = 0;
     final double NEWMAPYMAX = 693.8;
     Parent logout;
-    Parent createRequests;
     Parent manageRequests;
+    Parent accountManager;
     Node edgeNodeAdd = null;
     Circle finishCircle = new Circle();
     Circle startCircle = new Circle();
@@ -75,8 +75,6 @@ public class nodeEditorController {
     Button btnSelectEdgeNode;
     @FXML
     Button navBtnManageRequests;
-    @FXML
-    Button navBtnCreateRequests;
     @FXML
     Path path;
     @FXML
@@ -175,6 +173,8 @@ public class nodeEditorController {
     StackPane stackPaneMap;
     @FXML
     Pane paneMap;
+    @FXML
+    Button navBtnManageAccounts;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -437,24 +437,41 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
-    public void CreateRequest(ActionEvent event) throws Exception {
+    public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
             //get reference to the button's stage
-            stage = (Stage) btnLogOut.getScene().getWindow();
+            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
             //load up Home FXML document;
-            createRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
 
             //create a new scene with root and set the stage
-            Scene scene = new Scene(createRequests);
+            Scene scene = new Scene(accountManager);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void manageRequest (ActionEvent event) throws Exception {
+//    public void CreateRequest(ActionEvent event) throws Exception {
+//        try {
+//            Stage stage;
+//            Parent root;
+//            //get reference to the button's stage
+//            stage = (Stage) btnLogOut.getScene().getWindow();
+//            //load up Home FXML document;
+//            createRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+//
+//            //create a new scene with root and set the stage
+//            Scene scene = new Scene(createRequests);
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+    public void manageRequests (ActionEvent event) throws Exception{
         try {
             Stage stage;
             Parent root;
@@ -469,6 +486,7 @@ public class nodeEditorController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     //Combo Box selected update next
