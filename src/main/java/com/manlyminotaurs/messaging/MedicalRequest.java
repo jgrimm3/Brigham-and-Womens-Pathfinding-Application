@@ -3,7 +3,7 @@ package com.manlyminotaurs.messaging;
 class MedicalRequest extends Request{
 
     MedicalRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
-        super(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
+        super(requestID, requestType, priority, isComplete, adminConfirm,"0:00" , nodeID, messageID, password);
     }
     @Override
     public boolean service() {
