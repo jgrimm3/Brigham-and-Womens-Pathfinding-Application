@@ -269,6 +269,7 @@ public class homeController implements Initializable {
 
 	public void toggleMap(ActionEvent event) {
 		clearPoints();
+		circleList.clear();
 		if (tglMap.isSelected()) {
 
 			// Switch 3-D
@@ -299,6 +300,7 @@ public class homeController implements Initializable {
 
 	public void printNodesOnFloor(MouseEvent event) {
 		clearPoints();
+		circleList.clear();
 		if (tglMap.isSelected())
 			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
 		else
@@ -503,6 +505,7 @@ public class homeController implements Initializable {
 
 	public void changeFloorMap(ActionEvent event) {
 		clearPoints();
+		circleList.clear();
 		if (tglMap.isSelected()) { // 3-D
 
 			stackPaneMap.setPrefHeight(2774);
