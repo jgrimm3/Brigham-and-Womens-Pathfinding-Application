@@ -314,6 +314,17 @@ public class homeController implements Initializable {
 		clearPoints();
 		circleList.clear();
 		printKiosk();
+		btnStart.setDisable(false);
+		btnEnd.setDisable(false);
+		isStart = true;
+		comBuildingStart.setDisable(false);
+		comBuildingEnd.setDisable(false);
+		comFloorStart.setDisable(false);
+		comFloorEnd.setDisable(false);
+		comTypeStart.setDisable(false);
+		comTypeEnd.setDisable(false);
+		comLocationStart.setDisable(false);
+		comLocationEnd.setDisable(false);
 		if (tglMap.isSelected()) {
 
 			// Switch 3-D
@@ -369,8 +380,13 @@ public class homeController implements Initializable {
 
 		circleList.add(kioskOutline);
 		circleList.add(kiosk);
-		kiosk.setFill(Color.BLUE);
-		kiosk.setFill(Color.RED);
+		if(comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
+			kiosk.setFill(Color.BLUE);
+			kiosk.setFill(Color.RED);
+		} else {
+			kiosk.setFill(Color.GRAY);
+			kioskOutline.setFill(Color.BLACK);
+		}
 
 
 		paneMap.getChildren().add(kioskOutline);
@@ -722,6 +738,17 @@ public class homeController implements Initializable {
 		clearPoints();
 		circleList.clear();
 		printKiosk();
+		btnStart.setDisable(false);
+		btnEnd.setDisable(false);
+		isStart = true;
+		comBuildingStart.setDisable(false);
+		comBuildingEnd.setDisable(false);
+		comFloorStart.setDisable(false);
+		comFloorEnd.setDisable(false);
+		comTypeStart.setDisable(false);
+		comTypeEnd.setDisable(false);
+		comLocationStart.setDisable(false);
+		comLocationEnd.setDisable(false);
 		if (tglMap.isSelected()) { // 3-D
 
 			stackPaneMap.setPrefHeight(2774);
