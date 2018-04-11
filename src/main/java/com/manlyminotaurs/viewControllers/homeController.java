@@ -235,6 +235,13 @@ public class homeController implements Initializable {
         txtUsername.setText("");
         txtPassword.setText("");
 
+        tglHandicap.setSelected(false);
+        tglHandicap.setText("OFF");
+        lblHandicap.setText("HANDICAP");
+        tglMap.setSelected(false);
+        tglMap.setText("2-D");
+        lblMap.setText("MAP: 2-D");
+
         comChangeFloor.getSelectionModel().select(2);
         pathfloor2DMapLoader("1");
         //staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
@@ -271,6 +278,13 @@ public class homeController implements Initializable {
 
         txtUsername.setText("");
         txtPassword.setText("");
+
+        tglHandicap.setSelected(false);
+        tglHandicap.setText("OFF");
+        lblHandicap.setText("HANDICAP");
+        tglMap.setSelected(false);
+        tglMap.setText("2-D");
+        lblMap.setText("MAP: 2-D");
 
         comChangeFloor.getSelectionModel().select(2);
         pathfloor2DMapLoader("1");
@@ -928,7 +942,8 @@ public class homeController implements Initializable {
         tglMap.setSelected(false);
         tglMap.setText("2-D");
         lblMap.setText("MAP: 2-D");
-        pathfloor3DMapLoader("1");
+        pathfloor2DMapLoader("1");
+        comChangeFloor.getSelectionModel().select(2);
 
         paneMap.getChildren().remove(startCircle);
         paneMap.getChildren().remove(finishCircle);
