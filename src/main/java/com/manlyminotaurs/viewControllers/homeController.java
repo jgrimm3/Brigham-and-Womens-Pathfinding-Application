@@ -611,10 +611,10 @@ public class homeController implements Initializable {
 		btnHelp.setDisable(true);
 		btnCloseHelp.setDisable(true);
 		btnQuickDirections.setDisable(true);
-		btnQuickCafe.setDisable(true);
+//		btnQuickCafe.setDisable(true);
 		btnQuickBathroom.setDisable(true);
-		btnQuickCoffee.setDisable(true);
-		btnQuickShop.setDisable(true);
+//		btnQuickCoffee.setDisable(true);
+		//btnQuickShop.setDisable(true);
 		comChangeFloor.setDisable(true);
 		btnOpenQRCode.setDisable(true);
 		txtPassword.setDisable(true);
@@ -674,10 +674,10 @@ public class homeController implements Initializable {
 		btnHelp.setDisable(false);
 		btnCloseHelp.setDisable(false);
 		btnQuickDirections.setDisable(false);
-		btnQuickCafe.setDisable(false);
+		//btnQuickCafe.setDisable(false);
 		btnQuickBathroom.setDisable(false);
-		btnQuickCoffee.setDisable(false);
-		btnQuickShop.setDisable(false);
+		//btnQuickCoffee.setDisable(false);
+		//btnQuickShop.setDisable(false);
 		comChangeFloor.setDisable(false);
 		btnOpenQRCode.setDisable(false);
 		txtPassword.setDisable(false);
@@ -695,30 +695,30 @@ public class homeController implements Initializable {
 	@FXML
 	Button btnQuickBathroom;
 
-	@FXML
-	Button btnQuickCafe;
+	//@FXML
+	//Button btnQuickCafe;
 
-	@FXML
-	Button btnQuickCoffee;
+	//@FXML
+	//Button btnQuickCoffee;
 
-	@FXML
-	Button btnQuickShop;
+	//@FXML
+	//Button btnQuickShop;
 
 	public void toggleQuickButtons(ActionEvent event) {
 
 		if (btnQuickBathroom.isVisible() == true) {
 
 			btnQuickBathroom.setVisible(false);
-			btnQuickCafe.setVisible(false);
-			btnQuickCoffee.setVisible(false);
-			btnQuickShop.setVisible(false);
+			//btnQuickCafe.setVisible(false);
+			//btnQuickCoffee.setVisible(false);
+			//.setVisible(false);
 
 		} else if (btnQuickBathroom.isVisible() == false) {
 
 			btnQuickBathroom.setVisible(true);
-			btnQuickCafe.setVisible(true);
-			btnQuickCoffee.setVisible(true);
-			btnQuickShop.setVisible(true);
+			//btnQuickCafe.setVisible(true);
+			//btnQuickCoffee.setVisible(true);
+			//btnQuickShop.setVisible(true);
 
 		}
 	}
@@ -882,9 +882,9 @@ public class homeController implements Initializable {
 				paneDirections.setVisible(false);
 				paneLogin.setVisible(false);
 				btnQuickBathroom.setVisible(false);
-				btnQuickShop.setVisible(false);
-				btnQuickCoffee.setVisible(false);
-				btnQuickCafe.setVisible(false);
+				//btnQuickShop.setVisible(false);
+				//btnQuickCoffee.setVisible(false);
+				//btnQuickCafe.setVisible(false);
 				tglHandicap.setSelected(false);
 				tglHandicap.setText("OFF");
 				lblHandicap.setText("HANDICAP");
@@ -938,9 +938,9 @@ public class homeController implements Initializable {
 				paneDirections.setVisible(false);
 				paneLogin.setVisible(false);
 				btnQuickBathroom.setVisible(false);
-				btnQuickShop.setVisible(false);
-				btnQuickCoffee.setVisible(false);
-				btnQuickCafe.setVisible(false);
+				//b//tnQuickShop.setVisible(false);
+				//btnQuickCoffee.setVisible(false);
+				//btnQuickCafe.setVisible(false);
 				tglHandicap.setSelected(false);
 				tglHandicap.setText("OFF");
 				lblHandicap.setText("HANDICAP");
