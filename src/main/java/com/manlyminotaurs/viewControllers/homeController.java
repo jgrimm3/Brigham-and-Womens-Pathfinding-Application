@@ -781,7 +781,7 @@ public class homeController implements Initializable {
     TextField txtUsername;
 
     @FXML
-    TextField txtPassword;
+    PasswordField txtPassword;
 
     public void openLoginPanel(ActionEvent event) {
 
@@ -857,7 +857,7 @@ public class homeController implements Initializable {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
-                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashboard.fxml"));
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
 
                 //create a new scene with root and set the stage
@@ -912,9 +912,9 @@ public class homeController implements Initializable {
 
                     Stage stage;
                     //get reference to the button's stage
-                    stage = (Stage) btnLogin.getScene().getWindow();
+                    stage = (Stage)btnLogin.getScene().getWindow();
                     //load up Home FXML document
-                    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+                    adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
 
                     //create a new scene with root and set the stage

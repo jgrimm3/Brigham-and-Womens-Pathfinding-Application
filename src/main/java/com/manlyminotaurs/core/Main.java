@@ -57,7 +57,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
-       // DataModelI.getInstance().startDB();
+        DataModelI.getInstance().startDB();
         launch(args);
     }
 }
