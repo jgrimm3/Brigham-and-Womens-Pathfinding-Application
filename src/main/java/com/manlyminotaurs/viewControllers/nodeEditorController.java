@@ -454,24 +454,7 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
-//    public void CreateRequest(ActionEvent event) throws Exception {
-//        try {
-//            Stage stage;
-//            Parent root;
-//            //get reference to the button's stage
-//            stage = (Stage) btnLogOut.getScene().getWindow();
-//            //load up Home FXML document;
-//            createRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
-//
-//            //create a new scene with root and set the stage
-//            Scene scene = new Scene(createRequests);
-//            stage.setScene(scene);
-//            stage.show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-    public void manageRequests (ActionEvent event) throws Exception{
+    public void manageRequest (ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
@@ -486,7 +469,6 @@ public class nodeEditorController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     //Combo Box selected update next
@@ -624,6 +606,8 @@ public class nodeEditorController {
 
         DataModelI.getInstance().addEdge(edgeNodeAdd, node);
         DataModelI.getInstance().modifyNode(node);
+
+        btnModify.setText("Node Updated");
         //redraw map
     }
 
@@ -698,6 +682,7 @@ public class nodeEditorController {
                 }
                 node.setStatus(newStatus);
     }
+
 public void setPathfindAlgorithm(ActionEvent event) {
         String Pathfinding;
         Pathfinding = cmboPathfinding.getValue().toString();
@@ -812,10 +797,12 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 Circle tempCircle = new Circle();
                 tempCircle.setCenterX(nodeList.get(x).getXCoord());
                 tempCircle.setCenterY(nodeList.get(x).getYCoord());
-                tempCircle.setRadius(5);
-                tempCircle.setFill(Color.PURPLE);
+                tempCircle.setRadius(8);
+                tempCircle.setFill(Color.NAVY);
                 tempCircle.setVisible(true);
+                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
                 paneMap.getChildren().add(tempCircle);
+                circleList.add(tempCircle);
             }
 
         } else {
@@ -828,10 +815,12 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 Circle tempCircle = new Circle();
                 tempCircle.setCenterX(nodeList.get(x).getXCoord3D());
                 tempCircle.setCenterY(nodeList.get(x).getYCoord3D());
-                tempCircle.setRadius(5);
-                tempCircle.setFill(Color.PURPLE);
+                tempCircle.setRadius(8);
+                tempCircle.setFill(Color.NAVY);
                 tempCircle.setVisible(true);
+                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
                 paneMap.getChildren().add(tempCircle);
+                circleList.add(tempCircle);
             }
         }
 
@@ -880,6 +869,38 @@ public void setPathfindAlgorithm(ActionEvent event) {
 
 
     }
+
+    public void chooseNodeEdge(MouseEvent event) {
+        Circle circle = (Circle)event.getTarget();
+        if(mapNodeChoice == true) {
+            for (Node node : nodeList) {
+                if (node.getXCoord() == circle.getCenterX()) {
+                    if (node.getYCoord() == circle.getCenterY()) {
+                        edgeNodeAdd = node;
+                        circle.setFill(Color.RED);
+                        System.out.println("Click recognized");
+                        btnSelectEdgeNode.setText(node.getLongName());
+                        break;
+                    }
+                }
+            }
+            System.out.println("Node not found");
+        } else {
+            for (Node node : nodeList) {
+                if (node.getXCoord3D() == circle.getCenterX()) {
+                    if (node.getYCoord3D() == circle.getCenterY()) {
+                        edgeNodeAdd = node;
+                        circle.setFill(Color.RED);
+                        System.out.println("Click recognized");
+                        btnSelectEdgeNode.setText(node.getLongName());
+                        break;
+                    }
+                }
+            }
+            System.out.println("Node not found");
+        }
+    }
+
 }
 
 
