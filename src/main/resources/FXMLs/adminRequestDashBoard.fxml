@@ -34,7 +34,10 @@
             <DropShadow />
          </effect>
          <children>
-            <Label fx:id="lblCompleteError" alignment="TOP_CENTER" layoutX="161.0" layoutY="811.0" prefHeight="34.0" prefWidth="357.0" textAlignment="CENTER" textFill="RED" />
+            <Label fx:id="lblCompleteError" alignment="TOP_CENTER" layoutX="161.0" layoutY="811.0" prefHeight="34.0" prefWidth="357.0" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font></Label>
          </children></Pane>
       <Pane layoutX="25.0" layoutY="665.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;" />
       <Label layoutX="310.0" layoutY="560.0" text="Request  Details" AnchorPane.leftAnchor="310.0">
