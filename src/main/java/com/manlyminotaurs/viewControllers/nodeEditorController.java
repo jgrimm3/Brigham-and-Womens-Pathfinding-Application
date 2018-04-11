@@ -454,7 +454,7 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
-    public void manageRequest (ActionEvent event) throws Exception {
+    public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
