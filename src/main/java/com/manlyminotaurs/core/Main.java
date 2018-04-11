@@ -28,12 +28,12 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         try{
         //root is anchor pane that all other screens will be held in
         root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -78,6 +78,7 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
         DataModelI.getInstance().startDB();
+        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
         launch(args);
     }
 }

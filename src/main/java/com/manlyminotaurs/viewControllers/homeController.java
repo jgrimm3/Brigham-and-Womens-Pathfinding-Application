@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+//import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
@@ -84,6 +85,7 @@ public class homeController implements Initializable {
 	String startFloor = "";
 	String endFloor = "";
 	List<Circle> circleList = new ArrayList<>();
+	boolean isStart = true;
 	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -231,6 +233,12 @@ public class homeController implements Initializable {
 			//staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 			//adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
+			scrollPaneMap.setHvalue(.35);
+			scrollPaneMap.setVvalue(.2);
+			setKiosk();
+			printKiosk();
+			goToKiosk();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -305,6 +313,7 @@ public class homeController implements Initializable {
 	public void toggleMap(ActionEvent event) {
 		clearPoints();
 		circleList.clear();
+		printKiosk();
 		if (tglMap.isSelected()) {
 
 			// Switch 3-D
@@ -333,7 +342,85 @@ public class homeController implements Initializable {
 
 	}
 
-	public void printNodesOnFloor(MouseEvent event) {
+	public void printKiosk() {
+
+		Circle kioskOutline = new Circle();
+		Circle kiosk = new Circle();
+		if(tglMap.isSelected()) {
+			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
+			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+		} else {
+			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
+			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+		}
+
+
+		kiosk.setFill(Color.BLUE);
+		kiosk.setFill(Color.RED);
+		paneMap.getChildren().remove(kiosk);
+		paneMap.getChildren().remove(kioskOutline);
+
+		paneMap.getChildren().add(kioskOutline);
+		paneMap.getChildren().add(kiosk);
+	}
+
+	public void goToKiosk() {
+		if(tglMap.isSelected()) {
+			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 2774.0);
+			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		} else {
+			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
+			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		}
+	}
+
+	private void setKiosk() {
+		initializeBuildingStart(null);
+		initializeFloorStart(null);
+		initializeTypeStart(null);
+		setStartLocation(null);
+		comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
+		comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
+		comTypeStart.getSelectionModel().select(KioskInfo.myLocation.getNodeType());
+		comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
+		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
+		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		printKiosk();
+	}
+
+	public void printNodesOnFloorStart(MouseEvent event) {
+		btnStart.setDisable(true);
+		btnEnd.setDisable(true);
+		isStart = true;
+		comBuildingStart.setDisable(true);
+		comBuildingEnd.setDisable(true);
+		comFloorStart.setDisable(true);
+		comFloorEnd.setDisable(true);
+		comTypeStart.setDisable(true);
+		comTypeEnd.setDisable(true);
+		comLocationStart.setDisable(true);
+		comLocationEnd.setDisable(true);
+		clearPoints();
+		circleList.clear();
+		if (tglMap.isSelected())
+			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
+		else
+			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
+
+	}
+
+	public void printNodesOnFloorEnd(MouseEvent event) {
+		btnStart.setDisable(true);
+		btnEnd.setDisable(true);
+		isStart = false;
+		comBuildingStart.setDisable(true);
+		comBuildingEnd.setDisable(true);
+		comFloorStart.setDisable(true);
+		comFloorEnd.setDisable(true);
+		comTypeStart.setDisable(true);
+		comTypeEnd.setDisable(true);
+		comLocationStart.setDisable(true);
+		comLocationEnd.setDisable(true);
 		clearPoints();
 		circleList.clear();
 		if (tglMap.isSelected())
@@ -345,39 +432,113 @@ public class homeController implements Initializable {
 
 	public void chooseStartNode(MouseEvent event) {
 		Circle circle = (Circle)event.getTarget();
-		for (Node node : nodeList) {
-			if(node.getXCoord()==circle.getCenterX()) {
-				if(node.getYCoord()==circle.getCenterY()) {
-					System.out.println("Click recognized");
-					comBuildingStart.setValue(node.getBuilding());
-					comFloorStart.setValue(node.getFloor());
-					comTypeStart.setValue(node.getNodeType());
-					comLocationStart.setValue(node.getLongName());
-					clearPoints();
-					break;
+		if(!tglMap.isSelected()) {
+			for (Node node : nodeList) {
+				if (node.getXCoord() == circle.getCenterX()) {
+					if (node.getYCoord() == circle.getCenterY()) {
+						System.out.println("Click recognized");
+						comBuildingStart.getSelectionModel().select(node.getBuilding());
+						comFloorStart.getSelectionModel().select(node.getFloor());
+						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comLocationStart.getSelectionModel().select(node.getLongName());
+						clearPoints();
+						btnStart.setDisable(false);
+						btnEnd.setDisable(false);
+						comBuildingStart.setDisable(false);
+						comBuildingEnd.setDisable(false);
+						comFloorStart.setDisable(false);
+						comFloorEnd.setDisable(false);
+						comTypeStart.setDisable(false);
+						comTypeEnd.setDisable(false);
+						comLocationStart.setDisable(false);
+						comLocationEnd.setDisable(false);
+						break;
+					}
 				}
 			}
+			System.out.println("Node not found");
+		} else {
+			for (Node node : nodeList) {
+				if (node.getXCoord3D() == circle.getCenterX()) {
+					if (node.getYCoord3D() == circle.getCenterY()) {
+						System.out.println("Click recognized");
+						comBuildingStart.getSelectionModel().select(node.getBuilding());
+						comFloorStart.getSelectionModel().select(node.getFloor());
+						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comLocationStart.getSelectionModel().select(node.getLongName());
+						clearPoints();
+						btnStart.setDisable(false);
+						btnEnd.setDisable(false);
+						comBuildingStart.setDisable(false);
+						comBuildingEnd.setDisable(false);
+						comFloorStart.setDisable(false);
+						comFloorEnd.setDisable(false);
+						comTypeStart.setDisable(false);
+						comTypeEnd.setDisable(false);
+						comLocationStart.setDisable(false);
+						comLocationEnd.setDisable(false);
+						break;
+					}
+				}
+			}
+			System.out.println("Node not found");
 		}
-		System.out.println("Node not found");
 	}
 
 	public void chooseEndNode(MouseEvent event) {
 		Circle circle = (Circle)event.getTarget();
 		System.out.println(circle.getCenterX());
-		for (Node node : nodeList) {
-			if(node.getXCoord()==circle.getCenterX()) {
-				if(node.getYCoord()==circle.getCenterY()) {
-					System.out.println("Click recognized");
-					comBuildingEnd.setValue(node.getBuilding());
-					comFloorEnd.setValue(node.getFloor());
-					comTypeEnd.setValue(node.getNodeType());
-					comLocationEnd.setValue(node.getLongName());
-					clearPoints();
-					break;
+		if(!tglMap.isSelected()) {
+			for (Node node : nodeList) {
+				if (node.getXCoord() == circle.getCenterX()) {
+					if (node.getYCoord() == circle.getCenterY()) {
+						System.out.println("Click recognized");
+						comBuildingEnd.getSelectionModel().select(node.getBuilding());
+						comFloorEnd.getSelectionModel().select(node.getFloor());
+						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comLocationEnd.getSelectionModel().select(node.getLongName());
+						clearPoints();
+						btnStart.setDisable(false);
+						btnEnd.setDisable(false);
+						comBuildingStart.setDisable(false);
+						comBuildingEnd.setDisable(false);
+						comFloorStart.setDisable(false);
+						comFloorEnd.setDisable(false);
+						comTypeStart.setDisable(false);
+						comTypeEnd.setDisable(false);
+						comLocationStart.setDisable(false);
+						comLocationEnd.setDisable(false);
+						break;
+					}
 				}
 			}
+			System.out.println("Node not found");
+		} else {
+			for (Node node : nodeList) {
+				if (node.getXCoord3D() == circle.getCenterX()) {
+					if (node.getYCoord3D() == circle.getCenterY()) {
+						System.out.println("Click recognized");
+						comBuildingEnd.getSelectionModel().select(node.getBuilding());
+						comFloorEnd.getSelectionModel().select(node.getFloor());
+						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comLocationEnd.getSelectionModel().select(node.getLongName());
+						clearPoints();
+						btnStart.setDisable(false);
+						btnEnd.setDisable(false);
+						comBuildingStart.setDisable(false);
+						comBuildingEnd.setDisable(false);
+						comFloorStart.setDisable(false);
+						comFloorEnd.setDisable(false);
+						comTypeStart.setDisable(false);
+						comTypeEnd.setDisable(false);
+						comLocationStart.setDisable(false);
+						comLocationEnd.setDisable(false);
+						break;
+					}
+				}
+			}
+			System.out.println("Node not found");
 		}
-		System.out.println("Node not found");
 	}
 
 	public void initializeBuildingStart(ActionEvent event) {
@@ -541,6 +702,7 @@ public class homeController implements Initializable {
 	public void changeFloorMap(ActionEvent event) {
 		clearPoints();
 		circleList.clear();
+		printKiosk();
 		if (tglMap.isSelected()) { // 3-D
 
 			stackPaneMap.setPrefHeight(2774);
@@ -660,7 +822,7 @@ public class homeController implements Initializable {
 		tglMap.setText("2-D");
 		lblMap.setText("MAP: 2-D");
 		pathfloor2DMapLoader("1");
-		comChangeFloor.getSelectionModel().select(2);
+		comChangeFloor.setValue("1");
 
 		paneMap.getChildren().remove(startCircle);
 		paneMap.getChildren().remove(finishCircle);
@@ -1287,8 +1449,8 @@ public class homeController implements Initializable {
 			} else if (dimension.equals("3-D")) {
 				finishX = endNode.getXCoord3D();
 				finishY = endNode.getYCoord3D();
-				startX = startNode.getXCoord();
-				startY = startNode.getYCoord();
+				startX = startNode.getXCoord3D();
+				startY = startNode.getYCoord3D();
 			} else {
 				System.out.println("Invalid dimension");
 			}
@@ -1561,7 +1723,7 @@ public class homeController implements Initializable {
 				circle.setFill(Color.WHITE);
 				outline.setFill(Color.NAVY);
 
-				if (comLocationStart.getValue() == null)
+				if (isStart)
 					circle.setOnMouseClicked(this::chooseStartNode);
 				else
 					circle.setOnMouseClicked(this::chooseEndNode);
