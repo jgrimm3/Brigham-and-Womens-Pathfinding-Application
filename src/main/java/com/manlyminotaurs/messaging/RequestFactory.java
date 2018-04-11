@@ -19,7 +19,7 @@ public class RequestFactory {
      * @param senderID the ID of the user sending the request
      * @return the request that was added to the DB or null if adding failed.
      */
-    public Request genNewRequest(RequestType requestType, Node nodeAt, String message, String senderID) {
+    public Request genNewRequest(RequestType requestType, Node nodeAt, String message, String senderID, int priority) {
         Message newMsg;
         Request newReq;
         String messageID;
@@ -27,14 +27,15 @@ public class RequestFactory {
             case MedicalRequest:
                 messageID = dataModel.getNextMessageID();
                 newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(),LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
-                Request a_request = dataModel.addRequest(newReq, newMsg);
-                return a_request;
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", priority, false, false, LocalDateTime.now(),LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
+
+                System.out.println("made Message and Request to add to BD");
+                return dataModel.addRequest(newReq, newMsg);
 
             case JanitorialRequest:
                 messageID = dataModel.getNextMessageID();
                 newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
+                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "JanitorialRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
 
                 return dataModel.addRequest(newReq, newMsg);
             default:

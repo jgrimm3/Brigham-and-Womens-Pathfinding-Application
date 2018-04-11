@@ -44,6 +44,30 @@ import java.util.ResourceBundle;
 
 public class homeController implements Initializable {
 
+
+    //Nested Private Singleton
+    private static class Singleton {
+        private static Singleton instance = null;
+
+        private Singleton() {
+            PathfindingContext Pf = new PathfindingContext();
+
+        }
+
+        private static class SingletonHolder {
+            private static Singleton MapController = new Singleton();
+
+        }
+
+        public static Singleton getInstance() {
+            return homeController.Singleton.SingletonHolder.MapController;
+        }
+    }
+
+    public void testSingleton() {
+        Singleton.getInstance();
+    }
+
     //-----------------------------------------------------------------------------------------------------------------
     //
     //                                           Create objects
@@ -282,6 +306,7 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(2774);
             paneMap.setPrefWidth(5000);
             floor3DMapLoader(comChangeFloor.getValue());
+
         } else {
 
             // Switch 2-D
@@ -493,6 +518,7 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
             floor2DMapLoader(comChangeFloor.getValue());
+
         }
 
     }
