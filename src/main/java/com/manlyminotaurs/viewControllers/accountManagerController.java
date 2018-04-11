@@ -2,6 +2,8 @@ package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.databases.UserDBUtil;
 import com.manlyminotaurs.users.User;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -23,6 +25,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+
+import javax.xml.crypto.Data;
 
 public class accountManagerController {
     Parent logout;
@@ -92,7 +96,15 @@ public class accountManagerController {
 
     final static ObservableList<String> Languages = FXCollections.observableArrayList("English", "Spanish", "Chinese", "Filipino", "Vietnamese", "Arabic","French","Korean","Russian","German","Hindi","Haitian Creole","Hindi","Portuge","Italian","Polish","Urdu","Japanese","Dothraki","Klingon");
     final static ObservableList<String> UserTypes = FXCollections.observableArrayList("Doctor", "Nurse", "Visitor", "Admin", "Janitor", "Interpreter", "Patient", "Security");
-
+    String firstName;
+    String middleName;
+    String lastName;
+    String language;
+    String type;
+    String username;
+    String password;
+    String userID;
+    User user;
     @FXML
     public void initialize() throws Exception{
         try {
@@ -214,6 +226,83 @@ public class accountManagerController {
     }
 
     public void setLanguageAdd(ActionEvent event){
+        language = cmboLanguageAdd.getValue().toString();
+
+    }
+    public void setTypeAdd(ActionEvent event){
+        type = cmboTypeAdd.getValue().toString();
+
+    }
+    public void setLanguageModify(ActionEvent event){
+        language = cmboLanguageModify.getValue().toString();
+
+    }
+    public void setTypeModify(ActionEvent event){
+        type = cmboTypeModify.getValue().toString();
+
+    }
+    public void setLanguageDelete(ActionEvent event){
+        language = cmboLanguageDelete.getValue().toString();
+
+    }
+    public void setTypeDelete(ActionEvent event){
+        type = cmboTypeDelete.getValue().toString();
+
+    }
+    public void targetUserModify(ActionEvent event){
+        userID = txtUserIDModify.getText();
+        firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
+        middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
+        lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
+        language = DataModelI.getInstance().getUserByID(userID).getLanguage();
+        type = DataModelI.getInstance().getUserByID(userID).getUserType();
+        txtFirstNameModify.setText(firstName);
+        txtMiddleNameModify.setText(middleName);
+        txtLastNameModify.setText(lastName);
+//        cmboLanguageModify.setItems(language);
+//        cmboLanguageModify.setItems(type);
+    }
+    public void targetUserDelete(ActionEvent event){
+        userID = txtUserIDDelete.getText();
+    }
+    public void addUser(ActionEvent event){
+        firstName = txtFirstNameAdd.getText();
+        middleName = txtMiddleNameAdd.getText();
+        lastName = txtLastNameAdd.getText();
+        language = cmboLanguageAdd.getValue().toString();
+        type = cmboTypeAdd.getValue().toString();
+        username = txtUsernameAdd.getText();
+        password = txtPasswordAdd.getText();
+
+        DataModelI.getInstance().addUser(firstName,middleName,lastName,language,type,username,password);
+
+    }
+    public void modifyUser(ActionEvent event){
+        firstName = txtFirstNameModify.getText();
+        middleName = txtMiddleNameModify.getText();
+        lastName = txtLastNameModify.getText();
+        language = cmboLanguageModify.getValue().toString();
+        type = cmboTypeModify.getValue().toString();
+        username = txtUsernameModify.getText();
+        password = txtPasswordModify.getText();
+
+        DataModelI.getInstance().getUserByID(userID).setFirstName(firstName);
+        DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
+        DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
+        DataModelI.getInstance().getUserByID(userID).setUserType(type);
+        DataModelI.getInstance().getUserByID(userID).setLanguage(language);
+
+    }
+    public void deleteUser(ActionEvent event){
+        firstName = txtFirstNameDelete.getText();
+        middleName = txtMiddleNameDelete.getText();
+        lastName = txtLastNameDelete.getText();
+        language = cmboLanguageDelete.getValue().toString();
+        type = cmboTypeDelete.getValue().toString();
+        username = txtUsernameDelete.getText();
+        password = txtPasswordDelete.getText();
+
+        DataModelI.getInstance().removeUser(user);
 
     }
 }
