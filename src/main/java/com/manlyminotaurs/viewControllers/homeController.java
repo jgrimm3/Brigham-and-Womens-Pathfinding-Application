@@ -1,6 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
-//import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
@@ -36,7 +36,10 @@ import javax.swing.*;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class homeController implements Initializable {
 
@@ -869,8 +872,8 @@ public class homeController implements Initializable {
 
 	public void login(ActionEvent event) throws Exception {
 
-		String userName = txtUsername.getText();
-		String password = txtPassword.getText();
+        String userName = txtUsername.getText();
+        String password = txtPassword.getText();
 
 		if (userName.equals("") || password.equals("")) {
 
@@ -918,82 +921,28 @@ public class homeController implements Initializable {
 				lblEndLocation.setText("END LOCATION");
 				// Set floor map !!!
 
-				Stage stage;
-				//get reference to the button's stage
-				stage = (Stage) btnLogin.getScene().getWindow();
-				//load up Home FXML document
-				staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
 
+                Stage stage;
+                //get reference to the button's stage
+                stage = (Stage) btnLogin.getScene().getWindow();
+                //load up Home FXML document
+                if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+                }else{
+                    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                }
 
-				//create a new scene with root and set the stage
-				Scene scene = new Scene(staffRequest);
-				stage.setScene(scene);
-				stage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else if (txtUsername.getText().toLowerCase().equals("admin") && txtPassword.getText().toLowerCase().equals("admin")) {
-			try {
-				// Reset Fields
-				panePathfinding.setVisible(true);
-				paneDirections.setVisible(false);
-				paneLogin.setVisible(false);
-				btnQuickBathroom.setVisible(false);
-				//b//tnQuickShop.setVisible(false);
-				//btnQuickCoffee.setVisible(false);
-				//btnQuickCafe.setVisible(false);
-				tglHandicap.setSelected(false);
-				tglHandicap.setText("OFF");
-				lblHandicap.setText("HANDICAP");
-				tglMap.setSelected(false);
-				tglMap.setText("2-D");
-				lblMap.setText("MAP: 2-D");
-				comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
-				comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
-				comBuildingEnd.setItems(buildings);
-				comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-				comFloorStart.setDisable(true);
-				comFloorStart.getSelectionModel().clearSelection();
-				comFloorStart.setItems(empty);
-				comFloorEnd.setDisable(true);
-				comFloorEnd.getSelectionModel().clearSelection();
-				comFloorEnd.setItems(empty);
-				comTypeStart.setDisable(true);
-				comTypeStart.getSelectionModel().clearSelection();
-				comTypeStart.setItems(empty);
-				comTypeEnd.setDisable(true);
-				comTypeEnd.getSelectionModel().clearSelection();
-				comTypeEnd.setItems(empty);
-				comLocationStart.setDisable(true);
-				comLocationStart.getSelectionModel().clearSelection();
-				comLocationStart.setItems(empty);
-				comLocationEnd.setDisable(true);
-				comLocationEnd.getSelectionModel().clearSelection();
-				comLocationEnd.setItems(empty);
-				lblStartLocation.setText("START LOCATION");
-				lblEndLocation.setText("END LOCATION");
-				// Set floor map !!!
+                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName , password);
 
-				Stage stage;
-				//get reference to the button's stage
-				stage = (Stage) btnLogin.getScene().getWindow();
-				//load up Home FXML document
-				adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-
-
-				//create a new scene with root and set the stage
-				Scene scene = new Scene(adminRequest);
-				stage.setScene(scene);
-				stage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-
-			// Login
-			System.out.println("User logged in");
-
-		} else {
+                //create a new scene with root and set the stage
+                Scene scene = new Scene(staffRequest);
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
 
 			// print message
 			System.out.println("Wrong username and password!");

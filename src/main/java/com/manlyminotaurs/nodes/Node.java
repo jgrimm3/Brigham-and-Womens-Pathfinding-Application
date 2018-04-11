@@ -110,7 +110,6 @@ public abstract class Node implements INode {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(loc, nodeID, longName, shortName, status, nodeType, adjacentNodes, popularity);
     }
 }

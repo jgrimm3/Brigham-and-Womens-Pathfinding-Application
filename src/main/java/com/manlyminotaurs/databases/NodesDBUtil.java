@@ -640,9 +640,10 @@ class NodesDBUtil {
     public Node buildNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D){
         Node aNode;
 
-	    if (nodeID.equals("") || nodeID.isEmpty()) {nodeID = generateNodeID(nodeType, floor, "A"); }
+	    if (nodeID.equals("") || nodeID.isEmpty())
+	    {nodeID = generateNodeID(nodeType, floor, "A"); }
         switch (nodeType){
-            case "Hall":
+            case "HALL":
                 aNode = new Hallway(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
             case "ELEV":
                 aNode = new Transport(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);

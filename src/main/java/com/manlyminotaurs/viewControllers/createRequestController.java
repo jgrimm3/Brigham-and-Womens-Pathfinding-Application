@@ -74,8 +74,13 @@ public class createRequestController{
         cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
         cmboBuilding.setItems(FXCollections.observableArrayList(dbUtil.getBuildingsFromList()));
         cmboType.setItems(FXCollections.observableArrayList(dbUtil.getTypesFromList()));
-        cmboFloor.setItems(FXCollections.observableArrayList("L2", "L1","1","2","3"));
+        cmboFloor.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
         cmboNode.setItems(FXCollections.observableArrayList());
+
+        if (!dbUtil.getUserByID(KioskInfo.currentUserID).isType("admin")) {
+            navBtnNodeEditor.setVisible(false);
+            navBtnNodeEditor.setDisable(true);
+        }
     }
 
     public void submitRequest(javafx.event.ActionEvent event){
@@ -154,6 +159,8 @@ public class createRequestController{
             stage=(Stage)btnlogOut.getScene().getWindow();
             //load up Home FXML document
             root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);
