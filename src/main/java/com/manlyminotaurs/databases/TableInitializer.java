@@ -23,8 +23,8 @@ class TableInitializer {
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             stmt = connection.createStatement();
-            tableInit.executeDBScripts("./DropTables.sql", stmt);
-            tableInit.executeDBScripts("./CreateTables.sql", stmt);
+            tableInit.executeDBScripts("/DropTables.sql", stmt);
+            tableInit.executeDBScripts("/CreateTables.sql", stmt);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -52,11 +52,11 @@ class TableInitializer {
         initializer.initTables();
         initializer.populateAllNodeEdgeTables();
         UserSecurity userSecurity = new UserSecurity();
-        UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("UserAccountTable.csv"));
-        MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("MessageTable.csv"));
-        RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("RequestTable.csv"));
-        initializer.populateStaffTable("StaffTable.csv");
-        initializer.populateUserPasswordTable("UserPasswordTable.csv");
+        UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("/CSV/UserAccountTable.csv"));
+        MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("/CSV/MessageTable.csv"));
+        RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("/CSV/RequestTable.csv"));
+        initializer.populateStaffTable("/CSV/StaffTable.csv");
+        initializer.populateUserPasswordTable("/CSV/UserPasswordTable.csv");
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
@@ -78,7 +78,7 @@ class TableInitializer {
         CsvFileController csvFileControl = new CsvFileController();
         try {
             for(int i=0; i< listOfCsvFiles.length ;i++) {
-                String csvNodeFileName = "Map"+listOfCsvFiles[i]+"nodes.csv";
+                String csvNodeFileName = "/CSV/Map"+listOfCsvFiles[i]+"nodes.csv";
                 List<String[]> list_of_nodes;
                 list_of_nodes = csvFileControl.parseCsvFile(csvNodeFileName);
 
@@ -137,7 +137,7 @@ class TableInitializer {
             }
 
             for(int i=0; i< listOfCsvFiles.length ;i++) {
-                String csvEdgeFileName = "Map" + listOfCsvFiles[i] + "edges.csv";
+                String csvEdgeFileName = "/CSV/Map" + listOfCsvFiles[i] + "edges.csv";
                 List<String[]> list_of_edges;
                 list_of_edges = csvFileControl.parseCsvFile(csvEdgeFileName);
                 Iterator<String[]> iterator2 = list_of_edges.iterator();
@@ -476,7 +476,7 @@ class TableInitializer {
         InputStream inputStream = null;
         try {
             System.out.println("executeDBScripts: "+ getClass().getName());
-            inputStream = getClass().getClassLoader().getResourceAsStream(aSQLScriptFilePath);
+            inputStream = getClass().getResourceAsStream(aSQLScriptFilePath);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String str;
             StringBuffer sb;
