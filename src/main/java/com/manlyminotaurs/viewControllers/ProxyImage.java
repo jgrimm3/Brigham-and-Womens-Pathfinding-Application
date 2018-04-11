@@ -17,15 +17,11 @@ public class ProxyImage {
     }
 
     public void display() {
-        File file = new File(ProxyImage.class.getResource("/MapImages/"+fileName).getFile());
-        image = new Image(file.toURI().toString());
-        imageView.setImage(image);
+        imageView.setImage(new Image("/MapImages/" +fileName));
     }
 
     public void display2() {
-        File file = new File(ProxyImage.class.getResource("/QR/"+fileName).getFile());
-        image = new Image(file.toURI().toString());
-        imageView.setImage(image);
+        imageView.setImage(new Image("/QR/"+fileName));
     }
 
 }

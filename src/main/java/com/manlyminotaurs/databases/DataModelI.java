@@ -33,7 +33,7 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-        DataModelI.getInstance().retrieveNodes();
+   //     DataModelI.getInstance().retrieveNodes();
       //  DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","2");
     }
 
@@ -114,6 +114,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
@@ -286,7 +287,7 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
+    public User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
         return userDBUtil.addUser(firstName, middleName, lastName, language, userType, userName, password);
     }
 

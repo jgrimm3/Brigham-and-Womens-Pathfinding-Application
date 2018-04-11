@@ -193,7 +193,7 @@ public class adminRequestDashboardController  {
             Request actualRequest = dBUtil.getRequestByID(selectedRequest.requestID);
             lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
                     "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Location: " + dBUtil.getNodeByIDFromList(actualRequest.getNodeID(), dBUtil.retrieveNodes()).getLongName() + "\n" +
                     "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }
@@ -207,7 +207,7 @@ public class adminRequestDashboardController  {
             Request actualRequest = dBUtil.getRequestByID(selectedRequest.requestID);
             lblRequestDetails.setText("SenderID: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getSenderID() + "\n" +
                     "Priority: " + dBUtil.getRequestByID(selectedRequest.requestID).getPriority() + "\n" +
-                    "Location: " + dBUtil.getNodeByID(actualRequest.getNodeID()).getLongName() + "\n" +
+                    "Location: " + dBUtil.getNodeByIDFromList(actualRequest.getNodeID(), dBUtil.retrieveNodes()).getLongName() + "\n" +
                     "Message: " + dBUtil.getMessageByID(actualRequest.getMessageID()).getMessage());
         }
     }

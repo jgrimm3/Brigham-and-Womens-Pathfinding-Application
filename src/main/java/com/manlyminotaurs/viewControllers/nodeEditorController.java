@@ -31,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.util.List;
 
@@ -156,9 +157,11 @@ public class nodeEditorController {
     String type;
     String floor;
     String building;
-    String node;
-    String xCoord;
-    String yCoord;
+    Node node;
+    int xCoord2D;
+    int yCoord2D;
+    int xCoord3D;
+    int yCoord3D;
 
     @FXML
     public void initialize() throws Exception{
@@ -182,8 +185,6 @@ public class nodeEditorController {
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
-
-
 
         }
         catch (Exception e){
@@ -392,7 +393,7 @@ public class nodeEditorController {
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
-        node = cmboNodeMod.getValue().toString();
+        //node = cmboNodeMod.getValue().toString();
 
     }
 
@@ -428,13 +429,15 @@ public class nodeEditorController {
 
         longName = txtLongName.getText();
         shortName = txtShortName.getText();
-        xCoord = txtXCoord.getText();
-        yCoord = txtYCoord.getText();
+        xCoord2D = Integer.parseInt(txtXCoord.getText());
+        yCoord2D = Integer.parseInt(txtYCoord.getText());
+        xCoord3D = Integer.parseInt(txtXCoord3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoord3D.getText());
         building = cmboBuilding.getValue().toString();
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
         //call add node function
-
+        DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         //redraw map
 
     }
@@ -444,13 +447,16 @@ public class nodeEditorController {
     public void modifyNode(ActionEvent event) {
         longName = txtLongNameMod.getText();
         shortName = txtShortNameMod.getText();
-        xCoord = txtXCoordMod.getText();
-        yCoord = txtYCoordMod.getText();
+        xCoord2D = Integer.parseInt(txtXCoordMod.getText());
+        yCoord2D = Integer.parseInt(txtYCoordMod.getText());
+        xCoord3D = Integer.parseInt(txtXCoordMod3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoordMod3D.getText());
         building = cmboBuildingMod.getValue().toString();
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
 
         //call modify node function
+
 
         //redraw map
     }
@@ -460,14 +466,17 @@ public class nodeEditorController {
     public void deleteNode(ActionEvent event) {
         longName = txtLongNameDel.getText();
         shortName = txtShortNameDel.getText();
-        xCoord = txtXCoordDel.getText();
-        yCoord = txtYCoordDel.getText();
+
+
+        //set login check
+
         building = cmboBuildingDel.getValue().toString();
         floor = cmboFloorDel.getValue().toString();
         type = cmboTypeDel.getValue().toString();
 
         //call delete node function
-
+        node = DataModelI.getInstance().getNodeByLongName(longName);
+        DataModelI.getInstance().removeNode(node);
         //redraw map
 
     }
@@ -543,6 +552,43 @@ public class nodeEditorController {
 
     }
 
+    public void printPoints(String floor, String dimension) {
+        // Connection for the database
+        List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+
+        // map boundaries
+
+        int i = 0;
+        int x = 0;
+        int y = 0;
+        // Iterate through each node
+        while(i < nodeList.size()) {
+
+            // If the node is on the correct floor
+            if(nodeList.get(i).getFloor().equals(floor)) {
+
+                if(dimension.equals("2-D")) {
+                    // Get x and y coords
+                    x = nodeList.get(i).getXCoord();
+                    y = nodeList.get(i).getYCoord();
+                } else if (dimension.equals("3-D")){
+                    x = nodeList.get(i).getXCoord3D();
+                    y = nodeList.get(i).getYCoord3D();
+                } else {
+                    System.out.println("Invalid dimension");
+                }
+
+                // draw the point on the image
+                Circle circle = new Circle(x, y, 2);
+                Circle outline = new Circle(x,y, 3);
+                circle.setFill(Color.BLACK);
+                outline.setFill(Color.GRAY);
+                pane.getChildren().add(outline);
+                pane.getChildren().add(circle);
+            }
+            i++;
+        }
+    }
 
 }
 

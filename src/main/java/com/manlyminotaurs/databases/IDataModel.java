@@ -30,8 +30,9 @@ public interface IDataModel {
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
+    @Deprecated
     Node getNodeByID(String ID);
-    public Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
+    Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
@@ -75,7 +76,7 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
+    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/

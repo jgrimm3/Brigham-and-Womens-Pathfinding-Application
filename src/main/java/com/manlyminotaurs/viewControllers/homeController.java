@@ -270,7 +270,6 @@ public class homeController implements Initializable {
         txtPassword.setText("");
 
         comChangeFloor.getSelectionModel().select(0);
-
     }
 
     public void toggleHandicap(ActionEvent event) {
@@ -619,7 +618,6 @@ public class homeController implements Initializable {
     }
 
     public void drawPath(ActionEvent event) {
-
         String startFloor;
         String endFloor;
         startFloor = comFloorStart.getValue();
