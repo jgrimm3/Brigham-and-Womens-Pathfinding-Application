@@ -8,7 +8,13 @@ import com.manlyminotaurs.users.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -42,8 +48,18 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-        System.out.println(LocalDate.now());
-      //  DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","2");
+        //2018-03-27 13:23:56
+/*
+        String timeString = "2018-03-27 14:15:23";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date parsedTimeStamp = null;
+        try {
+            parsedTimeStamp = dateFormat.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(new Timestamp(parsedTimeStamp.getTime()));*/
     }
 
     private DataModelI() {
@@ -64,6 +80,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+      // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
 

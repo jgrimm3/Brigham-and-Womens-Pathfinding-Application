@@ -144,6 +144,8 @@ public class userRequestDashBoardController implements Initializable{
         catch (Exception e){
             e.printStackTrace();}
     }
+
+
     public void openListClicked(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){
             lblRequestDetails.setText("");

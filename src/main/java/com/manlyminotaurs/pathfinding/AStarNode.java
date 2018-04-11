@@ -48,4 +48,9 @@ public class AStarNode extends PathfindingNode implements Comparable<AStarNode> 
         AStarNode n = (AStarNode) other;
         return this.getNode().getNodeID().equals(n.getNode().getNodeID());
     }
+
+    @Override
+    public int hashCode(){
+        return this.getNode().getNodeID().hashCode();
+    }
 }

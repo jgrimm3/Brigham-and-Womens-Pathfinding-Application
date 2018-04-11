@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -287,7 +288,7 @@ class TableInitializer {
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
                 statement.setBoolean(3, Boolean.valueOf(node_row[2]));
-                statement.setDate(4,convertStringToDate(node_row[3]));
+                statement.setTimestamp(4,convertStringToTimestamp(node_row[3]));
                 statement.setString(5, node_row[4]);
                 statement.setString(6, node_row[5]);
                 statement.executeUpdate();
@@ -412,17 +413,18 @@ class TableInitializer {
             while (iterator.hasNext()) {
                 requestIDCounter++;
                 String[] node_row = iterator.next();
-                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,timeTaken,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
                 statement.setInt(3, Integer.parseInt(node_row[2]));
                 statement.setBoolean(4, Boolean.valueOf(node_row[3]));
                 statement.setBoolean(5, Boolean.valueOf(node_row[4]));
-                statement.setString(6, node_row[5]);
-                statement.setString(7, node_row[6]);
+                statement.setTimestamp(6, convertStringToTimestamp(node_row[5]));
+                statement.setTimestamp(7, convertStringToTimestamp(node_row[6]));
                 statement.setString(8, node_row[7]);
                 statement.setString(9, node_row[8]);
+                statement.setString(10, node_row[9]);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -510,10 +512,19 @@ class TableInitializer {
         return isScriptExecuted;
     }
 
-    public Date convertStringToDate(String timeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    public Timestamp convertStringToTimestamp(String timeString) {/*
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
        // formatter = formatter.withLocale( putAppropriateLocaleHere );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
-        LocalDate date = LocalDate.parse(timeString, formatter);
-        return Date.valueOf(date);
+        LocalDateTime date = LocalDateTime.parse(timeString, formatter);
+        return Timestamp.valueOf(date);*/
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss:S");
+        Date parsedTimeStamp = null;
+        try {
+            parsedTimeStamp = dateFormat.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Timestamp(parsedTimeStamp.getTime());
     }
 }

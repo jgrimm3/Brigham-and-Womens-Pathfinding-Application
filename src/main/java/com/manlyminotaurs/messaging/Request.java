@@ -2,6 +2,10 @@ package com.manlyminotaurs.messaging;
 
 import com.manlyminotaurs.databases.DataModelI;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public abstract class Request implements IRequest {
 	DataModelI dataModelI = DataModelI.getInstance();
     String requestID;
@@ -9,17 +13,20 @@ public abstract class Request implements IRequest {
     int priority;
     Boolean isComplete;
     Boolean adminConfirm;
-    String timeTaken;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
     String nodeID;
     String messageID;
     String password;
 
-    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String timeTaken, String nodeID, String messageID, String password) {
+    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String password, String nodeID, String messageID) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.priority = priority;
         this.isComplete = isComplete;
-        this.timeTaken = timeTaken;
+        this.adminConfirm = adminConfirm;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.nodeID = nodeID;
         this.messageID = messageID;
         this.password = password;
@@ -85,12 +92,43 @@ public abstract class Request implements IRequest {
         this.requestType = requestType;
     }
 
-    public String getTimeTaken() {
-        return timeTaken;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setTimeTaken(String timeTaken) {
-        this.timeTaken = timeTaken;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return priority == request.priority &&
+                Objects.equals(dataModelI, request.dataModelI) &&
+                Objects.equals(requestID, request.requestID) &&
+                Objects.equals(requestType, request.requestType) &&
+                Objects.equals(isComplete, request.isComplete) &&
+                Objects.equals(adminConfirm, request.adminConfirm) &&
+                Objects.equals(startTime, request.startTime) &&
+                Objects.equals(endTime, request.endTime) &&
+                Objects.equals(nodeID, request.nodeID) &&
+                Objects.equals(messageID, request.messageID) &&
+                Objects.equals(password, request.password);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(dataModelI, requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
+    }
 }
