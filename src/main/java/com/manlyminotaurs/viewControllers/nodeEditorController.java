@@ -567,10 +567,48 @@ public class nodeEditorController {
                 }
                 node.setStatus(newStatus);
     }
-public void setPathFindAlgorithm(ActionEvent event){
+public void setPathFindAlgorithm(ActionEvent event) {
 
+    }
+
+    public void printPoints(String floor, String dimension) {
+        // Connection for the database
+        List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+
+        // map boundaries
+
+        int i = 0;
+        int x = 0;
+        int y = 0;
+        // Iterate through each node
+        while(i < nodeList.size()) {
+
+            // If the node is on the correct floor
+            if(nodeList.get(i).getFloor().equals(floor)) {
+
+                if(dimension.equals("2-D")) {
+                    // Get x and y coords
+                    x = nodeList.get(i).getXCoord();
+                    y = nodeList.get(i).getYCoord();
+                } else if (dimension.equals("3-D")){
+                    x = nodeList.get(i).getXCoord3D();
+                    y = nodeList.get(i).getYCoord3D();
+                } else {
+                    System.out.println("Invalid dimension");
+                }
+
+                // draw the point on the image
+                Circle circle = new Circle(x, y, 2);
+                Circle outline = new Circle(x,y, 3);
+                circle.setFill(Color.BLACK);
+                outline.setFill(Color.GRAY);
+                pane.getChildren().add(outline);
+                pane.getChildren().add(circle);
+            }
+            i++;
+        }
+    }
 }
 
-}
 
 

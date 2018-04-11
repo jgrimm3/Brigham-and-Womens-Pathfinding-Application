@@ -17,7 +17,7 @@ import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 
-public class BreadthFirstStrategyITest {
+public class BreadthFirstStrategyI {
     private BreadthFirstStrategyI pf;
     private LinkedList<Node> expected;
     Node node0_0, node1_0, node2_0, node0_1, node1_1, node2_1, node0_2, node1_2, node2_2, node0_3, node1_3, nodeOrphan;

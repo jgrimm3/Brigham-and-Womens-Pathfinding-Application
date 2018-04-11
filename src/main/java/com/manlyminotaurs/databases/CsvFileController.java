@@ -14,8 +14,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+//
+//  .oPYo. .oPYo. o     o   .oPYo.                o               8 8
+//  8    8 8      8     8   8    8                8               8 8
+//  8      `Yooo. 8     8   8      .oPYo. odYo.  o8P oPYo. .oPYo. 8 8 .oPYo. oPYo.
+//  8          `8 `b   d'   8      8    8 8' `8   8  8  `' 8    8 8 8 8oooo8 8  `'
+//  8    8      8  `b d'    8    8 8    8 8   8   8  8     8    8 8 8 8.     8
+//  `YooP' `YooP'   `8'     `YooP' `YooP' 8   8   8  8     `YooP' 8 8 `Yooo' 8
+//  :.....::.....::::..::::::.....::.....:..::..::..:..:::::.....:....:.....:..::::
+//  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+
 public class CsvFileController {
+
     //NodesDBUtil nodesDBUtil = new NodesDBUtil();
+    /*---------------------------------- Parse CSV File --------------------------------------------------*/
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
      * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
@@ -45,6 +59,8 @@ public class CsvFileController {
         return list_of_rows;
     } // parseCsvFile() ends
 
+
+    /*---------------------------------- Nodes --------------------------------------------------*/
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -66,6 +82,7 @@ public class CsvFileController {
             e.printStackTrace();
         }
     }
+
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -122,6 +139,7 @@ public class CsvFileController {
     }
 
 
+    /*---------------------------------- Messages --------------------------------------------------*/
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -145,6 +163,8 @@ public class CsvFileController {
         }
     }//updateMessageCSVFile ends
 
+
+    /*---------------------------------- Requests --------------------------------------------------*/
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -168,6 +188,8 @@ public class CsvFileController {
         }
     }//updateRequestCSVFile ends
 
+
+    /*---------------------------------- Users --------------------------------------------------*/
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated

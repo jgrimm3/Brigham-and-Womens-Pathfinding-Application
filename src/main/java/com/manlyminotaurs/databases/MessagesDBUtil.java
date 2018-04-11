@@ -1,15 +1,19 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.messaging.Message;
-import com.manlyminotaurs.messaging.Request;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+//   __   __          ___          ___
+//  |  \ |__)    |  |  |  | |    |  |  \ /
+//  |__/ |__)    \__/  |  | |___ |  |   |
+//
+//               ___  __   __        __   ___  __
+//     __  |\/| |__  /__` /__`  /\  / _` |__  /__`
+//         |  | |___ .__/ .__/ /~~\ \__> |___ .__/
+//
 
 class MessagesDBUtil {
 
@@ -63,6 +67,7 @@ class MessagesDBUtil {
             e.printStackTrace();
         } finally {
             DataModelI.getInstance().closeConnection(connection);
+            isSuccess = true;
         }
         return isSuccess;
     }
