@@ -100,10 +100,11 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void addNode_CorrectlyAddsNode() {
+		List<Node> oldList = DataModelI.getInstance().retrieveNodes();
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "s", "s", "t", "w", "t", 3, 5, 2);
-		System.out.println(addedNode.getNodeID());
+		List<Node> newList = DataModelI.getInstance().retrieveNodes();
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
-		assertTrue(DataModelI.getInstance().removeNode(addedNode.getNodeID()) == true);
+		assertTrue(DataModelI.getInstance().retrieveNodes().contains(addedNode));
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
 
