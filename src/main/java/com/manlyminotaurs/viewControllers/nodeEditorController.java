@@ -67,7 +67,7 @@ public class nodeEditorController {
     String endFloor = "";
     List<Circle> circleList = new ArrayList<>();
     Boolean mapNodeChoice;
-
+    Boolean selectNode = false;
 
     @FXML
     Button btnSelectEdgeNode;
@@ -374,21 +374,44 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
-            txtXCoord.setText(String.format("%1.0f", event.getX()));
-            txtYCoord.setText(String.format("%1.0f", event.getY()));
-        } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
-            txtXCoord3D.setText(String.format("%1.0f", event.getX()));
-            txtYCoord3D.setText(String.format("%1.0f", event.getY()));
-        } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
-            txtXCoordMod.setText(String.format("%1.0f", event.getX()));
-            txtYCoordMod.setText(String.format("%1.0f", event.getY()));
-        } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
-        txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
-        txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
+        if (selectNode == false) {
+            if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
+                txtXCoord.setText(String.format("%1.0f", event.getX()));
+                txtYCoord.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
+                txtXCoord3D.setText(String.format("%1.0f", event.getX()));
+                txtYCoord3D.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
+                txtXCoordMod.setText(String.format("%1.0f", event.getX()));
+                txtYCoordMod.setText(String.format("%1.0f", event.getY()));
+            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
+                txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
+                txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
+            }
+        }
+        else {
+
+            if ((paneModify.isVisible() == true) && (selectNode == true)) {
+                double tapX = event.getX();
+                double tapY = event.getY();
+                System.out.println("looking for edge node");
+                List<Node> nodesXY = DataModelI.getInstance().retrieveNodes();
+
+                for (Node cur : nodesXY) {
+                    if (((tapX - 30 <= cur.getXCoord()) && (cur.getXCoord() <= tapX + 30)) || ((tapY - 30 <= cur.getYCoord()) && (cur.getYCoord() <= tapY + 30))) {
+                        edgeNodeAdd = cur;
+                        btnSelectEdgeNode.setText(edgeNodeAdd.getLongName());
+                        selectNode = false;
+                    } else {
+                        btnSelectEdgeNode.setText("no Node found");
+                    }
+
+                }
+            }
+        }
 
     }
-    }
+
 
 
     //logout and return to the home screen
@@ -631,6 +654,7 @@ public class nodeEditorController {
     }
 
     public void waitOnTapNode(ActionEvent event){
+        selectNode = true;
 
     }
 
