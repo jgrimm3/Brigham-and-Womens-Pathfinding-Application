@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXProgressBar;
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
@@ -79,6 +80,10 @@ public class adminRequestDashboardController  {
     Parent createRequest;
     @FXML
     PieChart pieChart;
+    @FXML
+    PasswordField txtPassword;
+    @FXML
+    Label lblCompleteError;
 
     Parent nodeEdit;
 
@@ -126,7 +131,7 @@ public class adminRequestDashboardController  {
             List<User> userList = dBUtil.retrieveUsers();
             List<String> nurseNames = new ArrayList<>();
             for(User currUser : userList){
-                if(currUser != null && currUser.isType("Nurse")){
+                if(currUser != null && (currUser.isType("Doctor") || (currUser.isType("Nurse")))){
                     nurseNames.add(currUser.getFirstName() + " " + currUser.getLastName());
                 }
             }
@@ -155,10 +160,12 @@ public class adminRequestDashboardController  {
         try{
             Stage stage;
             //get reference to the button's stage
-            //TODO: Figure out why this is giving a NullPointerException
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
+
             //create a new scene with root and set the stage
             Scene scene=new Scene(logout);
             stage.setScene(scene);
@@ -233,14 +240,19 @@ public class adminRequestDashboardController  {
         } else {
 
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+            if(txtPassword.getText().equals(dBUtil.getRequestByID(selectedRequest.requestID).getPassword())){
+                closedList.add((requestInfo)tblOpenRequests.getSelectionModel().getSelectedItem());
+                openList.remove(tblOpenRequests.getSelectionModel().getSelectedItem());
 
-            closedList.add((requestInfo)tblOpenRequests.getSelectionModel().getSelectedItem());
-            openList.remove(tblOpenRequests.getSelectionModel().getSelectedItem());
+                lblCompleteError.setText("");
 
-
-            Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
-            newReq.setComplete(true);
-            dBUtil.modifyRequest(newReq);
+                Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
+                newReq.setComplete(true);
+                dBUtil.modifyRequest(newReq);
+            }else{
+                lblCompleteError.setText("Incorrect Password");
+            }
+            txtPassword.clear();
         }
     }
 
@@ -250,6 +262,8 @@ public class adminRequestDashboardController  {
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
             String NurseName = combBoxAssignNurse.getSelectionModel().getSelectedItem();
             System.out.println("You have selected: " + combBoxAssignNurse.getSelectionModel().getSelectedItem());
+
+            (openList.get(openList.indexOf(selectedRequest))).isAssigned = true;
 
             Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
             Message newMsg = dBUtil.getMessageByID(newReq.getMessageID());
@@ -264,6 +278,8 @@ public class adminRequestDashboardController  {
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){}
         else {
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            openList.remove(selectedRequest);
 
             dBUtil.removeMessage(dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()));
             dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));

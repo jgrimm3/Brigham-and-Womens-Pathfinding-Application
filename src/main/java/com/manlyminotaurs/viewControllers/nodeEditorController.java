@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
 import com.manlyminotaurs.nodes.Node;
@@ -270,7 +271,6 @@ public class nodeEditorController {
         }
         catch (Exception e){
             e.printStackTrace();}
-
     }
 
     //Swap active panes
@@ -379,6 +379,8 @@ public class nodeEditorController {
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
             logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
 
             //create a new scene with root and set the stage
             Scene scene = new Scene(logout);
