@@ -6,8 +6,10 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
+import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfinderUtil;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
@@ -306,7 +308,7 @@ public class nodeEditorController {
         txtAdminUser.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
-                txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
+                txtXCoordMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
         btnModify.disableProperty().bind(booleanBind);
 
         cmboBuildingMod.setItems(buildings);
@@ -331,7 +333,7 @@ public class nodeEditorController {
         txtAdminPassword.clear();
         txtAdminUser.clear();
         BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
-                txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty());
+                txtXCoord.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty());
 
         btnAddNode.disableProperty().bind(booleanBind);
 
@@ -374,42 +376,43 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if (selectNode == false) {
-            if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
-                txtXCoord.setText(String.format("%1.0f", event.getX()));
-                txtYCoord.setText(String.format("%1.0f", event.getY()));
-            } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
-                txtXCoord3D.setText(String.format("%1.0f", event.getX()));
-                txtYCoord3D.setText(String.format("%1.0f", event.getY()));
-            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
-                txtXCoordMod.setText(String.format("%1.0f", event.getX()));
-                txtYCoordMod.setText(String.format("%1.0f", event.getY()));
-            } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
-                txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
-                txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
-            }
-        }
-        else {
-
+        if (selectNode == true) {
             if ((paneModify.isVisible() == true) && (selectNode == true)) {
+                System.out.println("looking for edge node");
+                ArrayList<Node> nodesXY = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
                 double tapX = event.getX();
                 double tapY = event.getY();
-                System.out.println("looking for edge node");
-                List<Node> nodesXY = DataModelI.getInstance().retrieveNodes();
-
                 for (Node cur : nodesXY) {
-                    if (((tapX - 30 <= cur.getXCoord()) && (cur.getXCoord() <= tapX + 30)) || ((tapY - 30 <= cur.getYCoord()) && (cur.getYCoord() <= tapY + 30))) {
+                    if (((tapX - 10 <= cur.getXCoord()) && (cur.getXCoord() <= tapX + 10)) && ((tapY - 10 <= cur.getYCoord()) && (cur.getYCoord() <= tapY + 10))) {
                         edgeNodeAdd = cur;
                         btnSelectEdgeNode.setText(edgeNodeAdd.getLongName());
                         selectNode = false;
+
                     } else {
-                        btnSelectEdgeNode.setText("no Node found");
+                        btnSelectEdgeNode.setText("no Node Found");
                     }
 
                 }
             }
-        }
+        } else {
 
+            if (selectNode == false) {
+                if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
+                    txtXCoord.setText(String.format("%1.0f", event.getX()));
+                    txtYCoord.setText(String.format("%1.0f", event.getY()));
+                } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
+                    txtXCoord3D.setText(String.format("%1.0f", event.getX()));
+                    txtYCoord3D.setText(String.format("%1.0f", event.getY()));
+                } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
+                    txtXCoordMod.setText(String.format("%1.0f", event.getX()));
+                    txtYCoordMod.setText(String.format("%1.0f", event.getY()));
+                } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
+                    txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
+                    txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
+                }
+            }
+
+        }
     }
 
 
@@ -594,6 +597,10 @@ public class nodeEditorController {
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
 
+        node.setLongName(longName);
+        node.setNodeType(type);
+        node.setLoc(new Location(xCoord2D, yCoord2D, xCoord3D, yCoord3D, building, floor));
+
 
         //call modify node function
 
@@ -676,12 +683,16 @@ public class nodeEditorController {
 public void setPathfindAlgorithm(ActionEvent event) {
         String Pathfinding;
         Pathfinding = cmboPathfinding.getValue().toString();
+         PathfindingContext Pf = new PathfindingContext();
         switch (Pathfinding){
             case "A*":
+                Main.pathStrategy = "A*";
                 break;
             case "Breadth-First Search":
+                Main.pathStrategy = "BFS";
                 break;
             case "Depth-First Search":
+                Main.pathStrategy = "DFS";
                 break;
         }
     }

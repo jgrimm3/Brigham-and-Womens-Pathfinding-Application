@@ -24,14 +24,9 @@ import javax.xml.crypto.Data;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
-    public static List<AnchorPane> screens = new ArrayList<AnchorPane>(); // list of other screens
-    public static List<Pane> actionBars = new ArrayList<Pane>(); // list of action bar displays
-    public static List<AnchorPane> prompts = new ArrayList<AnchorPane>(); // list of prompts
-    private static int curScreen = 0;
-    private static int curAction = 0;
-    private static int curPrompt = 0;
-    private static DataModelI dataModelI = DataModelI.getInstance();
 
+    private static DataModelI dataModelI = DataModelI.getInstance();
+    public static String pathStrategy = "";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -71,7 +66,7 @@ public class Main extends Application {
         DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
         DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
         DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
+        //DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
         DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
         DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
         DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
