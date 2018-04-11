@@ -770,7 +770,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			DataModelI.getInstance().closeConnection();
 		}
 		return node;
 	}
@@ -819,7 +819,7 @@ class NodesDBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataModelI.getInstance().closeConnection(connection);
+			DataModelI.getInstance().closeConnection();
 		}
 		return node;
 	}
@@ -870,12 +870,16 @@ class NodesDBUtil {
 		switch (floor){
             case "1":
                 nodeID += "01";
+                break;
             case "2":
                 nodeID += "02";
+                break;
             case "3":
                 nodeID += "03";
+                break;
             default:
                 nodeID += floor;
+                break;
         }
 		return nodeID;
 	}

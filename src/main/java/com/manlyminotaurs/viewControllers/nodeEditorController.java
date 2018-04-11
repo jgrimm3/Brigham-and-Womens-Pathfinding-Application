@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXToggleButton;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
 import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.pathfinding.PathfinderUtil;
+import com.manlyminotaurs.pathfinding.PathfindingContext;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -34,6 +36,8 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -150,6 +154,10 @@ public class nodeEditorController {
     JFXTextField txtAdminUser;
     @FXML
     JFXPasswordField txtAdminPassword;
+    @FXML
+    StackPane stackPaneMap;
+    @FXML
+    Pane paneMap;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -231,6 +239,33 @@ public class nodeEditorController {
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
+
+            // Initialize Map
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+
+            drawCircles("1","2-D");
+
+            /*paneMap.getChildren().clear();
+
+            pathfloor2DMapLoader("1");
+
+            List<Node> nodeList = new ArrayList<>();
+            nodeList = DataModelI.getInstance().getNodesByFloor("1");
+
+            for(int x=0;x<nodeList.size(); x++) {
+                Circle tempCircle = new Circle();
+                tempCircle.setCenterX(nodeList.get(x).getXCoord());
+                tempCircle.setCenterY(nodeList.get(x).getYCoord());
+                tempCircle.setRadius(5);
+                tempCircle.setFill(Color.PURPLE);
+                tempCircle.setVisible(true);
+                paneMap.getChildren().add(tempCircle);
+            } */
 
         }
         catch (Exception e){
@@ -406,6 +441,8 @@ public class nodeEditorController {
         btn3DMap.setDisable(false);
         cmboType.setItems(types);
 
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+
     }
 
     public void addSetType(ActionEvent event) {
@@ -428,6 +465,7 @@ public class nodeEditorController {
         btn3DMapMod.setDisable(false);
         cmboTypeMod.setItems(types);
 
+        drawCircles(cmboFloor.getValue(),"2-D");
     }
 
     public void modSetType(ActionEvent event) {
@@ -542,62 +580,19 @@ public class nodeEditorController {
     }
 
     public void load2DMap(ActionEvent event) {
-
-        if(cmboFloorAdd.getValue().equals("L2")) {
-            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-        } else if(cmboFloorAdd.getValue().equals("L1")) {
-            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-        } else if(cmboFloorAdd.getValue().equals("1")) {
-            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-        } else if(cmboFloorAdd.getValue().equals("2")) {
-            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-        } else if(cmboFloorAdd.getValue().equals("3")) {
-            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-        }
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
     }
 
     public void load3DMap(ActionEvent event) {
-
-        if(cmboFloorAdd.getValue().equals("L2")) {
-            new ProxyImage(mapImg,"L2-ICONS.png").display();
-        } else if(cmboFloorAdd.getValue().equals("L1")) {
-            new ProxyImage(mapImg,"L1-ICONS.png").display();
-        } else if(cmboFloorAdd.getValue().equals("1")) {
-            new ProxyImage(mapImg,"1-ICONS.png").display();
-        } else if(cmboFloorAdd.getValue().equals("2")) {
-            new ProxyImage(mapImg,"2-ICONS.png").display();
-        } else if(cmboFloorAdd.getValue().equals("3")) {
-            new ProxyImage(mapImg,"3-ICONS.png").display();
-        }
-
+        drawCircles(cmboFloorAdd.getValue(),"3-D");
     }
-    public void load2DMapMod(ActionEvent event) {
 
-        if(cmboFloor.getValue().equals("L2")) {
-            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-        } else if(cmboFloor.getValue().equals("L1")) {
-            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-        } else if(cmboFloor.getValue().equals("1")) {
-            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-        } else if(cmboFloor.getValue().equals("2")) {
-            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-        } else if(cmboFloor.getValue().equals("3")) {
-            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-        }
+    public void load2DMapMod(ActionEvent event) {
+        drawCircles(cmboFloor.getValue(),"2-D");
     }
 
     public void load3DMapMod(ActionEvent event) {
-        if(cmboFloor.getValue().equals("L2")) {
-            new ProxyImage(mapImg,"L2-ICONS.png").display();
-        } else if(cmboFloor.getValue().equals("L1")) {
-            new ProxyImage(mapImg,"L1-ICONS.png").display();
-        } else if(cmboFloor.getValue().equals("1")) {
-            new ProxyImage(mapImg,"1-ICONS.png").display();
-        } else if(cmboFloor.getValue().equals("2")) {
-            new ProxyImage(mapImg,"2-ICONS.png").display();
-        } else if(cmboFloor.getValue().equals("3")) {
-            new ProxyImage(mapImg,"3-ICONS.png").display();
-        }
+        drawCircles(cmboFloor.getValue(),"3-D");
     }
 
     public void geofence(ActionEvent event){
@@ -664,6 +659,91 @@ public void setPathfindAlgorithm(ActionEvent event) {
             }
             i++;
         }
+    }
+
+    public void pathfloor2DMapLoader(String floor) {
+
+        stackPaneMap.setPrefHeight(3400);
+        stackPaneMap.setPrefWidth(5000);
+        mapImg.setFitHeight(3400);
+        mapImg.setFitWidth(5000);
+        paneMap.setPrefHeight(3400);
+        paneMap.setPrefWidth(5000);
+
+        if(floor.equals("L2")) {
+            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+        } else if(floor.equals("L1")) {
+            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+        } else if(floor.equals("1")) {
+            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+        } else if(floor.equals("2")) {
+            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+        } else if(floor.equals("3")) {
+            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+        }
+    }
+
+    public void pathfloor3DMapLoader(String floor) {
+
+        stackPaneMap.setPrefHeight(2774);
+        stackPaneMap.setPrefWidth(5000);
+        mapImg.setFitHeight(2772);
+        mapImg.setFitWidth(5000);
+        paneMap.setPrefHeight(2774);
+        paneMap.setPrefWidth(5000);
+
+        if(floor.equals("L2")) {
+            new ProxyImage(mapImg,"L2-ICONS.png").display();
+        } else if(floor.equals("L1")) {
+            new ProxyImage(mapImg,"L1-ICONS.png").display();
+        } else if(floor.equals("1")) {
+            new ProxyImage(mapImg,"1-ICONS.png").display();
+        } else if(floor.equals("2")) {
+            new ProxyImage(mapImg,"2-ICONS.png").display();
+        } else if(floor.equals("3")) {
+            new ProxyImage(mapImg,"3-ICONS.png").display();
+        }
+    }
+
+    public void drawCircles(String floor,String dimension) {
+
+        paneMap.getChildren().clear();
+
+        if (dimension.equals("2-D")) {
+            pathfloor2DMapLoader(floor);
+
+            List<Node> nodeList = new ArrayList<>();
+            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
+
+            for(int x=0;x<nodeList.size(); x++) {
+                Circle tempCircle = new Circle();
+                tempCircle.setCenterX(nodeList.get(x).getXCoord());
+                tempCircle.setCenterY(nodeList.get(x).getYCoord());
+                tempCircle.setRadius(5);
+                tempCircle.setFill(Color.PURPLE);
+                tempCircle.setVisible(true);
+                paneMap.getChildren().add(tempCircle);
+            }
+
+        } else {
+            pathfloor3DMapLoader(floor);
+
+            List<Node> nodeList = new ArrayList<>();
+            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
+
+            for(int x=0;x<nodeList.size(); x++) {
+                Circle tempCircle = new Circle();
+                tempCircle.setCenterX(nodeList.get(x).getXCoord3D());
+                tempCircle.setCenterY(nodeList.get(x).getYCoord3D());
+                tempCircle.setRadius(5);
+                tempCircle.setFill(Color.PURPLE);
+                tempCircle.setVisible(true);
+                paneMap.getChildren().add(tempCircle);
+            }
+        }
+
+
+
     }
 }
 

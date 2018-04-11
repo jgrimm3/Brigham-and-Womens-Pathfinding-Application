@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import javax.xml.crypto.Data;
 
+import java.util.List;
+
 import static org.junit.Assert.assertTrue;
 
 public class RequestDBUtilTest {
@@ -30,8 +32,11 @@ public class RequestDBUtilTest {
         DataModelI dataModelI = DataModelI.getInstance();
         RequestFactory rFactory = new RequestFactory();
         Node a_node = DataModelI.getInstance().addNode(100,200,"3","building","type","longname","shortname",2,100,2000);
-        Request a_request = rFactory.genNewRequest(RequestType.MedicalRequest,a_node,"need a cup of water","3");
+        Request a_request = rFactory.genNewRequest(RequestType.MedicalRequest,a_node,"need a cup of water","3", 2);
+
+        List<Request> listOfRequests = DataModelI.getInstance().retrieveRequests();
         assertTrue(DataModelI.getInstance().retrieveRequests().contains(a_request));
+
     }
 
     //remove request
