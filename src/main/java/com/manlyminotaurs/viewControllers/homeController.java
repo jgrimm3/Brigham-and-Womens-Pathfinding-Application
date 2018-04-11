@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
@@ -12,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -296,7 +298,13 @@ public class homeController implements Initializable {
 
     }
 
+
     public void chooseStartNode(ActionEvent event) {
+    /*    paneMap.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                lblStartLocation.setText(DataModelI.getInstance().getNodeByCoords((int)event.getX(), (int)event.getY()).getLongName());
+            }
+        });*/
 
     }
 
@@ -857,8 +865,9 @@ public class homeController implements Initializable {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
-                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
+                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName , password);
 
                 //create a new scene with root and set the stage
                 Scene scene = new Scene(staffRequest);
@@ -915,7 +924,6 @@ public class homeController implements Initializable {
                     stage = (Stage)btnLogin.getScene().getWindow();
                     //load up Home FXML document
                     adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-
 
                     //create a new scene with root and set the stage
                     Scene scene = new Scene(adminRequest);
