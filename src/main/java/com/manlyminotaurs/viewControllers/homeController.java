@@ -913,6 +913,7 @@ public class homeController implements Initializable {
 
 		try {
 			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1439,7 +1440,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size());
+			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
@@ -1457,7 +1458,7 @@ public class homeController implements Initializable {
 			}
 
 			// Draw Start Circle
-			startCircle.setRadius(7);
+			startCircle.setRadius(10);
 			startCircle.setFill(Color.NAVY);
 			startCircle.setVisible(true);
 			startCircle.setCenterX(startX);
@@ -1473,14 +1474,14 @@ public class homeController implements Initializable {
 			}
 
 			// Draw finish circle-outside
-			finishCircle.setRadius(14);
+			finishCircle.setRadius(15);
 			finishCircle.setFill(Color.NAVY);
 			finishCircle.setOpacity(50);
 			finishCircle.setVisible(true);
 			finishCircle.setCenterX(finishX);
 			finishCircle.setCenterY(finishY);
 			// Draw finish circle-inside
-			finishCircle2.setRadius(10);
+			finishCircle2.setRadius(11);
 			finishCircle2.setFill(Color.WHITE);
 			finishCircle2.setOpacity(100);
 			finishCircle2.setVisible(true);
