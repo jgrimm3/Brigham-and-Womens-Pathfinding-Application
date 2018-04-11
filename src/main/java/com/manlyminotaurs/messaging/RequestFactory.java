@@ -25,13 +25,13 @@ public class RequestFactory {
         switch (requestType) {
             case MedicalRequest:
                 newMsg = new Message(dataModel.getNextMessageID(), message, false, LocalDate.now(), "admin", senderID);
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), "Password123", nodeAt.getNodeID(), message);
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
 
             case JanitorialRequest:
                 newMsg = new Message(dataModel.getNextMessageID(), message, false, LocalDate.now(), "admin", senderID);
-                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), "Password123", nodeAt.getNodeID(), message);
+                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
             default:
@@ -56,12 +56,12 @@ public class RequestFactory {
     public Request genExistingRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String nodeID, String messageID, String password){
         Request newReq;
         if(requestType.equals("MedicalRequest")) {
-            newReq = new MedicalRequest(requestID, "MedicalRequest", priority, isComplete, adminConfirm, startTime, endTime, password, nodeID, messageID);
+            newReq = new MedicalRequest(requestID, "MedicalRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }else if(requestType.equals("JanitorialRequest")) {
 
-            newReq = new JanitorialRequest(requestID, "JanitorialRequest", priority, isComplete, adminConfirm, startTime, endTime, password, nodeID, messageID);
+            newReq = new JanitorialRequest(requestID, "JanitorialRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }else {
-            newReq = new MedicalRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, password, nodeID, messageID);
+            newReq = new MedicalRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }
         return newReq;
     }
