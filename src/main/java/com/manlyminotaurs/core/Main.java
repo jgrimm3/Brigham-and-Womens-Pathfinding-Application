@@ -2,6 +2,9 @@ package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
@@ -53,10 +56,24 @@ public class Main extends Application {
         e.printStackTrace();
     }
 }
+    // wait for application to finish,calls Platform exit, save files.
+    @FXML
+    public void exitApplication(ActionEvent event) {
+        Platform.exit();
+    }
+    @Override
+    public void stop(){
+        System.out.println("closing Application");
+
+        //SAVE FILES HERE
+
+        System.out.println("Files Saved!");
+    }
 
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
         DataModelI.getInstance().startDB();
         launch(args);
     }
+
 }
