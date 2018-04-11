@@ -207,6 +207,10 @@ public class UserDBUtil {
                 userObject = new interpreter(userID, firstName, middleName, lastName, language, userType);
                 break;
 
+            case "admin":
+                userObject = new Admin(userID, firstName, middleName, lastName, language, userType);
+                break;
+
             default:
                 userObject = new Visitor(userID, firstName, middleName, lastName, language, userType);
                 break;
