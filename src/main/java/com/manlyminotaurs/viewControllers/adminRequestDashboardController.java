@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -76,6 +77,8 @@ public class adminRequestDashboardController  {
     ComboBox<String> combBoxAssignNurse;
     @FXML
     Parent createRequest;
+    @FXML
+    PieChart pieChart;
 
     Parent nodeEdit;
 
@@ -127,6 +130,14 @@ public class adminRequestDashboardController  {
             }
 
             combBoxAssignNurse.setItems(FXCollections.observableArrayList(nurseNames));
+
+            ObservableList<PieChart.Data> pieChartData =
+                    FXCollections.observableArrayList(
+                            new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
+                            new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
+                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+            pieChart.setData(pieChartData);
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -174,7 +185,7 @@ public class adminRequestDashboardController  {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);

@@ -1,8 +1,10 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
+import com.manlyminotaurs.nodes.Node;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +62,8 @@ public class createRequestController{
     Button navBtnManageRequests;
     @FXML
     Button navBtnNodeEditor;
+    @FXML
+    ComboBox<String> cmboFloor;
 
     String requestType;
     String message;
@@ -68,6 +72,10 @@ public class createRequestController{
     @FXML
     protected void initialize() {
         cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
+        cmboBuilding.setItems(FXCollections.observableArrayList(dbUtil.getBuildingsFromList()));
+        cmboType.setItems(FXCollections.observableArrayList(dbUtil.getTypesFromList()));
+        cmboFloor.setItems(FXCollections.observableArrayList("L2", "L1","1","2","3"));
+        cmboNode.setItems(FXCollections.observableArrayList());
     }
 
     public void submitRequest(javafx.event.ActionEvent event){
@@ -87,17 +95,18 @@ public class createRequestController{
                     "Please Select A Request Type");
             isErrored = true;
         }
-        if(cmboBuilding.getSelectionModel().getSelectedItem() == null ||
-                cmboNode.getSelectionModel().getSelectedItem() == null ||
-                cmboType.getSelectionModel().getSelectedItem() == null){
+        if(cmboBuilding.getValue() == null ||
+                cmboNode.getValue() == null ||
+                cmboType.getValue() == null ||
+                cmboFloor.getValue() == null){
             lblError.setText(lblError.getText() + "\n" +
                     "Please Select A Complete Location");
             isErrored = true;
         }
         if(!isErrored){
-            rFactory.genNewRequest(cmboReqType.getSelectionModel().getSelectedItem(),
-                    (dbUtil.getNodesByBuildingTypeFloor(cmboBuilding.getSelectionModel().getSelectedItem(), cmboType.getSelectionModel().getSelectedItem(), cmboNode.getSelectionModel().getSelectedItem())).get(0),
-                    txtMessage.getText(), "5");
+            rFactory.genNewRequest(cmboReqType.getValue(),
+                    dbUtil.getNodeByLongName(cmboNode.getValue()),
+                    txtMessage.getText(), KioskInfo.currentUserID);
         }
     }
     public void setHighPriority(javafx.event.ActionEvent event){
@@ -131,7 +140,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage=(Stage)btnlogOut.getScene().getWindow();
             //load up Home FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("/FXMLs/home.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
             //create a new scene with root and set the stage
             Scene scene=new Scene(root);
@@ -141,6 +150,7 @@ public class createRequestController{
         catch (Exception e){
             e.printStackTrace();}
     }
+
     public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -157,6 +167,7 @@ public class createRequestController{
             e.printStackTrace();
         }
     }
+
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -174,5 +185,12 @@ public class createRequestController{
         }
     }
 
+    public void updateNodeSet(){
+        if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){
+            cmboNode.setItems(FXCollections.observableArrayList(
+                    dbUtil.getLongNameByBuildingTypeFloor(cmboBuilding.getValue(),
+                    cmboType.getValue(), cmboFloor.getValue())));
+        }
+    }
 
 }

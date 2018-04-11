@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
@@ -1206,8 +1207,9 @@ public class homeController implements Initializable {
                 //get reference to the button's stage
                 stage = (Stage) btnLogin.getScene().getWindow();
                 //load up Home FXML document
-                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
+                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName , password);
 
                 //create a new scene with root and set the stage
                 Scene scene = new Scene(staffRequest);
@@ -1264,7 +1266,6 @@ public class homeController implements Initializable {
                     stage = (Stage)btnLogin.getScene().getWindow();
                     //load up Home FXML document
                     adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-
 
                     //create a new scene with root and set the stage
                     Scene scene = new Scene(adminRequest);
