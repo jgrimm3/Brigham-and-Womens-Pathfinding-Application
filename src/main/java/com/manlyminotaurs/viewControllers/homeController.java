@@ -105,6 +105,7 @@ public class homeController implements Initializable {
 
     Circle finishCircle = new Circle();
     Circle startCircle = new Circle();
+    Circle finishCircle2 = new Circle();
 
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
@@ -724,31 +725,25 @@ public class homeController implements Initializable {
                     startY = pathList.get(0).getYCoord3D();
                 } else {
                     // use 2-D
-                    printNodePath(pathList, startFloor, "2-D");
+					printNodePath(pathList, startFloor, "2-D");
                     finishX = pathList.get(pathList.size()-1).getXCoord();
                     finishY = pathList.get(pathList.size()-1).getYCoord();
                     startX = pathList.get(0).getXCoord();
                     startY = pathList.get(0).getYCoord();
                 }
-
             } else {
                 // use stairs
-
                 if (tglMap.isSelected()) {
                     // use 3-D
-
                     System.out.println("using 3d stairs");
-
-                    printNodePath(pathList, startFloor, "3-D");
-
+					printNodePath(pathList, startFloor, "3-D");
                     finishX = pathList.get(pathList.size()-1).getXCoord3D();
                     finishY = pathList.get(pathList.size()-1).getYCoord3D();
                     startX = pathList.get(0).getXCoord3D();
                     startY = pathList.get(0).getYCoord3D();
-
                 } else {
                     // use 2-D
-                    printNodePath(pathList, startFloor, "2-D");
+					printNodePath(pathList, startFloor, "2-D");
                     finishX = pathList.get(pathList.size()-1).getXCoord();
                     finishY = pathList.get(pathList.size()-1).getYCoord();
                     startX = pathList.get(0).getXCoord();
@@ -758,18 +753,28 @@ public class homeController implements Initializable {
 
 
             // Draw Circle
-            startCircle.setRadius(10);
-            startCircle.setFill(Color.GREEN);
+            startCircle.setRadius(7);
+            startCircle.setFill(Color.NAVY);
             startCircle.setVisible(true);
             startCircle.setCenterX(startX);
             startCircle.setCenterY(startY);
 
-            finishCircle.setRadius(10);
-            finishCircle.setFill(Color.BLACK);
+            finishCircle.setRadius(14);
+            finishCircle.setFill(Color.NAVY);
+            finishCircle.setOpacity(50);
             finishCircle.setVisible(true);
             finishCircle.setCenterX(finishX);
             finishCircle.setCenterY(finishY);
+
+			finishCircle2.setRadius(10);
+			finishCircle2.setFill(Color.WHITE);
+			finishCircle2.setOpacity(100);
+			finishCircle2.setVisible(true);
+			finishCircle2.setCenterX(finishX);
+			finishCircle2.setCenterY(finishY);
+
             paneMap.getChildren().add(finishCircle);
+            paneMap.getChildren().add(finishCircle2);
             paneMap.getChildren().add(startCircle);
 
             // Clear old fields
@@ -904,6 +909,7 @@ public class homeController implements Initializable {
 
         paneMap.getChildren().remove(startCircle);
         paneMap.getChildren().remove(finishCircle);
+        paneMap.getChildren().remove(finishCircle2);
 
         if (paneHelp.isVisible()) {
             lblHelp1.setVisible(true);
