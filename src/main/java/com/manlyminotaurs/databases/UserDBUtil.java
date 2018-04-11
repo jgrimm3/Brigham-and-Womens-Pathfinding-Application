@@ -137,6 +137,46 @@ public class UserDBUtil {
         return listOfUsers;
     } // retrieveUsers() ends
 
+    public List<StaffFields> retrieveStaffs() {
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
+
+        // Variables
+        boolean isWorking;
+        boolean isAvailable;
+        String languageSpoken;
+        String userID;
+        StaffFields staffFields;
+        List<StaffFields> listOfStaffs = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM STAFF";
+            ResultSet rset = stmt.executeQuery(str);
+
+            while (rset.next()) {
+                isWorking = rset.getBoolean("isWorking");
+                isAvailable = rset.getBoolean("isAvailable");
+                languageSpoken = rset.getString("languageSpoken");
+                userID = rset.getString("userID");
+
+                // Add the new edge to the list
+                staffFields = new StaffFields(isWorking, isAvailable, languageSpoken, userID);
+                listOfStaffs.add(staffFields);
+                System.out.println("User added to the list: " + userID);
+            }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding users");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+
+        return listOfStaffs;
+    } // retrieveStaffs() ends
+
     User getUserByID(String userID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();

@@ -3,7 +3,9 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
+import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -327,6 +329,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<StaffFields> retrieveStaffs() {
+        return null;
+    }
+
+    @Override
     public User getUserByID(String userID) {
         return userDBUtil.getUserByID(userID);
     }
@@ -335,6 +342,46 @@ public class DataModelI implements IDataModel{
     public String getIDByUserPassword(String userName, String password) {
         UserSecurity userSecurity = new UserSecurity();
         return userSecurity.getIDByUserPassword(userName, password);
+    }
+
+    @Override
+    public List<UserPassword> retrieveUserPasswords() {
+        return userSecurity.retrieveUserPasswords();
+    }
+
+    @Override
+    public void updateNodeCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateEdgeCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateRoomCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateMessageCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateRequestCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateUserCSVFile(String csvFileName) {
+
+    }
+
+    @Override
+    public void updateUserPasswordFile(String csvFileName) {
+
     }
 
     @Override
