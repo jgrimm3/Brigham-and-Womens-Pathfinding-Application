@@ -18,6 +18,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import javax.xml.crypto.Data;
+
 
 public class Main extends Application {
 
@@ -65,7 +67,13 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        //SAVE FILES HERE
+        DataModelI.getInstance().updateNodeCSVFile("TestNodeTable.csv");
+        DataModelI.getInstance().updateEdgeCSVFile("TestEdgeTable.csv");
+        //     DataModelI.getInstance().updateRoomCSVFile("TestRoomTable.csv");
+        DataModelI.getInstance().updateMessageCSVFile("TestMessageTable.csv");
+        DataModelI.getInstance().updateRequestCSVFile("TestRequestTable.csv");
+        DataModelI.getInstance().updateUserCSVFile("TestUserTable.csv");
+        DataModelI.getInstance().updateUserPasswordFile("TestUserPassword.csv");
 
         System.out.println("Files Saved!");
     }
