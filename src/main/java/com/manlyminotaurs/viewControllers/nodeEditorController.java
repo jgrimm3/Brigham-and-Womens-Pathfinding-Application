@@ -156,6 +156,7 @@ public class nodeEditorController {
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd", "sfdd", "SFd");
+    final static ObservableList<String> Algorithms = FXCollections.observableArrayList("A*", "Breadth-First Search", "Depth-First Search");
 
 
     String longName;
@@ -186,6 +187,7 @@ public class nodeEditorController {
 
             cmboBuilding.setItems(buildings);
             cmboFloorAdd.setItems(floors);
+            cmboPathfinding.setItems(Algorithms);
 
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
@@ -567,8 +569,17 @@ public class nodeEditorController {
                 }
                 node.setStatus(newStatus);
     }
-public void setPathFindAlgorithm(ActionEvent event) {
-
+public void setPathfindAlgorithm(ActionEvent event) {
+        String Pathfinding;
+        Pathfinding = cmboPathfinding.getValue().toString();
+        switch (Pathfinding){
+            case "A*":
+                break;
+            case "Breadth-First Search":
+                break;
+            case "Depth-First Search":
+                break;
+        }
     }
 
     public void printPoints(String floor, String dimension) {

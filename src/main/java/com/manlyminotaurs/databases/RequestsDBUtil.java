@@ -189,7 +189,7 @@ class RequestsDBUtil {
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
                     // Add the new edge to the list
-                    requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(), password, nodeID, messageID);
+                    requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(),messageID, password, nodeID);
 
 
                     listOfRequest.add(requestObject);
@@ -238,7 +238,7 @@ class RequestsDBUtil {
                 messageID = rset.getString("messageID");
                 password = rset.getString("password");
                 // Add the new edge to the list
-                requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(), password, nodeID, messageID);
+                requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(), messageID, password, nodeID);
 
 
                 System.out.println("Request added to the list: " + requestID);

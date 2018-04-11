@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -31,12 +32,12 @@
                      <children>
                         <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../MapImages/00_thelowerlevel2.png" />
+                              <Image url="@../MapImages/01_thefirstfloor.png" />
                            </image>
                         </ImageView>
                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                            <children>
-                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" stroke="#d63e15" strokeType="INSIDE">
+                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                   <elements>
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
@@ -44,6 +45,31 @@
                                     <LineTo x="-100.0" y="3400.0" />
                                       <ClosePath />
                                   </elements>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="#102c57" />
+                                          <Stop color="#102c57" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
+                              </Path>
+                              <Path fx:id="pathOnDifferentFloor" blendMode="DARKEN" fill="WHITE" opacity="0.25" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                 <elements>
+                                    <MoveTo x="-100.0" y="-100.0" />
+                                    <LineTo x="5000.0" y="-100.0" />
+                                    <LineTo x="5000.0" y="5000.0" />
+                                    <LineTo x="-100.0" y="3400.0" />
+                                    <ClosePath />
+                                 </elements>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="#102c57" />
+                                          <Stop color="#d9e3f2" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
                               </Path>
                            </children>
                         </Pane>
@@ -139,7 +165,7 @@
                   <Insets bottom="30.0" right="510.0" />
                </StackPane.margin>
             </Button>
-            <Pane fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false" StackPane.alignment="TOP_RIGHT">
+            <Pane fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="TOP_RIGHT">
                <StackPane.margin>
                   <Insets right="30.0" top="20.0" />
                </StackPane.margin>
@@ -175,12 +201,12 @@
                               <Font size="40.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtPassword" layoutX="20.0" layoutY="190.0" prefHeight="40.0" prefWidth="360.0" />
                         <Button fx:id="btnLogin" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#login" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Button>
+                        <PasswordField fx:id="txtPassword" layoutX="20.0" layoutY="202.0" prefHeight="40.0" prefWidth="360.0" />
                      </children>
                   </Pane>
                </children>

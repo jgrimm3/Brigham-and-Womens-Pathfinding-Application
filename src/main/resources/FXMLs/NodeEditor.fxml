@@ -223,7 +223,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <ComboBox fx:id="cmboPathfinding" layoutX="1257.0" layoutY="12.0" onAction="#cmboPathfindAlgorithm" prefHeight="39.0" prefWidth="382.0" promptText="Select Global Pathfinding Algorithm" />
+            <ComboBox fx:id="cmboPathfinding" layoutX="1257.0" layoutY="12.0" onAction="#setPathfindAlgorithm" prefHeight="39.0" prefWidth="382.0" promptText="Select Global Pathfinding Algorithm" />
          </children>
       </Pane>
       <Pane layoutY="120.0" prefHeight="60.0" prefWidth="960.0" style="-fx-background-color: #102c57;">
