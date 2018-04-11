@@ -1,9 +1,11 @@
 package com.manlyminotaurs.messaging;
 
+import java.time.LocalDateTime;
+
 class MedicalRequest extends Request{
 
-    MedicalRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
-        super(requestID, requestType, priority, isComplete, adminConfirm,"0:00" , nodeID, messageID, password);
+    MedicalRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String password, String nodeID, String messageID) {
+        super(requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, password, nodeID, messageID);
     }
     @Override
     public boolean service() {
