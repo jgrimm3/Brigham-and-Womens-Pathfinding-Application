@@ -44,10 +44,11 @@ class TableInitializer {
 
 
         TableInitializer initializer = new TableInitializer();
-        NodesDBUtil nodesDBUtil = new NodesDBUtil();
+        //NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
         initializer.populateAllNodeEdgeTables();
+        UserSecurity userSecurity = new UserSecurity();
       //  initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
         UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("UserAccountTable.csv"));
         MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("MessageTable.csv"));
