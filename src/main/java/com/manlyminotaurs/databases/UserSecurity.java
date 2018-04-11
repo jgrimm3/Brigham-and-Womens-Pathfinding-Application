@@ -38,7 +38,7 @@ public class UserSecurity {
 
             ResultSet rset = statement.executeQuery(str);
             if (rset.next()) {
-                userID = rset.getString("uesrID");
+                userID = rset.getString("userID");
             }
             rset.close();
         } catch (SQLException e)
@@ -49,4 +49,31 @@ public class UserSecurity {
         }
         return userID;
     }
+
+    boolean doesUserPasswordExist(String userName, String password) {
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        String userID ="";
+        try {
+            String str = "SELECT * FROM UserPassword WHERE userName = ? AND password = ?";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, userName);
+            statement.setString(2, password);
+
+            ResultSet rset = statement.executeQuery();
+            if (rset.next()) {
+                return true;
+            }
+            rset.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection(connection);
+        }
+        return false;
+    }
+
+
 }

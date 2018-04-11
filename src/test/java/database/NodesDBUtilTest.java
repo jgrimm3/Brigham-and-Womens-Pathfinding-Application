@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 
 public class NodesDBUtilTest {
@@ -104,7 +103,7 @@ public class NodesDBUtilTest {
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "s", "s", "t", "w", "t", 3, 5, 2);
 		System.out.println(addedNode.getNodeID());
 		assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
-		DataModelI.getInstance().removeNode(addedNode.getNodeID());
+		assertTrue(DataModelI.getInstance().removeNode(addedNode.getNodeID()) == true);
 		assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
 

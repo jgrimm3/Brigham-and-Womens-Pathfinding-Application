@@ -7,6 +7,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+//   __   __          ___          ___
+//  |  \ |__)    |  |  |  | |    |  |  \ /
+//  |__/ |__)    \__/  |  | |___ |  |   |
+//
+//               ___  __   __        __   ___  __
+//     __  |\/| |__  /__` /__`  /\  / _` |__  /__`
+//         |  | |___ .__/ .__/ /~~\ \__> |___ .__/
+//
+
 class MessagesDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
@@ -60,6 +69,7 @@ class MessagesDBUtil {
             e.printStackTrace();
         } finally {
             DataModelI.getInstance().closeConnection(connection);
+            isSuccess = true;
         }
         return isSuccess;
     }
