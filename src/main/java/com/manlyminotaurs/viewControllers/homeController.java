@@ -346,19 +346,32 @@ public class homeController implements Initializable {
 
 		Circle kioskOutline = new Circle();
 		Circle kiosk = new Circle();
+		Circle kioskRemove = new Circle();
+		Circle outlineRemove = new Circle();
+
 		if(tglMap.isSelected()) {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
+			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+			paneMap.getChildren().remove(kioskRemove);
+			paneMap.getChildren().remove(outlineRemove);*/
+			clearPoints();
 		} else {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
+			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+			paneMap.getChildren().remove(kioskRemove);
+			paneMap.getChildren().remove(outlineRemove);*/
+			clearPoints();
 		}
 
-
+		circleList.add(kioskOutline);
+		circleList.add(kiosk);
 		kiosk.setFill(Color.BLUE);
 		kiosk.setFill(Color.RED);
-		paneMap.getChildren().remove(kiosk);
-		paneMap.getChildren().remove(kioskOutline);
+
 
 		paneMap.getChildren().add(kioskOutline);
 		paneMap.getChildren().add(kiosk);
@@ -385,6 +398,7 @@ public class homeController implements Initializable {
 		comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
 		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		lblStartLocation.setText(KioskInfo.myLocation.getLongName());
 		printKiosk();
 	}
 
@@ -401,6 +415,7 @@ public class homeController implements Initializable {
 		comLocationStart.setDisable(true);
 		comLocationEnd.setDisable(true);
 		clearPoints();
+		//printKiosk();
 		circleList.clear();
 		if (tglMap.isSelected())
 			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
@@ -442,6 +457,7 @@ public class homeController implements Initializable {
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -467,6 +483,7 @@ public class homeController implements Initializable {
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -498,6 +515,7 @@ public class homeController implements Initializable {
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -523,6 +541,7 @@ public class homeController implements Initializable {
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -833,6 +852,8 @@ public class homeController implements Initializable {
 			lblHelp2.setVisible(false);
 		}
 
+		setKiosk();
+
 	}
 
 	public void closeQRCodePanel(ActionEvent event) {
@@ -912,7 +933,8 @@ public class homeController implements Initializable {
 		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
+			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1439,7 +1461,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size());
+			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
@@ -1457,7 +1479,7 @@ public class homeController implements Initializable {
 			}
 
 			// Draw Start Circle
-			startCircle.setRadius(7);
+			startCircle.setRadius(10);
 			startCircle.setFill(Color.NAVY);
 			startCircle.setVisible(true);
 			startCircle.setCenterX(startX);
@@ -1473,14 +1495,14 @@ public class homeController implements Initializable {
 			}
 
 			// Draw finish circle-outside
-			finishCircle.setRadius(14);
+			finishCircle.setRadius(15);
 			finishCircle.setFill(Color.NAVY);
 			finishCircle.setOpacity(50);
 			finishCircle.setVisible(true);
 			finishCircle.setCenterX(finishX);
 			finishCircle.setCenterY(finishY);
 			// Draw finish circle-inside
-			finishCircle2.setRadius(10);
+			finishCircle2.setRadius(11);
 			finishCircle2.setFill(Color.WHITE);
 			finishCircle2.setOpacity(100);
 			finishCircle2.setVisible(true);
