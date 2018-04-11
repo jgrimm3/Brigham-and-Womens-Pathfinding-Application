@@ -322,24 +322,6 @@ public class homeController implements Initializable {
             paneMap.setPrefWidth(5000);
 
             floor3DMapLoader(comChangeFloor.getValue());
-            /*
-            // !!!
-            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
-                new ProxyImage(mapImg,"L2-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
-                new ProxyImage(mapImg,"L1-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
-                new ProxyImage(mapImg,"1-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
-                new ProxyImage(mapImg,"2-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
-                new ProxyImage(mapImg,"3-ICONS.png").display();
-
-            }*/
 
         } else {
 
@@ -355,25 +337,6 @@ public class homeController implements Initializable {
             paneMap.setPrefWidth(5000);
 
             floor2DMapLoader(comChangeFloor.getValue());
-            /*
-            if(comChangeFloor.getValue().equals("FLOOR: L2")) { ;
-                new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
-                new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
-                new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
-                new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
-                new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-
-            }*/
-
-
 
         }
 
@@ -557,25 +520,6 @@ public class homeController implements Initializable {
             paneMap.setPrefWidth(5000);
 
             floor3DMapLoader(comChangeFloor.getValue());
-/*
-            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
-                new ProxyImage(mapImg,"L2-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
-                new ProxyImage(mapImg,"L1-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
-                new ProxyImage(mapImg,"1-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
-                new ProxyImage(mapImg,"2-ICONS.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
-                new ProxyImage(mapImg,"3-ICONS.png").display();
-
-            }*/
-
-
 
         } else { // 2-D
 
@@ -589,25 +533,6 @@ public class homeController implements Initializable {
             paneMap.setPrefWidth(5000);
 
             floor2DMapLoader(comChangeFloor.getValue());
-
-            /*
-            if(comChangeFloor.getValue().equals("FLOOR: L2")) {
-                new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
-                new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
-                new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
-                new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-
-            } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
-                new ProxyImage(mapImg,"03_thethirdfloor.png").display();
-
-            }*/
-
 
         }
 

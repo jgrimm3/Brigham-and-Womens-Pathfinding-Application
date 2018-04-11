@@ -55,7 +55,6 @@ class TableInitializer {
         initializer.initTables();
         initializer.populateAllNodeEdgeTables();
         UserSecurity userSecurity = new UserSecurity();
-      //  initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
         UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("UserAccountTable.csv"));
         MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("MessageTable.csv"));
         RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("RequestTable.csv"));
