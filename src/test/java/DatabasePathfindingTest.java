@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 public class DatabasePathfindingTest {
 
-
     @Test
     public void PathfindWithDBNodes(){
         List<Node> nodes = DataModelI.getInstance().retrieveNodes();
@@ -77,6 +76,22 @@ public class DatabasePathfindingTest {
         }
         assertEquals(expected, result);
     }
+
+//    @Test
+//    public void LongPathfindingTest(){
+//        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
+//        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes);
+//        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes);
+//
+//        PathfindingContext pf = new PathfindingContext();
+//        LinkedList<Node> result = new LinkedList<>();
+//        try {
+//            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+//        } catch (PathNotFoundException e){
+//            e.printStackTrace();
+//        }
+//        assertEquals();
+//    }
 
 
 }

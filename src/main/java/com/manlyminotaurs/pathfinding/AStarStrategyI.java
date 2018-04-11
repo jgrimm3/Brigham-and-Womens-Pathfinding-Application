@@ -52,13 +52,13 @@ public class AStarStrategyI implements IPathFindingStrategy {
         for (AStarNode child: children){
             child.setParent(startNode);
             scoreNode(child, endNode);
-            if (!alreadySeen(child)) {
+            if(!openList.contains(child) && !closedList.contains(child)) {
                 openList.add(child);
             }
         }
 
-//        closedList.add(startNode);
-        startNode.setVisitedStatus(true);
+        closedList.add(startNode);
+        if(openList.size() == 0) { throw new PathNotFoundException();}
         AStarNode nextNode = openList.poll(); // Equivalent of .pop()
 
         return calcPath(nextNode, endNode);

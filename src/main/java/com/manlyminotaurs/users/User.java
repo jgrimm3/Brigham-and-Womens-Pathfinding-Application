@@ -1,5 +1,7 @@
 package com.manlyminotaurs.users;
 
+import java.util.Objects;
+
 public abstract class User {
 
     String userID;
@@ -68,5 +70,23 @@ public abstract class User {
 
     public boolean isType(String userType) {
         return this.userType.equalsIgnoreCase(userType);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userID, user.userID) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(middleName, user.middleName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(language, user.language) &&
+                Objects.equals(userType, user.userType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID, firstName, middleName, lastName, language, userType);
     }
 }
