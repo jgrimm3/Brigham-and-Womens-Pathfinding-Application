@@ -4,7 +4,9 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
+import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.util.List;
@@ -25,7 +27,7 @@ public interface IDataModel {
     void startDB();
 
     Connection getNewConnection();
-    boolean closeConnection(Connection connection);
+    boolean closeConnection();
 
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
@@ -85,7 +87,22 @@ public interface IDataModel {
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
+    List<StaffFields> retrieveStaffs();
     User getUserByID(String ID);
+
+
+    //-------------------------------------UserSecurity---------------------------------
     boolean doesUserPasswordExist(String userName, String password);
     String getIDByUserPassword(String userName, String password);
+    List<UserPassword> retrieveUserPasswords();
+
+
+    //---------------------------------------UPDATE CSV FIles--------------------------------
+    void updateNodeCSVFile(String csvFileName);
+    void updateEdgeCSVFile(String csvFileName);
+    void updateRoomCSVFile(String csvFileName);
+    void updateMessageCSVFile(String csvFileName);
+    void updateRequestCSVFile(String csvFileName);
+    void updateUserCSVFile(String csvFileName);
+    void updateUserPasswordFile(String csvFileName);
 }

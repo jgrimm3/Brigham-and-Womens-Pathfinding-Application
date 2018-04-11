@@ -33,7 +33,6 @@ public class Main extends Application {
         try{
         //root is anchor pane that all other screens will be held in
         root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-        //KioskInfo.myLocation = DataModelI.getInstance().getNodeByIDFromList("DCONF00102", DataModelI.getInstance().retrieveNodes());
 
 
         Scene world = new Scene(root, 1920, 1080);
