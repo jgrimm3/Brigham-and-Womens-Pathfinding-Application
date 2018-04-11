@@ -346,19 +346,32 @@ public class homeController implements Initializable {
 
 		Circle kioskOutline = new Circle();
 		Circle kiosk = new Circle();
+		Circle kioskRemove = new Circle();
+		Circle outlineRemove = new Circle();
+
 		if(tglMap.isSelected()) {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
+			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+			paneMap.getChildren().remove(kioskRemove);
+			paneMap.getChildren().remove(outlineRemove);*/
+			clearPoints();
 		} else {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
+			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+			paneMap.getChildren().remove(kioskRemove);
+			paneMap.getChildren().remove(outlineRemove);*/
+			clearPoints();
 		}
 
-
+		circleList.add(kioskOutline);
+		circleList.add(kiosk);
 		kiosk.setFill(Color.BLUE);
 		kiosk.setFill(Color.RED);
-		paneMap.getChildren().remove(kiosk);
-		paneMap.getChildren().remove(kioskOutline);
+
 
 		paneMap.getChildren().add(kioskOutline);
 		paneMap.getChildren().add(kiosk);
@@ -833,6 +846,8 @@ public class homeController implements Initializable {
 			lblHelp2.setVisible(false);
 		}
 
+		setKiosk();
+
 	}
 
 	public void closeQRCodePanel(ActionEvent event) {
@@ -912,7 +927,7 @@ public class homeController implements Initializable {
 		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
 			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
