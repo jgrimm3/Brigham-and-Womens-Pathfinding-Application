@@ -34,11 +34,13 @@ public class adminRequestDashboardController  {
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
     ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
     ObservableList<PieChart.Data> pieChartData;
+    Parent manageAcc;
     public class requestInfo{
         protected String requestID;
         String requestType;
         String message;
         Boolean isAssigned;
+
 
         requestInfo(String requestType, String message, Boolean isAssigned, String requestID){
             this.requestType = requestType;
@@ -59,7 +61,8 @@ public class adminRequestDashboardController  {
             return isAssigned;
         }
     }
-
+    @FXML
+Button navManageAcc;
     @FXML
     TableView tblOpenRequests;
     @FXML
@@ -184,6 +187,22 @@ public class adminRequestDashboardController  {
             createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(createRequest);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void manageAcc(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageAcc = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageAcc);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
