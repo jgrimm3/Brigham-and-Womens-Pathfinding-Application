@@ -317,7 +317,7 @@ public class nodeEditorController {
         txtAdminPassword.clear();
         txtAdminUser.clear();
         BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
-                txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
+                txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty());
 
         btnAddNode.disableProperty().bind(booleanBind);
 
@@ -361,14 +361,11 @@ public class nodeEditorController {
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
         if (paneAdd.isVisible() == true) {
-            txtXCoord.setText(String.format("%1.3f", event.getX()));
-            txtYCoord.setText(String.format("%1.3f", event.getY()));
+            txtXCoord.setText(String.format("%1.0f", event.getX()));
+            txtYCoord.setText(String.format("%1.0f", event.getY()));
         } else if (paneModify.isVisible() == true) {
-            txtXCoordMod.setText(String.format("%1.3f", event.getX()));
-            txtYCoordMod.setText(String.format("%1.3f", event.getY()));
-        } else if (paneDelete.isVisible() == true) {
-            txtAdminUser.setText(String.format("%1.3f", event.getX()));
-            txtAdminPassword.setText(String.format("%1.3f", event.getY()));
+            txtXCoordMod.setText(String.format("%1.0f", event.getX()));
+            txtYCoordMod.setText(String.format("%1.0f", event.getY()));
         }
     }
 
@@ -570,14 +567,8 @@ public class nodeEditorController {
             txtAdminPassword.clear();
         }
         //redraw map
-
     }
 
-        public void printPoints(){
-        //check list print points on map
-        }
-        public void clearPoints(){
-    }
 
     public void load2DMap(ActionEvent event) {
         drawCircles(cmboFloorAdd.getValue(),"2-D");

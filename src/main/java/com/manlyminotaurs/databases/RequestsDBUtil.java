@@ -130,7 +130,6 @@ class RequestsDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
-        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
     void setIsComplete(Request request, boolean newCompleteStatus){
@@ -148,7 +147,6 @@ class RequestsDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
-        new CsvFileController().updateRequestCSVFile("./RequestTable.csv");
     }
 
     /*------------------------------------------------ Retrieve Request / Search by ID / Print all -------------------------------------------------------*/

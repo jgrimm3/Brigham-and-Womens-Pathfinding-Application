@@ -3,7 +3,9 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
+import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,18 +43,6 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-        //2018-03-27 13:23:56
-/*
-        String timeString = "2018-03-27 14:15:23";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date parsedTimeStamp = null;
-        try {
-            parsedTimeStamp = dateFormat.parse(timeString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(new Timestamp(parsedTimeStamp.getTime()));*/
     }
 
     private DataModelI() {
@@ -73,6 +63,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -327,6 +318,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<StaffFields> retrieveStaffs() {
+        return null;
+    }
+
+    @Override
     public User getUserByID(String userID) {
         return userDBUtil.getUserByID(userID);
     }
@@ -335,6 +331,46 @@ public class DataModelI implements IDataModel{
     public String getIDByUserPassword(String userName, String password) {
         UserSecurity userSecurity = new UserSecurity();
         return userSecurity.getIDByUserPassword(userName, password);
+    }
+
+    @Override
+    public List<UserPassword> retrieveUserPasswords() {
+        return userSecurity.retrieveUserPasswords();
+    }
+
+    @Override
+    public void updateNodeCSVFile(String csvFileName) {
+        new CsvFileController().updateNodeCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateEdgeCSVFile(String csvFileName) {
+        new CsvFileController().updateEdgeCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateRoomCSVFile(String csvFileName) {
+        new CsvFileController().updateRoomCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateMessageCSVFile(String csvFileName) {
+        new CsvFileController().updateMessageCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateRequestCSVFile(String csvFileName) {
+        new CsvFileController().updateRequestCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateUserCSVFile(String csvFileName) {
+        new CsvFileController().updateUserCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateUserPasswordFile(String csvFileName) {
+        new CsvFileController().updateUserPasswordFile(csvFileName);
     }
 
     @Override

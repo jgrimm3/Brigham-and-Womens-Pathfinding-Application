@@ -2,6 +2,9 @@ package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
@@ -14,6 +17,8 @@ import java.util.List;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+
+import javax.xml.crypto.Data;
 
 
 public class Main extends Application {
@@ -32,8 +37,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try{
         //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
-
+        root = FXMLLoader.load(getClass().getResource("/FXMLs/NodeEditor.fxml"));
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -54,10 +58,30 @@ public class Main extends Application {
         e.printStackTrace();
     }
 }
+    // wait for application to finish,calls Platform exit, save files.
+    @FXML
+    public void exitApplication(ActionEvent event) {
+        Platform.exit();
+    }
+    @Override
+    public void stop(){
+        System.out.println("closing Application");
+
+        DataModelI.getInstance().updateNodeCSVFile("TestNodeTable.csv");
+        DataModelI.getInstance().updateEdgeCSVFile("TestEdgeTable.csv");
+        //     DataModelI.getInstance().updateRoomCSVFile("TestRoomTable.csv");
+        DataModelI.getInstance().updateMessageCSVFile("TestMessageTable.csv");
+        DataModelI.getInstance().updateRequestCSVFile("TestRequestTable.csv");
+        DataModelI.getInstance().updateUserCSVFile("TestUserTable.csv");
+        DataModelI.getInstance().updateUserPasswordFile("TestUserPassword.csv");
+
+        System.out.println("Files Saved!");
+    }
 
     public static void main(String[] args) throws IOException {
         System.out.println("version 7");
         DataModelI.getInstance().startDB();
         launch(args);
     }
+
 }
