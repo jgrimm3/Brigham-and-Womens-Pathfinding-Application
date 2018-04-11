@@ -398,6 +398,7 @@ public class homeController implements Initializable {
 		comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
 		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		lblStartLocation.setText(KioskInfo.myLocation.getLongName());
 		printKiosk();
 	}
 
@@ -414,6 +415,7 @@ public class homeController implements Initializable {
 		comLocationStart.setDisable(true);
 		comLocationEnd.setDisable(true);
 		clearPoints();
+		//printKiosk();
 		circleList.clear();
 		if (tglMap.isSelected())
 			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
@@ -455,6 +457,7 @@ public class homeController implements Initializable {
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -480,6 +483,7 @@ public class homeController implements Initializable {
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -511,6 +515,7 @@ public class homeController implements Initializable {
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
@@ -536,6 +541,7 @@ public class homeController implements Initializable {
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
+						printKiosk();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
 						comBuildingStart.setDisable(false);
