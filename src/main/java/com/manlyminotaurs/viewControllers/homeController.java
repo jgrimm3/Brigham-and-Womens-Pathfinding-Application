@@ -63,6 +63,8 @@ public class homeController implements Initializable {
     List<Node> pathList = new ArrayList<>();
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
+    String startFloor = "";
+    String endFloor = "";
 
     //-----------------------------------------------------------------------------------------------------------------
     //
@@ -959,31 +961,31 @@ public class homeController implements Initializable {
     //-----------------------------------------------------------------------------------------------------------------
 
     public void floor2DMapLoader(String floor) {
-        if(floor.equals("FLOOR: L2")) {
+        if(floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
             new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
             clearPath();
             printNodePath(pathList, "L2", "2-D");
 
-        } else if(floor.equals("FLOOR: L1")) {
+        } else if(floor.equals("FLOOR: L1") || floor.equals("L1")) {
 
             new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
             clearPath();
             printNodePath(pathList, "L1", "2-D");
 
-        } else if(floor.equals("FLOOR: 1")) {
+        } else if(floor.equals("FLOOR: 1") || floor.equals("1")) {
 
             new ProxyImage(mapImg,"01_thefirstfloor.png").display();
             clearPath();
             printNodePath(pathList, "1", "2-D");
 
-        } else if(floor.equals("FLOOR: 2")) {
+        } else if(floor.equals("FLOOR: 2") || floor.equals("2")) {
 
             new ProxyImage(mapImg,"02_thesecondfloor.png").display();
             clearPath();
             printNodePath(pathList, "2", "2-D");
 
-        } else if(floor.equals("FLOOR: 3")) {
+        } else if(floor.equals("FLOOR: 3") || floor.equals("3")) {
 
             new ProxyImage(mapImg,"03_thethirdfloor.png").display();
             clearPath();
@@ -993,31 +995,31 @@ public class homeController implements Initializable {
     }
 
     public void pathfloor2DMapLoader(String floor) {
-        if(floor.equals("L2")) {
+        if(floor.equals("FLOOR: L2") || floor.equals("L2")) {
             new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
 
             clearPath();
             printNodePath(pathList, "L2", "2-D");
 
-        } else if(floor.equals("L1")) {
+        } else if(floor.equals("FLOOR: L1") || floor.equals("L1")) {
             new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
 
             clearPath();
             printNodePath(pathList, "L1", "2-D");
 
-        } else if(floor.equals("1")) {
+        } else if(floor.equals("FLOOR: 1") || floor.equals("1")) {
             new ProxyImage(mapImg,"01_thefirstfloor.png").display();
 
             clearPath();
             printNodePath(pathList, "1", "2-D");
 
-        } else if(floor.equals("2")) {
+        } else if(floor.equals("FLOOR: 2") || floor.equals("2")) {
             new ProxyImage(mapImg,"02_thesecondfloor.png").display();
 
             clearPath();
             printNodePath(pathList, "2", "2-D");
 
-        } else if(floor.equals("3")) {
+        } else if(floor.equals("FLOOR: 3") || floor.equals("3")) {
             new ProxyImage(mapImg,"03_thethirdfloor.png").display();
 
             clearPath();
@@ -1027,31 +1029,31 @@ public class homeController implements Initializable {
     }
 
     public void floor3DMapLoader(String floor) {
-        if(floor.equals("FLOOR: L2")) {
+        if(floor.equals("FLOOR: L2") || floor.equals("L2")) {
             new ProxyImage(mapImg,"L2-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "L2", "3-D");
 
-        } else if(floor.equals("FLOOR: L1")) {
+        } else if(floor.equals("FLOOR: L1") || floor.equals("L1")) {
             new ProxyImage(mapImg,"L1-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "L1", "3-D");
 
-        } else if(floor.equals("FLOOR: 1")) {
+        } else if(floor.equals("FLOOR: 1") || floor.equals("1")) {
             new ProxyImage(mapImg,"1-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "1", "3-D");
 
-        } else if(floor.equals("FLOOR: 2")) {
+        } else if(floor.equals("FLOOR: 2") || floor.equals("2")) {
             new ProxyImage(mapImg,"2-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "2", "3-D");
 
-        } else if(floor.equals("FLOOR: 3")) {
+        } else if(floor.equals("FLOOR: 3") || floor.equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
 
             clearPath();
@@ -1061,31 +1063,31 @@ public class homeController implements Initializable {
     }
 
     public void pathfloor3DMapLoader(String floor) {
-        if(floor.equals("L2")) {
+        if(floor.equals("FLOOR: L2") || floor.equals("L2")) {
             new ProxyImage(mapImg,"L2-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "L2", "3-D");
 
-        } else if(floor.equals("L1")) {
+        } else if(floor.equals("FLOOR: L1") || floor.equals("L1")) {
             new ProxyImage(mapImg,"L1-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "L1", "3-D");
 
-        } else if(floor.equals("1")) {
+        } else if(floor.equals("FLOOR: 1") || floor.equals("1")) {
             new ProxyImage(mapImg,"1-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "1", "3-D");
 
-        } else if(floor.equals("2")) {
+        } else if(floor.equals("FLOOR: 2") || floor.equals("2")) {
             new ProxyImage(mapImg,"2-ICONS.png").display();
 
             clearPath();
             printNodePath(pathList, "2", "3-D");
 
-        } else if(floor.equals("3")) {
+        } else if(floor.equals("FLOOR: 3") || floor.equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
 
             clearPath();
@@ -1219,6 +1221,11 @@ public class homeController implements Initializable {
             startCircle.setVisible(true);
             startCircle.setCenterX(startX);
             startCircle.setCenterY(startY);
+
+			// Set on mouse clicked to switch between floors
+			startFloor = startNode.getFloor();
+			startCircle.setOnMouseClicked(this::startCircleClicked);
+
             if(!startNode.getFloor().equals(floor)) {
                 startCircle.setFill(Color.GRAY);
                 startCircle.setOpacity(25);
@@ -1238,6 +1245,12 @@ public class homeController implements Initializable {
             finishCircle2.setVisible(true);
             finishCircle2.setCenterX(finishX);
             finishCircle2.setCenterY(finishY);
+
+            // Set on mouse clicked to switch between floors
+			endFloor = endNode.getFloor();
+			finishCircle.setOnMouseClicked(this::endCircleClicked);
+			finishCircle2.setOnMouseClicked(this::endCircleClicked);
+
             if(!endNode.getFloor().equals(floor)) {
                 finishCircle.setFill(Color.GRAY);
                 finishCircle2.setFill(Color.WHITE);
@@ -1379,5 +1392,57 @@ public class homeController implements Initializable {
         pathOnDifferentFloor.getElements().add(new LineTo(5000, 5000));
         pathOnDifferentFloor.getElements().add(new LineTo(-100, 5000));
     }
+
+	private void startCircleClicked(MouseEvent event) {
+    	System.out.println("Recognized a click");
+		if (tglMap.isSelected()) { // 3-D
+
+			stackPaneMap.setPrefHeight(2774);
+			stackPaneMap.setPrefWidth(5000);
+			mapImg.setFitHeight(2772);
+			mapImg.setFitWidth(5000);
+			paneMap.setPrefHeight(2774);
+			paneMap.setPrefWidth(5000);
+			floor3DMapLoader(startFloor);
+
+		} else { // 2-D
+
+			// !!!
+
+			stackPaneMap.setPrefHeight(3400);
+			stackPaneMap.setPrefWidth(5000);
+			mapImg.setFitHeight(3400);
+			mapImg.setFitWidth(5000);
+			paneMap.setPrefHeight(3400);
+			paneMap.setPrefWidth(5000);
+			floor2DMapLoader(startFloor);
+		}
+	}
+
+	private void endCircleClicked(MouseEvent event) {
+		System.out.println("Recognized a click");
+		if (tglMap.isSelected()) { // 3-D
+
+			stackPaneMap.setPrefHeight(2774);
+			stackPaneMap.setPrefWidth(5000);
+			mapImg.setFitHeight(2772);
+			mapImg.setFitWidth(5000);
+			paneMap.setPrefHeight(2774);
+			paneMap.setPrefWidth(5000);
+			floor3DMapLoader(endFloor);
+
+		} else { // 2-D
+
+			// !!!
+
+			stackPaneMap.setPrefHeight(3400);
+			stackPaneMap.setPrefWidth(5000);
+			mapImg.setFitHeight(3400);
+			mapImg.setFitWidth(5000);
+			paneMap.setPrefHeight(3400);
+			paneMap.setPrefWidth(5000);
+			floor2DMapLoader(endFloor);
+		}
+	}
 
 }
