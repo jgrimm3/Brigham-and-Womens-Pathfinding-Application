@@ -189,6 +189,44 @@ public class nodeEditorController {
             cmboFloorAdd.setItems(floors);
             cmboPathfinding.setItems(Algorithms);
 
+            //set jfx text colors
+
+
+            //prompt text colors
+            txtShortNameDel.setStyle("-fx-text-fill: White ");
+            txtShortName.setStyle("-fx-prompt-text-fill:  White");
+            txtShortNameMod.setStyle("-fx-prompt-text-fill:  White");
+            txtLongNameDel.setStyle("-fx-prompt-text-fill:  White");
+            txtLongNameMod.setStyle("-fx-prompt-text-fill:  White");
+            txtLongName.setStyle("-fx-prompt-text-fill:  White");
+            txtXCoordMod3D.setStyle("-fx-prompt-text-fill:  White");
+            txtYCoordMod3D.setStyle("-fx-prompt-text-fill:  White");
+            txtXCoord3D.setStyle("-fx-prompt-text-fill:  White");
+            txtYCoord3D.setStyle("-fx-prompt-text-fill:  White");
+            txtAdminPassword.setStyle("-fx-prompt-text-fill:  White");
+            txtAdminUser.setStyle("-fx-prompt-text-fill:  White");
+            txtXCoord.setStyle("-fx-prompt-text-fill:  White");
+            txtYCoord.setStyle("-fx-prompt-text-fill:  White");
+            txtXCoordMod.setStyle("-fx-prompt-text-fill:  White");
+            txtYCoordMod.setStyle("-fx-prompt-text-fill:  White");
+
+            txtShortNameDel.setStyle("-fx-text-fill: White ");
+            txtShortName.setStyle("-fx-text-fill:  White");
+            txtShortNameMod.setStyle("-fx-text-fill:  White");
+            txtLongNameDel.setStyle("-fx-text-fill: White");
+            txtLongNameMod.setStyle("-fx-text-fill: White");
+            txtLongName.setStyle("-fx-text-fill: White");
+            txtXCoordMod3D.setStyle("-fx-text-fill: White");
+            txtYCoordMod3D.setStyle("-fx-text-fill: White");
+            txtXCoord3D.setStyle("-fx-text-fill:  White");
+            txtYCoord3D.setStyle("-fx-text-fill: White");
+            txtAdminPassword.setStyle("-fx-text-fill: White");
+            txtAdminUser.setStyle("-fx-text-fill: White");
+            txtXCoord.setStyle("-fx-text-fill:  White");
+            txtYCoord.setStyle("-fx-text-fill: White");
+            txtXCoordMod.setStyle("-fx-text-fill:  White");
+            txtYCoordMod.setStyle("-fx-text-fill:  White");
+
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
@@ -403,6 +441,8 @@ public class nodeEditorController {
     public void modSetNode(ActionEvent event) {
         //set type to selected value
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
+        txtLongNameMod.setText(node.getLongName());
+        txtShortNameMod.setText(node.getShortName());
 
     }
 
@@ -430,6 +470,8 @@ public class nodeEditorController {
     public void delSetNode(ActionEvent event) {
         //set type to selected value
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
+        txtLongNameDel.setText(node.getLongName());
+        txtShortNameDel.setText(node.getShortName());
     }
 
 
@@ -474,17 +516,21 @@ public class nodeEditorController {
         shortName = txtShortNameDel.getText();
 
         //set login check
-        txtAdminPassword.getText();
-        txtAdminUser.getText();
+        if (DataModelI.getInstance().doesUserPasswordExist(txtAdminUser.getText().toLowerCase(), txtAdminUser.getText().toLowerCase())) {
 
 
-        building = cmboBuildingDel.getValue().toString();
-        floor = cmboFloorDel.getValue().toString();
-        type = cmboTypeDel.getValue().toString();
+            building = cmboBuildingDel.getValue().toString();
+            floor = cmboFloorDel.getValue().toString();
+            type = cmboTypeDel.getValue().toString();
 
-        //call delete node function
-        node = DataModelI.getInstance().getNodeByLongName(longName);
-        DataModelI.getInstance().removeNode(node);
+            //call delete node function
+            node = DataModelI.getInstance().getNodeByLongName(longName);
+            DataModelI.getInstance().removeNode(node);
+        }
+        else{
+            txtAdminUser.setText("incorrect User and Password");
+            txtAdminPassword.clear();
+        }
         //redraw map
 
     }

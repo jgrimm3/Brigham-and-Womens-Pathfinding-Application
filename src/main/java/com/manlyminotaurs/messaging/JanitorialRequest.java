@@ -1,11 +1,11 @@
 package com.manlyminotaurs.messaging;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 class JanitorialRequest extends Request{
 
-    JanitorialRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
-        super(requestID, requestType, priority, isComplete, adminConfirm, "0:00" ,nodeID, messageID, password);
+    JanitorialRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String nodeID, String messageID, String password) {
+        super(requestID, requestType, priority, isComplete, adminConfirm, startTime,endTime, password, nodeID, messageID);
     }
     @Override
     public boolean service() {

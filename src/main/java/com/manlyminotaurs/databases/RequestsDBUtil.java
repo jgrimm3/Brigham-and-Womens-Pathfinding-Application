@@ -5,6 +5,7 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ class RequestsDBUtil {
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         Message mObject= messagesDBUtil.addMessage(message);
         try {
-            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,timeTaken,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -43,10 +44,11 @@ class RequestsDBUtil {
             statement.setInt(3, requestObject.getPriority());
             statement.setBoolean(4, requestObject.getComplete());
             statement.setBoolean(5, requestObject.getAdminConfirm());
-            statement.setString(6, requestObject.getTimeTaken());
-            statement.setString(7, requestObject.getNodeID());
-            statement.setString(8, mObject.getMessageID());
-            statement.setString(9, requestObject.getRequestType());
+            statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
+            statement.setTimestamp(7, Timestamp.valueOf("0000-01-01 00:00:01"));
+            statement.setString(8, requestObject.getNodeID());
+            statement.setString(9, mObject.getMessageID());
+            statement.setString(10, requestObject.getRequestType());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             statement.close();
@@ -81,7 +83,7 @@ class RequestsDBUtil {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
         try {
-            String str = "UPDATE Request SET requestType= ?,priority = ?,isComplete= ?,adminConfirm= ?,timeTaken=?,nodeID= ?,messageID= ?,password= ? WHERE requestID = '"+ newRequest.getRequestID()+ "'";
+            String str = "UPDATE Request SET requestType= ?,priority = ?,isComplete= ?,adminConfirm= ?,startTime =?, endTime = ?,nodeID= ?,messageID= ?,password= ? WHERE requestID = '"+ newRequest.getRequestID()+ "'";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -89,10 +91,11 @@ class RequestsDBUtil {
             statement.setInt(2, newRequest.getPriority());
             statement.setBoolean(3, newRequest.getComplete());
             statement.setBoolean(4, newRequest.getAdminConfirm());
-            statement.setString(5, newRequest.getTimeTaken());
-            statement.setString(6, newRequest.getNodeID());
-            statement.setString(7, newRequest.getMessageID());
-            statement.setString(8, newRequest.getPassword());
+            statement.setTimestamp(5, Timestamp.valueOf(newRequest.getStartTime()));
+            statement.setTimestamp(6, Timestamp.valueOf(newRequest.getEndTime()));
+            statement.setString(7, newRequest.getNodeID());
+            statement.setString(8, newRequest.getMessageID());
+            statement.setString(9, newRequest.getPassword());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             statement.close();
@@ -163,7 +166,8 @@ class RequestsDBUtil {
             int priority;
             Boolean isComplete;
             Boolean adminConfirm;
-            String timeTaken;
+            Timestamp startTime;
+            Timestamp endTime;
             String nodeID;
             String messageID;
             String password;
@@ -179,12 +183,15 @@ class RequestsDBUtil {
                     priority = rset.getInt("priority");
                     isComplete =rset.getBoolean("isComplete");
                     adminConfirm = rset.getBoolean("adminConfirm");
-                    timeTaken = rset.getString("timeTaken");
+                    startTime = rset.getTimestamp("startTime");
+                    endTime = rset.getTimestamp("endTime");
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
                     // Add the new edge to the list
-                    requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, timeTaken, messageID, password, nodeID);
+                    requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(),nodeID, messageID, password);
+
+
                     listOfRequest.add(requestObject);
                 }
                 rset.close();
@@ -209,6 +216,8 @@ class RequestsDBUtil {
         int priority;
         Boolean isComplete;
         Boolean adminConfirm;
+        Timestamp startTime;
+        Timestamp endTime;
         String nodeID;
         String messageID;
         String password;
@@ -223,12 +232,13 @@ class RequestsDBUtil {
                 priority = rset.getInt("priority");
                 isComplete =rset.getBoolean("isComplete");
                 adminConfirm = rset.getBoolean("adminConfirm");
-                String timeTaken = rset.getString("timeTaken");
+                startTime = rset.getTimestamp("startTime");
+                endTime = rset.getTimestamp("endTime");
                 nodeID = rset.getString("nodeID");
                 messageID = rset.getString("messageID");
                 password = rset.getString("password");
                 // Add the new edge to the list
-                requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, timeTaken, messageID, password, nodeID);
+                requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(), nodeID, messageID, password);
 
 
                 System.out.println("Request added to the list: " + requestID);
