@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+//import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
