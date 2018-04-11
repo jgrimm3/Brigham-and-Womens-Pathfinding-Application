@@ -10,7 +10,7 @@ public class BreadthFirstStrategyI implements IPathFindingStrategy {
 
     /*
     TODO:
-    - Have BFS find a nearest type of node
+    - need to Have BFS find a nearest type of node
     - Flesh out error handling
      */
 
