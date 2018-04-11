@@ -88,6 +88,7 @@ public class homeController implements Initializable {
 	String startFloor = "";
 	String endFloor = "";
 	List<Circle> circleList = new ArrayList<>();
+	boolean isStart = true;
 	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -237,8 +238,9 @@ public class homeController implements Initializable {
 
 			scrollPaneMap.setHvalue(.35);
 			scrollPaneMap.setVvalue(.2);
-			//printKiosk();
-			//goToKiosk();
+			setKiosk();
+			printKiosk();
+			goToKiosk();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -314,7 +316,6 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor3DMapLoader(comChangeFloor.getValue());
 		} else {
-
 			// Switch 2-D
 			tglMap.setText("2-D");
 			lblMap.setText("MAP: 2-D");
@@ -361,23 +362,45 @@ public class homeController implements Initializable {
 		}
 	}
 
-	/*private void setKiosk() {
+	private void setKiosk() {
 		initializeBuildingStart(null);
 		initializeFloorStart(null);
 		initializeTypeStart(null);
 		setStartLocation(null);
-		comBuildingStart.setValue(KioskInfo.myLocation.getBuilding());
-		comFloorStart.setValue(KioskInfo.myLocation.getFloor());
-		comTypeStart.setValue(KioskInfo.myLocation.getNodeType());
-		comLocationStart.setValue(KioskInfo.myLocation.getLongName());
+		comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
+		comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
+		comTypeStart.getSelectionModel().select(KioskInfo.myLocation.getNodeType());
+		comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
 		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		printKiosk();
-	}*/
+	}
 
-	public void printNodesOnFloor(MouseEvent event) {
+	public void printNodesOnFloorStart(MouseEvent event) {
 		btnStart.setDisable(true);
 		btnEnd.setDisable(true);
+		isStart = true;
+		comBuildingStart.setDisable(true);
+		comBuildingEnd.setDisable(true);
+		comFloorStart.setDisable(true);
+		comFloorEnd.setDisable(true);
+		comTypeStart.setDisable(true);
+		comTypeEnd.setDisable(true);
+		comLocationStart.setDisable(true);
+		comLocationEnd.setDisable(true);
+		clearPoints();
+		circleList.clear();
+		if (tglMap.isSelected())
+			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
+		else
+			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
+
+	}
+
+	public void printNodesOnFloorEnd(MouseEvent event) {
+		btnStart.setDisable(true);
+		btnEnd.setDisable(true);
+		isStart = false;
 		comBuildingStart.setDisable(true);
 		comBuildingEnd.setDisable(true);
 		comFloorStart.setDisable(true);
@@ -402,10 +425,10 @@ public class homeController implements Initializable {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
 						System.out.println("Click recognized");
-						comBuildingStart.setValue(node.getBuilding());
-						comFloorStart.setValue(node.getFloor());
-						comTypeStart.setValue(node.getNodeType());
-						comLocationStart.setValue(node.getLongName());
+						comBuildingStart.getSelectionModel().select(node.getBuilding());
+						comFloorStart.getSelectionModel().select(node.getFloor());
+						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
@@ -427,10 +450,10 @@ public class homeController implements Initializable {
 				if (node.getXCoord3D() == circle.getCenterX()) {
 					if (node.getYCoord3D() == circle.getCenterY()) {
 						System.out.println("Click recognized");
-						comBuildingStart.setValue(node.getBuilding());
-						comFloorStart.setValue(node.getFloor());
-						comTypeStart.setValue(node.getNodeType());
-						comLocationStart.setValue(node.getLongName());
+						comBuildingStart.getSelectionModel().select(node.getBuilding());
+						comFloorStart.getSelectionModel().select(node.getFloor());
+						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comLocationStart.getSelectionModel().select(node.getLongName());
 						clearPoints();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
@@ -458,10 +481,10 @@ public class homeController implements Initializable {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
 						System.out.println("Click recognized");
-						comBuildingEnd.setValue(node.getBuilding());
-						comFloorEnd.setValue(node.getFloor());
-						comTypeEnd.setValue(node.getNodeType());
-						comLocationEnd.setValue(node.getLongName());
+						comBuildingEnd.getSelectionModel().select(node.getBuilding());
+						comFloorEnd.getSelectionModel().select(node.getFloor());
+						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
@@ -483,10 +506,10 @@ public class homeController implements Initializable {
 				if (node.getXCoord3D() == circle.getCenterX()) {
 					if (node.getYCoord3D() == circle.getCenterY()) {
 						System.out.println("Click recognized");
-						comBuildingEnd.setValue(node.getBuilding());
-						comFloorEnd.setValue(node.getFloor());
-						comTypeEnd.setValue(node.getNodeType());
-						comLocationEnd.setValue(node.getLongName());
+						comBuildingEnd.getSelectionModel().select(node.getBuilding());
+						comFloorEnd.getSelectionModel().select(node.getFloor());
+						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comLocationEnd.getSelectionModel().select(node.getLongName());
 						clearPoints();
 						btnStart.setDisable(false);
 						btnEnd.setDisable(false);
@@ -667,7 +690,7 @@ public class homeController implements Initializable {
 	public void changeFloorMap(ActionEvent event) {
 		clearPoints();
 		circleList.clear();
-		//printKiosk();
+		printKiosk();
 		if (tglMap.isSelected()) { // 3-D
 
 			stackPaneMap.setPrefHeight(2774);
@@ -1685,7 +1708,7 @@ public class homeController implements Initializable {
 				circle.setFill(Color.WHITE);
 				outline.setFill(Color.NAVY);
 
-				if (comLocationStart.getValue() == null)
+				if (isStart)
 					circle.setOnMouseClicked(this::chooseStartNode);
 				else
 					circle.setOnMouseClicked(this::chooseEndNode);

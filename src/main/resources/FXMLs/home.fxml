@@ -319,7 +319,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button fx:id="btnStart" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloor" prefHeight="60.0" prefWidth="340.0" text="START">
+                              <Button fx:id="btnStart" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloorStart" prefHeight="60.0" prefWidth="340.0" text="START">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -425,7 +425,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button fx:id="btnEnd" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloor" prefHeight="60.0" prefWidth="340.0" text="END">
+                              <Button fx:id="btnEnd" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloorEnd" prefHeight="60.0" prefWidth="340.0" text="END">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
