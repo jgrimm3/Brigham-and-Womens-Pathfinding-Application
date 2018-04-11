@@ -107,10 +107,12 @@ public class PathfinderUtil {
             path = path + directions.get(i) + "\n";
         }
         String myCodeText = path;
-        String filePath = "./src/main/resources/QR/CrunchifyQR.png";
+        //String filePath = "./src/main/resources/QR/CrunchifyQR.png";
+        String filePath = "/QR/CrunchifyQR.png";
         int size = 250;
         String fileType = "png";
-        File myFile = new File(filePath);
+        File myFile = new File(getClass().getResource(filePath).toString());
+
         try {
 
             Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
@@ -140,12 +142,12 @@ public class PathfinderUtil {
                     }
                 }
             }
-            ImageIO.write(image, fileType, myFile);
+      //      ImageIO.write(image, fileType, myFile);
         } catch (WriterException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } /*catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         System.out.println("\n\nYou have successfully created QR Code.");
     }
 
