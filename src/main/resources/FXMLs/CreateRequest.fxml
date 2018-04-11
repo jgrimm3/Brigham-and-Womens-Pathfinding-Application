@@ -91,7 +91,7 @@
             <DropShadow />
          </effect>
       </Pane>
-      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="170.0">
+      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" textFill="WHITE" AnchorPane.rightAnchor="170.0">
          <font>
             <Font size="28.0" />
          </font>
