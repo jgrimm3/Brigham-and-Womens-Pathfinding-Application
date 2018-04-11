@@ -20,6 +20,12 @@ public class UserDBUtilTest {
 
 
     @Test
+    public void retrieveUsersCorrectSize(){
+        int list_size = DataModelI.getInstance().retrieveUsers().size();
+        assertTrue(list_size == 11);
+    }
+
+    @Test
     public void retrieveUsersReturnsCorrectList() {
         UserDBUtil userDBUtil = new UserDBUtil();
         User a_user = userDBUtil.userBuilder("3","Christian","","Cedrone","Spanish","interpreter");
