@@ -63,7 +63,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES";
+			String str = "SELECT * FROM MAP_NODES WHERE status = 1";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 

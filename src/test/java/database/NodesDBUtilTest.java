@@ -5,6 +5,7 @@ import com.manlyminotaurs.nodes.Node;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,16 +102,12 @@ public class NodesDBUtilTest {
 		List<Node> oldList = DataModelI.getInstance().retrieveNodes();
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
 		List<Node> newList = DataModelI.getInstance().retrieveNodes();
-		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
-
 		boolean trueOrFalse = newList.contains(addedNode);
 		Node compareNode = newList.get(582);
-		boolean checkEquals = newList.get(582).equals(newList.get(582));
 		assertTrue(trueOrFalse);
-		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
 
-	/*
+
 	@Test
 	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
 		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
@@ -121,53 +118,76 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
-		Node node = DataModelI.getInstance().getNodeByID("GCONF02001");
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node node = DataModelI.getInstance().getNodeByIDFromList("GCONF02001", listOfNodes);
 		List<String> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
 		for(String n : testList) {
 			System.out.println(n);
-			//assertTrue(!n.getLongName().isEmpty());
+			assertTrue(!n.isEmpty());
 		}
-
 	}
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList2() {
-		Node node = DataModelI.getInstance().getNodeByID("GEXIT001L1");
-		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
-		for(Node n : testList) {
-			System.out.println(n.getLongName());
-			assertTrue(!n.getLongName().isEmpty());
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node node = DataModelI.getInstance().getNodeByIDFromList("GEXIT001L1",listOfNodes);
+		List<String> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(String n : testList) {
+			System.out.println(n);
+			assertTrue(!n.isEmpty());
 		}
-
 	}
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList3() {
-		Node node = DataModelI.getInstance().getNodeByID("WHALL002L2");
-		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
-		for(Node n : testList) {
-			System.out.println(n.getLongName());
-			assertTrue(!n.getLongName().isEmpty());
+		List<Node> listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node node = DataModelI.getInstance().getNodeByIDFromList("WHALL002L2",listOfNodes);
+		List<String> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
+		for(String n : testList) {
+			System.out.println(n);
+			assertTrue(!n.isEmpty());
 		}
-
 	}
 
 	@Test
-	public void getByAdjacentNodes_ReturnsCorrectList4() {
-		Node node = DataModelI.getInstance().getNodeByID("GHALL013L2");
-		List<Node> testList = DataModelI.getInstance().getAdjacentNodesFromNode(node);
-		for(Node n : testList) {
-			System.out.println(n.getLongName());
-			assertTrue(!n.getLongName().isEmpty());
-		}
-
-	} */
-
-	@Test
-	public void testAdjacentNodes() {
+	public void testAdjacentNodesAfterMakeEdge() {
 		listOfNodes = DataModelI.getInstance().retrieveNodes();
-		listOfNodes.contains("hi");
+		Node a_node = DataModelI.getInstance().getNodeByIDFromList("WHALL002L2",listOfNodes);
+		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
+		DataModelI.getInstance().addEdge(a_node, new_node);
+		assertTrue(a_node.getAdjacentNodes().contains(new_node));
 	}
+
+	@Test
+	public void testAdjacentNodesWhenAddedNodeStatusNotOne() {
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node a_node = DataModelI.getInstance().getNodeByIDFromList("WHALL002L2",listOfNodes);
+		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 2, 500, 1000);
+		DataModelI.getInstance().addEdge(a_node, new_node);
+		assertTrue(a_node.getAdjacentNodes().contains(new_node));
+	}
+
+    @Test
+    public void testRetrieveNodesWhenAddedNodeStatusNotOne() {
+        listOfNodes = DataModelI.getInstance().retrieveNodes();
+        Node a_node = DataModelI.getInstance().getNodeByIDFromList("WHALL002L2",listOfNodes);
+        Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 2, 500, 1000);
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+        Node retrieved_node = DataModelI.getInstance().getNodeByIDFromList(new_node.getNodeID(),listOfNodes);
+        assertTrue(retrieved_node == null);
+    }
+
+	@Test
+	public void testRetrieveNodesWhenAddedNodeStatusISOne() {
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node a_node = DataModelI.getInstance().getNodeByIDFromList("WHALL002L2",listOfNodes);
+		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
+		listOfNodes = DataModelI.getInstance().retrieveNodes();
+		Node retrieved_node = DataModelI.getInstance().getNodeByIDFromList(new_node.getNodeID(),listOfNodes);
+		assertTrue(retrieved_node != null);
+	}
+
+	//test adjacentNode with status 2 or 0 or 3
 
 
 	/*@Test

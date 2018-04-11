@@ -87,10 +87,17 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean closeConnection() {
         try {
-            DataModelI.getInstance().connection.close();
-            return true;
+            if(DataModelI.getInstance().connection != null) {
+                DataModelI.getInstance().connection.close();
+                DataModelI.getInstance().connection = null;
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } catch (NullPointerException en){
+            en.printStackTrace();
             return false;
         }
     }
