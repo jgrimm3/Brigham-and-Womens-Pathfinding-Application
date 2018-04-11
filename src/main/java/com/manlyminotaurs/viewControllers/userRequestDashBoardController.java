@@ -28,7 +28,7 @@ public class userRequestDashBoardController implements Initializable{
     DataModelI dBUtil = DataModelI.getInstance();
     ObservableList<requestInfo> openList = FXCollections.observableArrayList();
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
-    ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
+    ObservableList<Request> reqestList = FXCollections.observableArrayList();
 
     public class requestInfo{
         protected String requestID;
@@ -99,9 +99,13 @@ public class userRequestDashBoardController implements Initializable{
             reqConfirmedClosed.setCellValueFactory(new PropertyValueFactory<adminRequestDashboardController.requestInfo, String>("isAssigned"));
 
             //POPULATE LISTS----------------------------------------
+            reqestList.addAll(dBUtil.retrieveRequests());
             for(Request currReq : reqestList) {
                 if (!currReq.getComplete()) {
-                    openList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
+                    openList.add(new requestInfo(currReq.getRequestType(),
+                            dBUtil.getMessageByID(currReq.getMessageID()).getMessage(),
+                            currReq.getAdminConfirm(),
+                            currReq.getRequestID()));
                 } else {
                     closedList.add(new requestInfo(currReq.getRequestType(), dBUtil.getMessageByID(currReq.getMessageID()).getMessage(), currReq.getAdminConfirm(), currReq.getRequestID()));
                 }
