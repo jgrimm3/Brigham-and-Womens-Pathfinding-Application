@@ -350,7 +350,7 @@ public class nodeEditorController {
         txtYCoordMod.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
-                txtAdminUser.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
+                txtAdminUser.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
@@ -422,7 +422,6 @@ public class nodeEditorController {
         }
     }
 
-
     //Combo Box selected update next
     //Add node
     public void addSetBuilding(ActionEvent event) {
@@ -445,7 +444,6 @@ public class nodeEditorController {
     public void addSetType(ActionEvent event) {
         //set type to selected value
         type = cmboType.getValue().toString();
-
     }
 
     //modify node
@@ -468,13 +466,17 @@ public class nodeEditorController {
     public void modSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeMod.getValue().toString();
-        cmboNodeMod.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue())));
+        List<Node> curNode = DataModelI.getInstance().retrieveNodes();
+        System.out.println((int) curNode.size());
+        List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue());
+        cmboNodeMod.setItems(FXCollections.observableArrayList(currentN));
 
 
     }
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
+        DataModelI.getInstance().retrieveNodes();
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
         txtLongNameMod.setText(node.getLongName());
         txtShortNameMod.setText(node.getShortName());
@@ -504,6 +506,7 @@ public class nodeEditorController {
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
+        DataModelI.getInstance().retrieveNodes();
         node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
         txtLongNameDel.setText(node.getLongName());
         txtShortNameDel.setText(node.getShortName());
@@ -524,7 +527,10 @@ public class nodeEditorController {
         type = cmboType.getValue().toString();
         //call add node function
         DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
+        btnAddNode.setText("Node Added!");
         //redraw map
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        btnAddNode.setText("Add Node");
     }
 
 
@@ -566,7 +572,10 @@ public class nodeEditorController {
             txtAdminUser.setText("incorrect User and Password");
             txtAdminPassword.clear();
         }
+
         //redraw map
+        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        btnAddNode.setText("Delete Node");
     }
 
 
@@ -704,6 +713,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
             pathfloor2DMapLoader(floor);
 
             List<Node> nodeList = new ArrayList<>();
+            DataModelI.getInstance().retrieveNodes();
             nodeList = DataModelI.getInstance().getNodesByFloor(floor);
 
             for(int x=0;x<nodeList.size(); x++) {
