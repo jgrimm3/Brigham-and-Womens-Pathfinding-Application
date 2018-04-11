@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public class PathfindingContext {
     private ArrayList nodeSet;
     private PathfinderUtil pu;
-    private IPathFindingStrategy strategy;
+    public IPathFindingStrategy strategy;
 
     // Forced a getPath call to include a strategy to avoid getPath being called without first setting strategy
     private void setStrategy(IPathFindingStrategy strategy) {

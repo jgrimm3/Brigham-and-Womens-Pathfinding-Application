@@ -2,13 +2,12 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.pathfinding.AStarStrategyI;
-import com.manlyminotaurs.pathfinding.PathNotFoundException;
-import com.manlyminotaurs.pathfinding.PathfinderUtil;
-import com.manlyminotaurs.pathfinding.PathfindingContext;
+import com.manlyminotaurs.nodes.Room;
+import com.manlyminotaurs.pathfinding.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -47,12 +46,11 @@ public class homeController implements Initializable {
 	//Nested Private Singleton
 	private static class Singleton {
 		private static Singleton instance = null;
-
+		PathfindingContext pathfindingContext = new PathfindingContext();
+		Boolean handicap;
 		private Singleton() {
-			PathfindingContext Pf = new PathfindingContext();
 
 		}
-
 		private static class SingletonHolder {
 			private static Singleton MapController = new Singleton();
 
@@ -61,10 +59,6 @@ public class homeController implements Initializable {
 		public static Singleton getInstance() {
 			return homeController.Singleton.SingletonHolder.MapController;
 		}
-	}
-
-	public void testSingleton() {
-		Singleton.getInstance();
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -285,19 +279,33 @@ public class homeController implements Initializable {
 
 		comChangeFloor.getSelectionModel().select(2);
 		pathfloor2DMapLoader("1");
+		setStrategy();
 		//createMap();
+	}
+
+	public void setStrategy(){
+		if (Main.pathStrategy.equals("A*")) {
+			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
+		}
+		if (Main.pathStrategy.equals("BFS")) {
+			Singleton.getInstance().pathfindingContext.strategy = new BreadthFirstStrategyI();
+		}
+		if (Main.pathStrategy.equals("DFS")) {
+			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
+		}
 	}
 
 	public void toggleHandicap(ActionEvent event) {
 
 		if (tglHandicap.isSelected()) {
-
+            Singleton.getInstance().handicap = true;
 			// Switch on
 			tglHandicap.setText("ON");
 
 		} else {
 
 			// Switch off
+            Singleton.getInstance().handicap = false;
 			tglHandicap.setText("OFF");
 		}
 	}
@@ -892,15 +900,68 @@ public class homeController implements Initializable {
 	public void findQuickBathroom(ActionEvent event) {
 
 		// Pathfind to nearest bathroom
+		String startFloor = "1";
+		Node bathroomNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "REST", "Node 1, 3", "n1x3y", 1, 0, 0);
+		// Pathfind to nearest bathroom
+		PathfinderUtil pu = new PathfinderUtil();
+		PathfindingContext pf = new PathfindingContext();
+		List<Node> path = new LinkedList<Node>();
 
+		ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
+		Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
+
+		try {
+			path = pf.getPath(startNode, bathroomNode, new ClosestStrategyI());
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
 		// Show directions interface and hide pathfinding interface
 		panePathfinding.setVisible(false);
 		paneDirections.setVisible(true);
-
 		// Set new overview panel to correct parameters
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-
+		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		lstDirections.setItems(directions);
+		listForQR = (LinkedList<Node>)path;
+		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
+		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+		// Draw path code
+		if (tglHandicap.isSelected()) {
+			// use elevator
+			if (tglMap.isSelected()) {
+				// use 3-D
+				printNodePath(path, startFloor, "3-D");
+				pathfloor3DMapLoader(startFloor);
+				comChangeFloor.setValue("FLOOR: " + startFloor);
+			} else {
+				// use 2-D
+				printNodePath(path, startFloor, "2-D");
+				pathfloor2DMapLoader(startFloor);
+				comChangeFloor.setValue("FLOOR: " + startFloor);
+			}
+		} else {
+			// use stairs
+			if (tglMap.isSelected()) {
+				// use 3-D
+				System.out.println("using 3d stairs");
+				printNodePath(path, startFloor, "3-D");
+				pathfloor3DMapLoader(startFloor);
+				comChangeFloor.setValue("FLOOR: " + startFloor);
+			} else {
+				// use 2-D
+				printNodePath(path, startFloor, "2-D");
+				pathfloor2DMapLoader(startFloor);
+				comChangeFloor.setValue("FLOOR: " + startFloor);
+			}
+		}
+		// Clear old fields
+		// Show directions interface and hide pathfinding interface
+		panePathfinding.setVisible(false);
+		paneDirections.setVisible(true);
+		// Set new overview panel to correct parameters
+		lblStartLocation1.setText(comLocationStart.getValue());
+		lblEndLocation1.setText(comLocationEnd.getValue());
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
 		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
@@ -926,8 +987,12 @@ public class homeController implements Initializable {
 		comLocationEnd.setItems(empty);
 		lblStartLocation.setText("START LOCATION");
 		lblEndLocation.setText("END LOCATION");
-
+		if (paneHelp.isVisible()) {
+			lblHelp1.setVisible(false);
+			lblHelp2.setVisible(true);
+		}
 		// Directions Update
+
 	}
 
 	public void findQuickCafe(ActionEvent event) {
@@ -1455,7 +1520,7 @@ public class homeController implements Initializable {
 
 		} else {
 
-			PathfindingContext pathfindingContext = new PathfindingContext();
+
 			PathfinderUtil pathfinderUtil = new PathfinderUtil();
 
 			//List<Node> nodeList = new ArrayList<>();
@@ -1463,7 +1528,7 @@ public class homeController implements Initializable {
 			nodeList = DataModelI.getInstance().retrieveNodes();
 
 			try {
-				pathList = pathfindingContext.getPath(DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList), DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList), new AStarStrategyI());
+				pathList = Singleton.getInstance().pathfindingContext.getPath(DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList), DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList), new AStarStrategyI());
 
 			} catch (PathNotFoundException e) {
 				e.printStackTrace();
