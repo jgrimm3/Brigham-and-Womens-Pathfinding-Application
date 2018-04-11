@@ -22,9 +22,7 @@ public class NodesDBUtilTest {
 
 	@Before
 	public void before() {
-		DataModelI.getInstance().removeNode("1");
-		DataModelI.getInstance().removeNode("Xlmao2004");
-
+		DataModelI.getInstance().startDB();
 	}
 /*
 	// Tests
@@ -104,7 +102,10 @@ public class NodesDBUtilTest {
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "s", "s", "t", "w", "t", 3, 5, 2);
 		List<Node> newList = DataModelI.getInstance().retrieveNodes();
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()) != null);
-		assertTrue(DataModelI.getInstance().retrieveNodes().contains(addedNode));
+
+		boolean trueOrFalse = newList.contains(addedNode);
+		Node compareNode = newList.get(582);
+		assertTrue(trueOrFalse);
 		//assertTrue(DataModelI.getInstance().getNodeByID(addedNode.getNodeID())==null);
 	}
 
