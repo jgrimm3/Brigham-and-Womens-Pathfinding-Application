@@ -42,4 +42,10 @@ public class AStarNode extends PathfindingNode implements Comparable<AStarNode> 
     public int compareTo(AStarNode other){
         return Double.compare(this.getfScore(), other.getfScore());
     }
+
+    @Override
+    public boolean equals(Object other){
+        AStarNode n = (AStarNode) other;
+        return this.getNode().getNodeID().equals(n.getNode().getNodeID());
+    }
 }
