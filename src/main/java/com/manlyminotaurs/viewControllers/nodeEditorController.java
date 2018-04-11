@@ -437,6 +437,7 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+
     public void CreateRequest(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -454,6 +455,7 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+
     public void manageRequest (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -680,6 +682,7 @@ public class nodeEditorController {
                 }
                 node.setStatus(newStatus);
     }
+
 public void setPathfindAlgorithm(ActionEvent event) {
         String Pathfinding;
         Pathfinding = cmboPathfinding.getValue().toString();
@@ -797,7 +800,9 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 tempCircle.setRadius(5);
                 tempCircle.setFill(Color.PURPLE);
                 tempCircle.setVisible(true);
+                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
                 paneMap.getChildren().add(tempCircle);
+                circleList.add(tempCircle);
             }
 
         } else {
@@ -813,7 +818,9 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 tempCircle.setRadius(5);
                 tempCircle.setFill(Color.PURPLE);
                 tempCircle.setVisible(true);
+                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
                 paneMap.getChildren().add(tempCircle);
+                circleList.add(tempCircle);
             }
         }
 
@@ -862,6 +869,34 @@ public void setPathfindAlgorithm(ActionEvent event) {
 
 
     }
+
+    public void chooseNodeEdge(MouseEvent event) {
+        Circle circle = (Circle)event.getTarget();
+        if(mapNodeChoice == true) {
+            for (Node node : nodeList) {
+                if (node.getXCoord() == circle.getCenterX()) {
+                    if (node.getYCoord() == circle.getCenterY()) {
+                        System.out.println("Click recognized");
+                        btnSelectEdgeNode.setText(node.getLongName());
+                        break;
+                    }
+                }
+            }
+            System.out.println("Node not found");
+        } else {
+            for (Node node : nodeList) {
+                if (node.getXCoord3D() == circle.getCenterX()) {
+                    if (node.getYCoord3D() == circle.getCenterY()) {
+                        System.out.println("Click recognized");
+                        btnSelectEdgeNode.setText(node.getLongName());
+                        break;
+                    }
+                }
+            }
+            System.out.println("Node not found");
+        }
+    }
+
 }
 
 
