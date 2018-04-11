@@ -11,7 +11,7 @@ public class DepthFirstStrategyI implements IPathFindingStrategy {
     private Stack<DFSNode> openList = new Stack<>();
 
     /**
-     * Wrapper for calcPath function. Creates empty data structures.
+     * The Wrapper for calcPath function. Creates empty data structures.
      *
      * @param startNode: starting node
      * @param endNode:   ending nodes

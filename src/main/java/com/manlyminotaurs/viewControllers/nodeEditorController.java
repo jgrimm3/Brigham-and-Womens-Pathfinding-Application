@@ -1,6 +1,7 @@
 
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
@@ -58,6 +59,8 @@ public class nodeEditorController {
     @FXML
     Path path;
     @FXML
+    ComboBox<String> cmboPathfinding;
+    @FXML
     Button btnMenuAdd;
     @FXML
     Button btnModifyNode;
@@ -110,13 +113,9 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtYCoordMod3D;
     @FXML
-    JFXTextField txtYCoordDel;
-    @FXML
     JFXTextField txtShortNameDel;
     @FXML
     JFXTextField txtLongNameDel;
-    @FXML
-    JFXTextField txtXCoordDel;
     @FXML
     ToggleButton tglGeofence;
     @FXML
@@ -145,12 +144,19 @@ public class nodeEditorController {
     Button btn2DMapMod;
     @FXML
     Button btn3DMapMod;
+    @FXML
+    Button btnDeleteNodePane;
+    @FXML
+    JFXTextField txtAdminUser;
+    @FXML
+    JFXPasswordField txtAdminPassword;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd", "sfdd", "SFd");
+
 
     String longName;
     String shortName;
@@ -207,8 +213,8 @@ public class nodeEditorController {
         txtYCoord.clear();
         txtLongNameDel.clear();
         txtShortNameDel.clear();
-        txtXCoordDel.clear();
-        txtYCoordDel.clear();
+        txtAdminPassword.clear();
+        txtAdminUser.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
                 txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
@@ -233,8 +239,8 @@ public class nodeEditorController {
         txtYCoordMod.clear();
         txtLongNameDel.clear();
         txtShortNameDel.clear();
-        txtXCoordDel.clear();
-        txtYCoordDel.clear();
+        txtAdminPassword.clear();
+        txtAdminUser.clear();
         BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
                 txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
 
@@ -268,8 +274,8 @@ public class nodeEditorController {
         txtXCoordMod.clear();
         txtYCoordMod.clear();
 
-        BooleanBinding booleanBind = Bindings.or(txtYCoordDel.textProperty().isEmpty(),
-                txtXCoordDel.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
+        BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
+                txtAdminUser.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
@@ -286,8 +292,8 @@ public class nodeEditorController {
             txtXCoordMod.setText(String.format("%1.3f", event.getX()));
             txtYCoordMod.setText(String.format("%1.3f", event.getY()));
         } else if (paneDelete.isVisible() == true) {
-            txtXCoordDel.setText(String.format("%1.3f", event.getX()));
-            txtYCoordDel.setText(String.format("%1.3f", event.getY()));
+            txtAdminUser.setText(String.format("%1.3f", event.getX()));
+            txtAdminPassword.setText(String.format("%1.3f", event.getY()));
         }
     }
 
@@ -387,13 +393,14 @@ public class nodeEditorController {
     public void modSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeMod.getValue().toString();
-        cmboNodeMod.setItems(null);
+        cmboNodeMod.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue())));
+
 
     }
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
-        //node = cmboNodeMod.getValue().toString();
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
 
     }
 
@@ -414,13 +421,13 @@ public class nodeEditorController {
     public void delSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeDel.getValue().toString();
-        cmboNodeDel.setItems(null);
+        cmboNodeDel.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingDel.getValue(),cmboTypeDel.getValue(),cmboFloorDel.getValue())));
 
     }
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
-        type = cmboNodeDel.getValue().toString();
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
     }
 
 
@@ -439,7 +446,6 @@ public class nodeEditorController {
         //call add node function
         DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         //redraw map
-
     }
 
 
@@ -457,18 +463,18 @@ public class nodeEditorController {
 
         //call modify node function
 
-
         //redraw map
     }
-
 
     //delete ode
     public void deleteNode(ActionEvent event) {
         longName = txtLongNameDel.getText();
         shortName = txtShortNameDel.getText();
 
-
         //set login check
+        txtAdminPassword.getText();
+        txtAdminUser.getText();
+
 
         building = cmboBuildingDel.getValue().toString();
         floor = cmboFloorDel.getValue().toString();
@@ -480,7 +486,6 @@ public class nodeEditorController {
         //redraw map
 
     }
-
 
         public void printPoints(){
         //check list print points on map
@@ -545,13 +550,26 @@ public class nodeEditorController {
         } else if(cmboFloor.getValue().equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
         }
-
     }
 
     public void geofence(ActionEvent event){
-
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
+        int newStatus = 0;
+                switch(node.getStatus()){
+                    case 0:
+                        newStatus = 0;
+                        break;
+                    case 1:
+                        newStatus = 1;
+                        break;
+                        default:
+                            newStatus = 0;
+                }
+                node.setStatus(newStatus);
     }
+public void setPathFindAlgorithm(ActionEvent event){
 
+}
 
 }
 
