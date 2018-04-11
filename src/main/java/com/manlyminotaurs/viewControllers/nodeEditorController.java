@@ -270,7 +270,6 @@ public class nodeEditorController {
         }
         catch (Exception e){
             e.printStackTrace();}
-
     }
 
     //Swap active panes
