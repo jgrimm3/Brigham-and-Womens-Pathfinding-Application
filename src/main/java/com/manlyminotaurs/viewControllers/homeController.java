@@ -907,11 +907,12 @@ public class homeController implements Initializable {
 		PathfindingContext pf = new PathfindingContext();
 		List<Node> path = new LinkedList<Node>();
 
-		ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
-		Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
+
+		//ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
+		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(startNode, bathroomNode, new ClosestStrategyI());
+			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1438,7 +1439,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size() - 1);
+			Node endNode = pathList.get(pathList.size());
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
