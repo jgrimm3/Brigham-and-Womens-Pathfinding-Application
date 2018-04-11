@@ -67,13 +67,14 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        DataModelI.getInstance().updateNodeCSVFile("TestNodeTable.csv");
-        DataModelI.getInstance().updateEdgeCSVFile("TestEdgeTable.csv");
-        //     DataModelI.getInstance().updateRoomCSVFile("TestRoomTable.csv");
-        DataModelI.getInstance().updateMessageCSVFile("TestMessageTable.csv");
-        DataModelI.getInstance().updateRequestCSVFile("TestRequestTable.csv");
-        DataModelI.getInstance().updateUserCSVFile("TestUserTable.csv");
-        DataModelI.getInstance().updateUserPasswordFile("TestUserPassword.csv");
+        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
+        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
+        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
+        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
+        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
+        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
+        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
+
 
         System.out.println("Files Saved!");
     }
