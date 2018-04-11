@@ -1,4 +1,4 @@
-userID,firstName,middleInitial,lastName,language,userType
+userID,firstName,middleName,lastName,language, userType
 1,Andrew,,Morrison,English,security
 2,Edward,,Jang,Korean,visitor
 3,Christian,,Cedrone,Spanish,interpreter
