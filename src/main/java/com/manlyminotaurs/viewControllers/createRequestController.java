@@ -156,7 +156,7 @@ public class createRequestController{
             Stage stage;
             Parent root;
             //get reference to the button's stage
-            stage=(Stage)btnlogOut.getScene().getWindow();
+            stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
             root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
@@ -177,8 +177,11 @@ public class createRequestController{
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            }else{
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+            }
             //create a new scene with root and set the stage
             Scene scene = new Scene(manageRequests);
             stage.setScene(scene);

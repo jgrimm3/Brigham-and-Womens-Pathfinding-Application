@@ -55,8 +55,22 @@ public class nodeEditorController {
     Parent logout;
     Parent createRequests;
     Parent manageRequests;
+    Node edgeNodeAdd = null;
+    Circle finishCircle = new Circle();
+    Circle startCircle = new Circle();
+    Circle finishCircle2 = new Circle();
+    List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+    List<Node> pathList = new ArrayList<>();
+    LinkedList<Node> listForQR = new LinkedList<Node>();
+    Image imageQRCode;
+    String startFloor = "";
+    String endFloor = "";
+    List<Circle> circleList = new ArrayList<>();
+    Boolean mapNodeChoice;
 
 
+    @FXML
+    Button btnSelectEdgeNode;
     @FXML
     Button navBtnManageRequests;
     @FXML
@@ -360,13 +374,20 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if (paneAdd.isVisible() == true) {
+        if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
             txtXCoord.setText(String.format("%1.0f", event.getX()));
             txtYCoord.setText(String.format("%1.0f", event.getY()));
-        } else if (paneModify.isVisible() == true) {
+        } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
+            txtXCoord3D.setText(String.format("%1.0f", event.getX()));
+            txtYCoord3D.setText(String.format("%1.0f", event.getY()));
+        } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
             txtXCoordMod.setText(String.format("%1.0f", event.getX()));
             txtYCoordMod.setText(String.format("%1.0f", event.getY()));
-        }
+        } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
+        txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
+        txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
+
+    }
     }
 
 
@@ -536,6 +557,8 @@ public class nodeEditorController {
     }
 
 
+
+
     //modify node
     public void modifyNode(ActionEvent event) {
         longName = txtLongNameMod.getText();
@@ -548,8 +571,11 @@ public class nodeEditorController {
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
 
+
         //call modify node function
 
+        DataModelI.getInstance().addEdge(edgeNodeAdd, node);
+        DataModelI.getInstance().modifyNode(node);
         //redraw map
     }
 
@@ -583,18 +609,29 @@ public class nodeEditorController {
 
     public void load2DMap(ActionEvent event) {
         drawCircles(cmboFloorAdd.getValue(),"2-D");
+        mapNodeChoice = true;
     }
 
     public void load3DMap(ActionEvent event) {
         drawCircles(cmboFloorAdd.getValue(),"3-D");
+        mapNodeChoice = false;
     }
 
     public void load2DMapMod(ActionEvent event) {
         drawCircles(cmboFloor.getValue(),"2-D");
+        mapNodeChoice = true; //select 2d coord
+
     }
 
     public void load3DMapMod(ActionEvent event) {
         drawCircles(cmboFloor.getValue(),"3-D");
+        mapNodeChoice = false; //select 3d coord
+
+
+    }
+
+    public void waitOnTapNode(ActionEvent event){
+
     }
 
     public void geofence(ActionEvent event){
@@ -745,6 +782,48 @@ public void setPathfindAlgorithm(ActionEvent event) {
             }
         }
 
+
+       /* private void printPoints(String floor, String dimension) {
+            // Connection for the database
+            //List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+
+            // map boundaries
+
+            int i = 0;
+            int x = 0;
+            int y = 0;
+            // Iterate through each node
+            while (i < nodeList.size()) {
+
+                // If the node is on the correct floor
+                if (nodeList.get(i).getFloor().equals(floor)) {
+
+                    if (dimension.equals("2-D")) {
+                        // Get x and y coords
+                        x = nodeList.get(i).getXCoord();
+                        y = nodeList.get(i).getYCoord();
+                    } else if (dimension.equals("3-D")) {
+                        x = nodeList.get(i).getXCoord3D();
+                        y = nodeList.get(i).getYCoord3D();
+                    } else {
+                        System.out.println("Invalid dimension");
+                    }
+
+                    Circle circle = new Circle(x, y, 5);
+                    Circle outline = new Circle(x, y, 10);
+                    circle.setFill(Color.WHITE);
+                    outline.setFill(Color.NAVY);
+
+                        //circle.setOnMouseClicked(this::chooseEndNode);
+
+                    circleList.add(outline);
+                    circleList.add(circle);
+                    paneMap.getChildren().add(outline);
+                    paneMap.getChildren().add(circle);
+                }
+                i++;
+            }
+        }*/
 
 
     }
