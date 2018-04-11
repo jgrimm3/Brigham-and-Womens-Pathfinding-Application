@@ -943,6 +943,7 @@ public class homeController implements Initializable {
     //                                           Click on map
     //
     //-----------------------------------------------------------------------------------------------------------------
+
     public void getXandY(MouseEvent event) throws Exception{
         //see which pane is visible and set the corresponding x and y coordinates
         if (paneMap.isVisible() == true) {
@@ -1156,6 +1157,19 @@ public class homeController implements Initializable {
         System.out.println("Attempting to print path between nodes...");
         int i = 0;
         if(!nodeList.isEmpty()) {
+            double snapX = 0.0;
+            double snapY = 0.0;
+            if(dimension.equals("3-D")) {
+                snapX = (double)nodeList.get(0).getXCoord() / 5000.0;
+                snapY = (double)nodeList.get(0).getYCoord() / 2744.0;
+            } else if (dimension.equals("2-D")) {
+                snapX = (double)nodeList.get(0).getXCoord() / 5000.0;
+                snapY = (double)nodeList.get(0).getYCoord() / 3400.0;
+            } else {
+                System.out.println("Invalid dimension");
+            }
+            scrollPaneMap.setVvalue(snapY);
+            scrollPaneMap.setHvalue(snapX);
             while (i < nodeList.size()) {
                 // Give starting point
                 MoveTo moveTo = new MoveTo();
