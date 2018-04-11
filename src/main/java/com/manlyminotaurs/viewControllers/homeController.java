@@ -103,6 +103,9 @@ public class homeController implements Initializable {
     Parent adminRequest;
     Parent staffRequest;
 
+    Circle finishCircle = new Circle();
+    Circle startCircle = new Circle();
+
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
 
@@ -294,18 +297,30 @@ public class homeController implements Initializable {
             tglMap.setText("3-D");
             lblMap.setText("MAP: 3-D");
 
+
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2774);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+
             // !!!
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
-                System.out.println("L1");
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"2-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
+
             }
 
         } else {
@@ -314,17 +329,32 @@ public class homeController implements Initializable {
             tglMap.setText("2-D");
             lblMap.setText("MAP: 2-D");
 
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+
             if(comChangeFloor.getValue().equals("FLOOR: L2")) { ;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+
             }
+
+
+
         }
 
     }
@@ -499,35 +529,62 @@ public class homeController implements Initializable {
 
         if (tglMap.isSelected()) { // 3-D
 
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2772);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+
             // !!!
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
-                System.out.println("L1");
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"2-ICONS.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
+
             }
+
+
 
         } else { // 2-D
 
             // !!!
+
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-                System.out.println("L1");
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+
             }
+
+
         }
 
     }
@@ -580,9 +637,7 @@ public class homeController implements Initializable {
                 // Map the x and y coords onto our map
                 lineTo.setX(endNode.getXCoord3D());
                 lineTo.setY(endNode.getYCoord3D());
-            }
-            else
-            {
+            } else {
                 System.out.println("Invalid dimension");
             }
 
@@ -649,6 +704,10 @@ public class homeController implements Initializable {
             pathfinderUtil.generateQR(pathfinderUtil.angleToText(pathList));
             // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
+            int finishX = 0;
+            int finishY = 0;
+            int startX = 0;
+            int startY = 0;
 
             // Draw path code
 
@@ -659,9 +718,17 @@ public class homeController implements Initializable {
                 if (tglMap.isSelected()) {
                     // use 3-D
                     printNodePath(pathList, startFloor, "3-D");
+                    finishX = pathList.get(pathList.size()-1).getXCoord3D();
+                    finishY = pathList.get(pathList.size()-1).getYCoord3D();
+                    startX = pathList.get(0).getXCoord3D();
+                    startY = pathList.get(0).getYCoord3D();
                 } else {
                     // use 2-D
                     printNodePath(pathList, startFloor, "2-D");
+                    finishX = pathList.get(pathList.size()-1).getXCoord();
+                    finishY = pathList.get(pathList.size()-1).getYCoord();
+                    startX = pathList.get(0).getXCoord();
+                    startY = pathList.get(0).getYCoord();
                 }
 
             } else {
@@ -669,31 +736,41 @@ public class homeController implements Initializable {
 
                 if (tglMap.isSelected()) {
                     // use 3-D
+
+                    System.out.println("using 3d stairs");
+
                     printNodePath(pathList, startFloor, "3-D");
+
+                    finishX = pathList.get(pathList.size()-1).getXCoord3D();
+                    finishY = pathList.get(pathList.size()-1).getYCoord3D();
+                    startX = pathList.get(0).getXCoord3D();
+                    startY = pathList.get(0).getYCoord3D();
 
                 } else {
                     // use 2-D
                     printNodePath(pathList, startFloor, "2-D");
-                    printNodePath(pathList, startFloor, "2-D");
+                    finishX = pathList.get(pathList.size()-1).getXCoord();
+                    finishY = pathList.get(pathList.size()-1).getYCoord();
+                    startX = pathList.get(0).getXCoord();
+                    startY = pathList.get(0).getYCoord();
                 }
-                /*
-                int finishX = pathList.get(pathList.size()-1).getXCoord();
-                int finishY = pathList.get(pathList.size()-1).getXCoord();
-                Circle finish = new Circle();
-                finish.setRadius(5);
-                finish.setFill(Color.RED);
-                finish.setCenterX(finishX);
-                finish.setCenterY(finishY);
-                Circle finish2 = new Circle();
-                finish2.setRadius(7);
-                finish2.setFill(Color.BLACK);
-                finish2.setCenterX(finishX);
-                finish2.setCenterY(finishY);
-                paneMap.getChildren().add(finish);
-                paneMap.getChildren().add(finish2);*/
-
-
             }
+
+
+            // Draw Circle
+            startCircle.setRadius(10);
+            startCircle.setFill(Color.GREEN);
+            startCircle.setVisible(true);
+            startCircle.setCenterX(startX);
+            startCircle.setCenterY(startY);
+
+            finishCircle.setRadius(10);
+            finishCircle.setFill(Color.BLACK);
+            finishCircle.setVisible(true);
+            finishCircle.setCenterX(finishX);
+            finishCircle.setCenterY(finishY);
+            paneMap.getChildren().add(finishCircle);
+            paneMap.getChildren().add(startCircle);
 
             // Clear old fields
 
@@ -813,6 +890,10 @@ public class homeController implements Initializable {
         panePathfinding.setVisible(true);
         paneDirections.setVisible(false);
         path.getElements().clear();
+        path.getElements().add(new MoveTo(-100, -100));
+        path.getElements().add(new LineTo(5000, -100));
+        path.getElements().add(new LineTo(5000, 5000));
+        path.getElements().add(new LineTo(-100, 5000));
 
         tglHandicap.setSelected(false);
         tglHandicap.setText("OFF");
@@ -820,6 +901,9 @@ public class homeController implements Initializable {
         tglMap.setSelected(false);
         tglMap.setText("2-D");
         lblMap.setText("MAP: 2-D");
+
+        paneMap.getChildren().remove(startCircle);
+        paneMap.getChildren().remove(finishCircle);
 
         if (paneHelp.isVisible()) {
             lblHelp1.setVisible(true);
