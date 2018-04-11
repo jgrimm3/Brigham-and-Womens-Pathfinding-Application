@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 class JanitorialRequest extends Request{
 
-    JanitorialRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String password, String nodeID, String messageID) {
+    JanitorialRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String nodeID, String messageID, String password) {
         super(requestID, requestType, priority, isComplete, adminConfirm, startTime,endTime, password, nodeID, messageID);
     }
     @Override
