@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -379,7 +380,13 @@ public class homeController implements Initializable {
 
     }
 
+
     public void chooseStartNode(ActionEvent event) {
+    /*    paneMap.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                lblStartLocation.setText(DataModelI.getInstance().getNodeByCoords((int)event.getX(), (int)event.getY()).getLongName());
+            }
+        });*/
 
     }
 
