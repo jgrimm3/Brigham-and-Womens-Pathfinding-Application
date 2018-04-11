@@ -63,7 +63,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status = 1";
+			String str = "SELECT * FROM MAP_NODES";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -98,6 +98,7 @@ class NodesDBUtil {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("hllo");
 		return nodes;
 	} // retrieveNodes() ends
 
@@ -149,7 +150,7 @@ class NodesDBUtil {
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
-			String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName, xCoord3D, yCoord3D) VALUES (?,?,?,?,?,?,?,?,?,?)";
+			String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName, status, xCoord3D, yCoord3D) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 			// Create the prepared statement
 			statement = connection.prepareStatement(str);
@@ -161,8 +162,9 @@ class NodesDBUtil {
 			statement.setString(6, aNode.getNodeType());
 			statement.setString(7, aNode.getLongName());
 			statement.setString(8, aNode.getShortName());
-			statement.setInt(9, aNode.getXCoord3D());
+			statement.setInt(9,aNode.getStatus());
 			statement.setInt(10, aNode.getXCoord3D());
+			statement.setInt(11, aNode.getYCoord3D());
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
@@ -203,7 +205,7 @@ class NodesDBUtil {
 			statement.setString(7, node.getShortName());
             statement.setInt(8, node.getStatus());
 			statement.setInt(9, node.getXCoord3D());
-			statement.setInt(10, node.getXCoord3D());
+			statement.setInt(10, node.getYCoord3D());
 			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			System.out.println("Node added to database");
@@ -638,9 +640,10 @@ class NodesDBUtil {
     public Node buildNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D){
         Node aNode;
 
-	    if (nodeID.equals("") || nodeID.isEmpty()) {nodeID = generateNodeID(nodeType, floor, "A"); }
+	    if (nodeID.equals("") || nodeID.isEmpty())
+	    {nodeID = generateNodeID(nodeType, floor, "A"); }
         switch (nodeType){
-            case "Hall":
+            case "HALL":
                 aNode = new Hallway(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
             case "ELEV":
                 aNode = new Transport(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);

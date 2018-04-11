@@ -3,6 +3,7 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
@@ -41,6 +42,7 @@ public class CsvFileController {
         System.out.println("Parsing csv file");
         List<String[]> list_of_rows = new ArrayList<>();
         try {
+            /*
             File file = new File(csv_file_name);
             FileReader fileReader = new FileReader(getClass().getResource(csv_file_name).getFile());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -52,6 +54,17 @@ public class CsvFileController {
                 list_of_rows.add(node_row);
             }
             fileReader.close();
+            System.out.println("csv file parsed");*/
+
+            InputStream inputStream = getClass().getResourceAsStream(csv_file_name);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // use comma as separator
+                String[] node_row = line.split(",");
+                list_of_rows.add(node_row);
+            }
+            inputStream.close();
             System.out.println("csv file parsed");
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +88,7 @@ public class CsvFileController {
             printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
             while (iterator.hasNext()) {
                 Node a_node = iterator.next();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getStatus(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
+                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getNodeID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
             }
             printWriter.close();
             System.out.println("csv node file updated");
@@ -213,25 +226,25 @@ public class CsvFileController {
             e.printStackTrace();
         }
     }//updateUserCSVFile ends
-//
-//    public void updateStaffTable(String csvFileName) {
-//        Iterator<User> iterator = DataModelI.getInstance().retrieveStaffs().iterator();
-//        System.out.println("Updating user csv file...");
-//        try {
-//            FileWriter fileWriter = new FileWriter(csvFileName);
-//            PrintWriter printWriter = new PrintWriter(fileWriter);
-//            printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
-//            while (iterator.hasNext()) {
-//                User a_user = iterator.next();
-//                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),a_user.getLanguage(),a_user.getUserType());
-//            }
-//            printWriter.close();
-//            System.out.println("csv file updated");
-//        }
-//        catch(IOException e){
-//            e.printStackTrace();
-//        }
-//    }//updateUserCSVFile ends
+
+    public void updateStaffTable(String csvFileName) {
+        Iterator<StaffFields> iterator = DataModelI.getInstance().retrieveStaffs().iterator();
+        System.out.println("Updating user csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
+            while (iterator.hasNext()) {
+                StaffFields staffFields = iterator.next();
+                printWriter.printf("%b,%b,%s,%s\n", staffFields.isWorking(), staffFields.isAvailable(),staffFields.getLanguageSpoken(),staffFields.getUserID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updateStaffCSVFile ends
 
     public void updateUserPasswordFile(String csvFileName) {
         Iterator<UserPassword> iterator = DataModelI.getInstance().retrieveUserPasswords().iterator();

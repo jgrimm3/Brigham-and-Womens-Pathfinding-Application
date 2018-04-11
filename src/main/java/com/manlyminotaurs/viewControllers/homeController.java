@@ -615,10 +615,10 @@ public class homeController implements Initializable {
 		btnHelp.setDisable(true);
 		btnCloseHelp.setDisable(true);
 		btnQuickDirections.setDisable(true);
-		btnQuickCafe.setDisable(true);
+//		btnQuickCafe.setDisable(true);
 		btnQuickBathroom.setDisable(true);
-		btnQuickCoffee.setDisable(true);
-		btnQuickShop.setDisable(true);
+//		btnQuickCoffee.setDisable(true);
+		//btnQuickShop.setDisable(true);
 		comChangeFloor.setDisable(true);
 		btnOpenQRCode.setDisable(true);
 		txtPassword.setDisable(true);
@@ -678,10 +678,10 @@ public class homeController implements Initializable {
 		btnHelp.setDisable(false);
 		btnCloseHelp.setDisable(false);
 		btnQuickDirections.setDisable(false);
-		btnQuickCafe.setDisable(false);
+		//btnQuickCafe.setDisable(false);
 		btnQuickBathroom.setDisable(false);
-		btnQuickCoffee.setDisable(false);
-		btnQuickShop.setDisable(false);
+		//btnQuickCoffee.setDisable(false);
+		//btnQuickShop.setDisable(false);
 		comChangeFloor.setDisable(false);
 		btnOpenQRCode.setDisable(false);
 		txtPassword.setDisable(false);
@@ -699,30 +699,30 @@ public class homeController implements Initializable {
 	@FXML
 	Button btnQuickBathroom;
 
-	@FXML
-	Button btnQuickCafe;
+	//@FXML
+	//Button btnQuickCafe;
 
-	@FXML
-	Button btnQuickCoffee;
+	//@FXML
+	//Button btnQuickCoffee;
 
-	@FXML
-	Button btnQuickShop;
+	//@FXML
+	//Button btnQuickShop;
 
 	public void toggleQuickButtons(ActionEvent event) {
 
 		if (btnQuickBathroom.isVisible() == true) {
 
 			btnQuickBathroom.setVisible(false);
-			btnQuickCafe.setVisible(false);
-			btnQuickCoffee.setVisible(false);
-			btnQuickShop.setVisible(false);
+			//btnQuickCafe.setVisible(false);
+			//btnQuickCoffee.setVisible(false);
+			//.setVisible(false);
 
 		} else if (btnQuickBathroom.isVisible() == false) {
 
 			btnQuickBathroom.setVisible(true);
-			btnQuickCafe.setVisible(true);
-			btnQuickCoffee.setVisible(true);
-			btnQuickShop.setVisible(true);
+			//btnQuickCafe.setVisible(true);
+			//btnQuickCoffee.setVisible(true);
+			//btnQuickShop.setVisible(true);
 
 		}
 	}
@@ -875,50 +875,51 @@ public class homeController implements Initializable {
         String userName = txtUsername.getText();
         String password = txtPassword.getText();
 
-        if (userName.equals("") || password.equals("")) {
-            // print message
-            System.out.println("Please completely fill in the username and password fields");
-        } else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
-            try {
-                // Reset Fields
-                panePathfinding.setVisible(true);
-                paneDirections.setVisible(false);
-                paneLogin.setVisible(false);
-                btnQuickBathroom.setVisible(false);
-//                btnQuickShop.setVisible(false);
-//                btnQuickCoffee.setVisible(false);
-//                btnQuickCafe.setVisible(false);
-                tglHandicap.setSelected(false);
-                tglHandicap.setText("OFF");
-                lblHandicap.setText("HANDICAP");
-                tglMap.setSelected(false);
-                tglMap.setText("2-D");
-                lblMap.setText("MAP: 2-D");
-                comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
-                comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
-                comBuildingEnd.setItems(buildings);
-                comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-                comFloorStart.setDisable(true);
-                comFloorStart.getSelectionModel().clearSelection();
-                comFloorStart.setItems(empty);
-                comFloorEnd.setDisable(true);
-                comFloorEnd.getSelectionModel().clearSelection();
-                comFloorEnd.setItems(empty);
-                comTypeStart.setDisable(true);
-                comTypeStart.getSelectionModel().clearSelection();
-                comTypeStart.setItems(empty);
-                comTypeEnd.setDisable(true);
-                comTypeEnd.getSelectionModel().clearSelection();
-                comTypeEnd.setItems(empty);
-                comLocationStart.setDisable(true);
-                comLocationStart.getSelectionModel().clearSelection();
-                comLocationStart.setItems(empty);
-                comLocationEnd.setDisable(true);
-                comLocationEnd.getSelectionModel().clearSelection();
-                comLocationEnd.setItems(empty);
-                lblStartLocation.setText("START LOCATION");
-                lblEndLocation.setText("END LOCATION");
-                // Set floor map !!!
+		if (userName.equals("") || password.equals("")) {
+
+			// print message
+			System.out.println("Please completely fill in the username and password fields");
+		} else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
+			try {
+				// Reset Fields
+				panePathfinding.setVisible(true);
+				paneDirections.setVisible(false);
+				paneLogin.setVisible(false);
+				btnQuickBathroom.setVisible(false);
+				//btnQuickShop.setVisible(false);
+				//btnQuickCoffee.setVisible(false);
+				//btnQuickCafe.setVisible(false);
+				tglHandicap.setSelected(false);
+				tglHandicap.setText("OFF");
+				lblHandicap.setText("HANDICAP");
+				tglMap.setSelected(false);
+				tglMap.setText("2-D");
+				lblMap.setText("MAP: 2-D");
+				comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
+				comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
+				comBuildingEnd.setItems(buildings);
+				comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
+				comFloorStart.setDisable(true);
+				comFloorStart.getSelectionModel().clearSelection();
+				comFloorStart.setItems(empty);
+				comFloorEnd.setDisable(true);
+				comFloorEnd.getSelectionModel().clearSelection();
+				comFloorEnd.setItems(empty);
+				comTypeStart.setDisable(true);
+				comTypeStart.getSelectionModel().clearSelection();
+				comTypeStart.setItems(empty);
+				comTypeEnd.setDisable(true);
+				comTypeEnd.getSelectionModel().clearSelection();
+				comTypeEnd.setItems(empty);
+				comLocationStart.setDisable(true);
+				comLocationStart.getSelectionModel().clearSelection();
+				comLocationStart.setItems(empty);
+				comLocationEnd.setDisable(true);
+				comLocationEnd.getSelectionModel().clearSelection();
+				comLocationEnd.setItems(empty);
+				lblStartLocation.setText("START LOCATION");
+				lblEndLocation.setText("END LOCATION");
+				// Set floor map !!!
 
                 KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
 
