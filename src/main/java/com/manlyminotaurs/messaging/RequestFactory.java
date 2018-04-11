@@ -26,15 +26,15 @@ public class RequestFactory {
         switch (requestType) {
             case MedicalRequest:
                 messageID = dataModel.getNextMessageID();
-                newMsg = new Message(messageID, message, false, LocalDate.now(), "admin", senderID);
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), nodeAt.getNodeID(), messageID, "Password123");
-
-                return dataModel.addRequest(newReq, newMsg);
+                newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(),LocalDateTime.of(0,1,1,1,1), nodeAt.getNodeID(), messageID, "Password123");
+                Request a_request = dataModel.addRequest(newReq, newMsg);
+                return a_request;
 
             case JanitorialRequest:
                 messageID = dataModel.getNextMessageID();
-                newMsg = new Message(messageID, message, false, LocalDate.now(), "admin", senderID);
-                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), Timestamp.valueOf("0").toLocalDateTime(), nodeAt.getNodeID(), messageID, "Password123");
+                newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
+                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), LocalDateTime.of(0,1,1,1,1), nodeAt.getNodeID(), messageID, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
             default:

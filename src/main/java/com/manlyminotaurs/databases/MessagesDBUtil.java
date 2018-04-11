@@ -28,6 +28,7 @@ class MessagesDBUtil {
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
     public Message addMessage(Message messageObject){
+        System.out.println("addMessage");
         String messageID = generateMessageID();
 
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -252,8 +253,8 @@ class MessagesDBUtil {
             if (rset.next()) {
                 message = rset.getString("message");
                 isRead = rset.getBoolean("isRead");
-                senderID =rset.getString("senderID");
                 Date sentDate = rset.getDate("sentDate");
+                senderID =rset.getString("senderID");
                 receiverID = rset.getString("receiverID");
 
                 // Add the new edge to the list
