@@ -41,6 +41,7 @@ public class CsvFileController {
         System.out.println("Parsing csv file");
         List<String[]> list_of_rows = new ArrayList<>();
         try {
+            /*
             File file = new File(csv_file_name);
             FileReader fileReader = new FileReader(getClass().getResource(csv_file_name).getFile());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -52,6 +53,17 @@ public class CsvFileController {
                 list_of_rows.add(node_row);
             }
             fileReader.close();
+            System.out.println("csv file parsed");*/
+
+            InputStream inputStream = getClass().getResourceAsStream(csv_file_name);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // use comma as separator
+                String[] node_row = line.split(",");
+                list_of_rows.add(node_row);
+            }
+            inputStream.close();
             System.out.println("csv file parsed");
         } catch (IOException e) {
             e.printStackTrace();
