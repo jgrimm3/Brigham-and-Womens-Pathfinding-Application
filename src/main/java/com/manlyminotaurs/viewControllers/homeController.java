@@ -106,6 +106,8 @@ public class homeController implements Initializable {
     Circle finishCircle = new Circle();
     Circle startCircle = new Circle();
     Circle finishCircle2 = new Circle();
+    List<Node> nodeList;
+    List<Node> pathList;
 
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
@@ -540,18 +542,28 @@ public class homeController implements Initializable {
             // !!!
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
+                path.getElements().clear();
+                printNodePath(pathList, "L2", "3-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"L1-ICONS.png").display();
+                path.getElements().clear();
+                printNodePath(pathList, "L1", "3-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"1-ICONS.png").display();
+                path.getElements().clear();
+                printNodePath(pathList, "1", "3-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"2-ICONS.png").display();
+                path.getElements().clear();
+                printNodePath(pathList, "2", "3-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
+                path.getElements().clear();
+                printNodePath(pathList, "2", "3-D");
 
             }
 
@@ -570,18 +582,28 @@ public class homeController implements Initializable {
 
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+                clearPath();
+                printNodePath(pathList, "L2", "2-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: L1")) {
                 new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+                clearPath();
+                printNodePath(pathList, "L1", "2-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 1")) {
                 new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+                clearPath();
+                printNodePath(pathList, "1", "2-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 2")) {
                 new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+                clearPath();
+                printNodePath(pathList, "2", "2-D");
 
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+                clearPath();
+                printNodePath(pathList, "3", "2-D");
 
             }
 
@@ -662,11 +684,20 @@ public class homeController implements Initializable {
             Node startNode = nodeList.get(i);
             Node endNode;
 
-            if(i+1<nodeList.size() && nodeList.get(i).getFloor().equals(floor)) {
+            if(i+1<nodeList.size()) {
                 endNode = nodeList.get(i + 1);
-
-                // add the path
-                addPath(dimension, startNode, endNode, moveTo, lineTo);
+                if(nodeList.get(i).getFloor().equals(floor)) {
+                    // add the path
+                    path.setOpacity(100);
+                    path.setStroke(Color.NAVY);
+                    addPath(dimension, startNode, endNode, moveTo, lineTo);
+                }
+                else {
+                    // add the path
+                    path.setOpacity(20);
+                    path.setStroke(Color.LIGHTBLUE);
+                    addPath(dimension, startNode, endNode, moveTo, lineTo);
+                }
             }
             i++;
             System.out.println("Path added...");
@@ -688,8 +719,8 @@ public class homeController implements Initializable {
             PathfindingContext pathfindingContext = new PathfindingContext();
             PathfinderUtil pathfinderUtil = new PathfinderUtil();
 
-            List<Node> nodeList = new ArrayList<>();
-            LinkedList<Node> pathList = new LinkedList<>();
+            //List<Node> nodeList = new ArrayList<>();
+            //LinkedList<Node> pathList = new LinkedList<>();
             nodeList = DataModelI.getInstance().retrieveNodes();
 
             try {
@@ -699,10 +730,10 @@ public class homeController implements Initializable {
                 e.printStackTrace();
             }
 
-            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText(pathList));
+            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList)pathList));
             lstDirections.setItems(directions);
-            listForQR = pathList;
-            pathfinderUtil.generateQR(pathfinderUtil.angleToText(pathList));
+            listForQR = (LinkedList)pathList;
+            pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList)pathList));
             // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
             int finishX = 0;
@@ -879,8 +910,19 @@ public class homeController implements Initializable {
         new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
     }
 
-    public void restartNavigation(ActionEvent event) {
+    private void clearPath() {
+        path.getElements().clear();
+        path.getElements().add(new MoveTo(-100, -100));
+        path.getElements().add(new LineTo(5000, -100));
+        path.getElements().add(new LineTo(5000, 5000));
+        path.getElements().add(new LineTo(-100, 5000));
+    }
 
+    public void restartNavigation(ActionEvent event) {
+        // Clear path
+        clearPath();
+        nodeList.clear();
+        pathList.clear();
 
         // Clear Fields
         comBuildingStart.getSelectionModel().clearSelection();
@@ -894,11 +936,6 @@ public class homeController implements Initializable {
         // Show pathfinding interface and hide directions interface
         panePathfinding.setVisible(true);
         paneDirections.setVisible(false);
-        path.getElements().clear();
-        path.getElements().add(new MoveTo(-100, -100));
-        path.getElements().add(new LineTo(5000, -100));
-        path.getElements().add(new LineTo(5000, 5000));
-        path.getElements().add(new LineTo(-100, 5000));
 
         tglHandicap.setSelected(false);
         tglHandicap.setText("OFF");
