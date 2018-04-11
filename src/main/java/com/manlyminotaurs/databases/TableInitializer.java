@@ -23,8 +23,8 @@ class TableInitializer {
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             stmt = connection.createStatement();
-            tableInit.executeDBScripts("DropTables.sql", stmt);
-            tableInit.executeDBScripts("CreateTables.sql", stmt);
+            tableInit.executeDBScripts("/DropTables.sql", stmt);
+            tableInit.executeDBScripts("/CreateTables.sql", stmt);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -477,7 +477,7 @@ class TableInitializer {
         try {
             System.out.println("executeDBScripts: "+ getClass().getName());
             inputStream = getClass().getResourceAsStream(aSQLScriptFilePath);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(getClass().getResource(aSQLScriptFilePath).getFile()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String str;
             StringBuffer sb;
             sb = new StringBuffer();
