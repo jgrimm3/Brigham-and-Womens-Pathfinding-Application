@@ -27,14 +27,14 @@ public class RequestFactory {
             case MedicalRequest:
                 messageID = dataModel.getNextMessageID();
                 newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(),LocalDateTime.of(0,1,1,1,1), nodeAt.getNodeID(), messageID, "Password123");
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, LocalDateTime.now(),LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
                 Request a_request = dataModel.addRequest(newReq, newMsg);
                 return a_request;
 
             case JanitorialRequest:
                 messageID = dataModel.getNextMessageID();
                 newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), LocalDateTime.of(0,1,1,1,1), nodeAt.getNodeID(), messageID, "Password123");
+                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, LocalDateTime.now(), LocalDateTime.of(1,1,1,1,1), nodeAt.getNodeID(), messageID, requestType.toString());
 
                 return dataModel.addRequest(newReq, newMsg);
             default:

@@ -52,7 +52,7 @@ class MessagesDBUtil {
             System.out.println("Message already in the database");
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return messageObject;
     }
@@ -69,7 +69,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
             isSuccess = true;
         }
         return isSuccess;
@@ -96,7 +96,7 @@ class MessagesDBUtil {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
     }
@@ -137,7 +137,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return listOfMessages;
     }
@@ -177,7 +177,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return listOfMessages;
     }
@@ -228,7 +228,7 @@ class MessagesDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                DataModelI.getInstance().closeConnection(connection);
+                DataModelI.getInstance().closeConnection();
             }
         return listOfMessages;
     } // retrieveMessages() ends
@@ -268,7 +268,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return messageObject;
     }

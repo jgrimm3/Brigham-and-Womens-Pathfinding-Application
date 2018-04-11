@@ -21,7 +21,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
     }
 
@@ -45,7 +45,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return userID;
     }
@@ -70,7 +70,7 @@ public class UserSecurity {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return false;
     }
