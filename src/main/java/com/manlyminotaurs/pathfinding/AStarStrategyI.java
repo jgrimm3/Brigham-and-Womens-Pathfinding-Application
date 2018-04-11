@@ -58,6 +58,7 @@ public class AStarStrategyI implements IPathFindingStrategy {
         }
 
         closedList.add(startNode);
+        if(openList.size() == 0) { throw new PathNotFoundException();}
         AStarNode nextNode = openList.poll(); // Equivalent of .pop()
 
         return calcPath(nextNode, endNode);
