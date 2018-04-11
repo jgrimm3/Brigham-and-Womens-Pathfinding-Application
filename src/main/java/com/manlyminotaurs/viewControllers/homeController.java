@@ -236,8 +236,15 @@ public class homeController implements Initializable {
         txtUsername.setText("");
         txtPassword.setText("");
 
-        comChangeFloor.getSelectionModel().select(0);
+        tglHandicap.setSelected(false);
+        tglHandicap.setText("OFF");
+        lblHandicap.setText("HANDICAP");
+        tglMap.setSelected(false);
+        tglMap.setText("2-D");
+        lblMap.setText("MAP: 2-D");
 
+        comChangeFloor.getSelectionModel().select(2);
+        pathfloor2DMapLoader("1");
         //staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
         //adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
@@ -273,7 +280,15 @@ public class homeController implements Initializable {
         txtUsername.setText("");
         txtPassword.setText("");
 
-        comChangeFloor.getSelectionModel().select(0);
+        tglHandicap.setSelected(false);
+        tglHandicap.setText("OFF");
+        lblHandicap.setText("HANDICAP");
+        tglMap.setSelected(false);
+        tglMap.setText("2-D");
+        lblMap.setText("MAP: 2-D");
+
+        comChangeFloor.getSelectionModel().select(2);
+        pathfloor2DMapLoader("1");
     }
 
     public void toggleHandicap(ActionEvent event) {
@@ -306,6 +321,8 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(2774);
             paneMap.setPrefWidth(5000);
 
+            floor3DMapLoader(comChangeFloor.getValue());
+            /*
             // !!!
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
@@ -322,7 +339,7 @@ public class homeController implements Initializable {
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
 
-            }
+            }*/
 
         } else {
 
@@ -337,6 +354,8 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
 
+            floor2DMapLoader(comChangeFloor.getValue());
+            /*
             if(comChangeFloor.getValue().equals("FLOOR: L2")) { ;
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
 
@@ -352,7 +371,7 @@ public class homeController implements Initializable {
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
 
-            }
+            }*/
 
 
 
@@ -537,7 +556,8 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(2774);
             paneMap.setPrefWidth(5000);
 
-            // !!!
+            floor3DMapLoader(comChangeFloor.getValue());
+/*
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"L2-ICONS.png").display();
 
@@ -553,7 +573,7 @@ public class homeController implements Initializable {
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"3-ICONS.png").display();
 
-            }
+            }*/
 
 
 
@@ -568,6 +588,9 @@ public class homeController implements Initializable {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
 
+            floor2DMapLoader(comChangeFloor.getValue());
+
+            /*
             if(comChangeFloor.getValue().equals("FLOOR: L2")) {
                 new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
 
@@ -583,7 +606,7 @@ public class homeController implements Initializable {
             } else if(comChangeFloor.getValue().equals("FLOOR: 3")) {
                 new ProxyImage(mapImg,"03_thethirdfloor.png").display();
 
-            }
+            }*/
 
 
         }
@@ -719,17 +742,25 @@ public class homeController implements Initializable {
                 if (tglMap.isSelected()) {
                     // use 3-D
                     printNodePath(pathList, startFloor, "3-D");
+
                     finishX = pathList.get(pathList.size()-1).getXCoord3D();
                     finishY = pathList.get(pathList.size()-1).getYCoord3D();
                     startX = pathList.get(0).getXCoord3D();
                     startY = pathList.get(0).getYCoord3D();
+
+                    pathfloor3DMapLoader(startFloor);
+                    comChangeFloor.setValue("FLOOR: " + startFloor);
+
                 } else {
                     // use 2-D
-					printNodePath(pathList, startFloor, "2-D");
+                    printNodePath(pathList, startFloor, "2-D");
                     finishX = pathList.get(pathList.size()-1).getXCoord();
                     finishY = pathList.get(pathList.size()-1).getYCoord();
                     startX = pathList.get(0).getXCoord();
                     startY = pathList.get(0).getYCoord();
+
+                    pathfloor2DMapLoader(startFloor);
+                    comChangeFloor.setValue("FLOOR: " + startFloor);
                 }
             } else {
                 // use stairs
@@ -741,6 +772,9 @@ public class homeController implements Initializable {
                     finishY = pathList.get(pathList.size()-1).getYCoord3D();
                     startX = pathList.get(0).getXCoord3D();
                     startY = pathList.get(0).getYCoord3D();
+
+                    pathfloor3DMapLoader(startFloor);
+                    comChangeFloor.setValue("FLOOR: " + startFloor);
                 } else {
                     // use 2-D
 					printNodePath(pathList, startFloor, "2-D");
@@ -748,6 +782,10 @@ public class homeController implements Initializable {
                     finishY = pathList.get(pathList.size()-1).getYCoord();
                     startX = pathList.get(0).getXCoord();
                     startY = pathList.get(0).getYCoord();
+
+                    pathfloor2DMapLoader(startFloor);
+                    comChangeFloor.setValue("FLOOR: " + startFloor);
+
                 }
             }
 
@@ -906,6 +944,8 @@ public class homeController implements Initializable {
         tglMap.setSelected(false);
         tglMap.setText("2-D");
         lblMap.setText("MAP: 2-D");
+        pathfloor2DMapLoader("1");
+        comChangeFloor.getSelectionModel().select(2);
 
         paneMap.getChildren().remove(startCircle);
         paneMap.getChildren().remove(finishCircle);
@@ -1288,6 +1328,62 @@ public class homeController implements Initializable {
         if (paneMap.isVisible() == true) {
             System.out.println("X: " + String.format("%1.3f", event.getX()));
             System.out.println("Y: " + String.format("%1.3f", event.getY()));
+        }
+    }
+
+    public void floor2DMapLoader(String floor) {
+        if(floor.equals("FLOOR: L2")) {
+            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+        } else if(floor.equals("FLOOR: L1")) {
+            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+        } else if(floor.equals("FLOOR: 1")) {
+            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+        } else if(floor.equals("FLOOR: 2")) {
+            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+        } else if(floor.equals("FLOOR: 3")) {
+            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+        }
+    }
+
+    public void pathfloor2DMapLoader(String floor) {
+        if(floor.equals("L2")) {
+            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
+        } else if(floor.equals("L1")) {
+            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
+        } else if(floor.equals("1")) {
+            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
+        } else if(floor.equals("2")) {
+            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
+        } else if(floor.equals("3")) {
+            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+        }
+    }
+
+    public void floor3DMapLoader(String floor) {
+        if(floor.equals("FLOOR: L2")) {
+            new ProxyImage(mapImg,"L2-ICONS.png").display();
+        } else if(floor.equals("FLOOR: L1")) {
+            new ProxyImage(mapImg,"L1-ICONS.png").display();
+        } else if(floor.equals("FLOOR: 1")) {
+            new ProxyImage(mapImg,"1-ICONS.png").display();
+        } else if(floor.equals("FLOOR: 2")) {
+            new ProxyImage(mapImg,"2-ICONS.png").display();
+        } else if(floor.equals("FLOOR: 3")) {
+            new ProxyImage(mapImg,"3-ICONS.png").display();
+        }
+    }
+
+    public void pathfloor3DMapLoader(String floor) {
+        if(floor.equals("L2")) {
+            new ProxyImage(mapImg,"L2-ICONS.png").display();
+        } else if(floor.equals("L1")) {
+            new ProxyImage(mapImg,"L1-ICONS.png").display();
+        } else if(floor.equals("1")) {
+            new ProxyImage(mapImg,"1-ICONS.png").display();
+        } else if(floor.equals("2")) {
+            new ProxyImage(mapImg,"2-ICONS.png").display();
+        } else if(floor.equals("3")) {
+            new ProxyImage(mapImg,"3-ICONS.png").display();
         }
     }
 
