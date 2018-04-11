@@ -36,7 +36,7 @@
                         </ImageView>
                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                            <children>
-                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" stroke="#d63e15" strokeType="INSIDE">
+                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                   <elements>
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
@@ -44,6 +44,14 @@
                                     <LineTo x="-100.0" y="3400.0" />
                                       <ClosePath />
                                   </elements>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="#102c57" />
+                                          <Stop color="#102c57" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
                               </Path>
                            </children>
                         </Pane>

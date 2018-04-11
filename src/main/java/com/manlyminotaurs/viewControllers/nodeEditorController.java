@@ -1,6 +1,7 @@
 
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
@@ -31,6 +32,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.util.List;
 
@@ -46,10 +48,18 @@ public class nodeEditorController {
     final double NEWMAPYMIN = 0;
     final double NEWMAPYMAX = 693.8;
     Parent logout;
+    Parent createRequests;
+    Parent manageRequests;
 
 
     @FXML
+    Button navBtnManageRequests;
+    @FXML
+    Button navBtnCreateRequests;
+    @FXML
     Path path;
+    @FXML
+    ComboBox<String> cmboPathfinding;
     @FXML
     Button btnMenuAdd;
     @FXML
@@ -103,13 +113,9 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtYCoordMod3D;
     @FXML
-    JFXTextField txtYCoordDel;
-    @FXML
     JFXTextField txtShortNameDel;
     @FXML
     JFXTextField txtLongNameDel;
-    @FXML
-    JFXTextField txtXCoordDel;
     @FXML
     ToggleButton tglGeofence;
     @FXML
@@ -128,34 +134,40 @@ public class nodeEditorController {
     Button btnAddNode;
     @FXML
     Button btnModify;
-
     @FXML
     ImageView mapImg;
-
     @FXML
     Button btn2DMap;
-
     @FXML
     Button btn3DMap;
     @FXML
     Button btn2DMapMod;
-
     @FXML
     Button btn3DMapMod;
+    @FXML
+    Button btnDeleteNodePane;
+    @FXML
+    JFXTextField txtAdminUser;
+    @FXML
+    JFXPasswordField txtAdminPassword;
+
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd", "sfdd", "SFd");
 
+
     String longName;
     String shortName;
     String type;
     String floor;
     String building;
-    String node;
-    String xCoord;
-    String yCoord;
+    Node node;
+    int xCoord2D;
+    int yCoord2D;
+    int xCoord3D;
+    int yCoord3D;
 
     @FXML
     public void initialize() throws Exception{
@@ -180,8 +192,6 @@ public class nodeEditorController {
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
         }
         catch (Exception e){
             e.printStackTrace();}
@@ -203,8 +213,8 @@ public class nodeEditorController {
         txtYCoord.clear();
         txtLongNameDel.clear();
         txtShortNameDel.clear();
-        txtXCoordDel.clear();
-        txtYCoordDel.clear();
+        txtAdminPassword.clear();
+        txtAdminUser.clear();
 
         BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
                 txtXCoordMod.textProperty().isEmpty()).or(txtShortNameMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
@@ -229,8 +239,8 @@ public class nodeEditorController {
         txtYCoordMod.clear();
         txtLongNameDel.clear();
         txtShortNameDel.clear();
-        txtXCoordDel.clear();
-        txtYCoordDel.clear();
+        txtAdminPassword.clear();
+        txtAdminUser.clear();
         BooleanBinding booleanBind = Bindings.or(txtYCoord.textProperty().isEmpty(),
                 txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty());
 
@@ -264,8 +274,8 @@ public class nodeEditorController {
         txtXCoordMod.clear();
         txtYCoordMod.clear();
 
-        BooleanBinding booleanBind = Bindings.or(txtYCoordDel.textProperty().isEmpty(),
-                txtXCoordDel.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
+        BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
+                txtAdminUser.textProperty().isEmpty()).or(txtShortNameDel.textProperty().isEmpty()).or(txtLongNameDel.textProperty().isEmpty());
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
@@ -282,8 +292,8 @@ public class nodeEditorController {
             txtXCoordMod.setText(String.format("%1.3f", event.getX()));
             txtYCoordMod.setText(String.format("%1.3f", event.getY()));
         } else if (paneDelete.isVisible() == true) {
-            txtXCoordDel.setText(String.format("%1.3f", event.getX()));
-            txtYCoordDel.setText(String.format("%1.3f", event.getY()));
+            txtAdminUser.setText(String.format("%1.3f", event.getX()));
+            txtAdminPassword.setText(String.format("%1.3f", event.getY()));
         }
     }
 
@@ -296,6 +306,8 @@ public class nodeEditorController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
             //create a new scene with root and set the stage
             Scene scene = new Scene(logout);
             stage.setScene(scene);
@@ -304,6 +316,40 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+    public void CreateRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void manageRequest (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //Combo Box selected update next
     //Add node
@@ -347,13 +393,14 @@ public class nodeEditorController {
     public void modSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeMod.getValue().toString();
-        cmboNodeMod.setItems(null);
+        cmboNodeMod.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue())));
+
 
     }
 
     public void modSetNode(ActionEvent event) {
         //set type to selected value
-        node = cmboNodeMod.getValue().toString();
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
 
     }
 
@@ -374,13 +421,13 @@ public class nodeEditorController {
     public void delSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeDel.getValue().toString();
-        cmboNodeDel.setItems(null);
+        cmboNodeDel.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingDel.getValue(),cmboTypeDel.getValue(),cmboFloorDel.getValue())));
 
     }
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
-        type = cmboNodeDel.getValue().toString();
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
     }
 
 
@@ -389,15 +436,16 @@ public class nodeEditorController {
 
         longName = txtLongName.getText();
         shortName = txtShortName.getText();
-        xCoord = txtXCoord.getText();
-        yCoord = txtYCoord.getText();
+        xCoord2D = Integer.parseInt(txtXCoord.getText());
+        yCoord2D = Integer.parseInt(txtYCoord.getText());
+        xCoord3D = Integer.parseInt(txtXCoord3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoord3D.getText());
         building = cmboBuilding.getValue().toString();
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
         //call add node function
-
+        DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         //redraw map
-
     }
 
 
@@ -405,8 +453,10 @@ public class nodeEditorController {
     public void modifyNode(ActionEvent event) {
         longName = txtLongNameMod.getText();
         shortName = txtShortNameMod.getText();
-        xCoord = txtXCoordMod.getText();
-        yCoord = txtYCoordMod.getText();
+        xCoord2D = Integer.parseInt(txtXCoordMod.getText());
+        yCoord2D = Integer.parseInt(txtYCoordMod.getText());
+        xCoord3D = Integer.parseInt(txtXCoordMod3D.getText());
+        yCoord3D = Integer.parseInt(txtYCoordMod3D.getText());
         building = cmboBuildingMod.getValue().toString();
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
@@ -416,23 +466,26 @@ public class nodeEditorController {
         //redraw map
     }
 
-
     //delete ode
     public void deleteNode(ActionEvent event) {
         longName = txtLongNameDel.getText();
         shortName = txtShortNameDel.getText();
-        xCoord = txtXCoordDel.getText();
-        yCoord = txtYCoordDel.getText();
+
+        //set login check
+        txtAdminPassword.getText();
+        txtAdminUser.getText();
+
+
         building = cmboBuildingDel.getValue().toString();
         floor = cmboFloorDel.getValue().toString();
         type = cmboTypeDel.getValue().toString();
 
         //call delete node function
-
+        node = DataModelI.getInstance().getNodeByLongName(longName);
+        DataModelI.getInstance().removeNode(node);
         //redraw map
 
     }
-
 
         public void printPoints(){
         //check list print points on map
@@ -486,7 +539,6 @@ public class nodeEditorController {
     }
 
     public void load3DMapMod(ActionEvent event) {
-
         if(cmboFloor.getValue().equals("L2")) {
             new ProxyImage(mapImg,"L2-ICONS.png").display();
         } else if(cmboFloor.getValue().equals("L1")) {
@@ -498,14 +550,65 @@ public class nodeEditorController {
         } else if(cmboFloor.getValue().equals("3")) {
             new ProxyImage(mapImg,"3-ICONS.png").display();
         }
-
     }
 
     public void geofence(ActionEvent event){
+        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
+        int newStatus = 0;
+                switch(node.getStatus()){
+                    case 0:
+                        newStatus = 0;
+                        break;
+                    case 1:
+                        newStatus = 1;
+                        break;
+                        default:
+                            newStatus = 0;
+                }
+                node.setStatus(newStatus);
+    }
+public void setPathFindAlgorithm(ActionEvent event) {
 
     }
 
+    public void printPoints(String floor, String dimension) {
+        // Connection for the database
+        List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
 
+        // map boundaries
+
+        int i = 0;
+        int x = 0;
+        int y = 0;
+        // Iterate through each node
+        while(i < nodeList.size()) {
+
+            // If the node is on the correct floor
+            if(nodeList.get(i).getFloor().equals(floor)) {
+
+                if(dimension.equals("2-D")) {
+                    // Get x and y coords
+                    x = nodeList.get(i).getXCoord();
+                    y = nodeList.get(i).getYCoord();
+                } else if (dimension.equals("3-D")){
+                    x = nodeList.get(i).getXCoord3D();
+                    y = nodeList.get(i).getYCoord3D();
+                } else {
+                    System.out.println("Invalid dimension");
+                }
+
+                // draw the point on the image
+                Circle circle = new Circle(x, y, 2);
+                Circle outline = new Circle(x,y, 3);
+                circle.setFill(Color.BLACK);
+                outline.setFill(Color.GRAY);
+                pane.getChildren().add(outline);
+                pane.getChildren().add(circle);
+            }
+            i++;
+        }
+    }
 }
+
 
 

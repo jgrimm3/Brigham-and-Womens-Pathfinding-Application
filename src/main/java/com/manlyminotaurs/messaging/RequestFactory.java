@@ -4,6 +4,8 @@ package com.manlyminotaurs.messaging;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
 
+import java.time.LocalDate;
+
 public class RequestFactory {
     DataModelI dataModel = DataModelI.getInstance();
 
@@ -20,13 +22,13 @@ public class RequestFactory {
         Request newReq;
         switch (requestType) {
             case MedicalRequest:
-                newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
+                newMsg = new Message(dataModel.getNextMessageID(), message, false, LocalDate.now(), "admin", senderID);
                 newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", 5, false, false, nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
 
             case JanitorialRequest:
-                newMsg = new Message(dataModel.getNextMessageID(), message, false, senderID, "admin");
+                newMsg = new Message(dataModel.getNextMessageID(), message, false, LocalDate.now(), "admin", senderID);
                 newReq = new MedicalRequest(dataModel.getNextRequestID(), "Janitorial", 3, false, false, nodeAt.getNodeID(), message, "Password123");
 
                 return dataModel.addRequest(newReq, newMsg);
@@ -42,15 +44,15 @@ public class RequestFactory {
      * @param priority the priority level of the request
      * @param isComplete represents if the request has been marked complete
      * @param adminConfirm represents if the request has been confirmed by an admin
-     * @param nodeID the ID of the node that the request is based out of
+     * @param timeTaken
      * @param messageID the ID of the message tied to the Request
      * @param password the password used to complete the request
+     * @param nodeID the ID of the node that the request is based out of
      * @return a Request object with the fields populated with the parameters
      */
-    public Request genExistingRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password){
+    public Request genExistingRequest(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String timeTaken, String messageID, String password, String nodeID){
         Request newReq;
         if(requestType.equals("MedicalRequest")) {
-
             newReq = new MedicalRequest(requestID, "MedicalRequest", priority, isComplete, adminConfirm, nodeID, messageID, password);
         }else if(requestType.equals("JanitorialRequest")) {
 

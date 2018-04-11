@@ -10,18 +10,22 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Set;
 
+//
+//    ____  ____    ___       _             __
+//   |  _ \| __ )  |_ _|_ __ | |_ ___ _ __ / _| __ _  ___ ___
+//   | | | |  _ \   | || '_ \| __/ _ \ '__| |_ / _` |/ __/ _ \
+//   | |_| | |_) |  | || | | | ||  __/ |  |  _| (_| | (_|  __/
+//   |____/|____/  |___|_| |_|\__\___|_|  |_|  \__,_|\___\___|
+//
+//
+//
+
 public interface IDataModel {
 
     void startDB();
 
     Connection getNewConnection();
     boolean closeConnection(Connection connection);
-
-    //
-    //                        _   _    ___                 _
-    //                       | \ |_)    |  ._ _|_  _  ._ _|_ _.  _  _
-    //                       |_/ |_)   _|_ | | |_ (/_ |   | (_| (_ (/_
-    //
 
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
@@ -30,8 +34,9 @@ public interface IDataModel {
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     List<Node> retrieveNodes();
+    @Deprecated
     Node getNodeByID(String ID);
-    public Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
+    Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
     List<Node> getNodesByBuilding(String building);
@@ -75,12 +80,12 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
+    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
     User getUserByID(String ID);
-
+    boolean doesUserPasswordExist(String userName, String password);
     String getIDByUserPassword(String userName, String password);
 }

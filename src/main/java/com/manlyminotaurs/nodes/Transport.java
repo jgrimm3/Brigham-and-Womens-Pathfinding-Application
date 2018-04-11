@@ -11,4 +11,7 @@ public class Transport extends Node {
         if(type == "TRANS") { return true; }
         return false;
     }
+    public boolean equals(Node node) {
+        return false;
+    }
 }

@@ -8,11 +8,20 @@ import com.manlyminotaurs.users.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-public class DataModelI implements IDataModel{
+//
+//  '||''|.             .              '||    ||'              '||          '||
+//   ||   ||   ....   .||.   ....       |||  |||    ...      .. ||    ....   ||
+//   ||    || '' .||   ||   '' .||      |'|..'||  .|  '|.  .'  '||  .|...||  ||
+//   ||    || .|' ||   ||   .|' ||      | '|' ||  ||   ||  |.   ||  ||       ||
+//  .||...|'  '|..'|'  '|.' '|..'|'    .|. | .||.  '|..|'  '|..'||.  '|...' .||.
+//
+//
 
+public class DataModelI implements IDataModel{
 
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 
@@ -22,18 +31,18 @@ public class DataModelI implements IDataModel{
 	private RequestsDBUtil requestsDBUtil;
 	private UserDBUtil userDBUtil;
 	private TableInitializer tableInitializer;
+	private UserSecurity userSecurity = new UserSecurity();
 
     // list of all objects
 
     private static DataModelI dataModelI;
-
     private static Connection connection;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-        DataModelI.getInstance().retrieveNodes();
+        System.out.println(LocalDate.now());
       //  DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","2");
     }
 
@@ -55,6 +64,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+        //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
 
     @Override
@@ -114,6 +124,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
@@ -286,7 +297,7 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
+    public User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
         return userDBUtil.addUser(firstName, middleName, lastName, language, userType, userName, password);
     }
 
@@ -316,4 +327,8 @@ public class DataModelI implements IDataModel{
         return userSecurity.getIDByUserPassword(userName, password);
     }
 
+    @Override
+    public boolean doesUserPasswordExist(String userName, String password) {
+        return userSecurity.doesUserPasswordExist(userName, password);
+    }
 }

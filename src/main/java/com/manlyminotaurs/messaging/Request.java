@@ -9,16 +9,17 @@ public abstract class Request implements IRequest {
     int priority;
     Boolean isComplete;
     Boolean adminConfirm;
+    String timeTaken;
     String nodeID;
     String messageID;
     String password;
 
-    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String nodeID, String messageID, String password) {
+    public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, String timeTaken, String nodeID, String messageID, String password) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.priority = priority;
         this.isComplete = isComplete;
-        this.adminConfirm = adminConfirm;
+        this.timeTaken = timeTaken;
         this.nodeID = nodeID;
         this.messageID = messageID;
         this.password = password;
@@ -78,6 +79,18 @@ public abstract class Request implements IRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
+
+    public String getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
     }
 
 }

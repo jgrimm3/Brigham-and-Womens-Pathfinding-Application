@@ -1,11 +1,9 @@
 import com.manlyminotaurs.nodes.Hallway;
-import com.manlyminotaurs.nodes.Room;
 import com.manlyminotaurs.pathfinding.PathNotFoundException;
 import com.manlyminotaurs.pathfinding.PathfinderUtil;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.manlyminotaurs.pathfinding.AStarStrategyI;
 import com.manlyminotaurs.nodes.Node;

@@ -4,6 +4,12 @@ import com.manlyminotaurs.nodes.*;
 
 import java.io.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,10 +50,11 @@ class TableInitializer {
 
 
         TableInitializer initializer = new TableInitializer();
-        NodesDBUtil nodesDBUtil = new NodesDBUtil();
+        //NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
         initializer.populateAllNodeEdgeTables();
+        UserSecurity userSecurity = new UserSecurity();
       //  initializer.populateNodeEdgeTables("MapGNodes.csv","MapGEdges.csv");
         UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("UserAccountTable.csv"));
         MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("MessageTable.csv"));
@@ -276,13 +283,14 @@ class TableInitializer {
             while (iterator.hasNext()) {
                 messageIDCounter++;
                 String[] node_row = iterator.next();
-                String str = "INSERT INTO message(messageID,message,isRead,senderID,receiverID) VALUES (?,?,?,?,?)";
+                String str = "INSERT INTO message(messageID,message,isRead,sentDate,senderID,receiverID) VALUES (?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
                 statement.setBoolean(3, Boolean.valueOf(node_row[2]));
-                statement.setString(4, node_row[3]);
+                statement.setDate(4,convertStringToDate(node_row[3]));
                 statement.setString(5, node_row[4]);
+                statement.setString(6, node_row[5]);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -405,7 +413,7 @@ class TableInitializer {
             while (iterator.hasNext()) {
                 requestIDCounter++;
                 String[] node_row = iterator.next();
-                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?)";
+                String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,timeTaken,nodeID,messageID,PASSWORD) VALUES (?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
                 statement.setString(2, node_row[1]);
@@ -415,6 +423,7 @@ class TableInitializer {
                 statement.setString(6, node_row[5]);
                 statement.setString(7, node_row[6]);
                 statement.setString(8, node_row[7]);
+                statement.setString(9, node_row[8]);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -502,4 +511,10 @@ class TableInitializer {
         return isScriptExecuted;
     }
 
+    public Date convertStringToDate(String timeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+       // formatter = formatter.withLocale( putAppropriateLocaleHere );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
+        LocalDate date = LocalDate.parse(timeString, formatter);
+        return Date.valueOf(date);
+    }
 }

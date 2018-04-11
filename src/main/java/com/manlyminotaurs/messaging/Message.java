@@ -1,5 +1,7 @@
 package com.manlyminotaurs.messaging;
 
+import java.time.LocalDate;
+
 public class Message {
 
     String messageID;
@@ -7,12 +9,14 @@ public class Message {
     Boolean isRead;
     String senderID;
     String receiverID;
+    LocalDate sentDate;
 
 
-    public Message(String messageID, String message, Boolean isRead, String senderID, String receiverID) {
+    public Message(String messageID, String message, Boolean isRead, LocalDate sentDate, String receiverID, String senderID) {
         this.messageID = messageID;
         this.message = message;
         this.isRead = isRead;
+        this.sentDate = sentDate;
         this.senderID = senderID;
         this.receiverID = receiverID;
     }
@@ -56,5 +60,13 @@ public class Message {
 
     public void setReceiverID(String receiverID) {
         this.receiverID = receiverID;
+    }
+
+    public LocalDate getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(LocalDate sentDate) {
+        this.sentDate = sentDate;
     }
 }

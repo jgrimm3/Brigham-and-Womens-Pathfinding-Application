@@ -1,2 +1,2 @@
-requestID,requestType,priority,isComplete,adminConfirm,nodeID,messageID,password
-1,help,3,false,false,GHALL00201,1,null
+requestID,requestType,priority,isComplete,adminConfirm,timeTaken,nodeID,messageID,password
+1,help,3,false,false,1:20,GHALL00201,1,null
