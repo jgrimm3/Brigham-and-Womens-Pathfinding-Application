@@ -104,9 +104,22 @@ public class createRequestController{
             isErrored = true;
         }
         if(!isErrored){
+            System.out.println("Old: " + dbUtil.retrieveRequests().size());
             rFactory.genNewRequest(cmboReqType.getValue(),
                     dbUtil.getNodeByLongName(cmboNode.getValue()),
-                    txtMessage.getText(), KioskInfo.currentUserID);
+                    txtMessage.getText(), KioskInfo.currentUserID, priority);
+            System.out.println("New: " + dbUtil.retrieveRequests().size());
+
+            cmboBuilding.getSelectionModel().clearSelection();
+            cmboNode.getSelectionModel().clearSelection();
+            cmboFloor.getSelectionModel().clearSelection();
+            cmboType.getSelectionModel().clearSelection();
+            cmboReqType.getSelectionModel().clearSelection();
+            chkHighPriority.setSelected(false);
+            chkLowPriority.setSelected(false);
+            chkMedPriority.setSelected(false);
+            txtMessage.clear();
+            lblError.setText("");
         }
     }
     public void setHighPriority(javafx.event.ActionEvent event){

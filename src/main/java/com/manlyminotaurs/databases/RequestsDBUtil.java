@@ -35,6 +35,7 @@ class RequestsDBUtil {
         MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
         Message mObject= messagesDBUtil.addMessage(message);
         try {
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
             // Create the prepared statement

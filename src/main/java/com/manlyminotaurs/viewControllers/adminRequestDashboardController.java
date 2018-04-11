@@ -32,7 +32,7 @@ public class adminRequestDashboardController  {
     ObservableList<requestInfo> openList = FXCollections.observableArrayList();
     ObservableList<requestInfo> closedList = FXCollections.observableArrayList();
     ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
-
+    ObservableList<PieChart.Data> pieChartData;
     public class requestInfo{
         protected String requestID;
         String requestType;
@@ -85,6 +85,8 @@ public class adminRequestDashboardController  {
     @FXML
     public void initialize() throws Exception{
         try{
+            reqestList.clear();
+            reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             //OPEN LIST-----------------------
@@ -131,11 +133,14 @@ public class adminRequestDashboardController  {
 
             combBoxAssignNurse.setItems(FXCollections.observableArrayList(nurseNames));
 
-            ObservableList<PieChart.Data> pieChartData =
+            System.out.println("Number of Requests: " + reqestList);
+
+            pieChartData =
                     FXCollections.observableArrayList(
                             new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
                             new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
                             new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+            pieChart.getData().clear();
             pieChart.setData(pieChartData);
 
         }
@@ -228,6 +233,10 @@ public class adminRequestDashboardController  {
         } else {
 
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
+
+            closedList.add((requestInfo)tblOpenRequests.getSelectionModel().getSelectedItem());
+            openList.remove(tblOpenRequests.getSelectionModel().getSelectedItem());
+
 
             Request newReq = dBUtil.getRequestByID(selectedRequest.requestID);
             newReq.setComplete(true);
