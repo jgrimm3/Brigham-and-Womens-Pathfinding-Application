@@ -23,7 +23,7 @@ public class createRequestController{
 
     Parent manageRequests;
     Parent nodeEdit;
-
+    Parent accountManager;
     @FXML
     ScrollPane scrollPane;
     @FXML
@@ -64,6 +64,8 @@ public class createRequestController{
     Button navBtnNodeEditor;
     @FXML
     ComboBox<String> cmboFloor;
+    @FXML
+    Button navBtnManageAccounts;
 
     String requestType;
     String message;
@@ -169,6 +171,24 @@ public class createRequestController{
         }
         catch (Exception e){
             e.printStackTrace();}
+    }
+
+    public void accountManager(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
+            //load up Home FXML document;
+            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(accountManager);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void manageRequests (ActionEvent event) throws Exception {

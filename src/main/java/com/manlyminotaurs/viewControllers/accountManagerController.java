@@ -26,6 +26,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
+import javax.xml.crypto.Data;
+
 public class accountManagerController {
     Parent logout;
     Parent nodeEdit;
@@ -101,6 +103,7 @@ public class accountManagerController {
     String type;
     String username;
     String password;
+    String userID;
     User user;
     @FXML
     public void initialize() throws Exception{
@@ -246,6 +249,22 @@ public class accountManagerController {
         type = cmboTypeDelete.getValue().toString();
 
     }
+    public void targetUserModify(ActionEvent event){
+        userID = txtUserIDModify.getText();
+        firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
+        middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
+        lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
+        language = DataModelI.getInstance().getUserByID(userID).getLanguage();
+        type = DataModelI.getInstance().getUserByID(userID).getUserType();
+        txtFirstNameModify.setText(firstName);
+        txtMiddleNameModify.setText(middleName);
+        txtLastNameModify.setText(lastName);
+//        cmboLanguageModify.setItems(language);
+//        cmboLanguageModify.setItems(type);
+    }
+    public void targetUserDelete(ActionEvent event){
+        userID = txtUserIDDelete.getText();
+    }
     public void addUser(ActionEvent event){
         firstName = txtFirstNameAdd.getText();
         middleName = txtMiddleNameAdd.getText();
@@ -267,7 +286,11 @@ public class accountManagerController {
         username = txtUsernameModify.getText();
         password = txtPasswordModify.getText();
 
-        DataModelI.getInstance().modifyUser(user);
+        DataModelI.getInstance().getUserByID(userID).setFirstName(firstName);
+        DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
+        DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
+        DataModelI.getInstance().getUserByID(userID).setUserType(type);
+        DataModelI.getInstance().getUserByID(userID).setLanguage(language);
 
     }
     public void deleteUser(ActionEvent event){
