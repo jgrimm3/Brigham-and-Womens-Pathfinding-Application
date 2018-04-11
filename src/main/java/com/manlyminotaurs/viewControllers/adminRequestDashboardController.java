@@ -216,7 +216,7 @@ Button navManageAcc;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLS/NodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);
