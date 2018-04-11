@@ -42,7 +42,7 @@
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
                                     <LineTo x="5000.0" y="5000.0" />
-                                    <LineTo x="-100.0" y="3400.0" />
+                                    <LineTo x="-100.0" y="5000.0" />
                                       <ClosePath />
                                   </elements>
                                  <stroke>
@@ -59,7 +59,7 @@
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
                                     <LineTo x="5000.0" y="5000.0" />
-                                    <LineTo x="-100.0" y="3400.0" />
+                                    <LineTo x="-100.0" y="5000.0" />
                                     <ClosePath />
                                  </elements>
                                  <stroke>
@@ -127,42 +127,6 @@
                </graphic>
                <StackPane.margin>
                   <Insets bottom="30.0" right="190.0" />
-               </StackPane.margin>
-            </Button>
-            <Button fx:id="btnQuickCafe" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCafe" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
-               <graphic>
-                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Icons/DiningIcon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets bottom="30.0" right="350.0" />
-               </StackPane.margin>
-            </Button>
-            <Button fx:id="btnQuickShop" ellipsisString="" mnemonicParsing="false" onAction="#findQuickShop" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
-               <graphic>
-                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Icons/GiftShopIcon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets bottom="30.0" right="670.0" />
-               </StackPane.margin>
-            </Button>
-            <Button fx:id="btnQuickCoffee" ellipsisString="" mnemonicParsing="false" onAction="#findQuickCoffee" prefHeight="100.0" prefWidth="100.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
-               <graphic>
-                  <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Icons/CoffeeIcon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets bottom="30.0" right="510.0" />
                </StackPane.margin>
             </Button>
             <Pane fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="TOP_RIGHT">
@@ -355,7 +319,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button fx:id="btnStart" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#chooseStartNode" prefHeight="60.0" prefWidth="340.0" text="START">
+                              <Button fx:id="btnStart" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloor" prefHeight="60.0" prefWidth="340.0" text="START">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -461,7 +425,7 @@
                      <children>
                         <Pane prefHeight="60.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                            <children>
-                              <Button fx:id="btnEnd" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#chooseEndNode" prefHeight="60.0" prefWidth="340.0" text="END">
+                              <Button fx:id="btnEnd" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#printNodesOnFloor" prefHeight="60.0" prefWidth="340.0" text="END">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -594,7 +558,7 @@
                            <children>
                               <Label fx:id="lblStartLocation" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
                                  <font>
-                                    <Font name="System Bold" size="25.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
@@ -640,7 +604,7 @@
                            <children>
                               <Label fx:id="lblEndLocation" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
                                  <font>
-                                    <Font name="System Bold" size="25.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
@@ -670,7 +634,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="paneDirections" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" visible="false">
+      <Pane fx:id="paneDirections" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;">
          <children>
             <Pane prefHeight="110.0" prefWidth="340.0" style="-fx-background-color: #102c57;">
                <children>
@@ -730,7 +694,7 @@
                                  <children>
                                     <Label fx:id="lblStartLocation1" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="START LOCATION">
                                        <font>
-                                          <Font name="System Bold" size="25.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                        <textFill>
                                           <LinearGradient endX="1.0" endY="1.0">
@@ -776,7 +740,7 @@
                                  <children>
                                     <Label fx:id="lblEndLocation1" alignment="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="310.0" text="END LOCATION">
                                        <font>
-                                          <Font name="System Bold" size="25.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                        <textFill>
                                           <LinearGradient endX="1.0" endY="1.0">
