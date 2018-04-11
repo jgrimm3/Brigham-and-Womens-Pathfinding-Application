@@ -259,7 +259,7 @@ Button navManageAcc;
         } else {
 
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
-            if(txtPassword.getText().equals(dBUtil.getRequestByID(selectedRequest.requestID).getPassword())){
+            if(txtPassword.getText().equals("admin")){
                 closedList.add((requestInfo)tblOpenRequests.getSelectionModel().getSelectedItem());
                 openList.remove(tblOpenRequests.getSelectionModel().getSelectedItem());
 
