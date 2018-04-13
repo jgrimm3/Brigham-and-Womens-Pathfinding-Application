@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.ClosePath?>
+<?import javafx.scene.shape.LineTo?>
+<?import javafx.scene.shape.MoveTo?>
+<?import javafx.scene.shape.Path?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.createRequestController">
+   <children>
+      <ScrollPane fx:id="scrollPane" layoutX="960.0" layoutY="120.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="960.0">
+         <content>
+            <StackPane prefHeight="2774.0" prefWidth="5000.0">
+               <children>
+                  <ImageView fx:id="mapImg" fitHeight="2774.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/MapImages/L2-NO-ICONS.png" />
+                     </image>
+                  </ImageView>
+                  <Pane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="2774.0" prefWidth="5000.0">
+                     <children>
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Path fx:id="path" blendMode="DARKEN" fill="WHITE" layoutX="-657.0" layoutY="-24.0" stroke="#f5ce4e" strokeType="INSIDE">
+                           <elements>
+                              <MoveTo />
+                              <LineTo x="5000.0" />
+                              <LineTo x="5000.0" y="2774.0" />
+                              <LineTo y="2774.0" />
+                              <ClosePath />
+                           </elements>
+                        </Path>
+                     </children>
+                  </Pane>
+               </children>
+            </StackPane>
+         </content>
+      </ScrollPane>
+      <Pane layoutX="30.0" layoutY="200.0" prefHeight="860.0" prefWidth="900.0" style="-fx-background-color: #2b65ac;">
+         <children>
+            <ComboBox fx:id="cmboReqType" prefHeight="80.0" prefWidth="700.0" promptText="Request Type" translateX="100.0" translateY="72.5" />
+            <Button fx:id="btnSubmitRequest" layoutX="500.0" layoutY="600.0" mnemonicParsing="false" onAction="#submitRequest" prefHeight="115.0" prefWidth="200.0" text="Submit Request" translateX="100.0" translateY="72.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="txtMessage" layoutY="100.0" prefHeight="180.0" prefWidth="700.0" promptText="Enter Request Message" translateX="100.0" translateY="72.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextArea>
+            <ComboBox fx:id="cmboBuilding" layoutY="300.0" prefHeight="80.0" prefWidth="700.0" promptText="Building" translateX="100.0" translateY="72.5" />
+            <ComboBox fx:id="cmboType" layoutY="400.0" prefHeight="80.0" prefWidth="700.0" promptText="Type" translateX="100.0" translateY="72.5" />
+            <ComboBox fx:id="cmboNode" layoutY="500.0" prefHeight="80.0" prefWidth="700.0" promptText="Node" translateX="100.0" translateY="72.5" />
+            <CheckBox fx:id="chkHighPriority" layoutY="600.0" mnemonicParsing="false" onAction="#setHighPriority" text="High Priority" translateX="100.0" translateY="72.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="chkLowPriority" layoutY="690.0" mnemonicParsing="false" onAction="#setLowPriority" text="Low Priority" translateX="100.0" translateY="72.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="chkMedPriority" layoutY="645.0" mnemonicParsing="false" onAction="#setMedPriority" text="Medium Proirity" translateX="100.0" translateY="72.5">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </CheckBox>
+            <Label fx:id="lblError" alignment="CENTER" layoutX="244.0" layoutY="751.0" prefHeight="115.0" prefWidth="361.0" textFill="RED">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <Button layoutX="1580.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="170.0">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnLogOut" layoutX="1750.0" mnemonicParsing="false" onAction="#logOut" prefHeight="59.0" prefWidth="170.0" style="-fx-background-radius: 0; -fx-background-color: #102c57; -fx-border-color: #2f2f2f;" text="Logout" textFill="WHITE" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Pane prefHeight="60.0" prefWidth="1580.0" style="-fx-background-color: #102c57;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="340.0">
+         <children>
+            <Label layoutX="32.0" layoutY="13.0" text="User Dashboard" textFill="#f1f1f1">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="60.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: #edbf54;">
+         <children>
+            <Button fx:id="navBtnNewRequest" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button fx:id="navBtnNodeEditor" layoutX="300.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="300.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54; -fx-border-color: #2f2f2f;" text="Node Editor" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane layoutY="120.0" prefHeight="60.0" prefWidth="960.0" style="-fx-background-color: #102c57;">
+         <effect>
+            <GaussianBlur radius="0.5" />
+         </effect>
+      </Pane>
+      <Label layoutX="377.5" layoutY="133.0" text="Create Request" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -2,15 +2,23 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.users.*;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDBUtil {
+
+    private static int userIDCounter = 0;
+
+    public static void setUserIDCounter(int userIDCounter) {
+        UserDBUtil.userIDCounter = userIDCounter;
+    }
+
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
-    User addUser(String userID, String firstName, String middleName, String lastName, String language, String userType){
-        User userObject = new Patient(userID,firstName,middleName,lastName,language, userType);
+    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password){
+
+        String userID = generateUserID();
+        User userObject = userBuilder(userID,firstName,middleName,lastName,language, userType);
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -31,8 +39,13 @@ public class UserDBUtil {
         {
             e.printStackTrace();
         }
+        //-----------------Adding username and password later-------------------
+        UserSecurity userSecurity = new UserSecurity();
+        userSecurity.addUserPassword(userName, password, userID);
+
         return userObject;
     }
+
     boolean removeUser(User oldUser){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -45,7 +58,7 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
     }
@@ -71,7 +84,7 @@ public class UserDBUtil {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
     }
@@ -118,11 +131,51 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
 
         return listOfUsers;
     } // retrieveUsers() ends
+
+    public List<StaffFields> retrieveStaffs() {
+        // Connection
+        Connection connection = DataModelI.getInstance().getNewConnection();
+
+        // Variables
+        boolean isWorking;
+        boolean isAvailable;
+        String languageSpoken;
+        String userID;
+        StaffFields staffFields;
+        List<StaffFields> listOfStaffs = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String str = "SELECT * FROM STAFF";
+            ResultSet rset = stmt.executeQuery(str);
+
+            while (rset.next()) {
+                isWorking = rset.getBoolean("isWorking");
+                isAvailable = rset.getBoolean("isAvailable");
+                languageSpoken = rset.getString("languageSpoken");
+                userID = rset.getString("userID");
+
+                // Add the new edge to the list
+                staffFields = new StaffFields(isWorking, isAvailable, languageSpoken, userID);
+                listOfStaffs.add(staffFields);
+                System.out.println("User added to the list: " + userID);
+            }
+            rset.close();
+            stmt.close();
+            System.out.println("Done adding users");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+
+        return listOfStaffs;
+    } // retrieveStaffs() ends
 
     User getUserByID(String userID){
         // Connection
@@ -158,13 +211,13 @@ public class UserDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return userObject;
     }
 
     public static User userBuilder(String userID, String firstName, String middleName, String lastName, String language, String userType){
-        User userObject = null;
+        User userObject;
         switch (userType) {
             case "patient":
                 userObject = new Patient(userID, firstName, middleName, lastName, language, userType);
@@ -190,10 +243,23 @@ public class UserDBUtil {
                 userObject = new Janitor(userID, firstName, middleName, lastName, language, userType);
                 break;
 
+            case "interpreter":
+                userObject = new interpreter(userID, firstName, middleName, lastName, language, userType);
+                break;
+
+            case "admin":
+                userObject = new Admin(userID, firstName, middleName, lastName, language, userType);
+                break;
+
             default:
-                System.out.println("bad userType!");
+                userObject = new Visitor(userID, firstName, middleName, lastName, language, userType);
                 break;
         }
         return userObject;
+    }
+
+    private String generateUserID(){
+        userIDCounter++;
+        return Integer.toString(userIDCounter);
     }
 }

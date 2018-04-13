@@ -1,6 +1,8 @@
 package com.manlyminotaurs.nodes;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Node implements INode {
 
@@ -15,14 +17,16 @@ public abstract class Node implements INode {
 
     public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status,
                 int xCoord3D, int yCoord3D) {
+        this.nodeID = nodeID;
         this.loc = loc;
         this.longName = longName;
         this.shortName = shortName;
         this.status = status;
         this.nodeType = nodeType;
         this.loc = new Location(xCoord, yCoord, xCoord3D, yCoord3D, floor, building);
-        status = 1;
+        this.status = status;
         popularity = 0;
+        this.adjacentNodes = new ArrayList<>();
     }
 
     public void setLoc(Location loc) { this.loc = loc; }
@@ -43,17 +47,17 @@ public abstract class Node implements INode {
 
     public String getNodeID(){ return this.nodeID; }
 
-    public int getXCoord() { return loc.xCoord; }
+    public int getXCoord() { return loc.getxCoord(); }
 
-    public int getYCoord() { return loc.yCoord; }
+    public int getYCoord() { return loc.getyCoord(); }
 
-    public int getXCoord3D() { return loc.xCoord3D; }
+    public int getXCoord3D() { return loc.getxCoord3D(); }
 
-    public int getYCoord3D() { return loc.yCoord3D; }
+    public int getYCoord3D() { return loc.getyCoord3D(); }
 
-    public String getFloor() { return loc.floor; }
+    public String getFloor() { return loc.getFloor(); }
 
-    public String getBuilding() { return loc.building; }
+    public String getBuilding() { return loc.getBuilding(); }
 
     public int getStatus() { return status; }
 
@@ -75,5 +79,18 @@ public abstract class Node implements INode {
         return this.adjacentNodes.remove(node);
     }
 
+    @Override
+    public boolean equals(Object other){
+        Node n = (Node) other;
+        return this.getNodeID().equals(n.getNodeID());
+    }
+    @Override
+    public String toString(){
+        return this.getNodeID();
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodeID);
+    }
 }

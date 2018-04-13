@@ -1,37 +1,48 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.messaging.Message;
-import com.manlyminotaurs.messaging.Request;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+//   __   __          ___          ___
+//  |  \ |__)    |  |  |  | |    |  |  \ /
+//  |__/ |__)    \__/  |  | |___ |  |   |
+//
+//               ___  __   __        __   ___  __
+//     __  |\/| |__  /__` /__`  /\  / _` |__  /__`
+//         |  | |___ .__/ .__/ /~~\ \__> |___ .__/
+//
 
 class MessagesDBUtil {
 
     /*------------------------------------------------ Variables -----------------------------------------------------*/
-    private static int messageIDCounter = 1;
+    private static int messageIDCounter = 0;
     CsvFileController csvFileController = new CsvFileController();
 
+    public static void setMessageIDCounter(int messageIDCounter) {
+        MessagesDBUtil.messageIDCounter = messageIDCounter;
+    }
+
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
-    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID){
+    public Message addMessage(Message messageObject){
+        System.out.println("addMessage");
         String messageID = generateMessageID();
-        Message messageObject = new Message(messageID, message, isRead, senderID, receiverID);
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
-            String str = "INSERT INTO Message(messageID, message, isRead, senderID, receiverID) VALUES (?,?,?,?,?)";
+            String str = "INSERT INTO Message(messageID, message, isRead, sentDate, senderID, receiverID) VALUES (?,?,?,?,?,?)";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
             statement.setString(1, messageObject.getMessageID());
             statement.setString(2, messageObject.getMessage());
             statement.setBoolean(3, messageObject.getRead());
-            statement.setString(4, messageObject.getSenderID());
-            statement.setString(5, messageObject.getReceiverID());
+            statement.setDate(4, Date.valueOf(LocalDate.now()));
+            statement.setString(5, messageObject.getSenderID());
+            statement.setString(6, messageObject.getReceiverID());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             statement.close();
@@ -41,7 +52,7 @@ class MessagesDBUtil {
             System.out.println("Message already in the database");
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return messageObject;
     }
@@ -58,7 +69,8 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
+            isSuccess = true;
         }
         return isSuccess;
     }
@@ -73,6 +85,7 @@ class MessagesDBUtil {
             PreparedStatement statement = connection.prepareStatement(str);
             statement.setString(1, newMessage.getMessage());
             statement.setBoolean(2, newMessage.getRead());
+            statement.setDate(3, Date.valueOf(newMessage.getSentDate()));
             statement.setString(3, newMessage.getSenderID());
             statement.setString(4, newMessage.getReceiverID());
             statement.executeUpdate();
@@ -83,7 +96,7 @@ class MessagesDBUtil {
         {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
     }
@@ -110,10 +123,11 @@ class MessagesDBUtil {
                 messageID = rset.getString("messageID");
                 message = rset.getString("message");
                 isRead = rset.getBoolean("isRead");
+                Date sentDate = rset.getDate("sentDate");
                 senderID =rset.getString("senderID");
 
                 // Add the new edge to the list
-                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                messageObject = new Message(messageID,message,isRead, sentDate.toLocalDate(), receiverID, senderID);
                 listOfMessages.add(messageObject);
                 System.out.println("Message added to the list: "+messageID);
             }
@@ -123,7 +137,7 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return listOfMessages;
     }
@@ -149,10 +163,11 @@ class MessagesDBUtil {
                 messageID = rset.getString("messageID");
                 message = rset.getString("message");
                 isRead = rset.getBoolean("isRead");
+                Date sentDate = rset.getDate("sentDate");
                 receiverID =rset.getString("receiver");
 
                 // Add the new edge to the list
-                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                messageObject = new Message(messageID,message,isRead, sentDate.toLocalDate(), receiverID, senderID);
                 listOfMessages.add(messageObject);
                 System.out.println("Message added to the list: "+messageID);
             }
@@ -162,15 +177,15 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return listOfMessages;
     }
 
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
-    private String generateMessageID(){
+    public String generateMessageID(){
         messageIDCounter++;
-        return Integer.toString(messageIDCounter-1);
+        return Integer.toString(messageIDCounter);
     }
 
     /**
@@ -198,11 +213,12 @@ class MessagesDBUtil {
                     messageID = rset.getString("messageID");
                     message = rset.getString("message");
                     isRead = rset.getBoolean("isRead");
+                    Date sentDate = rset.getDate("sentDate");
                     senderID =rset.getString("senderID");
                     receiverID = rset.getString("receiverID");
 
                     // Add the new edge to the list
-                    messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                    messageObject = new Message(messageID,message,isRead, sentDate.toLocalDate(), receiverID, senderID);
                     listOfMessages.add(messageObject);
                     System.out.println("Message added to the list: "+messageID);
                 }
@@ -212,7 +228,7 @@ class MessagesDBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                DataModelI.getInstance().closeConnection(connection);
+                DataModelI.getInstance().closeConnection();
             }
         return listOfMessages;
     } // retrieveMessages() ends
@@ -237,11 +253,12 @@ class MessagesDBUtil {
             if (rset.next()) {
                 message = rset.getString("message");
                 isRead = rset.getBoolean("isRead");
+                Date sentDate = rset.getDate("sentDate");
                 senderID =rset.getString("senderID");
                 receiverID = rset.getString("receiverID");
 
                 // Add the new edge to the list
-                messageObject = new Message(messageID,message,isRead,senderID,receiverID);
+                messageObject = new Message(messageID,message,isRead, sentDate.toLocalDate(), receiverID, senderID);
                 listOfMessages.add(messageObject);
                 System.out.println("Message added to the list: "+messageID);
             }
@@ -251,8 +268,9 @@ class MessagesDBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataModelI.getInstance().closeConnection(connection);
+            DataModelI.getInstance().closeConnection();
         }
         return messageObject;
     }
+
 }

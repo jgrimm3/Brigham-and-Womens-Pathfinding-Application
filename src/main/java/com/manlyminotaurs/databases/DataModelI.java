@@ -3,16 +3,27 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
+import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
+import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
-public class DataModelI implements IDataModel{
+//
+//  '||''|.             .              '||    ||'              '||          '||
+//   ||   ||   ....   .||.   ....       |||  |||    ...      .. ||    ....   ||
+//   ||    || '' .||   ||   '' .||      |'|..'||  .|  '|.  .'  '||  .|...||  ||
+//   ||    || .|' ||   ||   .|' ||      | '|' ||  ||   ||  |.   ||  ||       ||
+//  .||...|'  '|..'|'  '|.' '|..'|'    .|. | .||.  '|..|'  '|..'||.  '|...' .||.
+//
+//
 
+public class DataModelI implements IDataModel{
 
     /*---------------------------------------------- Variables -------------------------------------------------------*/
 
@@ -22,17 +33,20 @@ public class DataModelI implements IDataModel{
 	private RequestsDBUtil requestsDBUtil;
 	private UserDBUtil userDBUtil;
 	private TableInitializer tableInitializer;
+	private UserSecurity userSecurity = new UserSecurity();
 
     // list of all objects
 
-    private static DataModelI dataModelI;
-
-    private static Connection connection;
+    private static DataModelI dataModelI = null;
+    private Connection connection = null;
 
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
+        TableInitializer tableInitializer = new TableInitializer();
+    //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
+     //   System.out.println(tableInitializer.convertStringToTimestamp("2018-04-06 07:43:10:2").toLocalDateTime().toString().replace("T"," "));
     }
 
     private DataModelI() {
@@ -53,27 +67,37 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+
+      // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
+        //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
 
     @Override
     public Connection getNewConnection() {
         try {
-            if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+            if(DataModelI.getInstance().connection == null || DataModelI.getInstance().connection.isClosed()) {
+                DataModelI.getInstance().connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return connection;
+        return DataModelI.getInstance().connection;
     }
 
     @Override
-    public boolean closeConnection(Connection connection) {
+    public boolean closeConnection() {
         try {
-            connection.close();
-            return true;
+            if(DataModelI.getInstance().connection != null) {
+                DataModelI.getInstance().connection.close();
+                DataModelI.getInstance().connection = null;
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } catch (NullPointerException en){
+            en.printStackTrace();
             return false;
         }
     }
@@ -112,9 +136,15 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
+
+    @Override
+	public Node getNodeByIDFromList(String nodeID, List<Node> nodeList) {
+    	return nodesDBUtil.getNodeByIDFromList(nodeID, nodeList);
+	}
 
     @Override
     public List<Node> getNodesByFloor(String floor) {
@@ -145,12 +175,22 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
+        return nodesDBUtil.getNodeByLongNameFromList(longName, nodeList);
+    }
+
+    @Override
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
     }
 
     @Override
-    public List<Node> getAdjacentNodesFromNode(Node node) {
+    public List<String> getLongNameByBuildingTypeFloor(String building, String type, String floor) {
+        return nodesDBUtil.getLongNameByBuildingTypeFloor(building,type,floor);
+    }
+
+    @Override
+    public List<String> getAdjacentNodesFromNode(Node node) {
         return nodesDBUtil.getAdjacentNodes(node);
     }
 
@@ -158,29 +198,35 @@ public class DataModelI implements IDataModel{
     public Set<Edge> getEdgeList(List<Node> nodeList) {
         return nodesDBUtil.getEdgeList(nodeList);
     }
-/*
-    @Override
-	public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
     @Override
     public void addEdge(Node startNode, Node endNode) {
         nodesDBUtil.addEdge(startNode, endNode);
     }
 
-    @Override
-    public void removeEdge(Node startNode, Node endNode) {
-        nodesDBUtil.removeEdge(startNode, endNode);
-    }
+    /*
+        @Override
+        public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
 
-    @Override
-    public boolean hasEdge(Node startNode, Node endNode) {
-        return nodesDBUtil.hasEdge(startNode, endNode);
-    }
-*/
+        @Override
+        public void addEdge(Node startNode, Node endNode) {
+            nodesDBUtil.addEdge(startNode, endNode);
+        }
+
+        @Override
+        public void removeEdge(Node startNode, Node endNode) {
+            nodesDBUtil.removeEdge(startNode, endNode);
+        }
+
+        @Override
+        public boolean hasEdge(Node startNode, Node endNode) {
+            return nodesDBUtil.hasEdge(startNode, endNode);
+        }
+    */
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
-    public Message addMessage(String message, Boolean isRead, String senderID, String receiverID) {
-        return messagesDBUtil.addMessage(message, isRead, senderID, receiverID);
+    public Message addMessage(Message messageObject) {
+        return messagesDBUtil.addMessage(messageObject);
     }
 
     @Override
@@ -191,6 +237,11 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyMessage(Message newMessage) {
         return messagesDBUtil.modifyMessage(newMessage);
+    }
+
+    @Override
+    public String getNextMessageID() {
+        return messagesDBUtil.generateMessageID();
     }
 
     @Override
@@ -213,10 +264,11 @@ public class DataModelI implements IDataModel{
         return messagesDBUtil.getMessageByID(ID);
     }
 
-	/*------------------------------------------------ Requests -------------------------------------------------------*/
+
+    /*------------------------------------------------ Requests -------------------------------------------------------*/
     @Override
-    public Request addRequest(String requestType, int priority,  String nodeID, String message, String senderID) {
-        return requestsDBUtil.addRequest(requestType,priority,nodeID,message,senderID);
+    public Request addRequest(Request requestObject, Message messageObject) {
+        return requestsDBUtil.addRequest(requestObject, messageObject);
     }
 
     @Override
@@ -227,6 +279,11 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyRequest(Request newRequest) {
         return requestsDBUtil.modifyRequest(newRequest);
+    }
+
+    @Override
+    public String getNextRequestID() {
+        return requestsDBUtil.generateRequestID();
     }
 
     @Override
@@ -252,8 +309,8 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String userID, String firstName, String middleName, String lastName, String language,String userType) {
-        return userDBUtil.addUser(userID, firstName, middleName, lastName, language, userType);
+    public User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
+        return userDBUtil.addUser(firstName, middleName, lastName, language, userType, userName, password);
     }
 
     @Override
@@ -272,8 +329,68 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<StaffFields> retrieveStaffs() {
+        return userDBUtil.retrieveStaffs();
+    }
+
+    @Override
     public User getUserByID(String userID) {
         return userDBUtil.getUserByID(userID);
     }
 
+    @Override
+    public String getIDByUserPassword(String userName, String password) {
+        UserSecurity userSecurity = new UserSecurity();
+        return userSecurity.getIDByUserPassword(userName, password);
+    }
+
+    @Override
+    public List<UserPassword> retrieveUserPasswords() {
+        return userSecurity.retrieveUserPasswords();
+    }
+
+    @Override
+    public void updateNodeCSVFile(String csvFileName) {
+        new CsvFileController().updateNodeCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateEdgeCSVFile(String csvFileName) {
+        new CsvFileController().updateEdgeCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateRoomCSVFile(String csvFileName) {
+        new CsvFileController().updateRoomCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateMessageCSVFile(String csvFileName) {
+        new CsvFileController().updateMessageCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateRequestCSVFile(String csvFileName) {
+        new CsvFileController().updateRequestCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateUserCSVFile(String csvFileName) {
+        new CsvFileController().updateUserCSVFile(csvFileName);
+    }
+
+    @Override
+    public void updateUserPasswordFile(String csvFileName) {
+        new CsvFileController().updateUserPasswordFile(csvFileName);
+    }
+
+    @Override
+    public void updateStaffTable(String csvFileName) {
+        new CsvFileController().updateStaffTable(csvFileName);
+    }
+
+    @Override
+    public boolean doesUserPasswordExist(String userName, String password) {
+        return userSecurity.doesUserPasswordExist(userName, password);
+    }
 }
