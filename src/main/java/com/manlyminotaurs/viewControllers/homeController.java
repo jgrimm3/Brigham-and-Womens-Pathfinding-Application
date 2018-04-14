@@ -1837,10 +1837,10 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateLeft(MouseEvent mouseEvent) {
-		overMap.setRotate(overMap.getRotate() - 20);
+		overMap.setRotate(overMap.getRotate() - 30);
 	}
 
 	public void rotateRight(MouseEvent mouseEvent) {
-		overMap.setRotate(overMap.getRotate() + 20);
+		overMap.setRotate(overMap.getRotate() + 30);
 	}
 }
