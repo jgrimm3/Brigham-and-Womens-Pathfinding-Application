@@ -73,8 +73,6 @@ public class ClosestStrategyI implements IPathFindingStrategy {
 
     private LinkedList<ClosestStrategyNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
         String target = endNode.getNode().getNodeType();
-        ArrayList<ClosestStrategyNode> closedList = new ArrayList<>();
-        //ArrayList<ClosestStrategyNode> openList = new ArrayList<>();
         HashMap<Double, ClosestStrategyNode> openList = new HashMap<>();
 
         // return path if startNode equals endNode
@@ -87,6 +85,8 @@ public class ClosestStrategyI implements IPathFindingStrategy {
         for (Node node: startNode.getNode().getAdjacentNodes()) {
             // initialize dijNodes with visited=false, dist=INF
             ClosestStrategyNode dijNode = new ClosestStrategyNode(node, startNode);
+            // check for match
+            if (dijNode.getNode().getNodeID().equals(target)) { return getNodeTrail(dijNode); }
             // set visited=true and distance from parent
             dijNode.setDistance(distanceBetweenNodes(startNode, dijNode));
             //dijNode.setVisited(true);
@@ -101,18 +101,21 @@ public class ClosestStrategyI implements IPathFindingStrategy {
             ClosestStrategyNode closestNode = openList.get(min);
             // set visited to true
             closestNode.setVisited(true);
-            // see if closest node equals destination node type
+            // check for match
             if (closestNode.getNode().getNodeID().equals(target)) { return getNodeTrail(closestNode); }
             // update distances of all children of this node
             for (Node node: closestNode.getNode().getAdjacentNodes()) {
-                /* Update dist[v] only if is not in openList, there is an
-                // edge from u to v, and total weight of path from src to
-                // v through u is smaller than current value of dist[v] */
-
-                // do stuff here
+                ClosestStrategyNode newNode = new ClosestStrategyNode(node, closestNode);
+                // updates child distances by adding minimum distance
+                if (!openList.containsValue(newNode) && (startNode.getDistance() + min) <  newNode.getDistance()) {
+                    newNode.setDistance(newNode.getDistance() + min);
+                }
+                // check for match
+                if (newNode.getNode().getNodeID().equals(target)) { return getNodeTrail(newNode); }
             }
         }
-        return null;
+        // no path available
+        throw new PathNotFoundException();
     }
 
     /**
