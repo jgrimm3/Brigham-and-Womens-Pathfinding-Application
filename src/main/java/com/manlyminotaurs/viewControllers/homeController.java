@@ -1,6 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
+import com.jfoenix.controls.*;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
@@ -23,11 +24,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.RotateEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.shape.LineTo;
@@ -51,11 +50,9 @@ public class homeController implements Initializable {
 		private static Singleton instance = null;
 		PathfindingContext pathfindingContext = new PathfindingContext();
 		Boolean handicap;
-
 		private Singleton() {
 
 		}
-
 		private static class SingletonHolder {
 			private static Singleton MapController = new Singleton();
 
@@ -99,40 +96,40 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	Pane panePathfinding;
+	VBox panePathfinding;
+
+	@FXML
+	JFXToggleButton tglHandicap;
 
 	@FXML
 	Label lblHandicap;
 
 	@FXML
-	ToggleButton tglHandicap;
+	JFXToggleButton tglMap;
 
 	@FXML
 	Label lblMap;
 
 	@FXML
-	ToggleButton tglMap;
-
-	@FXML
-	Button btnStart;
+	JFXButton btnStart;
 
 	@FXML
 	Label lblBuildingStart;
 
 	@FXML
-	ComboBox<String> comBuildingStart;
+	JFXComboBox<String> comBuildingStart;
 
 	@FXML
 	Label lblFloorStart;
 
 	@FXML
-	ComboBox<String> comFloorStart;
+	JFXComboBox<String> comFloorStart;
 
 	@FXML
 	Label lblTypeStart;
 
 	@FXML
-	ComboBox<String> comTypeStart;
+	JFXComboBox<String> comTypeStart;
 
 	@FXML
 	Label lblLocationStart;
@@ -147,19 +144,19 @@ public class homeController implements Initializable {
 	Label lblBuildingEnd;
 
 	@FXML
-	ComboBox<String> comBuildingEnd;
+	JFXComboBox<String> comBuildingEnd;
 
 	@FXML
 	Label lblFloorEnd;
 
 	@FXML
-	ComboBox<String> comFloorEnd;
+	JFXComboBox<String> comFloorEnd;
 
 	@FXML
 	Label lblTypeEnd;
 
 	@FXML
-	ComboBox<String> comTypeEnd;
+	JFXComboBox<String> comTypeEnd;
 
 	@FXML
 	Label lblLocationEnd;
@@ -228,13 +225,11 @@ public class homeController implements Initializable {
 
 			tglHandicap.setSelected(false);
 			tglHandicap.setText("OFF");
-			lblHandicap.setText("HANDICAP");
 			tglMap.setSelected(false);
 			tglMap.setText("2-D");
-			lblMap.setText("MAP: 2-D");
 
 			comChangeFloor.getSelectionModel().select(2);
-			pathfloor2DMapLoader("1");
+			floor2DMapLoader("1");
 			//staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 			//adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
@@ -277,18 +272,16 @@ public class homeController implements Initializable {
 
 		tglHandicap.setSelected(false);
 		tglHandicap.setText("OFF");
-		lblHandicap.setText("HANDICAP");
 		tglMap.setSelected(false);
 		tglMap.setText("2-D");
-		lblMap.setText("MAP: 2-D");
 
 		comChangeFloor.getSelectionModel().select(2);
-		pathfloor2DMapLoader("1");
+		floor2DMapLoader("1");
 		setStrategy();
 		//createMap();
 	}
 
-	public void setStrategy() {
+	public void setStrategy(){
 		if (Main.pathStrategy.equals("A*")) {
 			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
 		}
@@ -334,7 +327,6 @@ public class homeController implements Initializable {
 
 			// Switch 3-D
 			tglMap.setText("3-D");
-			lblMap.setText("MAP: 3-D");
 			stackPaneMap.setPrefHeight(2774);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(2774);
@@ -346,7 +338,6 @@ public class homeController implements Initializable {
 
 			// Switch 2-D
 			tglMap.setText("2-D");
-			lblMap.setText("MAP: 2-D");
 			stackPaneMap.setPrefHeight(3400);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(3400);
@@ -365,7 +356,7 @@ public class homeController implements Initializable {
 		Circle kioskRemove = new Circle();
 		Circle outlineRemove = new Circle();
 
-		if (tglMap.isSelected()) {
+		if(tglMap.isSelected()) {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
 			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
@@ -385,7 +376,7 @@ public class homeController implements Initializable {
 
 		circleList.add(kioskOutline);
 		circleList.add(kiosk);
-		if (comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
+		if(comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
 			kiosk.setFill(Color.BLUE);
 			kiosk.setFill(Color.RED);
 		} else {
@@ -399,7 +390,7 @@ public class homeController implements Initializable {
 	}
 
 	public void goToKiosk() {
-		if (tglMap.isSelected()) {
+		if(tglMap.isSelected()) {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 2774.0);
 			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		} else {
@@ -467,8 +458,8 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseStartNode(MouseEvent event) {
-		Circle circle = (Circle) event.getTarget();
-		if (!tglMap.isSelected()) {
+		Circle circle = (Circle)event.getTarget();
+		if(!tglMap.isSelected()) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -524,9 +515,9 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseEndNode(MouseEvent event) {
-		Circle circle = (Circle) event.getTarget();
+		Circle circle = (Circle)event.getTarget();
 		System.out.println(circle.getCenterX());
-		if (!tglMap.isSelected()) {
+		if(!tglMap.isSelected()) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -793,7 +784,7 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	Pane paneDirections;
+	VBox paneDirections;
 
 	@FXML
 	Label lblStartLocation1;
@@ -802,31 +793,58 @@ public class homeController implements Initializable {
 	Label lblEndLocation1;
 
 	@FXML
-	Button btnOpenQRCode;
+	JFXButton btnOpenSend;
 
 	@FXML
-	ListView<String> lstDirections;
+	JFXListView<String> lstDirections;
 
 	@FXML
 	Button btnRestart;
 
 	@FXML
-	Pane paneQRCode;
+	Pane paneSend;
 
 	@FXML
-	Button btnCloseQRCode;
+	JFXButton btnCloseSend;
 
 	@FXML
-	ImageView imgQRCode;
+	JFXTextField txtEmail;
 
-	public void openQRCodePanel(ActionEvent event) {
+	@FXML
+	JFXTextField txtPhone;
+
+	@FXML
+	JFXTextField txtFax;
+
+	@FXML
+	Button btnEmail;
+
+	@FXML
+	Button btnPhone;
+
+	@FXML
+	Button btnFax;
+
+	@FXML
+	Label lblEmailMessage;
+
+	@FXML
+	Label lblPhoneMessage;
+
+	@FXML
+	Label lblFaxMessage;
+
+	@FXML
+	Label lblPin;
+
+	public void openSendPanel(ActionEvent event) {
 
 		// Generate QR Code
 
 		// Load QR Code into panel
 
 		// Show QR code
-		paneQRCode.setVisible(true);
+		paneSend.setVisible(true);
 
 		// Disable Everything Else
 		btnRestart.setDisable(true);
@@ -841,11 +859,11 @@ public class homeController implements Initializable {
 //		btnQuickCoffee.setDisable(true);
 		//btnQuickShop.setDisable(true);
 		comChangeFloor.setDisable(true);
-		btnOpenQRCode.setDisable(true);
+		btnOpenSend.setDisable(true);
 		txtPassword.setDisable(true);
 		txtUsername.setDisable(true);
 
-		new ProxyImage(imgQRCode, "CrunchifyQR.png").display2();
+		//new ProxyImage(imgQRCode, "CrunchifyQR.png").display2();
 	}
 
 	public void restartNavigation(ActionEvent event) {
@@ -868,11 +886,9 @@ public class homeController implements Initializable {
 
 		tglHandicap.setSelected(false);
 		tglHandicap.setText("OFF");
-		lblHandicap.setText("HANDICAP");
 		tglMap.setSelected(false);
 		tglMap.setText("2-D");
-		lblMap.setText("MAP: 2-D");
-		pathfloor2DMapLoader("1");
+		floor2DMapLoader("1");
 		comChangeFloor.setValue("1");
 
 		paneMap.getChildren().remove(startCircle);
@@ -888,10 +904,10 @@ public class homeController implements Initializable {
 
 	}
 
-	public void closeQRCodePanel(ActionEvent event) {
+	public void closeSendPanel(ActionEvent event) {
 
 		// Hide QR code
-		paneQRCode.setVisible(false);
+		paneSend.setVisible(false);
 
 		// Disable Everything Else
 		btnRestart.setDisable(false);
@@ -906,9 +922,21 @@ public class homeController implements Initializable {
 		//btnQuickCoffee.setDisable(false);
 		//btnQuickShop.setDisable(false);
 		comChangeFloor.setDisable(false);
-		btnOpenQRCode.setDisable(false);
+		btnOpenSend.setDisable(false);
 		txtPassword.setDisable(false);
 		txtUsername.setDisable(false);
+	}
+
+	public void sendDirectionsViaEmail(ActionEvent event) {
+
+	}
+
+	public void sendDirectionsViaPhone(ActionEvent event) {
+
+	}
+
+	public void sendDirectionsViaFax(ActionEvent event) {
+
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -917,10 +945,13 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	Button btnQuickDirections;
+	JFXButton btnQuickDirections;
 
 	@FXML
-	Button btnQuickBathroom;
+	JFXButton btnQuickBathroom;
+
+	@FXML
+	ImageView imgNavigation;
 
 	//@FXML
 	//Button btnQuickCafe;
@@ -935,12 +966,16 @@ public class homeController implements Initializable {
 
 		if (btnQuickBathroom.isVisible() == true) {
 
+			new ProxyImage(imgNavigation, "NearestIcon.png").displayIcon();
+
 			btnQuickBathroom.setVisible(false);
 			//btnQuickCafe.setVisible(false);
 			//btnQuickCoffee.setVisible(false);
 			//.setVisible(false);
 
 		} else if (btnQuickBathroom.isVisible() == false) {
+
+			new ProxyImage(imgNavigation,"BackIcon.png").displayIcon();
 
 			btnQuickBathroom.setVisible(true);
 			//btnQuickCafe.setVisible(true);
@@ -976,10 +1011,10 @@ public class homeController implements Initializable {
 		// Set new overview panel to correct parameters
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>) path));
+		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
 		lstDirections.setItems(directions);
-		listForQR = (LinkedList<Node>) path;
-		pu.generateQR(pu.angleToText((LinkedList<Node>) path));
+		listForQR = (LinkedList<Node>)path;
+		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
 		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 		// Draw path code
 		if (tglHandicap.isSelected()) {
@@ -987,12 +1022,12 @@ public class homeController implements Initializable {
 			if (tglMap.isSelected()) {
 				// use 3-D
 				printNodePath(path, startFloor, "3-D");
-				pathfloor3DMapLoader(startFloor);
+				floor3DMapLoader(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				pathfloor2DMapLoader(startFloor);
+				floor2DMapLoader(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		} else {
@@ -1001,12 +1036,12 @@ public class homeController implements Initializable {
 				// use 3-D
 				System.out.println("using 3d stairs");
 				printNodePath(path, startFloor, "3-D");
-				pathfloor3DMapLoader(startFloor);
+				floor3DMapLoader(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				pathfloor2DMapLoader(startFloor);
+				floor2DMapLoader(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		}
@@ -1071,13 +1106,13 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	Button btnHelp;
+	JFXButton btnHelp;
 
 	@FXML
 	Pane paneHelp;
 
 	@FXML
-	Button btnCloseHelp;
+	JFXButton btnCloseHelp;
 
 	@FXML
 	Label lblHelp1;
@@ -1119,19 +1154,19 @@ public class homeController implements Initializable {
 	Pane paneLogin;
 
 	@FXML
-	Button btnOpenLogin;
+	JFXButton btnOpenLogin;
 
 	@FXML
-	Button btnCloseLogin;
+	JFXButton btnCloseLogin;
 
 	@FXML
-	Button btnLogin;
+	JFXButton btnLogin;
 
 	@FXML
-	TextField txtUsername;
+	JFXTextField txtUsername;
 
 	@FXML
-	PasswordField txtPassword;
+	JFXPasswordField txtPassword;
 
 	public void openLoginPanel(ActionEvent event) {
 
@@ -1173,10 +1208,8 @@ public class homeController implements Initializable {
 				//btnQuickCafe.setVisible(false);
 				tglHandicap.setSelected(false);
 				tglHandicap.setText("OFF");
-				lblHandicap.setText("HANDICAP");
 				tglMap.setSelected(false);
 				tglMap.setText("2-D");
-				lblMap.setText("MAP: 2-D");
 				comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
 				comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
 				comBuildingEnd.setItems(buildings);
@@ -1211,11 +1244,11 @@ public class homeController implements Initializable {
 				//load up Home FXML document
 				if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
 					staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-				} else {
+				}else{
 					staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 				}
 
-				KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
+				KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName , password);
 
 				//create a new scene with root and set the stage
 				Scene scene = new Scene(staffRequest);
@@ -1224,7 +1257,7 @@ public class homeController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
+		}else {
 
 			// print message
 			System.out.println("Wrong username and password!");
@@ -1287,75 +1320,7 @@ public class homeController implements Initializable {
 		}
 	}
 
-	public void pathfloor2DMapLoader(String floor) {
-		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
-			new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
-
-			clearPath();
-			printNodePath(pathList, "L2", "2-D");
-
-		} else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
-			new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
-
-			clearPath();
-			printNodePath(pathList, "L1", "2-D");
-
-		} else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
-			new ProxyImage(mapImg, "01_thefirstfloor.png").display();
-
-			clearPath();
-			printNodePath(pathList, "1", "2-D");
-
-		} else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
-			new ProxyImage(mapImg, "02_thesecondfloor.png").display();
-
-			clearPath();
-			printNodePath(pathList, "2", "2-D");
-
-		} else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
-			new ProxyImage(mapImg, "03_thethirdfloor.png").display();
-
-			clearPath();
-			printNodePath(pathList, "3", "2-D");
-
-		}
-	}
-
 	public void floor3DMapLoader(String floor) {
-		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
-			new ProxyImage(mapImg, "L2-ICONS.png").display();
-
-			clearPath();
-			printNodePath(pathList, "L2", "3-D");
-
-		} else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
-			new ProxyImage(mapImg, "L1-ICONS.png").display();
-
-			clearPath();
-			printNodePath(pathList, "L1", "3-D");
-
-		} else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
-			new ProxyImage(mapImg, "1-ICONS.png").display();
-
-			clearPath();
-			printNodePath(pathList, "1", "3-D");
-
-		} else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
-			new ProxyImage(mapImg, "2-ICONS.png").display();
-
-			clearPath();
-			printNodePath(pathList, "2", "3-D");
-
-		} else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
-			new ProxyImage(mapImg, "3-ICONS.png").display();
-
-			clearPath();
-			printNodePath(pathList, "3", "3-D");
-
-		}
-	}
-
-	public void pathfloor3DMapLoader(String floor) {
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 			new ProxyImage(mapImg, "L2-ICONS.png").display();
 
@@ -1493,7 +1458,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size() - 1);
+			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
@@ -1604,13 +1569,13 @@ public class homeController implements Initializable {
 				if (tglMap.isSelected()) {
 					// use 3-D
 					printNodePath(pathList, startFloor, "3-D");
-					pathfloor3DMapLoader(startFloor);
+					floor3DMapLoader(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
 				} else {
 					// use 2-D
 					printNodePath(pathList, startFloor, "2-D");
-					pathfloor2DMapLoader(startFloor);
+					floor2DMapLoader(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				}
 			} else {
@@ -1619,12 +1584,12 @@ public class homeController implements Initializable {
 					// use 3-D
 					System.out.println("using 3d stairs");
 					printNodePath(pathList, startFloor, "3-D");
-					pathfloor3DMapLoader(startFloor);
+					floor3DMapLoader(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				} else {
 					// use 2-D
 					printNodePath(pathList, startFloor, "2-D");
-					pathfloor2DMapLoader(startFloor);
+					floor2DMapLoader(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
 				}
@@ -1741,7 +1706,7 @@ public class homeController implements Initializable {
 	}
 
 	private void clearPoints() {
-		for (Circle c : circleList) {
+		for(Circle c: circleList) {
 			paneMap.getChildren().remove(c);
 		}
 
@@ -1806,7 +1771,6 @@ public class homeController implements Initializable {
 				return "3";
 			default:
 				return "1";
-
 		}
 	}
 
@@ -1819,6 +1783,7 @@ public class homeController implements Initializable {
 		}
 	} */
 
+
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Rotate and Zoom on 2D map
@@ -1826,8 +1791,9 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 
 	@FXML
-	Pane overMap;
+	Pane overMap; // this is just a pane that i put the nodes/paths/map on so they will all scale and rotate together
 
+	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(MouseEvent mouseEvent) {
 		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
 			overMap.setScaleX(overMap.getScaleX() + .1);
@@ -1840,5 +1806,13 @@ public class homeController implements Initializable {
 			overMap.setScaleX(overMap.getScaleX() - .1);
 			overMap.setScaleY(overMap.getScaleY() - .1);
 		}
+	}
+
+	public void rotateLeft(MouseEvent mouseEvent) {
+		overMap.setRotate(overMap.getRotate() - 20);
+	}
+
+	public void rotateRotate(MouseEvent mouseEvent) {
+		overMap.setRotate(overMap.getRotate() + 20);
 	}
 }
