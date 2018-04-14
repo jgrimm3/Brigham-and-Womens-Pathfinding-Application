@@ -54,7 +54,7 @@ public interface IDataModel {
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
-    List<String> getAdjacentNodesFromNode(Node node);
+    List<String> getAdjacentNodes(Node node);
     List<Edge> getEdgeList();
     void addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);

@@ -207,7 +207,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<String> getAdjacentNodesFromNode(Node node) {
+    public List<String> getAdjacentNodes(Node node) {
         return nodesDBUtil.getAdjacentNodes(node);
     }
 

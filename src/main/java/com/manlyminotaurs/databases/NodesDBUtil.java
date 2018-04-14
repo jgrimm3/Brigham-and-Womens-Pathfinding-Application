@@ -24,6 +24,7 @@ class NodesDBUtil {
 	Map<String, Node> nodeMap;
 
 	Map<String, Node> getNodeMap() {
+		updateNodeMap();
 		return nodeMap;
 	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
@@ -116,7 +117,7 @@ class NodesDBUtil {
 		return nodes;
 	} // retrieveNodes() ends
 
-	Map<String, Node> updateNodeMap(){
+	private Map<String, Node> updateNodeMap(){
 		// Variables
 		Node node = null;
 		String ID = "";
