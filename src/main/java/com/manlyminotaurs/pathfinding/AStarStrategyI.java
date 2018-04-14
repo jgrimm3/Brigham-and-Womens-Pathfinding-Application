@@ -76,7 +76,7 @@ public class AStarStrategyI implements IPathFindingStrategy {
         try {
             childEdges = getEdges(aNode);
         } catch (OrphanNodeException e){
-            throw new PathNotFoundException();
+            throw new PathNotFoundException(e.getMessage());
         }
 
         for (Node ne: childEdges){
@@ -86,6 +86,18 @@ public class AStarStrategyI implements IPathFindingStrategy {
             }
         }
         return children;
+    }
+
+    /**
+     * Get all the edges that a node belongs to, in the form of list of nodes
+     *
+     * @param pNode: scored node
+     * @return list of node's edges, node list
+     */
+    private ArrayList<Node> getEdges(PathfindingNode pNode) throws OrphanNodeException{
+        ArrayList<Node> nodeEdges = new ArrayList<>(pNode.getNode().getAdjacentNodes());
+        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
+        return nodeEdges;
     }
 
     /**
@@ -165,18 +177,6 @@ public class AStarStrategyI implements IPathFindingStrategy {
         double yDist = y2 - y1;
 
         return Math.hypot(xDist, yDist);
-    }
-
-    /**
-     * Get all the edges that a node belongs to, in the form of list of nodes
-     *
-     * @param pNode: scored node
-     * @return list of node's edges, node list
-     */
-    private ArrayList<Node> getEdges(PathfindingNode pNode) throws OrphanNodeException{
-        ArrayList<Node> nodeEdges = new ArrayList<>(pNode.getNode().getAdjacentNodes());
-        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
-        return nodeEdges;
     }
 
     /**
