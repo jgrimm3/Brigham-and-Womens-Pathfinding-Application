@@ -1552,7 +1552,7 @@ public class homeController implements Initializable {
 
 			//List<Node> nodeList = new ArrayList<>();
 			//LinkedList<Node> pathList = new LinkedList<>();
-			nodeList = DataModelI.getInstance().retrieveNodes();
+			//nodeList = DataModelI.getInstance().retrieveNodes();
 
 			try {
 				pathList = Singleton.getInstance().pathfindingContext.getPath(DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList), DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList), new AStarStrategyI());
