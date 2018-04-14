@@ -10,9 +10,8 @@ import com.manlyminotaurs.users.UserPassword;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 //
 //  '||''|.             .              '||    ||'              '||          '||
@@ -33,7 +32,7 @@ public class DataModelI implements IDataModel{
 	private RequestsDBUtil requestsDBUtil;
 	private UserDBUtil userDBUtil;
 	private TableInitializer tableInitializer;
-	private UserSecurity userSecurity = new UserSecurity();
+	private UserSecurity userSecurity;
 
     // list of all objects
 
@@ -44,6 +43,15 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
+
+        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
+        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
+        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
+        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
+        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
+        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
+        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
+
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
      //   System.out.println(tableInitializer.convertStringToTimestamp("2018-04-06 07:43:10:2").toLocalDateTime().toString().replace("T"," "));
@@ -55,6 +63,7 @@ public class DataModelI implements IDataModel{
         requestsDBUtil = new RequestsDBUtil();
         userDBUtil = new UserDBUtil();
         tableInitializer = new TableInitializer();
+        userSecurity = new UserSecurity();
     }
 
     public static DataModelI getInstance(){
@@ -104,8 +113,13 @@ public class DataModelI implements IDataModel{
 
 	/*------------------------------------------------ Nodes -------------------------------------------------------*/
     @Override
+    @Deprecated
     public List<Node> retrieveNodes() {
         return nodesDBUtil.retrieveNodes();
+    }
+
+    public Map<String, Node> getNodeMap(){
+        return nodesDBUtil.getNodeMap();
     }
 
     @Override
@@ -123,8 +137,6 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.removeNode(badNode);
     }
 
-    public boolean removeNode(String nodeID) { return nodesDBUtil.removeNodeByID(nodeID); }
-
     @Override
     public List<Node> getNodesByType(String type) {
         return nodesDBUtil.getNodesByType(type);
@@ -136,22 +148,24 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    @Deprecated
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
 
     @Override
+    @Deprecated
 	public Node getNodeByIDFromList(String nodeID, List<Node> nodeList) {
     	return nodesDBUtil.getNodeByIDFromList(nodeID, nodeList);
 	}
 
     @Override
+    @Deprecated
     public List<Node> getNodesByFloor(String floor) {
         return nodesDBUtil.getNodesByFloor(floor);
     }
 
     @Override
+    @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override
@@ -175,11 +189,13 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
         return nodesDBUtil.getNodeByLongNameFromList(longName, nodeList);
     }
 
     @Override
+    @Deprecated
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
     }
@@ -194,9 +210,11 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.getAdjacentNodes(node);
     }
 
+    //-------------------------------------------Edges---------------------------------------------------
+
     @Override
-    public Set<Edge> getEdgeList(List<Node> nodeList) {
-        return nodesDBUtil.getEdgeList(nodeList);
+    public List<Edge> getEdgeList() {
+        return nodesDBUtil.getEdgeList();
     }
 
     @Override
@@ -204,25 +222,11 @@ public class DataModelI implements IDataModel{
         nodesDBUtil.addEdge(startNode, endNode);
     }
 
-    /*
-        @Override
-        public List<Node> getAdjacentNodes(Node node) { return nodesDBUtil.getAdjacentNodesFromNode(node); }
+    @Override
+    public void removeEdge(Node startNode, Node endNode) {
+        nodesDBUtil.removeEdge(startNode, endNode);
+    }
 
-        @Override
-        public void addEdge(Node startNode, Node endNode) {
-            nodesDBUtil.addEdge(startNode, endNode);
-        }
-
-        @Override
-        public void removeEdge(Node startNode, Node endNode) {
-            nodesDBUtil.removeEdge(startNode, endNode);
-        }
-
-        @Override
-        public boolean hasEdge(Node startNode, Node endNode) {
-            return nodesDBUtil.hasEdge(startNode, endNode);
-        }
-    */
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
     public Message addMessage(Message messageObject) {
@@ -349,6 +353,24 @@ public class DataModelI implements IDataModel{
         return userSecurity.retrieveUserPasswords();
     }
 
+
+    @Override
+    public void updateUserPasswordFile(String csvFileName) {
+        new CsvFileController().updateUserPasswordFile(csvFileName);
+    }
+
+    @Override
+    public void updateStaffTable(String csvFileName) {
+        new CsvFileController().updateStaffTable(csvFileName);
+    }
+
+    @Override
+    public boolean doesUserPasswordExist(String userName, String password) {
+        return userSecurity.doesUserPasswordExist(userName, password);
+    }
+
+    //--------------------------------------CSV stuffs------------------------------------------
+
     @Override
     public void updateNodeCSVFile(String csvFileName) {
         new CsvFileController().updateNodeCSVFile(csvFileName);
@@ -377,20 +399,5 @@ public class DataModelI implements IDataModel{
     @Override
     public void updateUserCSVFile(String csvFileName) {
         new CsvFileController().updateUserCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateUserPasswordFile(String csvFileName) {
-        new CsvFileController().updateUserPasswordFile(csvFileName);
-    }
-
-    @Override
-    public void updateStaffTable(String csvFileName) {
-        new CsvFileController().updateStaffTable(csvFileName);
-    }
-
-    @Override
-    public boolean doesUserPasswordExist(String userName, String password) {
-        return userSecurity.doesUserPasswordExist(userName, password);
     }
 }
