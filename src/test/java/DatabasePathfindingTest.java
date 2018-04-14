@@ -95,5 +95,20 @@ public class DatabasePathfindingTest {
         assertFalse(result.isEmpty());
     }
 
+    @Test
+    public void BreakingPathfindingTest(){
+        Node startNode = DataModelI.getInstance().getNodeByID("FHALL03101");
+        Node endNode = DataModelI.getInstance().getNodeByID("GHALL01401");
+
+        PathfindingContext pf = new PathfindingContext();
+        LinkedList<Node> result = new LinkedList<>();
+        try {
+            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+        } catch (PathNotFoundException e){
+            e.printStackTrace();
+        }
+        System.out.println(result);
+        assertFalse(result.isEmpty());
+    }
 
 }
