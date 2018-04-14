@@ -24,6 +24,7 @@ import javax.xml.crypto.Data;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
+    static boolean createTables = false;
 
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
@@ -76,8 +77,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("version 7");
-        DataModelI.getInstance().startDB();
+        if(createTables) {
+            System.out.println("version 7");
+            DataModelI.getInstance().startDB();
+        }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
         launch(args);
     }

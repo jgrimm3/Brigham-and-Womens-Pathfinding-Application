@@ -30,47 +30,51 @@
                <content>
                   <StackPane fx:id="stackPaneMap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="3400.0" prefWidth="5000.0">
                      <children>
-                        <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../MapImages/01_thefirstfloor.png" />
-                           </image>
-                        </ImageView>
-                        <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
+                        <Pane fx:id="overMap" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
-                                  <elements>
-                                    <MoveTo x="-100.0" y="-100.0" />
-                                    <LineTo x="5000.0" y="-100.0" />
-                                    <LineTo x="5000.0" y="5000.0" />
-                                    <LineTo x="-100.0" y="5000.0" />
-                                      <ClosePath />
-                                  </elements>
-                                 <stroke>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop color="#102c57" />
-                                          <Stop color="#102c57" offset="1.0" />
-                                       </stops>
-                                    </LinearGradient>
-                                 </stroke>
-                              </Path>
-                              <Path fx:id="pathOnDifferentFloor" blendMode="DARKEN" fill="WHITE" opacity="0.25" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
-                                 <elements>
-                                    <MoveTo x="-100.0" y="-100.0" />
-                                    <LineTo x="5000.0" y="-100.0" />
-                                    <LineTo x="5000.0" y="5000.0" />
-                                    <LineTo x="-100.0" y="5000.0" />
-                                    <ClosePath />
-                                 </elements>
-                                 <stroke>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop color="#102c57" />
-                                          <Stop color="#d9e3f2" offset="1.0" />
-                                       </stops>
-                                    </LinearGradient>
-                                 </stroke>
-                              </Path>
+                              <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
+                                 <children>
+                                    <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                        <elements>
+                                          <MoveTo x="-100.0" y="-100.0" />
+                                          <LineTo x="5000.0" y="-100.0" />
+                                          <LineTo x="5000.0" y="5000.0" />
+                                          <LineTo x="-100.0" y="5000.0" />
+                                            <ClosePath />
+                                        </elements>
+                                       <stroke>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#102c57" />
+                                                <Stop color="#102c57" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </stroke>
+                                    </Path>
+                                    <Path fx:id="pathOnDifferentFloor" blendMode="DARKEN" fill="WHITE" opacity="0.25" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                       <elements>
+                                          <MoveTo x="-100.0" y="-100.0" />
+                                          <LineTo x="5000.0" y="-100.0" />
+                                          <LineTo x="5000.0" y="5000.0" />
+                                          <LineTo x="-100.0" y="5000.0" />
+                                          <ClosePath />
+                                       </elements>
+                                       <stroke>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#102c57" />
+                                                <Stop color="#d9e3f2" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </stroke>
+                                    </Path>
+                                 </children>
+                              </Pane>
+                              <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../MapImages/01_thefirstfloor.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </Pane>
                      </children>
@@ -88,6 +92,15 @@
                      </image>
                   </ImageView>
                </graphic></Button>
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#zoomIn" prefHeight="70.0" prefWidth="70.0" translateX="-730.0" translateY="-420.0">
+               <graphic>
+                  <ImageView fitHeight="61.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/zoom-in.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Button fx:id="btnQuickDirections" ellipsisString="" mnemonicParsing="false" onAction="#toggleQuickButtons" prefHeight="100.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
                <graphic>
                   <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
@@ -232,6 +245,15 @@
                   <Insets bottom="30.0" left="20.0" />
                </StackPane.margin>
             </Pane>
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#zoomOut" prefHeight="70.0" prefWidth="70.0" translateX="-650.0" translateY="-420.0">
+               <graphic>
+                  <ImageView fitHeight="61.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/zoom-out.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </StackPane>
       <Pane fx:id="panePathfinding" prefHeight="1080.0" prefWidth="340.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1580.0" AnchorPane.topAnchor="0.0">

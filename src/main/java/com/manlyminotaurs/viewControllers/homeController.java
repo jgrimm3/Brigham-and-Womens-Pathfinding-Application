@@ -23,6 +23,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.RotateEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -48,9 +51,11 @@ public class homeController implements Initializable {
 		private static Singleton instance = null;
 		PathfindingContext pathfindingContext = new PathfindingContext();
 		Boolean handicap;
+
 		private Singleton() {
 
 		}
+
 		private static class SingletonHolder {
 			private static Singleton MapController = new Singleton();
 
@@ -283,7 +288,7 @@ public class homeController implements Initializable {
 		//createMap();
 	}
 
-	public void setStrategy(){
+	public void setStrategy() {
 		if (Main.pathStrategy.equals("A*")) {
 			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
 		}
@@ -298,14 +303,14 @@ public class homeController implements Initializable {
 	public void toggleHandicap(ActionEvent event) {
 
 		if (tglHandicap.isSelected()) {
-            Singleton.getInstance().handicap = true;
+			Singleton.getInstance().handicap = true;
 			// Switch on
 			tglHandicap.setText("ON");
 
 		} else {
 
 			// Switch off
-            Singleton.getInstance().handicap = false;
+			Singleton.getInstance().handicap = false;
 			tglHandicap.setText("OFF");
 		}
 	}
@@ -360,7 +365,7 @@ public class homeController implements Initializable {
 		Circle kioskRemove = new Circle();
 		Circle outlineRemove = new Circle();
 
-		if(tglMap.isSelected()) {
+		if (tglMap.isSelected()) {
 			kioskOutline = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
 			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
@@ -380,7 +385,7 @@ public class homeController implements Initializable {
 
 		circleList.add(kioskOutline);
 		circleList.add(kiosk);
-		if(comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
+		if (comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
 			kiosk.setFill(Color.BLUE);
 			kiosk.setFill(Color.RED);
 		} else {
@@ -394,7 +399,7 @@ public class homeController implements Initializable {
 	}
 
 	public void goToKiosk() {
-		if(tglMap.isSelected()) {
+		if (tglMap.isSelected()) {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 2774.0);
 			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		} else {
@@ -462,8 +467,8 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseStartNode(MouseEvent event) {
-		Circle circle = (Circle)event.getTarget();
-		if(!tglMap.isSelected()) {
+		Circle circle = (Circle) event.getTarget();
+		if (!tglMap.isSelected()) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -519,9 +524,9 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseEndNode(MouseEvent event) {
-		Circle circle = (Circle)event.getTarget();
+		Circle circle = (Circle) event.getTarget();
 		System.out.println(circle.getCenterX());
-		if(!tglMap.isSelected()) {
+		if (!tglMap.isSelected()) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -971,10 +976,10 @@ public class homeController implements Initializable {
 		// Set new overview panel to correct parameters
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>) path));
 		lstDirections.setItems(directions);
-		listForQR = (LinkedList<Node>)path;
-		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
+		listForQR = (LinkedList<Node>) path;
+		pu.generateQR(pu.angleToText((LinkedList<Node>) path));
 		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 		// Draw path code
 		if (tglHandicap.isSelected()) {
@@ -1149,8 +1154,8 @@ public class homeController implements Initializable {
 
 	public void login(ActionEvent event) throws Exception {
 
-        String userName = txtUsername.getText();
-        String password = txtPassword.getText();
+		String userName = txtUsername.getText();
+		String password = txtPassword.getText();
 
 		if (userName.equals("") || password.equals("")) {
 
@@ -1198,28 +1203,28 @@ public class homeController implements Initializable {
 				lblEndLocation.setText("END LOCATION");
 				// Set floor map !!!
 
-                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
+				KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
 
-                Stage stage;
-                //get reference to the button's stage
-                stage = (Stage) btnLogin.getScene().getWindow();
-                //load up Home FXML document
-                if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
-                    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-                }else{
-                    staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-                }
+				Stage stage;
+				//get reference to the button's stage
+				stage = (Stage) btnLogin.getScene().getWindow();
+				//load up Home FXML document
+				if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+					staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+				} else {
+					staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+				}
 
-                KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName , password);
+				KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName, password);
 
-                //create a new scene with root and set the stage
-                Scene scene = new Scene(staffRequest);
-                stage.setScene(scene);
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else {
+				//create a new scene with root and set the stage
+				Scene scene = new Scene(staffRequest);
+				stage.setScene(scene);
+				stage.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
 
 			// print message
 			System.out.println("Wrong username and password!");
@@ -1488,7 +1493,7 @@ public class homeController implements Initializable {
 			int startX = 0;
 			int startY = 0;
 
-			Node endNode = pathList.get(pathList.size()-1);
+			Node endNode = pathList.get(pathList.size() - 1);
 			Node startNode = pathList.get(0);
 
 			if (dimension.equals("2-D")) {
@@ -1736,7 +1741,7 @@ public class homeController implements Initializable {
 	}
 
 	private void clearPoints() {
-		for(Circle c: circleList) {
+		for (Circle c : circleList) {
 			paneMap.getChildren().remove(c);
 		}
 
@@ -1814,5 +1819,26 @@ public class homeController implements Initializable {
 		}
 	} */
 
+	//-----------------------------------------------------------------------------------------------------------------
+	//
+	//                                           Rotate and Zoom on 2D map
+	//
+	//-----------------------------------------------------------------------------------------------------------------
 
+	@FXML
+	Pane overMap;
+
+	public void zoomIn(MouseEvent mouseEvent) {
+		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
+			overMap.setScaleX(overMap.getScaleX() + .1);
+			overMap.setScaleY(overMap.getScaleY() + .1);
+		}
+	}
+
+	public void zoomOut(MouseEvent mouseEvent) {
+		if(!(overMap.getScaleX() < .70) || !(overMap.getScaleY() < .70)) {
+			overMap.setScaleX(overMap.getScaleX() - .1);
+			overMap.setScaleY(overMap.getScaleY() - .1);
+		}
+	}
 }
