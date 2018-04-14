@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 //
 //  .oPYo. .oPYo. o     o   .oPYo.                o               8 8
@@ -78,14 +79,15 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     public void updateNodeCSVFile(String csvFileName) {
-        Iterator<Node> iterator = DataModelI.getInstance().retrieveNodes().iterator();
+        Iterator iterator = DataModelI.getInstance().getNodeMap().entrySet().iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
             while (iterator.hasNext()) {
-                Node a_node = iterator.next();
+                Map.Entry a_entry = (Map.Entry)iterator.next();
+                Node a_node = (Node) a_entry.getValue();
                 printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getNodeID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
             }
             printWriter.close();
@@ -109,7 +111,7 @@ public class CsvFileController {
             e.printStackTrace();
         }
 
-        Iterator<Edge> iterator = DataModelI.getInstance().getEdgeList(DataModelI.getInstance().retrieveNodes()).iterator();
+        Iterator<Edge> iterator = DataModelI.getInstance().getEdgeList().iterator();
         System.out.println("Updating edge csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
