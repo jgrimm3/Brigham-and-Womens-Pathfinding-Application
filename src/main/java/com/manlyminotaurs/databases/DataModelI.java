@@ -196,6 +196,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<String> getLongNamesAutoComplete(String partialLongName) {
+        return nodesDBUtil.getLongNamesAutoComplete(partialLongName);
+    }
+
+    @Override
     @Deprecated
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);

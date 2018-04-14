@@ -168,7 +168,17 @@ public class NodesDBUtilTest {
 		DataModelI.getInstance().addEdge(a_node, new_node);
 		assertTrue(a_node.getAdjacentNodes().contains(new_node));
 	}
-/*
+
+
+	@Test
+	public void testGetLongNamesAutoComplete_returnsCorrectLongNames(){
+		List<String> listOfNames = DataModelI.getInstance().getLongNamesAutoComplete("Hall");
+		for(String longName : listOfNames){
+			System.out.println(longName);
+		}
+		assertTrue(listOfNames.contains("Hallway Node 25 Floor 1"));
+	}
+/* // now we return everything regardless of status
     @Test
     public void testRetrieveNodesWhenAddedNodeStatusNotOne() {
         Node a_node = DataModelI.getInstance().getNodeByID("WHALL002L2");

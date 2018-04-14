@@ -136,7 +136,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status <> 0";
+			String str = "SELECT * FROM MAP_NODES";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -611,7 +611,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status <> 0 AND building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT * FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
@@ -652,6 +652,38 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+	List<String> getLongNamesAutoComplete(String partialLongName){
+		List<String> listOfLongNames = new ArrayList<>();
+
+		PreparedStatement stmt = null;
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			String str = "SELECT longName FROM MAP_NODES WHERE LONGNAME LIKE ?";
+			stmt = connection.prepareStatement(str);
+			stmt.setString(1, partialLongName+"%");
+			ResultSet rset = stmt.executeQuery();
+
+			// For every node, get the information
+			while (rset.next()) {
+				String longName = rset.getString("longName");
+				listOfLongNames.add(longName);
+			}
+			rset.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return listOfLongNames;
+	}
+
 	List<String> getLongNameByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<String> selectedNames = new ArrayList<>();
 		PreparedStatement stmt = null;
@@ -660,7 +692,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT longName FROM MAP_NODES WHERE status <> 0 AND building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT longName FROM MAP_NODES AND building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
