@@ -32,6 +32,7 @@ import javafx.scene.shape.*;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -1727,40 +1728,54 @@ public class homeController implements Initializable {
 		int i = 0;
 		int x = 0;
 		int y = 0;
+		Node currNode;
 		// Iterate through each node
 		while (i < nodeList.size()) {
-
+			currNode = nodeList.get(i);
 			// If the node is on the correct floor
-			if (nodeList.get(i).getFloor().equals(floor)) {
+			if (currNode.getFloor().equals(floor) && !currNode.getNodeType().equals("HALL")) {
 
 				if (dimension.equals("2-D")) {
 					// Get x and y coords
-					x = nodeList.get(i).getXCoord();
-					y = nodeList.get(i).getYCoord();
+					x = currNode.getXCoord();
+					y = currNode.getYCoord();
 				} else if (dimension.equals("3-D")) {
-					x = nodeList.get(i).getXCoord3D();
-					y = nodeList.get(i).getYCoord3D();
+					x = currNode.getXCoord3D();
+					y = currNode.getYCoord3D();
 				} else {
 					System.out.println("Invalid dimension");
 				}
 
-				Circle circle = new Circle(x, y, 5);
-				Circle outline = new Circle(x, y, 10);
+				Circle circle = new Circle(x, y, 8);
+				circle.setStroke(Color.BLACK);
+				circle.setStrokeWidth(3);
+				circle.setId(currNode.getShortName());
 				circle.setFill(Color.WHITE);
-				outline.setFill(Color.NAVY);
 
 				if (isStart)
 					circle.setOnMouseClicked(this::chooseStartNode);
 				else
 					circle.setOnMouseClicked(this::chooseEndNode);
 
-				circleList.add(outline);
 				circleList.add(circle);
-				paneMap.getChildren().add(outline);
 				paneMap.getChildren().add(circle);
 			}
 			i++;
 		}
+	}
+
+	private void printName(MouseEvent mouseEvent) {
+		Circle currCircle = (Circle)mouseEvent.getTarget();
+		javafx.scene.text.Text name = new javafx.scene.text.Text(currCircle.getId());
+		name.setLayoutX(currCircle.getCenterX() + 5 + currCircle.getId().length());
+		name.setFont(new Font(30));
+		name.setUnderline(true);
+		name.setStrokeWidth(2);
+		name.setStrokeType(StrokeType.OUTSIDE);
+		name.setFill(Color.WHITE);
+		name.setStroke(Color.BLACK);
+		name.setLayoutY(currCircle.getCenterY());
+		name.setVisible(false);
 	}
 
 	private String returnFloorName(String floorName) {
@@ -1828,10 +1843,10 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateLeft(MouseEvent mouseEvent) {
-		overMap.setRotate(overMap.getRotate() - 20);
+		overMap.setRotate(overMap.getRotate() - 30);
 	}
 
-	public void rotateRotate(MouseEvent mouseEvent) {
-		overMap.setRotate(overMap.getRotate() + 20);
+	public void rotateRight(MouseEvent mouseEvent) {
+		overMap.setRotate(overMap.getRotate() + 30);
 	}
 }
