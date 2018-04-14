@@ -197,6 +197,12 @@ public class homeController implements Initializable {
 	@FXML
 	Path pathOnDifferentFloor;
 
+	@FXML
+	JFXTextField txtLocationStart;
+
+	@FXML
+	JFXTextField txtLocationEnd;
+
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 

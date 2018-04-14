@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
@@ -112,17 +113,17 @@
                                 </JFXButton>
                                 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="193.0" prefWidth="189.0" StackPane.alignment="TOP_LEFT">
                                     <children>
-                                        <JFXButton layoutY="40.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="L2" />
-                                        <JFXButton layoutY="70.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="L1" />
                                         <Label text="FLOOR">
                                             <font>
                                                 <Font size="28.0" />
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="120.0" promptText="FLOOR" visible="false" />
-                                        <JFXButton layoutY="100.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="1" />
-                                        <JFXButton layoutY="130.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="2" />
-                                        <JFXButton layoutY="160.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="3" />
+                              <JFXRadioButton layoutY="45.0" text="L2" />
+                              <JFXRadioButton layoutY="65.0" text="L1" />
+                              <JFXRadioButton layoutY="85.0" text="1" />
+                              <JFXRadioButton layoutY="105.0" text="2" />
+                              <JFXRadioButton layoutY="125.0" text="3" />
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
@@ -360,7 +361,7 @@
                                     <graphic>
                                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
+                                                <Image url="@../Icons/RotateCounterClockwiseIcon.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -372,7 +373,7 @@
                                     <graphic>
                                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../Icons/RotateCounterClockwiseIcon.png" />
+                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -541,6 +542,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="40.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" />
+                                    <JFXTextField fx:id="txtLocationStart" layoutX="15.0" layoutY="80.0" maxWidth="240.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>
@@ -649,6 +651,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationEnd" layoutX="15.0" layoutY="40.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" />
+                                    <JFXTextField fx:id="txtLocationEnd" layoutX="15.0" layoutY="80.0" maxWidth="240.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>
