@@ -138,6 +138,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public List<Node> getNodesByType(String type) {
         return nodesDBUtil.getNodesByType(type);
     }
