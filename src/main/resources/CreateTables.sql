@@ -20,6 +20,12 @@ CREATE TABLE Map_Edges (
   CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
 
+CREATE TABLE Kiosk (
+  kioskID        VARCHAR(10) PRIMARY KEY,
+  nodeID         VARCHAR (10) UNIQUE,
+  description    varchar(255),
+  CONSTRAINT fk_kiosk_node FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
+
 Create Table Room (
   specialization VARCHAR(255),
   detail         VARCHAR(255),
