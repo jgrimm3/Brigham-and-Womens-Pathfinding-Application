@@ -96,7 +96,7 @@ public class AStarStrategyI implements IPathFindingStrategy {
      */
     private ArrayList<Node> getEdges(PathfindingNode pNode) throws OrphanNodeException{
         ArrayList<Node> nodeEdges = new ArrayList<>(pNode.getNode().getAdjacentNodes());
-        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
+        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node " + pNode.getNode().getNodeID() + " has no valid edges"); }
         return nodeEdges;
     }
 
