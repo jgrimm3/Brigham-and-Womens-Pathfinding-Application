@@ -80,7 +80,6 @@ public class homeController implements Initializable {
 	Parent staffRequest;
 	Circle finishCircle = new Circle();
 	Circle startCircle = new Circle();
-	Circle finishCircle2 = new Circle();
 	List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
 	List<Node> pathList = new ArrayList<>();
 	LinkedList<Node> listForQR = new LinkedList<Node>();
@@ -392,8 +391,8 @@ public class homeController implements Initializable {
 		}
 
 
-		paneMap.getChildren().add(kioskOutline);
-		paneMap.getChildren().add(kiosk);
+		overMap.getChildren().add(kioskOutline);
+		overMap.getChildren().add(kiosk);
 	}
 
 	public void goToKiosk() {
@@ -898,9 +897,8 @@ public class homeController implements Initializable {
 		floor2DMapLoader("1");
 		comChangeFloor.setValue("1");
 
-		paneMap.getChildren().remove(startCircle);
-		paneMap.getChildren().remove(finishCircle);
-		paneMap.getChildren().remove(finishCircle2);
+		overMap.getChildren().remove(startCircle);
+		overMap.getChildren().remove(finishCircle);
 
 		if (paneHelp.isVisible()) {
 			lblHelp1.setVisible(true);
@@ -1488,12 +1486,14 @@ public class homeController implements Initializable {
 			startCircle.setVisible(true);
 			startCircle.setCenterX(startX);
 			startCircle.setCenterY(startY);
+			startCircle.setStroke(Color.BLACK);
+			startCircle.setStrokeWidth(3);
 
 			// Set on mouse clicked to switch between floors
 			startFloor = startNode.getFloor();
 			startCircle.setOnMouseClicked(this::startCircleClicked);
 
-			if (!startNode.getFloor().equals(floor)) {
+			if (!startFloor.equals(floor)) {
 				startCircle.setFill(Color.GRAY);
 				startCircle.setOpacity(25);
 			}
@@ -1505,33 +1505,22 @@ public class homeController implements Initializable {
 			finishCircle.setVisible(true);
 			finishCircle.setCenterX(finishX);
 			finishCircle.setCenterY(finishY);
-			// Draw finish circle-inside
-			finishCircle2.setRadius(11);
-			finishCircle2.setFill(Color.WHITE);
-			finishCircle2.setOpacity(100);
-			finishCircle2.setVisible(true);
-			finishCircle2.setCenterX(finishX);
-			finishCircle2.setCenterY(finishY);
 
 			// Set on mouse clicked to switch between floors
 			endFloor = endNode.getFloor();
 			finishCircle.setOnMouseClicked(this::endCircleClicked);
-			finishCircle2.setOnMouseClicked(this::endCircleClicked);
 
-			if (!endNode.getFloor().equals(floor)) {
+			if (!endFloor.equals(floor)) {
 				finishCircle.setFill(Color.GRAY);
-				finishCircle2.setFill(Color.WHITE);
-				finishCircle.setOpacity(25);
-				finishCircle2.setOpacity(25);
+				finishCircle.setStroke(Color.WHITE);
+				finishCircle.setStrokeWidth(3);
 			}
 
 			// adds circles to map
-			paneMap.getChildren().remove(finishCircle);
-			paneMap.getChildren().remove(finishCircle2);
-			paneMap.getChildren().remove(startCircle);
-			paneMap.getChildren().add(finishCircle);
-			paneMap.getChildren().add(finishCircle2);
-			paneMap.getChildren().add(startCircle);
+			overMap.getChildren().remove(finishCircle);
+			overMap.getChildren().remove(startCircle);
+			overMap.getChildren().add(finishCircle);
+			overMap.getChildren().add(startCircle);
 		}
 	}
 
@@ -1714,7 +1703,7 @@ public class homeController implements Initializable {
 
 	private void clearPoints() {
 		for(Circle c: circleList) {
-			paneMap.getChildren().remove(c);
+			overMap.getChildren().remove(c);
 		}
 
 	}
@@ -1747,10 +1736,10 @@ public class homeController implements Initializable {
 				}
 
 				Circle circle = new Circle(x, y, 8);
-				circle.setStroke(Color.BLACK);
-				circle.setStrokeWidth(3);
 				circle.setId(currNode.getShortName());
 				circle.setFill(Color.WHITE);
+				circle.setStroke(Color.BLACK);
+				circle.setStrokeWidth(3);
 
 				if (isStart)
 					circle.setOnMouseClicked(this::chooseStartNode);
@@ -1758,7 +1747,7 @@ public class homeController implements Initializable {
 					circle.setOnMouseClicked(this::chooseEndNode);
 
 				circleList.add(circle);
-				paneMap.getChildren().add(circle);
+				overMap.getChildren().add(circle);
 			}
 			i++;
 		}
