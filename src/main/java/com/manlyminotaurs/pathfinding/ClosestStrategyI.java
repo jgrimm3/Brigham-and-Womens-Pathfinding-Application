@@ -19,13 +19,13 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @return list of nodes traversed
      */
     public LinkedList<Node> find(Node startNode, Node endNode) throws PathNotFoundException {
-        BFSNode bfsStartNode = new BFSNode(startNode, null);
-        BFSNode bfsEndNode = new BFSNode(endNode, null);
+        ClosestStrategyNode dijStartNode = new ClosestStrategyNode(startNode, null);
+        ClosestStrategyNode dijEndNode = new ClosestStrategyNode(endNode, null);
 
-        LinkedList<Node> path = stripNodeWrappers(calcPath(bfsStartNode, bfsEndNode));
+        LinkedList<Node> path = stripNodeWrappers(calcPath(dijStartNode, dijEndNode));
         return path;
     }
-
+/*
     /**
      * use breadth first search algorithm to find closest path to end node
      *
@@ -33,10 +33,10 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @param endNode:   destination node
      * @return Linked List of Node
      * @throws PathNotFoundException: for an invalid path
-     */
+     *
 
 
-    private LinkedList<BFSNode> calcPath(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
+    private LinkedList<BFSNode> calcPath2(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
         String target = endNode.getNode().getNodeType();
         Queue<BFSNode> q = new LinkedList<>();
         BFSNode currentNode = startNode;
@@ -69,29 +69,91 @@ public class ClosestStrategyI implements IPathFindingStrategy {
         }
         throw new PathNotFoundException();
     }
+    */
 
-    /**
-     * Finds all the other nodes connected by edges to given node
-     * @param aNode: node
-     * @return children
-     */
-    private ArrayList<BFSNode> expandNode(BFSNode aNode) throws PathNotFoundException{
-        ArrayList<BFSNode> children = new ArrayList<>();
-        ArrayList<Node> childEdges;
+    private LinkedList<ClosestStrategyNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+        String target = endNode.getNode().getNodeType();
+        ArrayList<ClosestStrategyNode> closedList = new ArrayList<>();
+        //ArrayList<ClosestStrategyNode> openList = new ArrayList<>();
+        HashMap<Double, ClosestStrategyNode> openList = new HashMap<>();
 
-        try {
-            childEdges = getEdges(aNode);
-        } catch (OrphanNodeException e){
-            throw new PathNotFoundException();
+        // return path if startNode equals endNode
+        if (startNode.getNode().equals(endNode.getNode())) { return getNodeTrail(startNode); }
+
+        // set distance of starting node to 0
+        startNode.setDistance(0);
+
+        // populate open list of startingNode's children
+        for (Node node: startNode.getNode().getAdjacentNodes()) {
+            // initialize dijNodes with visited=false, dist=INF
+            ClosestStrategyNode dijNode = new ClosestStrategyNode(node, startNode);
+            // set visited=true and distance from parent
+            dijNode.setDistance(distanceBetweenNodes(startNode, dijNode));
+            //dijNode.setVisited(true);
+            // add to open list
+            openList.put(dijNode.getDistance(), dijNode);
         }
 
-        for (Node ne: childEdges){
-            if(isValidNode(aNode)){
-                BFSNode scoredChild = new BFSNode(ne, aNode);
-                children.add(scoredChild);
+        // find shortest path for all vertices, check if equals endNode
+        for (int i=0; i<openList.size(); i++) {
+            // get closest child
+            double min = minDistance(openList);
+            ClosestStrategyNode closestNode = openList.get(min);
+            // set visited to true
+            closestNode.setVisited(true);
+            // see if closest node equals destination node type
+            if (closestNode.getNode().getNodeID().equals(target)) { return getNodeTrail(closestNode); }
+            // update distances of all children of this node
+            for (Node node: closestNode.getNode().getAdjacentNodes()) {
+                /* Update dist[v] only if is not in openList, there is an
+                // edge from u to v, and total weight of path from src to
+                // v through u is smaller than current value of dist[v] */
+
+                // do stuff here
             }
         }
-        return children;
+        return null;
+    }
+
+    /**
+     * Looks through a node's children and returns shortest child
+     *
+     * @param openList
+     * @return shortest distance in openList
+     */
+    private double minDistance(HashMap<Double, ClosestStrategyNode> openList) {
+        // find shortest node in openList
+        double min = 0;
+        for (ClosestStrategyNode currDijNode: openList.values()) {
+            if (!currDijNode.getVisitedStatus() && currDijNode.getDistance() <= min)
+            {
+                min = currDijNode.getDistance();
+            }
+        }
+        return min;
+    }
+
+
+    /**
+     * Calculates the Euclidean distance between given nodes
+     *
+     * @param node1: starting node
+     * @param node2: ending node
+     * @return The distance between nodes
+     */
+
+    private double distanceBetweenNodes(ClosestStrategyNode node1, ClosestStrategyNode node2){
+        int x = 0;
+        int x1 = node1.getNode().getXCoord();
+        int y1 = node1.getNode().getYCoord();
+
+        int x2 = node2.getNode().getXCoord();
+        int y2 = node2.getNode().getYCoord();
+
+        double xDist = x2 - x1;
+        double yDist = y2 - y1;
+
+        return Math.hypot(xDist, yDist);
     }
 
     /**
@@ -100,11 +162,11 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @return The trail of nodes leading back to the start node
      */
 
-    LinkedList<BFSNode> getNodeTrail(BFSNode aNode){
-        LinkedList<BFSNode> nodeTrail = new LinkedList<>();
+    LinkedList<ClosestStrategyNode> getNodeTrail(ClosestStrategyNode aNode){
+        LinkedList<ClosestStrategyNode> nodeTrail = new LinkedList<>();
         while(!(aNode.getParent() == null)){
             nodeTrail.addFirst(aNode);
-            aNode = (BFSNode) aNode.getParent();
+            aNode = (ClosestStrategyNode) aNode.getParent();
         }
         nodeTrail.addFirst(aNode); // addFirst ensures correct order
         return nodeTrail;
@@ -115,9 +177,9 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @param toStrip List of nodes to have their metadata stripped
      * @return strippedNodes
      */
-    LinkedList<Node> stripNodeWrappers(LinkedList<BFSNode> toStrip){
+    LinkedList<Node> stripNodeWrappers(LinkedList<ClosestStrategyNode> toStrip){
         LinkedList<Node> strippedNodes = new LinkedList<>();
-        for(BFSNode a: toStrip){
+        for(ClosestStrategyNode a: toStrip){
             strippedNodes.add(a.getNode());
         }
         return strippedNodes;
@@ -133,15 +195,4 @@ public class ClosestStrategyI implements IPathFindingStrategy {
         if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
         return nodeEdges;
     }
-
-
-    /**
-     * Checks to see if A* is allowed to route through the given node
-     * @param sNode: node
-     * @return True if allowed to visit node, false if not
-     */
-    boolean isValidNode(BFSNode sNode){
-        return sNode.getNode().getStatus() == 1;
-    }
-
 }
