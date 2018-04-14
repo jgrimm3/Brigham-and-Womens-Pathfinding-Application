@@ -196,8 +196,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<String> getLongNamesAutoComplete(String partialLongName) {
-        return nodesDBUtil.getLongNamesAutoComplete(partialLongName);
+    public List<String> getLongNames() {
+        return nodesDBUtil.getLongNames();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -32,7 +33,6 @@ class NodesDBUtil {
 	public NodesDBUtil() {
 		nodes = new ArrayList<>();
 		nodeMap  = new HashMap<>();
-		updateNodeMap();
 	}
 
 	/**
@@ -117,7 +117,7 @@ class NodesDBUtil {
 		return nodes;
 	} // retrieveNodes() ends
 
-	private Map<String, Node> updateNodeMap(){
+	Map<String, Node> updateNodeMap(){
 		// Variables
 		Node node = null;
 		String ID = "";
@@ -652,16 +652,15 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	List<String> getLongNamesAutoComplete(String partialLongName){
+	List<String> getLongNames(){
 		List<String> listOfLongNames = new ArrayList<>();
 
 		PreparedStatement stmt = null;
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT longName FROM MAP_NODES WHERE LONGNAME LIKE ?";
+			String str = "SELECT longName FROM MAP_NODES";
 			stmt = connection.prepareStatement(str);
-			stmt.setString(1, partialLongName+"%");
 			ResultSet rset = stmt.executeQuery();
 
 			// For every node, get the information
@@ -689,9 +688,9 @@ class NodesDBUtil {
 		PreparedStatement stmt = null;
 		Connection connection = null;
 		String longName;
-
+		connection = DataModelI.getInstance().getNewConnection();
 		try {
-			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			//connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			String str = "SELECT longName FROM MAP_NODES AND building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
@@ -710,7 +709,8 @@ class NodesDBUtil {
 		} finally {
 			try {
 				stmt.close();
-				closeConnection(connection);
+				DataModelI.getInstance().closeConnection();
+				//closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

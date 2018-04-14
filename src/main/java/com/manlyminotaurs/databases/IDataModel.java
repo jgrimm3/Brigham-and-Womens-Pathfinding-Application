@@ -52,7 +52,7 @@ public interface IDataModel {
     Node getNodeByCoords(int xCoord, int yCoord);
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
-    List<String> getLongNamesAutoComplete(String partialLongName);
+    List<String> getLongNames();
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<String> getAdjacentNodes(Node node);

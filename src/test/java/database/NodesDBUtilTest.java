@@ -172,7 +172,7 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void testGetLongNamesAutoComplete_returnsCorrectLongNames(){
-		List<String> listOfNames = DataModelI.getInstance().getLongNamesAutoComplete("Hall");
+		List<String> listOfNames = DataModelI.getInstance().getLongNames();
 		for(String longName : listOfNames){
 			System.out.println(longName);
 		}
