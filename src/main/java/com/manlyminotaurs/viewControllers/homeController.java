@@ -1793,6 +1793,19 @@ public class homeController implements Initializable {
 	@FXML
 	Pane overMap; // this is just a pane that i put the nodes/paths/map on so they will all scale and rotate together
 
+	@FXML
+	JFXButton btnZoomOut;
+
+	@FXML
+	JFXButton btnZoomIn;
+
+	@FXML
+	JFXButton btnRotateClockwise;
+
+	@FXML
+	JFXButton btnRotateCounterClockwise;
+
+
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(MouseEvent mouseEvent) {
 		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
