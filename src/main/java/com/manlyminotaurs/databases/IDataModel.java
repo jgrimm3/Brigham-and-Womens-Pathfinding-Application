@@ -10,7 +10,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 //
 //    ____  ____    ___       _             __
@@ -35,9 +35,12 @@ public interface IDataModel {
     Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
-    List<Node> retrieveNodes();
     @Deprecated
+    List<Node> retrieveNodes();
+    Map<String, Node> getNodeMap();
+
     Node getNodeByID(String ID);
+    @Deprecated
     Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
@@ -52,8 +55,9 @@ public interface IDataModel {
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<String> getAdjacentNodesFromNode(Node node);
-    Set<Edge> getEdgeList(List<Node> nodeList);
+    List<Edge> getEdgeList();
     void addEdge(Node startNode, Node endNode);
+    void removeEdge(Node startNode, Node endNode);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
