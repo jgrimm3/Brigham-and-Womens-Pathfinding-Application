@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.communications.SendEmail;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -76,7 +77,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+
         System.out.println("version 7");
+        SendEmail email = new SendEmail("3733.d18.teamm@gmail.com", "chriscedron@gmail.com", "Test", "Body", "manlyMinotaurs");
+        email.send();
         DataModelI.getInstance().startDB();
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
         launch(args);

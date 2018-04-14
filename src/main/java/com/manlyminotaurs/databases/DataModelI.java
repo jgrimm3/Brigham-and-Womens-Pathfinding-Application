@@ -21,7 +21,6 @@ import java.util.Set;
 //   ||    || .|' ||   ||   .|' ||      | '|' ||  ||   ||  |.   ||  ||       ||
 //  .||...|'  '|..'|'  '|.' '|..'|'    .|. | .||.  '|..|'  '|..'||.  '|...' .||.
 //
-//
 
 public class DataModelI implements IDataModel{
 
