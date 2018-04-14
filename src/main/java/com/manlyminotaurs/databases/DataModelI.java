@@ -43,6 +43,15 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
+
+        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
+        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
+        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
+        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
+        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
+        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
+        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
+
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
      //   System.out.println(tableInitializer.convertStringToTimestamp("2018-04-06 07:43:10:2").toLocalDateTime().toString().replace("T"," "));

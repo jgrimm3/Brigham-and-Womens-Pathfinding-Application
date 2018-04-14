@@ -105,7 +105,7 @@ public class CsvFileController {
         Statement stmt = null;
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             stmt = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();

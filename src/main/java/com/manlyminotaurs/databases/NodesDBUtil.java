@@ -135,7 +135,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status = 1";
+			String str = "SELECT * FROM MAP_NODES WHERE status <> 0";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -189,14 +189,14 @@ class NodesDBUtil {
 	}
 
 	private void connectNodes() {
-		for (Map.Entry<String, Node> xEntry : nodeMap.entrySet()){
-			List<String> nodeIDs = getAdjacentNodes(xEntry.getValue());
-			for (Map.Entry<String, Node> yEntry : nodeMap.entrySet()){
-				if(nodeIDs.contains(yEntry.getValue().getNodeID())) {
-					if(!areNeighbors(xEntry.getValue(),yEntry.getValue()))
-						xEntry.getValue().addAdjacentNode(yEntry.getValue());
-					if(!areNeighbors(yEntry.getValue(),xEntry.getValue()))
-						yEntry.getValue().addAdjacentNode(xEntry.getValue());
+		for (Node xNode : nodeMap.values()){
+			List<String> nodeIDs = getAdjacentNodes(xNode);
+			for (Node yNode : nodeMap.values()){
+				if(nodeIDs.contains(yNode.getNodeID())) {
+					if(!areNeighbors(xNode,yNode))
+						xNode.addAdjacentNode(yNode);
+					if(!areNeighbors(yNode,xNode))
+						yNode.addAdjacentNode(xNode);
 				}
 			}
 		}
@@ -355,8 +355,8 @@ class NodesDBUtil {
 	 */
 	void addEdge(Node startNode, Node endNode) {
 		Connection connection = DataModelI.getInstance().getNewConnection();
-		startNode.getAdjacentNodes().add(endNode);
-		endNode.getAdjacentNodes().add(startNode);
+		nodeMap.get(startNode.getNodeID()).getAdjacentNodes().add(endNode);
+		nodeMap.get(endNode.getNodeID()).getAdjacentNodes().add(startNode);
 		System.out.println("Node added to adjacent node...");
 		try {
 			// Connect to the database
@@ -373,10 +373,6 @@ class NodesDBUtil {
 			statement.executeUpdate();
 			statement.close();
 
-			//updating nodeMap global variable
-			new Thread(() -> {
-				updateNodeMap();
-			}).start();
 			System.out.println("Node added to database");
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
@@ -427,8 +423,8 @@ class NodesDBUtil {
 	 */
 	void removeEdge(Node startNode, Node endNode) {
 		// Find the node to remove from the edgeList
-		startNode.getAdjacentNodes().remove(endNode);
-		endNode.getAdjacentNodes().remove(startNode);
+		nodeMap.get(startNode.getNodeID()).getAdjacentNodes().remove(endNode);
+		nodeMap.get(endNode.getNodeID()).getAdjacentNodes().remove(startNode);
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
 			// Get connection to database and delete the edge from the database
@@ -436,11 +432,6 @@ class NodesDBUtil {
 			String str = "DELETE FROM MAP_EDGES WHERE edgeID = '" + startNode.getNodeID() + "_" + endNode.getNodeID() + "'";
 			stmt.executeUpdate(str);
 			stmt.close();
-
-			//updating nodeMap global variable
-			new Thread(() -> {
-				updateNodeMap();
-			}).start();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
