@@ -1722,19 +1722,20 @@ public class homeController implements Initializable {
 		int i = 0;
 		int x = 0;
 		int y = 0;
+		Node currNode;
 		// Iterate through each node
 		while (i < nodeList.size()) {
-			Node currNode = nodeList.get(i);
+			currNode = nodeList.get(i);
 			// If the node is on the correct floor
 			if (currNode.getFloor().equals(floor) && !currNode.getNodeType().equals("HALL")) {
 
 				if (dimension.equals("2-D")) {
 					// Get x and y coords
-					x = nodeList.get(i).getXCoord();
-					y = nodeList.get(i).getYCoord();
+					x = currNode.getXCoord();
+					y = currNode.getYCoord();
 				} else if (dimension.equals("3-D")) {
-					x = nodeList.get(i).getXCoord3D();
-					y = nodeList.get(i).getYCoord3D();
+					x = currNode.getXCoord3D();
+					y = currNode.getYCoord3D();
 				} else {
 					System.out.println("Invalid dimension");
 				}
@@ -1839,7 +1840,7 @@ public class homeController implements Initializable {
 		overMap.setRotate(overMap.getRotate() - 20);
 	}
 
-	public void rotateRotate(MouseEvent mouseEvent) {
+	public void rotateRight(MouseEvent mouseEvent) {
 		overMap.setRotate(overMap.getRotate() + 20);
 	}
 }
