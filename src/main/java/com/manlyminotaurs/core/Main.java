@@ -24,7 +24,7 @@ import javax.xml.crypto.Data;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
-    static boolean createTables = false;
+    static boolean createTables = true;
 
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
