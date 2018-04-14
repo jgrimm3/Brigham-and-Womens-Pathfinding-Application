@@ -32,6 +32,7 @@ import javafx.scene.shape.*;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -1723,9 +1724,9 @@ public class homeController implements Initializable {
 		int y = 0;
 		// Iterate through each node
 		while (i < nodeList.size()) {
-
+			Node currNode = nodeList.get(i);
 			// If the node is on the correct floor
-			if (nodeList.get(i).getFloor().equals(floor)) {
+			if (currNode.getFloor().equals(floor) && !currNode.getNodeType().equals("HALL")) {
 
 				if (dimension.equals("2-D")) {
 					// Get x and y coords
@@ -1740,6 +1741,10 @@ public class homeController implements Initializable {
 
 				Circle circle = new Circle(x, y, 5);
 				Circle outline = new Circle(x, y, 10);
+				javafx.scene.text.Text name = new javafx.scene.text.Text(currNode.getShortName());
+				name.setLayoutX(x + 5 + currNode.getShortName().length());
+				name.setUnderline(true);
+				name.setLayoutY(y);
 				circle.setFill(Color.WHITE);
 				outline.setFill(Color.NAVY);
 
@@ -1752,6 +1757,7 @@ public class homeController implements Initializable {
 				circleList.add(circle);
 				paneMap.getChildren().add(outline);
 				paneMap.getChildren().add(circle);
+				paneMap.getChildren().add(name);
 			}
 			i++;
 		}
