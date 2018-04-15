@@ -3,6 +3,7 @@ import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.AStarStrategyI;
 import com.manlyminotaurs.pathfinding.PathNotFoundException;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        assertEquals(expected, result);
+        Assert.assertEquals(expected, result);
 
     }
 
@@ -53,7 +54,7 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        assertEquals(expected, result);
+        Assert.assertEquals(expected, result);
 
     }
 
@@ -77,7 +78,7 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        assertEquals(expected, result);
+        Assert.assertEquals(expected, result);
     }
 
     @Test
