@@ -1,6 +1,7 @@
 package database;
 
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
 import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import org.junit.Before;
@@ -202,10 +203,8 @@ public class NodesDBUtilTest {
 		System.out.println("hello");
 	}
 
-	//test adjacentNode with status 2 or 0 or 3
-
-
-	/*@Test
+/*
+	@Test
 	public void modifyNode_editsNode() {
 		Node addedNode = DataModelI.getInstance().addNode("lmao", 5, 3, "4", "Hello", "lmao", "yoo", "yo", 48, 20);
 		DataModelI.getInstance().modifyNode(addedNode.getNodeID(), 5, 3, "4", "yolo", "lmao", "yoo", "yo", 48, 20);
@@ -214,17 +213,19 @@ public class NodesDBUtilTest {
 		System.out.println(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()).getBuilding()); // Why does this return shapiro?
 		assertTrue(nodeList.get(0).getBuilding().equals("yolo"));
 		//DataModelI.getInstance().removeNode(addedNode.getID());
-		} */
-
-	/*@Test EDGES ARE PRIVATE
-	public void getEdgesFromNodes () {
-		Node node = DataModelI.getInstance().getNodeByID("GHALL013L2");
-		List<Edge> edgeList = DataModelI.getInstance().getEdgesFromNode(node);
-		for(Edge e: edgeList) {
-			System.out.println("Edge is: " + e.getEdgeID());
-			assertTrue(!e.getEdgeID().isEmpty());
-		}
 	}*/
+
+	@Test
+	public void getEdgeList_returnsCorrectList(){
+		List<Edge> edgeList = DataModelI.getInstance().getEdgeList();
+		Edge edge = new Edge("GHALL02201","GSERV02301","GHALL02201_GSERV02301");
+		assertTrue(edgeList.contains(edge));
+//		for(Edge a_edge: edgeList){
+//			if(a_edge.getEdgeID().equals(edge.getEdgeID())){
+//				System.out.println("found edge");
+//			}
+//		}
+	}
 
 }
 
