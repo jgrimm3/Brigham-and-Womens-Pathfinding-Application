@@ -119,11 +119,16 @@
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="120.0" promptText="FLOOR" visible="false" />
-                              <JFXRadioButton layoutY="45.0" text="L2" />
-                              <JFXRadioButton layoutY="65.0" text="L1" />
-                              <JFXRadioButton layoutY="85.0" text="1" />
-                              <JFXRadioButton layoutY="105.0" text="2" />
-                              <JFXRadioButton layoutY="125.0" text="3" />
+                              <JFXButton fx:id="btnL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" />
+                              <JFXRadioButton fx:id="radL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" visible="false" />
+                              <JFXRadioButton fx:id="radL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" visible="false" />
+                              <JFXRadioButton fx:id="rad1" layoutY="85.0" onAction="#changeFloor1" text="1" visible="false" />
+                              <JFXRadioButton fx:id="rad2" layoutY="105.0" onAction="#changeFloor2" text="2" visible="false" />
+                              <JFXRadioButton fx:id="rad3" layoutY="125.0" onAction="#changeFloor3" text="3" visible="false" />
+                              <JFXButton fx:id="btnL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" />
+                              <JFXButton fx:id="btn1" layoutY="85.0" onAction="#changeFloor1" text="1" />
+                              <JFXButton fx:id="btn2" layoutY="105.0" onAction="#changeFloor2" text="2" />
+                              <JFXButton fx:id="btn3" layoutY="125.0" onAction="#changeFloor3" text="3" />
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
