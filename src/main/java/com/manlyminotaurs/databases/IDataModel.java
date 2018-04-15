@@ -86,7 +86,7 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
+    User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
