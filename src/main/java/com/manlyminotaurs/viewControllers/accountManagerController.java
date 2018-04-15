@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class accountManagerController {
@@ -274,6 +275,7 @@ public class accountManagerController {
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
         lastName = txtLastNameModify.getText();
+        languages = new ArrayList<>();
         languages.add(cmboLanguageModify.getValue().toString());
         type = cmboTypeModify.getValue().toString();
         username = txtUsernameModify.getText();
