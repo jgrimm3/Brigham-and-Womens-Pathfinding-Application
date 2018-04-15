@@ -269,6 +269,7 @@ public class nodeEditorController {
             paneMap.setPrefWidth(5000);
 
             drawCircles("1","2-D");
+            System.out.println("drew circles");
             drawEdges("1", "2-D" );
 
             /*paneMap.getChildren().clear();
@@ -742,90 +743,101 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
-    public void pathfloor2DMapLoader(String floor) {
 
-        stackPaneMap.setPrefHeight(3400);
-        stackPaneMap.setPrefWidth(5000);
-        mapImg.setFitHeight(3400);
-        mapImg.setFitWidth(5000);
-        paneMap.setPrefHeight(3400);
-        paneMap.setPrefWidth(5000);
+    public void floor2DMapLoader(String floor) {
 
-        if(floor.equals("L2")) {
-            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-        } else if(floor.equals("L1")) {
-            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-        } else if(floor.equals("1")) {
-            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-        } else if(floor.equals("2")) {
-            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-        } else if(floor.equals("3")) {
-            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
+
+
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
+
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+
+            new ProxyImage(mapImg, "01_thefirstfloor.png").display();
+
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+
+            new ProxyImage(mapImg, "02_thesecondfloor.png").display();
+
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+
+            new ProxyImage(mapImg, "03_thethirdfloor.png").display();
+
+
         }
     }
 
-    public void pathfloor3DMapLoader(String floor) {
+    public void floor3DMapLoader(String floor) {
 
-        stackPaneMap.setPrefHeight(2774);
-        stackPaneMap.setPrefWidth(5000);
-        mapImg.setFitHeight(2772);
-        mapImg.setFitWidth(5000);
-        paneMap.setPrefHeight(2774);
-        paneMap.setPrefWidth(5000);
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+            new ProxyImage(mapImg, "L2-ICONS.png").display();
 
-        if(floor.equals("L2")) {
-            new ProxyImage(mapImg,"L2-ICONS.png").display();
-        } else if(floor.equals("L1")) {
-            new ProxyImage(mapImg,"L1-ICONS.png").display();
-        } else if(floor.equals("1")) {
-            new ProxyImage(mapImg,"1-ICONS.png").display();
-        } else if(floor.equals("2")) {
-            new ProxyImage(mapImg,"2-ICONS.png").display();
-        } else if(floor.equals("3")) {
-            new ProxyImage(mapImg,"3-ICONS.png").display();
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+            new ProxyImage(mapImg, "L1-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+            new ProxyImage(mapImg, "1-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+            new ProxyImage(mapImg, "2-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+            new ProxyImage(mapImg, "3-ICONS.png").display();
+
+
         }
     }
 
     public void drawCircles(String floor,String dimension) {
 
         paneMap.getChildren().clear();
-        int i = 0;
-        Node currNode;
+
+
         // Iterate through each node
-        while (i < nodeList.size()) {
-            currNode = nodeList.get(i);
-            // If the node is on the correct floor
-            if (currNode.getFloor().equals(floor) && !currNode.getNodeType().equals("HALL")) {
-                if (dimension.equals("2-D")) {
-                    pathfloor2DMapLoader(floor);
+       for(Node currNode: nodeList) {
+           // If the node is on the correct floor
+           if (currNode.getFloor().equals(floor)) {
+               if (dimension.equals("2-D")) {
 
-                        Circle tempCircle = new Circle();
-                        tempCircle.setCenterX(nodeList.get(i).getXCoord());
-                        tempCircle.setCenterY(nodeList.get(i).getYCoord());
-                        tempCircle.setRadius(8);
-                        tempCircle.setFill(Color.NAVY);
-                        tempCircle.setVisible(true);
-                        tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                        paneMap.getChildren().add(tempCircle);
-                        circleList.add(tempCircle);
+                   System.out.println("good");
+                   Circle tempCircle = new Circle();
+                   tempCircle.setCenterX(currNode.getXCoord());
+                   tempCircle.setCenterY(currNode.getYCoord());
+                   tempCircle.setRadius(8);
+                   tempCircle.setFill(Color.NAVY);
+                   tempCircle.setVisible(true);
+                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   paneMap.getChildren().add(tempCircle);
+                   circleList.add(tempCircle);
 
-                } else {
-                    pathfloor3DMapLoader(floor);
+               } else {
 
-                        Circle tempCircle = new Circle();
-                        tempCircle.setCenterX(nodeList.get(i).getXCoord3D());
-                        tempCircle.setCenterY(nodeList.get(i).getYCoord3D());
-                        tempCircle.setRadius(8);
-                        tempCircle.setFill(Color.NAVY);
-                        tempCircle.setVisible(true);
-                        tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                        tempCircle.setOnMouseDragged(this::dragNodePos2D);
-                        paneMap.getChildren().add(tempCircle);
-                        circleList.add(tempCircle);
-                    }
-                }
+                   Circle tempCircle = new Circle();
+                   tempCircle.setCenterX(currNode.getXCoord3D());
+                   tempCircle.setCenterY(currNode.getYCoord3D());
+                   tempCircle.setRadius(8);
+                   tempCircle.setFill(Color.NAVY);
+                   tempCircle.setVisible(true);
+                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   tempCircle.setOnMouseDragged(this::dragNodePos2D);
+                   paneMap.getChildren().add(tempCircle);
+                   circleList.add(tempCircle);
+               }
+           }
+       }
             }
-        }
+
 
 
 
