@@ -3,7 +3,6 @@ package com.manlyminotaurs.viewControllers;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.databases.UserDBUtil;
 import com.manlyminotaurs.users.User;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -11,22 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.List;
 
 public class accountManagerController {
     Parent logout;
@@ -99,6 +92,7 @@ public class accountManagerController {
     String firstName;
     String middleName;
     String lastName;
+    List<String> languages;
     String language;
     String type;
     String username;
@@ -226,7 +220,7 @@ public class accountManagerController {
     }
 
     public void setLanguageAdd(ActionEvent event){
-        language = cmboLanguageAdd.getValue().toString();
+        languages.add(cmboLanguageAdd.getValue().toString());
 
     }
     public void setTypeAdd(ActionEvent event){
@@ -234,7 +228,7 @@ public class accountManagerController {
 
     }
     public void setLanguageModify(ActionEvent event){
-        language = cmboLanguageModify.getValue().toString();
+        languages.add(cmboLanguageModify.getValue().toString());
 
     }
     public void setTypeModify(ActionEvent event){
@@ -242,7 +236,7 @@ public class accountManagerController {
 
     }
     public void setLanguageDelete(ActionEvent event){
-        language = cmboLanguageDelete.getValue().toString();
+        languages.add(cmboLanguageDelete.getValue().toString());
 
     }
     public void setTypeDelete(ActionEvent event){
@@ -254,7 +248,7 @@ public class accountManagerController {
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
         middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
         lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
-        language = DataModelI.getInstance().getUserByID(userID).getLanguage();
+        languages = DataModelI.getInstance().getUserByID(userID).getLanguages();
         type = DataModelI.getInstance().getUserByID(userID).getUserType();
         txtFirstNameModify.setText(firstName);
         txtMiddleNameModify.setText(middleName);
@@ -269,19 +263,20 @@ public class accountManagerController {
         firstName = txtFirstNameAdd.getText();
         middleName = txtMiddleNameAdd.getText();
         lastName = txtLastNameAdd.getText();
-        language = cmboLanguageAdd.getValue().toString();
+        languages.add(cmboLanguageAdd.getValue().toString());
         type = cmboTypeAdd.getValue().toString();
         username = txtUsernameAdd.getText();
         password = txtPasswordAdd.getText();
 
-        DataModelI.getInstance().addUser(firstName,middleName,lastName,language,type,username,password);
+        DataModelI.getInstance().addUser(firstName,middleName,lastName,languages,type,username,password);
 
     }
     public void modifyUser(ActionEvent event){
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
         lastName = txtLastNameModify.getText();
-        language = cmboLanguageModify.getValue().toString();
+        languages = new ArrayList<>();
+        languages.add(cmboLanguageModify.getValue().toString());
         type = cmboTypeModify.getValue().toString();
         username = txtUsernameModify.getText();
         password = txtPasswordModify.getText();
@@ -290,14 +285,14 @@ public class accountManagerController {
         DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
         DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
         DataModelI.getInstance().getUserByID(userID).setUserType(type);
-        DataModelI.getInstance().getUserByID(userID).setLanguage(language);
+        DataModelI.getInstance().getUserByID(userID).addLanguage(language);
 
     }
     public void deleteUser(ActionEvent event){
         firstName = txtFirstNameDelete.getText();
         middleName = txtMiddleNameDelete.getText();
         lastName = txtLastNameDelete.getText();
-        language = cmboLanguageDelete.getValue().toString();
+        languages.add(cmboLanguageDelete.getValue().toString());
         type = cmboTypeDelete.getValue().toString();
         username = txtUsernameDelete.getText();
         password = txtPasswordDelete.getText();
