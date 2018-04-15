@@ -9,6 +9,7 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfinderUtil;
@@ -68,8 +69,10 @@ public class nodeEditorController {
     String startFloor = "";
     String endFloor = "";
     List<Circle> circleList = new ArrayList<>();
+    List<Line> edgeLines = new ArrayList<>();
     Boolean mapNodeChoice;
     Boolean selectNode = false;
+
 
     @FXML
     Button btnSelectEdgeNode;
@@ -900,6 +903,46 @@ public void setPathfindAlgorithm(ActionEvent event) {
             System.out.println("Node not found");
         }
     }
+
+    ///draws edges based on 2d or 3d map and floor,
+    public void drawEdges(String floor, String dimension) {
+        List<Edge> allEdges = DataModelI.getInstance().getEdgeList();
+
+        for (Edge curEdge : allEdges) {
+            Line edgeLine = new Line();
+            Node start = DataModelI.getInstance().getNodeByID(curEdge.getStartNodeID());
+            Node end = DataModelI.getInstance().getNodeByID(curEdge.getEndNodeID());
+            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))) {
+                if (dimension.equals("2-D")) {
+                    edgeLine.setStartX(start.getXCoord());
+                    edgeLine.setStartY(start.getYCoord());
+                    edgeLine.setEndX(end.getXCoord());
+                    edgeLine.setEndY(end.getXCoord());
+                } else if (dimension.equals("3-D")) {
+                    edgeLine.setStartX(start.getXCoord3D());
+                    edgeLine.setStartY(start.getYCoord3D());
+                    edgeLine.setEndX(end.getXCoord3D());
+                    edgeLine.setEndY(end.getXCoord3D());
+                }
+                if (curEdge.getStatus() == 1) {
+                    edgeLine.setStrokeWidth(5.0);
+                    edgeLine.setStroke(Color.DARKMAGENTA);
+                } else {
+                    edgeLine.setStrokeWidth(5.0);
+                    edgeLine.setStroke(Color.RED);
+                }
+
+            }
+            edgeLine.setOnMouseClicked(this::edgeSelected);
+            paneMap.getChildren().add(edgeLine);
+
+        }
+    }
+
+       public void edgeSelected(MouseEvent event){
+
+    }
+
 
 }
 
