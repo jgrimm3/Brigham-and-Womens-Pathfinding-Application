@@ -38,6 +38,7 @@ public interface IDataModel {
     @Deprecated
     List<Node> retrieveNodes();
     Map<String, Node> getNodeMap();
+    List<Node> getNodeList();
 
     Node getNodeByID(String ID);
     @Deprecated
@@ -59,6 +60,7 @@ public interface IDataModel {
     List<Edge> getEdgeList();
     void addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);
+    void modifyEdge(Node startNode, Node endNode, int status);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/

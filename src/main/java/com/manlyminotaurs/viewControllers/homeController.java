@@ -76,6 +76,9 @@ public class homeController implements Initializable {
 	final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
+
+	String currentFloor = "1";
+
 	Parent adminRequest;
 	Parent staffRequest;
 	Circle finishCircle = new Circle();
@@ -203,6 +206,21 @@ public class homeController implements Initializable {
 	@FXML
 	JFXTextField txtLocationEnd;
 
+	@FXML
+	JFXRadioButton radL2;
+
+	@FXML
+	JFXRadioButton radL1;
+
+	@FXML
+	JFXRadioButton rad1;
+
+	@FXML
+	JFXRadioButton rad2;
+
+	@FXML
+	JFXRadioButton rad3;
+
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 
@@ -245,6 +263,7 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -285,6 +304,7 @@ public class homeController implements Initializable {
 		floor2DMapLoader("1");
 		setStrategy();
 		//createMap();
+
 	}
 
 	public void setStrategy(){
@@ -329,6 +349,7 @@ public class homeController implements Initializable {
 		comTypeEnd.setDisable(false);
 		comLocationStart.setDisable(false);
 		comLocationEnd.setDisable(false);
+
 		if (tglMap.isSelected()) {
 
 			// Switch 3-D
@@ -339,7 +360,7 @@ public class homeController implements Initializable {
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(2774);
 			paneMap.setPrefWidth(5000);
-			floor3DMapLoader(comChangeFloor.getValue());
+			floor3DMapLoader(currentFloor);
 		} else {
 
 			// Switch 2-D
@@ -350,7 +371,7 @@ public class homeController implements Initializable {
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(3400);
 			paneMap.setPrefWidth(5000);
-			floor2DMapLoader(comChangeFloor.getValue());
+			floor2DMapLoader(currentFloor);
 		}
 
 	}
@@ -1098,7 +1119,6 @@ public class homeController implements Initializable {
 	@FXML
 	Label lblHelp;
 
-
 	public void openHelpPanel(ActionEvent event) {
 
 		if (panePathfinding.isVisible()) {
@@ -1844,5 +1864,99 @@ public class homeController implements Initializable {
 	public void resetRotate(ActionEvent event) {
 		overMap.setRotate(0);
 		imgCompass.setRotate(0);
+	}
+
+	public void changeFloorL2(ActionEvent event) {
+
+		/*radL1.setSelected(false);
+		rad1.setSelected(false);
+		rad2.setSelected(false);
+		rad3.setSelected(false);*/
+
+		if (tglMap.isSelected() == true) {
+			floor3DMapLoader("L2");
+		} else {
+			floor2DMapLoader("L2");
+		}
+
+		currentFloor = "L2";
+
+		System.out.println("you selected floor L2");
+	}
+
+	public void changeFloorL1(ActionEvent event) {
+		/*radL2.setSelected(false);
+		radL1.setSelected(true);
+		rad1.setSelected(false);
+		rad2.setSelected(false);
+		rad3.setSelected(false);*/
+
+		if (tglMap.isSelected() == true) {
+			floor3DMapLoader("L1");
+		} else {
+			floor2DMapLoader("L1");
+		}
+
+		currentFloor = "L1";
+
+		System.out.println("you selected floor L1");
+
+	}
+
+	public void changeFloor1(ActionEvent event) {
+		/*radL2.setSelected(false);
+		radL1.setSelected(false);
+		rad1.setSelected(true);
+		rad2.setSelected(false);
+		rad3.setSelected(false);*/
+
+		if (tglMap.isSelected() == true) {
+			floor3DMapLoader("1");
+		} else {
+			floor2DMapLoader("1");
+		}
+
+		currentFloor = "1";
+
+		System.out.println("you selected floor 1");
+
+	}
+
+	public void changeFloor2(ActionEvent event) {
+		/*radL2.setSelected(false);
+		radL1.setSelected(false);
+		rad1.setSelected(false);
+		rad2.setSelected(true);
+		rad3.setSelected(false);*/
+
+		if (tglMap.isSelected() == true) {
+			floor3DMapLoader("2");
+		} else {
+			floor2DMapLoader("2");
+		}
+
+		currentFloor = "2";
+
+		System.out.println("you selected floor 2");
+
+	}
+
+	public void changeFloor3(ActionEvent event) {
+		/*radL2.setSelected(false);
+		radL1.setSelected(false);
+		rad1.setSelected(false);
+		rad2.setSelected(false);
+		rad3.setSelected(true);*/
+
+		if (tglMap.isSelected() == true) {
+			floor3DMapLoader("3");
+		} else {
+			floor2DMapLoader("3");
+		}
+
+		currentFloor = "3";
+
+		System.out.println("you selected floor 3");
+
 	}
 }
