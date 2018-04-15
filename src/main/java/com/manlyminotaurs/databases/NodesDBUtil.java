@@ -22,7 +22,7 @@ class NodesDBUtil {
 	int nodeIDGeneratorCount = 200;
 	int elevatorCounter = 0;
 	List<Node> nodes;
-	Map<String, Node> nodeMap;
+	static Map<String, Node> nodeMap;
 
 	Map<String, Node> getNodeMap() {
 		updateNodeMap();

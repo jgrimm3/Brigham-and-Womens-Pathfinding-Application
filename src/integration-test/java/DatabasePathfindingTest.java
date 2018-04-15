@@ -3,25 +3,27 @@ import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.AStarStrategyI;
 import com.manlyminotaurs.pathfinding.PathNotFoundException;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DatabasePathfindingTest {
+    @BeforeClass
+    public static void setup(){
+        DataModelI.getInstance().startDB();
+    }
+
 
     @Test
     public void PathfindWithDBNodes(){
-        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
-        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
-        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
+        Node startNode = DataModelI.getInstance().getNodeByID("GHALL00201");
+        Node endNode = DataModelI.getInstance().getNodeByID("GHALL00201");
 
         LinkedList<Node> expected = new LinkedList<>();
         expected.add(startNode);
@@ -33,15 +35,14 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
 
     }
 
     @Test
     public void PathfindWithDBNodes2(){
-        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
-        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00201", nodes);
-        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GHALL00301", nodes);
+        Node startNode = DataModelI.getInstance().getNodeByID("GHALL00201");
+        Node endNode = DataModelI.getInstance().getNodeByID("GHALL00301");
 
         LinkedList<Node> expected = new LinkedList<>();
         expected.add(startNode);
@@ -54,22 +55,21 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
 
     }
 
     @Test
     public void PathfindWithDBNodesWithFloorChange(){
-        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
-        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes);
-        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes);
+        Node startNode = DataModelI.getInstance().getNodeByID("GHALL02401");
+        Node endNode = DataModelI.getInstance().getNodeByID("GDEPT02402");
         // GHALL02401, GELEV00N01, GELEV00N02, GDEPT02402
 
         LinkedList<Node> expected = new LinkedList<>();
-        expected.add(DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes));
-        expected.add(DataModelI.getInstance().getNodeByIDFromList("GELEV00N01", nodes));
-        expected.add(DataModelI.getInstance().getNodeByIDFromList("GELEV00N02", nodes));
-        expected.add(DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes));
+        expected.add(DataModelI.getInstance().getNodeByID("GHALL02401"));
+        expected.add(DataModelI.getInstance().getNodeByID("GELEV00N01"));
+        expected.add(DataModelI.getInstance().getNodeByID("GELEV00N02"));
+        expected.add(DataModelI.getInstance().getNodeByID("GDEPT02402"));
 
         PathfindingContext pf = new PathfindingContext();
         LinkedList<Node> result = new LinkedList<>();
@@ -78,7 +78,7 @@ public class DatabasePathfindingTest {
         } catch (PathNotFoundException e){
             e.printStackTrace();
         }
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
