@@ -691,7 +691,7 @@ class NodesDBUtil {
 		connection = DataModelI.getInstance().getNewConnection();
 		try {
 			//connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT longName FROM MAP_NODES AND building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT longName FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
