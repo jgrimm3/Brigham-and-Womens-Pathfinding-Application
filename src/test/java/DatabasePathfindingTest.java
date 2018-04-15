@@ -8,8 +8,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DatabasePathfindingTest {
 
@@ -77,21 +80,37 @@ public class DatabasePathfindingTest {
         assertEquals(expected, result);
     }
 
-//    @Test
-//    public void LongPathfindingTest(){
-//        List<Node> nodes = DataModelI.getInstance().retrieveNodes();
-//        Node startNode = DataModelI.getInstance().getNodeByIDFromList("GHALL02401", nodes);
-//        Node endNode = DataModelI.getInstance().getNodeByIDFromList("GDEPT02402", nodes);
-//
-//        PathfindingContext pf = new PathfindingContext();
-//        LinkedList<Node> result = new LinkedList<>();
-//        try {
-//            result = pf.getPath(startNode, endNode, new AStarStrategyI());
-//        } catch (PathNotFoundException e){
-//            e.printStackTrace();
-//        }
-//        assertEquals();
-//    }
+    @Test
+    public void LongPathfindingTest(){
 
+        Node startNode = DataModelI.getInstance().getNodeByID("ALABS001L2");
+        Node endNode = DataModelI.getInstance().getNodeByID("CDEPT002L1");
+
+        PathfindingContext pf = new PathfindingContext();
+        LinkedList<Node> result = new LinkedList<>();
+        try {
+            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+        } catch (PathNotFoundException e){
+            e.printStackTrace();
+        }
+        System.out.println(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void BreakingPathfindingTest(){
+        Node startNode = DataModelI.getInstance().getNodeByID("FHALL03101");
+        Node endNode = DataModelI.getInstance().getNodeByID("GHALL01401");
+
+        PathfindingContext pf = new PathfindingContext();
+        LinkedList<Node> result = new LinkedList<>();
+        try {
+            result = pf.getPath(startNode, endNode, new AStarStrategyI());
+        } catch (PathNotFoundException e){
+            e.printStackTrace();
+        }
+        System.out.println(result);
+        assertFalse(result.isEmpty());
+    }
 
 }
