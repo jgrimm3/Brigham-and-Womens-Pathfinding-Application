@@ -4,6 +4,7 @@ import com.manlyminotaurs.users.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserDBUtil {
@@ -15,11 +16,13 @@ public class UserDBUtil {
     }
 
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password){
+    User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password){
 
         String userID = generateUserID();
-        User userObject = userBuilder(userID,firstName,middleName,lastName,language, userType);
+        User userObject = userBuilder(userID,firstName,middleName,lastName, languages, userType);
         Connection connection = DataModelI.getInstance().getNewConnection();
+        //String concatLanguages = convertListToString(languages);
+        String concatLanguages = String.join("/", languages);
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language,userType) VALUES (?,?,?,?,?,?)";
@@ -30,7 +33,7 @@ public class UserDBUtil {
             statement.setString(2, userObject.getFirstName());
             statement.setString(3, userObject.getMiddleName());
             statement.setString(4, userObject.getLastName());
-            statement.setString(5, userObject.getLanguage());
+            statement.setString(5, concatLanguages);
             statement.setString(6, userObject.getUserType());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
@@ -66,6 +69,7 @@ public class UserDBUtil {
     public boolean modifyUser(User newUser) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
+        String concatLanguages = String.join("/", newUser.getLanguages());
         try {
             String str = "UPDATE UserAccount SET firstName = ?,middleName = ?,lastName = ?,language = ?,userType =? WHERE userID = '"+ newUser.getUserID() +"'" ;
 
@@ -74,7 +78,7 @@ public class UserDBUtil {
             statement.setString(1, newUser.getFirstName());
             statement.setString(2, newUser.getMiddleName());
             statement.setString(3, newUser.getLastName());
-            statement.setString(4, newUser.getLanguage());
+            statement.setString(4, concatLanguages);
             statement.setString(5, newUser.getUserType());
             statement.executeUpdate();
             statement.close();
@@ -103,7 +107,8 @@ public class UserDBUtil {
         String firstName;
         String middleName;
         String lastName;
-        String language;
+        List<String> languages;
+        String languagesConcat;
         String userType;
         List<User> listOfUsers = new ArrayList<>();
 
@@ -117,11 +122,13 @@ public class UserDBUtil {
                 firstName = rset.getString("firstName");
                 middleName = rset.getString("middleName");
                 lastName = rset.getString("lastName");
-                language = rset.getString("language");
+                languagesConcat = rset.getString("languages");
                 userType = rset.getString("userType");
 
+                languages = getLanguageList(languagesConcat);
+
                 // Add the new edge to the list
-                userObject = userBuilder(userID, firstName, middleName, lastName, language, userType);
+                userObject = userBuilder(userID, firstName, middleName, lastName, languages, userType);
                 listOfUsers.add(userObject);
                 System.out.println("User added to the list: " + userID);
             }
@@ -136,6 +143,13 @@ public class UserDBUtil {
 
         return listOfUsers;
     } // retrieveUsers() ends
+
+    private List<String> getLanguageList ( String languagesConcat){
+        // Input: String languageConcat = "English/Spanish"
+        // Output: List <String> languages = [ "English" , "Spanish" ]
+        List<String> languages = new ArrayList<String>(Arrays.asList(languagesConcat.split("/")));
+        return languages;
+    }
 
     public List<StaffFields> retrieveStaffs() {
         // Connection
@@ -186,8 +200,9 @@ public class UserDBUtil {
         String firstName;
         String middleName;
         String lastName;
-        String language;
+        String languagesConcat;
         String userType;
+        List<String> languages;
 
         try {
             Statement stmt = connection.createStatement();
@@ -198,11 +213,13 @@ public class UserDBUtil {
                 firstName = rset.getString("firstName");
                 middleName = rset.getString("middleName");
                 lastName = rset.getString("lastName");
-                language = rset.getString("language");
+                languagesConcat = rset.getString("language");
                 userType = rset.getString("userType");
 
+                languages = getLanguageList(languagesConcat);
+
                 // Add the new edge to the list
-                userObject = userBuilder(userID, firstName, middleName, lastName, language, userType);
+                userObject = userBuilder(userID, firstName, middleName, lastName, languages, userType);
                 System.out.println("User added to the list: " + userID);
             }
             rset.close();
@@ -216,43 +233,43 @@ public class UserDBUtil {
         return userObject;
     }
 
-    public static User userBuilder(String userID, String firstName, String middleName, String lastName, String language, String userType){
+    public static User userBuilder(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType){
         User userObject;
         switch (userType) {
             case "patient":
-                userObject = new Patient(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Patient(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "staff":
-                userObject = new Staff(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Staff(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "doctor":
-                userObject = new Doctor(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Doctor(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "nurse":
-                userObject = new Nurse(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Nurse(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "security":
-                userObject = new Security(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Security(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "janitor":
-                userObject = new Janitor(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Janitor(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "interpreter":
-                userObject = new interpreter(userID, firstName, middleName, lastName, language, userType);
+                userObject = new interpreter(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             case "admin":
-                userObject = new Admin(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Admin(userID, firstName, middleName, lastName, languages, userType);
                 break;
 
             default:
-                userObject = new Visitor(userID, firstName, middleName, lastName, language, userType);
+                userObject = new Visitor(userID, firstName, middleName, lastName, languages, userType);
                 break;
         }
         return userObject;

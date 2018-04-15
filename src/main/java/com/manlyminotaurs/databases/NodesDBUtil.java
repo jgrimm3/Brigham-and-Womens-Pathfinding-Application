@@ -22,11 +22,16 @@ class NodesDBUtil {
 	int nodeIDGeneratorCount = 200;
 	int elevatorCounter = 0;
 	List<Node> nodes;
-	Map<String, Node> nodeMap;
+	static Map<String, Node> nodeMap;
 
 	Map<String, Node> getNodeMap() {
 		updateNodeMap();
 		return nodeMap;
+	}
+
+	List<Node> getNodeList(){
+		List<Node> listOfNodes = new ArrayList(nodeMap.values());
+		return listOfNodes;
 	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
@@ -409,7 +414,8 @@ class NodesDBUtil {
 
 
 	List<Edge> getEdgeList(){
-		List<Edge> edgeList = new ArrayList<Edge>();
+		List<Edge> listOfEdges = new ArrayList<Edge>();
+		/*
 		for(Node a_node : nodeMap.values()) {
 			for(Node b_node : a_node.getAdjacentNodes()) {
 				//bug is that nodeID1_nodeID2 is getting stored twice in csv
@@ -419,7 +425,45 @@ class NodesDBUtil {
 				}
 			}
 		}
-		return edgeList;
+		return edgeList;*/
+
+		int status = 0;
+		String startNodeID = "";
+		String endNodeID = "";
+		String edgeID = "";
+		Connection connection = null;
+		Statement stmt = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_EDGES";
+			ResultSet rset = stmt.executeQuery(str);
+
+			while(rset.next()) {
+				edgeID = rset.getString("edgeID");
+				startNodeID = rset.getString("startNodeID");
+				endNodeID = rset.getString("endNodeID");
+				status = rset.getInt("status");
+
+				// Add the new edge to the list
+				Edge edge = new Edge(startNodeID, endNodeID, edgeID);
+				edge.setStatus(status);
+				listOfEdges.add(edge);
+				System.out.println("Edge added to the list: " + edgeID);
+			}
+			rset.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return listOfEdges;
 	}
 
 	/**
@@ -444,6 +488,29 @@ class NodesDBUtil {
 			closeConnection(connection);
 		}
 	} // removeEdge
+
+	void modifyEdge(Node startNode, Node endNode, int status){
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+			String str = "UPDATE MAP_EDGES SET status = ? WHERE edgeID = '"+ edgeID + "'";
+
+			// Create the prepared statement
+			PreparedStatement statement = connection.prepareStatement(str);
+			statement.setInt(1, status);
+			System.out.println("Prepared statement created...");
+
+			statement.executeUpdate();
+			statement.close();
+			System.out.println("Node added to database");
+		} catch (SQLException e) {
+			System.out.println("Node already in the database");
+		} finally {
+			DataModelI.getInstance().closeConnection();
+		}
+	}
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
@@ -688,9 +755,9 @@ class NodesDBUtil {
 		PreparedStatement stmt = null;
 		Connection connection = null;
 		String longName;
-		connection = DataModelI.getInstance().getNewConnection();
+		//connection = DataModelI.getInstance().getNewConnection();
 		try {
-			//connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			String str = "SELECT longName FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
@@ -709,8 +776,8 @@ class NodesDBUtil {
 		} finally {
 			try {
 				stmt.close();
-				DataModelI.getInstance().closeConnection();
-				//closeConnection(connection);
+				//DataModelI.getInstance().closeConnection();
+				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -732,12 +799,10 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	@Deprecated
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
-		List<Node> allNodes = retrieveNodes();
 
-		for(Node a_node : allNodes){
+		for(Node a_node : nodeMap.values()){
 			if(a_node.getFloor().equals(floor)){
 				selectedNodes.add(a_node);
 			}

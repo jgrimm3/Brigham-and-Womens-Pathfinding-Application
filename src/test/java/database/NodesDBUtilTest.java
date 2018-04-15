@@ -2,6 +2,7 @@ package database;
 
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
+import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -193,6 +194,12 @@ public class NodesDBUtilTest {
 		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
 		Node retrieved_node = DataModelI.getInstance().getNodeByID(new_node.getNodeID());
 		assertTrue(retrieved_node != null);
+	}
+
+	@Test
+	public void getLongNameByBuildingTypeFloor_returnCorrectList(){
+		List<String> longNameList = DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","L2");
+		System.out.println("hello");
 	}
 
 	//test adjacentNode with status 2 or 0 or 3
