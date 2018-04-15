@@ -394,27 +394,18 @@ public class homeController implements Initializable {
 	public void printKiosk() {
 
 		Circle kiosk = new Circle();
-		Circle kioskRemove = new Circle();
-		Circle outlineRemove = new Circle();
 
 		if(tglMap.isSelected()) {
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
-			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 15);
-			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
-			paneMap.getChildren().remove(kioskRemove);
-			paneMap.getChildren().remove(outlineRemove);*/
 			clearPoints();
 		} else {
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
-			/*kioskRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 15);
-			outlineRemove = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
-			paneMap.getChildren().remove(kioskRemove);
-			paneMap.getChildren().remove(outlineRemove);*/
 			clearPoints();
 		}
 
 		circleList.add(kiosk);
-		if(comChangeFloor.getValue().equals("FLOOR: 1") || comChangeFloor.getValue().equals("1")) {
+		System.out.println(currentFloor + " is the floor");
+		if(currentFloor.equals("1")) {
 			kiosk.setFill(Color.BLUE);
 			kiosk.setFill(Color.RED);
 		} else {
@@ -457,9 +448,9 @@ public class homeController implements Initializable {
 		//printKiosk();
 		circleList.clear();
 		if (tglMap.isSelected())
-			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
+			printPoints(currentFloor, "3-D");
 		else
-			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
+			printPoints(currentFloor, "2-D");
 
 	}
 
@@ -1967,6 +1958,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L2";
+		printKiosk();
 
 		System.out.println("you selected floor L2");
 	}
@@ -1985,6 +1977,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L1";
+		printKiosk();
 
 		System.out.println("you selected floor L1");
 
@@ -2004,6 +1997,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "1";
+		printKiosk();
 
 		System.out.println("you selected floor 1");
 
@@ -2023,6 +2017,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "2";
+		printKiosk();
 
 		System.out.println("you selected floor 2");
 
@@ -2042,6 +2037,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "3";
+		printKiosk();
 
 		System.out.println("you selected floor 3");
 
