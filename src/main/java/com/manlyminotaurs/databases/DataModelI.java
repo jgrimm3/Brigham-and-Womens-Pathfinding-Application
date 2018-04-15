@@ -123,6 +123,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<Node> getNodeList() {
+        return nodesDBUtil.getNodeList();
+    }
+
+    @Override
     public boolean modifyNode(Node newNode) {
         return nodesDBUtil.modifyNode(newNode);
     }
@@ -138,6 +143,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public List<Node> getNodesByType(String type) {
         return nodesDBUtil.getNodesByType(type);
     }
@@ -195,6 +201,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<String> getLongNames() {
+        return nodesDBUtil.getLongNames();
+    }
+
+    @Override
     @Deprecated
     public List<Node> getNodesByBuildingTypeFloor (String building, String type, String floor) {
         return nodesDBUtil.getNodesByBuildingTypeFloor(building, type, floor);
@@ -206,7 +217,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public List<String> getAdjacentNodesFromNode(Node node) {
+    public List<String> getAdjacentNodes(Node node) {
         return nodesDBUtil.getAdjacentNodes(node);
     }
 
@@ -225,6 +236,11 @@ public class DataModelI implements IDataModel{
     @Override
     public void removeEdge(Node startNode, Node endNode) {
         nodesDBUtil.removeEdge(startNode, endNode);
+    }
+
+    @Override
+    public void modifyEdge(Node startNode, Node endNode, int status) {
+        nodesDBUtil.modifyEdge(startNode, endNode, status);
     }
 
     /*------------------------------------------------ Messages -------------------------------------------------------*/

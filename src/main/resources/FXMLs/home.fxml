@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
@@ -47,7 +48,7 @@
                                     <content>
                                         <StackPane fx:id="stackPaneMap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="3400.0" prefWidth="5000.0">
                                             <children>
-                                                <Pane fx:id="overMap" prefHeight="200.0" prefWidth="200.0">
+                                                <Pane fx:id="overMap" prefHeight="5000.0" prefWidth="5000.0">
                                                     <children>
                                                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                                             <children>
@@ -112,17 +113,22 @@
                                 </JFXButton>
                                 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="193.0" prefWidth="189.0" StackPane.alignment="TOP_LEFT">
                                     <children>
-                                        <JFXButton layoutY="40.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="L2" />
-                                        <JFXButton layoutY="70.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="L1" />
                                         <Label text="FLOOR">
                                             <font>
                                                 <Font size="28.0" />
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="120.0" promptText="FLOOR" visible="false" />
-                                        <JFXButton layoutY="100.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="1" />
-                                        <JFXButton layoutY="130.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="2" />
-                                        <JFXButton layoutY="160.0" maxHeight="20.0" maxWidth="50.0" prefHeight="20.0" prefWidth="50.0" style="-fx-background-color: #f1f1f1;" text="3" />
+                              <JFXRadioButton fx:id="radL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" visible="false" />
+                              <JFXRadioButton fx:id="radL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" visible="false" />
+                              <JFXRadioButton fx:id="rad1" layoutY="85.0" onAction="#changeFloor1" text="1" visible="false" />
+                              <JFXRadioButton fx:id="rad2" layoutY="105.0" onAction="#changeFloor2" text="2" visible="false" />
+                              <JFXRadioButton fx:id="rad3" layoutY="125.0" onAction="#changeFloor3" text="3" visible="false" />
+                              <JFXButton fx:id="btnL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" />
+                              <JFXButton fx:id="btnL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" />
+                              <JFXButton fx:id="btn1" layoutY="85.0" onAction="#changeFloor1" text="1" />
+                              <JFXButton fx:id="btn2" layoutY="105.0" onAction="#changeFloor2" text="2" />
+                              <JFXButton fx:id="btn3" layoutY="125.0" onAction="#changeFloor3" text="3" />
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
@@ -356,19 +362,7 @@
                                         <Insets left="85.0" top="20.0" />
                                     </StackPane.margin>
                                 </JFXButton>
-                                <JFXButton fx:id="btnRotateClockwise" ellipsisString="" onMouseClicked="#rotateRight" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_CENTER">
-                                    <graphic>
-                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                    <StackPane.margin>
-                                        <Insets bottom="30.0" right="85.0" />
-                                    </StackPane.margin>
-                                </JFXButton>
-                                <JFXButton fx:id="btnRotateCounterClockwise" ellipsisString="" onMouseClicked="#rotateLeft" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_CENTER">
+                                <JFXButton fx:id="btnRotateClockwise" ellipsisString="" onMouseClicked="#rotateLeft" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_CENTER">
                                     <graphic>
                                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -377,9 +371,33 @@
                                         </ImageView>
                                     </graphic>
                                     <StackPane.margin>
-                                        <Insets bottom="30.0" left="85.0" />
+                                        <Insets bottom="30.0" right="175.0" />
                                     </StackPane.margin>
                                 </JFXButton>
+                                <JFXButton fx:id="btnRotateCounterClockwise" ellipsisString="" onMouseClicked="#rotateRight" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_CENTER">
+                                    <graphic>
+                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <StackPane.margin>
+                                        <Insets bottom="30.0" left="175.0" />
+                                    </StackPane.margin>
+                                </JFXButton>
+                        <JFXButton fx:id="btnCompass" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
+                           <graphic>
+                              <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Icons/CompassIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <StackPane.margin>
+                              <Insets bottom="35.0" />
+                           </StackPane.margin>
+                        </JFXButton>
                             </children>
                         </StackPane>
                     </children>
@@ -541,6 +559,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="40.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" />
+                                    <JFXTextField fx:id="txtLocationStart" layoutX="15.0" layoutY="80.0" maxWidth="240.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>
@@ -649,6 +668,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationEnd" layoutX="15.0" layoutY="40.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" />
+                                    <JFXTextField fx:id="txtLocationEnd" layoutX="15.0" layoutY="80.0" maxWidth="240.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>

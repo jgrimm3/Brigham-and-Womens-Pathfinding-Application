@@ -38,6 +38,7 @@ public interface IDataModel {
     @Deprecated
     List<Node> retrieveNodes();
     Map<String, Node> getNodeMap();
+    List<Node> getNodeList();
 
     Node getNodeByID(String ID);
     @Deprecated
@@ -52,12 +53,14 @@ public interface IDataModel {
     Node getNodeByCoords(int xCoord, int yCoord);
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
+    List<String> getLongNames();
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
-    List<String> getAdjacentNodesFromNode(Node node);
+    List<String> getAdjacentNodes(Node node);
     List<Edge> getEdgeList();
     void addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);
+    void modifyEdge(Node startNode, Node endNode, int status);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/

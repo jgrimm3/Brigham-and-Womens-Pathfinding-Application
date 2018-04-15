@@ -2,6 +2,7 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -21,17 +22,22 @@ class NodesDBUtil {
 	int nodeIDGeneratorCount = 200;
 	int elevatorCounter = 0;
 	List<Node> nodes;
-	Map<String, Node> nodeMap;
+	static Map<String, Node> nodeMap;
 
 	Map<String, Node> getNodeMap() {
+		updateNodeMap();
 		return nodeMap;
+	}
+
+	List<Node> getNodeList(){
+		List<Node> listOfNodes = new ArrayList(nodeMap.values());
+		return listOfNodes;
 	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
 	public NodesDBUtil() {
 		nodes = new ArrayList<>();
 		nodeMap  = new HashMap<>();
-		updateNodeMap();
 	}
 
 	/**
@@ -135,7 +141,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status <> 0";
+			String str = "SELECT * FROM MAP_NODES";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -401,6 +407,7 @@ class NodesDBUtil {
 		else if(caseInt > 0){
 			String edgeID = endNodeID + "_" + startNodeID;
 			edge = new Edge(endNodeID, startNodeID, edgeID);
+			return null;
 		}
 		return edge;
 	}
@@ -410,7 +417,11 @@ class NodesDBUtil {
 		List<Edge> edgeList = new ArrayList<Edge>();
 		for(Node a_node : nodeMap.values()) {
 			for(Node b_node : a_node.getAdjacentNodes()) {
-				edgeList.add(makeEdge(b_node.getNodeID(), a_node.getNodeID()));
+				//bug is that nodeID1_nodeID2 is getting stored twice in csv
+				Edge a_edge = makeEdge(b_node.getNodeID(), a_node.getNodeID());
+				if(a_edge != null) {
+					edgeList.add(a_edge);
+				}
 			}
 		}
 		return edgeList;
@@ -438,6 +449,29 @@ class NodesDBUtil {
 			closeConnection(connection);
 		}
 	} // removeEdge
+
+	void modifyEdge(Node startNode, Node endNode, int status){
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+			String str = "UPDATE MAP_EDGES SET status = ? WHERE edgeID = '"+ edgeID + "'";
+
+			// Create the prepared statement
+			PreparedStatement statement = connection.prepareStatement(str);
+			statement.setInt(1, status);
+			System.out.println("Prepared statement created...");
+
+			statement.executeUpdate();
+			statement.close();
+			System.out.println("Node added to database");
+		} catch (SQLException e) {
+			System.out.println("Node already in the database");
+		} finally {
+			DataModelI.getInstance().closeConnection();
+		}
+	}
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
@@ -605,7 +639,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES WHERE status <> 0 AND building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT * FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
@@ -646,15 +680,46 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+	List<String> getLongNames(){
+		List<String> listOfLongNames = new ArrayList<>();
+
+		PreparedStatement stmt = null;
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			String str = "SELECT longName FROM MAP_NODES";
+			stmt = connection.prepareStatement(str);
+			ResultSet rset = stmt.executeQuery();
+
+			// For every node, get the information
+			while (rset.next()) {
+				String longName = rset.getString("longName");
+				listOfLongNames.add(longName);
+			}
+			rset.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return listOfLongNames;
+	}
+
 	List<String> getLongNameByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<String> selectedNames = new ArrayList<>();
 		PreparedStatement stmt = null;
 		Connection connection = null;
 		String longName;
-
+		//connection = DataModelI.getInstance().getNewConnection();
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT longName FROM MAP_NODES WHERE status <> 0 AND building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT longName FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
@@ -672,6 +737,7 @@ class NodesDBUtil {
 		} finally {
 			try {
 				stmt.close();
+				//DataModelI.getInstance().closeConnection();
 				closeConnection(connection);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -694,12 +760,10 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-	@Deprecated
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
-		List<Node> allNodes = retrieveNodes();
 
-		for(Node a_node : allNodes){
+		for(Node a_node : nodeMap.values()){
 			if(a_node.getFloor().equals(floor)){
 				selectedNodes.add(a_node);
 			}
