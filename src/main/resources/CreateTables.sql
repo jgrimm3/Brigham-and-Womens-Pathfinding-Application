@@ -20,6 +20,12 @@ CREATE TABLE Map_Edges (
   CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
 
+CREATE TABLE Kiosk (
+  kioskID        VARCHAR(10) PRIMARY KEY,
+  nodeID         VARCHAR (10) UNIQUE,
+  description    varchar(255),
+  CONSTRAINT fk_kiosk_node FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
+
 Create Table Room (
   specialization VARCHAR(255),
   detail         VARCHAR(255),
@@ -35,6 +41,17 @@ Create Table UserAccount (
   lastName      VARCHAR(255),
   language      VARCHAR(255),
   userType      VARCHAR(255));
+
+CREATE TABLE Pathfinder(
+  pathfinderID    VARCHAR(10) PRIMARY KEY,
+  pathfinderDate  TIMESTAMP,
+  startNodeID     VARCHAR(10),
+  endNodeID       VARCHAR(10),
+  userID          VARCHAR(10),
+  CONSTRAINT fk_pathfinder_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
+  CONSTRAINT fk_pathfinder_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
+  CONSTRAINT fk_pathfinder_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
+
 
 CREATE TABLE UserPassword (
   userName    VARCHAR(15) UNIQUE,

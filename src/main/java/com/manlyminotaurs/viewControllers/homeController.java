@@ -1806,6 +1806,12 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnRotateCounterClockwise;
 
+	@FXML
+	ImageView imgCompass;
+
+	@FXML
+	Button btnCompass;
+
 
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(MouseEvent mouseEvent) {
@@ -1824,9 +1830,19 @@ public class homeController implements Initializable {
 
 	public void rotateLeft(MouseEvent mouseEvent) {
 		overMap.setRotate(overMap.getRotate() - 30);
+		double currentRotation = imgCompass.getRotate();
+		imgCompass.setRotate(currentRotation - 30);
 	}
 
 	public void rotateRight(MouseEvent mouseEvent) {
 		overMap.setRotate(overMap.getRotate() + 30);
+		double currentRotation = imgCompass.getRotate();
+		imgCompass.setRotate(currentRotation + 30);
+
+	}
+
+	public void resetRotate(ActionEvent event) {
+		overMap.setRotate(0);
+		imgCompass.setRotate(0);
 	}
 }
