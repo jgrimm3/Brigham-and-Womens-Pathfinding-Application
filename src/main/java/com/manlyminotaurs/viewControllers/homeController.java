@@ -421,18 +421,11 @@ public class homeController implements Initializable {
 	}
 
 	public void printNodesOnFloorStart(MouseEvent event) {
-		btnStart.setDisable(true);
-		btnEnd.setDisable(true);
 		isStart = true;
-		comBuildingStart.setDisable(true);
-		comBuildingEnd.setDisable(true);
-		comFloorStart.setDisable(true);
-		comFloorEnd.setDisable(true);
-		comTypeStart.setDisable(true);
-		comTypeEnd.setDisable(true);
-		comLocationStart.setDisable(true);
-		comLocationEnd.setDisable(true);
+		showStartAndEnd();
 		clearPoints();
+		hideStartAndEnd();
+		cancelStart.setVisible(true);
 		//printKiosk();
 		circleList.clear();
 		if (tglMap.isSelected())
@@ -443,9 +436,37 @@ public class homeController implements Initializable {
 	}
 
 	public void printNodesOnFloorEnd(MouseEvent event) {
+		isStart = false;
+		showStartAndEnd();
+		clearPoints();
+		hideStartAndEnd();
+		circleList.clear();
+		cancelFinish.setVisible(true);
+		if (tglMap.isSelected())
+			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
+		else
+			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
+
+	}
+
+	private void showStartAndEnd() {
+		clearPoints();
+		printKiosk();
+		btnStart.setDisable(false);
+		btnEnd.setDisable(false);
+		comBuildingStart.setDisable(false);
+		comBuildingEnd.setDisable(false);
+		comFloorStart.setDisable(false);
+		comFloorEnd.setDisable(false);
+		comTypeStart.setDisable(false);
+		comTypeEnd.setDisable(false);
+		comLocationStart.setDisable(false);
+		comLocationEnd.setDisable(false);
+	}
+
+	private void hideStartAndEnd() {
 		btnStart.setDisable(true);
 		btnEnd.setDisable(true);
-		isStart = false;
 		comBuildingStart.setDisable(true);
 		comBuildingEnd.setDisable(true);
 		comFloorStart.setDisable(true);
@@ -454,13 +475,6 @@ public class homeController implements Initializable {
 		comTypeEnd.setDisable(true);
 		comLocationStart.setDisable(true);
 		comLocationEnd.setDisable(true);
-		clearPoints();
-		circleList.clear();
-		if (tglMap.isSelected())
-			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
-		else
-			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
-
 	}
 
 	public void chooseStartNode(MouseEvent event) {
@@ -474,18 +488,7 @@ public class homeController implements Initializable {
 						comFloorStart.getSelectionModel().select(node.getFloor());
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
-						clearPoints();
-						printKiosk();
-						btnStart.setDisable(false);
-						btnEnd.setDisable(false);
-						comBuildingStart.setDisable(false);
-						comBuildingEnd.setDisable(false);
-						comFloorStart.setDisable(false);
-						comFloorEnd.setDisable(false);
-						comTypeStart.setDisable(false);
-						comTypeEnd.setDisable(false);
-						comLocationStart.setDisable(false);
-						comLocationEnd.setDisable(false);
+						showStartAndEnd();
 						break;
 					}
 				}
@@ -500,18 +503,7 @@ public class homeController implements Initializable {
 						comFloorStart.getSelectionModel().select(node.getFloor());
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
-						clearPoints();
-						printKiosk();
-						btnStart.setDisable(false);
-						btnEnd.setDisable(false);
-						comBuildingStart.setDisable(false);
-						comBuildingEnd.setDisable(false);
-						comFloorStart.setDisable(false);
-						comFloorEnd.setDisable(false);
-						comTypeStart.setDisable(false);
-						comTypeEnd.setDisable(false);
-						comLocationStart.setDisable(false);
-						comLocationEnd.setDisable(false);
+						showStartAndEnd();
 						break;
 					}
 				}
@@ -532,18 +524,7 @@ public class homeController implements Initializable {
 						comFloorEnd.getSelectionModel().select(node.getFloor());
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
-						clearPoints();
-						printKiosk();
-						btnStart.setDisable(false);
-						btnEnd.setDisable(false);
-						comBuildingStart.setDisable(false);
-						comBuildingEnd.setDisable(false);
-						comFloorStart.setDisable(false);
-						comFloorEnd.setDisable(false);
-						comTypeStart.setDisable(false);
-						comTypeEnd.setDisable(false);
-						comLocationStart.setDisable(false);
-						comLocationEnd.setDisable(false);
+						showStartAndEnd();
 						break;
 					}
 				}
@@ -558,18 +539,7 @@ public class homeController implements Initializable {
 						comFloorEnd.getSelectionModel().select(node.getFloor());
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
-						clearPoints();
-						printKiosk();
-						btnStart.setDisable(false);
-						btnEnd.setDisable(false);
-						comBuildingStart.setDisable(false);
-						comBuildingEnd.setDisable(false);
-						comFloorStart.setDisable(false);
-						comFloorEnd.setDisable(false);
-						comTypeStart.setDisable(false);
-						comTypeEnd.setDisable(false);
-						comLocationStart.setDisable(false);
-						comLocationEnd.setDisable(false);
+						showStartAndEnd();
 						break;
 					}
 				}
@@ -1292,6 +1262,9 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 
 	public void floor2DMapLoader(String floor) {
+		cancelFinish.setVisible(false);
+		cancelStart.setVisible(false);
+
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
 			new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
@@ -1326,6 +1299,8 @@ public class homeController implements Initializable {
 	}
 
 	public void floor3DMapLoader(String floor) {
+		cancelFinish.setVisible(false);
+		cancelStart.setVisible(false);
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 			new ProxyImage(mapImg, "L2-ICONS.png").display();
 
@@ -1364,6 +1339,12 @@ public class homeController implements Initializable {
 	//                                           Drawing on map
 	//
 	//-----------------------------------------------------------------------------------------------------------------
+
+	@FXML
+	Button cancelStart;
+
+	@FXML
+	Button cancelFinish;
 
 	/**
 	 * Maps the value from the old boundary to the new boundary
@@ -1673,6 +1654,8 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor2DMapLoader(startFloor);
 		}
+		cancelStart.setVisible(false);
+
 	}
 
 	private void endCircleClicked(MouseEvent event) {
@@ -1699,6 +1682,7 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor2DMapLoader(endFloor);
 		}
+		cancelFinish.setVisible(false);
 	}
 
 	private void clearPoints() {
@@ -1706,6 +1690,13 @@ public class homeController implements Initializable {
 			overMap.getChildren().remove(c);
 		}
 
+	}
+
+	@FXML
+	private void cancel(MouseEvent mouseEvent) {
+		showStartAndEnd();
+		cancelStart.setVisible(false);
+		cancelFinish.setVisible(false);
 	}
 
 	private void printPoints(String floor, String dimension) {
