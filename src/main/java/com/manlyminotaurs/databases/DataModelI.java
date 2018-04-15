@@ -123,6 +123,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<Node> getNodeList() {
+        return nodesDBUtil.getNodeList();
+    }
+
+    @Override
     public boolean modifyNode(Node newNode) {
         return nodesDBUtil.modifyNode(newNode);
     }
@@ -231,6 +236,11 @@ public class DataModelI implements IDataModel{
     @Override
     public void removeEdge(Node startNode, Node endNode) {
         nodesDBUtil.removeEdge(startNode, endNode);
+    }
+
+    @Override
+    public void modifyEdge(Node startNode, Node endNode, int status) {
+        nodesDBUtil.modifyEdge(startNode, endNode, status);
     }
 
     /*------------------------------------------------ Messages -------------------------------------------------------*/

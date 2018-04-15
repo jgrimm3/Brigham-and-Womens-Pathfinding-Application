@@ -28,6 +28,11 @@ class NodesDBUtil {
 		updateNodeMap();
 		return nodeMap;
 	}
+
+	List<Node> getNodeList(){
+		List<Node> listOfNodes = new ArrayList(nodeMap.values());
+		return listOfNodes;
+	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
 	public NodesDBUtil() {
@@ -444,31 +449,29 @@ class NodesDBUtil {
 			closeConnection(connection);
 		}
 	} // removeEdge
-//
-//	void modifyEdge(Node startNode, Node endNode, int status){
-//		try {
-//			// Connect to the database
-//			System.out.println("Getting connection to database...");
-//			String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
-//			String str = "UPDATE MAP_EDGES SET startNode = ?, endNode = ?, status = ? WHERE edgeID = '"+ edgeID + "'";
-//
-//			// Create the prepared statement
-//			PreparedStatement statement = connection.prepareStatement(str);
-//			statement.setString(1, startNode.getNodeID() + "_" + endNode.getNodeID());
-//			statement.setString(2, startNode.getNodeID());
-//			statement.setString(3, endNode.getNodeID());
-//			statement.setInt(4, 1);
-//			System.out.println("Prepared statement created...");
-//			statement.executeUpdate();
-//			statement.close();
-//
-//			System.out.println("Node added to database");
-//		} catch (SQLException e) {
-//			System.out.println("Node already in the database");
-//		} finally {
-//			closeConnection(connection);
-//		}
-//	}
+
+	void modifyEdge(Node startNode, Node endNode, int status){
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+			String str = "UPDATE MAP_EDGES SET status = ? WHERE edgeID = '"+ edgeID + "'";
+
+			// Create the prepared statement
+			PreparedStatement statement = connection.prepareStatement(str);
+			statement.setInt(1, status);
+			System.out.println("Prepared statement created...");
+
+			statement.executeUpdate();
+			statement.close();
+			System.out.println("Node added to database");
+		} catch (SQLException e) {
+			System.out.println("Node already in the database");
+		} finally {
+			DataModelI.getInstance().closeConnection();
+		}
+	}
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
