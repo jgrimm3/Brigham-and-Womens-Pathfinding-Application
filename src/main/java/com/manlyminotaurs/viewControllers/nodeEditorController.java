@@ -269,6 +269,7 @@ public class nodeEditorController {
             paneMap.setPrefWidth(5000);
 
             drawCircles("1","2-D");
+            drawEdges("1", "2-D" );
 
             /*paneMap.getChildren().clear();
 
@@ -788,90 +789,46 @@ public void setPathfindAlgorithm(ActionEvent event) {
     public void drawCircles(String floor,String dimension) {
 
         paneMap.getChildren().clear();
+        int i = 0;
+        Node currNode;
+        // Iterate through each node
+        while (i < nodeList.size()) {
+            currNode = nodeList.get(i);
+            // If the node is on the correct floor
+            if (currNode.getFloor().equals(floor) && !currNode.getNodeType().equals("HALL")) {
+                if (dimension.equals("2-D")) {
+                    pathfloor2DMapLoader(floor);
 
-        if (dimension.equals("2-D")) {
-            pathfloor2DMapLoader(floor);
+                        Circle tempCircle = new Circle();
+                        tempCircle.setCenterX(nodeList.get(i).getXCoord());
+                        tempCircle.setCenterY(nodeList.get(i).getYCoord());
+                        tempCircle.setRadius(8);
+                        tempCircle.setFill(Color.NAVY);
+                        tempCircle.setVisible(true);
+                        tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                        paneMap.getChildren().add(tempCircle);
+                        circleList.add(tempCircle);
 
-            List<Node> nodeList = new ArrayList<>();
-            DataModelI.getInstance().retrieveNodes();
-            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
+                } else {
+                    pathfloor3DMapLoader(floor);
 
-            for(int x=0;x<nodeList.size(); x++) {
-                Circle tempCircle = new Circle();
-                tempCircle.setCenterX(nodeList.get(x).getXCoord());
-                tempCircle.setCenterY(nodeList.get(x).getYCoord());
-                tempCircle.setRadius(8);
-                tempCircle.setFill(Color.NAVY);
-                tempCircle.setVisible(true);
-                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                paneMap.getChildren().add(tempCircle);
-                circleList.add(tempCircle);
-            }
-
-        } else {
-            pathfloor3DMapLoader(floor);
-
-            List<Node> nodeList = new ArrayList<>();
-            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
-
-            for(int x=0;x<nodeList.size(); x++) {
-                Circle tempCircle = new Circle();
-                tempCircle.setCenterX(nodeList.get(x).getXCoord3D());
-                tempCircle.setCenterY(nodeList.get(x).getYCoord3D());
-                tempCircle.setRadius(8);
-                tempCircle.setFill(Color.NAVY);
-                tempCircle.setVisible(true);
-                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                paneMap.getChildren().add(tempCircle);
-                circleList.add(tempCircle);
+                        Circle tempCircle = new Circle();
+                        tempCircle.setCenterX(nodeList.get(i).getXCoord3D());
+                        tempCircle.setCenterY(nodeList.get(i).getYCoord3D());
+                        tempCircle.setRadius(8);
+                        tempCircle.setFill(Color.NAVY);
+                        tempCircle.setVisible(true);
+                        tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                        tempCircle.setOnMouseDragged(this::dragNodePos2D);
+                        paneMap.getChildren().add(tempCircle);
+                        circleList.add(tempCircle);
+                    }
+                }
             }
         }
 
 
-       /* private void printPoints(String floor, String dimension) {
-            // Connection for the database
-            //List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
 
-            // map boundaries
-
-            int i = 0;
-            int x = 0;
-            int y = 0;
-            // Iterate through each node
-            while (i < nodeList.size()) {
-
-                // If the node is on the correct floor
-                if (nodeList.get(i).getFloor().equals(floor)) {
-
-                    if (dimension.equals("2-D")) {
-                        // Get x and y coords
-                        x = nodeList.get(i).getXCoord();
-                        y = nodeList.get(i).getYCoord();
-                    } else if (dimension.equals("3-D")) {
-                        x = nodeList.get(i).getXCoord3D();
-                        y = nodeList.get(i).getYCoord3D();
-                    } else {
-                        System.out.println("Invalid dimension");
-                    }
-
-                    Circle circle = new Circle(x, y, 5);
-                    Circle outline = new Circle(x, y, 10);
-                    circle.setFill(Color.WHITE);
-                    outline.setFill(Color.NAVY);
-
-                        //circle.setOnMouseClicked(this::chooseEndNode);
-
-                    circleList.add(outline);
-                    circleList.add(circle);
-                    paneMap.getChildren().add(outline);
-                    paneMap.getChildren().add(circle);
-                }
-                i++;
-            }
-        }*/
-
-
-    }
 
     public void chooseNodeEdge(MouseEvent event) {
         Circle circle = (Circle)event.getTarget();
@@ -904,6 +861,16 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
+    public void dragNodePos2D(MouseEvent event){
+        Circle selectedCircle = (Circle)event.getTarget();
+        Node selectedNode = DataModelI.getInstance().getNodeByCoords((int)selectedCircle.getCenterX(),(int)selectedCircle.getCenterY());
+        selectedNode.getLoc().setxCoord((int)selectedCircle.getCenterX());
+        selectedNode.getLoc().setyCoord((int)selectedCircle.getCenterY());
+        System.out.println("node moved");
+        DataModelI.getInstance().modifyNode(selectedNode);
+
+    }
+
     ///draws edges based on 2d or 3d map and floor,
     public void drawEdges(String floor, String dimension) {
         List<Edge> allEdges = DataModelI.getInstance().getEdgeList();
@@ -912,7 +879,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
             Line edgeLine = new Line();
             Node start = DataModelI.getInstance().getNodeByID(curEdge.getStartNodeID());
             Node end = DataModelI.getInstance().getNodeByID(curEdge.getEndNodeID());
-            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))) {
+            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))&& (!start.getNodeType().equals("HALL")) && (!end.getNodeType().equals("HALL"))) {
                 if (dimension.equals("2-D")) {
                     edgeLine.setStartX(start.getXCoord());
                     edgeLine.setStartY(start.getYCoord());
@@ -940,6 +907,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
     }
 
        public void edgeSelected(MouseEvent event){
+        Line selected = (Line)event.getTarget();
 
     }
 
