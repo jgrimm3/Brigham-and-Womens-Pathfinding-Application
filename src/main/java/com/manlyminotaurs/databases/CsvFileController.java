@@ -40,7 +40,7 @@ public class CsvFileController {
      * @return arrayList of columns from the csv
      */
     public List<String[]> parseCsvFile(String csv_file_name) {
-        System.out.println("Parsing csv file");
+        System.out.println("Parsing csv file: "+csv_file_name);
         List<String[]> list_of_rows = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(csv_file_name);

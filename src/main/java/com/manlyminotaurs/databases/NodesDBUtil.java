@@ -257,13 +257,12 @@ class NodesDBUtil {
 			statement.setInt(9,aNode.getStatus());
 			statement.setInt(10, aNode.getXCoord3D());
 			statement.setInt(11, aNode.getYCoord3D());
-			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
-			System.out.println("Node added to database");
 			nodeMap.put(aNode.getNodeID(),aNode);
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
+            System.out.println("Node added to database");
 			try {
 				statement.close();
 				closeConnection(connection);
@@ -300,14 +299,13 @@ class NodesDBUtil {
             statement.setInt(8, node.getStatus());
 			statement.setInt(9, node.getXCoord3D());
 			statement.setInt(10, node.getYCoord3D());
-			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
-			System.out.println("Node added to database");
 			isSucessful = true;
 			nodeMap.replace(node.getNodeID(),node);
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
+            System.out.println("Node modified in database");
 			try {
 				statement.close();
 				closeConnection(connection);
@@ -375,14 +373,12 @@ class NodesDBUtil {
 			statement.setString(2, startNode.getNodeID());
 			statement.setString(3, endNode.getNodeID());
 			statement.setInt(4, 1);
-			System.out.println("Prepared statement created...");
 			statement.executeUpdate();
 			statement.close();
-
-			System.out.println("Node added to database");
 		} catch (SQLException e) {
-			System.out.println("Node already in the database");
+			e.printStackTrace();
 		} finally {
+            System.out.println("Edge added to database");
 			closeConnection(connection);
 		}
 	} // end addEdge()
@@ -449,7 +445,7 @@ class NodesDBUtil {
 				Edge edge = new Edge(startNodeID, endNodeID, edgeID);
 				edge.setStatus(status);
 				listOfEdges.add(edge);
-				System.out.println("Edge added to the list: " + edgeID);
+			//	System.out.println("Edge added to the list: " + edgeID);
 			}
 			rset.close();
 		} catch (SQLException e) {
@@ -462,7 +458,6 @@ class NodesDBUtil {
 				e.printStackTrace();
 			}
 		}
-
 		return listOfEdges;
 	}
 
@@ -500,14 +495,13 @@ class NodesDBUtil {
 			// Create the prepared statement
 			PreparedStatement statement = connection.prepareStatement(str);
 			statement.setInt(1, status);
-			System.out.println("Prepared statement created...");
 
 			statement.executeUpdate();
 			statement.close();
-			System.out.println("Node added to database");
 		} catch (SQLException e) {
 			System.out.println("Node already in the database");
 		} finally {
+            System.out.println("Node modified");
 			DataModelI.getInstance().closeConnection();
 		}
 	}
@@ -587,7 +581,7 @@ class NodesDBUtil {
 				// Add the new edge to the list
 				edge = new Edge(startNodeID, endNodeID, edgeID);
 				listOfEdges.add(edge);
-				System.out.println("Edge added to the list: " + edgeID);
+			//	System.out.println("Edge added to the list: " + edgeID);
 				}
 			rset.close();
 		} catch (SQLException e) {
