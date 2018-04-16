@@ -17,11 +17,15 @@ import com.manlyminotaurs.pathfinding.PathfindingContext;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -62,7 +66,7 @@ public class nodeEditorController {
     Circle finishCircle = new Circle();
     Circle startCircle = new Circle();
     Circle finishCircle2 = new Circle();
-    List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+    List<Node> nodeList = DataModelI.getInstance().getNodeList();
     List<Node> pathList = new ArrayList<>();
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
@@ -268,9 +272,13 @@ public class nodeEditorController {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
 
-            drawCircles("1","2-D");
-            System.out.println("drew circles");
+
+
+            drawCircles("1", "2-D");
             drawEdges("1", "2-D" );
+
+
+
 
             /*paneMap.getChildren().clear();
 
@@ -381,7 +389,7 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if (selectNode == true) {
+       /* if (selectNode == true) {
             if ((paneModify.isVisible() == true) && (selectNode == true)) {
                 System.out.println("looking for edge node");
                 ArrayList<Node> nodesXY = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
@@ -417,7 +425,7 @@ public class nodeEditorController {
                 }
             }
 
-        }
+        }*/
     }
 
 
@@ -794,15 +802,12 @@ public void setPathfindAlgorithm(ActionEvent event) {
 
         } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
             new ProxyImage(mapImg, "3-ICONS.png").display();
-
-
         }
     }
 
     public void drawCircles(String floor,String dimension) {
 
-        paneMap.getChildren().clear();
-
+       // paneMap.getChildren().clear();
 
         // Iterate through each node
        for(Node currNode: nodeList) {
@@ -810,14 +815,35 @@ public void setPathfindAlgorithm(ActionEvent event) {
            if (currNode.getFloor().equals(floor)) {
                if (dimension.equals("2-D")) {
 
-                   System.out.println("good");
                    Circle tempCircle = new Circle();
                    tempCircle.setCenterX(currNode.getXCoord());
                    tempCircle.setCenterY(currNode.getYCoord());
                    tempCircle.setRadius(8);
                    tempCircle.setFill(Color.NAVY);
                    tempCircle.setVisible(true);
-                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                  // tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           // record a delta distance for the drag and drop operation.
+                           dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                           dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                           tempCircle.setCursor(Cursor.MOVE);
+
+                       }
+                   });
+                   tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                           tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+
+                           currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
+                           currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
+                           DataModelI.getInstance().modifyNode(currNode);
+
+
+                       }
+                   });
+                   tempCircle.setCursor(Cursor.HAND);
                    paneMap.getChildren().add(tempCircle);
                    circleList.add(tempCircle);
 
@@ -830,16 +856,12 @@ public void setPathfindAlgorithm(ActionEvent event) {
                    tempCircle.setFill(Color.NAVY);
                    tempCircle.setVisible(true);
                    tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                   tempCircle.setOnMouseDragged(this::dragNodePos2D);
                    paneMap.getChildren().add(tempCircle);
                    circleList.add(tempCircle);
                }
            }
        }
             }
-
-
-
 
 
     public void chooseNodeEdge(MouseEvent event) {
@@ -873,15 +895,8 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
-    public void dragNodePos2D(MouseEvent event){
-        Circle selectedCircle = (Circle)event.getTarget();
-        Node selectedNode = DataModelI.getInstance().getNodeByCoords((int)selectedCircle.getCenterX(),(int)selectedCircle.getCenterY());
-        selectedNode.getLoc().setxCoord((int)selectedCircle.getCenterX());
-        selectedNode.getLoc().setyCoord((int)selectedCircle.getCenterY());
-        System.out.println("node moved");
-        DataModelI.getInstance().modifyNode(selectedNode);
-
-    }
+    final Delta dragDelta = new Delta();
+    class Delta { double x, y; }
 
     ///draws edges based on 2d or 3d map and floor,
     public void drawEdges(String floor, String dimension) {
@@ -891,17 +906,42 @@ public void setPathfindAlgorithm(ActionEvent event) {
             Line edgeLine = new Line();
             Node start = DataModelI.getInstance().getNodeByID(curEdge.getStartNodeID());
             Node end = DataModelI.getInstance().getNodeByID(curEdge.getEndNodeID());
-            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))&& (!start.getNodeType().equals("HALL")) && (!end.getNodeType().equals("HALL"))) {
+
+            Circle startCirc = new Circle();
+            Circle endCirc = new Circle();
+
+            for(Circle curCirc : circleList) {
+                if (curCirc.getCenterX() == start.getXCoord()&& (curCirc.getCenterY() == start.getYCoord())){
+                    startCirc = curCirc;
+                }
+                else if (curCirc.getCenterX() == end.getXCoord()&& (curCirc.getCenterY() == end.getYCoord())){
+                    endCirc = curCirc;
+                }
+
+            }
+            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))) {
                 if (dimension.equals("2-D")) {
-                    edgeLine.setStartX(start.getXCoord());
-                    edgeLine.setStartY(start.getYCoord());
-                    edgeLine.setEndX(end.getXCoord());
-                    edgeLine.setEndY(end.getXCoord());
+                   DoubleProperty startx = startCirc.centerXProperty();
+                    DoubleProperty starty = startCirc.centerYProperty();
+                    DoubleProperty endx = endCirc.centerXProperty();
+                    DoubleProperty endy = endCirc.centerYProperty();
+
+                    edgeLine.startXProperty().bindBidirectional(startx);
+                    edgeLine.startYProperty().bindBidirectional(starty);
+                    edgeLine.endXProperty().bindBidirectional(endx);
+                    edgeLine.endYProperty().bindBidirectional(endy);
+
                 } else if (dimension.equals("3-D")) {
-                    edgeLine.setStartX(start.getXCoord3D());
-                    edgeLine.setStartY(start.getYCoord3D());
-                    edgeLine.setEndX(end.getXCoord3D());
-                    edgeLine.setEndY(end.getXCoord3D());
+                    DoubleProperty startx = new SimpleDoubleProperty(Double.valueOf(start.getXCoord3D()));
+                    DoubleProperty starty = new SimpleDoubleProperty(Double.valueOf(start.getYCoord3D()));
+                    DoubleProperty endx = new SimpleDoubleProperty(Double.valueOf(end.getXCoord3D()));
+                    DoubleProperty endy = new SimpleDoubleProperty(Double.valueOf(end.getYCoord3D()));
+
+                    edgeLine.startXProperty().bind(startx);
+                    edgeLine.startYProperty().bind(starty);
+                    edgeLine.endXProperty().bind(endx);
+                    edgeLine.endYProperty().bind(endy);
+
                 }
                 if (curEdge.getStatus() == 1) {
                     edgeLine.setStrokeWidth(5.0);
@@ -922,9 +962,4 @@ public void setPathfindAlgorithm(ActionEvent event) {
         Line selected = (Line)event.getTarget();
 
     }
-
-
 }
-
-
-
