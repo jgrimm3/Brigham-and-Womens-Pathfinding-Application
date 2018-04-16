@@ -364,17 +364,23 @@ public class DataModelI implements IDataModel{
 
     @Override
     public User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
-        return userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
+        User newUser = userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
+        addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
+        return newUser;
     }
 
     @Override
     public boolean removeUser(User oldUser) {
-        return userDBUtil.removeUser(oldUser);
+        boolean tempBool = userDBUtil.removeUser(oldUser);
+        addLog("Removed "+ oldUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldUser.getUserID(),"user");
+        return tempBool;
     }
 
     @Override
     public boolean modifyUser(User newUser) {
-        return userDBUtil.modifyUser(newUser);
+        boolean tempBool = userDBUtil.modifyUser(newUser);
+        addLog("Modified "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
+        return tempBool;
     }
 
     @Override

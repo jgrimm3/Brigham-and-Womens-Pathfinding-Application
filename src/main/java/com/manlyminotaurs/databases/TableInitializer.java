@@ -61,6 +61,11 @@ class TableInitializer {
         initializer.populateUserPasswordTable("./UserPasswordTable.csv");
         nodesDBUtil.updateNodeMap();
 
+        System.out.println("-----------------------------");
+        System.out.println("-----------------------------");
+        System.out.println("Finished Setting up Database");
+        System.out.println("-----------------------------");
+        System.out.println("-----------------------------");
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");
 //        initializer.populateRoomTable(nodesDBUtil.retrieveNodes());
