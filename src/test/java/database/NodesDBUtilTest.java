@@ -1,5 +1,6 @@
 package database;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
@@ -27,6 +28,7 @@ public class NodesDBUtilTest {
 	@Before
 	public void before() {
 		DataModelI.getInstance().startDB();
+		KioskInfo.currentUserID = "2";
 	}
 
 	@Test
@@ -99,6 +101,8 @@ public class NodesDBUtilTest {
 	public void addNode_CorrectlyAddsNode() {
 		Map<String, Node> oldNodeMap = DataModelI.getInstance().getNodeMap();
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Node addedNode2 = DataModelI.getInstance().addNode(5, 5, "1", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+
 		Map<String, Node> newNodeMap = DataModelI.getInstance().getNodeMap();
 		boolean oldNodeMapBool = oldNodeMap.containsValue(addedNode);
 		boolean newNodeMapBool = newNodeMap.containsValue(addedNode);
