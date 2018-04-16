@@ -1582,8 +1582,8 @@ public class homeController implements Initializable {
 			overMap.getChildren().remove(startCircle);
 			overMap.getChildren().add(finishCircle);
 			overMap.getChildren().add(startCircle);
-			overMap.getChildren().add(startName);
-			overMap.getChildren().add(endName);
+			//overMap.getChildren().add(startName);
+			//overMap.getChildren().add(endName);
 		}
 	}
 
@@ -1726,25 +1726,25 @@ public class homeController implements Initializable {
 	private void startCircleClicked(MouseEvent event) {
 		System.out.println("Recognized a click");
 		if (tglMap.isSelected()) { // 3-D
-
+			/*
 			stackPaneMap.setPrefHeight(2774);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(2772);
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(2774);
-			paneMap.setPrefWidth(5000);
+			paneMap.setPrefWidth(5000); */
 			floor3DMapLoader(startFloor);
 
 		} else { // 2-D
 
 			// !!!
-
+			/*
 			stackPaneMap.setPrefHeight(3400);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(3400);
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(3400);
-			paneMap.setPrefWidth(5000);
+			paneMap.setPrefWidth(5000); */
 			floor2DMapLoader(startFloor);
 		}
 		cancelStart.setVisible(false);
@@ -1754,25 +1754,25 @@ public class homeController implements Initializable {
 	private void endCircleClicked(MouseEvent event) {
 		System.out.println("Recognized a click");
 		if (tglMap.isSelected()) { // 3-D
-
+			/*
 			stackPaneMap.setPrefHeight(2774);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(2772);
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(2774);
-			paneMap.setPrefWidth(5000);
+			paneMap.setPrefWidth(5000); */
 			floor3DMapLoader(endFloor);
 
 		} else { // 2-D
 
 			// !!!
-
+			/*
 			stackPaneMap.setPrefHeight(3400);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(3400);
 			mapImg.setFitWidth(5000);
 			paneMap.setPrefHeight(3400);
-			paneMap.setPrefWidth(5000);
+			paneMap.setPrefWidth(5000); */
 			floor2DMapLoader(endFloor);
 		}
 		cancelFinish.setVisible(false);
@@ -1964,7 +1964,7 @@ public class homeController implements Initializable {
 		name.setLayoutY(currCircle.getCenterY());
 		name.setRotate(-overMap.getRotate());
 		currName = name;
-		paneMap.getChildren().add(name);
+		overMap.getChildren().add(name);
 		fade = new FadeTransition(Duration.millis(300), name);
 		fade.setFromValue(0);
 		fade.setToValue(1);
@@ -1993,7 +1993,7 @@ public class homeController implements Initializable {
 
 		currentFloor = "L2";
 		printKiosk();
-
+		cancel(null);
 		btnL2.setLayoutX(20);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -2012,6 +2012,7 @@ public class homeController implements Initializable {
 
 		currentFloor = "L1";
 		printKiosk();
+		cancel(null);
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(20);
@@ -2032,6 +2033,7 @@ public class homeController implements Initializable {
 
 		currentFloor = "1";
 		printKiosk();
+		cancel(null);
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
@@ -2052,6 +2054,7 @@ public class homeController implements Initializable {
 
 		currentFloor = "2";
 		printKiosk();
+		cancel(null);
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
@@ -2072,6 +2075,7 @@ public class homeController implements Initializable {
 
 		currentFloor = "3";
 		printKiosk();
+		cancel(null);
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
