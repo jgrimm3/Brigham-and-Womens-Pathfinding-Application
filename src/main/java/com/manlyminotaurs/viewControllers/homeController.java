@@ -55,12 +55,17 @@ import java.util.ResourceBundle;
 
 public class homeController implements Initializable {
 
-	//Nested Private Singleton
-	private static class Singleton {
-		private static Singleton instance = null;
-		PathfindingContext pathfindingContext = new PathfindingContext();
-		Boolean handicap;
-		private Singleton() {
+    //Nested Private Singleton
+    private static class Singleton {
+        private static Singleton instance = null;
+        PathfindingContext pathfindingContext = new PathfindingContext();
+        Boolean handicap;
+        //ratio of  map pixel to a real life meter
+        final double meterPerPixel = 0.099914;
+        //average walking speed in meters per second
+        final double walkSpeed = 1.4;
+
+        private Singleton() {
 
 		}
 		private static class SingletonHolder {
@@ -1595,11 +1600,15 @@ public class homeController implements Initializable {
 				e.printStackTrace();
 			}
 
-			ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-			lstDirections.setItems(directions);
-			listForQR = (LinkedList) pathList;
-			pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
-			// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+            double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
+            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " m");
+            directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
+            lstDirections.setItems(directions);
+
+            listForQR = (LinkedList) pathList;
+            pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
+            // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 			// Draw path code
 
