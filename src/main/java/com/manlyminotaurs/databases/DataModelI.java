@@ -154,6 +154,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public List<String> getNamesByBuildingFloorType(String building, String floor, String type) {
+        return nodesDBUtil.getNamesByBuildingFloorType(building, floor, type);
+    }
+
+    @Override
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
@@ -171,7 +176,6 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override

@@ -6,6 +6,7 @@ import com.manlyminotaurs.nodes.Node;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -226,6 +227,21 @@ public class NodesDBUtilTest {
 //				System.out.println("found edge");
 //			}
 //		}
+	}
+
+	@Test
+	public void getNodeByLongName_returnsCorrectNode(){
+		Node a_node = DataModelI.getInstance().getNodeByLongName("Restroom D elevator Floor 2");
+		Node a_node2 = DataModelI.getInstance().getNodeByLongName("Hallway Node 8 Floor L2");
+		assertTrue(DataModelI.getInstance().getNodeMap().containsValue(a_node));
+		assertTrue(DataModelI.getInstance().getNodeMap().containsValue(a_node2));
+		System.out.print("hello");
+	}
+
+	@Test
+	public void getNamesByBuildingFloorType_returnsCorrectList(){
+		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
+		assertTrue(nameList.contains("L1 Stairs"));
 	}
 
 }
