@@ -80,7 +80,8 @@ public class PathfinderUtil {
      */
     private String nodesToDistance(Node startNode, Node endNode) {
         double distance = CalcDistance.calcDistance(startNode, endNode);
-        return "in " + distance + " ft, ";
+        String strDouble = String.format("%.2f", distance);
+        return "in " + strDouble + " ft, ";
     }
 
 
