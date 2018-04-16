@@ -47,7 +47,7 @@ class TableInitializer {
 
 
         TableInitializer initializer = new TableInitializer();
-        //NodesDBUtil nodesDBUtil = new NodesDBUtil();
+        NodesDBUtil nodesDBUtil = new NodesDBUtil();
 
         initializer.initTables();
 
@@ -59,6 +59,7 @@ class TableInitializer {
         RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("./RequestTable.csv"));
         initializer.populateStaffTable("./StaffTable.csv");
         initializer.populateUserPasswordTable("./UserPasswordTable.csv");
+        nodesDBUtil.updateNodeMap();
 
         //initializer.populateExitTable("./NodeExitTable.csv");
         //initializer.populateHallwayTable("./NodeHallwayTable.csv");

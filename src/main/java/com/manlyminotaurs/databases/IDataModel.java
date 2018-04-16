@@ -10,7 +10,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 //
 //    ____  ____    ___       _             __
@@ -35,9 +35,13 @@ public interface IDataModel {
     Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
-    List<Node> retrieveNodes();
     @Deprecated
+    List<Node> retrieveNodes();
+    Map<String, Node> getNodeMap();
+    List<Node> getNodeList();
+
     Node getNodeByID(String ID);
+    @Deprecated
     Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
@@ -49,11 +53,14 @@ public interface IDataModel {
     Node getNodeByCoords(int xCoord, int yCoord);
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
+    List<String> getLongNames();
     boolean doesNodeExist(String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
-    List<String> getAdjacentNodesFromNode(Node node);
-    Set<Edge> getEdgeList(List<Node> nodeList);
+    List<String> getAdjacentNodes(Node node);
+    List<Edge> getEdgeList();
     void addEdge(Node startNode, Node endNode);
+    void removeEdge(Node startNode, Node endNode);
+    void modifyEdge(Node startNode, Node endNode, int status);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
@@ -82,7 +89,7 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
+    User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
