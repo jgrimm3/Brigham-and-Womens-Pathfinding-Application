@@ -71,6 +71,8 @@ CREATE TABLE Log(
   description     VARCHAR(255),
   logTime         TIMESTAMP,
   userID          VARCHAR(10),
+  associatedID    VARCHAR(10),
+  associatedType  VARCHAR(15),
   CONSTRAINT fk_log_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 Create Table Message (

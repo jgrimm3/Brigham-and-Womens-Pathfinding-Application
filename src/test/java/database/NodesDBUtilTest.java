@@ -30,9 +30,10 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void getNodeByID_correctlyReturnsNode(){
-		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		Node a_node = DataModelI.getInstance().getNodeByID("IHALL00103");
 		Node a_node2 = DataModelI.getInstance().getNodeByID("DSTAI00802");
+		List<Node> listNodes =  DataModelI.getInstance().getNodeList();
+		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		assertTrue(nodeMap.containsValue(a_node));
 		assertTrue(nodeMap.containsValue(a_node2));
 	}
@@ -52,6 +53,7 @@ public class NodesDBUtilTest {
 		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
 	}
 
+	/*
 	@Test
 	public void printNodes() {
 		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
@@ -59,7 +61,7 @@ public class NodesDBUtilTest {
 			System.out.println(a_node.getLongName());
 		}
 	}
-
+*/
 	@Test
 	public void getNodeMap_returnsCorrectList_Floor() {
 
