@@ -61,6 +61,9 @@ public class adminRequestDashboardController {
     }
     @FXML
 Button navManageAcc;
+
+    @FXML
+    Button btnEmergency;
     @FXML
     TableView tblOpenRequests;
     @FXML
@@ -161,6 +164,10 @@ Button navManageAcc;
 
     }
 
+    @FXML
+    public void setEmergency() {
+        // idk boi
+    }
 
     public void logOut(ActionEvent event){
         try{
