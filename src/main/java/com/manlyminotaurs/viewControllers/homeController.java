@@ -243,13 +243,52 @@ public class homeController implements Initializable {
 	@FXML
 	JFXRadioButton rad3;
 
+
+	public void setPathfindingScreen() {
+
+		paneDirections.setVisible(false);
+		panePathfinding.setVisible(true);
+
+		comBuildingStart.setItems(buildings);
+		comBuildingEnd.setItems(buildings);
+		comFloorStart.setItems(floors);
+		comFloorEnd.setItems(floors);
+		comTypeStart.setItems(types);
+		comTypeEnd.setItems(types);
+
+		paneLogin.setVisible(false);
+		paneHelp.setVisible(false);
+		lblHelp1.setVisible(false);
+		lblHelp2.setVisible(false);
+
+		txtUsername.setText("");
+		txtPassword.setText("");
+
+		tglHandicap.setSelected(false);
+		tglHandicap.setText("OFF");
+		tglMap.setSelected(false);
+		tglMap.setText("2-D");
+
+		floor2DMapLoader("1");
+
+		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+
+	}
+
+	public void setDirectionsScreen() {
+		paneDirections.setVisible(true);
+		panePathfinding.setVisible(false);
+	}
+
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 
 			//final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
 
 			// Set comboboxes for buildings to default lists
-			comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
+
+			setPathfindingScreen();
+			/*comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
 			comBuildingEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
 			comFloorStart.setDisable(true);
 			comFloorEnd.setDisable(true);
@@ -272,10 +311,10 @@ public class homeController implements Initializable {
 			tglHandicap.setSelected(false);
 			tglHandicap.setText("OFF");
 			tglMap.setSelected(false);
-			tglMap.setText("2-D");
+			tglMap.setText("2-D"); */
 
 			//comChangeFloor.getSelectionModel().select(2);
-			floor2DMapLoader("1");
+			// floor2DMapLoader("1");
 			//staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 			//adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
 
@@ -285,11 +324,10 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
-			TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
 			//txtLocationStart.setStyle("-fx-text-inner-color: #f1f1f1");
 			//txtLocationStart.setStyle("-fx-prompt-text-fill: white");
 			txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
-			comBuildingStart.setStyle("-fx-text-fill: RED");
+			comBuildingStart.setStyle("-fx-text-fill: white");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,8 +339,8 @@ public class homeController implements Initializable {
 
 	@FXML
 	public void initialize() {
-
-		comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
+		setPathfindingScreen();
+		/*comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
 		comBuildingEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
 		comFloorStart.setDisable(true);
 		comFloorEnd.setDisable(true);
@@ -328,7 +366,7 @@ public class homeController implements Initializable {
 		tglMap.setText("2-D");
 
 		comChangeFloor.getSelectionModel().select(2);
-		floor2DMapLoader("1");
+		floor2DMapLoader("1");*/
 		setStrategy();
 		//createMap();
 
@@ -336,7 +374,7 @@ public class homeController implements Initializable {
 		printKiosk();
 		goToKiosk();
 
-		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
 
 	}
 
@@ -587,6 +625,19 @@ public class homeController implements Initializable {
 		}
 	}
 
+	public void filterStart(ActionEvent event) {
+
+		// Ed's function in call below
+		// TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+
+	}
+
+	public void filterEnd(ActionEvent event) {
+
+		// Ed's function in call below
+		// TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+
+	}
 	public void initializeBuildingStart(ActionEvent event) {
 
 		System.out.println("Start Building: " + comBuildingStart.getValue());
@@ -1338,6 +1389,8 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "2-D");
 
 		}
+
+		currentFloor = floor;
 	}
 
 	public void floor3DMapLoader(String floor) {
@@ -1374,6 +1427,8 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "3-D");
 
 		}
+
+		currentFloor = floor;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

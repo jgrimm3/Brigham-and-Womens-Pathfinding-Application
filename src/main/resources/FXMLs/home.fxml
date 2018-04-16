@@ -416,7 +416,7 @@
                                         <Insets bottom="30.0" left="175.0" />
                                     </StackPane.margin>
                                 </JFXButton>
-                        <JFXButton fx:id="btnCompass" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
+                        <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
                            <graphic>
                               <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -510,9 +510,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingStart" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#initializeBuildingStart" prefWidth="120.0" promptText="BUILDING" />
-                                                        <JFXComboBox fx:id="comFloorStart" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#initializeFloorStart" prefWidth="120.0" promptText="FLOOR" />
-                                                        <JFXComboBox fx:id="comTypeStart" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#initializeTypeStart" prefWidth="120.0" promptText="TYPE" />
+                                                        <JFXComboBox fx:id="comBuildingStart" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="BUILDING" />
+                                                        <JFXComboBox fx:id="comFloorStart" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="FLOOR" />
+                                                        <JFXComboBox fx:id="comTypeStart" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="TYPE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
@@ -529,9 +529,9 @@
                                                 </Pane>
                                             </children>
                                         </Pane>
-                                        <Pane layoutX="150.0" layoutY="70.0" maxHeight="210.0" maxWidth="270.0" prefHeight="210.0" prefWidth="270.0" style="-fx-background-color: #f1f1f1;">
+                                        <Pane layoutX="150.0" layoutY="70.0" maxHeight="210.0" maxWidth="270.0" prefHeight="210.0" prefWidth="270.0" style="-fx-background-color: #2f2f2f;">
                                             <children>
-                                                <Label fx:id="lblLocationStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="240.0" text="LOCATION">
+                                                <Label fx:id="lblLocationStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="240.0" text="LOCATION" textFill="WHITE">
                                                     <font>
                                                         <Font name="System Bold" size="20.0" />
                                                     </font>
@@ -543,7 +543,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="100.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" visible="false" />
-                                    <JFXTextField fx:id="txtLocationStart" focusColor="BLACK" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="BLACK" />
+                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="WHITE" />
                                             </children>
                                         </Pane>
                                     </children>
@@ -573,9 +573,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingEnd" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#initializeBuildingEnd" prefWidth="120.0" promptText="BUILDING" />
-                                                        <JFXComboBox fx:id="comFloorEnd" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#initializeFloorEnd" prefWidth="120.0" promptText="FLOOR" />
-                                                        <JFXComboBox fx:id="comTypeEnd" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#initializeTypeEnd" prefWidth="120.0" promptText="TYPE" />
+                                                        <JFXComboBox fx:id="comBuildingEnd" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="BUILDING" />
+                                                        <JFXComboBox fx:id="comFloorEnd" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="FLOOR" />
+                                                        <JFXComboBox fx:id="comTypeEnd" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="TYPE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
