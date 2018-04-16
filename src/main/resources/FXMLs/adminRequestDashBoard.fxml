@@ -105,7 +105,10 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Pane prefHeight="60.0" prefWidth="960.0" style="-fx-background-color: #edbf54;" GridPane.columnIndex="3" />
+            <Pane prefHeight="60.0" prefWidth="960.0" style="-fx-background-color: #edbf54;" GridPane.columnIndex="3">
+               <children>
+                  <Button fx:id="btnHistory" layoutX="37.0" layoutY="9.0" mnemonicParsing="false" onAction="#loadHistory" prefHeight="34.0" prefWidth="207.0" text="History" />
+               </children></Pane>
             <Button fx:id="navBtnNewRequest" mnemonicParsing="false" onAction="#createRequest" prefHeight="62.0" prefWidth="320.0" style="-fx-background-radius: 0; -fx-background-color: #edbf54;" text="New Request" textFill="WHITE">
                <font>
                   <Font size="28.0" />
