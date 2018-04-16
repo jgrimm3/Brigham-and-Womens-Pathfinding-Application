@@ -238,6 +238,12 @@ public class NodesDBUtilTest {
 		System.out.print("hello");
 	}
 
+	@Test
+	public void getNamesByBuildingFloorType_returnsCorrectList(){
+		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
+		assertTrue(nameList.contains("L1 Stairs"));
+	}
+
 }
 
 
