@@ -1,8 +1,8 @@
 package database;
 
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,28 +29,30 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void getNodeByID_correctlyReturnsNode(){
-		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		Node a_node = DataModelI.getInstance().getNodeByID("IHALL00103");
 		Node a_node2 = DataModelI.getInstance().getNodeByID("DSTAI00802");
+		List<Node> listNodes =  DataModelI.getInstance().getNodeList();
+		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		assertTrue(nodeMap.containsValue(a_node));
 		assertTrue(nodeMap.containsValue(a_node2));
 	}
 
-	@Test
-	public void compareGetNodeMap_time() {
-		long startTime = System.nanoTime();
-		DataModelI.getInstance().retrieveNodes();
-		long endTime = System.nanoTime();
-		long timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
+//	@Test
+//	public void compareGetNodeMap_time() {
+//		long startTime = System.nanoTime();
+//		DataModelI.getInstance().retrieveNodes();
+//		long endTime = System.nanoTime();
+//		long timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
+//
+//		startTime = System.nanoTime();
+//		DataModelI.getInstance().getNodeMap();
+//		endTime = System.nanoTime();
+//		timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
+//	}
 
-		startTime = System.nanoTime();
-		DataModelI.getInstance().getNodeMap();
-		endTime = System.nanoTime();
-		timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
-	}
-
+	/*
 	@Test
 	public void printNodes() {
 		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
@@ -58,7 +60,7 @@ public class NodesDBUtilTest {
 			System.out.println(a_node.getLongName());
 		}
 	}
-
+*/
 	@Test
 	public void getNodeMap_returnsCorrectList_Floor() {
 
@@ -107,13 +109,13 @@ public class NodesDBUtilTest {
 	}
 
 
-	@Test
-	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
-		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
-		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
-		assertTrue(testList.get(0).getNodeType().equals("CONF"));
-		assertTrue(testList.get(0).getFloor().equals("1"));
-	}
+//	@Test
+//	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
+//		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
+//		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
+//		assertTrue(testList.get(0).getNodeType().equals("CONF"));
+//		assertTrue(testList.get(0).getFloor().equals("1"));
+//	}
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
@@ -202,10 +204,8 @@ public class NodesDBUtilTest {
 		System.out.println("hello");
 	}
 
-	//test adjacentNode with status 2 or 0 or 3
-
-
-	/*@Test
+/*
+	@Test
 	public void modifyNode_editsNode() {
 		Node addedNode = DataModelI.getInstance().addNode("lmao", 5, 3, "4", "Hello", "lmao", "yoo", "yo", 48, 20);
 		DataModelI.getInstance().modifyNode(addedNode.getNodeID(), 5, 3, "4", "yolo", "lmao", "yoo", "yo", 48, 20);
@@ -214,17 +214,19 @@ public class NodesDBUtilTest {
 		System.out.println(DataModelI.getInstance().getNodeByID(addedNode.getNodeID()).getBuilding()); // Why does this return shapiro?
 		assertTrue(nodeList.get(0).getBuilding().equals("yolo"));
 		//DataModelI.getInstance().removeNode(addedNode.getID());
-		} */
-
-	/*@Test EDGES ARE PRIVATE
-	public void getEdgesFromNodes () {
-		Node node = DataModelI.getInstance().getNodeByID("GHALL013L2");
-		List<Edge> edgeList = DataModelI.getInstance().getEdgesFromNode(node);
-		for(Edge e: edgeList) {
-			System.out.println("Edge is: " + e.getEdgeID());
-			assertTrue(!e.getEdgeID().isEmpty());
-		}
 	}*/
+
+	@Test
+	public void getEdgeList_returnsCorrectList(){
+		List<Edge> edgeList = DataModelI.getInstance().getEdgeList();
+		Edge edge = new Edge("GHALL02201","GSERV02301","GHALL02201_GSERV02301");
+		assertTrue(edgeList.contains(edge));
+//		for(Edge a_edge: edgeList){
+//			if(a_edge.getEdgeID().equals(edge.getEdgeID())){
+//				System.out.println("found edge");
+//			}
+//		}
+	}
 
 }
 
