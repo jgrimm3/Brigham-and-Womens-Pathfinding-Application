@@ -1746,6 +1746,10 @@ public class homeController implements Initializable {
 	public void drawPath(ActionEvent event) {
 		String dimension;
 
+		System.out.println(lblStartLocation.getText());
+		System.out.println(lblEndLocation.getText());
+
+
 		if (lblStartLocation.getText().equals("START LOCATION") || lblEndLocation.getText().equals("END LOCATION")) { // !!! add .equals using as a tester
 
 			System.out.println("Pick a start and end location!");
