@@ -279,7 +279,17 @@ public class homeController implements Initializable {
 
 		floor2DMapLoader("1");
 
-		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
+		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
+
+		txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
+		comBuildingStart.setStyle("-fx-text-fill: white");
+		comFloorStart.setStyle("-fx-text-fill: white");
+		comTypeStart.setStyle("-fx-text-fill: white");
+		txtLocationEnd.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
+		comBuildingEnd.setStyle("-fx-text-fill: white");
+		comFloorEnd.setStyle("-fx-text-fill: white");
+		comTypeEnd.setStyle("-fx-text-fill: white");
 
 	}
 
@@ -334,8 +344,7 @@ public class homeController implements Initializable {
 
 			//txtLocationStart.setStyle("-fx-text-inner-color: #f1f1f1");
 			//txtLocationStart.setStyle("-fx-prompt-text-fill: white");
-			txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
-			comBuildingStart.setStyle("-fx-text-fill: white");
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -587,6 +596,7 @@ public class homeController implements Initializable {
 						comFloorStart.getSelectionModel().select(node.getFloor());
 						comTypeStart.getSelectionModel().select(node.getNodeType());
 						comLocationStart.getSelectionModel().select(node.getLongName());
+						txtLocationStart.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -609,6 +619,7 @@ public class homeController implements Initializable {
 						comFloorEnd.getSelectionModel().select(node.getFloor());
 						comTypeEnd.getSelectionModel().select(node.getNodeType());
 						comLocationEnd.getSelectionModel().select(node.getLongName());
+						txtLocationEnd.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -635,15 +646,18 @@ public class homeController implements Initializable {
 
 	public void filterStart(ActionEvent event) {
 
+		System.out.println("hi you filtered start");
 		// Ed's function in call below
-		// TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
-
+		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
 	}
 
 	public void filterEnd(ActionEvent event) {
+		System.out.println("hi you filtered end");
 
 		// Ed's function in call below
-		// TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+		//TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
+
+		//TextFields.bindAutoCompletion(txtLocationEnd, buildings);
 
 	}
 	public void initializeBuildingStart(ActionEvent event) {
@@ -845,12 +859,14 @@ public class homeController implements Initializable {
 	}
 
 	public void setStartLocation(ActionEvent event) {
-		lblStartLocation.setText(comLocationStart.getValue());
+		lblStartLocation.setText(txtLocationStart.getText());
 		System.out.println("You set a start location: " + txtLocationStart.getText());
 	}
 
 	public void setEndLocation(ActionEvent event) {
-		lblEndLocation.setText(comLocationEnd.getValue());
+		lblEndLocation.setText(txtLocationEnd.getText());
+		System.out.println("You set a start location: " + txtLocationEnd.getText());
+
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -1446,10 +1462,10 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	Button cancelStart;
+	JFXButton cancelStart;
 
 	@FXML
-	Button cancelFinish;
+	JFXButton cancelFinish;
 
 	@FXML
 	ImageView destination;

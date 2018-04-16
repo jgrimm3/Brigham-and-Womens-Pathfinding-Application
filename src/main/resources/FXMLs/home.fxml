@@ -8,7 +8,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -553,7 +552,14 @@
                                                                 <Insets right="290.0" />
                                                             </padding>
                                                         </JFXButton>
-                                          <Button fx:id="cancelStart" layoutY="-2.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="73.0" prefWidth="420.0" style="-fx-background-color: #f1f1f1;" text="Cancel" visible="false" />
+                                          <JFXButton fx:id="cancelStart" buttonType="RAISED" maxWidth="420.0" onMouseClicked="#cancel" prefHeight="70.0" prefWidth="420.0" text="CANCEL SELECTION" textFill="WHITE" visible="false">
+                                             <padding>
+                                                <Insets right="100.0" />
+                                             </padding>
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                          </JFXButton>
                                                     </children>
                                                 </Pane>
                                             </children>
@@ -617,7 +623,14 @@
                                                                 <Insets right="330.0" />
                                                             </padding>
                                                         </JFXButton>
-                                          <Button fx:id="cancelFinish" layoutY="-2.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="75.0" prefWidth="420.0" style="-fx-background-color: #f1f1f1;" text="Cancel" visible="false" />
+                                          <JFXButton fx:id="cancelFinish" buttonType="RAISED" maxWidth="420.0" onMouseClicked="#cancel" prefHeight="70.0" prefWidth="420.0" text="CANCEL SELECTION" textFill="WHITE" visible="false">
+                                             <padding>
+                                                <Insets right="100.0" />
+                                             </padding>
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                          </JFXButton>
                                                     </children>
                                                 </Pane>
                                             </children>
