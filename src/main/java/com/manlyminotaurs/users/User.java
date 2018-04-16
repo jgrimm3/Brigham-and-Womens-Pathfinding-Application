@@ -1,5 +1,6 @@
 package com.manlyminotaurs.users;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class User {
@@ -8,15 +9,15 @@ public abstract class User {
     String firstName;
     String middleName;
     String lastName;
-    String language;
+    List<String> languages;
     String userType;
 
-    public User(String userID, String firstName, String middleName, String lastName, String language, String userType) {
+    public User(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType) {
         this.userID = userID;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.language = language;
+        this.languages = languages;
         this.userType = userType;
     }
 
@@ -52,12 +53,20 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public String getLanguage() {
-        return language;
+    public List<String> getLanguages() {
+        return languages;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void addLanguage(String language) {
+        this.languages.add(language);
+    }
+
+    public void setLanguages(List<String> languages){
+        this.languages = languages;
+    }
+
+    public void removeLanguage(String language){
+        this.languages.remove(language);
     }
 
     public String getUserType() {
@@ -81,12 +90,12 @@ public abstract class User {
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(middleName, user.middleName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(language, user.language) &&
+                Objects.equals(languages, user.languages) &&
                 Objects.equals(userType, user.userType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, firstName, middleName, lastName, language, userType);
+        return Objects.hash(userID, firstName, middleName, lastName, languages, userType);
     }
 }

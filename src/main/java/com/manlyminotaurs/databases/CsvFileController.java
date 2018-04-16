@@ -217,7 +217,7 @@ public class CsvFileController {
             printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
             while (iterator.hasNext()) {
                 User a_user = iterator.next();
-                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),a_user.getLanguage(),a_user.getUserType());
+                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),a_user.getLanguages(),a_user.getUserType());
             }
             printWriter.close();
             System.out.println("csv file updated");

@@ -28,27 +28,29 @@ public class NodesDBUtilTest {
 
 	@Test
 	public void getNodeByID_correctlyReturnsNode(){
-		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		Node a_node = DataModelI.getInstance().getNodeByID("IHALL00103");
 		Node a_node2 = DataModelI.getInstance().getNodeByID("DSTAI00802");
+
+		List<Node> nodeList = DataModelI.getInstance().getNodeList();
+		Map<String, Node> nodeMap = DataModelI.getInstance().getNodeMap();
 		assertTrue(nodeMap.containsValue(a_node));
 		assertTrue(nodeMap.containsValue(a_node2));
 	}
 
-	@Test
-	public void compareGetNodeMap_time() {
-		long startTime = System.nanoTime();
-		DataModelI.getInstance().retrieveNodes();
-		long endTime = System.nanoTime();
-		long timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
-
-		startTime = System.nanoTime();
-		DataModelI.getInstance().getNodeMap();
-		endTime = System.nanoTime();
-		timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
-	}
+//	@Test
+//	public void compareGetNodeMap_time() {
+//		long startTime = System.nanoTime();
+//		DataModelI.getInstance().retrieveNodes();
+//		long endTime = System.nanoTime();
+//		long timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
+//
+//		startTime = System.nanoTime();
+//		DataModelI.getInstance().getNodeMap();
+//		endTime = System.nanoTime();
+//		timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
+//	}
 
 	@Test
 	public void printNodes() {
@@ -106,13 +108,13 @@ public class NodesDBUtilTest {
 	}
 
 
-	@Test
-	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
-		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
-		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
-		assertTrue(testList.get(0).getNodeType().equals("CONF"));
-		assertTrue(testList.get(0).getFloor().equals("1"));
-	}
+//	@Test
+//	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
+//		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
+//		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
+//		assertTrue(testList.get(0).getNodeType().equals("CONF"));
+//		assertTrue(testList.get(0).getFloor().equals("1"));
+//	}
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
@@ -193,6 +195,12 @@ public class NodesDBUtilTest {
 		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
 		Node retrieved_node = DataModelI.getInstance().getNodeByID(new_node.getNodeID());
 		assertTrue(retrieved_node != null);
+	}
+
+	@Test
+	public void getLongNameByBuildingTypeFloor_returnCorrectList(){
+		List<String> longNameList = DataModelI.getInstance().getLongNameByBuildingTypeFloor("Shapiro","HALL","L2");
+		System.out.println("hello");
 	}
 
 	//test adjacentNode with status 2 or 0 or 3
