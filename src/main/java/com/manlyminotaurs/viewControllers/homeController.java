@@ -251,6 +251,12 @@ public class homeController implements Initializable {
 	@FXML
 	JFXRadioButton rad3;
 
+	@FXML
+	JFXListView<String> lstStartFiltered;
+
+	@FXML
+	JFXListView<String> lstEndFiltered;
+
 
 	public void setPathfindingScreen() {
 
@@ -282,14 +288,14 @@ public class homeController implements Initializable {
 		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
 		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
 
-		txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
-		comBuildingStart.setStyle("-fx-text-fill: white");
-		comFloorStart.setStyle("-fx-text-fill: white");
-		comTypeStart.setStyle("-fx-text-fill: white");
-		txtLocationEnd.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
-		comBuildingEnd.setStyle("-fx-text-fill: white");
-		comFloorEnd.setStyle("-fx-text-fill: white");
-		comTypeEnd.setStyle("-fx-text-fill: white");
+		txtLocationStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comBuildingStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comFloorStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comTypeStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		txtLocationEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comBuildingEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comFloorEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		comTypeEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
 
 	}
 
@@ -504,8 +510,9 @@ public class homeController implements Initializable {
 		comLocationStart.setDisable(false);
 		comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
 		comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
-		comTypeStart.getSelectionModel().select(KioskInfo.myLocation.getNodeType());
-		comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
+		comTypeStart.getSelectionModel().select(convertTypeReverse(KioskInfo.myLocation.getNodeType()));
+		//comLocationStart.getSelectionModel().select(KioskInfo.myLocation.getLongName());
+		txtLocationStart.setText(KioskInfo.myLocation.getLongName());
 		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		lblStartLocation.setText(KioskInfo.myLocation.getLongName());
@@ -518,6 +525,7 @@ public class homeController implements Initializable {
 		clearPoints();
 		hideStartAndEnd();
 		cancelStart.setVisible(true);
+		btnStart.setVisible(false);
 		//printKiosk();
 		circleList.clear();
 		if (tglMap.isSelected())
@@ -534,6 +542,7 @@ public class homeController implements Initializable {
 		hideStartAndEnd();
 		circleList.clear();
 		cancelFinish.setVisible(true);
+		btnEnd.setVisible(false);
 		if (tglMap.isSelected())
 			printPoints(returnFloorName(currentFloor), "3-D");
 		else
@@ -571,6 +580,7 @@ public class homeController implements Initializable {
 
 	public void chooseStartNode(MouseEvent event) {
 		cancelStart.setVisible(false);
+		btnStart.setVisible(true);
 		Circle circle = (Circle)event.getTarget();
 		if(!tglMap.isSelected()) {
 			for (Node node : nodeList) {
@@ -579,8 +589,10 @@ public class homeController implements Initializable {
 						System.out.println("Click recognized");
 						comBuildingStart.getSelectionModel().select(node.getBuilding());
 						comFloorStart.getSelectionModel().select(node.getFloor());
-						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationStart.getSelectionModel().select(node.getLongName());
+						txtLocationStart.setText(node.getShortName());
+						lblStartLocation.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -594,9 +606,10 @@ public class homeController implements Initializable {
 						System.out.println("Click recognized");
 						comBuildingStart.getSelectionModel().select(node.getBuilding());
 						comFloorStart.getSelectionModel().select(node.getFloor());
-						comTypeStart.getSelectionModel().select(node.getNodeType());
+						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationStart.getSelectionModel().select(node.getLongName());
 						txtLocationStart.setText(node.getShortName());
+						lblStartLocation.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -608,6 +621,7 @@ public class homeController implements Initializable {
 
 	public void chooseEndNode(MouseEvent event) {
 		cancelFinish.setVisible(false);
+		btnEnd.setVisible(true);
 		Circle circle = (Circle)event.getTarget();
 		System.out.println(circle.getCenterX());
 		if(!tglMap.isSelected()) {
@@ -617,9 +631,10 @@ public class homeController implements Initializable {
 						System.out.println("Click recognized");
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
-						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationEnd.getSelectionModel().select(node.getLongName());
 						txtLocationEnd.setText(node.getShortName());
+						lblEndLocation.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -633,8 +648,10 @@ public class homeController implements Initializable {
 						System.out.println("Click recognized");
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
-						comTypeEnd.getSelectionModel().select(node.getNodeType());
+						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationEnd.getSelectionModel().select(node.getLongName());
+						txtLocationEnd.setText(node.getShortName());
+						lblEndLocation.setText(node.getShortName());
 						showStartAndEnd();
 						break;
 					}
@@ -649,6 +666,7 @@ public class homeController implements Initializable {
 		System.out.println("hi you filtered start");
 		// Ed's function in call below
 		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
+		lstStartFiltered.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
 	}
 
 	public void filterEnd(ActionEvent event) {
@@ -658,7 +676,7 @@ public class homeController implements Initializable {
 		//TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
 
 		//TextFields.bindAutoCompletion(txtLocationEnd, buildings);
-
+		lstEndFiltered.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
 	}
 	public void initializeBuildingStart(ActionEvent event) {
 
@@ -1906,6 +1924,8 @@ public class homeController implements Initializable {
 		showStartAndEnd();
 		cancelStart.setVisible(false);
 		cancelFinish.setVisible(false);
+		btnStart.setVisible(true);
+		btnEnd.setVisible(true);
 	}
 
 	private void printPoints(String floor, String dimension) {
@@ -2204,36 +2224,105 @@ public class homeController implements Initializable {
 
 	public String convertType(String type) {
 
-		String finalString ;
-		switch (type) {
-			case "Laboratory": finalString = "LABS";
-			break;
-			case "Information": finalString = "INFO";
-			break;
-			case "Retail": finalString = "RETL";
-			break;
-			case "Bathoom": finalString = "BATH";
-			break;
-			case "Stair": finalString = "STAI";
-			break;
-			case "Service": finalString = "SERV";
-			break;
-			case "Restroom": finalString = "REST";
-			break;
-			case "Elevator": finalString = "ELEV";
-			break;
-			case "Department": finalString = "DEPT";
-			break;
-			case "Conference": finalString = "CONF";
-			break;
-			case "EXIT": finalString = "EXIT";
-			break;
+		if (type == null) {
+			return null;
+		} else {
 
-			default: finalString = "Invalid Type";
+			String finalString;
+			switch (type) {
+				case "Laboratory":
+					finalString = "LABS";
+					break;
+				case "Information":
+					finalString = "INFO";
+					break;
+				case "Retail":
+					finalString = "RETL";
+					break;
+				case "Bathroom":
+					finalString = "BATH";
+					break;
+				case "Stair":
+					finalString = "STAI";
+					break;
+				case "Service":
+					finalString = "SERV";
+					break;
+				case "Restroom":
+					finalString = "REST";
+					break;
+				case "Elevator":
+					finalString = "ELEV";
+					break;
+				case "Department":
+					finalString = "DEPT";
+					break;
+				case "Conference":
+					finalString = "CONF";
+					break;
+				case "Exit":
+					finalString = "EXIT";
+					break;
 
+				default:
+					finalString = "None";
+
+			}
+
+			return finalString;
 		}
 
-		return finalString;
+	}
+
+	public String convertTypeReverse(String type) {
+
+		if (type == null) {
+			return null;
+		} else {
+
+			String finalString;
+			switch (type) {
+				case "LABS":
+					finalString = "Laboratory";
+					break;
+				case "INFO":
+					finalString = "Information";
+					break;
+				case "RETL":
+					finalString = "Retail";
+					break;
+				case "BATH":
+					finalString = "Bathroom";
+					break;
+				case "STAI":
+					finalString = "Stair";
+					break;
+				case "SERV":
+					finalString = "Service";
+					break;
+				case "REST":
+					finalString = "Restroom";
+					break;
+				case "ELEV":
+					finalString = "Elevator";
+					break;
+				case "DEPT":
+					finalString = "Department";
+					break;
+				case "CONF":
+					finalString = "Conference";
+					break;
+				case "EXIT":
+					finalString = "Exit";
+					break;
+
+				default:
+					finalString = "None";
+
+			}
+
+			return finalString;
+		}
 
 	}
 }
