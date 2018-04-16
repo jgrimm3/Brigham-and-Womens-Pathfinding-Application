@@ -359,6 +359,16 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public String getLanguageString(List<String> languages) {
+        return userDBUtil.getLanguageString(languages);
+    }
+
+    @Override
+    public List<String> getLanguageList(String languagesConcat) {
+        return userDBUtil.getLanguageList(languagesConcat);
+    }
+
+    @Override
     public String getIDByUserPassword(String userName, String password) {
         UserSecurity userSecurity = new UserSecurity();
         return userSecurity.getIDByUserPassword(userName, password);
@@ -384,6 +394,7 @@ public class DataModelI implements IDataModel{
     public boolean doesUserPasswordExist(String userName, String password) {
         return userSecurity.doesUserPasswordExist(userName, password);
     }
+
 
     //--------------------------------------CSV stuffs------------------------------------------
 

@@ -21,7 +21,6 @@ public class UserDBUtil {
         String userID = generateUserID();
         User userObject = userBuilder(userID,firstName,middleName,lastName, languages, userType);
         Connection connection = DataModelI.getInstance().getNewConnection();
-        //String concatLanguages = convertListToString(languages);
         String concatLanguages = String.join("/", languages);
         try {
             connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
@@ -122,7 +121,7 @@ public class UserDBUtil {
                 firstName = rset.getString("firstName");
                 middleName = rset.getString("middleName");
                 lastName = rset.getString("lastName");
-                languagesConcat = rset.getString("languages");
+                languagesConcat = rset.getString("language");
                 userType = rset.getString("userType");
 
                 languages = getLanguageList(languagesConcat);
@@ -144,11 +143,19 @@ public class UserDBUtil {
         return listOfUsers;
     } // retrieveUsers() ends
 
-    private List<String> getLanguageList ( String languagesConcat){
+    List<String> getLanguageList ( String languagesConcat){
         // Input: String languageConcat = "English/Spanish"
         // Output: List <String> languages = [ "English" , "Spanish" ]
         List<String> languages = new ArrayList<String>(Arrays.asList(languagesConcat.split("/")));
         return languages;
+    }
+
+    String getLanguageString(List<String> languages){
+        String full_language = "";
+        for(String a_language: languages){
+            full_language = full_language + "/" + a_language;
+        }
+        return full_language;
     }
 
     public List<StaffFields> retrieveStaffs() {
