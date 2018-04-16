@@ -216,6 +216,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
     public List<String> getLongNameByBuildingTypeFloor(String building, String type, String floor) {
         return nodesDBUtil.getLongNameByBuildingTypeFloor(building,type,floor);
     }
