@@ -171,7 +171,6 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override
