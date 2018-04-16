@@ -38,20 +38,20 @@ public class NodesDBUtilTest {
 		assertTrue(nodeMap.containsValue(a_node2));
 	}
 
-	@Test
-	public void compareGetNodeMap_time() {
-		long startTime = System.nanoTime();
-		DataModelI.getInstance().retrieveNodes();
-		long endTime = System.nanoTime();
-		long timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
-
-		startTime = System.nanoTime();
-		DataModelI.getInstance().getNodeMap();
-		endTime = System.nanoTime();
-		timeTaken = (endTime - startTime) / 1000000;
-		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
-	}
+//	@Test
+//	public void compareGetNodeMap_time() {
+//		long startTime = System.nanoTime();
+//		DataModelI.getInstance().retrieveNodes();
+//		long endTime = System.nanoTime();
+//		long timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("RetrieveNode takes " + timeTaken + " ms to retrieve nodes");
+//
+//		startTime = System.nanoTime();
+//		DataModelI.getInstance().getNodeMap();
+//		endTime = System.nanoTime();
+//		timeTaken = (endTime - startTime) / 1000000;
+//		System.out.println("getNodeMap takes " + timeTaken + " ms to retrieve nodes");
+//	}
 
 	@Test
 	public void printNodes() {
@@ -109,13 +109,13 @@ public class NodesDBUtilTest {
 	}
 
 
-	@Test
-	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
-		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
-		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
-		assertTrue(testList.get(0).getNodeType().equals("CONF"));
-		assertTrue(testList.get(0).getFloor().equals("1"));
-	}
+//	@Test
+//	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
+//		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
+//		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
+//		assertTrue(testList.get(0).getNodeType().equals("CONF"));
+//		assertTrue(testList.get(0).getFloor().equals("1"));
+//	}
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
