@@ -82,13 +82,13 @@ public class homeController implements Initializable {
 	//                                           Create objects
 	//
 	//-----------------------------------------------------------------------------------------------------------------
-	final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
+	final static ObservableList<String> floors = FXCollections.observableArrayList("None","L2", "L1", "1", "2", "3");
 	//final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
 	final static ObservableList<String> empty = FXCollections.observableArrayList();
-	final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
-	//final static ObservableList<String> buildings = FXCollections.observableArrayList("45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
+	//final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
+	final static ObservableList<String> buildings = FXCollections.observableArrayList("None","45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
 	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
-	final static ObservableList<String> types = FXCollections.observableArrayList("Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
+	final static ObservableList<String> types = FXCollections.observableArrayList("None","Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
 
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;

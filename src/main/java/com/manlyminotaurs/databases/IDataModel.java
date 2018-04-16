@@ -96,7 +96,8 @@ public interface IDataModel {
     List<User> retrieveUsers();
     List<StaffFields> retrieveStaffs();
     User getUserByID(String ID);
-
+    String getLanguageString(List<String> languages);
+    List<String> getLanguageList ( String languagesConcat);
 
     //-------------------------------------UserSecurity---------------------------------
     boolean doesUserPasswordExist(String userName, String password);
