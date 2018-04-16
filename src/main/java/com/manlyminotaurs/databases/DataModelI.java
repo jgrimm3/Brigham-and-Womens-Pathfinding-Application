@@ -47,14 +47,7 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-
-        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
-        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
-        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
-        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
-        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
-        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
+        DataModelI.getInstance().updateAllCSVFiles();
 
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
@@ -81,7 +74,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-        addLog("Started Database", LocalDateTime.now(), "", "", "");
+        addLog("Started Database", LocalDateTime.now(), "N/A", "N/A", "N/A");
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -419,17 +412,6 @@ public class DataModelI implements IDataModel{
         return userSecurity.retrieveUserPasswords();
     }
 
-
-    @Override
-    public void updateUserPasswordFile(String csvFileName) {
-        new CsvFileController().updateUserPasswordFile(csvFileName);
-    }
-
-    @Override
-    public void updateStaffTable(String csvFileName) {
-        new CsvFileController().updateStaffTable(csvFileName);
-    }
-
     //---------------------------------------------------------------------------------------------------
 
     @Override
@@ -478,32 +460,8 @@ public class DataModelI implements IDataModel{
     //--------------------------------------CSV stuffs------------------------------------------
 
     @Override
-    public void updateNodeCSVFile(String csvFileName) {
-        new CsvFileController().updateNodeCSVFile(csvFileName);
+    public void updateAllCSVFiles() {
+        new CsvFileController().updateAllCSVFiles();
     }
 
-    @Override
-    public void updateEdgeCSVFile(String csvFileName) {
-        new CsvFileController().updateEdgeCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateRoomCSVFile(String csvFileName) {
-        new CsvFileController().updateRoomCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateMessageCSVFile(String csvFileName) {
-        new CsvFileController().updateMessageCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateRequestCSVFile(String csvFileName) {
-        new CsvFileController().updateRequestCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateUserCSVFile(String csvFileName) {
-        new CsvFileController().updateUserCSVFile(csvFileName);
-    }
 }

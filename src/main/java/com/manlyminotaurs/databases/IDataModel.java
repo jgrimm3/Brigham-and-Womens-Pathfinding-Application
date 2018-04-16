@@ -110,14 +110,7 @@ public interface IDataModel {
 
 
     //---------------------------------------UPDATE CSV FIles--------------------------------
-    void updateNodeCSVFile(String csvFileName);
-    void updateEdgeCSVFile(String csvFileName);
-    void updateRoomCSVFile(String csvFileName);
-    void updateMessageCSVFile(String csvFileName);
-    void updateRequestCSVFile(String csvFileName);
-    void updateUserCSVFile(String csvFileName);
-    void updateUserPasswordFile(String csvFileName);
-    void updateStaffTable(String csvFileName);
+    void updateAllCSVFiles();
 
     //-------------------------------------LOG Table--------------------------------------------
     List<Log> retrieveLogData();

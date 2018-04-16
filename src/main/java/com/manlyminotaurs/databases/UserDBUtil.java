@@ -151,9 +151,9 @@ public class UserDBUtil {
     }
 
     String getLanguageString(List<String> languages){
-        String full_language = "";
-        for(String a_language: languages){
-            full_language = full_language + "/" + a_language;
+        String full_language = languages.get(0);
+        for(int i = 1; i<languages.size(); i++){
+            full_language = full_language + "/" + languages.get(i);
         }
         return full_language;
     }

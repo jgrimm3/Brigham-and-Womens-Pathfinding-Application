@@ -68,14 +68,7 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
-        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
-        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
-        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
-        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
-        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
-
+        DataModelI.getInstance().updateAllCSVFiles();
 
         System.out.println("Files Saved!");
     }
@@ -85,7 +78,7 @@ public class Main extends Application {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
         }
-        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
+        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         launch(args);
     }
 }
