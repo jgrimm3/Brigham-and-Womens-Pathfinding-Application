@@ -1282,8 +1282,8 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 
 	public void floor2DMapLoader(String floor) {
-		cancelFinish.setVisible(false);
-		cancelStart.setVisible(false);
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
@@ -1319,8 +1319,8 @@ public class homeController implements Initializable {
 	}
 
 	public void floor3DMapLoader(String floor) {
-		cancelFinish.setVisible(false);
-		cancelStart.setVisible(false);
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 			new ProxyImage(mapImg, "L2-ICONS.png").display();
 
@@ -1832,6 +1832,23 @@ public class homeController implements Initializable {
 	@FXML
 	Button btnCompass;
 
+	@FXML
+	JFXButton btnL2;
+
+	@FXML
+	JFXButton btnL1;
+
+	@FXML
+	JFXButton btn1;
+
+	@FXML
+	JFXButton btn2;
+
+	@FXML
+	JFXButton btn3;
+
+
+
 
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(MouseEvent mouseEvent) {
@@ -1867,12 +1884,6 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloorL2(ActionEvent event) {
-
-		/*radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("L2");
 		} else {
@@ -1881,16 +1892,16 @@ public class homeController implements Initializable {
 
 		currentFloor = "L2";
 
+		btnL2.setLayoutX(20);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor L2");
 	}
 
 	public void changeFloorL1(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(true);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("L1");
 		} else {
@@ -1899,17 +1910,17 @@ public class homeController implements Initializable {
 
 		currentFloor = "L1";
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(20);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor L1");
 
 	}
 
 	public void changeFloor1(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(true);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("1");
 		} else {
@@ -1918,17 +1929,17 @@ public class homeController implements Initializable {
 
 		currentFloor = "1";
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(20);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor 1");
 
 	}
 
 	public void changeFloor2(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(true);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("2");
 		} else {
@@ -1937,17 +1948,17 @@ public class homeController implements Initializable {
 
 		currentFloor = "2";
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(20);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor 2");
 
 	}
 
 	public void changeFloor3(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(true);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("3");
 		} else {
@@ -1955,6 +1966,12 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "3";
+
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(20);
 
 		System.out.println("you selected floor 3");
 

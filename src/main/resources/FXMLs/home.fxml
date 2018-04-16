@@ -88,7 +88,7 @@
                                                                 </Path>
                                                             </children>
                                                         </Pane>
-                                                        <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                                                        <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #99d8bb;">
                                                             <image>
                                                                 <Image url="@../MapImages/01_thefirstfloor.png" />
                                                             </image>
@@ -111,24 +111,54 @@
                                         <Insets bottom="30.0" left="20.0" />
                                     </StackPane.margin>
                                 </JFXButton>
-                                <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="193.0" prefWidth="189.0" StackPane.alignment="TOP_LEFT">
+                                <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="220.0" prefWidth="189.0" StackPane.alignment="TOP_LEFT">
                                     <children>
-                                        <Label text="FLOOR">
-                                            <font>
-                                                <Font size="28.0" />
-                                            </font>
-                                        </Label>
                                         <ComboBox fx:id="comChangeFloor" onAction="#changeFloorMap" prefHeight="30.0" prefWidth="120.0" promptText="FLOOR" visible="false" />
                               <JFXRadioButton fx:id="radL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" visible="false" />
                               <JFXRadioButton fx:id="radL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" visible="false" />
                               <JFXRadioButton fx:id="rad1" layoutY="85.0" onAction="#changeFloor1" text="1" visible="false" />
                               <JFXRadioButton fx:id="rad2" layoutY="105.0" onAction="#changeFloor2" text="2" visible="false" />
                               <JFXRadioButton fx:id="rad3" layoutY="125.0" onAction="#changeFloor3" text="3" visible="false" />
-                              <JFXButton fx:id="btnL2" layoutY="45.0" onAction="#changeFloorL2" text="L2" />
-                              <JFXButton fx:id="btnL1" layoutY="65.0" onAction="#changeFloorL1" text="L1" />
-                              <JFXButton fx:id="btn1" layoutY="85.0" onAction="#changeFloor1" text="1" />
-                              <JFXButton fx:id="btn2" layoutY="105.0" onAction="#changeFloor2" text="2" />
-                              <JFXButton fx:id="btn3" layoutY="125.0" onAction="#changeFloor3" text="3" />
+                              <JFXButton fx:id="btnL2" ellipsisString="" layoutY="180.0" onAction="#changeFloorL2" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/FloorL2Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
+                              <JFXButton fx:id="btnL1" ellipsisString="" layoutY="135.0" onAction="#changeFloorL1" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/FloorL1Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
+                              <JFXButton fx:id="btn1" ellipsisString="" layoutX="20.0" layoutY="90.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/Floor1Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
+                              <JFXButton fx:id="btn2" ellipsisString="" layoutY="45.0" onAction="#changeFloor2" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/Floor2Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
+                              <JFXButton fx:id="btn3" ellipsisString="" onAction="#changeFloor3" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/Floor3Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
