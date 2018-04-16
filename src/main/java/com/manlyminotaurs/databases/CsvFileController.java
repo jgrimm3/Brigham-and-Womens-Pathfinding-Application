@@ -1,5 +1,6 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
@@ -31,7 +32,6 @@ import java.util.Map;
 
 public class CsvFileController {
 
-    //NodesDBUtil nodesDBUtil = new NodesDBUtil();
     /*---------------------------------- Parse CSV File --------------------------------------------------*/
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
@@ -63,8 +63,7 @@ public class CsvFileController {
                 String[] node_row = line.split(",");
                 list_of_rows.add(node_row);
             }
-            inputStream.close();
-            System.out.println("csv file parsed");*/
+            inputStream.close();*/
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -73,12 +72,24 @@ public class CsvFileController {
     } // parseCsvFile() ends
 
 
-    /*---------------------------------- Nodes --------------------------------------------------*/
+    /*---------------------------------- Update CSV Files --------------------------------------------------*/
+
+    public void updateAllCSVFiles(){
+        updateNodeCSVFile("./nodes.csv");
+        updateEdgeCSVFile("./edges.csv");
+        updateMessageCSVFile("./MessageTable.csv");
+        updateRequestCSVFile("./RequestTable.csv");
+        updateUserCSVFile("./UserAccountTable.csv");
+        updateUserPasswordFile("./UserPasswordTable.csv");
+        updateStaffTable("./StaffTable.csv");
+        updateLogCSVFile("./LogTable.csv");
+    }
+
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateNodeCSVFile(String csvFileName) {
+    private void updateNodeCSVFile(String csvFileName) {
         Iterator iterator = DataModelI.getInstance().getNodeMap().entrySet().iterator();
         System.out.println("Updating node csv file...");
         try {
@@ -101,7 +112,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateEdgeCSVFile(String csvFileName) {
+    private void updateEdgeCSVFile(String csvFileName) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -133,7 +144,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateRoomCSVFile(String csvFileName) {
+    private void updateRoomCSVFile(String csvFileName) {
         Iterator<Room> iterator = null;//DataModelI.getInstance().retrieveNodes();
         System.out.println("Updating room csv file...");
         try {
@@ -158,7 +169,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateMessageCSVFile(String csvFileName) {
+    private void updateMessageCSVFile(String csvFileName) {
         Iterator<Message> iterator = DataModelI.getInstance().retrieveMessages().iterator();
         System.out.println("Updating message csv file...");
         try {
@@ -183,7 +194,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateRequestCSVFile(String csvFileName) {
+    private void updateRequestCSVFile(String csvFileName) {
         Iterator<Request> iterator = DataModelI.getInstance().retrieveRequests().iterator();
         System.out.println("Updating request csv file...");
         try {
@@ -208,7 +219,7 @@ public class CsvFileController {
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
      */
-    public void updateUserCSVFile(String csvFileName) {
+    private void updateUserCSVFile(String csvFileName) {
         Iterator<User> iterator = DataModelI.getInstance().retrieveUsers().iterator();
         System.out.println("Updating user csv file...");
         try {
@@ -227,7 +238,7 @@ public class CsvFileController {
         }
     }//updateUserCSVFile ends
 
-    public void updateStaffTable(String csvFileName) {
+    private void updateStaffTable(String csvFileName) {
         Iterator<StaffFields> iterator = DataModelI.getInstance().retrieveStaffs().iterator();
         System.out.println("Updating user csv file...");
         try {
@@ -246,7 +257,7 @@ public class CsvFileController {
         }
     }//updateStaffCSVFile ends
 
-    public void updateUserPasswordFile(String csvFileName) {
+    private void updateUserPasswordFile(String csvFileName) {
         Iterator<UserPassword> iterator = DataModelI.getInstance().retrieveUserPasswords().iterator();
         System.out.println("Updating user csv file...");
         try {
@@ -263,5 +274,27 @@ public class CsvFileController {
         catch(IOException e){
             e.printStackTrace();
         }
-    }//updateUserCSVFile ends
+    }//updateUserPasswordCSVFile ends
+
+
+    ///----------------------------------------Log-----------------------------------
+    private void updateLogCSVFile(String csvFileName) {
+        Iterator<Log> iterator = DataModelI.getInstance().retrieveLogData().iterator();
+        System.out.println("Updating log csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("logID,description,logTime,userID,associatedID,associatedType\n");
+            while (iterator.hasNext()) {
+                Log a_log = iterator.next();
+                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_log.getLogID(), a_log.getDescription(), a_log.getLogTime().toString().replace("T"," ").replace(".",":"), a_log.getUserID(), a_log.getAssociatedID(), a_log.getAssociatedType());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updateLogCSVFile ends
+
 }
