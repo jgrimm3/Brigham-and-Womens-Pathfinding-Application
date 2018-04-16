@@ -35,18 +35,25 @@ public class emergencyScreenController {
 
     @FXML
     Path path;
+
     @FXML
     ImageView mapImg;
+
     @FXML
     Label lblEmergency;
 
     List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
     List<Node> pathList = new ArrayList<>();
 
+    @FXML
+    public void initialize() {
+        printKiosk();
+        goToKiosk();
+        findExit(null);
+    }
+
     public void printKiosk() {
-
         Circle kiosk = new Circle();
-
             kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
         }
 
@@ -77,16 +84,12 @@ public class emergencyScreenController {
         PathfindingContext pf = new PathfindingContext();
         List<Node> path = new LinkedList<Node>();
 
-
         try {
             path = pf.getPath(KioskInfo.myLocation, exitNode, new ClosestStrategyI());
             pathList = path;
         } catch (PathNotFoundException e) {
             e.printStackTrace();
         }
-
-      //  printNodePath(path, startFloor, "2-D");
-        //floor2DMapLoader(startFloor);
 
         }
 
