@@ -935,7 +935,7 @@ class NodesDBUtil {
 		Statement stmt = null;
 		try {
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_NODES WHERE longName LIKE '" + longName + "'";
+			String str = "SELECT * FROM MAP_NODES WHERE longName = '" + longName + "'";
 			ResultSet rset = stmt.executeQuery(str);
 
 			// For every node, get the information
