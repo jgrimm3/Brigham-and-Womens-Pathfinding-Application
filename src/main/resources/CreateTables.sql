@@ -58,13 +58,10 @@ CREATE TABLE Staff (
 
 CREATE TABLE Pathfinder(
   pathfinderID    VARCHAR(10) PRIMARY KEY,
-  pathfinderTime  TIMESTAMP,
   startNodeID     VARCHAR(10),
   endNodeID       VARCHAR(10),
-  userID          VARCHAR(10),
   CONSTRAINT fk_pathfinder_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
-  CONSTRAINT fk_pathfinder_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
-  CONSTRAINT fk_pathfinder_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
+  CONSTRAINT fk_pathfinder_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
 CREATE TABLE Log(
   logID           VARCHAR(10),

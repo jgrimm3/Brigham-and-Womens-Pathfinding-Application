@@ -1,10 +1,11 @@
 package com.manlyminotaurs.pathfinding;
 
 import com.manlyminotaurs.nodes.Node;
+import sun.util.cldr.CLDRLocaleDataMetaInfo;
 
 import java.util.*;
 
-public class ClosestStrategyI extends DistancePathfinder implements IPathFindingStrategy {
+public class ClosestStrategyI extends DistancePathdinder implements IPathFindingStrategy {
     /**
      * Wrapper for calcPath function. Creates empty data structures.
      *

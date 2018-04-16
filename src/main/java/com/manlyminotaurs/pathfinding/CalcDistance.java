@@ -45,7 +45,6 @@ public class CalcDistance {
         }
 
         return metersToFeet(sum);
-//        return sum;
     }
 
     /**
