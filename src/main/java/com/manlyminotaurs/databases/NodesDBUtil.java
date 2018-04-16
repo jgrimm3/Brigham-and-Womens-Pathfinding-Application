@@ -940,6 +940,51 @@ class NodesDBUtil {
 		return node;
 	}
 
+	/**
+	 * account for 8 different possibilites of all three null, two null, one null, all not null
+	 * @param building
+	 * @param floor
+	 * @param type
+	 * @return
+	 */
+	public List<String> getNamesByBuildingFloorType(String building, String floor, String type){
+
+		if(building == null){
+			building = "";
+		}
+		if(floor == null){
+			floor = "";
+		}
+		if(type == null){
+			type = "";
+		}
+
+		Node node = null;
+		String shortName;
+		Statement stmt = null;
+		List<String> shortNameList = new ArrayList<>();
+		Connection connection = DataModelI.getInstance().getNewConnection();
+
+		try {
+			stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_NODES WHERE building LIKE '" + building + "%' AND floor LIKE '"+ floor +"%' AND nodeType LIKE '" + type +"%' AND nodeType NOT LIKE 'HALL%'";
+			ResultSet rset = stmt.executeQuery(str);
+
+			// For every node, get the information
+			while (rset.next()) {
+				shortName = rset.getString("shortName");
+				shortNameList.add(shortName);
+			}
+			rset.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DataModelI.getInstance().closeConnection();
+		}
+		return shortNameList;
+	}
+
 	@Deprecated
 	Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
 	    for(Node x : nodeList) {
