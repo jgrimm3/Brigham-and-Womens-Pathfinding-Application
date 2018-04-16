@@ -1,6 +1,5 @@
 package com.manlyminotaurs.pathfinding;
 
-import com.manlyminotaurs.databases.Pathfinding;
 import com.manlyminotaurs.nodes.Node;
 
 import java.util.ArrayList;

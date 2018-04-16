@@ -973,9 +973,9 @@ class NodesDBUtil {
 		}
 
 		Node node = null;
-		String shortName;
+		String aName;
 		Statement stmt = null;
-		List<String> shortNameList = new ArrayList<>();
+		List<String> listOfNames = new ArrayList<>();
 		Connection connection = DataModelI.getInstance().getNewConnection();
 
 		try {
@@ -985,8 +985,8 @@ class NodesDBUtil {
 
 			// For every node, get the information
 			while (rset.next()) {
-				shortName = rset.getString("shortName");
-				shortNameList.add(shortName);
+				aName = rset.getString("longName");
+				listOfNames.add(aName);
 			}
 			rset.close();
 			stmt.close();
@@ -995,7 +995,7 @@ class NodesDBUtil {
 		} finally {
 			DataModelI.getInstance().closeConnection();
 		}
-		return shortNameList;
+		return listOfNames;
 	}
 
 	@Deprecated
