@@ -999,7 +999,7 @@ public class homeController implements Initializable {
 		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
+			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new AStarStrategyI());
 			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();

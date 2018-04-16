@@ -9,6 +9,7 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.IDataModel;
+import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfinderUtil;
@@ -16,11 +17,15 @@ import com.manlyminotaurs.pathfinding.PathfindingContext;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -61,15 +66,17 @@ public class nodeEditorController {
     Circle finishCircle = new Circle();
     Circle startCircle = new Circle();
     Circle finishCircle2 = new Circle();
-    List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+    List<Node> nodeList = DataModelI.getInstance().getNodeList();
     List<Node> pathList = new ArrayList<>();
     LinkedList<Node> listForQR = new LinkedList<Node>();
     Image imageQRCode;
     String startFloor = "";
     String endFloor = "";
     List<Circle> circleList = new ArrayList<>();
+    List<Line> edgeLines = new ArrayList<>();
     Boolean mapNodeChoice;
     Boolean selectNode = false;
+
 
     @FXML
     Button btnSelectEdgeNode;
@@ -265,7 +272,13 @@ public class nodeEditorController {
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
 
-            drawCircles("1","2-D");
+
+
+            drawCircles("1", "2-D");
+            drawEdges("1", "2-D" );
+
+
+
 
             /*paneMap.getChildren().clear();
 
@@ -376,7 +389,7 @@ public class nodeEditorController {
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-        if (selectNode == true) {
+       /* if (selectNode == true) {
             if ((paneModify.isVisible() == true) && (selectNode == true)) {
                 System.out.println("looking for edge node");
                 ArrayList<Node> nodesXY = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
@@ -412,7 +425,7 @@ public class nodeEditorController {
                 }
             }
 
-        }
+        }*/
     }
 
 
@@ -738,137 +751,118 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
-    public void pathfloor2DMapLoader(String floor) {
 
-        stackPaneMap.setPrefHeight(3400);
-        stackPaneMap.setPrefWidth(5000);
-        mapImg.setFitHeight(3400);
-        mapImg.setFitWidth(5000);
-        paneMap.setPrefHeight(3400);
-        paneMap.setPrefWidth(5000);
+    public void floor2DMapLoader(String floor) {
 
-        if(floor.equals("L2")) {
-            new ProxyImage(mapImg,"00_thelowerlevel2.png").display();
-        } else if(floor.equals("L1")) {
-            new ProxyImage(mapImg,"00_thelowerlevel1.png").display();
-        } else if(floor.equals("1")) {
-            new ProxyImage(mapImg,"01_thefirstfloor.png").display();
-        } else if(floor.equals("2")) {
-            new ProxyImage(mapImg,"02_thesecondfloor.png").display();
-        } else if(floor.equals("3")) {
-            new ProxyImage(mapImg,"03_thethirdfloor.png").display();
+
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
+
+
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
+
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+
+            new ProxyImage(mapImg, "01_thefirstfloor.png").display();
+
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+
+            new ProxyImage(mapImg, "02_thesecondfloor.png").display();
+
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+
+            new ProxyImage(mapImg, "03_thethirdfloor.png").display();
+
+
         }
     }
 
-    public void pathfloor3DMapLoader(String floor) {
+    public void floor3DMapLoader(String floor) {
 
-        stackPaneMap.setPrefHeight(2774);
-        stackPaneMap.setPrefWidth(5000);
-        mapImg.setFitHeight(2772);
-        mapImg.setFitWidth(5000);
-        paneMap.setPrefHeight(2774);
-        paneMap.setPrefWidth(5000);
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+            new ProxyImage(mapImg, "L2-ICONS.png").display();
 
-        if(floor.equals("L2")) {
-            new ProxyImage(mapImg,"L2-ICONS.png").display();
-        } else if(floor.equals("L1")) {
-            new ProxyImage(mapImg,"L1-ICONS.png").display();
-        } else if(floor.equals("1")) {
-            new ProxyImage(mapImg,"1-ICONS.png").display();
-        } else if(floor.equals("2")) {
-            new ProxyImage(mapImg,"2-ICONS.png").display();
-        } else if(floor.equals("3")) {
-            new ProxyImage(mapImg,"3-ICONS.png").display();
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+            new ProxyImage(mapImg, "L1-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+            new ProxyImage(mapImg, "1-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+            new ProxyImage(mapImg, "2-ICONS.png").display();
+
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+            new ProxyImage(mapImg, "3-ICONS.png").display();
         }
     }
 
     public void drawCircles(String floor,String dimension) {
 
-        paneMap.getChildren().clear();
+       // paneMap.getChildren().clear();
 
-        if (dimension.equals("2-D")) {
-            pathfloor2DMapLoader(floor);
+        // Iterate through each node
+       for(Node currNode: nodeList) {
+           // If the node is on the correct floor
+           if (currNode.getFloor().equals(floor)) {
+               if (dimension.equals("2-D")) {
 
-            List<Node> nodeList = new ArrayList<>();
-            DataModelI.getInstance().retrieveNodes();
-            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
+                   Circle tempCircle = new Circle();
+                   tempCircle.setCenterX(currNode.getXCoord());
+                   tempCircle.setCenterY(currNode.getYCoord());
+                   tempCircle.setRadius(8);
+                   tempCircle.setFill(Color.NAVY);
+                   tempCircle.setVisible(true);
+                  // tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           // record a delta distance for the drag and drop operation.
+                           dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                           dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                           tempCircle.setCursor(Cursor.MOVE);
 
-            for(int x=0;x<nodeList.size(); x++) {
-                Circle tempCircle = new Circle();
-                tempCircle.setCenterX(nodeList.get(x).getXCoord());
-                tempCircle.setCenterY(nodeList.get(x).getYCoord());
-                tempCircle.setRadius(8);
-                tempCircle.setFill(Color.NAVY);
-                tempCircle.setVisible(true);
-                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                paneMap.getChildren().add(tempCircle);
-                circleList.add(tempCircle);
+                       }
+                   });
+                   tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                           tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+
+                           currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
+                           currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
+                           DataModelI.getInstance().modifyNode(currNode);
+
+
+                       }
+                   });
+                   tempCircle.setCursor(Cursor.HAND);
+                   paneMap.getChildren().add(tempCircle);
+                   circleList.add(tempCircle);
+
+               } else {
+
+                   Circle tempCircle = new Circle();
+                   tempCircle.setCenterX(currNode.getXCoord3D());
+                   tempCircle.setCenterY(currNode.getYCoord3D());
+                   tempCircle.setRadius(8);
+                   tempCircle.setFill(Color.NAVY);
+                   tempCircle.setVisible(true);
+                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   paneMap.getChildren().add(tempCircle);
+                   circleList.add(tempCircle);
+               }
+           }
+       }
             }
 
-        } else {
-            pathfloor3DMapLoader(floor);
-
-            List<Node> nodeList = new ArrayList<>();
-            nodeList = DataModelI.getInstance().getNodesByFloor(floor);
-
-            for(int x=0;x<nodeList.size(); x++) {
-                Circle tempCircle = new Circle();
-                tempCircle.setCenterX(nodeList.get(x).getXCoord3D());
-                tempCircle.setCenterY(nodeList.get(x).getYCoord3D());
-                tempCircle.setRadius(8);
-                tempCircle.setFill(Color.NAVY);
-                tempCircle.setVisible(true);
-                tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                paneMap.getChildren().add(tempCircle);
-                circleList.add(tempCircle);
-            }
-        }
-
-
-       /* private void printPoints(String floor, String dimension) {
-            // Connection for the database
-            //List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
-
-            // map boundaries
-
-            int i = 0;
-            int x = 0;
-            int y = 0;
-            // Iterate through each node
-            while (i < nodeList.size()) {
-
-                // If the node is on the correct floor
-                if (nodeList.get(i).getFloor().equals(floor)) {
-
-                    if (dimension.equals("2-D")) {
-                        // Get x and y coords
-                        x = nodeList.get(i).getXCoord();
-                        y = nodeList.get(i).getYCoord();
-                    } else if (dimension.equals("3-D")) {
-                        x = nodeList.get(i).getXCoord3D();
-                        y = nodeList.get(i).getYCoord3D();
-                    } else {
-                        System.out.println("Invalid dimension");
-                    }
-
-                    Circle circle = new Circle(x, y, 5);
-                    Circle outline = new Circle(x, y, 10);
-                    circle.setFill(Color.WHITE);
-                    outline.setFill(Color.NAVY);
-
-                        //circle.setOnMouseClicked(this::chooseEndNode);
-
-                    circleList.add(outline);
-                    circleList.add(circle);
-                    paneMap.getChildren().add(outline);
-                    paneMap.getChildren().add(circle);
-                }
-                i++;
-            }
-        }*/
-
-
-    }
 
     public void chooseNodeEdge(MouseEvent event) {
         Circle circle = (Circle)event.getTarget();
@@ -901,7 +895,71 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
+    final Delta dragDelta = new Delta();
+    class Delta { double x, y; }
+
+    ///draws edges based on 2d or 3d map and floor,
+    public void drawEdges(String floor, String dimension) {
+        List<Edge> allEdges = DataModelI.getInstance().getEdgeList();
+
+        for (Edge curEdge : allEdges) {
+            Line edgeLine = new Line();
+            Node start = DataModelI.getInstance().getNodeByID(curEdge.getStartNodeID());
+            Node end = DataModelI.getInstance().getNodeByID(curEdge.getEndNodeID());
+
+            Circle startCirc = new Circle();
+            Circle endCirc = new Circle();
+
+            for(Circle curCirc : circleList) {
+                if (curCirc.getCenterX() == start.getXCoord()&& (curCirc.getCenterY() == start.getYCoord())){
+                    startCirc = curCirc;
+                }
+                else if (curCirc.getCenterX() == end.getXCoord()&& (curCirc.getCenterY() == end.getYCoord())){
+                    endCirc = curCirc;
+                }
+
+            }
+            if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))) {
+                if (dimension.equals("2-D")) {
+                   DoubleProperty startx = startCirc.centerXProperty();
+                    DoubleProperty starty = startCirc.centerYProperty();
+                    DoubleProperty endx = endCirc.centerXProperty();
+                    DoubleProperty endy = endCirc.centerYProperty();
+
+                    edgeLine.startXProperty().bindBidirectional(startx);
+                    edgeLine.startYProperty().bindBidirectional(starty);
+                    edgeLine.endXProperty().bindBidirectional(endx);
+                    edgeLine.endYProperty().bindBidirectional(endy);
+
+                } else if (dimension.equals("3-D")) {
+                    DoubleProperty startx = new SimpleDoubleProperty(Double.valueOf(start.getXCoord3D()));
+                    DoubleProperty starty = new SimpleDoubleProperty(Double.valueOf(start.getYCoord3D()));
+                    DoubleProperty endx = new SimpleDoubleProperty(Double.valueOf(end.getXCoord3D()));
+                    DoubleProperty endy = new SimpleDoubleProperty(Double.valueOf(end.getYCoord3D()));
+
+                    edgeLine.startXProperty().bind(startx);
+                    edgeLine.startYProperty().bind(starty);
+                    edgeLine.endXProperty().bind(endx);
+                    edgeLine.endYProperty().bind(endy);
+
+                }
+                if (curEdge.getStatus() == 1) {
+                    edgeLine.setStrokeWidth(5.0);
+                    edgeLine.setStroke(Color.DARKMAGENTA);
+                } else {
+                    edgeLine.setStrokeWidth(5.0);
+                    edgeLine.setStroke(Color.RED);
+                }
+
+            }
+            edgeLine.setOnMouseClicked(this::edgeSelected);
+            paneMap.getChildren().add(edgeLine);
+
+        }
+    }
+
+       public void edgeSelected(MouseEvent event){
+        Line selected = (Line)event.getTarget();
+
+    }
 }
-
-
-
