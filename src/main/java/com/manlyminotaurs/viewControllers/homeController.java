@@ -101,7 +101,7 @@ public class homeController implements Initializable {
 	List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
 	List<Node> pathList = new ArrayList<>();
 	LinkedList<Node> listForQR = new LinkedList<Node>();
-	List<javafx.scene.text.Text> nameList = new ArrayList<>();
+	//List<javafx.scene.text.Text> nameList = new ArrayList<>();
 	Image imageQRCode;
 	String startFloor = "";
 	String endFloor = "";
@@ -917,11 +917,15 @@ public class homeController implements Initializable {
 		currentFloor = "1";
 
 		overMap.getChildren().remove(startCircle);
-		overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
-		overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
+		//overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
+		//overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
 		destinationText.setVisible(false);
 		destination.setVisible(false);
-		nameList.clear();
+		//nameList.clear();
+		startName.setText("");
+		endName.setText("");
+		startName.setVisible(false);
+		endName.setVisible(false);
 
 		if (paneHelp.isVisible()) {
 			lblHelp1.setVisible(true);
@@ -1408,6 +1412,12 @@ public class homeController implements Initializable {
 	ImageView destination;
 
 	@FXML
+	javafx.scene.text.Text startName;
+
+	@FXML
+	javafx.scene.text.Text endName;
+
+	@FXML
 	javafx.scene.text.Text destinationText;
 
 	/**
@@ -1522,8 +1532,8 @@ public class homeController implements Initializable {
 
 			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
-			javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
-			javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
+			//javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
+			//javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
 			destination.setVisible(true);
 			destinationText.setText(floor);
 
@@ -1583,8 +1593,8 @@ public class homeController implements Initializable {
 			}
 
 			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(2000), destination);
-			scaleTransition.setToX(1.4f);
-			scaleTransition.setToY(1.4f);
+			scaleTransition.setToX(1.3f);
+			scaleTransition.setToY(1.3f);
 			scaleTransition.setToX(1.2f);
 			scaleTransition.setToY(1.2f);
 			scaleTransition.setCycleCount(Timeline.INDEFINITE);
@@ -1610,8 +1620,8 @@ public class homeController implements Initializable {
 			parallelTransition.getChildren().add(scaleTransitionCircle);
 			parallelTransition.getChildren().add(fadeTransitionCircle); */
 
-			nameList.add(startName);
-			nameList.add(endName);
+			//nameList.add(startName);
+			//nameList.add(endName);
 
 			// Draw Start Circle
 			startCircle.setRadius(8);
@@ -1637,8 +1647,8 @@ public class homeController implements Initializable {
 			// adds circles to map
 			overMap.getChildren().remove(startCircle);
 			overMap.getChildren().add(startCircle);
-			overMap.getChildren().add(startName);
-			overMap.getChildren().add(endName);
+			//overMap.getChildren().add(startName);
+			//overMap.getChildren().add(endName);
 
 			scaleTransition.play();
 		}
