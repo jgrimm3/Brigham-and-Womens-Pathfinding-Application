@@ -35,11 +35,14 @@ public class CalcDistance {
      */
     public static double calcDistance(List<Node> nodeList){
         double sum = 0;
-        for(int i = 0; i<nodeList.size(); i++){
-            if(i+1 < nodeList.size()){
-                sum += calcDistance(nodeList.get(i), nodeList.get(i+1));
-            }
+        Iterator<Node> laggingIterator = nodeList.iterator();
+        Iterator<Node> leadingIterator = nodeList.iterator();
+        leadingIterator.next();
+
+        while(leadingIterator.hasNext()){
+            sum += calcDistance(laggingIterator.next(), leadingIterator.next());
         }
+
         return sum;
     }
 }
