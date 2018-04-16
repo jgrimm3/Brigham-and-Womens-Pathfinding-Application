@@ -45,6 +45,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import org.controlsfx.control.textfield.TextFields;
 
 public class homeController implements Initializable {
 
@@ -79,10 +81,13 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
-	final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
+	//final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
 	final static ObservableList<String> empty = FXCollections.observableArrayList();
 	final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
-	final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+	//final static ObservableList<String> buildings = FXCollections.observableArrayList("45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
+	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+	final static ObservableList<String> types = FXCollections.observableArrayList("Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
+
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
 
@@ -245,7 +250,7 @@ public class homeController implements Initializable {
 			comFloorEnd.setDisable(true);
 			comTypeStart.setDisable(true);
 			comTypeEnd.setDisable(true);
-			comChangeFloor.setItems(mapFloors);
+			//comChangeFloor.setItems(mapFloors);
 			comLocationStart.setDisable(true);
 			comLocationEnd.setDisable(true);
 
@@ -264,7 +269,7 @@ public class homeController implements Initializable {
 			tglMap.setSelected(false);
 			tglMap.setText("2-D");
 
-			comChangeFloor.getSelectionModel().select(2);
+			//comChangeFloor.getSelectionModel().select(2);
 			floor2DMapLoader("1");
 			//staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 			//adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
@@ -275,6 +280,11 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
+			TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+			//txtLocationStart.setStyle("-fx-text-inner-color: #f1f1f1");
+			//txtLocationStart.setStyle("-fx-prompt-text-fill: white");
+			txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
+			comBuildingStart.setStyle("-fx-text-fill: RED");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -293,7 +303,7 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(true);
 		comTypeStart.setDisable(true);
 		comTypeEnd.setDisable(true);
-		comChangeFloor.setItems(mapFloors);
+		//comChangeFloor.setItems(mapFloors);
 		comLocationStart.setDisable(true);
 		comLocationEnd.setDisable(true);
 
@@ -320,6 +330,9 @@ public class homeController implements Initializable {
 		setKiosk();
 		printKiosk();
 		goToKiosk();
+
+		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+
 	}
 
 	public void setStrategy(){
@@ -462,9 +475,9 @@ public class homeController implements Initializable {
 		circleList.clear();
 		cancelFinish.setVisible(true);
 		if (tglMap.isSelected())
-			printPoints(returnFloorName(comChangeFloor.getValue()), "3-D");
+			printPoints(returnFloorName(currentFloor), "3-D");
 		else
-			printPoints(returnFloorName(comChangeFloor.getValue()), "2-D");
+			printPoints(returnFloorName(currentFloor), "2-D");
 
 	}
 
@@ -769,6 +782,7 @@ public class homeController implements Initializable {
 
 	public void setStartLocation(ActionEvent event) {
 		lblStartLocation.setText(comLocationStart.getValue());
+		System.out.println("You set a start location: " + txtLocationStart.getText());
 	}
 
 	public void setEndLocation(ActionEvent event) {
@@ -999,7 +1013,7 @@ public class homeController implements Initializable {
 		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new AStarStrategyI());
+			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
 			pathList = path;
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
@@ -2057,6 +2071,41 @@ public class homeController implements Initializable {
 		btn3.setLayoutX(20);
 
 		System.out.println("you selected floor 3");
+
+	}
+
+	public String convertType(String type) {
+
+		String finalString ;
+		switch (type) {
+			case "Laboratory": finalString = "LABS";
+			break;
+			case "Information": finalString = "INFO";
+			break;
+			case "Retail": finalString = "RETL";
+			break;
+			case "Bathoom": finalString = "BATH";
+			break;
+			case "Stair": finalString = "STAI";
+			break;
+			case "Service": finalString = "SERV";
+			break;
+			case "Restroom": finalString = "REST";
+			break;
+			case "Elevator": finalString = "ELEV";
+			break;
+			case "Department": finalString = "DEPT";
+			break;
+			case "Conference": finalString = "CONF";
+			break;
+			case "EXIT": finalString = "EXIT";
+			break;
+
+			default: finalString = "Invalid Type";
+
+		}
+
+		return finalString;
 
 	}
 }
