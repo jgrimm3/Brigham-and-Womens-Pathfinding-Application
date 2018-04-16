@@ -329,8 +329,8 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password) {
-        return userDBUtil.addUser(firstName, middleName, lastName, language, userType, userName, password);
+    public User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
+        return userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
     }
 
     @Override
