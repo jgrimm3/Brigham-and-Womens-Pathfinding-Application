@@ -414,7 +414,8 @@ class NodesDBUtil {
 
 
 	List<Edge> getEdgeList(){
-		List<Edge> edgeList = new ArrayList<Edge>();
+		List<Edge> listOfEdges = new ArrayList<Edge>();
+		/*
 		for(Node a_node : nodeMap.values()) {
 			for(Node b_node : a_node.getAdjacentNodes()) {
 				//bug is that nodeID1_nodeID2 is getting stored twice in csv
@@ -424,7 +425,45 @@ class NodesDBUtil {
 				}
 			}
 		}
-		return edgeList;
+		return edgeList;*/
+
+		int status = 0;
+		String startNodeID = "";
+		String endNodeID = "";
+		String edgeID = "";
+		Connection connection = null;
+		Statement stmt = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
+			stmt = connection.createStatement();
+			String str = "SELECT * FROM MAP_EDGES";
+			ResultSet rset = stmt.executeQuery(str);
+
+			while(rset.next()) {
+				edgeID = rset.getString("edgeID");
+				startNodeID = rset.getString("startNodeID");
+				endNodeID = rset.getString("endNodeID");
+				status = rset.getInt("status");
+
+				// Add the new edge to the list
+				Edge edge = new Edge(startNodeID, endNodeID, edgeID);
+				edge.setStatus(status);
+				listOfEdges.add(edge);
+				System.out.println("Edge added to the list: " + edgeID);
+			}
+			rset.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return listOfEdges;
 	}
 
 	/**
