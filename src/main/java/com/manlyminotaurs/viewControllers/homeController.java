@@ -1615,8 +1615,9 @@ public class homeController implements Initializable {
 			}
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " m");
+            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
             directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
             lstDirections.setItems(directions);
 
