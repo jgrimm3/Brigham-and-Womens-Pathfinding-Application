@@ -1,16 +1,11 @@
 package com.manlyminotaurs.pathfinding;
 
 import com.manlyminotaurs.nodes.Node;
+import sun.util.cldr.CLDRLocaleDataMetaInfo;
 
 import java.util.*;
 
 public class ClosestStrategyI implements IPathFindingStrategy {
-    /*
-    TODO:
-    - need to Have BFS find a nearest type of node
-    - Flesh out error handling
-     */
-
     /**
      * Wrapper for calcPath function. Creates empty data structures.
      *
@@ -22,118 +17,100 @@ public class ClosestStrategyI implements IPathFindingStrategy {
         ClosestStrategyNode dijStartNode = new ClosestStrategyNode(startNode, null);
         ClosestStrategyNode dijEndNode = new ClosestStrategyNode(endNode, null);
 
-        LinkedList<Node> path = stripNodeWrappers(calcPath(dijStartNode, dijEndNode));
-        return path;
+        return stripNodeWrappers(calcPath(dijStartNode, dijEndNode));
     }
-/*
+
     /**
-     * use breadth first search algorithm to find closest path to end node
+     *
+     * Uses Dijktra's shortest path algorithm to find the shortest distance from a start to a certain node type
      *
      * @param startNode: starting node
-     * @param endNode:   destination node
-     * @return Linked List of Node
-     * @throws PathNotFoundException: for an invalid path
-     *
-
-
-    private LinkedList<BFSNode> calcPath2(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
-        String target = endNode.getNode().getNodeType();
-        Queue<BFSNode> q = new LinkedList<>();
-        BFSNode currentNode = startNode;
-        q.add(currentNode);
-        ArrayList<PathfindingNode> visitedNodes = new ArrayList<>();
-
-        while(!q.isEmpty()) {
-            currentNode = q.remove();
-            currentNode.setVisitedStatus(true);
-            visitedNodes.add(currentNode);
-            if (!currentNode.getNode().getNodeType().equals(target)) {
-                for (Node node: currentNode.getNode().getAdjacentNodes()) {
-                    boolean wasVisited = false;
-                    for(PathfindingNode bfs : visitedNodes){
-                        if(bfs.getNode().equals(node)){
-                            wasVisited = true;
-                        }
-                    }
-                    if(!wasVisited){
-                        q.add(new BFSNode(node, currentNode));
-                    }else {
-                        BFSNode nowVisisted = new BFSNode(node, currentNode);
-                        nowVisisted.setVisitedStatus(true);
-                        visitedNodes.add(nowVisisted);
-                    }
-                }
-            }else{
-                return getNodeTrail(currentNode);
-            }
-        }
-        throw new PathNotFoundException();
-    }
-    */
-
+     * @param endNode: destination type
+     * @return: LinkedList<ClosestStrategyNode>: linked list of nodes to the destination
+     * @throws new PathNotFoundException
+     */
     private LinkedList<ClosestStrategyNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+        // keep track of all visited nodes
+        Set<Node> visited = new HashSet<>();
+        // keep queue
+        Set<ClosestStrategyNode> openList = new HashSet<>();
+        // the nearest type we are looking for
         String target = endNode.getNode().getNodeType();
-        HashMap<Double, ClosestStrategyNode> openList = new HashMap<>();
 
-        // return path if startNode equals endNode
+        // check for start=end
         if (startNode.getNode().equals(endNode.getNode())) { return getNodeTrail(startNode); }
 
-        // set distance of starting node to 0
+        // init startNode
         startNode.setDistance(0);
+        openList.add(startNode);
 
-        // populate open list of startingNode's children
-        for (Node node: startNode.getNode().getAdjacentNodes()) {
-            // initialize dijNodes with visited=false, dist=INF
-            ClosestStrategyNode dijNode = new ClosestStrategyNode(node, startNode);
-            // check for match
-            if (dijNode.getNode().getNodeID().equals(target)) { return getNodeTrail(dijNode); }
-            // set visited=true and distance from parent
-            dijNode.setDistance(distanceBetweenNodes(startNode, dijNode));
-            //dijNode.setVisited(true);
-            // add to open list
-            openList.put(dijNode.getDistance(), dijNode);
-        }
-
-        // find shortest path for all vertices, check if equals endNode
-        for (int i=0; i<openList.size(); i++) {
-            // get closest child
-            double min = minDistance(openList);
-            ClosestStrategyNode closestNode = openList.get(min);
-            // set visited to true
-            closestNode.setVisited(true);
-            // check for match
-            if (closestNode.getNode().getNodeID().equals(target)) { return getNodeTrail(closestNode); }
-            // update distances of all children of this node
-            for (Node node: closestNode.getNode().getAdjacentNodes()) {
-                ClosestStrategyNode newNode = new ClosestStrategyNode(node, closestNode);
-                // updates child distances by adding minimum distance
-                if (!openList.containsValue(newNode) && (startNode.getDistance() + min) <  newNode.getDistance()) {
-                    newNode.setDistance(newNode.getDistance() + min);
+        while (openList.size() != 0) {
+            // find closest node from starting point based on distance (x,y coords)
+            ClosestStrategyNode currNode = findClosestNode(openList);
+            // remove from queue
+            openList.remove(currNode);
+            if (currNode.getNode().getNodeType().equals(target)) { return getNodeTrail(currNode); }
+            // loop through children of current node
+            for (Node node: currNode.getNode().getAdjacentNodes()) {
+                ClosestStrategyNode dijNode = new ClosestStrategyNode(node, currNode);
+                // don't revisit an old node
+                if (visited.contains(node)) { continue; }
+                if (dijNode.getNode().getNodeType().equals(target)) { return getNodeTrail(dijNode); }
+                // find and set distance from child to parent
+                double distance = distanceBetweenNodes(dijNode, currNode);
+                dijNode.setDistance(distance);
+                if (!openList.contains(currNode)) {
+                    // find distance from child to parent
+                    calcMinDistance(dijNode, currNode, distance);
+                    // add child to queue
+                    openList.add(dijNode);
                 }
-                // check for match
-                if (newNode.getNode().getNodeID().equals(target)) { return getNodeTrail(newNode); }
+            }
+            // update visited list
+            visited.add(currNode.getNode());
+        }
+        // no paths found
+        throw new PathNotFoundException();
+    }
+
+
+    /**
+     * looks through open list to find the node with the shortest distance
+     *
+     * @param openList: queue of nodes
+     * @return the closest ClosestStrategyNode
+     */
+
+    private ClosestStrategyNode findClosestNode(Set<ClosestStrategyNode> openList) {
+        ClosestStrategyNode closestNode = null;
+        Double min = Double.MAX_VALUE;
+        // loop through set to find shortest distance
+        for (ClosestStrategyNode currNode: openList) {
+            Double nodeDistance = currNode.getDistance();
+            if (nodeDistance < min) {
+                min = nodeDistance;
+                closestNode = currNode;
             }
         }
-        // no path available
-        throw new PathNotFoundException();
+        return closestNode;
     }
 
     /**
-     * Looks through a node's children and returns shortest child
+     * adds current minimum distance to a desired nodes distance
      *
-     * @param openList
-     * @return shortest distance in openList
+     * @param child: node to += distance to
+     * @param parent: node to find distance from
+     * @param weight: current minimum distance to add to children
      */
-    private double minDistance(HashMap<Double, ClosestStrategyNode> openList) {
-        // find shortest node in openList
-        double min = 0;
-        for (ClosestStrategyNode currDijNode: openList.values()) {
-            if (!currDijNode.getVisitedStatus() && currDijNode.getDistance() <= min)
-            {
-                min = currDijNode.getDistance();
-            }
+
+    private void calcMinDistance(ClosestStrategyNode child, ClosestStrategyNode parent, double weight) {
+        double sourceDistance = parent.getDistance();
+        if (sourceDistance + weight < child.getDistance()) {
+            child.setDistance(sourceDistance + weight);
+            LinkedList<ClosestStrategyNode> shortestPath = new LinkedList<>(child.getShortestPath());
+            shortestPath.add(parent);
+            child.setShortestPath(shortestPath);
         }
-        return min;
     }
 
 
@@ -165,7 +142,7 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @return The trail of nodes leading back to the start node
      */
 
-    LinkedList<ClosestStrategyNode> getNodeTrail(ClosestStrategyNode aNode){
+    private LinkedList<ClosestStrategyNode> getNodeTrail(ClosestStrategyNode aNode){
         LinkedList<ClosestStrategyNode> nodeTrail = new LinkedList<>();
         while(!(aNode.getParent() == null)){
             nodeTrail.addFirst(aNode);
@@ -180,22 +157,11 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @param toStrip List of nodes to have their metadata stripped
      * @return strippedNodes
      */
-    LinkedList<Node> stripNodeWrappers(LinkedList<ClosestStrategyNode> toStrip){
+    private LinkedList<Node> stripNodeWrappers(LinkedList<ClosestStrategyNode> toStrip) {
         LinkedList<Node> strippedNodes = new LinkedList<>();
-        for(ClosestStrategyNode a: toStrip){
+        for (ClosestStrategyNode a : toStrip) {
             strippedNodes.add(a.getNode());
         }
         return strippedNodes;
-    }
-    /**
-     * Get all the edges that a node belongs to, in the form of list of nodes
-     *
-     * @param pNode: scored node
-     * @return list of node's edges, node list
-     */
-    private ArrayList<Node> getEdges(PathfindingNode pNode) throws OrphanNodeException{
-        ArrayList<Node> nodeEdges = new ArrayList<>(pNode.getNode().getAdjacentNodes());
-        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
-        return nodeEdges;
     }
 }

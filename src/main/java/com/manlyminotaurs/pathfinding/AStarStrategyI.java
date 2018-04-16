@@ -74,9 +74,9 @@ public class AStarStrategyI implements IPathFindingStrategy {
         ArrayList<Node> childEdges;
 
         try {
-            childEdges = getEdges(aNode);
-        } catch (OrphanNodeException e){
-            throw new PathNotFoundException();
+                childEdges = getEdges(aNode);
+            } catch (OrphanNodeException e){
+                throw new PathNotFoundException();
         }
 
         for (Node ne: childEdges){

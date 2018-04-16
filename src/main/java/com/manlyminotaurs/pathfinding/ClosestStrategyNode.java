@@ -2,20 +2,20 @@ package com.manlyminotaurs.pathfinding;
 
 import com.manlyminotaurs.nodes.Node;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class ClosestStrategyNode extends PathfindingNode implements Comparable<ClosestStrategyNode> {
 private double distance;
-private boolean visited;
+private List<ClosestStrategyNode> shortestPath = new LinkedList<>();
+
 
 public ClosestStrategyNode(Node node, ClosestStrategyNode parent) {
         super(node, parent);
         this.distance = Integer.MAX_VALUE;
-        this.visited = false;
         }
 
-    public boolean isVisited() { return visited; }
-
-    public void setVisited(boolean visited) { this.visited = visited; }
 
     public double getDistance() { return distance; }
 
@@ -37,7 +37,11 @@ public boolean equals(Object other){
         return this.getNode().getNodeID().equals(n.getNode().getNodeID());
         }
 
-@Override
+    public List<ClosestStrategyNode> getShortestPath() { return shortestPath; }
+
+    public void setShortestPath(List<ClosestStrategyNode> shortestPath) { this.shortestPath = shortestPath; }
+
+    @Override
 public int hashCode(){
         return this.getNode().getNodeID().hashCode();
         }
