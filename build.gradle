@@ -9,7 +9,41 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java']
+		}
+		resources{
+			srcDirs = ['src/main/resources']
+		}
+	}
+
+	test {
+		java {
+			srcDirs = ['src/test/java']
+		}
+	}
+
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/integration-test/java')
+		}
+		resources.srcDir file('src/integration-test/resources')
+	}
+}
+
 dependencies {
+	integrationTestCompile(
+			[group: 'junit', name: 'junit', version: '4.12'],
+			[group: 'com.jfoenix', name: 'jfoenix', version: '8.0.1'],
+			[group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
+			[group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
+			[group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1'],
+			[group: 'com.google.zxing', name: 'core', version: '3.2.1']
+	)
 	testCompile(
 		[group: 'junit', name: 'junit', version: '4.12'],
 		[group: 'com.jfoenix', name: 'jfoenix', version: '8.0.1'],
@@ -29,6 +63,7 @@ dependencies {
 
     compile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
+    compile 'junit:junit:4.12'
 }
 
 jar {
@@ -42,21 +77,6 @@ task run(type: JavaExec) {
 	main = 'com.manlyminotaurs.core.Main'
 	classpath = sourceSets.main.runtimeClasspath
 }
-sourceSets {
-	main {
-		java {
-			srcDirs = ['src/main/java']
-		}
-		resources{
-			srcDirs = ['src/main/resources']
-		}
-	}
 
-	test {
-		java {
-			srcDirs = ['src/test/java']
-		}
-	}
-}
 
 
