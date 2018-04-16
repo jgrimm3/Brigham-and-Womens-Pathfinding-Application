@@ -336,7 +336,7 @@ public class homeController implements Initializable {
 		tglMap.setText("2-D");
 
 		comChangeFloor.getSelectionModel().select(2);
-		floor2DMapLoader("1");
+		changeFloor("1");
 		setStrategy();
 		//createMap();
 
@@ -440,6 +440,7 @@ public class homeController implements Initializable {
 
 		kiosk.setStrokeWidth(3);
 		kiosk.setStroke(Color.BLACK);
+		kiosk.setOnMouseClicked(this::startCircleClicked);
 		overMap.getChildren().add(kiosk);
 	}
 
@@ -488,9 +489,9 @@ public class homeController implements Initializable {
 		circleList.clear();
 		cancelFinish.setVisible(true);
 		if (tglMap.isSelected())
-			printPoints(returnFloorName(currentFloor), "3-D");
+			printPoints(currentFloor, "3-D");
 		else
-			printPoints(returnFloorName(currentFloor), "2-D");
+			printPoints(currentFloor, "2-D");
 
 	}
 
@@ -912,7 +913,7 @@ public class homeController implements Initializable {
 		tglHandicap.setText("OFF");
 		tglMap.setSelected(false);
 		tglMap.setText("2-D");
-		floor2DMapLoader("1");
+		changeFloor("1");
 		currentFloor = "1";
 
 		overMap.getChildren().remove(startCircle);
@@ -1049,12 +1050,12 @@ public class homeController implements Initializable {
 			if (tglMap.isSelected()) {
 				// use 3-D
 				printNodePath(path, startFloor, "3-D");
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		} else {
@@ -1063,12 +1064,12 @@ public class homeController implements Initializable {
 				// use 3-D
 				System.out.println("using 3d stairs");
 				printNodePath(path, startFloor, "3-D");
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		}
@@ -1651,8 +1652,9 @@ public class homeController implements Initializable {
 			//List<Node> nodeList = new ArrayList<>();
 			//LinkedList<Node> pathList = new LinkedList<>();
 			//nodeList = DataModelI.getInstance().retrieveNodes();
-			Node startNode = DataModelI.getInstance().getNodeByLongName(lblStartLocation.getText());
-			Node endNode = DataModelI.getInstance().getNodeByLongName(lblEndLocation.getText());
+			Node startNode = DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList);
+			Node endNode = DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList);
+			currentFloor = startNode.getFloor();
 
 			try {
 				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
@@ -1662,8 +1664,9 @@ public class homeController implements Initializable {
 			}
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " m");
+            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
             directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
             lstDirections.setItems(directions);
 
@@ -1680,7 +1683,7 @@ public class homeController implements Initializable {
 				if (tglMap.isSelected()) {
 					// use 3-D
 					printNodePath(pathList, startFloor, "3-D");
-					floor3DMapLoader(startFloor);
+					changeFloor(startFloor);
 					dimension = "3-D";
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
@@ -1688,7 +1691,7 @@ public class homeController implements Initializable {
 					// use 2-D
 					dimension = "2-D";
 					printNodePath(pathList, startFloor, "2-D");
-					floor2DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				}
 			} else {
@@ -1698,13 +1701,13 @@ public class homeController implements Initializable {
 					dimension = "3-D";
 					System.out.println("using 3d stairs");
 					printNodePath(pathList, startFloor, "3-D");
-					floor3DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				} else {
 					// use 2-D
 					dimension = "2-D";
 					printNodePath(pathList, startFloor, "2-D");
-					floor2DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
 				}
@@ -1795,13 +1798,14 @@ public class homeController implements Initializable {
 
 		if(!startFloor.equals(currentFloor)) {
 			if (tglMap.isSelected()) { // 3-D
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 
 			} else { // 2-D
 
 				// !!!
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 			}
+			currentFloor = startFloor;
 			cancelStart.setVisible(false);
 		}
 
@@ -1812,13 +1816,14 @@ public class homeController implements Initializable {
 		System.out.println("Recognized a click");
 		if(!endFloor.equals(currentFloor)) {
 			if (tglMap.isSelected()) { // 3-D
-				floor3DMapLoader(endFloor);
+				changeFloor(endFloor);
 
 			} else { // 2-D
 
 				// !!!
-				floor2DMapLoader(endFloor);
+				changeFloor(endFloor);
 			}
+			currentFloor = endFloor;
 			cancelFinish.setVisible(false);
 		}
 	}
@@ -2026,6 +2031,19 @@ public class homeController implements Initializable {
 		fade.play();
 		currName = null;
 		paneMap.getChildren().remove(currName);
+	}
+
+	private void changeFloor(String floor) {
+		if(floor.equals("L2"))
+			changeFloorL2(null);
+		if(floor.equals("L1"))
+			changeFloorL1(null);
+		if(floor.equals("1"))
+			changeFloor1(null);
+		if(floor.equals("2"))
+			changeFloor2(null);
+		if(floor.equals("3"))
+			changeFloor3(null);
 	}
 
 	public void changeFloorL2(ActionEvent event) {

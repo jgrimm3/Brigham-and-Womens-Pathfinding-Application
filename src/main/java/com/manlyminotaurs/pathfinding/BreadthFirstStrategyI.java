@@ -29,64 +29,6 @@ public class BreadthFirstStrategyI implements IPathFindingStrategy {
         return path;
     }
 
-    /**
-     * use breadth first search algorithm to find closest path to end node
-     *
-     * @param startNode: starting node
-     * @param endNode:   destination node
-     * @return Linked List of Node
-     * @throws PathNotFoundException: for an invalid path
-     */
-
-    private LinkedList<Node> calcPat2(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
-        //Initialization.
-        Map<Node, Node> nextNodeMap = new HashMap<>();
-        Node currentNode = startNode.getNode();
-
-        //Queue
-        Queue<Node> q = new LinkedList<>();
-        q.add(currentNode);
-
-        ArrayList<Node> visitedNodes = new ArrayList<>();
-        visitedNodes.add(currentNode);
-
-        //Search.
-        while (!q.isEmpty()) {
-            currentNode = q.remove();
-            System.out.println(currentNode.getNodeID());
-            if (currentNode.equals(endNode.getNode())) {
-                break; // construct path
-            } else {
-                for (Node nextNode : currentNode.getAdjacentNodes()) {
-                    for (int i = 0; i < currentNode.getAdjacentNodes().size(); i++) {
-                        // check if node is already visited
-                        if (!(visitedNodes.get(i).equals(nextNode))) {
-                            q.add(nextNode);
-                            visitedNodes.add(nextNode);
-
-                            //Look up of next node instead of previous.
-                            nextNodeMap.put(currentNode, nextNode);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        //If all nodes are explored and the destination node hasn't been found.
-        if (!currentNode.equals(endNode.getNode())) {
-            throw new PathNotFoundException();
-        }
-
-        //Reconstruct path. No need to reverse.
-        LinkedList<Node> directions = new LinkedList<>();
-        for (Node node = startNode.getNode(); node != null; node = nextNodeMap.get(node)) {
-            directions.add(node);
-        }
-
-        return directions;
-    }
-
     private LinkedList<BFSNode> calcPath(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
         Queue<BFSNode> q = new LinkedList<>();
         BFSNode currentNode = startNode;
