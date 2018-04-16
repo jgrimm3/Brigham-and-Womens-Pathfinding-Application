@@ -1030,6 +1030,7 @@ public class homeController implements Initializable {
 		try {
 			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
 			pathList = path;
+
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1040,6 +1041,12 @@ public class homeController implements Initializable {
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
 		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+        // calcDistance function now converts to feet
+        double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
+        double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
+        directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
+        directions.add("ETA: " + (int)time + " Minute(s)");
+        lstDirections.setItems(directions);
 		lstDirections.setItems(directions);
 		listForQR = (LinkedList<Node>)path;
 		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
@@ -1666,8 +1673,9 @@ public class homeController implements Initializable {
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
+            double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
             directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
-            directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
+            directions.add("ETA: " + (int)time + " Minute(s)");
             lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;

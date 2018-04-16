@@ -69,7 +69,7 @@ public class emergencyScreenController {
     }
 
     public void findExit(ActionEvent event){
-        // Pathfind to nearest bathroom
+        // Pathfind to nearest Exit
         String startFloor = "1";
         Node exitNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "EXIT", "Node 1, 3", "n1x3y", 1, 0, 0);
         // Pathfind to nearest bathroom
