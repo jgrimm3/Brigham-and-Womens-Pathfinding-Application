@@ -295,26 +295,4 @@ class RequestsDBUtil {
         return selectedRequests;
     }
 
-
-    public String formatTimeTaken(int hour, int minutes){
-        String hourString;
-        String minuteString;
-        hour = hour + minutes/60;
-        minutes = minutes%60;
-        if(hour == 0){
-            hourString = "00";
-        }
-        else{
-            hourString = Integer.toString(hour);
-        }
-
-        if(minutes == 0){
-            minuteString = "00";
-        }
-        else{
-            minuteString = Integer.toString(minutes);
-        }
-        return hourString+":"+minuteString;
-    }
-
 }
