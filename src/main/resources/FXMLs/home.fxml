@@ -8,7 +8,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -59,7 +58,7 @@
                                                         </ImageView>
                                                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                                             <children>
-                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.25" stroke="#3651ff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#3651ff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                                     <elements>
                                                                         <MoveTo x="-100.0" y="-100.0" />
                                                                         <LineTo x="5000.0" y="-100.0" />
@@ -68,7 +67,7 @@
                                                                         <ClosePath />
                                                                     </elements>
                                                                 </Path>
-                                                                <Path fx:id="pathL1" blendMode="DARKEN" fill="WHITE" opacity="0.25" stroke="#d9c686" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                                <Path fx:id="pathL1" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#d9c686" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                                     <elements>
                                                                         <MoveTo x="-100.0" y="-100.0" />
                                                                         <LineTo x="5000.0" y="-100.0" />
@@ -77,7 +76,7 @@
                                                                         <ClosePath />
                                                                     </elements>
                                                                 </Path>
-                                                <Path fx:id="path1" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.25" stroke="#8315b2" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path1" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#8315b2" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />
@@ -86,7 +85,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.25" stroke="#69aeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#69aeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />
@@ -95,7 +94,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <Path fx:id="path3" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.25" stroke="#f898ab" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path3" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#f898ab" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />
@@ -119,6 +118,8 @@
                                                    </image>
                                                 </ImageView>
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                                                <Text fx:id="startName" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                                <Text fx:id="endName" strokeType="OUTSIDE" strokeWidth="0.0" />
                                                             </children>
                                                         </Pane>
                                                     </children>
@@ -444,7 +445,7 @@
                                         <Insets bottom="30.0" left="175.0" />
                                     </StackPane.margin>
                                 </JFXButton>
-                        <JFXButton fx:id="btnCompass" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
+                        <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
                            <graphic>
                               <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -538,9 +539,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingStart" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#initializeBuildingStart" prefWidth="120.0" promptText="BUILDING" />
-                                                        <JFXComboBox fx:id="comFloorStart" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#initializeFloorStart" prefWidth="120.0" promptText="FLOOR" />
-                                                        <JFXComboBox fx:id="comTypeStart" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#initializeTypeStart" prefWidth="120.0" promptText="TYPE" />
+                                                        <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="BUILDING" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="FLOOR" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="TYPE" unFocusColor="WHITE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
@@ -553,14 +554,21 @@
                                                                 <Insets right="290.0" />
                                                             </padding>
                                                         </JFXButton>
-                                          <Button fx:id="cancelStart" layoutY="-2.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="73.0" prefWidth="420.0" style="-fx-background-color: #f1f1f1;" text="Cancel" visible="false" />
+                                          <JFXButton fx:id="cancelStart" buttonType="RAISED" maxWidth="420.0" onMouseClicked="#cancel" prefHeight="70.0" prefWidth="420.0" text="CANCEL SELECTION" textFill="WHITE" visible="false">
+                                             <padding>
+                                                <Insets right="100.0" />
+                                             </padding>
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                          </JFXButton>
                                                     </children>
                                                 </Pane>
                                             </children>
                                         </Pane>
-                                        <Pane layoutX="150.0" layoutY="70.0" maxHeight="210.0" maxWidth="270.0" prefHeight="210.0" prefWidth="270.0" style="-fx-background-color: #f1f1f1;">
+                                        <Pane layoutX="150.0" layoutY="70.0" maxHeight="210.0" maxWidth="270.0" prefHeight="210.0" prefWidth="270.0" style="-fx-background-color: #2f2f2f;">
                                             <children>
-                                                <Label fx:id="lblLocationStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="240.0" text="LOCATION">
+                                                <Label fx:id="lblLocationStart" alignment="TOP_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="15.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" prefWidth="240.0" text="LOCATION" textFill="WHITE">
                                                     <font>
                                                         <Font name="System Bold" size="20.0" />
                                                     </font>
@@ -572,7 +580,8 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="100.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" visible="false" />
-                                    <JFXTextField fx:id="txtLocationStart" focusColor="BLACK" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="BLACK" />
+                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="WHITE" />
+                                    <JFXListView fx:id="lstStartFiltered" layoutX="15.0" layoutY="105.0" prefHeight="90.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>
@@ -602,9 +611,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingEnd" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#initializeBuildingEnd" prefWidth="120.0" promptText="BUILDING" />
-                                                        <JFXComboBox fx:id="comFloorEnd" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#initializeFloorEnd" prefWidth="120.0" promptText="FLOOR" />
-                                                        <JFXComboBox fx:id="comTypeEnd" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#initializeTypeEnd" prefWidth="120.0" promptText="TYPE" />
+                                                        <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="BUILDING" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="FLOOR" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="TYPE" unFocusColor="WHITE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
@@ -617,7 +626,14 @@
                                                                 <Insets right="330.0" />
                                                             </padding>
                                                         </JFXButton>
-                                          <Button fx:id="cancelFinish" layoutY="-2.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="75.0" prefWidth="420.0" style="-fx-background-color: #f1f1f1;" text="Cancel" visible="false" />
+                                          <JFXButton fx:id="cancelFinish" buttonType="RAISED" maxWidth="420.0" onMouseClicked="#cancel" prefHeight="70.0" prefWidth="420.0" text="CANCEL SELECTION" textFill="WHITE" visible="false">
+                                             <padding>
+                                                <Insets right="100.0" />
+                                             </padding>
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                          </JFXButton>
                                                     </children>
                                                 </Pane>
                                             </children>
@@ -645,6 +661,7 @@
                                                 </Label>
                                                 <ComboBox fx:id="comLocationEnd" layoutX="15.0" layoutY="100.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" visible="false" />
                                     <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="WHITE" />
+                                    <JFXListView fx:id="lstEndFiltered" layoutX="15.0" layoutY="105.0" prefHeight="90.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
                                     </children>
