@@ -5,7 +5,7 @@ import sun.util.cldr.CLDRLocaleDataMetaInfo;
 
 import java.util.*;
 
-public class ClosestStrategyI implements IPathFindingStrategy {
+public class ClosestStrategyI extends DistancePathdinder implements IPathFindingStrategy {
     /**
      * Wrapper for calcPath function. Creates empty data structures.
      *
@@ -29,7 +29,7 @@ public class ClosestStrategyI implements IPathFindingStrategy {
      * @return: LinkedList<ClosestStrategyNode>: linked list of nodes to the destination
      * @throws new PathNotFoundException
      */
-    private LinkedList<ClosestStrategyNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+    private LinkedList<PathfindingNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
         // keep track of all visited nodes
         Set<Node> visited = new HashSet<>();
         // keep queue
@@ -114,54 +114,5 @@ public class ClosestStrategyI implements IPathFindingStrategy {
     }
 
 
-    /**
-     * Calculates the Euclidean distance between given nodes
-     *
-     * @param node1: starting node
-     * @param node2: ending node
-     * @return The distance between nodes
-     */
 
-    private double distanceBetweenNodes(ClosestStrategyNode node1, ClosestStrategyNode node2){
-        int x = 0;
-        int x1 = node1.getNode().getXCoord();
-        int y1 = node1.getNode().getYCoord();
-
-        int x2 = node2.getNode().getXCoord();
-        int y2 = node2.getNode().getYCoord();
-
-        double xDist = x2 - x1;
-        double yDist = y2 - y1;
-
-        return Math.hypot(xDist, yDist);
-    }
-
-    /**
-     * Takes in a PathfindingNode and follows the path of parents, creating a LinkedList as it goes
-     * @param aNode The end of the trail to be generated
-     * @return The trail of nodes leading back to the start node
-     */
-
-    private LinkedList<ClosestStrategyNode> getNodeTrail(ClosestStrategyNode aNode){
-        LinkedList<ClosestStrategyNode> nodeTrail = new LinkedList<>();
-        while(!(aNode.getParent() == null)){
-            nodeTrail.addFirst(aNode);
-            aNode = (ClosestStrategyNode) aNode.getParent();
-        }
-        nodeTrail.addFirst(aNode); // addFirst ensures correct order
-        return nodeTrail;
-    }
-
-    /**
-     * Takes in a list of PathfindingNodes and strips their metadata, returning a list of the raw Nodes
-     * @param toStrip List of nodes to have their metadata stripped
-     * @return strippedNodes
-     */
-    private LinkedList<Node> stripNodeWrappers(LinkedList<ClosestStrategyNode> toStrip) {
-        LinkedList<Node> strippedNodes = new LinkedList<>();
-        for (ClosestStrategyNode a : toStrip) {
-            strippedNodes.add(a.getNode());
-        }
-        return strippedNodes;
-    }
 }
