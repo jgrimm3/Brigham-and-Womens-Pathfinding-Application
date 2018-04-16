@@ -488,9 +488,9 @@ public class homeController implements Initializable {
 		circleList.clear();
 		cancelFinish.setVisible(true);
 		if (tglMap.isSelected())
-			printPoints(returnFloorName(currentFloor), "3-D");
+			printPoints(currentFloor, "3-D");
 		else
-			printPoints(returnFloorName(currentFloor), "2-D");
+			printPoints(currentFloor, "2-D");
 
 	}
 
@@ -1651,8 +1651,9 @@ public class homeController implements Initializable {
 			//List<Node> nodeList = new ArrayList<>();
 			//LinkedList<Node> pathList = new LinkedList<>();
 			//nodeList = DataModelI.getInstance().retrieveNodes();
-			Node startNode = DataModelI.getInstance().getNodeByLongName(lblStartLocation.getText());
-			Node endNode = DataModelI.getInstance().getNodeByLongName(lblEndLocation.getText());
+			Node startNode = DataModelI.getInstance().getNodeByLongNameFromList(lblStartLocation.getText(), nodeList);
+			Node endNode = DataModelI.getInstance().getNodeByLongNameFromList(lblEndLocation.getText(), nodeList);
+			currentFloor = startNode.getFloor();
 
 			try {
 				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
@@ -1803,6 +1804,7 @@ public class homeController implements Initializable {
 				// !!!
 				floor2DMapLoader(startFloor);
 			}
+			currentFloor = startFloor;
 			cancelStart.setVisible(false);
 		}
 
@@ -1820,6 +1822,7 @@ public class homeController implements Initializable {
 				// !!!
 				floor2DMapLoader(endFloor);
 			}
+			currentFloor = endFloor;
 			cancelFinish.setVisible(false);
 		}
 	}
@@ -2027,6 +2030,10 @@ public class homeController implements Initializable {
 		fade.play();
 		currName = null;
 		paneMap.getChildren().remove(currName);
+	}
+
+	private void changeFloor(String floor) {
+		
 	}
 
 	public void changeFloorL2(ActionEvent event) {
