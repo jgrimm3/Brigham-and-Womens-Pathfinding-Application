@@ -749,10 +749,21 @@ class NodesDBUtil {
 		PreparedStatement stmt = null;
 		Connection connection = null;
 		String longName;
+
+		if(nodeBuilding==null){
+			nodeBuilding = "";
+		}
+		if(nodeType == null){
+			nodeType = "";
+		}
+		if(nodeFloor == null){
+			nodeFloor = "";
+		}
+
 		//connection = DataModelI.getInstance().getNewConnection();
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT longName FROM MAP_NODES WHERE building = ? AND nodeType = ? AND floor = ?";
+			String str = "SELECT longName FROM MAP_NODES WHERE building LIKE ? AND nodeType LIKE ? AND floor LIKE ?";
 			stmt = connection.prepareStatement(str);
 			stmt.setString(1, nodeBuilding);
 			stmt.setString(2, nodeType);
@@ -922,7 +933,7 @@ class NodesDBUtil {
 		Statement stmt = null;
 		try {
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_NODES WHERE longName= '" + longName + "'";
+			String str = "SELECT * FROM MAP_NODES WHERE longName LIKE '" + longName + "'";
 			ResultSet rset = stmt.executeQuery(str);
 
 			// For every node, get the information
@@ -949,13 +960,13 @@ class NodesDBUtil {
 	 */
 	public List<String> getNamesByBuildingFloorType(String building, String floor, String type){
 
-		if(building == null){
+		if(building == null || building == "None"){
 			building = "";
 		}
-		if(floor == null){
+		if(floor == null || floor == "None"){
 			floor = "";
 		}
-		if(type == null){
+		if(type == null || type == "None"){
 			type = "";
 		}
 
