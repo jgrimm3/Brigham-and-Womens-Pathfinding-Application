@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
@@ -49,15 +50,21 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import org.controlsfx.control.textfield.TextFields;
 
 public class homeController implements Initializable {
 
-	//Nested Private Singleton
-	private static class Singleton {
-		private static Singleton instance = null;
-		PathfindingContext pathfindingContext = new PathfindingContext();
-		Boolean handicap;
-		private Singleton() {
+    //Nested Private Singleton
+    private static class Singleton {
+        private static Singleton instance = null;
+        PathfindingContext pathfindingContext = new PathfindingContext();
+        Boolean handicap;
+        //ratio of  map pixel to a real life meter
+        final double meterPerPixel = 0.099914;
+        //average walking speed in meters per second
+        final double walkSpeed = 1.4;
+
+        private Singleton() {
 
 		}
 		private static class SingletonHolder {
@@ -76,10 +83,13 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
-	final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
+	//final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
 	final static ObservableList<String> empty = FXCollections.observableArrayList();
 	final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
-	final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+	//final static ObservableList<String> buildings = FXCollections.observableArrayList("45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
+	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
+	final static ObservableList<String> types = FXCollections.observableArrayList("Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
+
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
 
@@ -253,7 +263,7 @@ public class homeController implements Initializable {
 			comFloorEnd.setDisable(true);
 			comTypeStart.setDisable(true);
 			comTypeEnd.setDisable(true);
-			comChangeFloor.setItems(mapFloors);
+			//comChangeFloor.setItems(mapFloors);
 			comLocationStart.setDisable(true);
 			comLocationEnd.setDisable(true);
 
@@ -272,7 +282,7 @@ public class homeController implements Initializable {
 			tglMap.setSelected(false);
 			tglMap.setText("2-D");
 
-			comChangeFloor.getSelectionModel().select(2);
+			//comChangeFloor.getSelectionModel().select(2);
 			floor2DMapLoader("1");
 			//staffRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 			//adminRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
@@ -283,6 +293,11 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
+			TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+			//txtLocationStart.setStyle("-fx-text-inner-color: #f1f1f1");
+			//txtLocationStart.setStyle("-fx-prompt-text-fill: white");
+			txtLocationStart.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
+			comBuildingStart.setStyle("-fx-text-fill: RED");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,7 +316,7 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(true);
 		comTypeStart.setDisable(true);
 		comTypeEnd.setDisable(true);
-		comChangeFloor.setItems(mapFloors);
+		//comChangeFloor.setItems(mapFloors);
 		comLocationStart.setDisable(true);
 		comLocationEnd.setDisable(true);
 
@@ -328,6 +343,9 @@ public class homeController implements Initializable {
 		setKiosk();
 		printKiosk();
 		goToKiosk();
+
+		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getLongNames()));
+
 	}
 
 	public void setStrategy(){
@@ -470,9 +488,9 @@ public class homeController implements Initializable {
 		circleList.clear();
 		cancelFinish.setVisible(true);
 		if (tglMap.isSelected())
-			printPoints(currentFloor, "3-D");
+			printPoints(returnFloorName(currentFloor), "3-D");
 		else
-			printPoints(currentFloor, "2-D");
+			printPoints(returnFloorName(currentFloor), "2-D");
 
 	}
 
@@ -777,6 +795,7 @@ public class homeController implements Initializable {
 
 	public void setStartLocation(ActionEvent event) {
 		lblStartLocation.setText(comLocationStart.getValue());
+		System.out.println("You set a start location: " + txtLocationStart.getText());
 	}
 
 	public void setEndLocation(ActionEvent event) {
@@ -1294,8 +1313,8 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 
 	public void floor2DMapLoader(String floor) {
-		cancelFinish.setVisible(false);
-		cancelStart.setVisible(false);
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
@@ -1331,8 +1350,8 @@ public class homeController implements Initializable {
 	}
 
 	public void floor3DMapLoader(String floor) {
-		cancelFinish.setVisible(false);
-		cancelStart.setVisible(false);
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 			new ProxyImage(mapImg, "L2-ICONS.png").display();
 
@@ -1642,11 +1661,15 @@ public class homeController implements Initializable {
 				e.printStackTrace();
 			}
 
-			ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-			lstDirections.setItems(directions);
-			listForQR = (LinkedList) pathList;
-			pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
-			// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+            double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
+            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " m");
+            directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
+            lstDirections.setItems(directions);
+
+            listForQR = (LinkedList) pathList;
+            pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
+            // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 			// Draw path code
 
@@ -1915,6 +1938,23 @@ public class homeController implements Initializable {
 	@FXML
 	Button btnCompass;
 
+	@FXML
+	JFXButton btnL2;
+
+	@FXML
+	JFXButton btnL1;
+
+	@FXML
+	JFXButton btn1;
+
+	@FXML
+	JFXButton btn2;
+
+	@FXML
+	JFXButton btn3;
+
+
+
 
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(MouseEvent mouseEvent) {
@@ -1989,12 +2029,6 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloorL2(ActionEvent event) {
-
-		/*radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("L2");
 		} else {
@@ -2004,16 +2038,16 @@ public class homeController implements Initializable {
 		currentFloor = "L2";
 		printKiosk();
 
+		btnL2.setLayoutX(20);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor L2");
 	}
 
 	public void changeFloorL1(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(true);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("L1");
 		} else {
@@ -2023,17 +2057,17 @@ public class homeController implements Initializable {
 		currentFloor = "L1";
 		printKiosk();
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(20);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor L1");
 
 	}
 
 	public void changeFloor1(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(true);
-		rad2.setSelected(false);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("1");
 		} else {
@@ -2043,17 +2077,17 @@ public class homeController implements Initializable {
 		currentFloor = "1";
 		printKiosk();
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(20);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor 1");
 
 	}
 
 	public void changeFloor2(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(true);
-		rad3.setSelected(false);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("2");
 		} else {
@@ -2063,17 +2097,17 @@ public class homeController implements Initializable {
 		currentFloor = "2";
 		printKiosk();
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(20);
+		btn3.setLayoutX(0);
+
 		System.out.println("you selected floor 2");
 
 	}
 
 	public void changeFloor3(ActionEvent event) {
-		/*radL2.setSelected(false);
-		radL1.setSelected(false);
-		rad1.setSelected(false);
-		rad2.setSelected(false);
-		rad3.setSelected(true);*/
-
 		if (tglMap.isSelected() == true) {
 			floor3DMapLoader("3");
 		} else {
@@ -2083,7 +2117,48 @@ public class homeController implements Initializable {
 		currentFloor = "3";
 		printKiosk();
 
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(20);
+
 		System.out.println("you selected floor 3");
+
+	}
+
+	public String convertType(String type) {
+
+		String finalString ;
+		switch (type) {
+			case "Laboratory": finalString = "LABS";
+			break;
+			case "Information": finalString = "INFO";
+			break;
+			case "Retail": finalString = "RETL";
+			break;
+			case "Bathoom": finalString = "BATH";
+			break;
+			case "Stair": finalString = "STAI";
+			break;
+			case "Service": finalString = "SERV";
+			break;
+			case "Restroom": finalString = "REST";
+			break;
+			case "Elevator": finalString = "ELEV";
+			break;
+			case "Department": finalString = "DEPT";
+			break;
+			case "Conference": finalString = "CONF";
+			break;
+			case "EXIT": finalString = "EXIT";
+			break;
+
+			default: finalString = "Invalid Type";
+
+		}
+
+		return finalString;
 
 	}
 }
