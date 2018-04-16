@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 
 public class Log {
 
-    private String loginID;
+    private String logID;
     private String description;
     private LocalDateTime logTime;
     private String userID;
     private String associatedID;
     private String associatedType;
 
-    public Log(String loginID, String description, LocalDateTime logTime, String userID, String associatedID, String associatedType) {
-        this.loginID = loginID;
+    public Log(String logID, String description, LocalDateTime logTime, String userID, String associatedID, String associatedType) {
+        this.logID = logID;
         this.description = description;
         this.logTime = logTime;
         this.userID = userID;
@@ -21,12 +21,12 @@ public class Log {
     }
 
 
-    public String getLoginID() {
-        return loginID;
+    public String getLogID() {
+        return logID;
     }
 
-    public void setLoginID(String loginID) {
-        this.loginID = loginID;
+    public void setLogID(String logID) {
+        this.logID = logID;
     }
 
     public String getDescription() {

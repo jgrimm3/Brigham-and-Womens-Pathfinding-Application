@@ -352,15 +352,16 @@ class NodesDBUtil {
 	/*---------------------------------------- Add/delete/edit "edges" -------------------------------------------------*/
 
 	/**
-	 * Adds the java object and the corresponding entry in the database table
-	 *
-	 * @param startNode the start node
-	 * @param endNode   the end node
+	 * Adds the edge and the corresponding entry in the database table
+	 * @param startNode
+	 * @param endNode
+	 * @return
 	 */
-	void addEdge(Node startNode, Node endNode) {
+	Edge addEdge(Node startNode, Node endNode) {
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		nodeMap.get(startNode.getNodeID()).getAdjacentNodes().add(endNode);
 		nodeMap.get(endNode.getNodeID()).getAdjacentNodes().add(startNode);
+		Edge a_edge = new Edge(startNode.getNodeID(),endNode.getNodeID(),startNode.getNodeID() + "_" + endNode.getNodeID());
 		System.out.println("Node added to adjacent node...");
 		try {
 			// Connect to the database
@@ -381,6 +382,7 @@ class NodesDBUtil {
             System.out.println("Edge added to database");
 			closeConnection(connection);
 		}
+		return a_edge;
 	} // end addEdge()
 
 	/**

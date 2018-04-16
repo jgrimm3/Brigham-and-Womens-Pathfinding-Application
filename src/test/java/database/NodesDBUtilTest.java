@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 public class NodesDBUtilTest {
@@ -242,6 +243,9 @@ public class NodesDBUtilTest {
 	public void getNamesByBuildingFloorType_returnsCorrectList(){
 		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
 		assertTrue(nameList.contains("L1 Stairs"));
+
+		List<String> nameList2 = DataModelI.getInstance().getNamesByBuildingFloorType(null,null,"BATH");
+		assertFalse(nameList2.contains("L1 Stairs"));
 	}
 
 }
