@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CalcDistance {
 
-    private CalcDistance(){}
+    public CalcDistance(){}
 
     /**
      * Returns the distance from one node to its neighbor,
@@ -22,8 +22,9 @@ public class CalcDistance {
      */
     public static double calcDistance(Node startNode, Node endNode){
         if(startNode.getAdjacentNodes().contains(endNode)){
-            return Math.sqrt(Math.pow((startNode.getXCoord() - endNode.getXCoord()),2) +
+            double distance =  Math.sqrt(Math.pow((startNode.getXCoord() - endNode.getXCoord()),2) +
                     Math.pow((startNode.getYCoord() - endNode.getYCoord()),2));
+            return metersToFeet(distance);
         }
         return 0;
     }
@@ -43,6 +44,16 @@ public class CalcDistance {
             sum += calcDistance(laggingIterator.next(), leadingIterator.next());
         }
 
-        return sum;
+        return metersToFeet(sum);
+    }
+
+    /**
+     * converts meter distance to feet
+     *
+     * @param distance the distance in meters to convert
+     * @return the input distance in feet units
+     */
+    private static double metersToFeet(double distance) {
+        return distance*3.2808;
     }
 }

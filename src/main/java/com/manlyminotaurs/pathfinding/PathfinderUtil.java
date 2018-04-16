@@ -23,10 +23,18 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class PathfinderUtil {
-    /* TODO:
-    - update angle-to-text for floor switching functionality
-    */
+    //Unicode arrows
 
+    char lArrow[] = Character.toChars(129092);
+    String leftArrow = new String(lArrow);
+    char rArrow[] = Character.toChars(129094);
+    String rightArrow = new String(rArrow);
+    char slArrow[] = Character.toChars(129184);
+    String slightLeftArrow = new String(slArrow);
+    char sRArrow[] = Character.toChars(129184);
+    String slightRightArrow = new String(sRArrow);
+    char straight[] = Character.toChars(129093);
+    String straightArrow = new String(straight);
 
     /**
      * calculates angle from 3 Nodes
@@ -64,25 +72,25 @@ public class PathfinderUtil {
     }
 
     /**
+     * creates string of distance to append to tbt directions
+     *
+     * @param startNode: starting node
+     * @param endNode: ending node
+     * @return distance, ex: "in 500 ft, "...
+     */
+    private String nodesToDistance(Node startNode, Node endNode) {
+        double distance = CalcDistance.calcDistance(startNode, endNode);
+        String strDouble = String.format("%.2f", distance);
+        return "in " + strDouble + " ft, ";
+    }
+
+
+    /**
      * associates direction to corresponding angle for each node in list
      *
      * @param path: List of Nodes
      * @return Array of Strings containing directions
      */
-//Unicode arrows
-
-    char lArrow[] = Character.toChars(129092);
-    String leftArrow = new String(lArrow);
-    char rArrow[] = Character.toChars(129094);
-    String rightArrow = new String(rArrow);
-    char slArrow[] = Character.toChars(129184);
-    String slightLeftArrow = new String(slArrow);
-    char sRArrow[] = Character.toChars(129184);
-    String slightRightArrow = new String(sRArrow);
-    char straight[] = Character.toChars(129093);
-    String straightArrow = new String(straight);
-
-
 
     public ArrayList<String> angleToText(LinkedList<Node> path) {
         ArrayList<String> tbt = new ArrayList<>();
@@ -91,22 +99,22 @@ public class PathfinderUtil {
         /* loop through path */
         for (int i = 0; i < path.size() - 2; i++) {
             System.out.println("Intersection: " + (i + 1));
-            double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
+            double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+1)));
             if (angle > 30 && angle <= 45) {
-                tbt.add("Make a slight right" + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight right" + nameToString(path.get((i+1))));
             } else if (angle > 45 && angle <= 135) {
-                tbt.add( rightArrow + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + rightArrow + nameToString(path.get((i+1))));
             } else if (angle > 135 && angle <= 175) {
-                tbt.add("Make a sharp right" + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a sharp right" + nameToString(path.get((i+1))));
             } else if (angle > 175 && angle <= 185) {
-                tbt.add("Turn around" + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "turn around" + nameToString(path.get((i+1))));
             } else if (angle > 185 && angle <= 225) {
-                tbt.add("Make a sharp left" + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a sharp left" + nameToString(path.get((i+1))));
             } else if (angle > 225 && angle <= 315) {
-                tbt.add(leftArrow + nameToString(path.get((i+2))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + leftArrow + nameToString(path.get((i+1))));
             } else if (angle > 315 && angle <= 330) {
-                tbt.add("Make a slight left" + nameToString(path.get((i+2))));
-            } else { tbt.add(straightArrow + nameToString(path.get((i+2)))); }
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight left" + nameToString(path.get((i+1))));
+            } else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
         }
         return tbt;
     }
