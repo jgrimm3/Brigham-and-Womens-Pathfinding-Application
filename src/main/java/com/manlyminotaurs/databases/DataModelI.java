@@ -1,5 +1,7 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
@@ -10,6 +12,7 @@ import com.manlyminotaurs.users.UserPassword;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,7 @@ public class DataModelI implements IDataModel{
 	private UserDBUtil userDBUtil;
 	private TableInitializer tableInitializer;
 	private UserSecurity userSecurity;
+	private LogDBUtil logDBUtil;
 
     // list of all objects
 
@@ -43,14 +47,7 @@ public class DataModelI implements IDataModel{
 
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
-
-        DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
-        DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
-        DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-        DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
-        DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
-        DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
-        DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
+        DataModelI.getInstance().updateAllCSVFiles();
 
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
@@ -64,6 +61,7 @@ public class DataModelI implements IDataModel{
         userDBUtil = new UserDBUtil();
         tableInitializer = new TableInitializer();
         userSecurity = new UserSecurity();
+        logDBUtil = new LogDBUtil();
     }
 
     public static DataModelI getInstance(){
@@ -76,7 +74,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-
+        addLog("Started Database", LocalDateTime.now(), "N/A", "N/A", "N/A");
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -129,17 +127,23 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean modifyNode(Node newNode) {
-        return nodesDBUtil.modifyNode(newNode);
+        boolean tempBool =  nodesDBUtil.modifyNode(newNode);
+        addLog("Modified "+ newNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newNode.getNodeID(),"node");
+        return tempBool;
     }
 
     @Override
     public Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
-        return nodesDBUtil.addNode(xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
+        Node tempNode =  nodesDBUtil.addNode(xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
+        addLog("Added "+ tempNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempNode.getNodeID(),"node");
+        return tempNode;
     }
 
     @Override
     public boolean removeNode(Node badNode) {
-        return nodesDBUtil.removeNode(badNode);
+        boolean tempBool = nodesDBUtil.removeNode(badNode);
+        addLog("Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
+        return tempBool;
     }
 
     @Override
@@ -234,34 +238,46 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void addEdge(Node startNode, Node endNode) {
-        nodesDBUtil.addEdge(startNode, endNode);
+    public Edge addEdge(Node startNode, Node endNode) {
+        Edge tempEdge = nodesDBUtil.addEdge(startNode, endNode);
+        addLog("Added "+ tempEdge.getEdgeID()+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(),tempEdge.getEdgeID(),"edge");
+        return tempEdge;
     }
 
     @Override
     public void removeEdge(Node startNode, Node endNode) {
+        String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
         nodesDBUtil.removeEdge(startNode, endNode);
+        addLog("Removed "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(), edgeID,"edge");
     }
 
     @Override
     public void modifyEdge(Node startNode, Node endNode, int status) {
+        String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
         nodesDBUtil.modifyEdge(startNode, endNode, status);
+        addLog("Modified "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(),edgeID,"edge");
     }
 
     /*------------------------------------------------ Messages -------------------------------------------------------*/
     @Override
     public Message addMessage(Message messageObject) {
-        return messagesDBUtil.addMessage(messageObject);
+        Message tempMessage = messagesDBUtil.addMessage(messageObject);
+        addLog("Added "+ messageObject.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),messageObject.getMessageID(),"message");
+        return tempMessage;
     }
 
     @Override
     public boolean removeMessage(Message oldMessage) {
-        return messagesDBUtil.removeMessage(oldMessage);
+        boolean tempBool = messagesDBUtil.removeMessage(oldMessage);
+        addLog("Removed "+ oldMessage.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldMessage.getMessageID(),"message");
+        return tempBool;
     }
 
     @Override
     public boolean modifyMessage(Message newMessage) {
-        return messagesDBUtil.modifyMessage(newMessage);
+        boolean tempBool = messagesDBUtil.modifyMessage(newMessage);
+        addLog("Modified "+ newMessage.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newMessage.getMessageID(),"message");
+        return tempBool;
     }
 
     @Override
@@ -293,17 +309,23 @@ public class DataModelI implements IDataModel{
     /*------------------------------------------------ Requests -------------------------------------------------------*/
     @Override
     public Request addRequest(Request requestObject, Message messageObject) {
-        return requestsDBUtil.addRequest(requestObject, messageObject);
+        Request newRequest = requestsDBUtil.addRequest(requestObject, messageObject);
+        addLog("Added "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
+        return newRequest;
     }
 
     @Override
     public boolean removeRequest(Request oldRequest) {
-        return requestsDBUtil.removeRequest(oldRequest);
+        boolean tempBool = requestsDBUtil.removeRequest(oldRequest);
+        addLog("Removed "+ oldRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldRequest.getRequestID(),"request");
+        return tempBool;
     }
 
     @Override
     public boolean modifyRequest(Request newRequest) {
-        return requestsDBUtil.modifyRequest(newRequest);
+        boolean tempBool = requestsDBUtil.modifyRequest(newRequest);
+        addLog("Modified "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
+        return tempBool;
     }
 
     @Override
@@ -335,17 +357,23 @@ public class DataModelI implements IDataModel{
 
     @Override
     public User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
-        return userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
+        User newUser = userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
+        addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
+        return newUser;
     }
 
     @Override
     public boolean removeUser(User oldUser) {
-        return userDBUtil.removeUser(oldUser);
+        boolean tempBool = userDBUtil.removeUser(oldUser);
+        addLog("Removed "+ oldUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldUser.getUserID(),"user");
+        return tempBool;
     }
 
     @Override
     public boolean modifyUser(User newUser) {
-        return userDBUtil.modifyUser(newUser);
+        boolean tempBool = userDBUtil.modifyUser(newUser);
+        addLog("Modified "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
+        return tempBool;
     }
 
     @Override
@@ -384,16 +412,44 @@ public class DataModelI implements IDataModel{
         return userSecurity.retrieveUserPasswords();
     }
 
+    //---------------------------------------------------------------------------------------------------
 
     @Override
-    public void updateUserPasswordFile(String csvFileName) {
-        new CsvFileController().updateUserPasswordFile(csvFileName);
+    public List<Log> retrieveLogData() {
+        return logDBUtil.retrieveLogData();
     }
 
     @Override
-    public void updateStaffTable(String csvFileName) {
-        new CsvFileController().updateStaffTable(csvFileName);
+    public Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType) {
+        return logDBUtil.addLog(description, logTime, userID, associatedID, associatedType);
     }
+
+    @Override
+    public boolean removeLog(Log oldLog) {
+        return logDBUtil.removeLog(oldLog);
+    }
+
+    @Override
+    public Log getLogByLogID(String logID) {
+        return logDBUtil.getLogByLogID(logID);
+    }
+
+    @Override
+    public List<Log> getLogsByUserID(String userID) {
+        return logDBUtil.getLogsByUserID(userID);
+    }
+
+    @Override
+    public List<Log> getLogsByAssociatedType(String associatedType) {
+        return logDBUtil.getLogsByAssociatedType(associatedType);
+    }
+
+    @Override
+    public List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime) {
+        return logDBUtil.getLogsByLogTime(startTime,endTime);
+    }
+
+    //------------------------------------------------------------------------------------------
 
     @Override
     public boolean doesUserPasswordExist(String userName, String password) {
@@ -404,32 +460,8 @@ public class DataModelI implements IDataModel{
     //--------------------------------------CSV stuffs------------------------------------------
 
     @Override
-    public void updateNodeCSVFile(String csvFileName) {
-        new CsvFileController().updateNodeCSVFile(csvFileName);
+    public void updateAllCSVFiles() {
+        new CsvFileController().updateAllCSVFiles();
     }
 
-    @Override
-    public void updateEdgeCSVFile(String csvFileName) {
-        new CsvFileController().updateEdgeCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateRoomCSVFile(String csvFileName) {
-        new CsvFileController().updateRoomCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateMessageCSVFile(String csvFileName) {
-        new CsvFileController().updateMessageCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateRequestCSVFile(String csvFileName) {
-        new CsvFileController().updateRequestCSVFile(csvFileName);
-    }
-
-    @Override
-    public void updateUserCSVFile(String csvFileName) {
-        new CsvFileController().updateUserCSVFile(csvFileName);
-    }
 }

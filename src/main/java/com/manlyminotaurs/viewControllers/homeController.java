@@ -441,8 +441,8 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(false);
 		comTypeStart.setDisable(false);
 		comTypeEnd.setDisable(false);
-		comLocationStart.setDisable(false);
-		comLocationEnd.setDisable(false);
+		//comLocationStart.setDisable(false);
+		//comLocationEnd.setDisable(false);
 
 		if (tglMap.isSelected()) {
 
@@ -493,6 +493,7 @@ public class homeController implements Initializable {
 
 		kiosk.setStrokeWidth(3);
 		kiosk.setStroke(Color.BLACK);
+		kiosk.setOnMouseClicked(this::startCircleClicked);
 		overMap.getChildren().add(kiosk);
 	}
 
@@ -544,9 +545,9 @@ public class homeController implements Initializable {
 		cancelFinish.setVisible(true);
 		btnEnd.setVisible(false);
 		if (tglMap.isSelected())
-			printPoints(returnFloorName(currentFloor), "3-D");
+			printPoints(currentFloor, "3-D");
 		else
-			printPoints(returnFloorName(currentFloor), "2-D");
+			printPoints(currentFloor, "2-D");
 
 	}
 
@@ -561,8 +562,8 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(false);
 		comTypeStart.setDisable(false);
 		comTypeEnd.setDisable(false);
-		comLocationStart.setDisable(false);
-		comLocationEnd.setDisable(false);
+		//comLocationStart.setDisable(false);
+		//comLocationEnd.setDisable(false);
 	}
 
 	private void hideStartAndEnd() {
@@ -574,8 +575,8 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(true);
 		comTypeStart.setDisable(true);
 		comTypeEnd.setDisable(true);
-		comLocationStart.setDisable(true);
-		comLocationEnd.setDisable(true);
+		//comLocationStart.setDisable(true);
+		//comLocationEnd.setDisable(true);
 	}
 
 	public void chooseStartNode(MouseEvent event) {
@@ -591,8 +592,8 @@ public class homeController implements Initializable {
 						comFloorStart.getSelectionModel().select(node.getFloor());
 						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationStart.getSelectionModel().select(node.getLongName());
-						txtLocationStart.setText(node.getShortName());
-						lblStartLocation.setText(node.getShortName());
+						txtLocationStart.setText(node.getLongName());
+						lblStartLocation.setText(node.getLongName());
 						showStartAndEnd();
 						break;
 					}
@@ -608,8 +609,8 @@ public class homeController implements Initializable {
 						comFloorStart.getSelectionModel().select(node.getFloor());
 						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 						comLocationStart.getSelectionModel().select(node.getLongName());
-						txtLocationStart.setText(node.getShortName());
-						lblStartLocation.setText(node.getShortName());
+						txtLocationStart.setText(node.getLongName());
+						lblStartLocation.setText(node.getLongName());
 						showStartAndEnd();
 						break;
 					}
@@ -632,9 +633,9 @@ public class homeController implements Initializable {
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
 						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						comLocationEnd.getSelectionModel().select(node.getLongName());
-						txtLocationEnd.setText(node.getShortName());
-						lblEndLocation.setText(node.getShortName());
+						//comLocationEnd.getSelectionModel().select(node.getLongName());
+						txtLocationEnd.setText(node.getLongName());
+						lblEndLocation.setText(node.getLongName());
 						showStartAndEnd();
 						break;
 					}
@@ -649,9 +650,9 @@ public class homeController implements Initializable {
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
 						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						comLocationEnd.getSelectionModel().select(node.getLongName());
-						txtLocationEnd.setText(node.getShortName());
-						lblEndLocation.setText(node.getShortName());
+						//comLocationEnd.getSelectionModel().select(node.getLongName());
+						txtLocationEnd.setText(node.getLongName());
+						lblEndLocation.setText(node.getLongName());
 						showStartAndEnd();
 						break;
 					}
@@ -780,16 +781,16 @@ public class homeController implements Initializable {
 		// Clear Past Selections
 		comFloorEnd.getSelectionModel().clearSelection();
 		comTypeEnd.getSelectionModel().clearSelection();
-		comLocationEnd.getSelectionModel().clearSelection();
+		//comLocationEnd.getSelectionModel().clearSelection();
 
 		// Clear Lists in Objects
 		comTypeEnd.setItems(empty);
 
-		comLocationEnd.setItems(empty);
+		//comLocationEnd.setItems(empty);
 
 		// Disable Objects
 		comTypeEnd.setDisable(true);
-		comLocationEnd.setDisable(true);
+		//comLocationEnd.setDisable(true);
 
 		// Set End Location Label to Default
 		lblEndLocation.setText("END LOCATION");
@@ -808,10 +809,10 @@ public class homeController implements Initializable {
 
 		// Clear Past Selection
 		comTypeEnd.getSelectionModel().clearSelection();
-		comLocationEnd.getSelectionModel().clearSelection();
+		//comLocationEnd.getSelectionModel().clearSelection();
 
 		// Disable Objects
-		comLocationEnd.setDisable(true);
+		//comLocationEnd.setDisable(true);
 
 		// Set End Location Label to Default
 		lblEndLocation.setText("END LOCATION");
@@ -849,8 +850,8 @@ public class homeController implements Initializable {
 		comFloorEnd.setDisable(false);
 		comTypeStart.setDisable(false);
 		comTypeEnd.setDisable(false);
-		comLocationStart.setDisable(false);
-		comLocationEnd.setDisable(false);
+		//comLocationStart.setDisable(false);
+		//comLocationEnd.setDisable(false);
 		if (tglMap.isSelected()) { // 3-D
 
 			stackPaneMap.setPrefHeight(2774);
@@ -997,7 +998,7 @@ public class homeController implements Initializable {
 		tglHandicap.setText("OFF");
 		tglMap.setSelected(false);
 		tglMap.setText("2-D");
-		floor2DMapLoader("1");
+		changeFloor("1");
 		currentFloor = "1";
 
 		overMap.getChildren().remove(startCircle);
@@ -1114,6 +1115,7 @@ public class homeController implements Initializable {
 		try {
 			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
 			pathList = path;
+
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1124,6 +1126,12 @@ public class homeController implements Initializable {
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
 		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+        // calcDistance function now converts to feet
+        double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
+        double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
+        directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
+        directions.add("ETA: " + (int)time + " Minute(s)");
+        lstDirections.setItems(directions);
 		lstDirections.setItems(directions);
 		listForQR = (LinkedList<Node>)path;
 		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
@@ -1134,12 +1142,12 @@ public class homeController implements Initializable {
 			if (tglMap.isSelected()) {
 				// use 3-D
 				printNodePath(path, startFloor, "3-D");
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		} else {
@@ -1148,12 +1156,12 @@ public class homeController implements Initializable {
 				// use 3-D
 				System.out.println("using 3d stairs");
 				printNodePath(path, startFloor, "3-D");
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			} else {
 				// use 2-D
 				printNodePath(path, startFloor, "2-D");
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 				comChangeFloor.setValue("FLOOR: " + startFloor);
 			}
 		}
@@ -1162,8 +1170,8 @@ public class homeController implements Initializable {
 		panePathfinding.setVisible(false);
 		paneDirections.setVisible(true);
 		// Set new overview panel to correct parameters
-		lblStartLocation1.setText(comLocationStart.getValue());
-		lblEndLocation1.setText(comLocationEnd.getValue());
+		//lblStartLocation1.setText(comLocationStart.getValue());
+		//lblEndLocation1.setText(comLocationEnd.getValue());
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
 		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
@@ -1181,12 +1189,12 @@ public class homeController implements Initializable {
 		comTypeEnd.setDisable(true);
 		comTypeEnd.getSelectionModel().clearSelection();
 		comTypeEnd.setItems(empty);
-		comLocationStart.setDisable(true);
-		comLocationStart.getSelectionModel().clearSelection();
-		comLocationStart.setItems(empty);
-		comLocationEnd.setDisable(true);
-		comLocationEnd.getSelectionModel().clearSelection();
-		comLocationEnd.setItems(empty);
+		//comLocationStart.setDisable(true);
+		//comLocationStart.getSelectionModel().clearSelection();
+		//comLocationStart.setItems(empty);
+		//comLocationEnd.setDisable(true);
+		//comLocationEnd.getSelectionModel().clearSelection();
+		//comLocationEnd.setItems(empty);
 		lblStartLocation.setText("START LOCATION");
 		lblEndLocation.setText("END LOCATION");
 		if (paneHelp.isVisible()) {
@@ -1337,12 +1345,12 @@ public class homeController implements Initializable {
 				comTypeEnd.setDisable(true);
 				comTypeEnd.getSelectionModel().clearSelection();
 				comTypeEnd.setItems(empty);
-				comLocationStart.setDisable(true);
-				comLocationStart.getSelectionModel().clearSelection();
-				comLocationStart.setItems(empty);
-				comLocationEnd.setDisable(true);
-				comLocationEnd.getSelectionModel().clearSelection();
-				comLocationEnd.setItems(empty);
+				//comLocationStart.setDisable(true);
+				//comLocationStart.getSelectionModel().clearSelection();
+				//comLocationStart.setItems(empty);
+				//comLocationEnd.setDisable(true);
+				//comLocationEnd.getSelectionModel().clearSelection();
+				//comLocationEnd.setItems(empty);
 				lblStartLocation.setText("START LOCATION");
 				lblEndLocation.setText("END LOCATION");
 				// Set floor map !!!
@@ -1742,6 +1750,7 @@ public class homeController implements Initializable {
 			//nodeList = DataModelI.getInstance().retrieveNodes();
 			Node startNode = DataModelI.getInstance().getNodeByLongName(lblStartLocation.getText());
 			Node endNode = DataModelI.getInstance().getNodeByLongName(lblEndLocation.getText());
+			currentFloor = startNode.getFloor();
 
 			try {
 				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
@@ -1751,13 +1760,15 @@ public class homeController implements Initializable {
 			}
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " m");
-            directions.add("ETA: " + Math.round(dist/Singleton.getInstance().walkSpeed) + " Seconds");
+            double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
+            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
+            directions.add("ETA: " + (int)time + " Minute(s)");
             lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;
-            pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
+            //pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
             // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 			// Draw path code
@@ -1769,7 +1780,7 @@ public class homeController implements Initializable {
 				if (tglMap.isSelected()) {
 					// use 3-D
 					printNodePath(pathList, startFloor, "3-D");
-					floor3DMapLoader(startFloor);
+					changeFloor(startFloor);
 					dimension = "3-D";
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
@@ -1777,7 +1788,7 @@ public class homeController implements Initializable {
 					// use 2-D
 					dimension = "2-D";
 					printNodePath(pathList, startFloor, "2-D");
-					floor2DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				}
 			} else {
@@ -1787,13 +1798,13 @@ public class homeController implements Initializable {
 					dimension = "3-D";
 					System.out.println("using 3d stairs");
 					printNodePath(pathList, startFloor, "3-D");
-					floor3DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 				} else {
 					// use 2-D
 					dimension = "2-D";
 					printNodePath(pathList, startFloor, "2-D");
-					floor2DMapLoader(startFloor);
+					changeFloor(startFloor);
 					comChangeFloor.setValue("FLOOR: " + startFloor);
 
 				}
@@ -1806,8 +1817,8 @@ public class homeController implements Initializable {
 			paneDirections.setVisible(true);
 
 			// Set new overview panel to correct parameters
-			lblStartLocation1.setText(comLocationStart.getValue());
-			lblEndLocation1.setText(comLocationEnd.getValue());
+			//lblStartLocation1.setText(comLocationStart.getValue());
+			//lblEndLocation1.setText(comLocationEnd.getValue());
 
 			// Clean up Navigation Fields
 			//comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1829,9 +1840,9 @@ public class homeController implements Initializable {
 			//comLocationStart.setDisable(true);
 			//comLocationStart.getSelectionModel().clearSelection();
 			//comLocationStart.setItems(empty);
-			comLocationEnd.setDisable(true);
-			comLocationEnd.getSelectionModel().clearSelection();
-			comLocationEnd.setItems(empty);
+			//comLocationEnd.setDisable(true);
+			//comLocationEnd.getSelectionModel().clearSelection();
+			//comLocationEnd.setItems(empty);
 			lblStartLocation.setText("START LOCATION");
 			lblEndLocation.setText("END LOCATION");
 
@@ -1884,13 +1895,14 @@ public class homeController implements Initializable {
 
 		if(!startFloor.equals(currentFloor)) {
 			if (tglMap.isSelected()) { // 3-D
-				floor3DMapLoader(startFloor);
+				changeFloor(startFloor);
 
 			} else { // 2-D
 
 				// !!!
-				floor2DMapLoader(startFloor);
+				changeFloor(startFloor);
 			}
+			currentFloor = startFloor;
 			cancelStart.setVisible(false);
 		}
 
@@ -1901,13 +1913,14 @@ public class homeController implements Initializable {
 		System.out.println("Recognized a click");
 		if(!endFloor.equals(currentFloor)) {
 			if (tglMap.isSelected()) { // 3-D
-				floor3DMapLoader(endFloor);
+				changeFloor(endFloor);
 
 			} else { // 2-D
 
 				// !!!
-				floor2DMapLoader(endFloor);
+				changeFloor(endFloor);
 			}
+			currentFloor = endFloor;
 			cancelFinish.setVisible(false);
 		}
 	}
@@ -2117,6 +2130,19 @@ public class homeController implements Initializable {
 		fade.play();
 		currName = null;
 		paneMap.getChildren().remove(currName);
+	}
+
+	private void changeFloor(String floor) {
+		if(floor.equals("L2"))
+			changeFloorL2(null);
+		if(floor.equals("L1"))
+			changeFloorL1(null);
+		if(floor.equals("1"))
+			changeFloor1(null);
+		if(floor.equals("2"))
+			changeFloor2(null);
+		if(floor.equals("3"))
+			changeFloor3(null);
 	}
 
 	public void changeFloorL2(ActionEvent event) {

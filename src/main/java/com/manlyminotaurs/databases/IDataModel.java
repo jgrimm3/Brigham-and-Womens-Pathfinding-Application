@@ -1,5 +1,6 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
@@ -9,6 +10,7 @@ import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +62,7 @@ public interface IDataModel {
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<String> getAdjacentNodes(Node node);
     List<Edge> getEdgeList();
-    void addEdge(Node startNode, Node endNode);
+    Edge addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);
     void modifyEdge(Node startNode, Node endNode, int status);
 
@@ -108,12 +110,14 @@ public interface IDataModel {
 
 
     //---------------------------------------UPDATE CSV FIles--------------------------------
-    void updateNodeCSVFile(String csvFileName);
-    void updateEdgeCSVFile(String csvFileName);
-    void updateRoomCSVFile(String csvFileName);
-    void updateMessageCSVFile(String csvFileName);
-    void updateRequestCSVFile(String csvFileName);
-    void updateUserCSVFile(String csvFileName);
-    void updateUserPasswordFile(String csvFileName);
-    void updateStaffTable(String csvFileName);
+    void updateAllCSVFiles();
+
+    //-------------------------------------LOG Table--------------------------------------------
+    List<Log> retrieveLogData();
+    Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType);
+    boolean removeLog(Log oldLog);
+    Log getLogByLogID(String logID);
+    List<Log> getLogsByUserID(String userID);
+    List<Log> getLogsByAssociatedType(String associatedType);
+    List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime);
 }

@@ -352,15 +352,16 @@ class NodesDBUtil {
 	/*---------------------------------------- Add/delete/edit "edges" -------------------------------------------------*/
 
 	/**
-	 * Adds the java object and the corresponding entry in the database table
-	 *
-	 * @param startNode the start node
-	 * @param endNode   the end node
+	 * Adds the edge and the corresponding entry in the database table
+	 * @param startNode
+	 * @param endNode
+	 * @return
 	 */
-	void addEdge(Node startNode, Node endNode) {
+	Edge addEdge(Node startNode, Node endNode) {
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		nodeMap.get(startNode.getNodeID()).getAdjacentNodes().add(endNode);
 		nodeMap.get(endNode.getNodeID()).getAdjacentNodes().add(startNode);
+		Edge a_edge = new Edge(startNode.getNodeID(),endNode.getNodeID(),startNode.getNodeID() + "_" + endNode.getNodeID());
 		System.out.println("Node added to adjacent node...");
 		try {
 			// Connect to the database
@@ -381,6 +382,7 @@ class NodesDBUtil {
             System.out.println("Edge added to database");
 			closeConnection(connection);
 		}
+		return a_edge;
 	} // end addEdge()
 
 	/**
@@ -933,7 +935,7 @@ class NodesDBUtil {
 		Statement stmt = null;
 		try {
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_NODES WHERE longName LIKE '" + longName + "'";
+			String str = "SELECT * FROM MAP_NODES WHERE longName = '" + longName + "'";
 			ResultSet rset = stmt.executeQuery(str);
 
 			// For every node, get the information
@@ -971,9 +973,9 @@ class NodesDBUtil {
 		}
 
 		Node node = null;
-		String shortName;
+		String aName;
 		Statement stmt = null;
-		List<String> shortNameList = new ArrayList<>();
+		List<String> listOfNames = new ArrayList<>();
 		Connection connection = DataModelI.getInstance().getNewConnection();
 
 		try {
@@ -983,8 +985,8 @@ class NodesDBUtil {
 
 			// For every node, get the information
 			while (rset.next()) {
-				shortName = rset.getString("shortName");
-				shortNameList.add(shortName);
+				aName = rset.getString("longName");
+				listOfNames.add(aName);
 			}
 			rset.close();
 			stmt.close();
@@ -993,7 +995,7 @@ class NodesDBUtil {
 		} finally {
 			DataModelI.getInstance().closeConnection();
 		}
-		return shortNameList;
+		return listOfNames;
 	}
 
 	@Deprecated

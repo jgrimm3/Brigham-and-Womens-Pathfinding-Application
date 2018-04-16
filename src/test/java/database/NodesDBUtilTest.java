@@ -1,5 +1,6 @@
 package database;
 
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Node;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 public class NodesDBUtilTest {
@@ -26,6 +28,7 @@ public class NodesDBUtilTest {
 	@Before
 	public void before() {
 		DataModelI.getInstance().startDB();
+		KioskInfo.currentUserID = "2";
 	}
 
 	@Test
@@ -98,6 +101,8 @@ public class NodesDBUtilTest {
 	public void addNode_CorrectlyAddsNode() {
 		Map<String, Node> oldNodeMap = DataModelI.getInstance().getNodeMap();
 		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Node addedNode2 = DataModelI.getInstance().addNode(5, 5, "1", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+
 		Map<String, Node> newNodeMap = DataModelI.getInstance().getNodeMap();
 		boolean oldNodeMapBool = oldNodeMap.containsValue(addedNode);
 		boolean newNodeMapBool = newNodeMap.containsValue(addedNode);
@@ -242,6 +247,9 @@ public class NodesDBUtilTest {
 	public void getNamesByBuildingFloorType_returnsCorrectList(){
 		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
 		assertTrue(nameList.contains("L1 Stairs"));
+
+		List<String> nameList2 = DataModelI.getInstance().getNamesByBuildingFloorType(null,null,"BATH");
+		assertFalse(nameList2.contains("L1 Stairs"));
 	}
 
 }
