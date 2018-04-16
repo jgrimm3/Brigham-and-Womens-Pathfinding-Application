@@ -49,10 +49,11 @@ public class AStarStrategyI extends  DistancePathdinder implements IPathFindingS
         ArrayList<PathfindingNode> children = expandNode(startNode);
 
         for (PathfindingNode child: children){
+            AStarNode aChild = new AStarNode(child.getNode(), startNode);
             child.setParent(startNode);
-            scoreNode((AStarNode) child, endNode);
+            scoreNode(aChild, endNode);
             if(!openList.contains(child) && !closedList.contains(child)) {
-                openList.add((AStarNode) child);
+                openList.add(aChild);
             }
         }
 
