@@ -2,7 +2,6 @@ package database;
 
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import org.junit.Before;
 import org.junit.Test;
 
