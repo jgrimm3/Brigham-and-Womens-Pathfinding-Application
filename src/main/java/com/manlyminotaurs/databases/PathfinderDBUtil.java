@@ -21,7 +21,7 @@
 //
 //
 //    //retrieve pathfindings
-//    public List<Pathfinder> retrieveLogData(){
+//    public List<Pathfinder> retrievePathfinderData(){
 //        List<Pathfinder> listOfPath = new ArrayList<>();
 //        Connection connection = DataModelI.getInstance().getNewConnection();
 //
@@ -34,16 +34,12 @@
 //            String startNodeID = "";
 //            String endNodeID = "";
 //
-//
 //            while (rset.next()) {
-//                logID = rset.getString("logID");
-//                description = rset.getString("description");
-//                logTime = rset.getTimestamp("logTime");
-//                userID = rset.getString("userID");
-//                associatedID = rset.getString("associatedID");
-//                associatedType = rset.getString("associatedType");
+//                pathfinderID = rset.getString("pathfinderID");
+//                startNodeID = rset.getString("startNodeID");
+//                endNodeID = rset.getTimestamp("endNodeID");
 //
-//                Log newLog = new Log(logID, description, logTime.toLocalDateTime(), userID, associatedID, associatedType);
+//                newPath = new Pathfinder(pathfinderID, startNodeID, endNodeID);
 //                listOfLogs.add(newLog);
 //
 //                System.out.println("Log added to the list: " + logID);
