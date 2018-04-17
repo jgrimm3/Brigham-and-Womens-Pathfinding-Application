@@ -2,6 +2,7 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.log.Log;
+import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
@@ -37,6 +38,7 @@ public class DataModelI implements IDataModel{
 	private TableInitializer tableInitializer;
 	private UserSecurity userSecurity;
 	private LogDBUtil logDBUtil;
+	private PathfinderDBUtil pathfinderDBUtil;
 
     // list of all objects
 
@@ -62,6 +64,7 @@ public class DataModelI implements IDataModel{
         tableInitializer = new TableInitializer();
         userSecurity = new UserSecurity();
         logDBUtil = new LogDBUtil();
+        pathfinderDBUtil = new PathfinderDBUtil();
     }
 
     public static DataModelI getInstance(){
@@ -456,9 +459,32 @@ public class DataModelI implements IDataModel{
         return userSecurity.doesUserPasswordExist(userName, password);
     }
 
+    //----------------------------------Pathfinding Log-------------------------------------------
+
+    public List<Pathfinder> retrievePathfinderData(){
+        return pathfinderDBUtil.retrievePathfinderData();
+    }
+    public Pathfinder addPath(String startNodeID, String endNodeID){
+        Pathfinder tempPath = pathfinderDBUtil.addPath(startNodeID, endNodeID);
+        addLog("Pathfind from" + tempPath.getStartNodeID() +" to " + tempPath.getEndNodeID() + " is done",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempPath.getPathfinderID(),"pathfind");
+        return tempPath;
+    }
+    public boolean removePath(Pathfinder pathfinder){
+        boolean tempBool = pathfinderDBUtil.removePath(pathfinder);
+        addLog("Pathfind from" + pathfinder.getStartNodeID() +" to " + pathfinder.getEndNodeID() + " is removed",LocalDateTime.now(), KioskInfo.getCurrentUserID(), pathfinder.getPathfinderID(),"pathfind");
+        return tempBool;
+    }
+    public Pathfinder getPathByPathfinderID(String pathfinderID){
+        return pathfinderDBUtil.getPathByPathfinderID(pathfinderID);
+    }
+    public List<Pathfinder> getPathByStartNodeID(String startNodeID){
+        return pathfinderDBUtil.getPathByStartNodeID(startNodeID);
+    }
+    public List<Pathfinder> getPathByEndNodeID(String endNodeID){
+        return pathfinderDBUtil.getPathByEndNodeID(endNodeID);
+    }
 
     //--------------------------------------CSV stuffs------------------------------------------
-
     @Override
     public void updateAllCSVFiles() {
         new CsvFileController().updateAllCSVFiles();

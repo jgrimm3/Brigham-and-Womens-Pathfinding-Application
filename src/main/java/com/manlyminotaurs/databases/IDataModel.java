@@ -1,6 +1,7 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.log.Log;
+import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
@@ -120,4 +121,12 @@ public interface IDataModel {
     List<Log> getLogsByUserID(String userID);
     List<Log> getLogsByAssociatedType(String associatedType);
     List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime);
+
+    //-------------------------------------Pathfinder Table---------------------------------------
+    List<Pathfinder> retrievePathfinderData();
+    Pathfinder addPath(String startNodeID, String endNodeID);
+    boolean removePath(Pathfinder pathfinder);
+    Pathfinder getPathByPathfinderID(String pathfinderID);
+    List<Pathfinder> getPathByStartNodeID(String startNodeID);
+    List<Pathfinder> getPathByEndNodeID(String endNodeID);
 }

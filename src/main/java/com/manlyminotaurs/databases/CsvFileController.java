@@ -1,6 +1,7 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.log.Log;
+import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.*;
@@ -83,6 +84,7 @@ public class CsvFileController {
         updateUserPasswordFile("./UserPasswordTable.csv");
         updateStaffTable("./StaffTable.csv");
         updateLogCSVFile("./LogTable.csv");
+        updatePathfinderCSVFile("./PathfinderTable.csv");
     }
 
     /**
@@ -296,5 +298,24 @@ public class CsvFileController {
             e.printStackTrace();
         }
     }//updateLogCSVFile ends
+
+    private void updatePathfinderCSVFile(String csvFileName) {
+        Iterator<Pathfinder> iterator = DataModelI.getInstance().retrievePathfinderData().iterator();
+        System.out.println("Updating log csv file...");
+        try {
+            FileWriter fileWriter = new FileWriter(csvFileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print("pathfinderID, startNodeID, endNodeID\n");
+            while (iterator.hasNext()) {
+                Pathfinder pathfinder = iterator.next();
+                printWriter.printf("%s,%s,%s\n", pathfinder.getPathfinderID(),pathfinder.getStartNodeID(),pathfinder.getEndNodeID());
+            }
+            printWriter.close();
+            System.out.println("csv file updated");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }//updatePathfinderCSVFile ends
 
 }
