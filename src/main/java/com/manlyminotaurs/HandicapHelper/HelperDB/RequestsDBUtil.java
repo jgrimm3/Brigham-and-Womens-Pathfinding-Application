@@ -1,7 +1,5 @@
-package com.manlyminotaurs.HandicapHelper;
+package com.manlyminotaurs.HandicapHelper.HelperDB;
 
-import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.databases.MessagesDBUtil;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
@@ -19,17 +17,14 @@ import java.util.List;
 //        |  \ |___ \__X \__/ |___ .__/  |  .__/
 //
 
-class HandicapUtil {
+class RequestsDBUtil {
 
-    //-----------------------------------------------------------------------------------------------------------------
-    //
-    //                                           Variables
-    //
-    //-----------------------------------------------------------------------------------------------------------------
+    /*------------------------------------------------ Variables -----------------------------------------------------*/
     //public static List<Request> requestList = new ArrayList<>();
     private static int requestIDCounter = 0;
+
     public static void setRequestIDCounter(int requestIDCounter) {
-        HandicapUtil.requestIDCounter = requestIDCounter;
+        RequestsDBUtil.requestIDCounter = requestIDCounter;
     }
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
