@@ -1,6 +1,7 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -10,9 +11,7 @@ import com.manlyminotaurs.users.StaffFields;
 import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +38,7 @@ public class DataModelI implements IDataModel{
 	private UserSecurity userSecurity;
 	private LogDBUtil logDBUtil;
 	private PathfinderDBUtil pathfinderDBUtil;
+	private BackupDBUtil backupDBUtil;
 
     // list of all objects
 
@@ -65,6 +65,7 @@ public class DataModelI implements IDataModel{
         userSecurity = new UserSecurity();
         logDBUtil = new LogDBUtil();
         pathfinderDBUtil = new PathfinderDBUtil();
+        backupDBUtil = new BackupDBUtil();
     }
 
     public static DataModelI getInstance(){
@@ -136,8 +137,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
-        Node tempNode =  nodesDBUtil.addNode(xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
+    public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
+        Node tempNode =  nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
         addLog("Added "+ tempNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempNode.getNodeID(),"node");
         return tempNode;
     }
@@ -359,8 +360,8 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     @Override
-    public User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
-        User newUser = userDBUtil.addUser(firstName, middleName, lastName, languages, userType, userName, password);
+    public User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
+        User newUser = userDBUtil.addUser(userID, firstName, middleName, lastName, languages, userType, userName, password);
         addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return newUser;
     }
@@ -482,6 +483,89 @@ public class DataModelI implements IDataModel{
     }
     public List<Pathfinder> getPathByEndNodeID(String endNodeID){
         return pathfinderDBUtil.getPathByEndNodeID(endNodeID);
+    }
+
+
+    //----------------------------------------Backup--------------------------------------------
+
+    @Override
+    public Node addNodeToBackup(String nodeID) {
+        return nodesDBUtil.addNodeToBackup(nodeID);
+    }
+
+    @Override
+    public Message addMessageToBackup(String messageID) {
+        return null;
+    }
+
+    @Override
+    public Request addRequestToBackup(String requestID) {
+        return null;
+    }
+
+    @Override
+    public User addUserToBackup(String userID) {
+        return null;
+    }
+
+    @Override
+    public UserPassword addUserPasswordToBackup(String userID) {
+        return null;
+    }
+
+    @Override
+    public boolean removeNodeFromBackup(String nodeID) {
+        return false;
+    }
+
+    @Override
+    public boolean removeMessageFromBackup(String messageID) {
+        return false;
+    }
+
+    @Override
+    public boolean removeRequestFromBackup(String requestID) {
+        return false;
+    }
+
+    @Override
+    public boolean removeUserFromBackup(String userID) {
+        return false;
+    }
+
+    @Override
+    public boolean removeUserPasswordFromBackup(String userID) {
+        return false;
+    }
+
+    @Override
+    public List<BackupEntity> retrieveBackups() {
+        return backupDBUtil.retrieveBackups();
+    }
+
+    @Override
+    public boolean revertFromBackupByIDType(String logID, String associatedType) {
+        return backupDBUtil.revertFromBackupByID(logID, associatedType);
+    }
+
+    @Override
+    public void addBackup(String logID, String associatedID, String associatedType) {
+        backupDBUtil.addBackup(logID, associatedID, associatedType);
+    }
+
+    @Override
+    public void permanentlyRemoveBackup(String logID, String associatedID, String associatedType) {
+        backupDBUtil.permanentlyRemoveBackup(logID, associatedID, associatedType);
+    }
+
+    @Override
+    public Timestamp convertStringToTimestamp(String timeString) {
+        return tableInitializer.convertStringToTimestamp(timeString);
+    }
+
+    @Override
+    public Date convertStringToDate(String timeString) {
+        return tableInitializer.convertStringToDate(timeString);
     }
 
     //--------------------------------------CSV stuffs------------------------------------------

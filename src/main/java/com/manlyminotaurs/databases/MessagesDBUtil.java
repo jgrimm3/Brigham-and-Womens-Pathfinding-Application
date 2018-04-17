@@ -29,7 +29,9 @@ class MessagesDBUtil {
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
     public Message addMessage(Message messageObject){
         System.out.println("addMessage");
-        String messageID = generateMessageID();
+        if(messageObject.getMessageID() == null || messageObject.getMessageID().equals("")) {
+            messageObject.setMessageID(generateMessageID());
+        }
 
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {

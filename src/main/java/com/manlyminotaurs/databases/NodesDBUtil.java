@@ -2,7 +2,6 @@ package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.nodes.*;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -221,6 +220,7 @@ class NodesDBUtil {
 
 	/**
 	 * Adds the java object and the corresponding entry in the database table
+     * @param nodeID
      * @param xCoord    xcoord
      * @param yCoord    ycoord
      * @param nodeType  node type
@@ -230,9 +230,9 @@ class NodesDBUtil {
      * @param yCoord3D  yCoord3D
      * @param xCoord3D  xCoord3D
      */
-	Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int yCoord3D, int xCoord3D) {
+	Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int yCoord3D, int xCoord3D) {
 
-		Node aNode = buildNode("", xCoord, yCoord, floor, building, nodeType, longName, shortName, status , xCoord3D, yCoord3D);
+		Node aNode = buildNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status , xCoord3D, yCoord3D);
 
 		Connection connection;
 		connection = DataModelI.getInstance().getNewConnection();
@@ -273,6 +273,61 @@ class NodesDBUtil {
 
 		return aNode;
 	} // end addNode()
+
+
+	Node addNodeToBackup(String nodeID) {
+		Node aNode = getNodeByID(nodeID);
+		int xCoord = aNode.getXCoord();
+		int yCoord = aNode.getYCoord();
+		String floor = aNode.getFloor();
+		String building = aNode.getBuilding();
+		String nodeType = aNode.getNodeType();
+		String longName = aNode.getLongName();
+		String shortName = aNode.getShortName();
+		int status = aNode.getStatus();
+		int xCoord3D = aNode.getXCoord3D();
+		int yCoord3D = aNode.getYCoord3D();
+
+		Connection connection;
+		connection = DataModelI.getInstance().getNewConnection();
+		PreparedStatement statement = null;
+
+		System.out.println("Node added to object list...");
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			String str = "INSERT INTO BACKUP(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName, status, xCoord3D, yCoord3D) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+
+			// Create the prepared statement
+			statement = connection.prepareStatement(str);
+			statement.setString(1, aNode.getNodeID());
+			statement.setInt(2, aNode.getXCoord());
+			statement.setInt(3, aNode.getYCoord());
+			statement.setString(4, aNode.getFloor());
+			statement.setString(5, aNode.getBuilding());
+			statement.setString(6, aNode.getNodeType());
+			statement.setString(7, aNode.getLongName());
+			statement.setString(8, aNode.getShortName());
+			statement.setInt(9,aNode.getStatus());
+			statement.setInt(10, aNode.getXCoord3D());
+			statement.setInt(11, aNode.getYCoord3D());
+			statement.executeUpdate();
+			nodeMap.put(aNode.getNodeID(),aNode);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Node added to database");
+			try {
+				statement.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return aNode;
+	} // end addNode()
+
 
 	/**
 	 * @param node
@@ -853,8 +908,9 @@ class NodesDBUtil {
     public Node buildNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D){
         Node aNode;
 
-	    if (nodeID.equals("") || nodeID.isEmpty())
-	    {nodeID = generateNodeID(nodeType, floor, "A"); }
+	    if (nodeID.equals("") || nodeID.isEmpty()) {
+	        nodeID = generateNodeID(nodeType, floor, "A");
+	    }
         switch (nodeType){
             case "HALL":
                 aNode = new Hallway(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
