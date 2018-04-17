@@ -35,12 +35,12 @@
             <JFXPasswordField fx:id="txtPassword" layoutX="227.0" layoutY="760.0" prefHeight="25.0" prefWidth="309.0" promptText="Staff Password" />
          </children></Pane>
       <JFXProgressBar disable="true" layoutX="50.0" layoutY="969.0" prefHeight="35.0" prefWidth="700.0" progress="0.0" visible="false" />
+      <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="433.0" layoutY="760.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="WHITE" />
       <TableView fx:id="tblClosedRequests" layoutX="1191.0" layoutY="219.0" minWidth="300.0" onMouseClicked="#closedListClicked" prefHeight="400.0" prefWidth="700.0" AnchorPane.rightAnchor="29.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="433.0" layoutY="760.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="WHITE" />
       <Pane prefHeight="80.0" prefWidth="1922.0" style="-fx-background-color: #2B65AC;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" />
       <Pane layoutX="418.0" layoutY="665.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
          <children>
@@ -105,7 +105,7 @@
                   <Insets />
                </VBox.margin>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut1" buttonType="RAISED" onAction="#LogOut" prefHeight="80.0" prefWidth="480.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="80.0" prefWidth="480.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="750.0" />
                </VBox.margin>
