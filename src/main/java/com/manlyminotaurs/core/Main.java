@@ -53,6 +53,7 @@ public class Main extends Application {
        // primaryStage.setY(primaryScreenBounds.getMinY());
         primaryStage.setWidth(primaryScreenBounds.getWidth());
         primaryStage.setHeight(primaryScreenBounds.getHeight());
+        primaryStage.setFullScreen(true);
 
         primaryStage.show();
     }catch(Exception e){
