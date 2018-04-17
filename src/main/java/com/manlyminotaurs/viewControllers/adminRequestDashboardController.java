@@ -1,5 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXProgressBar;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
@@ -60,36 +63,40 @@ public class adminRequestDashboardController {
         }
     }
     @FXML
-Button navManageAcc;
+    JFXButton navBtnManageAccounts;
 
     @FXML
     Button btnEmergency;
     @FXML
     TableView tblOpenRequests;
     @FXML
-    Button btnCompleteRequest;
+    JFXButton btnCompleteRequest;
     @FXML
-    Button btnDeleteRequest;
+    JFXButton btnDeleteRequest;
     @FXML
     TableView tblClosedRequests;
     @FXML
     Label lblRequestDetails;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
     Parent logout;
     @FXML
-    ComboBox<String> combBoxAssignNurse;
+    JFXComboBox<String> combBoxAssignNurse;
     @FXML
     Parent createRequest;
     @FXML
     PieChart pieChart;
     @FXML
-    PasswordField txtPassword;
+    JFXPasswordField txtPassword;
     @FXML
     Label lblCompleteError;
     @FXML
-    Button navBtnManageAccounts;
+    JFXButton btnCreateRequest;
+    @FXML
+    JFXButton navBtnNodeEditor;
+
+
 
     Parent nodeEdit;
     Parent accountManager;
@@ -166,10 +173,10 @@ Button navManageAcc;
 
     @FXML
     public void setEmergency() {
-        // idk boi
+        //idk
     }
 
-    public void logOut(ActionEvent event){
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
@@ -253,6 +260,7 @@ Button navManageAcc;
             e.printStackTrace();
         }
     }
+
 
     public void openListClicked(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){

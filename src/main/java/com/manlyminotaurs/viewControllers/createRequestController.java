@@ -27,6 +27,7 @@ public class createRequestController{
     Parent manageRequests;
     Parent nodeEdit;
     Parent accountManager;
+    Parent history;
     @FXML
     ScrollPane scrollPane;
     @FXML
@@ -60,15 +61,15 @@ public class createRequestController{
     @FXML
     JFXComboBox<RequestType> cmboReqType;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
-    Button navBtnManageRequests;
+    JFXButton btnRequestManager;
     @FXML
-    Button navBtnNodeEditor;
+    JFXButton navBtnNodeEditor;
     @FXML
     JFXComboBox<String> cmboFloor;
     @FXML
-    Button navBtnManageAccounts;
+    JFXButton navBtnManageAccounts;
 
     String requestType;
     String message;
@@ -156,7 +157,7 @@ public class createRequestController{
 
     public void getXandY(){}
 
-    public void logOut(ActionEvent event){
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             Parent root;
@@ -230,6 +231,23 @@ public class createRequestController{
             e.printStackTrace();
         }
     }
+    public void loadHistory(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){

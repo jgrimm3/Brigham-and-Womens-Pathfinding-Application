@@ -1,9 +1,7 @@
 
 package com.manlyminotaurs.viewControllers;
 
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.controls.*;
 
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
@@ -76,10 +74,12 @@ public class nodeEditorController {
     List<Line> edgeLines = new ArrayList<>();
     Boolean mapNodeChoice;
     Boolean selectNode = false;
+    Parent history;
+
 
 
     @FXML
-    Button btnSelectEdgeNode;
+    JFXToggleButton tglMap;
     @FXML
     Button navBtnManageRequests;
     @FXML
@@ -103,11 +103,9 @@ public class nodeEditorController {
     @FXML
     ComboBox<String> cmboType;
     @FXML
-    ComboBox<String> cmboBuildingMod;
+    JFXComboBox<String> cmboBuildingMod;
     @FXML
-    ComboBox<String> cmboTypeMod;
-    @FXML
-    ComboBox<String> cmboNodeMod;
+    JFXComboBox<String> cmboTypeMod;
     @FXML
     ComboBox<String> cmboBuildingDel;
     @FXML
@@ -131,19 +129,11 @@ public class nodeEditorController {
     @FXML
     JFXTextField txtLongNameMod;
     @FXML
-    JFXTextField txtXCoordMod;
-    @FXML
-    JFXTextField txtYCoordMod;
-    @FXML
-    JFXTextField txtXCoordMod3D;
-    @FXML
-    JFXTextField txtYCoordMod3D;
-    @FXML
     JFXTextField txtShortNameDel;
     @FXML
     JFXTextField txtLongNameDel;
     @FXML
-    ToggleButton tglGeofence;
+    JFXToggleButton tglGeofence;
     @FXML
     ComboBox<String> cmboFloor;
     @FXML
@@ -167,10 +157,6 @@ public class nodeEditorController {
     @FXML
     Button btn3DMap;
     @FXML
-    Button btn2DMapMod;
-    @FXML
-    Button btn3DMapMod;
-    @FXML
     Button btnDeleteNodePane;
     @FXML
     JFXTextField txtAdminUser;
@@ -188,7 +174,7 @@ public class nodeEditorController {
     final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
     final static ObservableList<String> floors = FXCollections.observableArrayList("L2", "L1", "1", "2", "3");
     final static ObservableList<String> locations = FXCollections.observableArrayList("thePlace", "Jerry's house", "another place", "wong's house", "fdskjfas", "fsdfds", "Dfsd", "sfdd", "SFd");
-    final static ObservableList<String> Algorithms = FXCollections.observableArrayList("A*", "Breadth-First Search", "Depth-First Search");
+    final static ObservableList<String> Algorithms = FXCollections.observableArrayList("A*", "Breadth-First Search", "Depth-First Search", "Dykstra");
 
 
     String longName;
@@ -197,6 +183,7 @@ public class nodeEditorController {
     String floor;
     String building;
     Node node;
+    String currentFloor;
     int xCoord2D;
     int yCoord2D;
     int xCoord3D;
@@ -224,6 +211,9 @@ public class nodeEditorController {
             //set jfx text colors
 
 
+            //disable toggle
+            tglMap.disableProperty().bind(( cmboFloor.valueProperty().isNull()));
+
             //prompt text colors
             txtShortNameDel.setStyle("-fx-text-fill: White ");
             txtShortName.setStyle("-fx-prompt-text-fill:  White");
@@ -231,16 +221,13 @@ public class nodeEditorController {
             txtLongNameDel.setStyle("-fx-prompt-text-fill:  White");
             txtLongNameMod.setStyle("-fx-prompt-text-fill:  White");
             txtLongName.setStyle("-fx-prompt-text-fill:  White");
-            txtXCoordMod3D.setStyle("-fx-prompt-text-fill:  White");
-            txtYCoordMod3D.setStyle("-fx-prompt-text-fill:  White");
             txtXCoord3D.setStyle("-fx-prompt-text-fill:  White");
             txtYCoord3D.setStyle("-fx-prompt-text-fill:  White");
             txtAdminPassword.setStyle("-fx-prompt-text-fill:  White");
             txtAdminUser.setStyle("-fx-prompt-text-fill:  White");
             txtXCoord.setStyle("-fx-prompt-text-fill:  White");
             txtYCoord.setStyle("-fx-prompt-text-fill:  White");
-            txtXCoordMod.setStyle("-fx-prompt-text-fill:  White");
-            txtYCoordMod.setStyle("-fx-prompt-text-fill:  White");
+
 
             txtShortNameDel.setStyle("-fx-text-fill: White ");
             txtShortName.setStyle("-fx-text-fill:  White");
@@ -248,16 +235,12 @@ public class nodeEditorController {
             txtLongNameDel.setStyle("-fx-text-fill: White");
             txtLongNameMod.setStyle("-fx-text-fill: White");
             txtLongName.setStyle("-fx-text-fill: White");
-            txtXCoordMod3D.setStyle("-fx-text-fill: White");
-            txtYCoordMod3D.setStyle("-fx-text-fill: White");
             txtXCoord3D.setStyle("-fx-text-fill:  White");
             txtYCoord3D.setStyle("-fx-text-fill: White");
             txtAdminPassword.setStyle("-fx-text-fill: White");
             txtAdminUser.setStyle("-fx-text-fill: White");
             txtXCoord.setStyle("-fx-text-fill:  White");
             txtYCoord.setStyle("-fx-text-fill: White");
-            txtXCoordMod.setStyle("-fx-text-fill:  White");
-            txtYCoordMod.setStyle("-fx-text-fill:  White");
 
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
@@ -274,8 +257,8 @@ public class nodeEditorController {
 
 
 
-            drawCircles("1", "2-D");
-            drawEdges("1", "2-D" );
+           // drawCircles("1", "2-D");
+           // drawEdges("1", "2-D" );
 
 
 
@@ -320,9 +303,6 @@ public class nodeEditorController {
         txtAdminPassword.clear();
         txtAdminUser.clear();
 
-        BooleanBinding booleanBind = Bindings.or(txtYCoordMod.textProperty().isEmpty(),
-                txtXCoordMod.textProperty().isEmpty()).or(txtLongNameMod.textProperty().isEmpty()).or(txtYCoordMod3D.textProperty().isEmpty()).or(txtXCoordMod3D.textProperty().isEmpty());
-        btnModify.disableProperty().bind(booleanBind);
 
         cmboBuildingMod.setItems(buildings);
     }
@@ -339,8 +319,6 @@ public class nodeEditorController {
 
         txtLongNameMod.clear();
         txtShortNameMod.clear();
-        txtXCoordMod.clear();
-        txtYCoordMod.clear();
         txtLongNameDel.clear();
         txtShortNameDel.clear();
         txtAdminPassword.clear();
@@ -375,8 +353,7 @@ public class nodeEditorController {
         txtYCoord.clear();
         txtLongNameMod.clear();
         txtShortNameMod.clear();
-        txtXCoordMod.clear();
-        txtYCoordMod.clear();
+
 
         BooleanBinding booleanBind = Bindings.or(txtAdminPassword.textProperty().isEmpty(),
                 txtAdminUser.textProperty().isEmpty());
@@ -429,9 +406,10 @@ public class nodeEditorController {
     }
 
 
+Parent createRequest;
 
     //logout and return to the home screen
-    public void logOut(ActionEvent event) throws Exception {
+    public void LogOut(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
@@ -467,6 +445,22 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+    public void loadHistory(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -483,7 +477,22 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
-
+    public void createRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequest);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //Combo Box selected update next
     //Add node
     public void addSetBuilding(ActionEvent event) {
@@ -518,11 +527,35 @@ public class nodeEditorController {
     public void modSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloor.getValue().toString();
-        btn2DMapMod.setDisable(false);
-        btn3DMapMod.setDisable(false);
         cmboTypeMod.setItems(types);
+        if (tglMap.isSelected()) {
 
-        drawCircles(cmboFloor.getValue(),"2-D");
+            // Switch 3-D
+            tglMap.setText("3-D");
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2774);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+
+        floor3DMapLoader(cmboFloor.getValue());
+            drawEdges(cmboFloor.getValue(), "3-D");
+            drawCircles(cmboFloor.getValue(), "3-D");
+         } else{
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+            floor2DMapLoader(cmboFloor.getValue());
+
+            drawEdges(cmboFloor.getValue(), "2-D");
+            drawCircles(cmboFloor.getValue(), "2-D");
+        }
     }
 
     public void modSetType(ActionEvent event) {
@@ -531,7 +564,6 @@ public class nodeEditorController {
         List<Node> curNode = DataModelI.getInstance().retrieveNodes();
         System.out.println((int) curNode.size());
         List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue());
-        cmboNodeMod.setItems(FXCollections.observableArrayList(currentN));
 
 
     }
@@ -539,7 +571,6 @@ public class nodeEditorController {
     public void modSetNode(ActionEvent event) {
         //set type to selected value
         DataModelI.getInstance().retrieveNodes();
-        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
         txtLongNameMod.setText(node.getLongName());
         txtShortNameMod.setText(node.getShortName());
 
@@ -602,10 +633,6 @@ public class nodeEditorController {
     public void modifyNode(ActionEvent event) {
         longName = txtLongNameMod.getText();
         shortName = txtShortNameMod.getText();
-        xCoord2D = Integer.parseInt(txtXCoordMod.getText());
-        yCoord2D = Integer.parseInt(txtYCoordMod.getText());
-        xCoord3D = Integer.parseInt(txtXCoordMod3D.getText());
-        yCoord3D = Integer.parseInt(txtYCoordMod3D.getText());
         building = cmboBuildingMod.getValue().toString();
         floor = cmboFloor.getValue().toString();
         type = cmboTypeMod.getValue().toString();
@@ -662,18 +689,6 @@ public class nodeEditorController {
         mapNodeChoice = false;
     }
 
-    public void load2DMapMod(ActionEvent event) {
-        drawCircles(cmboFloor.getValue(),"2-D");
-        mapNodeChoice = true; //select 2d coord
-
-    }
-
-    public void load3DMapMod(ActionEvent event) {
-        drawCircles(cmboFloor.getValue(),"3-D");
-        mapNodeChoice = false; //select 3d coord
-
-
-    }
 
     public void waitOnTapNode(ActionEvent event){
         selectNode = true;
@@ -681,7 +696,6 @@ public class nodeEditorController {
     }
 
     public void geofence(ActionEvent event){
-        node = DataModelI.getInstance().getNodeByLongName(cmboNodeMod.getValue().toString());
         int newStatus = 0;
                 switch(node.getStatus()){
                     case 0:
@@ -710,6 +724,11 @@ public void setPathfindAlgorithm(ActionEvent event) {
             case "Depth-First Search":
                 Main.pathStrategy = "DFS";
                 break;
+                case "Dykstra":
+                Main.pathStrategy = "dyk";
+                break;
+                default:
+                    Main.pathStrategy = "A*";
         }
     }
 
@@ -752,62 +771,9 @@ public void setPathfindAlgorithm(ActionEvent event) {
     }
 
 
-    public void floor2DMapLoader(String floor) {
-
-
-        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
-
-            new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
-
-
-        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
-
-            new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
-
-
-        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
-
-            new ProxyImage(mapImg, "01_thefirstfloor.png").display();
-
-
-        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
-
-            new ProxyImage(mapImg, "02_thesecondfloor.png").display();
-
-
-        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
-
-            new ProxyImage(mapImg, "03_thethirdfloor.png").display();
-
-
-        }
-    }
-
-    public void floor3DMapLoader(String floor) {
-
-        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
-            new ProxyImage(mapImg, "L2-ICONS.png").display();
-
-        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
-            new ProxyImage(mapImg, "L1-ICONS.png").display();
-
-
-        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
-            new ProxyImage(mapImg, "1-ICONS.png").display();
-
-
-        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
-            new ProxyImage(mapImg, "2-ICONS.png").display();
-
-
-        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
-            new ProxyImage(mapImg, "3-ICONS.png").display();
-        }
-    }
-
     public void drawCircles(String floor,String dimension) {
 
-       // paneMap.getChildren().clear();
+        //paneMap.getChildren().clear();
 
         // Iterate through each node
        for(Node currNode: nodeList) {
@@ -821,10 +787,11 @@ public void setPathfindAlgorithm(ActionEvent event) {
                    tempCircle.setRadius(8);
                    tempCircle.setFill(Color.NAVY);
                    tempCircle.setVisible(true);
-                  // tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
                    tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
                        @Override public void handle(MouseEvent mouseEvent) {
                            // record a delta distance for the drag and drop operation.
+                           tempCircle.setFill(Color.RED);
                            dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
                            dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
                            tempCircle.setCursor(Cursor.MOVE);
@@ -833,16 +800,25 @@ public void setPathfindAlgorithm(ActionEvent event) {
                    });
                    tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
                        @Override public void handle(MouseEvent mouseEvent) {
+
                            tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
                            tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
-
+                           tempCircle.setFill(Color.RED);
                            currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
                            currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
-                           DataModelI.getInstance().modifyNode(currNode);
-
 
                        }
                    });
+                   tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           // record a delta distance for the drag and drop operation.
+                           tempCircle.setFill(Color.DARKCYAN);
+                           clearEdges();
+                           DataModelI.getInstance().modifyNode(currNode);
+                         //  drawEdges(floor, "2-D");
+                          // drawCircles(floor, "2-D");
+                          }
+                       });
                    tempCircle.setCursor(Cursor.HAND);
                    paneMap.getChildren().add(tempCircle);
                    circleList.add(tempCircle);
@@ -856,12 +832,46 @@ public void setPathfindAlgorithm(ActionEvent event) {
                    tempCircle.setFill(Color.NAVY);
                    tempCircle.setVisible(true);
                    tempCircle.setOnMouseClicked(this::chooseNodeEdge);
+                   tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           // record a delta distance for the drag and drop operation.
+                           tempCircle.setFill(Color.RED);
+                           dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                           dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                           tempCircle.setCursor(Cursor.MOVE);
+
+                       }
+                   });
+                   tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                           tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                           tempCircle.setFill(Color.RED);
+                           currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
+                           currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
+
+
+
+                       }
+                   });
+                   tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                       @Override public void handle(MouseEvent mouseEvent) {
+                           // record a delta distance for the drag and drop operation.
+                           tempCircle.setFill(Color.DARKCYAN);
+                           clearEdges();
+                           DataModelI.getInstance().modifyNode(currNode);
+                           //drawEdges(floor, "3-D");
+                       }
+                   });
+                   tempCircle.setCursor(Cursor.HAND);
+
                    paneMap.getChildren().add(tempCircle);
                    circleList.add(tempCircle);
                }
            }
        }
             }
+
 
 
     public void chooseNodeEdge(MouseEvent event) {
@@ -873,7 +883,6 @@ public void setPathfindAlgorithm(ActionEvent event) {
                         edgeNodeAdd = node;
                         circle.setFill(Color.RED);
                         System.out.println("Click recognized");
-                        btnSelectEdgeNode.setText(node.getLongName());
                         break;
                     }
                 }
@@ -886,7 +895,6 @@ public void setPathfindAlgorithm(ActionEvent event) {
                         edgeNodeAdd = node;
                         circle.setFill(Color.RED);
                         System.out.println("Click recognized");
-                        btnSelectEdgeNode.setText(node.getLongName());
                         break;
                     }
                 }
@@ -901,6 +909,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
     ///draws edges based on 2d or 3d map and floor,
     public void drawEdges(String floor, String dimension) {
         List<Edge> allEdges = DataModelI.getInstance().getEdgeList();
+        paneMap.getChildren().clear();
 
         for (Edge curEdge : allEdges) {
             Line edgeLine = new Line();
@@ -962,4 +971,142 @@ public void setPathfindAlgorithm(ActionEvent event) {
         Line selected = (Line)event.getTarget();
 
     }
+
+    private void clearPoints() {
+        for (Circle c : circleList) {
+            paneMap.getChildren().remove(c);
+        }
+    }
+    private void clearEdges(){
+        for(Line L: edgeLines) {
+            paneMap.getChildren().remove(L);
+        }
+
+    }
+    public void loadMap(ActionEvent event){
+        if (tglMap.isSelected()) {
+
+            // Switch 3-D
+            tglMap.setText("3-D");
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2774);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+
+            floor3DMapLoader(cmboFloor.getValue());
+        } else {
+
+            // Switch 2-D
+            tglMap.setText("2-D");
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+            floor2DMapLoader(cmboFloor.getValue());
+        }
+
+    }
+
+    public void floor2DMapLoader(String floor) {
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
+
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
+            clearPoints();
+            clearEdges();
+            drawEdges( "L2", "2-D");
+            drawCircles( "L2", "2-D");
+
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+
+            new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
+            clearPoints();
+            clearEdges();
+            drawEdges( "L1", "2-D");
+            drawCircles( "L1", "2-D");
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+
+            new ProxyImage(mapImg, "01_thefirstfloor.png").display();
+            clearPoints();
+            clearEdges();
+            drawEdges( "1", "2-D");
+            drawCircles( "1", "2-D");
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+
+            new ProxyImage(mapImg, "02_thesecondfloor.png").display();
+            clearPoints();
+            clearEdges();
+            drawEdges( "2", "2-D");
+            drawCircles( "2", "2-D");
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+
+            new ProxyImage(mapImg, "03_thethirdfloor.png").display();
+            clearPoints();
+            clearEdges();
+            drawEdges( "3", "2-D");
+            drawCircles( "3", "2-D");
+
+        }
+
+        currentFloor = floor;
+    }
+
+    public void floor3DMapLoader(String floor) {
+//		cancelFinish.setVisible(false);
+//		cancelStart.setVisible(false);
+        if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
+            new ProxyImage(mapImg, "L2-ICONS.png").display();
+
+            clearPoints();
+            clearEdges();
+            drawEdges( "L2", "3-D");
+            drawCircles( "L2", "3-D");
+
+        } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
+            new ProxyImage(mapImg, "L1-ICONS.png").display();
+
+            clearPoints();
+            clearEdges();
+            drawEdges( "L1", "3-D");
+            drawCircles( "L1", "3-D");
+
+        } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
+            new ProxyImage(mapImg, "1-ICONS.png").display();
+
+            clearPoints();
+            clearEdges();
+            drawEdges( "1", "3-D");
+            drawCircles( "1", "3-D");
+
+        } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
+            new ProxyImage(mapImg, "2-ICONS.png").display();
+            clearPoints();
+            clearEdges();
+           drawEdges( "2", "3-D");
+            drawCircles( "2", "3-D");
+
+        } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
+            new ProxyImage(mapImg, "3-ICONS.png").display();
+
+            clearPoints();
+            clearEdges();
+            drawEdges( "3", "3-D");
+            drawCircles( "3", "3-D");
+
+        }
+
+        currentFloor = floor;
+    }
+
 }

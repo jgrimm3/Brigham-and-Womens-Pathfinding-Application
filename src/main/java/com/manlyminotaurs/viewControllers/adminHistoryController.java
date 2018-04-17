@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Request;
@@ -11,11 +12,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -50,6 +55,17 @@ public class adminHistoryController {
     JFXTextField txtType;
     @FXML
     JFXTextField txtUserID;
+    @FXML
+    JFXButton btnLogOut;
+    @FXML
+    JFXButton navBtnManageAccounts;
+    @FXML
+    JFXButton btnRequestManager;
+    @FXML
+    JFXButton navBtnNodeEditor;
+    @FXML
+    JFXButton btnCreateRequest;
+
 
 
     @FXML
@@ -173,6 +189,99 @@ public class adminHistoryController {
         for (Log currLog : logList) {
             histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
             tblHistory.setItems(histList);
+        }
+    }
+
+    Parent nodeEdit;
+    Parent logout;
+    Parent accountManager;
+    Parent createRequest;
+    Parent manageRequests;
+    public void nodeEditor(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLS/nodeEditor.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(nodeEdit);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void LogOut(ActionEvent event){
+        try{
+            Stage stage;
+            //get reference to the button's stage
+            stage=(Stage)btnLogOut.getScene().getWindow();
+            //load up Home FXML document
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
+
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(logout);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();}
+    }
+    public void accountManager(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
+            //load up Home FXML document;
+            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(accountManager);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void createRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequest);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void manageRequests (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            }else{
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+            }
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
