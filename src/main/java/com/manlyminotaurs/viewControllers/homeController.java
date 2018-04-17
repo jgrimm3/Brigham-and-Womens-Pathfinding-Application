@@ -2051,6 +2051,12 @@ public class homeController implements Initializable {
 		paneMap.getChildren().remove(currName);
 	}
 
+
+	//-----------------------------------------------------------------------------------------------------------------
+	//
+	//                                           Change Floors
+	//
+	//-----------------------------------------------------------------------------------------------------------------
 	private void changeFloor(String floor) {
 		if(floor.equals("L2"))
 			changeFloorL2(null);

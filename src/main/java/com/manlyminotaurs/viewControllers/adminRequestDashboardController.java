@@ -163,8 +163,23 @@ Button navManageAcc;
     }
 
     @FXML
-    public void setEmergency() {
-        // idk boi
+    public void setEmergency(ActionEvent actionEvent) {
+        try{
+            Stage stage;
+            //get reference to the button's stage
+            stage=(Stage)btnEmergency.getScene().getWindow();
+            //load up Home FXML document
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/btnEmergency.fxml"));
+
+            KioskInfo.currentUserID = "";
+
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(logout);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();}
     }
 
     public void logOut(ActionEvent event){
