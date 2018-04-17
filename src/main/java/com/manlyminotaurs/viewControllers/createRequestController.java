@@ -1,5 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
@@ -35,27 +38,27 @@ public class createRequestController{
     @FXML
     Pane paneAdd;
     @FXML
-    ComboBox<String> cmboBuilding;
+    JFXComboBox<String> cmboBuilding;
     @FXML
-    Button btnSubmitRequest;
+    JFXButton btnSubmitRequest;
     @FXML
-    ComboBox<String> cmboType;
+    JFXComboBox<String> cmboType;
     @FXML
-    ComboBox<String> cmboNode;
+    JFXComboBox<String> cmboNode;
     @FXML
-    CheckBox chkHighPriority;
+    JFXCheckBox chkHighPriority;
     @FXML
-    CheckBox chkMedPriority;
+    JFXCheckBox chkMedPriority;
     @FXML
-    CheckBox chkLowPriority;
+    JFXCheckBox chkLowPriority;
     @FXML
-    Button btnlogOut;
+    JFXButton btnlogOut;
     @FXML
     TextArea txtMessage;
     @FXML
     Label lblError;
     @FXML
-    ComboBox<RequestType> cmboReqType;
+    JFXComboBox<RequestType> cmboReqType;
     @FXML
     Button btnLogOut;
     @FXML
@@ -63,7 +66,7 @@ public class createRequestController{
     @FXML
     Button navBtnNodeEditor;
     @FXML
-    ComboBox<String> cmboFloor;
+    JFXComboBox<String> cmboFloor;
     @FXML
     Button navBtnManageAccounts;
 
@@ -218,7 +221,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);

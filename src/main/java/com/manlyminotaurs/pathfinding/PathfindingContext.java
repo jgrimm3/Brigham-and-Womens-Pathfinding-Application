@@ -1,5 +1,6 @@
 package com.manlyminotaurs.pathfinding;
 
+import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class PathfindingContext {
     }
     public LinkedList<Node> getPath(Node startNode, Node endNode, IPathFindingStrategy strategy) throws PathNotFoundException{
         setStrategy(strategy);
-        return strategy.find(startNode, endNode);
+        LinkedList<Node> tempList = strategy.find(startNode, endNode);
+        DataModelI.getInstance().addPath(startNode.getNodeID(),endNode.getNodeID());
+        return tempList;
     }
 }

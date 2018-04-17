@@ -932,11 +932,13 @@ class NodesDBUtil {
 		// Variables
 		Node node = null;
 		String nodeID = "";
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		try {
-			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_NODES WHERE longName LIKE '" + longName + "'";
-			ResultSet rset = stmt.executeQuery(str);
+			String str = "SELECT * FROM MAP_NODES WHERE longName = ?";
+
+			stmt = connection.prepareStatement(str);
+			stmt.setString(1, longName);
+			ResultSet rset = stmt.executeQuery();
 
 			// For every node, get the information
 			if (rset.next()) {

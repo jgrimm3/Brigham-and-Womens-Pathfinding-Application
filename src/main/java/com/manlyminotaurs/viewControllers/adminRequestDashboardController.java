@@ -93,6 +93,7 @@ Button navManageAcc;
 
     Parent nodeEdit;
     Parent accountManager;
+    Parent history;
 
     @FXML
     public void initialize() throws Exception{
@@ -149,9 +150,10 @@ Button navManageAcc;
 
             pieChartData =
                     FXCollections.observableArrayList(
-                            new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
+                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
                             new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
-                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+                           new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+
             pieChart.getData().clear();
             pieChart.setData(pieChartData);
 
@@ -233,22 +235,23 @@ Button navManageAcc;
             e.printStackTrace();
         }
     }
-    public void manageAcc(ActionEvent event) throws Exception {
+    public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            manageAcc = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
             //create a new scene with root and set the stage
-            Scene scene = new Scene(manageAcc);
+            Scene scene = new Scene(history);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;

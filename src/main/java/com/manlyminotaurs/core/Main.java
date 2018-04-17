@@ -33,6 +33,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         try{
+            //Start DB
+            DataModelI.getInstance().startDB();
+
+
         //root is anchor pane that all other screens will be held in
         root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 

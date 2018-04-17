@@ -5,7 +5,7 @@ import com.manlyminotaurs.nodes.Node;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public abstract class DistancePathdinder {
+public abstract class DistancePathfinder {
 
     /**
      * Calculates the Euclidean distance between given nodes
