@@ -1,5 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
@@ -33,15 +35,15 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameAdd;
     @FXML
-    ComboBox cmboLanguageAdd;
+    JFXComboBox cmboLanguageAdd;
     @FXML
-    ComboBox cmboTypeAdd;
+    JFXComboBox cmboTypeAdd;
     @FXML
     JFXTextField txtUsernameAdd;
     @FXML
     JFXTextField txtPasswordAdd;
     @FXML
-    Button btnAddUser;
+    JFXButton btnAddUser;
     @FXML
     JFXTextField txtUserIDModify;
     @FXML
@@ -51,15 +53,15 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameModify;
     @FXML
-    ComboBox cmboLanguageModify;
+    JFXComboBox cmboLanguageModify;
     @FXML
-    ComboBox cmboTypeModify;
+    JFXComboBox cmboTypeModify;
     @FXML
     JFXTextField txtUsernameModify;
     @FXML
     JFXTextField txtPasswordModify;
     @FXML
-    Button btnModifyUser;
+    JFXButton btnModifyUser;
     @FXML
     JFXTextField txtUserIDDelete;
     @FXML
@@ -69,17 +71,17 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameDelete;
     @FXML
-    ComboBox cmboLanguageDelete;
+    JFXComboBox cmboLanguageDelete;
     @FXML
-    ComboBox cmboTypeDelete;
+    JFXComboBox cmboTypeDelete;
     @FXML
     JFXTextField txtUsernameDelete;
     @FXML
     JFXTextField txtPasswordDelete;
     @FXML
-    Button btnDeleteUser;
+    JFXButton btnDeleteUser;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
     GridPane gridAdd;
     @FXML
@@ -160,14 +162,14 @@ public class accountManagerController {
         gridModify.setDisable(true);
         gridAdd.setDisable(false);
         gridAdd.setVisible(true);
-        btnAddUser.setDisable(true);
+        //btnAddUser.setDisable(true);
         BooleanBinding booleanBind = Bindings.or(txtFirstNameAdd.textProperty().isEmpty(),
                 txtMiddleNameAdd.textProperty().isEmpty()).or(txtLastNameAdd.textProperty().isEmpty()).or(txtUsernameAdd.textProperty().isEmpty()).or(txtPasswordAdd.textProperty().isEmpty());
         btnAddUser.disableProperty().bind(booleanBind);
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
     }
-    public void logOut(javafx.event.ActionEvent event) throws Exception {
+    public void LogOut(javafx.event.ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
@@ -186,14 +188,51 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
-    public void manageRequest (ActionEvent event) throws Exception {
+    Parent history;
+    public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void manageRequest (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            }else{
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+            }
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void manageAcc (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(manageRequests);
             stage.setScene(scene);

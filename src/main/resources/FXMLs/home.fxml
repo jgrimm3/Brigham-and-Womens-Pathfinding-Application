@@ -58,7 +58,7 @@
                                                         </ImageView>
                                                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                                             <children>
-                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#3651ff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#5a70eb" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                                     <elements>
                                                                         <MoveTo x="-100.0" y="-100.0" />
                                                                         <LineTo x="5000.0" y="-100.0" />
@@ -85,7 +85,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#69aeee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#69ff6e" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />
@@ -94,7 +94,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <Path fx:id="path3" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#f898ab" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path3" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#ff4066" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />
@@ -112,14 +112,14 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
-                                                      <Image url="@../Icons/Destination.png" />
+                                                      <Image url="@../Icons/destination.png" />
                                                    </image>
                                                 </ImageView>
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-                                                <Text fx:id="startName" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                                <Text fx:id="endName" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                                <Text fx:id="startName" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                                                <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                             </children>
                                                         </Pane>
                                                     </children>
