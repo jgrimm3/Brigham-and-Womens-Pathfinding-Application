@@ -1,31 +1,19 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.jfoenix.controls.JFXProgressBar;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
-import com.manlyminotaurs.users.User;
-import com.manlyminotaurs.users.UserType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.junit.Test;
-
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class userRequestDashBoardController  {
