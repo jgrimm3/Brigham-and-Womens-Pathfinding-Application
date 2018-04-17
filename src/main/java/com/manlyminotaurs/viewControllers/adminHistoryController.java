@@ -24,7 +24,7 @@ import java.util.List;
 public class adminHistoryController {
     ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
     ObservableList<logEntry> histList = FXCollections.observableArrayList();
-    ObservableList<String> TimeFilters = FXCollections.observableArrayList("Hour", "12 Hours", "Day", "Week", "Month", "Year");
+
 
     @FXML
     TableView tblHistory;
@@ -43,19 +43,17 @@ public class adminHistoryController {
     @FXML
     JFXButton btnFilter;
     @FXML
+    JFXButton btnUnFilter;
+    @FXML
     JFXButton btnRevert;
     @FXML
     JFXTextField txtType;
     @FXML
     JFXTextField txtUserID;
-    @FXML
-    JFXComboBox cmboDateRange;
-
-
 
 
     @FXML
-    public void initialize() throws Exception{
+    public void initialize() throws Exception {
         try {
             logList.clear();
             logList.setAll(DataModelI.getInstance().retrieveLogData());
@@ -68,7 +66,7 @@ public class adminHistoryController {
             TableColumn descriptionCol = new TableColumn("Description");
 
 
-            tblHistory.getColumns().addAll(logID, timeCol,descriptionCol, useridCol, nodeIdCol, typeCol);
+            tblHistory.getColumns().addAll(logID, timeCol, descriptionCol, useridCol, nodeIdCol, typeCol);
 
             timeCol.setCellValueFactory(new PropertyValueFactory<logEntry, LocalDateTime>("logTime"));
             descriptionCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("description"));
@@ -76,28 +74,30 @@ public class adminHistoryController {
             nodeIdCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("nodeID"));
             typeCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("nodeType"));
 
-            for(Log currLog : logList) {
-                    histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            for (Log currLog : logList) {
+                histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
             }
 
             tblHistory.setItems(histList);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }}
-    public void entryClicked(){
-            logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
-            Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
-            lblNodeID.setText("Node ID: "+ actualLog.getAssociatedID());
-        lblUserID.setText("User ID: "+ actualLog.getUserID());
-        lblLogID.setText("Log ID: "+ actualLog.getLogID());
-        lblDescription.setText("Description: "+ actualLog.getDescription());
-        lblTime.setText("Time Stamp: " + actualLog.getLogTime());
-        lblType.setText("Type: "+ actualLog.getAssociatedType());
         }
+    }
+
+    public void entryClicked() {
+        logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
+        Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
+        lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
+        lblUserID.setText("User ID: " + actualLog.getUserID());
+        lblLogID.setText("Log ID: " + actualLog.getLogID());
+        lblDescription.setText("Description: " + actualLog.getDescription());
+        lblTime.setText("Time Stamp: " + actualLog.getLogTime());
+        lblType.setText("Type: " + actualLog.getAssociatedType());
+    }
 
 
-    public class logEntry{
+    public class logEntry {
         String description;
         LocalDateTime logTime;
         String userID;
@@ -105,13 +105,13 @@ public class adminHistoryController {
         String nodeType;
         String logID;
 
-        logEntry(String logID, LocalDateTime logTime, String description, String userID, String nodeID, String nodeType){
-        this.description = description;
-        this.logTime = logTime;
-        this.userID = userID;
-        this.nodeID = nodeID;
-        this.nodeType = nodeType;
-        this.logID = logID;
+        logEntry(String logID, LocalDateTime logTime, String description, String userID, String nodeID, String nodeType) {
+            this.description = description;
+            this.logTime = logTime;
+            this.userID = userID;
+            this.nodeID = nodeID;
+            this.nodeType = nodeType;
+            this.logID = logID;
         }
 
         public String getDescription() {
@@ -137,54 +137,43 @@ public class adminHistoryController {
 
     }
 
-    public void filterLog(ActionEvent event){
+    public void filterLog(ActionEvent event) {
         histList.removeAll();
+        histList.clear();
+        tblHistory.setItems(null);
+
         String filtertType = txtType.getText();
         String filterUser = txtUserID.getText();
-        String filterDate = (String)cmboDateRange.getSelectionModel().getSelectedItem();
 
         List<Log> typeFiltered = DataModelI.getInstance().getLogsByAssociatedType(filtertType);
         List<Log> userFiltered = DataModelI.getInstance().getLogsByUserID(filterUser);
-        LocalDateTime rightNow = LocalDateTime.now();
-        LocalDateTime start;
 
-        switch(filterDate){
-            //YY-MM-DD HH:mm:ss:SSS
-            // use LocalDateTime
-            case "Hour":
-                break;
-            case "12 Hours":
-                break;
-            case "Day":
-                break;
-            case "Week":
-                break;
-            case "Month":
-                break;
-            case "Year":
-                default:
-                    start = LocalDateTime.of(2018, Month.MARCH, 15, 16, 30, 40);
 
-                    if(typeFiltered != null) {
-                    for (Log currLog : typeFiltered) {
-                        histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
-                    }
+        if (!typeFiltered.equals("Filter By Type")) {
+            for (Log currLog : typeFiltered) {
+                histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            }
 
-                    tblHistory.setItems(histList);
-                }
-                    if(userFiltered != null) {
-                        for (Log currLog : userFiltered) {
-                            histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
-                        }
-
-                        tblHistory.setItems(histList);
-                    }
+            tblHistory.setItems(histList);
         }
+        if (!userFiltered.equals("Filter by User ID")) {
+            for (Log currLog : userFiltered) {
+                histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            }
 
-       // List<Log> timeFiltered = DataModelI.getInstance().getLogsByLogTime(start, rightNow);
-
+            tblHistory.setItems(histList);
+        }
 
     }
 
-
+    public void unFilterLog(ActionEvent event) {
+        histList.removeAll();
+        histList.clear();
+        tblHistory.setItems(null);
+        for (Log currLog : logList) {
+            histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            tblHistory.setItems(histList);
+        }
+    }
 }
+
