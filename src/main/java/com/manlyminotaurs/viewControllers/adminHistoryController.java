@@ -18,11 +18,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 public class adminHistoryController {
     ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
     ObservableList<logEntry> histList = FXCollections.observableArrayList();
+    ObservableList<String> TimeFilters = FXCollections.observableArrayList("Hour", "12 Hours", "Day", "Week", "Month", "Year");
+
     @FXML
     TableView tblHistory;
     @FXML
@@ -135,13 +138,51 @@ public class adminHistoryController {
     }
 
     public void filterLog(ActionEvent event){
+        histList.removeAll();
         String filtertType = txtType.getText();
         String filterUser = txtUserID.getText();
         String filterDate = (String)cmboDateRange.getSelectionModel().getSelectedItem();
 
         List<Log> typeFiltered = DataModelI.getInstance().getLogsByAssociatedType(filtertType);
         List<Log> userFiltered = DataModelI.getInstance().getLogsByUserID(filterUser);
-       // List<Log> timeFiltered = DataModelI.getInstance().getLogsByLogTime(
+        LocalDateTime rightNow = LocalDateTime.now();
+        LocalDateTime start;
+
+        switch(filterDate){
+            //YY-MM-DD HH:mm:ss:SSS
+            // use LocalDateTime
+            case "Hour":
+                break;
+            case "12 Hours":
+                break;
+            case "Day":
+                break;
+            case "Week":
+                break;
+            case "Month":
+                break;
+            case "Year":
+                default:
+                    start = LocalDateTime.of(2018, Month.MARCH, 15, 16, 30, 40);
+
+                    if(typeFiltered != null) {
+                    for (Log currLog : typeFiltered) {
+                        histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+                    }
+
+                    tblHistory.setItems(histList);
+                }
+                    if(userFiltered != null) {
+                        for (Log currLog : userFiltered) {
+                            histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+                        }
+
+                        tblHistory.setItems(histList);
+                    }
+        }
+
+       // List<Log> timeFiltered = DataModelI.getInstance().getLogsByLogTime(start, rightNow);
+
 
     }
 
