@@ -466,12 +466,12 @@ public class DataModelI implements IDataModel{
     }
     public Pathfinder addPath(String startNodeID, String endNodeID){
         Pathfinder tempPath = pathfinderDBUtil.addPath(startNodeID, endNodeID);
-        addLog("Pathfound from" + tempPath.getStartNodeID() +" to " + tempPath.getEndNodeID() + " is added",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempPath.getPathfinderID(),"pathfind");
+        addLog("Pathfind from" + tempPath.getStartNodeID() +" to " + tempPath.getEndNodeID() + " is done",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempPath.getPathfinderID(),"pathfind");
         return tempPath;
     }
     public boolean removePath(Pathfinder pathfinder){
         boolean tempBool = pathfinderDBUtil.removePath(pathfinder);
-        addLog("Pathfound from" + pathfinder.getStartNodeID() +" to " + pathfinder.getEndNodeID() + " is removed",LocalDateTime.now(), KioskInfo.getCurrentUserID(), pathfinder.getPathfinderID(),"pathfind");
+        addLog("Pathfind from" + pathfinder.getStartNodeID() +" to " + pathfinder.getEndNodeID() + " is removed",LocalDateTime.now(), KioskInfo.getCurrentUserID(), pathfinder.getPathfinderID(),"pathfind");
         return tempBool;
     }
     public Pathfinder getPathByPathfinderID(String pathfinderID){

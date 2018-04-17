@@ -59,6 +59,7 @@ class TableInitializer {
         MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("./MessageTable.csv"));
         RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("./RequestTable.csv"));
         LogDBUtil.setlogIDCounter(initializer.populateLogTable("./LogTable.csv"));
+        PathfinderDBUtil.setPathFinderIDCounter(initializer.populatePathfindTable("./PathfinderTable.csv"));
         initializer.populateStaffTable("./StaffTable.csv");
         initializer.populateUserPasswordTable("./UserPasswordTable.csv");
         nodesDBUtil.updateNodeMap();
@@ -513,6 +514,42 @@ class TableInitializer {
             DataModelI.getInstance().closeConnection();
         }
         return logIDCounter;
+    }
+
+    private int populatePathfindTable(String CsvFileName){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        int pathfinderIDCounter = 0;
+        try {
+            // parse LogTable.csv file
+            CsvFileController csvFileControl = new CsvFileController();
+            List<String[]> pathfinderList = csvFileControl.parseCsvFile(CsvFileName);
+            if(pathfinderList == null){
+                return 0;
+            }
+
+            Statement stmt = connection.createStatement();
+
+            Iterator<String[]> iterator = pathfinderList.iterator();
+            iterator.next(); // get rid of the header
+
+            //insert rows
+            while (iterator.hasNext()) {
+                pathfinderIDCounter++;
+                String[] node_row = iterator.next();
+
+                String str = "INSERT INTO PATHFINDER(PATHFINDERID,STARTNODEID,ENDNODEID) VALUES (?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(str);
+                statement.setString(1, node_row[0]);
+                statement.setString(2, node_row[1]);
+                statement.setString(3, node_row[2]);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return pathfinderIDCounter;
     }
 
 
