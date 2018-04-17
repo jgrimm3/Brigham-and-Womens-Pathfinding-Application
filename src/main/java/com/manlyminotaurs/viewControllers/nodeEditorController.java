@@ -716,7 +716,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 Main.pathStrategy = "DFS";
                 break;
                 case "Dykstra":
-                Main.pathStrategy = "dyk";
+                Main.pathStrategy = "DYK";
                 break;
                 default:
                     Main.pathStrategy = "A*";
