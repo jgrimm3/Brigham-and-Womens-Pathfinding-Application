@@ -94,3 +94,16 @@ Create Table Request (
   password      VARCHAR(255),
   CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
+
+CREATE TABLE backup (
+  logID             VARCHAR(10) UNIQUE,
+  otherID           VARCHAR(255),
+  firstItem         VARCHAR(255) DEFAULT '',
+  secondItem        VARCHAR(255) DEFAULT '',
+  thirdItem         VARCHAR(255) DEFAULT '',
+  fourthItem        VARCHAR(255) DEFAULT '',
+  fifthItem         VARCHAR(255) DEFAULT '',
+  sixthItem         VARCHAR(255) DEFAULT '',
+  seventhItem       VARCHAR(255) DEFAULT '',
+  eightItem         VARCHAR(255) DEFAULT '',
+  ninethItem        VARCHAR(255) DEFAULT '');
