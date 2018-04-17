@@ -1,5 +1,6 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -11,6 +12,7 @@ import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public interface IDataModel {
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
-    Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
+    Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
     @Deprecated
@@ -94,7 +96,7 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
+    User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
@@ -129,4 +131,27 @@ public interface IDataModel {
     Pathfinder getPathByPathfinderID(String pathfinderID);
     List<Pathfinder> getPathByStartNodeID(String startNodeID);
     List<Pathfinder> getPathByEndNodeID(String endNodeID);
+
+    //------------------------------------Backup Table----------------------------------------------
+    Node addNodeToBackup(String nodeID);
+    Message addMessageToBackup(String messageID);
+    Request addRequestToBackup(String requestID);
+    User addUserToBackup(String userID);
+    UserPassword addUserPasswordToBackup(String userID);
+
+    boolean removeNodeFromBackup(String nodeID);
+    boolean removeMessageFromBackup(String messageID);
+    boolean removeRequestFromBackup(String requestID);
+    boolean removeUserFromBackup(String userID);
+    boolean removeUserPasswordFromBackup(String userID);
+
+    List<BackupEntity> retrieveBackups();
+    boolean revertFromBackupByIDType(String logID, String associatedType);
+    void addBackup(String logID, String associatedID, String associatedType);
+    void permanentlyRemoveBackup(String logID, String associatedID, String associatedType);
+
+    //-------------------------------Helper functions-------------------------------------------
+    Timestamp convertStringToTimestamp(String timeString);
+    java.sql.Date convertStringToDate(String timeString);
+
 }

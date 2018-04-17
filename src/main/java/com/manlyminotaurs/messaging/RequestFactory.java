@@ -25,18 +25,13 @@ public class RequestFactory {
         String messageID;
         switch (requestType) {
             case MedicalRequest:
-                messageID = dataModel.getNextMessageID();
-                newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), messageID, requestType.toString());
-
-                System.out.println("made Message and Request to add to BD");
+                newMsg = new Message("", message, false, LocalDate.now(), "11", senderID);
+                newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
                 return dataModel.addRequest(newReq, newMsg);
 
             case JanitorialRequest:
-                messageID = dataModel.getNextMessageID();
-                newMsg = new Message(messageID, message, false, LocalDate.now(), "11", senderID);
-                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "JanitorialRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), messageID, requestType.toString());
-
+                newMsg = new Message("", message, false, LocalDate.now(), "11", senderID);
+                newReq = new JanitorialRequest(dataModel.getNextRequestID(), "JanitorialRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
                 return dataModel.addRequest(newReq, newMsg);
             default:
                 return null;

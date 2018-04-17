@@ -16,14 +16,15 @@ public class UserDBUtil {
     }
 
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password){
+    User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password){
 
-        String userID = generateUserID();
+        if(userID == null || userID.equals("")) {
+            userID = generateUserID();
+        }
         User userObject = userBuilder(userID,firstName,middleName,lastName, languages, userType);
-        Connection connection = DataModelI.getInstance().getNewConnection();
         String concatLanguages = String.join("/", languages);
+        Connection connection =  DataModelI.getInstance().getNewConnection();
         try {
-            connection = DriverManager.getConnection("jdbc:derby:./nodesDB;create=true");
             String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language,userType) VALUES (?,?,?,?,?,?)";
 
             // Create the prepared statement
@@ -40,6 +41,8 @@ public class UserDBUtil {
         } catch (SQLException e)
         {
             e.printStackTrace();
+        } finally{
+            DataModelI.getInstance().closeConnection();
         }
         //-----------------Adding username and password later-------------------
         UserSecurity userSecurity = new UserSecurity();

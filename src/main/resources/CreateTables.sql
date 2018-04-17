@@ -20,11 +20,6 @@ CREATE TABLE Map_Edges (
   CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
 
-CREATE TABLE Kiosk (
-  kioskID        VARCHAR(10) PRIMARY KEY,
-  nodeID         VARCHAR (10) UNIQUE,
-  description    varchar(255),
-  CONSTRAINT fk_kiosk_node FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
 Create Table Room (
   specialization VARCHAR(255),
@@ -63,14 +58,6 @@ CREATE TABLE Pathfinder(
   CONSTRAINT fk_pathfinder_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT fk_pathfinder_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
-CREATE TABLE Log(
-  logID           VARCHAR(10),
-  description     VARCHAR(255),
-  logTime         TIMESTAMP,
-  userID          VARCHAR(10),
-  associatedID    VARCHAR(10),
-  associatedType  VARCHAR(15));
-
 Create Table Message (
   messageID     VARCHAR(10) PRIMARY KEY,
   message       VARCHAR(255),
@@ -95,7 +82,15 @@ Create Table Request (
   CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
-CREATE TABLE backup (
+CREATE TABLE Log(
+  logID           VARCHAR(10) PRIMARY KEY,
+  description     VARCHAR(255),
+  logTime         TIMESTAMP,
+  userID          VARCHAR(10),
+  associatedID    VARCHAR(10),
+  associatedType  VARCHAR(15));
+
+CREATE TABLE Backup (
   logID             VARCHAR(10) UNIQUE,
   otherID           VARCHAR(255),
   firstItem         VARCHAR(255) DEFAULT '',
@@ -106,4 +101,6 @@ CREATE TABLE backup (
   sixthItem         VARCHAR(255) DEFAULT '',
   seventhItem       VARCHAR(255) DEFAULT '',
   eightItem         VARCHAR(255) DEFAULT '',
-  ninethItem        VARCHAR(255) DEFAULT '');
+  ninethItem        VARCHAR(255) DEFAULT '',
+  tenthItem         VARCHAR(255) DEFAULT '',
+  CONSTRAINT fk_backup_logID FOREIGN KEY (logID) REFERENCES Log(logID) ON DELETE CASCADE);

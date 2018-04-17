@@ -610,7 +610,7 @@ Parent createRequest;
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
         //call add node function
-        DataModelI.getInstance().addNode(xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
+        DataModelI.getInstance().addNode("",xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         btnAddNode.setText("Node Added!");
         //redraw map
         drawCircles(cmboFloorAdd.getValue(),"2-D");
