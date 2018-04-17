@@ -114,7 +114,7 @@ public class PathfinderUtil {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + leftArrow + nameToString(path.get((i+1))));
             } else if (angle > 315 && angle <= 330) {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight left" + nameToString(path.get((i+1))));
-            } else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
+            } //else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
         }
         tbt.add("Arrive" + nameToString(path.getLast()));
         return tbt;

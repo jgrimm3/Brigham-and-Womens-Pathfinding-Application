@@ -1641,6 +1641,8 @@ public class homeController implements Initializable {
 			endName.setVisible(true);
 			startName.setText(startNode.getShortName());
 			endName.setText(endNode.getShortName());
+			endName.setOpacity(0);
+			startName.setOpacity(0);
 			destinationText.setText("FL " + endFloor);
 			Font font = Font.font("Verdana", FontWeight.BOLD, 40);
 
@@ -1706,10 +1708,11 @@ public class homeController implements Initializable {
 			// Set on mouse clicked to switch between floors
 			startFloor = startNode.getFloor();
 			startCircle.setOnMouseClicked(this::startCircleClicked);
+			startCircle.setOnMouseEntered(this::printStartName);
+			startCircle.setOnMouseExited(this::removeStartName);
 
 			if (!startFloor.equals(floor)) {
 				startCircle.setFill(Color.GRAY);
-				startCircle.setOpacity(25);
 			}
 
 			endFloor = endNode.getFloor();
@@ -1756,7 +1759,9 @@ public class homeController implements Initializable {
 			Node startNode = DataModelI.getInstance().getNodeByLongName(lblStartLocation.getText());
 			Node endNode = DataModelI.getInstance().getNodeByLongName(lblEndLocation.getText());
 			startFloor = startNode.getFloor();
+			lblStartLocation1.setText(startNode.getLongName());
 			endFloor = endNode.getFloor();
+			lblEndLocation1.setText(endNode.getLongName());
 			currentFloor = startNode.getFloor();
 
 			try {
@@ -2139,29 +2144,51 @@ public class homeController implements Initializable {
 		paneMap.getChildren().remove(currName);
 	}
 
+	@FXML
+	private void printStartName(MouseEvent mouseEvent) {
+		fade = new FadeTransition(Duration.millis(200), startName);
+		fade.setFromValue(0);
+		fade.setToValue(1);
+		fade.setAutoReverse(true);
+		fade.setCycleCount(1);
+		fade.play();
+	}
+
+	@FXML
+	private void removeStartName(MouseEvent mouseEvent) {
+		fade = new FadeTransition(Duration.millis(200), startName);
+		fade.setFromValue(1);
+		fade.setToValue(0);
+		fade.setAutoReverse(true);
+		fade.setCycleCount(1);
+		fade.play();
+	}
+
+	@FXML
+	private void printEndName(MouseEvent mouseEvent) {
+		fade = new FadeTransition(Duration.millis(200), endName);
+		fade.setFromValue(0);
+		fade.setToValue(1);
+		fade.setAutoReverse(true);
+		fade.setCycleCount(1);
+		fade.play();
+	}
+
+	@FXML
+	private void removeEndName(MouseEvent mouseEvent) {
+		fade = new FadeTransition(Duration.millis(200), endName);
+		fade.setFromValue(1);
+		fade.setToValue(0);
+		fade.setAutoReverse(true);
+		fade.setCycleCount(1);
+		fade.play();
+	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Change Floors
 	//
 	//-----------------------------------------------------------------------------------------------------------------
-	private void setStartAndEndInfoOpacity(String floor) {
-		if(floor.equals(endFloor)) {
-			destination.setOpacity(1);
-			destinationText.setOpacity(1);
-			endName.setOpacity(1);
-		} else {
-			destination.setOpacity(.5);
-			destinationText.setOpacity(.5);
-			endName.setOpacity(.5);
-		}
-		if(floor.equals(startFloor)) {
-			startName.setOpacity(1);
-		} else {
-			startName.setOpacity(.5);
-		}
-	}
-
 	private void changeFloor(String floor) {
 		if(floor.equals("L2"))
 			changeFloorL2(null);
@@ -2183,7 +2210,6 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L2";
-		setStartAndEndInfoOpacity(currentFloor);
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(20);
@@ -2203,7 +2229,6 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L1";
-		setStartAndEndInfoOpacity(currentFloor);
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -2226,7 +2251,6 @@ public class homeController implements Initializable {
 		currentFloor = "1";
 		printKiosk();
 		cancel(null);
-		setStartAndEndInfoOpacity(currentFloor);
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(20);
@@ -2247,7 +2271,6 @@ public class homeController implements Initializable {
 		currentFloor = "2";
 		printKiosk();
 		cancel(null);
-		setStartAndEndInfoOpacity(currentFloor);
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -2274,7 +2297,6 @@ public class homeController implements Initializable {
 		btn1.setLayoutX(0);
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(20);
-		setStartAndEndInfoOpacity(currentFloor);
 		System.out.println("you selected floor 3");
 
 	}

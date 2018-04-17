@@ -112,7 +112,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
                                                       <Image url="@../Icons/destination.png" />
                                                    </image>
