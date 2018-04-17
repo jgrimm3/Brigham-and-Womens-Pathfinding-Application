@@ -411,6 +411,9 @@ public class homeController implements Initializable {
 		if (Main.pathStrategy.equals("DFS")) {
 			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
 		}
+		if (Main.pathStrategy.equals("DYK")){
+		    Singleton.getInstance().pathfindingContext.strategy = new ClosestStrategyI();
+        }
 	}
 
 	public void toggleHandicap(ActionEvent event) {
@@ -1068,6 +1071,12 @@ public class homeController implements Initializable {
 	JFXButton btnQuickBathroom;
 
 	@FXML
+    JFXButton btnQuickExit;
+
+	@FXML
+    JFXButton btnQuickElevator;
+
+	@FXML
 	ImageView imgNavigation;
 
 	//@FXML
@@ -1086,6 +1095,8 @@ public class homeController implements Initializable {
 			new ProxyImage(imgNavigation, "NearestIcon.png").displayIcon();
 
 			btnQuickBathroom.setVisible(false);
+			btnQuickElevator.setVisible(false);
+			btnQuickExit.setVisible(false);
 			//btnQuickCafe.setVisible(false);
 			//btnQuickCoffee.setVisible(false);
 			//.setVisible(false);
@@ -1095,6 +1106,8 @@ public class homeController implements Initializable {
 			new ProxyImage(imgNavigation,"BackIcon.png").displayIcon();
 
 			btnQuickBathroom.setVisible(true);
+			btnQuickElevator.setVisible(true);
+			btnQuickExit.setVisible(true);
 			//btnQuickCafe.setVisible(true);
 			//btnQuickCoffee.setVisible(true);
 			//btnQuickShop.setVisible(true);
@@ -1208,6 +1221,14 @@ public class homeController implements Initializable {
 		// Directions Update
 
 	}
+
+	public void findQuickExit(ActionEvent event) {
+
+    }
+
+    public void findQuickElevator(ActionEvent event) {
+
+    }
 
 	public void findQuickCafe(ActionEvent event) {
 

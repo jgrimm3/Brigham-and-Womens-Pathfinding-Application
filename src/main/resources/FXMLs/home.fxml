@@ -457,6 +457,30 @@
                               <Insets bottom="35.0" />
                            </StackPane.margin>
                         </JFXButton>
+                        <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+                           <graphic>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Icons/NearestElevatorIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <StackPane.margin>
+                              <Insets bottom="30.0" right="240.0" />
+                           </StackPane.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+                           <graphic>
+                              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Icons/NearestExitIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <StackPane.margin>
+                              <Insets bottom="30.0" right="340.0" />
+                           </StackPane.margin>
+                        </JFXButton>
                             </children>
                         </StackPane>
                     </children>
