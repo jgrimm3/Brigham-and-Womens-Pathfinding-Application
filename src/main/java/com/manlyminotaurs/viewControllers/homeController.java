@@ -1509,6 +1509,8 @@ public class homeController implements Initializable {
 	@FXML
 	javafx.scene.text.Text destinationText;
 
+	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
+
 	/**
 	 * Maps the value from the old boundary to the new boundary
 	 *
@@ -1556,6 +1558,16 @@ public class homeController implements Initializable {
 			currPath.getElements().add(moveTo);
 			currPath.getElements().add(lineTo);
 		}
+	}
+
+	private void setText(javafx.scene.text.Text text, int finishX, int finishY, int subX, int subY, Font font) {
+		text.setTranslateX(finishX-subX);
+		text.setTranslateY(finishY-subY);
+		text.setFill(Color.WHITE);
+		text.setFont(font);
+		text.setStroke(Color.BLACK);
+		text.setStrokeType(StrokeType.CENTERED);
+		text.setStrokeWidth(2);
 	}
 
 	/**
@@ -1624,33 +1636,25 @@ public class homeController implements Initializable {
 			//javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
 			//javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
 			destination.setVisible(true);
-			destinationText.setText(floor);
+			destinationText.setVisible(true);
+			startName.setVisible(true);
+			endName.setVisible(true);
+			startName.setText(startNode.getShortName());
+			endName.setText(endNode.getShortName());
+			destinationText.setText("FL " + endFloor);
+			Font font = Font.font("Verdana", FontWeight.BOLD, 40);
 
 			if (dimension.equals("2-D")) {
 				finishX = endNode.getXCoord();
 				finishY = endNode.getYCoord();
 				startX = startNode.getXCoord();
 				startY = startNode.getYCoord();
-				destination.setTranslateX(finishX -31);
-				destination.setTranslateY(finishY -53);
-				destinationText.setTranslateX(finishX);
-				destinationText.setTranslateY(finishY + 30);
-				startName.setVisible(true);
-				startName.setFont(Font.font("Verdana", FontWeight.BOLD, 35));
-				startName.setLayoutX(startNode.getXCoord() + 5 + startNode.getLongName().length());
-				startName.setFill(Color.WHITE);
-				startName.setStroke(Color.BLACK);
-				startName.setStrokeWidth(1.5);
-				startName.setLayoutY(startNode.getYCoord());
-				startName.setRotate(-overMap.getRotate());
-				endName.setVisible(true);
-				endName.setFont(Font.font("Verdana", FontWeight.BOLD, 35));
-				endName.setLayoutX(endNode.getXCoord() + 5 + endNode.getLongName().length());
-				endName.setFill(Color.WHITE);
-				endName.setStroke(Color.BLACK);
-				endName.setStrokeWidth(1.5);
-				endName.setLayoutY(endNode.getYCoord());
-				endName.setRotate(-overMap.getRotate());
+				destination.setTranslateX(finishX -29);
+				destination.setTranslateY(finishY -52);
+				setText(destinationText, finishX, finishY, 35, 60, font);
+				setText(startName, startX, startY, -15, 0, font);
+				setText(endName, finishX, finishY, -15, 0, font);
+				//endName.setRotate(-overMap.getRotate());
 			} else if (dimension.equals("3-D")) {
 				finishX = endNode.getXCoord3D();
 				finishY = endNode.getYCoord3D();
@@ -1658,36 +1662,14 @@ public class homeController implements Initializable {
 				startY = startNode.getYCoord3D();
 				destination.setX(finishX);
 				destination.setY(finishY);
-				destinationText.setTranslateX(finishX);
-				destinationText.setTranslateY(finishY + 30);
-				startName.setVisible(true);
-				startName.setLayoutX(startNode.getXCoord3D() + 5 + startNode.getLongName().length());
-				startName.setFont(new Font(40));
-				startName.setFill(Color.WHITE);
-				startName.setStroke(Color.BLACK);
-				startName.setStrokeWidth(1.5);
-				startName.setLayoutY(startNode.getYCoord3D());
-				startName.setRotate(-overMap.getRotate());
-				startName.setFont(Font.font("Verdana", FontWeight.BOLD, 35));
-				endName.setVisible(true);
-				endName.setFont(Font.font("Verdana", FontWeight.BOLD, 35));
-				endName.setLayoutX(endNode.getXCoord3D() + 5 + endNode.getLongName().length());
-				endName.setStroke(Color.BLACK);
-				endName.setStrokeWidth(1.5);
-				endName.setFill(Color.WHITE);
-				endName.setLayoutY(endNode.getYCoord3D());
-				endName.setRotate(-overMap.getRotate());
+				setText(destinationText, finishX, finishY, 35, 60, font);
+				setText(startName, startX, startY, -15, 0, font);
+				//startName.setRotate(-overMap.getRotate());
+				setText(endName, finishX, finishY, -15, 0, font);
+				//endName.setRotate(-overMap.getRotate());
 			} else {
 				System.out.println("Invalid dimension");
 			}
-
-			ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(2000), destination);
-			scaleTransition.setToX(1.3f);
-			scaleTransition.setToY(1.3f);
-			scaleTransition.setToX(1.2f);
-			scaleTransition.setToY(1.2f);
-			scaleTransition.setCycleCount(Timeline.INDEFINITE);
-			scaleTransition.setAutoReverse(true);
 
 			/*
 			ScaleTransition scaleTransitionCircle = new ScaleTransition(Duration.millis(1000), startCircle);
@@ -1738,8 +1720,17 @@ public class homeController implements Initializable {
 			overMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
-
-			scaleTransition.play();
+			if(!pathRunning) {
+				pathRunning = true;
+				ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(2000), destination);
+				scaleTransition.setToX(1.3f);
+				scaleTransition.setToY(1.3f);
+				scaleTransition.setToX(1.2f);
+				scaleTransition.setToY(1.2f);
+				scaleTransition.setCycleCount(Timeline.INDEFINITE);
+				scaleTransition.setAutoReverse(true);
+				scaleTransition.play();
+			}
 		}
 	}
 
@@ -1764,6 +1755,8 @@ public class homeController implements Initializable {
 			//nodeList = DataModelI.getInstance().retrieveNodes();
 			Node startNode = DataModelI.getInstance().getNodeByLongName(lblStartLocation.getText());
 			Node endNode = DataModelI.getInstance().getNodeByLongName(lblEndLocation.getText());
+			startFloor = startNode.getFloor();
+			endFloor = endNode.getFloor();
 			currentFloor = startNode.getFloor();
 
 			try {
@@ -2124,7 +2117,7 @@ public class homeController implements Initializable {
 		name.setStrokeWidth(1);
 		name.setStroke(Color.WHITE);
 		name.setLayoutY(currCircle.getCenterY());
-		name.setRotate(-overMap.getRotate());
+		//name.setRotate(-overMap.getRotate());
 		currName = name;
 		overMap.getChildren().add(name);
 		fade = new FadeTransition(Duration.millis(200), name);
@@ -2152,6 +2145,23 @@ public class homeController implements Initializable {
 	//                                           Change Floors
 	//
 	//-----------------------------------------------------------------------------------------------------------------
+	private void setStartAndEndInfoOpacity(String floor) {
+		if(floor.equals(endFloor)) {
+			destination.setOpacity(1);
+			destinationText.setOpacity(1);
+			endName.setOpacity(1);
+		} else {
+			destination.setOpacity(.5);
+			destinationText.setOpacity(.5);
+			endName.setOpacity(.5);
+		}
+		if(floor.equals(startFloor)) {
+			startName.setOpacity(1);
+		} else {
+			startName.setOpacity(.5);
+		}
+	}
+
 	private void changeFloor(String floor) {
 		if(floor.equals("L2"))
 			changeFloorL2(null);
@@ -2173,6 +2183,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L2";
+		setStartAndEndInfoOpacity(currentFloor);
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(20);
@@ -2192,9 +2203,9 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L1";
+		setStartAndEndInfoOpacity(currentFloor);
 		printKiosk();
 		cancel(null);
-
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(20);
 		btn1.setLayoutX(0);
@@ -2215,7 +2226,7 @@ public class homeController implements Initializable {
 		currentFloor = "1";
 		printKiosk();
 		cancel(null);
-
+		setStartAndEndInfoOpacity(currentFloor);
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(20);
@@ -2236,7 +2247,7 @@ public class homeController implements Initializable {
 		currentFloor = "2";
 		printKiosk();
 		cancel(null);
-
+		setStartAndEndInfoOpacity(currentFloor);
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -2263,7 +2274,7 @@ public class homeController implements Initializable {
 		btn1.setLayoutX(0);
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(20);
-
+		setStartAndEndInfoOpacity(currentFloor);
 		System.out.println("you selected floor 3");
 
 	}
