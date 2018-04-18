@@ -31,7 +31,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
-    //private FireDetector fd;
+    private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -61,8 +61,8 @@ public class Main extends Application {
         e.printStackTrace();
     }
 
-    //fd = new FireDetector(primaryStage);
-    //fd.startDetecting();
+    fd = new FireDetector(primaryStage);
+    fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
@@ -87,7 +87,10 @@ public class Main extends Application {
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
-        new ChatServer().spoolUpServer();
+
+        if(args[0].equals("-s")) {
+            new ChatServer().spoolUpServer();
+        }
         launch(args);
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
 
