@@ -517,6 +517,9 @@ class TableInitializer {
                 statement.setString(6, node_row[5]);
                 statement.executeUpdate();
             }
+            if(node_row==null) {
+                return 0;
+            }
             logIDCounter = Integer.parseInt(node_row[0]) + 5;
 
         } catch (SQLException e) {
