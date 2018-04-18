@@ -12,6 +12,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +47,8 @@ public class DataModelI implements IDataModel{
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
     public static void main(String[] args){
-        DataModelI.getInstance().startDB();
-        DataModelI.getInstance().updateAllCSVFiles();
+         DataModelI.getInstance().startDB();
+         DataModelI.getInstance().updateAllCSVFiles();
 
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
@@ -180,6 +181,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override
@@ -475,6 +477,11 @@ public class DataModelI implements IDataModel{
         return logDBUtil.getLogsByLogTime(startTime,endTime);
     }
 
+    @Override
+    public List<Log> getLogsByLogTimeChoice(String timeChoice) {
+        return logDBUtil.getLogsByLogTimeChoice(timeChoice);
+    }
+
 
     //----------------------------------Pathfinding Log-------------------------------------------
 
@@ -524,56 +531,69 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean permanentlyRemoveEdge(Node startNode, Node endNode) {
+        String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+        addLog("Permanently Removed "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(),edgeID,"edge");
         return nodesDBUtil.permanentlyRemoveEdge(startNode, endNode);
     }
 
     @Override
     public boolean permanentlyRemoveMessage(String messageID) {
+        addLog("Permanently Removed "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),messageID,"message");
         return messagesDBUtil.permanentlyRemoveMessage(messageID);
     }
 
     @Override
     public boolean permanentlyRemoveRequest(Request oldRequest) {
+        addLog("Permanently Removed "+ oldRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldRequest.getRequestID(),"request");
         return requestsDBUtil.permanentlyRemoveRequest(oldRequest);
     }
 
     @Override
     public boolean permanentlyRemoveUser(User oldUser) {
+        addLog("Permanently Removed "+ oldUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldUser.getUserID(),"user");
         return userDBUtil.permanentlyRemoveUser(oldUser);
     }
 
     @Override
     public boolean permanentlyRemoveUserPassword(String userID) {
+        addLog("Permanently Removed "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"userpassword");
         return userSecurity.permanentlyRemoveUserPassword(userID);
     }
 
     @Override
     public boolean restoreNode(String nodeID) {
+        addLog("Restored "+ nodeID+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), nodeID,"node");
         return nodesDBUtil.restoreNode(nodeID);
     }
 
     @Override
     public boolean restoreEdge(String startNodeID, String endNodeID) {
+        String edgeID = startNodeID + "_"+ endNodeID;
+        addLog("Restored "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(), edgeID,"edge");
         return nodesDBUtil.restoreEdge(startNodeID, endNodeID);
     }
 
     @Override
     public boolean restoreMessage(String messageID) {
+        addLog("Restored "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(), messageID,"message");
         return messagesDBUtil.restoreMessage(messageID);
     }
 
     @Override
     public boolean restoreRequest(String requestID) {
+        addLog("Restored "+ requestID+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(), requestID,"request");
         return requestsDBUtil.restoreRequest(requestID);
     }
 
     @Override
     public boolean restoreUser(String userID) {
+        addLog("Restored "+ userID+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return userDBUtil.restoreUser(userID);
     }
 
     @Override
     public boolean restoreUserPassword(String userID) {
+        addLog("Restored "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"userpassword");
         return userSecurity.restoreUserPassword(userID);
     }
 

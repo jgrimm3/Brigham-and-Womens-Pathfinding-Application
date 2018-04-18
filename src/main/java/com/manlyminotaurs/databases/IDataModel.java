@@ -126,6 +126,7 @@ public interface IDataModel {
     List<Log> getLogsByUserID(String userID);
     List<Log> getLogsByAssociatedType(String associatedType);
     List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime);
+    List<Log> getLogsByLogTimeChoice(String timeChoice);
 
     //-------------------------------------Pathfinder Table---------------------------------------
     List<Pathfinder> retrievePathfinderData();
