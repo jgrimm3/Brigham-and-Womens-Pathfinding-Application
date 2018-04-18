@@ -103,19 +103,19 @@ public class PathfinderUtil {
             System.out.println("Intersection: " + (i + 1));
             double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
             if (angle > 30 && angle <= 45) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight right" + nameToString(path.get((i+1))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + slightRightArrow + nameToString(path.get((i+1))));
             } else if (angle > 45 && angle <= 135) {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + rightArrow + nameToString(path.get((i+1))));
             } else if (angle > 135 && angle <= 175) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a sharp right" + nameToString(path.get((i+1))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + sharpRightArrow+ nameToString(path.get((i+1))));
             } else if (angle > 175 && angle <= 185) {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "turn around" + nameToString(path.get((i+1))));
             } else if (angle > 185 && angle <= 225) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a sharp left" + nameToString(path.get((i+1))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + sharpLeftArrow + nameToString(path.get((i+1))));
             } else if (angle > 225 && angle <= 315) {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + leftArrow + nameToString(path.get((i+1))));
             } else if (angle > 315 && angle <= 330) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight left" + nameToString(path.get((i+1))));
+                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + slightLeftArrow + nameToString(path.get((i+1))));
 
             } else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
         }
