@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
@@ -60,6 +62,8 @@ public class adminHistoryController {
     JFXButton navBtnNodeEditor;
     @FXML
     JFXButton btnCreateRequest;
+    @FXML
+    JFXButton btnRemove;
 
 
 
@@ -84,6 +88,7 @@ public class adminHistoryController {
             useridCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("userID"));
             nodeIdCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("nodeID"));
             typeCol.setCellValueFactory(new PropertyValueFactory<logEntry, String>("nodeType"));
+            logID.setCellValueFactory(new PropertyValueFactory<logEntry, String>("logID"));
 
             for (Log currLog : logList) {
                 histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
@@ -98,15 +103,36 @@ public class adminHistoryController {
 
     public void entryClicked() {
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
-        Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
-        lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
-        lblUserID.setText("User ID: " + actualLog.getUserID());
-        lblLogID.setText("Log ID: " + actualLog.getLogID());
-        lblDescription.setText("Description: " + actualLog.getDescription());
-        lblTime.setText("Time Stamp: " + actualLog.getLogTime());
-        lblType.setText("Type: " + actualLog.getAssociatedType());
+if (tblHistory.getSelectionModel().getSelectedItem() != null) {
+    Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
+    lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
+    lblUserID.setText("User ID: " + actualLog.getUserID());
+    lblLogID.setText("Log ID: " + actualLog.getLogID());
+    lblDescription.setText("Description: " + actualLog.getDescription());
+    lblTime.setText("Time Stamp: " + actualLog.getLogTime());
+    lblType.setText("Type: " + actualLog.getAssociatedType());
+}
     }
+    public void removeLog(){
+        logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
+        Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
+        lblNodeID.setText("Node ID:");
+        lblUserID.setText("User ID: ");
+        lblLogID.setText("Log ID: " );
+        lblDescription.setText("Description: ");
+        lblTime.setText("Time Stamp: ");
+        lblType.setText("Type: ");
+        DataModelI.getInstance().removeLog(actualLog);
+        histList.removeAll();
+        histList.clear();
+        tblHistory.setItems(null);
+        ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
+        for (Log currLog : logList) {
+            histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            tblHistory.setItems(histList);
+        }
 
+    }
 
     public class logEntry {
         String description;
@@ -145,6 +171,9 @@ public class adminHistoryController {
         public String getNodeType() {
             return nodeType;
         }
+        public String getLogID() {
+            return logID;
+        }
 
     }
 
@@ -181,6 +210,7 @@ public class adminHistoryController {
         histList.removeAll();
         histList.clear();
         tblHistory.setItems(null);
+        ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
         for (Log currLog : logList) {
             histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
             tblHistory.setItems(histList);

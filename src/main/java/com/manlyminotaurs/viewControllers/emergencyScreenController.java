@@ -49,33 +49,6 @@ public class emergencyScreenController {
     public void initialize() {
         printKiosk();
         goToKiosk();
-        findExit(null);
-    }
-
-    public void printKiosk() {
-        Circle kiosk = new Circle();
-            kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
-        }
-
-       /* circleList.add(kiosk);
-        System.out.println(currentFloor + " is the floor");
-        if (currentFloor.equals("1")) {
-            kiosk.setFill(Color.BLUE);
-            kiosk.setFill(Color.RED);
-        } else {
-            kiosk.setFill(Color.GRAY);*/
-      //  }
-
-      //  kiosk.setStrokeWidth(3);
-        //kiosk.setStroke(Color.BLACK);
-       // overMap.getChildren().add(kiosk);
-
-    public void goToKiosk() {
-            scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
-            scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
-    }
-
-    public void findExit(ActionEvent event){
         // Pathfind to nearest Exit
         String startFloor = "1";
         Node exitNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "EXIT", "Node 1, 3", "n1x3y", 1, 0, 0);
@@ -91,7 +64,20 @@ public class emergencyScreenController {
             e.printStackTrace();
         }
 
+    }
+
+
+    public void printKiosk() {
+        Circle kiosk = new Circle();
+            kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+            kiosk.setFill(Color.RED);
         }
 
+
+
+    public void goToKiosk() {
+            scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
+            scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+    }
 
 }

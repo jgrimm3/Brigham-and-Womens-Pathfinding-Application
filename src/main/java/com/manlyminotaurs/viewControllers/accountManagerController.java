@@ -132,12 +132,11 @@ public class accountManagerController {
         gridModify.setDisable(false);
         gridAdd.setDisable(true);
         gridAdd.setVisible(false);
-        btnModifyUser.setDisable(true);
+//        btnModifyUser.setDisable(true);
         BooleanBinding booleanBind = Bindings.or(txtFirstNameModify.textProperty().isEmpty(),
                 txtMiddleNameModify.textProperty().isEmpty()).or(txtLastNameModify.textProperty().isEmpty()).or(txtUsernameModify.textProperty().isEmpty()).or(txtPasswordModify.textProperty().isEmpty());
         btnModifyUser.disableProperty().bind(booleanBind);
-        cmboLanguageModify.setItems(Languages);
-        cmboTypeModify.setItems(UserTypes);
+
 
     }
     public void displayDeleteGrid(ActionEvent event){
@@ -151,8 +150,7 @@ public class accountManagerController {
         BooleanBinding booleanBind = Bindings.or(txtFirstNameDelete.textProperty().isEmpty(),
                 txtMiddleNameDelete.textProperty().isEmpty()).or(txtLastNameDelete.textProperty().isEmpty()).or(txtUsernameDelete.textProperty().isEmpty()).or(txtPasswordDelete.textProperty().isEmpty());
         btnDeleteUser.disableProperty().bind(booleanBind);
-        cmboLanguageDelete.setItems(Languages);
-        cmboTypeDelete.setItems(UserTypes);
+
 
     }
     public void displayAddGrid(ActionEvent event) {
@@ -292,11 +290,21 @@ public class accountManagerController {
         txtFirstNameModify.setText(firstName);
         txtMiddleNameModify.setText(middleName);
         txtLastNameModify.setText(lastName);
-//        cmboLanguageModify.setItems(language);
-//        cmboLanguageModify.setItems(type);
+        cmboLanguageModify.getSelectionModel().select(languages);
+        cmboTypeModify.getSelectionModel().select(type);
     }
     public void targetUserDelete(ActionEvent event){
         userID = txtUserIDDelete.getText();
+        firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
+        middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
+        lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
+        languages = DataModelI.getInstance().getUserByID(userID).getLanguages();
+        type = DataModelI.getInstance().getUserByID(userID).getUserType();
+        txtFirstNameDelete.setText(firstName);
+        txtMiddleNameDelete.setText(middleName);
+        txtLastNameDelete.setText(lastName);
+        cmboLanguageDelete.getSelectionModel().select(languages);
+        cmboTypeDelete.getSelectionModel().select(type);
     }
     public void addUser(ActionEvent event){
         firstName = txtFirstNameAdd.getText();
@@ -335,6 +343,8 @@ public class accountManagerController {
         type = cmboTypeDelete.getValue().toString();
         username = txtUsernameDelete.getText();
         password = txtPasswordDelete.getText();
+
+
 
         DataModelI.getInstance().removeUser(user);
 
