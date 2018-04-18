@@ -420,7 +420,7 @@
                                                 </Label>
                                                 <JFXTextField fx:id="txtUsername" labelFloat="true" layoutX="20.0" layoutY="134.0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
                                                 <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="20.0" layoutY="234.0" prefColumnCount="0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
-                                    <JFXButton fx:id="btnPatientPortal" layoutX="26.0" layoutY="9.0" onAction="#patientPortal" prefHeight="60.0" prefWidth="348.0" style="-fx-background-color: #2f2f2f;" text="Patient Portal" textFill="#fbff0d">
+                                    <JFXButton fx:id="btnPatientPortal" layoutX="26.0" layoutY="9.0" onAction="#patientPortal" prefHeight="60.0" prefWidth="348.0" style="-fx-background-color: #2f2f2f;" text="Patient Portal" textFill="#edbf54">
                                        <font>
                                           <Font size="27.0" />
                                        </font>
