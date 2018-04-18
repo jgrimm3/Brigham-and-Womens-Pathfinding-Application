@@ -9,9 +9,9 @@ public class Message {
     String messageID;
     String message;
     Boolean isRead;
+    LocalDate sentDate;
     String senderID;
     String receiverID;
-    LocalDate sentDate;
     private LocalDateTime deleteTime;
 
     public Message(String messageID, String message, Boolean isRead, LocalDate sentDate, String receiverID, String senderID) {

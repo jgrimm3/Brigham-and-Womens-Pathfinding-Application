@@ -500,6 +500,8 @@ public class homeController implements Initializable {
 		kiosk.setStrokeWidth(3);
 		kiosk.setStroke(Color.BLACK);
 		kiosk.setOnMouseClicked(this::startCircleClicked);
+		kiosk.setOnMouseEntered(this::printStartName);
+		kiosk.setOnMouseExited(this::removeStartName);
 		paneMap.getChildren().add(kiosk);
 	}
 
@@ -2146,7 +2148,7 @@ public class homeController implements Initializable {
 	private void printName(MouseEvent mouseEvent) {
 		Circle currCircle = (Circle)mouseEvent.getTarget();
 		nodeFloor.setText(currentFloor);
-		lblNode.setText(currCircle.getId());
+		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
 		nodePane.setLayoutX(currCircle.getCenterX());
 		nodePane.setLayoutY(currCircle.getCenterY());

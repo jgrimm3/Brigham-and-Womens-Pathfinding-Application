@@ -135,8 +135,7 @@ public class NodesDBUtilTest {
 		assertTrue(aNode2 == null);
 
 		DataModelI.getInstance().restoreNode(nodeIDTemp);
-		aNode = DataModelI.getInstance().getNodeMap().get(addedNode.getNodeID());
-		assertTrue(aNode != null);
+		assertTrue(DataModelI.getInstance().getNodeList().contains(aNode));
 	}
 
 

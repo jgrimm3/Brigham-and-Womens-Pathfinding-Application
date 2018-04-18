@@ -60,7 +60,7 @@
                                                         </ImageView>
                                                         <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                                             <children>
-                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#5a70eb" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                                <Path fx:id="pathL2" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#159e15" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                                     <elements>
                                                                         <MoveTo x="-100.0" y="-100.0" />
                                                                         <LineTo x="5000.0" y="-100.0" />
@@ -69,7 +69,7 @@
                                                                         <ClosePath />
                                                                     </elements>
                                                                 </Path>
-                                                                <Path fx:id="pathL1" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#d9c686" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                                <Path fx:id="pathL1" blendMode="DARKEN" fill="WHITE" opacity="0.75" stroke="#bf950b" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                                     <elements>
                                                                         <MoveTo x="-100.0" y="-100.0" />
                                                                         <LineTo x="5000.0" y="-100.0" />
@@ -87,7 +87,7 @@
                                                       <ClosePath />
                                                    </elements>
                                                 </Path>
-                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#69ff6e" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                                                <Path fx:id="path2" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" opacity="0.75" stroke="#2530ee" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                                    <elements>
                                                       <MoveTo x="-100.0" y="-100.0" />
                                                       <LineTo x="5000.0" y="-100.0" />

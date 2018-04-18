@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -23,6 +24,25 @@ public class UserDBUtilTest {
     public void retrieveUsersCorrectSize(){
         int list_size = DataModelI.getInstance().retrieveUsers().size();
         assertTrue(list_size == 11);
+    }
+
+    @Test
+    public void afterRestoreUser_returnsCorrectList(){
+        List<String> languages = new ArrayList<>();
+        languages.add("Korean");
+        languages.add("English");
+        languages.add("Latin");
+        User aUser = DataModelI.getInstance().addUser("", "Edward", "Bong", "Jang",languages, "visitor", "qw933", "tempPassword");
+        assertTrue(DataModelI.getInstance().retrieveUsers().contains(aUser));
+
+        List<User> listOfUsers = DataModelI.getInstance().retrieveUsers();
+        DataModelI.getInstance().removeUser(aUser);
+        List<User> listOfUsers2 = DataModelI.getInstance().retrieveUsers();
+        assertFalse(DataModelI.getInstance().retrieveUsers().contains(aUser));
+
+        System.out.println(DataModelI.getInstance().restoreUser(aUser.getUserID()));
+        List<User> listOfUsers3 = DataModelI.getInstance().retrieveUsers();
+        assertTrue(listOfUsers3.contains(aUser));
     }
 //
 //    @Test

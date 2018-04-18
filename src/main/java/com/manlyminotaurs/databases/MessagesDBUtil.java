@@ -37,6 +37,9 @@ class MessagesDBUtil {
         if(messageObject.getMessageID() == null || messageObject.getMessageID().equals("")) {
             messageObject.setMessageID(generateMessageID());
         }
+        if(messageObject.getSentDate() == null || messageObject.getSentDate().equals("")){
+            messageObject.setSentDate(LocalDate.now());
+        }
 
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -47,7 +50,7 @@ class MessagesDBUtil {
             statement.setString(1, messageObject.getMessageID());
             statement.setString(2, messageObject.getMessage());
             statement.setBoolean(3, messageObject.getRead());
-            statement.setDate(4, Date.valueOf(LocalDate.now()));
+            statement.setDate(4, Date.valueOf(messageObject.getSentDate()));
             statement.setString(5, messageObject.getSenderID());
             statement.setString(6, messageObject.getReceiverID());
             System.out.println("Prepared statement created...");

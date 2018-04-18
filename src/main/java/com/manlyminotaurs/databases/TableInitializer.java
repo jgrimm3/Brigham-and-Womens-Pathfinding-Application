@@ -54,7 +54,7 @@ class TableInitializer {
         UserSecurity userSecurity = new UserSecurity();
         //initializer.populateAllNodeEdgeTables();
         initializer.populateNodeEdgeTables("./nodes.csv","./edges.csv");
-        initializer.populateRoomTable(nodesDBUtil.getNodeList());
+      //  initializer.populateRoomTable(nodesDBUtil.getNodeList());
         UserDBUtil.setUserIDCounter(initializer.populateUserAccountTable("./UserAccountTable.csv"));
         MessagesDBUtil.setMessageIDCounter(initializer.populateMessageTable("./MessageTable.csv"));
         RequestsDBUtil.setRequestIDCounter(initializer.populateRequestTable("./RequestTable.csv"));
