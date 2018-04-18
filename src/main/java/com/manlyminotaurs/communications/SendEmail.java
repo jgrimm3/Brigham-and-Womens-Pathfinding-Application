@@ -10,37 +10,37 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmail {
 
-    private String from;
     private String to;
     private String subject;
     private String text;
-    private String password;
 
-    public SendEmail(String from, String to, String subject, String text, String password){
-        this.from = from;
+    public SendEmail(String to, String subject, String text){
         this.to = to;
         this.subject = subject;
         this.text = text;
-        this.password = password;
     }
 
     public void send(){
 
-        Properties props = new Properties();
+        Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
 
-        Session mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+        Session mailSession = Session.getDefaultInstance(props, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from,password);
+                return new PasswordAuthentication("3733.d18.teamm@gmail.com", "manlyMinotaurs");
             }
         });
         Message simpleMessage = new MimeMessage(mailSession);
 
         InternetAddress fromAddress = null;
         InternetAddress toAddress = null;
+
         try {
-            fromAddress = new InternetAddress(from);
+            fromAddress = new InternetAddress("3733.d18.teamm@gmail.com");
             toAddress = new InternetAddress(to);
         } catch (AddressException e) {
             // TODO Auto-generated catch block

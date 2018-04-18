@@ -1,6 +1,7 @@
 package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.communications.SendEmail;
+import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -34,7 +35,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try{
         //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/reactiveBoxTest.fxml"));
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -67,8 +68,8 @@ public class Main extends Application {
         //DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
         //DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
         //DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-       // DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
-       // DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
+        //DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
+        //DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
         //DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
         //DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
 
@@ -79,8 +80,10 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
 
         System.out.println("version 7");
-        SendEmail email = new SendEmail("3733.d18.teamm@gmail.com", "chriscedron@gmail.com", "Test", "Body", "manlyMinotaurs");
-        email.send();
+        SendEmail email = new SendEmail("chriscedron@gmail.com", "Test", "Jared Says Hi");
+        //email.send();
+        SendTxt txt = new SendTxt();
+        txt.send("3392343337", "Turn " + (char)0x21B0);
         DataModelI.getInstance().startDB();
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
         launch(args);
