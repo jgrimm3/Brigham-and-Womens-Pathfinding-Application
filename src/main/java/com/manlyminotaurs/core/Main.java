@@ -30,6 +30,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
+    //private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -38,7 +39,7 @@ public class Main extends Application {
 
 
         //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -58,6 +59,9 @@ public class Main extends Application {
     }catch(Exception e){
         e.printStackTrace();
     }
+
+    //fd = new FireDetector(primaryStage);
+    //fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
