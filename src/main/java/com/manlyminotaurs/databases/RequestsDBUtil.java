@@ -29,6 +29,11 @@ class RequestsDBUtil {
         RequestsDBUtil.requestIDCounter = requestIDCounter;
     }
 
+    public String generateRequestID(){
+        requestIDCounter++;
+        return Integer.toString(requestIDCounter);
+    }
+
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
 	Request addRequest(Request requestObject, Message message){
@@ -159,11 +164,6 @@ class RequestsDBUtil {
             DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
-    }
-
-    public String generateRequestID(){
-        requestIDCounter++;
-        return Integer.toString(requestIDCounter);
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/

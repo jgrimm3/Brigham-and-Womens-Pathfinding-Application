@@ -261,13 +261,12 @@ public class NodesDBUtilTest {
 		assertTrue(edge != null);
 		assertTrue(gottenEdge != null);
 
+		assertTrue(DataModelI.getInstance().getEdgeList().contains(edge));
 		DataModelI.getInstance().removeEdge(startNode,endNode);
-		Edge gottenEdge2 = DataModelI.getInstance().getEdgeByID(edgeIDTemp);
-		assertTrue(gottenEdge2 == null);
+		assertFalse(DataModelI.getInstance().getEdgeList().contains(edge));
 
-		DataModelI.getInstance().restoreNode(edgeIDTemp);
-		Edge gottenEdge3 = DataModelI.getInstance().getEdgeByID(edgeIDTemp);
-		assertTrue(gottenEdge3 != null);
+		DataModelI.getInstance().restoreEdge(startNode.getNodeID(),endNode.getNodeID());
+		assertTrue(DataModelI.getInstance().getEdgeList().contains(edge));
 	}
 
 	@Test

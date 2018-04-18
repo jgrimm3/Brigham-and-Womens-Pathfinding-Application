@@ -492,7 +492,7 @@ class NodesDBUtil {
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
-			String str = "INSERT INTO MAP_EDGES(edgeID, startNode, endNode, status) VALUES (?,?,?,?)";
+			String str = "INSERT INTO MAP_EDGES(edgeID, startNodeID, endNodeID, status) VALUES (?,?,?,?)";
 
 			// Create the prepared statement
 			PreparedStatement statement = connection.prepareStatement(str);

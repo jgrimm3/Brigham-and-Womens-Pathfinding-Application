@@ -16,6 +16,11 @@ public class UserDBUtil {
         UserDBUtil.userIDCounter = userIDCounter;
     }
 
+    private String generateUserID(){
+        userIDCounter++;
+        return Integer.toString(userIDCounter);
+    }
+
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password){
 
@@ -343,10 +348,5 @@ public class UserDBUtil {
                 break;
         }
         return userObject;
-    }
-
-    private String generateUserID(){
-        userIDCounter++;
-        return Integer.toString(userIDCounter);
     }
 }
