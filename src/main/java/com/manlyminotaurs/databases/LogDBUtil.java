@@ -4,6 +4,7 @@ import com.manlyminotaurs.log.Log;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -266,6 +267,30 @@ public class LogDBUtil {
             DataModelI.getInstance().closeConnection();
         }
         return listOfLog;
+    }
+
+    public List<Log> getLogsByLogTimeChoice(String timeChoice){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
+        List<Log> listOfLogs = null;
+        if(timeChoice.equals("1hour")) {
+            listOfLogs = getLogsByLogTime(LocalDateTime.now(), LocalDateTime.now().minusHours(1));
+        }
+        else if(timeChoice.equals("3hour")) {
+            listOfLogs = getLogsByLogTime(LocalDateTime.now(), LocalDateTime.now().minusHours(3));
+        }
+        else if(timeChoice.equals("6hour")) {
+            listOfLogs = getLogsByLogTime(LocalDateTime.now(), LocalDateTime.now().minusHours(6));
+        }
+        else if(timeChoice.equals("12hour")) {
+            listOfLogs = getLogsByLogTime(LocalDateTime.now(), LocalDateTime.now().minusHours(12));
+        }
+        else if(timeChoice.equals("24hour")) {
+            listOfLogs = getLogsByLogTime(LocalDateTime.now(), LocalDateTime.now().minusHours(24));
+        }
+        else{
+            listOfLogs = retrieveLogData();
+        }
+        return listOfLogs;
     }
 
 

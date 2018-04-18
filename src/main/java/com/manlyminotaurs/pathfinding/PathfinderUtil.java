@@ -97,7 +97,7 @@ public class PathfinderUtil {
     public ArrayList<String> angleToText(LinkedList<Node> path) {
         ArrayList<String> tbt = new ArrayList<>();
         /* check for <= 2 node path */
-        if (path.size() <= 2) { tbt.add(straightArrow +  (path.getLast())); return tbt; }
+        if (path.size() <= 2) { tbt.add(straightArrow + ""+  (path.getLast())); return tbt; }
         /* loop through path */
         for (int i = 0; i < path.size() - 2; i++) {
             System.out.println("Intersection: " + (i + 1));

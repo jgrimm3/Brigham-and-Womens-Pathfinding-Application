@@ -12,6 +12,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +47,8 @@ public class DataModelI implements IDataModel{
     /*------------------------------------------------ Methods -------------------------------------------------------*/
 
     public static void main(String[] args){
-        DataModelI.getInstance().startDB();
-        DataModelI.getInstance().updateAllCSVFiles();
+         DataModelI.getInstance().startDB();
+         DataModelI.getInstance().updateAllCSVFiles();
 
         TableInitializer tableInitializer = new TableInitializer();
     //    System.out.println(tableInitializer.convertStringToDate("2018-04-06"));
@@ -180,6 +181,7 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
     @Override
@@ -475,6 +477,11 @@ public class DataModelI implements IDataModel{
         return logDBUtil.getLogsByLogTime(startTime,endTime);
     }
 
+    @Override
+    public List<Log> getLogsByLogTimeChoice(String timeChoice) {
+        return logDBUtil.getLogsByLogTimeChoice(timeChoice);
+    }
+
 
     //----------------------------------Pathfinding Log-------------------------------------------
 
@@ -549,7 +556,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean permanentlyRemoveUserPassword(String userID) {
-        addLog("Permanently Removed "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"user");
+        addLog("Permanently Removed "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"userpassword");
         return userSecurity.permanentlyRemoveUserPassword(userID);
     }
 
@@ -586,7 +593,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean restoreUserPassword(String userID) {
-        addLog("Restored "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
+        addLog("Restored "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"userpassword");
         return userSecurity.restoreUserPassword(userID);
     }
 
