@@ -62,7 +62,7 @@ public class nodeEditorController {
     String endFloor = "";
     List<Circle> circleList = new ArrayList<>();
     List<Line> edgeLines = new ArrayList<>();
-    Boolean mapNodeChoice = true;
+    Boolean mapNodeChoice = false;
     Boolean selectNode = false;
     Parent history;
 
@@ -159,6 +159,8 @@ public class nodeEditorController {
     JFXButton navBtnManageAccounts;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    JFXToggleButton tglAddMapChange;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -201,20 +203,16 @@ public class nodeEditorController {
 
             //disable toggle
             tglMap.disableProperty().bind((cmboFloor.valueProperty().isNull()));
-
+            tglAddMapChange.disableProperty().bind((cmboFloorAdd.valueProperty().isNull()));
 
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            // Initialize Map
-            stackPaneMap.setPrefHeight(3400);
-            stackPaneMap.setPrefWidth(5000);
-            mapImg.setFitHeight(3400);
-            mapImg.setFitWidth(5000);
-            paneMap.setPrefHeight(3400);
-            paneMap.setPrefWidth(5000);
+            floor2DMapLoader("2");
+            drawEdges("2", "2-D");
+            drawCircles("2", "2-D");
 
 
             // drawCircles("1", "2-D");
@@ -248,6 +246,7 @@ public class nodeEditorController {
     }
 
     public void displayAddPane(ActionEvent event) {   //add Node
+        floor2DMapLoader("2");
         paneDelete.setVisible((false));
         paneDelete.setDisable(true);
         paneModify.setVisible(false);
@@ -270,6 +269,9 @@ public class nodeEditorController {
 
         //set up comboboxes
         cmboBuilding.setItems(buildings);
+        drawEdges("2", "2-D");
+        drawCircles("2", "2-D");
+
 
     }
 
@@ -308,7 +310,6 @@ public class nodeEditorController {
             if (mapNodeChoice == true) { // 2D
                 txtXCoord.setText(Double.toString(event.getX()));
                 txtYCoord.setText(Double.toString(event.getY()));
-
             }
 
             if (mapNodeChoice == false) { //3D
@@ -316,35 +317,11 @@ public class nodeEditorController {
                 txtYCoord3D.setText(Double.toString(event.getY()));
             }
         }
-        if (paneModify.isVisible() == true) {
-            if (mapNodeChoice == true) { // 2D
-                //.setText(Double.toString(event.getX()));
-                txtYCoord.setText(Double.toString(event.getY()));
 
-            }
-
-            if (mapNodeChoice == false) { //3D
-                txtXCoord3D.setText(Double.toString(event.getX()));
-                txtYCoord3D.setText(Double.toString(event.getY()));
-            }
-        }
-        if (paneDelete.isVisible() == true) {
-            { // 2D
-            }
-            if (mapNodeChoice == false) { //3D
-                for (Node nodeDelete : nodeList)
-                    if (nodeDelete.getXCoord3D() == event.getX() && (nodeDelete.getYCoord3D() == event.getY())) {
-
-                    }
-
-            }
-        }
     }
 
 
     Parent createRequest;
-
-
 
     //Combo Box selected update next
     //Add node
@@ -357,10 +334,8 @@ public class nodeEditorController {
     public void addSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorAdd.getValue().toString();
-        btn2DMap.setDisable(false);
-        btn3DMap.setDisable(false);
+
         cmboType.setItems(types);
-        ;
 
     }
 
@@ -378,9 +353,10 @@ public class nodeEditorController {
 
     public void modSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
-        floor = cmboFloor.getValue().toString();
-        cmboTypeMod.setItems(types);
 
+        if (paneModify.isVisible()== true){
+            floor = cmboFloor.getValue().toString();
+            cmboTypeMod.setItems(types);
         if (tglMap.isSelected()) {
             // Switch 3-D
             tglMap.setText("3-D");
@@ -407,6 +383,38 @@ public class nodeEditorController {
 
             drawEdges(cmboFloor.getValue(), "2-D");
             drawCircles(cmboFloor.getValue(), "2-D");
+        }
+        }
+        else if(paneAdd.isVisible() == true){
+            floor = cmboFloorAdd.getValue().toString();
+            cmboType.setItems(types);
+        if (tglAddMapChange.isSelected()) {
+            // Switch 3-D
+            tglMap.setText("3-D");
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2774);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+
+            floor3DMapLoader(cmboFloorAdd.getValue());
+            drawEdges(cmboFloorAdd.getValue(), "3-D");
+            drawCircles(cmboFloorAdd.getValue(), "3-D");
+        } else {
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+            floor2DMapLoader(cmboFloorAdd.getValue());
+
+            drawEdges(cmboFloorAdd.getValue(), "2-D");
+            drawCircles(cmboFloorAdd.getValue(), "2-D");
+        }
         }
     }
 
@@ -451,10 +459,7 @@ public class nodeEditorController {
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
-        DataModelI.getInstance().retrieveNodes();
-        node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
-        txtLongNameDel.setText(node.getLongName());
-        txtShortNameDel.setText(node.getShortName());
+
     }
 
 
@@ -532,23 +537,6 @@ public class nodeEditorController {
     }
 
 
-    public void load2DMap(ActionEvent event) {
-        mapNodeChoice = true;
-        floor2DMapLoader(cmboFloorAdd.getValue());
-
-        drawCircles(cmboFloorAdd.getValue(), "2-D");
-
-
-    }
-
-    public void load3DMap(ActionEvent event) {
-        mapNodeChoice = false;
-        floor3DMapLoader(cmboFloorAdd.getValue());
-
-        drawCircles(cmboFloorAdd.getValue(), "3-D");
-
-    }
-
 
     public void geofence(ActionEvent event) {
         int newStatus = 0;
@@ -607,13 +595,18 @@ public class nodeEditorController {
                     tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            // record a delta distance for the drag and drop operation.
-                            tempCircle.setFill(Color.RED);
-                            dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
-                            dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
-                            tempCircle.setCursor(Cursor.MOVE);
+                            if (paneModify.isVisible() == true) {
+                                tempCircle.setFill(Color.RED);
+                                // record a delta distance for the drag and drop operation.
+                                dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                                dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                                txtLongNameMod.setText(currNode.getLongName());
+                                txtShortNameMod.setText( currNode.getShortName());
+                                tempCircle.setCursor(Cursor.MOVE);
+                            }
                             if (paneDelete.isVisible() == true) {
                                 {
+                                    tempCircle.setFill(Color.RED);
                                     txtLongNameDel.setText(currNode.getLongName());
                                     txtShortNameDel.setText(currNode.getShortName());
                                     cmboBuildingDel.getSelectionModel().select(currNode.getBuilding());
@@ -683,8 +676,6 @@ public class nodeEditorController {
                             tempCircle.setFill(Color.RED);
                             currNode.getLoc().setxCoord((int) tempCircle.getCenterX());
                             currNode.getLoc().setyCoord((int) tempCircle.getCenterY());
-
-
                         }
                     });
                     tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -692,7 +683,7 @@ public class nodeEditorController {
                         public void handle(MouseEvent mouseEvent) {
                             // record a delta distance for the drag and drop operation.
                             tempCircle.setFill(Color.DARKCYAN);
-                            clearEdges();
+
                             DataModelI.getInstance().modifyNode(currNode);
                             //drawEdges(floor, "3-D");
                         }

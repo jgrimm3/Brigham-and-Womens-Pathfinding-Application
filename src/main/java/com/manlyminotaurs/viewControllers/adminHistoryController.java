@@ -103,13 +103,15 @@ public class adminHistoryController {
 
     public void entryClicked() {
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
-        Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
-        lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
-        lblUserID.setText("User ID: " + actualLog.getUserID());
-        lblLogID.setText("Log ID: " + actualLog.getLogID());
-        lblDescription.setText("Description: " + actualLog.getDescription());
-        lblTime.setText("Time Stamp: " + actualLog.getLogTime());
-        lblType.setText("Type: " + actualLog.getAssociatedType());
+if (tblHistory.getSelectionModel().getSelectedItem() != null) {
+    Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
+    lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
+    lblUserID.setText("User ID: " + actualLog.getUserID());
+    lblLogID.setText("Log ID: " + actualLog.getLogID());
+    lblDescription.setText("Description: " + actualLog.getDescription());
+    lblTime.setText("Time Stamp: " + actualLog.getLogTime());
+    lblType.setText("Type: " + actualLog.getAssociatedType());
+}
     }
     public void removeLog(){
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
