@@ -23,7 +23,7 @@
                <children>
                   <Pane fx:id="overMap" prefHeight="5000.0" prefWidth="5000.0">
                      <children>
-                        <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
+                        <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="3400.0" prefWidth="5000.0">
                            <children>
                               <Path fx:id="path" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                  <elements>
