@@ -11,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,8 @@ public class Main extends Application {
         System.out.println("closing Application");
 
         DataModelI.getInstance().updateAllCSVFiles();
-
+        DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
+        
         System.out.println("Files Saved!");
     }
 
@@ -76,8 +78,12 @@ public class Main extends Application {
         if(createTables) {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
+            DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
+        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
         launch(args);
+        DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
+
     }
 }
