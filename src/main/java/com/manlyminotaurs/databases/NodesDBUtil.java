@@ -391,7 +391,6 @@ class NodesDBUtil {
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
-			connection = DataModelI.getInstance().getNewConnection();
 			String str = "UPDATE map_nodes SET deleteTime = ? WHERE nodeID = ?";
 
 			// Create the prepared statement
@@ -400,6 +399,12 @@ class NodesDBUtil {
 			statement.setString(2, nodeID);
 			statement.executeUpdate();
 			nodeMap.remove(nodeID);
+
+			List<Edge> listOfEdges = getAdjacentEdges(nodeID);
+			for(Edge aEdge:listOfEdges){
+				DataModelI.getInstance().removeEdge(getNodeByID(aEdge.getStartNodeID()), getNodeByID(aEdge.getEndNodeID()));
+			}
+
 			isSucessful = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -407,7 +412,7 @@ class NodesDBUtil {
 			System.out.println("Node marked deleted");
 			try {
 				statement.close();
-				closeConnection(connection);
+				DataModelI.getInstance().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -422,7 +427,6 @@ class NodesDBUtil {
 		try {
 			// Connect to the database
 			System.out.println("Getting connection to database...");
-			connection = DataModelI.getInstance().getNewConnection();
 			String str = "UPDATE map_nodes SET deleteTime = NULL WHERE nodeID = ?";
 
 			// Create the prepared statement
@@ -436,7 +440,7 @@ class NodesDBUtil {
 			System.out.println("Node delete is unmarked");
 			try {
 				statement.close();
-				closeConnection(connection);
+				DataModelI.getInstance().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -791,8 +795,7 @@ class NodesDBUtil {
 	 * @param node
 	 * @return
 	 */
-	@Deprecated
-	private List<Edge> getEdgesFromNode(Node node) {
+	private List<Edge> getAdjacentEdges(String nodeID) {
 		List<Edge> listOfEdges = new ArrayList<Edge>();
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		Edge edge;
@@ -803,7 +806,7 @@ class NodesDBUtil {
 
 		try {
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_EDGES WHERE STARTNODEID = '" + node.getNodeID() + "'" + "OR ENDNODEID = '" + node.getNodeID() + "'";
+			String str = "SELECT * FROM MAP_EDGES WHERE STARTNODEID = '" + nodeID + "'" + "OR ENDNODEID = '" + nodeID + "'";
 			ResultSet rset = stmt.executeQuery(str);
 
 			// For every edge, get the information
@@ -815,7 +818,6 @@ class NodesDBUtil {
 				// Add the new edge to the list
 				edge = new Edge(startNodeID, endNodeID, edgeID);
 				listOfEdges.add(edge);
-			//	System.out.println("Edge added to the list: " + edgeID);
 				}
 			rset.close();
 		} catch (SQLException e) {
