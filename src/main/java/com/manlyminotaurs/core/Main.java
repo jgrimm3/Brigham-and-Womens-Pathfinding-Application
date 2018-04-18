@@ -11,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
+    private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -37,7 +39,7 @@ public class Main extends Application {
 
 
         //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -57,6 +59,9 @@ public class Main extends Application {
     }catch(Exception e){
         e.printStackTrace();
     }
+
+    fd = new FireDetector(primaryStage);
+    fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
@@ -68,7 +73,8 @@ public class Main extends Application {
         System.out.println("closing Application");
 
         DataModelI.getInstance().updateAllCSVFiles();
-
+        DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
+        
         System.out.println("Files Saved!");
     }
 
@@ -76,8 +82,12 @@ public class Main extends Application {
         if(createTables) {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
+            DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
+        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
         launch(args);
+        DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
+
     }
 }
