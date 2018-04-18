@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.core.RoomService;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
@@ -92,7 +93,8 @@ public class adminRequestDashboardController {
     JFXButton navBtnNodeEditor;
     @FXML
     JFXButton btnHistory;
-
+    @FXML
+    JFXButton btnRoomServiceAPI;
 
 
     Parent nodeEdit;
@@ -186,6 +188,23 @@ public class adminRequestDashboardController {
         }
         catch (Exception e){
             e.printStackTrace();}
+    }
+
+    public void loadAPI(ActionEvent event){
+        /*
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+*/
     }
 
     public void LogOut(ActionEvent event){
