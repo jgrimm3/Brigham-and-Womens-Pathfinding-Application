@@ -457,7 +457,7 @@
                                     <graphic>
                                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../Icons/RotateCounterClockwiseIcon.png" />
+                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -469,7 +469,7 @@
                                     <graphic>
                                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../Icons/RotateClockwiseIcon.png" />
+                                                <Image url="@../Icons/RotateCounterClockwiseIcon.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
