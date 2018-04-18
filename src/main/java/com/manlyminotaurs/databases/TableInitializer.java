@@ -502,9 +502,9 @@ class TableInitializer {
             iterator.next(); // get rid of the header
 
             //insert rows
+            String[] node_row = null;
             while (iterator.hasNext()) {
-                logIDCounter++;
-                String[] node_row = iterator.next();
+                node_row = iterator.next();
 
                 String str = "INSERT INTO LOG(logID,description,logTime,userID,associatedID,associatedType) VALUES (?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
@@ -516,6 +516,8 @@ class TableInitializer {
                 statement.setString(6, node_row[5]);
                 statement.executeUpdate();
             }
+            logIDCounter = Integer.parseInt(node_row[0]) + 5;
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

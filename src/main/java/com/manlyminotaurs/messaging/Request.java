@@ -123,13 +123,10 @@ public abstract class Request implements IRequest {
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
         return priority == request.priority &&
-                Objects.equals(dataModelI, request.dataModelI) &&
                 Objects.equals(requestID, request.requestID) &&
                 Objects.equals(requestType, request.requestType) &&
                 Objects.equals(isComplete, request.isComplete) &&
                 Objects.equals(adminConfirm, request.adminConfirm) &&
-                Objects.equals(startTime, request.startTime) &&
-                Objects.equals(endTime, request.endTime) &&
                 Objects.equals(nodeID, request.nodeID) &&
                 Objects.equals(messageID, request.messageID) &&
                 Objects.equals(password, request.password);
@@ -138,6 +135,6 @@ public abstract class Request implements IRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(dataModelI, requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
+        return Objects.hash(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
     }
 }
