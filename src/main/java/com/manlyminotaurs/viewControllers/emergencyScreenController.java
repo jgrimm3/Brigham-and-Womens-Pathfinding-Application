@@ -415,7 +415,7 @@ public class emergencyScreenController {
 
         currentFloor = floor;
     }
-    
+
 
     private void printName(MouseEvent mouseEvent) {
         Circle currCircle = (Circle)mouseEvent.getTarget();
