@@ -508,7 +508,8 @@ public class homeController implements Initializable {
 			clearPoints();
 		}
 		circleList.clear();
-		circleList.remove(kiosk);
+		//circleList.remove(kiosk);
+
 		System.out.println(currentFloor + " is the floor");
 		if(currentFloor.equals("1")) {
 			kiosk.setFill(Color.BLUE);
@@ -523,6 +524,7 @@ public class homeController implements Initializable {
 		kiosk.setOnMouseEntered(this::printStartName);
 		kiosk.setOnMouseExited(this::removeStartName);
 		paneMap.getChildren().add(kiosk);
+		circleList.add(kiosk);
 	}
 
 	public void goToKiosk() {
@@ -2282,6 +2284,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L2";
+		circleList.clear();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(20);
@@ -2301,6 +2304,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L1";
+		circleList.clear();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -2321,6 +2325,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "1";
+		circleList.clear();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -2341,6 +2346,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "2";
+		circleList.clear();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -2361,6 +2367,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "3";
+		circleList.clear();
 		printKiosk();
 		cancel(null);
 

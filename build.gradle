@@ -7,6 +7,9 @@ version = '1.0'
 
 repositories {
 	mavenCentral()
+	flatDir{
+		dirs 'src/main/resources/RoomServiceAPI-1.0.jar'
+	}
 }
 
 sourceSets {
@@ -75,6 +78,7 @@ dependencies {
 	compile 'junit:junit:4.12'
 	compile 'junit:junit:4.12'
 	compile 'org.slf4j:slf4j-simple:1.7.21'
+	compile 'RoomServiceAPI-1.0.jar'
 }
 
 jar {
