@@ -45,7 +45,7 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnRevert" layoutX="1049.0" layoutY="26.0" prefHeight="51.0" prefWidth="101.0" text="Revert" textFill="WHITE">
+            <JFXButton fx:id="btnRevert" layoutX="1049.0" layoutY="26.0" onAction="#revert" prefHeight="51.0" prefWidth="101.0" text="Revert" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>

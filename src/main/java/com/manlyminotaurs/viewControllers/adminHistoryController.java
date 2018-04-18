@@ -176,7 +176,24 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
         }
 
     }
+        public void revert(ActionEvent event) {
+            if (lblType.getText().equals("node")) {
+                DataModelI.getInstance().restoreNode(lblNodeID.getText());
+            }
+            if (lblType.getText().equals("request")) {
+                DataModelI.getInstance().restoreRequest(lblNodeID.getText());
+            }
 
+            if (lblType.getText().equals("message")) {
+                DataModelI.getInstance().restoreMessage(lblNodeID.getText());
+            }
+            if (lblType.getText().equals("user")) {
+                DataModelI.getInstance().restoreUser(lblUserID.getText());
+            }
+            if (lblType.getText().equals("userpassword")) {
+                DataModelI.getInstance().restoreUserPassword(lblUserID.getText());
+            }
+        }
     public void filterLog(ActionEvent event) {
         histList.removeAll();
         histList.clear();
