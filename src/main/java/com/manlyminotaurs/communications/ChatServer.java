@@ -47,6 +47,8 @@ public class ChatServer {
      */
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
+    private static int state = 0; // 0 is normal, 1 is emergency
+
     /**
      * The appplication main method, which just listens on a port and
      * spawns handler threads.
@@ -94,34 +96,8 @@ public class ChatServer {
 
                 // Create character streams for the socket.
                 in = new BufferedReader(new InputStreamReader(
-                    socket.getInputStream()));
+                        socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-
-                // Request a name from this client.  Keep requesting until
-                // a name is submitted that is not already used.  Note that
-                // checking for the existence of a name and adding the name
-                // must be done while locking the set of names.
-                while (true) {
-                    out.println("SUBMITNAME");
-                    name = in.readLine();
-                    if (name == null) {
-                        return;
-                    }
-                    synchronized (names) {
-                        if (!names.contains(name)) {
-                            names.add(name);
-                            break;
-                        }else {
-                            System.out.println("Name Already In Use");
-                        }
-                    }
-                }
-
-                // Now that a successful name has been chosen, add the
-                // socket's print writer to the set of all writers so
-                // this client can receive broadcast messages.
-                out.println("NAMEACCEPTED");
-                writers.add(out);
 
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
@@ -130,9 +106,26 @@ public class ChatServer {
                     if (input == null) {
                         return;
                     }
-                    if (input.startsWith("EMERGENCY")) {
-                        for (PrintWriter writer : writers) {
-                            writer.println("EMERGENCY" + name + " Has issued an Emergency");
+                    if (input.startsWith("NEWCONNECTION")){
+                        names.add(String.valueOf(names.size()));
+                        out.println("NAMEACCEPTED");
+                        writers.add(out);
+                        System.out.println("New Client Added: " + writers.size());
+                    } else if (input.startsWith("EMERGENCY")) {
+                        System.out.println("We Have Entered Emergency Mode");
+                        if(state ==0) {
+                            state = 1;
+                            for (PrintWriter writer : writers) {
+                                writer.println("EMERGENCY" + name + " Has issued an Emergency");
+                            }
+                        }
+                    } else if(input.startsWith("Reset")){
+                        System.out.println("We Have Entered Normal Mode");
+                        if(state == 1) {
+                            state = 0;
+                            for (PrintWriter writer : writers) {
+                                writer.println("Reset" + name + " Has Reset The System");
+                            }
                         }
                     }
                 }
@@ -154,4 +147,28 @@ public class ChatServer {
             }
         }
     }
+    public void spoolUpServer(){
+        Thread serverThread = new Thread(){
+            public void run()
+            {
+                ServerSocket listener = null;
+                try {
+                    System.out.println("The chat server is running.");
+                    listener = new ServerSocket(PORT);
+                    while (true) {
+                        new Handler(listener.accept()).start();
+                    }
+                }catch(IOException ioe){
+                    ioe.printStackTrace();
+                }finally {
+                    try {
+                        listener.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }};
+        serverThread.start();
+    }
 }
+

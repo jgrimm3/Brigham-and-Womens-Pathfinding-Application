@@ -2,6 +2,7 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.jfoenix.controls.*;
+import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.communications.SendEmail;
 import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.core.KioskInfo;
@@ -108,6 +109,8 @@ public class homeController implements Initializable {
 	ObservableList<String> directions;
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
+
+	ClientSetup client;
 
 	String currentFloor = "1";
 
@@ -325,7 +328,7 @@ public class homeController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-
+			client = new ClientSetup("130.215.13.96", null);
 			//final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
 
 			// Set comboboxes for buildings to default lists
@@ -381,6 +384,8 @@ public class homeController implements Initializable {
 
 	@FXML
 	public void initialize() {
+		client = new ClientSetup("130.215.13.96", null);
+
 		setPathfindingScreen();
 		/*comBuildingStart.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
 		comBuildingEnd.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList()));
@@ -1084,14 +1089,16 @@ public class homeController implements Initializable {
 		email.send();
 		lblEmailMessage.setText("Email Sent");
 		txtEmail.setText("");
+		client.sendEmergency();
 	}
 
 	public void sendDirectionsViaPhone(ActionEvent event) {
 		lblPhoneMessage.setText("");
 		SendTxt txt = new SendTxt();
 		txt.send(txtPhone.getText(), turnListToString());
-		lblPhoneMessage.setText("Email Sent");
+		lblPhoneMessage.setText("Text Message Sent");
 		txtPhone.setText("");
+		client.sendReset();
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

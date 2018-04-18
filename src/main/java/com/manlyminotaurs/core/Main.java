@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -86,6 +87,7 @@ public class Main extends Application {
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
+        new ChatServer().spoolUpServer();
         launch(args);
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
 
