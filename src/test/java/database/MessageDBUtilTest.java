@@ -25,18 +25,19 @@ public class MessageDBUtilTest {
         Message addedMessage = DataModelI.getInstance().addMessage(aMessage);
         assertTrue(aMessage.equals(addedMessage));
 
+        List<Message> listOfMessages = DataModelI.getInstance().retrieveMessages();
         assertTrue(DataModelI.getInstance().retrieveMessages().contains(aMessage));
         assertTrue(DataModelI.getInstance().retrieveMessages().contains(addedMessage));
 
 
-        List<Message> listOfMessages = DataModelI.getInstance().retrieveMessages();
         DataModelI.getInstance().removeMessage(addedMessage.getMessageID());
         List<Message> listOfMessages2 = DataModelI.getInstance().retrieveMessages();
-        assertFalse(DataModelI.getInstance().retrieveRequests().contains(addedMessage));
-        assertFalse(DataModelI.getInstance().retrieveRequests().contains(aMessage));
+        assertFalse(DataModelI.getInstance().retrieveMessages().contains(addedMessage));
+        assertFalse(DataModelI.getInstance().retrieveMessages().contains(aMessage));
 
-        DataModelI.getInstance().restoreMessage(aMessage.getMessageID());
-        assertTrue(DataModelI.getInstance().retrieveRequests().contains(aMessage));
-        assertTrue(DataModelI.getInstance().retrieveRequests().contains(addedMessage));
+        DataModelI.getInstance().restoreMessage(addedMessage.getMessageID());
+        List<Message> listOfMessages3 = DataModelI.getInstance().retrieveMessages();
+        assertTrue(listOfMessages3.contains(aMessage));
+        assertTrue(listOfMessages3.contains(addedMessage));
     }
 }
