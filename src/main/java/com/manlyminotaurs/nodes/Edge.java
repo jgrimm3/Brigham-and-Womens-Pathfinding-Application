@@ -1,5 +1,6 @@
 package com.manlyminotaurs.nodes;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Edge {
@@ -8,25 +9,7 @@ public class Edge {
 	String endNodeID;
 	String edgeID;
 	int status;
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Edge edge = (Edge) o;
-		return Objects.equals(startNodeID, edge.startNodeID) &&
-				Objects.equals(endNodeID, edge.endNodeID);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(startNodeID, endNodeID);
-	}
-
-	public boolean isType(String type) {
-		if(type == "EDGE") { return true; }
-		return false;
-	}
+	private LocalDateTime deleteTime;
 
 	public String getStartNodeID() {
 		return startNodeID;
@@ -60,11 +43,34 @@ public class Edge {
 		this.status = status;
 	}
 
+	public LocalDateTime getDeleteTime() {
+		return deleteTime;
+	}
+
+	public void setDeleteTime(LocalDateTime deleteTime) {
+		this.deleteTime = deleteTime;
+	}
+
 	public Edge(String startNodeID, String endNodeID, String edgeID) {
 		this.startNodeID = startNodeID;
 		this.endNodeID = endNodeID;
 		this.edgeID = edgeID;
-
 		this.status = 1;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Edge edge = (Edge) o;
+		return status == edge.status &&
+				Objects.equals(startNodeID, edge.startNodeID) &&
+				Objects.equals(endNodeID, edge.endNodeID) &&
+				Objects.equals(edgeID, edge.edgeID);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(startNodeID, endNodeID, edgeID, status);
 	}
 }

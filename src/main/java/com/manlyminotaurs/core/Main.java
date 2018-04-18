@@ -1,7 +1,5 @@
 package com.manlyminotaurs.core;
 
-import com.manlyminotaurs.communications.SendEmail;
-import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +25,21 @@ import javax.xml.crypto.Data;
 public class Main extends Application {
 
     static AnchorPane root; //root holds all other screens
+    static boolean createTables = true;
 
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
+    //private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         try{
+
+
+
         //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/reactiveBoxTest.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
         Scene world = new Scene(root, 1920, 1080);
         primaryStage.setTitle("Brigham and Women's Hospital Navigation");
@@ -55,6 +59,9 @@ public class Main extends Application {
     }catch(Exception e){
         e.printStackTrace();
     }
+
+    //fd = new FireDetector(primaryStage);
+    //fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
@@ -65,27 +72,22 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        //DataModelI.getInstance().updateNodeCSVFile("./nodes.csv");
-        //DataModelI.getInstance().updateEdgeCSVFile("./edges.csv");
-        //DataModelI.getInstance().updateMessageCSVFile("./MessageTable.csv");
-        //DataModelI.getInstance().updateRequestCSVFile("./RequestTable.csv");
-        //DataModelI.getInstance().updateUserCSVFile("./UserAccountTable.csv");
-        //DataModelI.getInstance().updateUserPasswordFile("./UserPasswordTable.csv");
-        //DataModelI.getInstance().updateStaffTable("./StaffTable.csv");
-
+        //DataModelI.getInstance().updateAllCSVFiles();
+        DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
 
         System.out.println("Files Saved!");
     }
 
     public static void main(String[] args) throws IOException {
-
-        System.out.println("version 7");
-        SendEmail email = new SendEmail("chriscedron@gmail.com", "Test", "Jared Says Hi");
-        //email.send();
-        SendTxt txt = new SendTxt();
-        txt.send("3392343337", "Turn " + (char)0x21B0);
-        DataModelI.getInstance().startDB();
-        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByIDFromList("EINFO00101", DataModelI.getInstance().retrieveNodes()));
+        if(createTables) {
+            System.out.println("version 7");
+            DataModelI.getInstance().startDB();
+            DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
+        }
+        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
+        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
         launch(args);
+        DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
+
     }
 }

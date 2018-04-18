@@ -1,5 +1,7 @@
 package com.manlyminotaurs.nodes;
 
+import java.time.LocalDateTime;
+
 public class Room extends Node {
     private String specialization;
     private String detailedInfo;

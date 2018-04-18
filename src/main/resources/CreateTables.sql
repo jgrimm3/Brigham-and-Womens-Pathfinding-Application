@@ -9,16 +9,19 @@ CREATE TABLE Map_Nodes (
   shortName          VARCHAR(255),
   status             INTEGER,
   xCoord3D            INTEGER,
-  yCoord3D           INTEGER);
+  yCoord3D           INTEGER,
+  deleteTime          TIMESTAMP);
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
   startNodeID           VARCHAR(10),
   endNodeID             VARCHAR(10),
   status              INTEGER,
+  deleteTime          TIMESTAMP,
   CONSTRAINT fk_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
+
 
 Create Table Room (
   specialization VARCHAR(255),
@@ -26,6 +29,7 @@ Create Table Room (
   popularity     INT,
   isOpen         BOOLEAN,
   nodeID         VARCHAR(10) UNIQUE,
+  deleteTime     TIMESTAMP,
   CONSTRAINT fk_nodeID1 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID) ON DELETE CASCADE);
 
 Create Table UserAccount (
@@ -34,12 +38,14 @@ Create Table UserAccount (
   middleName    VARCHAR(255),
   lastName      VARCHAR(255),
   language      VARCHAR(255),
-  userType      VARCHAR(255));
+  userType      VARCHAR(255),
+  deleteTime    TIMESTAMP);
 
 CREATE TABLE UserPassword (
   userName    VARCHAR(15) UNIQUE,
   password    VARCHAR(15),
   userID      VARCHAR(10) UNIQUE,
+  deleteTime  TIMESTAMP DEFAULT NULL,
   CONSTRAINT fk_password_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 CREATE TABLE Staff (
@@ -47,7 +53,26 @@ CREATE TABLE Staff (
   isAvailable         BOOLEAN,
   languageSpoken      VARCHAR(255),
   userID              VARCHAR(10) UNIQUE,
+  deleteTime          TIMESTAMP,
   CONSTRAINT fk_staff_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
+
+
+CREATE TABLE Pathfinder(
+  pathfinderID    VARCHAR(10) PRIMARY KEY,
+  startNodeID     VARCHAR(10),
+  endNodeID       VARCHAR(10),
+  CONSTRAINT fk_pathfinder_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
+
+Create Table Message (
+  messageID     VARCHAR(10) PRIMARY KEY,
+  message       VARCHAR(255),
+  isRead        BOOLEAN,
+  sentDate      DATE,
+  senderID      VARCHAR(10),
+  receiverID    VARCHAR(10),
+  deleteTime    TIMESTAMP,
+  CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID) ON DELETE CASCADE,
+  CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 Create Table Request (
   requestID     VARCHAR(10) PRIMARY KEY,
@@ -60,15 +85,14 @@ Create Table Request (
   nodeID        VARCHAR(10),
   messageID     VARCHAR(10) UNIQUE,
   password      VARCHAR(255),
-  CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Request(messageID) ON DELETE CASCADE,
+  deleteTime    TIMESTAMP DEFAULT NULL,
+  CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
-Create Table Message (
-  messageID     VARCHAR(255) PRIMARY KEY,
-  message       VARCHAR(255),
-  isRead        BOOLEAN,
-  sentDate      DATE,
-  senderID      VARCHAR(10),
-  receiverID    VARCHAR(10),
-  CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID) ON DELETE CASCADE,
-  CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
+CREATE TABLE Log(
+  logID           VARCHAR(10) PRIMARY KEY,
+  description     VARCHAR(255),
+  logTime         TIMESTAMP,
+  userID          VARCHAR(10),
+  associatedID    VARCHAR(30),
+  associatedType  VARCHAR(15));

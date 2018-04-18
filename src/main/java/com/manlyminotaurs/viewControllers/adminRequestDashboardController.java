@@ -1,27 +1,25 @@
 package com.manlyminotaurs.viewControllers;
 
-import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
-import com.manlyminotaurs.users.UserType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,36 +58,46 @@ public class adminRequestDashboardController {
         }
     }
     @FXML
-Button navManageAcc;
+    JFXButton navBtnManageAccounts;
+
+    @FXML
+    Button btnEmergency;
     @FXML
     TableView tblOpenRequests;
     @FXML
-    Button btnCompleteRequest;
+    JFXButton btnCompleteRequest;
     @FXML
-    Button btnDeleteRequest;
+    JFXButton btnDeleteRequest;
     @FXML
     TableView tblClosedRequests;
     @FXML
     Label lblRequestDetails;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
     Parent logout;
     @FXML
-    ComboBox<String> combBoxAssignNurse;
+    JFXComboBox<String> combBoxAssignNurse;
     @FXML
     Parent createRequest;
     @FXML
     PieChart pieChart;
     @FXML
-    PasswordField txtPassword;
+    JFXPasswordField txtPassword;
     @FXML
     Label lblCompleteError;
     @FXML
-    Button navBtnManageAccounts;
+    JFXButton btnCreateRequest;
+    @FXML
+    JFXButton navBtnNodeEditor;
+    @FXML
+    JFXButton btnHistory;
+
+
 
     Parent nodeEdit;
     Parent accountManager;
+    Parent history;
 
     @FXML
     public void initialize() throws Exception{
@@ -146,9 +154,10 @@ Button navManageAcc;
 
             pieChartData =
                     FXCollections.observableArrayList(
-                            new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
+                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
                             new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
-                            new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+                           new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+
             pieChart.getData().clear();
             pieChart.setData(pieChartData);
 
@@ -159,8 +168,27 @@ Button navManageAcc;
 
     }
 
+    @FXML
+    public void setEmergency(ActionEvent actionEvent) {
+        try{
+            Stage stage;
+            //get reference to the button's stage
+            stage=(Stage)btnEmergency.getScene().getWindow();
+            //load up Home FXML document
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
 
-    public void logOut(ActionEvent event){
+            KioskInfo.currentUserID = "";
+
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(logout);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();}
+    }
+
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
@@ -211,22 +239,23 @@ Button navManageAcc;
             e.printStackTrace();
         }
     }
-    public void manageAcc(ActionEvent event) throws Exception {
+    public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            manageAcc = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
             //create a new scene with root and set the stage
-            Scene scene = new Scene(manageAcc);
+            Scene scene = new Scene(history);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -243,6 +272,7 @@ Button navManageAcc;
             e.printStackTrace();
         }
     }
+
 
     public void openListClicked(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){
@@ -318,7 +348,7 @@ Button navManageAcc;
 
             openList.remove(selectedRequest);
 
-            dBUtil.removeMessage(dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()));
+            dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
             dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
         }
     }
@@ -331,4 +361,6 @@ Button navManageAcc;
     public void testController(){
         System.out.println("YOU SUMMONED ME?" +  tblOpenRequests.getSelectionModel().getSelectedItem());
     }
+
+
 }

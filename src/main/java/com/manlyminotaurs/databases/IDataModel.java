@@ -1,5 +1,8 @@
 package com.manlyminotaurs.databases;
 
+import com.manlyminotaurs.log.BackupEntity;
+import com.manlyminotaurs.log.Log;
+import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.nodes.Edge;
@@ -9,8 +12,10 @@ import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 //
 //    ____  ____    ___       _             __
@@ -32,12 +37,16 @@ public interface IDataModel {
     /*------------------------------------------ Nodes --------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove Node ---------------------------------------------------*/
     boolean modifyNode(Node newNode);
-    Node addNode(int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
+    Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D);
     boolean removeNode(Node badNode);
     /*------------------------- Retrieve List of Nodes / All or by Attribute ----------------------------------------*/
-    List<Node> retrieveNodes();
     @Deprecated
+    List<Node> retrieveNodes();
+    Map<String, Node> getNodeMap();
+    List<Node> getNodeList();
+
     Node getNodeByID(String ID);
+    @Deprecated
     Node getNodeByIDFromList(String nodeID, List<Node> nodeList);
     List<Node> getNodesByFloor(String floor);
     List<Node> getNodesByType(String type);
@@ -49,16 +58,22 @@ public interface IDataModel {
     Node getNodeByCoords(int xCoord, int yCoord);
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
+    List<String> getLongNames();
     boolean doesNodeExist(String type);
+
+    List<String> getNamesByBuildingFloorType(String building, String floor, String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
-    List<String> getAdjacentNodesFromNode(Node node);
-    Set<Edge> getEdgeList(List<Node> nodeList);
-    void addEdge(Node startNode, Node endNode);
+    List<String> getAdjacentNodes(Node node);
+    List<Edge> getEdgeList();
+    Edge getEdgeByID(String edgeID);
+    Edge addEdge(Node startNode, Node endNode);
+    void removeEdge(Node startNode, Node endNode);
+    void modifyEdge(Node startNode, Node endNode, int status);
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
     Message addMessage(Message messageObject);
-    boolean removeMessage(Message oldMessage);
+    boolean removeMessage(String messageID);
     boolean modifyMessage(Message newMessage);
     String getNextMessageID();
     /*--------------------- Retrieve List of Messages / All or by Attribute ------------------------------------------*/
@@ -82,28 +97,61 @@ public interface IDataModel {
 
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
-    User addUser(String firstName, String middleName, String lastName, String language, String userType, String userName, String password);
+    User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
     boolean removeUser(User oldUser);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
     List<StaffFields> retrieveStaffs();
     User getUserByID(String ID);
-
+    String getLanguageString(List<String> languages);
+    List<String> getLanguageList ( String languagesConcat);
 
     //-------------------------------------UserSecurity---------------------------------
     boolean doesUserPasswordExist(String userName, String password);
     String getIDByUserPassword(String userName, String password);
     List<UserPassword> retrieveUserPasswords();
+    void addUserPassword(String userName, String password, String userID);
+    boolean removeUserPassword(String userID);
 
 
     //---------------------------------------UPDATE CSV FIles--------------------------------
-    void updateNodeCSVFile(String csvFileName);
-    void updateEdgeCSVFile(String csvFileName);
-    void updateRoomCSVFile(String csvFileName);
-    void updateMessageCSVFile(String csvFileName);
-    void updateRequestCSVFile(String csvFileName);
-    void updateUserCSVFile(String csvFileName);
-    void updateUserPasswordFile(String csvFileName);
-    void updateStaffTable(String csvFileName);
+    void updateAllCSVFiles();
+
+    //-------------------------------------LOG Table--------------------------------------------
+    List<Log> retrieveLogData();
+    Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType);
+    boolean removeLog(Log oldLog);
+    Log getLogByLogID(String logID);
+    List<Log> getLogsByUserID(String userID);
+    List<Log> getLogsByAssociatedType(String associatedType);
+    List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime);
+    List<Log> getLogsByLogTimeChoice(String timeChoice);
+
+    //-------------------------------------Pathfinder Table---------------------------------------
+    List<Pathfinder> retrievePathfinderData();
+    Pathfinder addPath(String startNodeID, String endNodeID);
+    boolean removePath(Pathfinder pathfinder);
+    Pathfinder getPathByPathfinderID(String pathfinderID);
+    List<Pathfinder> getPathByStartNodeID(String startNodeID);
+    List<Pathfinder> getPathByEndNodeID(String endNodeID);
+
+    //-------------------------------Helper functions-------------------------------------------
+    Timestamp convertStringToTimestamp(String timeString);
+    java.sql.Date convertStringToDate(String timeString);
+
+    //-------------------------------Backup---------------------------------------
+    boolean permanentlyRemoveNode(Node badNode);
+    boolean permanentlyRemoveEdge(Node startNode, Node endNode);
+    boolean permanentlyRemoveMessage(String messageID);
+    boolean permanentlyRemoveRequest(Request oldRequest);
+    boolean permanentlyRemoveUser(User oldUser);
+    boolean permanentlyRemoveUserPassword(String userID);
+
+    boolean restoreNode(String nodeID);
+    boolean restoreEdge(String startNodeID, String endNodeID);
+    boolean restoreMessage(String messageID);
+    boolean restoreRequest(String requestID);
+    boolean restoreUser(String userID);
+    boolean restoreUserPassword(String userID);
 }
