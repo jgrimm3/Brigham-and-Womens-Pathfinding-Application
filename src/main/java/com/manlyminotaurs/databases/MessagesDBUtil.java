@@ -19,12 +19,16 @@ import java.util.List;
 
 class MessagesDBUtil {
 
-    /*------------------------------------------------ Variables -----------------------------------------------------*/
+    /*------------------------------------- messageID generation ---------------------------------*/
     private static int messageIDCounter = 0;
-    CsvFileController csvFileController = new CsvFileController();
 
     public static void setMessageIDCounter(int messageIDCounter) {
         MessagesDBUtil.messageIDCounter = messageIDCounter;
+    }
+
+    public String generateMessageID(){
+        messageIDCounter++;
+        return Integer.toString(messageIDCounter);
     }
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
@@ -230,10 +234,6 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Generate/Retrieve/Get message -------------------------------------------------*/
-    public String generateMessageID(){
-        messageIDCounter++;
-        return Integer.toString(messageIDCounter);
-    }
 
     /**
      * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()

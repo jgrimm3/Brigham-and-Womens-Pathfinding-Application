@@ -94,5 +94,5 @@ CREATE TABLE Log(
   description     VARCHAR(255),
   logTime         TIMESTAMP,
   userID          VARCHAR(10),
-  associatedID    VARCHAR(10),
+  associatedID    VARCHAR(30),
   associatedType  VARCHAR(15));
