@@ -90,6 +90,8 @@ public class adminRequestDashboardController {
     JFXButton btnCreateRequest;
     @FXML
     JFXButton navBtnNodeEditor;
+    @FXML
+    JFXButton btnHistory;
 
 
 
@@ -173,7 +175,7 @@ public class adminRequestDashboardController {
             //get reference to the button's stage
             stage=(Stage)btnEmergency.getScene().getWindow();
             //load up Home FXML document
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/btnEmergency.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
 
             KioskInfo.currentUserID = "";
 

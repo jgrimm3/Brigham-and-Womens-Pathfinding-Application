@@ -1,5 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Request;
@@ -51,15 +53,15 @@ public class userRequestDashBoardController  {
     @FXML
     TableView tblOpenRequests;
     @FXML
-    Button btnCompleteRequest;
+    JFXButton btnCompleteRequest;
     @FXML
-    Button btnDeleteRequest;
+    JFXButton btnDeleteRequest;
     @FXML
     TableView tblClosedRequests;
     @FXML
     Label lblRequestDetails;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
     Parent logout;
     @FXML
@@ -67,9 +69,10 @@ public class userRequestDashBoardController  {
     @FXML
     PieChart pieChart;
     @FXML
-    PasswordField txtPassword;
+    JFXPasswordField txtPassword;
     @FXML
     Label lblCompleteError;
+
 
     Parent nodeEdit;
 

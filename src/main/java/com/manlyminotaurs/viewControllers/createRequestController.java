@@ -53,8 +53,6 @@ public class createRequestController{
     @FXML
     JFXCheckBox chkLowPriority;
     @FXML
-    JFXButton btnlogOut;
-    @FXML
     TextArea txtMessage;
     @FXML
     Label lblError;
@@ -70,6 +68,8 @@ public class createRequestController{
     JFXComboBox<String> cmboFloor;
     @FXML
     JFXButton navBtnManageAccounts;
+    @FXML
+    JFXButton btnHistory;
 
     String requestType;
     String message;
@@ -86,6 +86,13 @@ public class createRequestController{
         if (!dbUtil.getUserByID(KioskInfo.currentUserID).isType("admin")) {
             navBtnNodeEditor.setVisible(false);
             navBtnNodeEditor.setDisable(true);
+            navBtnNodeEditor.setVisible(false);
+            navBtnNodeEditor.setDisable(true);
+            navBtnManageAccounts.setVisible(false);
+            navBtnManageAccounts.setDisable(true);
+            btnHistory.setVisible(false);
+            btnHistory.setDisable(true);
+
         }
     }
 

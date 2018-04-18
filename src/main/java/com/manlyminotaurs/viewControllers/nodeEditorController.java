@@ -72,17 +72,17 @@ public class nodeEditorController {
     @FXML
     JFXToggleButton tglMap;
     @FXML
-    Button navBtnManageRequests;
+    JFXButton navBtnManageRequests;
     @FXML
     Path path;
     @FXML
-    ComboBox<String> cmboPathfinding;
+    JFXComboBox<String> cmboPathfinding;
     @FXML
-    Button btnMenuAdd;
+    JFXButton btnMenuAdd;
     @FXML
-    Button btnModifyNode;
+    JFXButton btnModifyNode;
     @FXML
-    Button btnDeleteNode;
+    JFXButton btnDeleteNode;
     @FXML
     Pane paneAdd;
     @FXML
@@ -90,19 +90,19 @@ public class nodeEditorController {
     @FXML
     Pane paneDelete;
     @FXML
-    ComboBox<String> cmboBuilding;
+    JFXComboBox<String> cmboBuilding;
     @FXML
-    ComboBox<String> cmboType;
+    JFXComboBox<String> cmboType;
     @FXML
     JFXComboBox<String> cmboBuildingMod;
     @FXML
     JFXComboBox<String> cmboTypeMod;
     @FXML
-    ComboBox<String> cmboBuildingDel;
+    JFXComboBox<String> cmboBuildingDel;
     @FXML
-    ComboBox<String> cmboTypeDel;
+    JFXComboBox<String> cmboTypeDel;
     @FXML
-    ComboBox<String> cmboNodeDel;
+    JFXComboBox<String> cmboNodeDel;
     @FXML
     JFXTextField txtShortName;
     @FXML
@@ -126,21 +126,21 @@ public class nodeEditorController {
     @FXML
     JFXToggleButton tglGeofence;
     @FXML
-    ComboBox<String> cmboFloor;
+    JFXComboBox<String> cmboFloor;
     @FXML
-    ComboBox<String> cmboFloorAdd;
+    JFXComboBox<String> cmboFloorAdd;
     @FXML
-    ComboBox<String> cmboFloorDel;
+    JFXComboBox<String> cmboFloorDel;
     @FXML
     Pane pane;
     @FXML
     ScrollPane scrollPane;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
-    Button btnAddNode;
+    JFXButton btnAddNode;
     @FXML
-    Button btnModify;
+    JFXButton btnModify;
     @FXML
     ImageView mapImg;
     @FXML
@@ -148,7 +148,7 @@ public class nodeEditorController {
     @FXML
     Button btn3DMap;
     @FXML
-    Button btnDeleteNodePane;
+    JFXButton btnDeleteNodePane;
     @FXML
     JFXTextField txtAdminUser;
     @FXML
@@ -158,7 +158,9 @@ public class nodeEditorController {
     @FXML
     Pane paneMap;
     @FXML
-    Button navBtnManageAccounts;
+    JFXButton navBtnManageAccounts;
+    @FXML
+    JFXButton btnHistory;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -716,7 +718,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
                 Main.pathStrategy = "DFS";
                 break;
                 case "Dykstra":
-                Main.pathStrategy = "dyk";
+                Main.pathStrategy = "DYK";
                 break;
                 default:
                     Main.pathStrategy = "A*";
