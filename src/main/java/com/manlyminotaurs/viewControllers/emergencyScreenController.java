@@ -113,7 +113,7 @@ public class emergencyScreenController {
         printNodePath(path, startFloor, "2-D");
         changeFloor(startFloor);
 
-        client = new ClientSetup("130.215.13.96", btnReset.getScene());
+        client = new ClientSetup("130.215.13.96", null);
     }
 
 

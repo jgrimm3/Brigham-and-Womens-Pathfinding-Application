@@ -1,6 +1,7 @@
 package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.communications.ChatServer;
+import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,34 +37,35 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         try{
+            System.out.println("Checking Status of Emergency");
+            if(new ClientSetup("130.215.13.96", null).requestState().equals("0")) {
+                //root is anchor pane that all other screens will be held in
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            }else{
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
+            }
+            Scene world = new Scene(root, 1920, 1080);
+            primaryStage.setTitle("Brigham and Women's Hospital Navigation");
+            //add style sheets here
 
+            // world.getStylesheets().add(getClass().getResource("landingStyle.css").toExternalForm());
+            primaryStage.setScene(world);
 
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            //set Stage boundaries to visible bounds of the main screen
+            //primaryStage.setX(primaryScreenBounds.getMinX());
+            // primaryStage.setY(primaryScreenBounds.getMinY());
+            primaryStage.setWidth(primaryScreenBounds.getWidth());
+            primaryStage.setHeight(primaryScreenBounds.getHeight());
 
-        //root is anchor pane that all other screens will be held in
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            primaryStage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        Scene world = new Scene(root, 1920, 1080);
-        primaryStage.setTitle("Brigham and Women's Hospital Navigation");
-        //add style sheets here
-
-       // world.getStylesheets().add(getClass().getResource("landingStyle.css").toExternalForm());
-        primaryStage.setScene(world);
-
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        //set Stage boundaries to visible bounds of the main screen
-        //primaryStage.setX(primaryScreenBounds.getMinX());
-       // primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
-
-        primaryStage.show();
-    }catch(Exception e){
-        e.printStackTrace();
+        fd = new FireDetector(primaryStage);
+        fd.startDetecting();
     }
-
-    fd = new FireDetector(primaryStage);
-    fd.startDetecting();
-}
     // wait for application to finish,calls Platform exit, save files.
     @FXML
     public void exitApplication(ActionEvent event) {
@@ -88,7 +90,7 @@ public class Main extends Application {
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
 
-        if(args[0].equals("-s")) {
+        if(args.length > 0 && args[0].equals("-s")) {
             new ChatServer().spoolUpServer();
         }
         launch(args);

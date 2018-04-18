@@ -459,7 +459,7 @@ public class nodeEditorController {
 
 
     }
-    
+
 
     //delete node
     public void delSetBuilding(ActionEvent event) {

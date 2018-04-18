@@ -1,7 +1,11 @@
 package com.manlyminotaurs.communications;
 
 import com.sun.istack.internal.Nullable;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +41,7 @@ public class ClientSetup {
 
     BufferedReader in;
     PrintWriter out;
-    Scene scene;
+    Stage stage;
     /**
      * Constructs the client by laying out the GUI and registering a
      * listener with the textfield so that pressing Return in the
@@ -46,7 +50,7 @@ public class ClientSetup {
      * only becomes editable AFTER the client receives the NAMEACCEPTED
      * message from the server.
      */
-    public ClientSetup (String IP, Scene scene) {
+    public ClientSetup (String IP, Stage stage) {
         try {
             // Make connection and initialize streams
             Socket socket = new Socket(IP, 9001);
@@ -55,7 +59,7 @@ public class ClientSetup {
 
             //connect To Server
             out.println("NEWCONNECTION");
-            this.scene = scene;
+            this.stage = stage;
             while(!in.readLine().startsWith("NAMEACCEPTED")){}
             spoolUpClient();
         } catch (IOException ioe){
@@ -71,10 +75,44 @@ public class ClientSetup {
                     try {
                         String line = in.readLine();
                         if (line.startsWith("EMERGENCY")) {
-                            //GO INTO EMERGENCY MODE
+                            if(stage != null){
+                                // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
+                                Platform.runLater(
+                                        () -> {
+                                            Parent root;
+                                            //load up Home FXML document;
+                                            try {
+                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
+                                                //create a new scene with root and set the stage
+                                                Scene scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                stage.show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                );
+                            }
                             System.out.println("ENTERING EMERGENCY MODE!");
                         } else if (line.startsWith("Reset")) {
-                            //Return to normal operation
+                            if(stage != null){
+                                // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
+                                Platform.runLater(
+                                        () -> {
+                                            Parent root;
+                                            //load up Home FXML document;
+                                            try {
+                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+                                                //create a new scene with root and set the stage
+                                                Scene scene = new Scene(root);
+                                                stage.setScene(scene);
+                                                stage.show();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                );
+                            }
                             System.out.println("Resuming Standard Operation");
                         } else {
                             System.out.println("Unknown Message Recieved");
@@ -92,7 +130,14 @@ public class ClientSetup {
         out.println("EMERGENCY");
     }
 
-
+    public String requestState() {
+        out.println("STATE");
+        try {
+            return in.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
     public void sendReset(){
         out.println("Reset");
     }

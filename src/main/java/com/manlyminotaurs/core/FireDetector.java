@@ -26,7 +26,7 @@ public class FireDetector implements SerialPortEventListener {
             "/dev/tty.usbserial-A9007UX1", // Mac OS X
             "/dev/ttyACM0", // Raspberry Pi
             "/dev/ttyUSB0", // Linux
-            "COM3", // Windows
+            "COM5", // Windows
     };
     /**
      * A BufferedReader which will be fed by a InputStreamReader
@@ -45,13 +45,13 @@ public class FireDetector implements SerialPortEventListener {
 
     public FireDetector(Stage stage) {
         this.stage = stage;
-        client = new ClientSetup("130.215.13.96", stage.getScene());
+        client = new ClientSetup("130.215.13.96", stage);
     }
 
     public void initialize() {
         // the next line is for Raspberry Pi and
         // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
-        System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0");
+//        System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0");
 
         CommPortIdentifier portId = null;
         Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();

@@ -191,7 +191,14 @@
                                        </image>
                                     </ImageView>
                                  </graphic></JFXButton>
-                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0" />
+                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/Floor1Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
                               <JFXButton fx:id="btn2" buttonType="RAISED" ellipsisString="" layoutY="80.0" onAction="#changeFloor2" prefHeight="50.0" prefWidth="50.0">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
@@ -208,11 +215,6 @@
                                        </image>
                                     </ImageView>
                                  </graphic></JFXButton>
-                              <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="31.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Icons/Floor1Icon.png" />
-                                 </image>
-                              </ImageView>
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
