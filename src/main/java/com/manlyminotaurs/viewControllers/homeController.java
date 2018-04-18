@@ -275,8 +275,8 @@ public class homeController implements Initializable {
 
 		paneLogin.setVisible(false);
 		paneHelp.setVisible(false);
-		lblHelp1.setVisible(false);
-		lblHelp2.setVisible(false);
+		//lblHelp1.setVisible(false);
+		//lblHelp2.setVisible(false);
 
 		txtUsername.setText("");
 		txtPassword.setText("");
@@ -2102,7 +2102,22 @@ public class homeController implements Initializable {
 	@FXML
 	Label lblNode;
 
+	@FXML
+	JFXButton btnAbout;
 
+	@FXML
+	JFXButton btnCloseAbout;
+
+	@FXML
+	Pane paneAbout;
+
+	public void closeAboutPanel(ActionEvent event) {
+		paneAbout.setVisible(false);
+	}
+
+	public void openAboutPanel(ActionEvent event) {
+		paneAbout.setVisible(true);
+	}
 
 
 	// The zooming is a bit weird... should be looked into more in the future
