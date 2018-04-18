@@ -72,7 +72,7 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        DataModelI.getInstance().updateAllCSVFiles();
+       // DataModelI.getInstance().updateAllCSVFiles();
         DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
 
         System.out.println("Files Saved!");

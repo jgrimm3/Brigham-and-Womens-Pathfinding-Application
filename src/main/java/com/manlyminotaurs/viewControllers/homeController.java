@@ -39,8 +39,18 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.crypto.Data;
@@ -2437,6 +2447,40 @@ public class homeController implements Initializable {
 
 			return finalString;
 		}
+
+	}
+@FXML
+Button btnPatientPortal;
+	//Patient Web Portal
+	public void patientPortal(ActionEvent event) throws Exception {
+		StackPane secondaryLayout = new StackPane();
+		Stage primaryStage = (Stage)btnLogin.getScene().getWindow();
+		//secondaryLayout.getChildren().add(secondLabel);
+
+		Stage stage;
+
+		//get reference to the button's stage
+
+		WebView web = new WebView();
+		web.getEngine().load("https://patientgateway.partners.org/public/");
+		Scene scene = new Scene(web);
+
+		// New window (Stage)
+		Stage newWindow = new Stage();
+		newWindow.setTitle("Patient Portal");
+		newWindow.setScene(scene);
+
+		// Specifies the modality for new window.
+		newWindow.initModality(Modality.WINDOW_MODAL);
+
+		// Specifies the owner Window (parent) for new window
+		newWindow.initOwner(primaryStage);
+
+		// Set position of second window, related to primary window.
+		newWindow.setX(primaryStage.getX()+600);
+		newWindow.setY(primaryStage.getY()+250);
+
+		newWindow.show();
 
 	}
 }

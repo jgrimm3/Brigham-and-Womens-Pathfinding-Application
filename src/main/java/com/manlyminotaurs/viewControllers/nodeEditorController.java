@@ -574,7 +574,8 @@ public class nodeEditorController {
 
     public void geofence(ActionEvent event) {
         int newStatus = 0;
-        switch (node.getStatus()) {
+        Node modNode = DataModelI.getInstance().getNodeByLongName(txtLongNameMod.getText());
+        switch (modNode.getStatus()) {
             case 0:
                 newStatus = 0;
                 break;
@@ -584,7 +585,8 @@ public class nodeEditorController {
             default:
                 newStatus = 0;
         }
-        node.setStatus(newStatus);
+        modNode.setStatus(newStatus);
+        nodeList = DataModelI.getInstance().getNodeList();
     }
 
     public void setPathfindAlgorithm(ActionEvent event) {

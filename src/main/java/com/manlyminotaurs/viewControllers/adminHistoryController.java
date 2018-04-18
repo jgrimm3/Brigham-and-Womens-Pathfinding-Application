@@ -193,6 +193,16 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
             if (lblType.getText().equals("userpassword")) {
                 DataModelI.getInstance().restoreUserPassword(lblUserID.getText());
             }
+            histList.removeAll();
+            histList.clear();
+            tblHistory.setItems(null);
+            ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
+            for (Log currLog : logList) {
+                histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+                tblHistory.setItems(histList);
+            }
+
+
         }
     public void filterLog(ActionEvent event) {
         histList.removeAll();

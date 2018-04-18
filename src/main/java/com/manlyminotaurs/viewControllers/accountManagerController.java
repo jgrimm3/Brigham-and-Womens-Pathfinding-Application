@@ -94,7 +94,7 @@ public class accountManagerController {
     String firstName;
     String middleName;
     String lastName;
-    List<String> languages;
+    List<String> languages = FXCollections.observableArrayList();
     String language;
     String type;
     String username;
@@ -111,10 +111,8 @@ public class accountManagerController {
             gridModify.setDisable(true);
             gridAdd.setDisable(false);
             gridAdd.setVisible(true);
-            btnAddUser.setDisable(true);
-            BooleanBinding booleanBind = Bindings.or(txtFirstNameAdd.textProperty().isEmpty(),
-                    txtMiddleNameAdd.textProperty().isEmpty()).or(txtLastNameAdd.textProperty().isEmpty()).or(txtUsernameAdd.textProperty().isEmpty()).or(txtPasswordAdd.textProperty().isEmpty());
-            btnAddUser.disableProperty().bind(booleanBind);
+
+
             cmboLanguageAdd.setItems(Languages);
             cmboTypeAdd.setItems(UserTypes);
 
@@ -132,10 +130,10 @@ public class accountManagerController {
         gridModify.setDisable(false);
         gridAdd.setDisable(true);
         gridAdd.setVisible(false);
-//        btnModifyUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameModify.textProperty().isEmpty(),
-                txtMiddleNameModify.textProperty().isEmpty()).or(txtLastNameModify.textProperty().isEmpty()).or(txtUsernameModify.textProperty().isEmpty()).or(txtPasswordModify.textProperty().isEmpty());
-        btnModifyUser.disableProperty().bind(booleanBind);
+        cmboLanguageModify.setItems(Languages);
+        cmboTypeModify.setItems(UserTypes);
+
+
 
 
     }
@@ -146,10 +144,9 @@ public class accountManagerController {
         gridModify.setDisable(true);
         gridAdd.setDisable(true);
         gridAdd.setVisible(false);
-        btnDeleteUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameDelete.textProperty().isEmpty(),
-                txtMiddleNameDelete.textProperty().isEmpty()).or(txtLastNameDelete.textProperty().isEmpty()).or(txtUsernameDelete.textProperty().isEmpty()).or(txtPasswordDelete.textProperty().isEmpty());
-        btnDeleteUser.disableProperty().bind(booleanBind);
+
+        cmboLanguageDelete.setItems(Languages);
+        cmboTypeDelete.setItems(UserTypes);
 
 
     }
@@ -160,10 +157,8 @@ public class accountManagerController {
         gridModify.setDisable(true);
         gridAdd.setDisable(false);
         gridAdd.setVisible(true);
-        //btnAddUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameAdd.textProperty().isEmpty(),
-                txtMiddleNameAdd.textProperty().isEmpty()).or(txtLastNameAdd.textProperty().isEmpty()).or(txtUsernameAdd.textProperty().isEmpty()).or(txtPasswordAdd.textProperty().isEmpty());
-        btnAddUser.disableProperty().bind(booleanBind);
+
+
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
     }
@@ -290,7 +285,8 @@ public class accountManagerController {
         txtFirstNameModify.setText(firstName);
         txtMiddleNameModify.setText(middleName);
         txtLastNameModify.setText(lastName);
-        cmboLanguageModify.getSelectionModel().select(languages);
+        language = languages.get(0);
+        cmboLanguageModify.getSelectionModel().select(language);
         cmboTypeModify.getSelectionModel().select(type);
     }
     public void targetUserDelete(ActionEvent event){
@@ -303,7 +299,8 @@ public class accountManagerController {
         txtFirstNameDelete.setText(firstName);
         txtMiddleNameDelete.setText(middleName);
         txtLastNameDelete.setText(lastName);
-        cmboLanguageDelete.getSelectionModel().select(languages);
+        language = languages.get(0);
+        cmboLanguageDelete.getSelectionModel().select(language);
         cmboTypeDelete.getSelectionModel().select(type);
     }
     public void addUser(ActionEvent event){
@@ -344,8 +341,7 @@ public class accountManagerController {
         username = txtUsernameDelete.getText();
         password = txtPasswordDelete.getText();*/
         userID = txtUserIDDelete.getText();
-
-
+        user = DataModelI.getInstance().getUserByID(userID);
 
         DataModelI.getInstance().removeUser(user);
 
