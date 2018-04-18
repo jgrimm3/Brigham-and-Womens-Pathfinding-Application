@@ -517,7 +517,9 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean permanentlyRemoveNode(Node badNode) {
-        return nodesDBUtil.permanentlyRemoveNode(badNode);
+        boolean tempBool = nodesDBUtil.permanentlyRemoveNode(badNode);
+        addLog("Permanently Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
+        return tempBool;
     }
 
     @Override

@@ -31,6 +31,7 @@ class NodesDBUtil {
 	}
 
 	List<Node> getNodeList(){
+		updateNodeMap(false);
 		List<Node> listOfNodes = new ArrayList(nodeMap.values());
 		return listOfNodes;
 	}
@@ -398,6 +399,7 @@ class NodesDBUtil {
 			statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
 			statement.setString(2, nodeID);
 			statement.executeUpdate();
+			nodeMap.remove(nodeID);
 			isSucessful = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
