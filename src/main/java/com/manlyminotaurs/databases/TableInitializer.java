@@ -287,11 +287,10 @@ class TableInitializer {
 
             Iterator<String[]> iterator = userAccountList.iterator();
             iterator.next(); // get rid of the header
-
+            String[] node_row = null;
             //insert rows
             while (iterator.hasNext()) {
-                userIDCounter++;
-                String[] node_row = iterator.next();
+                node_row = iterator.next();
                 String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language, userType,deleteTime) VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
@@ -303,6 +302,7 @@ class TableInitializer {
                 statement.setTimestamp(7, convertStringToTimestamp(node_row[6]));
                 statement.executeUpdate();
             }
+            userIDCounter = Integer.parseInt(node_row[0]) + 5;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -387,11 +387,10 @@ class TableInitializer {
 
             Iterator<String[]> iterator = messageList.iterator();
             iterator.next(); // get rid of the header
-
+            String[] node_row = null;
             //insert rows
             while (iterator.hasNext()) {
-                messageIDCounter++;
-                String[] node_row = iterator.next();
+                node_row = iterator.next();
                 String str = "INSERT INTO message(messageID,message,isRead,sentDate,senderID,receiverID,deleteTime) VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
@@ -403,6 +402,7 @@ class TableInitializer {
                 statement.setTimestamp(7, convertStringToTimestamp(node_row[6]));
                 statement.executeUpdate();
             }
+            messageIDCounter = Integer.parseInt(node_row[0]) + 5;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -426,11 +426,11 @@ class TableInitializer {
 
             Iterator<String[]> iterator = requestList.iterator();
             iterator.next(); // get rid of the header
-
+            String[] node_row = null;
             //insert rows
             while (iterator.hasNext()) {
                 requestIDCounter++;
-                String[] node_row = iterator.next();
+                node_row = iterator.next();
                 String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,PASSWORD,deleteTime) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);
                 statement.setString(1, node_row[0]);
@@ -446,6 +446,7 @@ class TableInitializer {
                 statement.setTimestamp(11, convertStringToTimestamp(node_row[10]));
                 statement.executeUpdate();
             }
+            requestIDCounter = Integer.parseInt(node_row[0]) + 5;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
