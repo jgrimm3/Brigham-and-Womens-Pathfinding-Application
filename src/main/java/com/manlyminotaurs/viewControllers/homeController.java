@@ -38,12 +38,12 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
 import javax.xml.crypto.Data;
-import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -260,6 +260,9 @@ public class homeController implements Initializable {
 
 	@FXML
 	JFXListView<String> lstEndFiltered;
+
+	@FXML
+	StackPane nodePane;
 
 
 	public void setPathfindingScreen() {
@@ -505,7 +508,9 @@ public class homeController implements Initializable {
 		kiosk.setStrokeWidth(3);
 		kiosk.setStroke(Color.BLACK);
 		kiosk.setOnMouseClicked(this::startCircleClicked);
-		overMap.getChildren().add(kiosk);
+		kiosk.setOnMouseEntered(this::printStartName);
+		kiosk.setOnMouseExited(this::removeStartName);
+		paneMap.getChildren().add(kiosk);
 	}
 
 	public void goToKiosk() {
@@ -1012,7 +1017,7 @@ public class homeController implements Initializable {
 		changeFloor("1");
 		currentFloor = "1";
 
-		overMap.getChildren().remove(startCircle);
+		paneMap.getChildren().remove(startCircle);
 		//overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
 		//overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
 		destinationText.setVisible(false);
@@ -1138,7 +1143,8 @@ public class homeController implements Initializable {
 		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
 
 		try {
-			path = pf.getPath(DataModelI.getInstance().getNodeByLongNameFromList(comLocationStart.getValue(), nodeList), bathroomNode, new ClosestStrategyI());
+			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+
 			pathList = path;
 
 		} catch (PathNotFoundException e) {
@@ -1747,8 +1753,8 @@ public class homeController implements Initializable {
 
 
 			// adds circles to map
-			overMap.getChildren().remove(startCircle);
-			overMap.getChildren().add(startCircle);
+			paneMap.getChildren().remove(startCircle);
+			paneMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
 			if(!pathRunning) {
@@ -1967,7 +1973,7 @@ public class homeController implements Initializable {
 
 	private void clearPoints() {
 		for(Circle c: circleList) {
-			overMap.getChildren().remove(c);
+			paneMap.getChildren().remove(c);
 		}
 
 	}
@@ -2022,7 +2028,7 @@ public class homeController implements Initializable {
 				circleList.add(circle);
 				circle.setOnMouseEntered(this::printName);
 				circle.setOnMouseExited(this::removeName);
-				overMap.getChildren().add(circle);
+				paneMap.getChildren().add(circle);
 			}
 			i++;
 		}
@@ -2097,6 +2103,12 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btn3;
 
+	@FXML
+	Text nodeFloor;
+
+	@FXML
+	Label lblNode;
+
 
 
 
@@ -2142,18 +2154,13 @@ public class homeController implements Initializable {
 
 	private void printName(MouseEvent mouseEvent) {
 		Circle currCircle = (Circle)mouseEvent.getTarget();
-		javafx.scene.text.Text name = new javafx.scene.text.Text(currCircle.getId());
-		name.setVisible(true);
-		name.setLayoutX(currCircle.getCenterX() + 5 + currCircle.getId().length());
-		name.setFont(new Font(40));
-		name.setFill(Color.BLACK);
-		name.setStrokeWidth(1);
-		name.setStroke(Color.WHITE);
-		name.setLayoutY(currCircle.getCenterY());
+		nodeFloor.setText(currentFloor);
+		lblNode.setText("  " + currCircle.getId());
+		nodePane.setVisible(true);
+		nodePane.setLayoutX(currCircle.getCenterX());
+		nodePane.setLayoutY(currCircle.getCenterY());
 		//name.setRotate(-overMap.getRotate());
-		currName = name;
-		overMap.getChildren().add(name);
-		fade = new FadeTransition(Duration.millis(200), name);
+		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.setAutoReverse(true);
@@ -2162,15 +2169,15 @@ public class homeController implements Initializable {
 	}
 
 	private void removeName(MouseEvent mouseEvent) {
-		fade = new FadeTransition(Duration.millis(200), currName);
+		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(1);
 		fade.setToValue(0);
 		fade.setAutoReverse(true);
 		fade.setCycleCount(1);
 		fade.play();
-		currName = null;
-		paneMap.getChildren().remove(currName);
+		nodePane.setVisible(false);
 	}
+
 
 	@FXML
 	private void printStartName(MouseEvent mouseEvent) {

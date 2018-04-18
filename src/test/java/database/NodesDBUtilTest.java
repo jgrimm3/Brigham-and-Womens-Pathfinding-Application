@@ -100,8 +100,8 @@ public class NodesDBUtilTest {
 	@Test
 	public void addNode_CorrectlyAddsNode() {
 		Map<String, Node> oldNodeMap = DataModelI.getInstance().getNodeMap();
-		Node addedNode = DataModelI.getInstance().addNode(5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
-		Node addedNode2 = DataModelI.getInstance().addNode(5, 5, "1", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Node addedNode = DataModelI.getInstance().addNode("",5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Node addedNode2 = DataModelI.getInstance().addNode("",5, 5, "1", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
 
 		Map<String, Node> newNodeMap = DataModelI.getInstance().getNodeMap();
 		boolean oldNodeMapBool = oldNodeMap.containsValue(addedNode);
@@ -114,14 +114,30 @@ public class NodesDBUtilTest {
         assertTrue(getNodeByIDBool);
 	}
 
+	@Test
+	public void removeNode_marksInTheDatabase(){
+		Node addedNode = DataModelI.getInstance().addNode("",5, 5, "2", "Shapiro", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		DataModelI.getInstance().removeNode(addedNode);
+		DataModelI.getInstance().updateAllCSVFiles();
+	}
 
-//	@Test
-//	public void getByBuildingTypeFloor_ReturnsCorrectNodeList() {
-//		List<Node> testList = DataModelI.getInstance().getNodesByBuildingTypeFloor("Shapiro", "CONF", "1");
-//		assertTrue(testList.get(0).getBuilding().equals("Shapiro"));
-//		assertTrue(testList.get(0).getNodeType().equals("CONF"));
-//		assertTrue(testList.get(0).getFloor().equals("1"));
-//	}
+	@Test
+	public void afterRestoreNode_returnsCorrectList(){
+		Node addedNode = DataModelI.getInstance().addNode("",5, 6, "L2", "BTM", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Map<String, Node> aMap = DataModelI.getInstance().getNodeMap();
+		String nodeIDTemp = addedNode.getNodeID();
+		Node aNode = DataModelI.getInstance().getNodeByID(addedNode.getNodeID());
+		assertTrue(aNode != null);
+
+		DataModelI.getInstance().removeNode(addedNode);
+		Map<String, Node> aMap2 = DataModelI.getInstance().getNodeMap();
+		Node aNode2 = aMap2.get(addedNode.getNodeID());
+		assertTrue(aNode2 == null);
+
+		DataModelI.getInstance().restoreNode(nodeIDTemp);
+		assertTrue(DataModelI.getInstance().getNodeList().contains(aNode));
+	}
+
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
@@ -165,7 +181,7 @@ public class NodesDBUtilTest {
 	@Test
 	public void testAdjacentNodesAfterMakeEdge() {
 		Node a_node = DataModelI.getInstance().getNodeByID("WHALL002L2");
-		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
+		Node new_node = DataModelI.getInstance().addNode("",360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
 		DataModelI.getInstance().addEdge(a_node, new_node);
 		assertTrue(a_node.getAdjacentNodes().contains(new_node));
 	}
@@ -173,7 +189,7 @@ public class NodesDBUtilTest {
 	@Test
 	public void testAdjacentNodesWhenAddedNodeStatusNotOne() {
 		Node a_node = DataModelI.getInstance().getNodeByID("WHALL002L2");
-		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 2, 500, 1000);
+		Node new_node = DataModelI.getInstance().addNode("",360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 2, 500, 1000);
 		DataModelI.getInstance().addEdge(a_node, new_node);
 		assertTrue(a_node.getAdjacentNodes().contains(new_node));
 	}
@@ -199,7 +215,7 @@ public class NodesDBUtilTest {
 	@Test
 	public void testRetrieveNodesWhenAddedNodeStatusISOne() {
 		Node a_node = DataModelI.getInstance().getNodeByID("WHALL002L2");
-		Node new_node = DataModelI.getInstance().addNode(360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
+		Node new_node = DataModelI.getInstance().addNode("",360, 1200, "L1", "15 Francis", "DEPT", "ex longname", "ex shortname", 1, 500, 1000);
 		Node retrieved_node = DataModelI.getInstance().getNodeByID(new_node.getNodeID());
 		assertTrue(retrieved_node != null);
 	}
@@ -235,6 +251,24 @@ public class NodesDBUtilTest {
 	}
 
 	@Test
+	public void afterRestoreEdge_returnsCorrectList(){
+		Node startNode = DataModelI.getInstance().getNodeByID("DHALL00102");
+		Node endNode = DataModelI.getInstance().getNodeByID("BSTAI00302");
+		Edge edge = DataModelI.getInstance().addEdge(startNode,endNode);
+		String edgeIDTemp = edge.getEdgeID();
+		Edge gottenEdge = DataModelI.getInstance().getEdgeByID(edge.getEdgeID());
+		assertTrue(edge != null);
+		assertTrue(gottenEdge != null);
+
+		assertTrue(DataModelI.getInstance().getEdgeList().contains(edge));
+		DataModelI.getInstance().removeEdge(startNode,endNode);
+		assertFalse(DataModelI.getInstance().getEdgeList().contains(edge));
+
+		DataModelI.getInstance().restoreEdge(startNode.getNodeID(),endNode.getNodeID());
+		assertTrue(DataModelI.getInstance().getEdgeList().contains(edge));
+	}
+
+	@Test
 	public void getNodeByLongName_returnsCorrectNode(){
 		Node a_node = DataModelI.getInstance().getNodeByLongName("Restroom D elevator Floor 2");
 		Node a_node2 = DataModelI.getInstance().getNodeByLongName("Hallway Node 8 Floor L2");
@@ -246,7 +280,7 @@ public class NodesDBUtilTest {
 	@Test
 	public void getNamesByBuildingFloorType_returnsCorrectList(){
 		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
-		assertTrue(nameList.contains("L1 Stairs"));
+		assertTrue(nameList.contains("Fenwood Road Exit Node 1 Floor L1"));
 
 		List<String> nameList2 = DataModelI.getInstance().getNamesByBuildingFloorType(null,null,"BATH");
 		assertFalse(nameList2.contains("L1 Stairs"));

@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.Map;
 //
 
 public class CsvFileController {
-
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
     /*---------------------------------- Parse CSV File --------------------------------------------------*/
     /**
      * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
@@ -50,7 +51,7 @@ public class CsvFileController {
 
             while ((line = bufferedReader.readLine()) != null) {
                 // use comma as separator
-                String[] node_row = line.split(",");
+                String[] node_row = line.split(",",-1);
                 list_of_rows.add(node_row);
             }
             fileReader.close();
@@ -92,16 +93,21 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateNodeCSVFile(String csvFileName) {
-        Iterator iterator = DataModelI.getInstance().getNodeMap().entrySet().iterator();
+        Iterator iterator = new NodesDBUtil().getNodeMap(true).entrySet().iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D\n");
+            printWriter.print("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,status,xCoord3D,yCoord3D, deleteTime\n");
             while (iterator.hasNext()) {
                 Map.Entry a_entry = (Map.Entry)iterator.next();
                 Node a_node = (Node) a_entry.getValue();
-                printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d\n", a_node.getNodeID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
+                if(a_node.getDeleteTime() == null){
+                    printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d,\n", a_node.getNodeID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D());
+                }
+                else {
+                    printWriter.printf("%s,%d,%d,%s,%s,%s,%s,%s,Team M,%d,%d,%d,%s\n", a_node.getNodeID(), a_node.getXCoord(), a_node.getYCoord(), a_node.getFloor(), a_node.getBuilding(), a_node.getNodeType(), a_node.getLongName(), a_node.getShortName(), a_node.getStatus(), a_node.getXCoord3D(), a_node.getYCoord3D(), a_node.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv node file updated");
@@ -124,15 +130,21 @@ public class CsvFileController {
             e.printStackTrace();
         }
 
-        Iterator<Edge> iterator = DataModelI.getInstance().getEdgeList().iterator();
+        Iterator<Edge> iterator = new NodesDBUtil().getEdgeList(true).iterator();
         System.out.println("Updating edge csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("edgeID,startNodeID,endNodeID,status\n");
+            printWriter.print("edgeID,startNodeID,endNodeID,status,deleteTime\n");
             while (iterator.hasNext()) {
                 Edge a_edge = iterator.next();
-                printWriter.printf("%s,%s,%s,%d\n", a_edge.getEdgeID(), a_edge.getStartNodeID(), a_edge.getEndNodeID(), a_edge.getStatus());
+                if(a_edge.getDeleteTime() == null){
+                    printWriter.printf("%s,%s,%s,%d,\n", a_edge.getEdgeID(), a_edge.getStartNodeID(), a_edge.getEndNodeID(), a_edge.getStatus());
+
+                }
+                else {
+                    printWriter.printf("%s,%s,%s,%d,%s\n", a_edge.getEdgeID(), a_edge.getStartNodeID(), a_edge.getEndNodeID(), a_edge.getStatus(), a_edge.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv edge file updated");
@@ -152,10 +164,15 @@ public class CsvFileController {
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("specialization, detail, popularity, isOpen, nodeID\n");
+            printWriter.print("specialization, detail, popularity, isOpen, nodeID,deleteTime\n");
             while (iterator.hasNext()) {
                 Room a_node = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getStatus());
+                if(a_node.getDeleteTime() == null) {
+                    printWriter.printf("%s,%s,%d,%b,%s,\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getStatus());
+                }
+                else{
+                    printWriter.printf("%s,%s,%d,%b,%s,%s\n", a_node.getSpecialization(), a_node.getDetailedInfo(), a_node.getPopularity(), a_node.isOpen(), a_node.getStatus(), a_node.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");
@@ -172,15 +189,20 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateMessageCSVFile(String csvFileName) {
-        Iterator<Message> iterator = DataModelI.getInstance().retrieveMessages().iterator();
+        Iterator<Message> iterator = new MessagesDBUtil().retrieveMessages(true).iterator();
         System.out.println("Updating message csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("messageID,message,isRead,sentTime,senderID,receiverID\n");
+            printWriter.print("messageID,message,isRead,sentTime,senderID,receiverID,deleteTime\n");
             while (iterator.hasNext()) {
                 Message a_message = iterator.next();
-                printWriter.printf("%s,%s,%b,%s,%s,%s\n", a_message.getMessageID(), a_message.getMessage(), a_message.getRead(), a_message.getSentDate().toString(), a_message.getSenderID(), a_message.getReceiverID());
+                if(a_message.getDeleteTime() == null) {
+                    printWriter.printf("%s,%s,%b,%s,%s,%s,\n", a_message.getMessageID(), a_message.getMessage(), a_message.getRead(), a_message.getSentDate().toString(), a_message.getSenderID(), a_message.getReceiverID());
+                }
+                else{
+                    printWriter.printf("%s,%s,%b,%s,%s,%s,%s\n", a_message.getMessageID(), a_message.getMessage(), a_message.getRead(), a_message.getSentDate().toString(), a_message.getSenderID(), a_message.getReceiverID(), a_message.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");
@@ -197,15 +219,20 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateRequestCSVFile(String csvFileName) {
-        Iterator<Request> iterator = DataModelI.getInstance().retrieveRequests().iterator();
+        Iterator<Request> iterator = new RequestsDBUtil().retrieveRequests(true).iterator();
         System.out.println("Updating request csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password\n");
+            printWriter.print("requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password,deleteTime\n");
             while (iterator.hasNext()) {
                 Request a_request = iterator.next();
-                printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s,%s,%s\n", a_request.getRequestID(),a_request.getRequestType(),a_request.getPriority(),a_request.getComplete(),a_request.getAdminConfirm(), a_request.getStartTime().toString().replace("T"," ").replace(".",":"), a_request.getEndTime().toString().replace("T"," ").replace(".",":"),a_request.getNodeID(),a_request.getMessageID(),a_request.getPassword());
+                if(a_request.getDeleteTime() == null) {
+                    printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s,%s,%s,\n", a_request.getRequestID(), a_request.getRequestType(), a_request.getPriority(), a_request.getComplete(), a_request.getAdminConfirm(), a_request.getStartTime().format(dateTimeFormatter), a_request.getEndTime().format(dateTimeFormatter), a_request.getNodeID(), a_request.getMessageID(), a_request.getPassword());
+                }
+                else{
+                    printWriter.printf("%s,%s,%d,%b,%b,%s,%s,%s,%s,%s,%s\n", a_request.getRequestID(), a_request.getRequestType(), a_request.getPriority(), a_request.getComplete(), a_request.getAdminConfirm(), a_request.getStartTime().format(dateTimeFormatter), a_request.getEndTime().format(dateTimeFormatter), a_request.getNodeID(), a_request.getMessageID(), a_request.getPassword(), a_request.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");
@@ -222,15 +249,20 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateUserCSVFile(String csvFileName) {
-        Iterator<User> iterator = DataModelI.getInstance().retrieveUsers().iterator();
+        Iterator<User> iterator = new UserDBUtil().retrieveUsers(true).iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
+            printWriter.print("userID,firstName,middleName,lastName,language, userType, deleteTime\n");
             while (iterator.hasNext()) {
                 User a_user = iterator.next();
-                printWriter.printf("%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),DataModelI.getInstance().getLanguageString(a_user.getLanguages()),a_user.getUserType());
+                if(a_user.getDeleteTime() == null) {
+                    printWriter.printf("%s,%s,%s,%s,%s,%s,\n", a_user.getUserID(), a_user.getFirstName(), a_user.getMiddleName(), a_user.getLastName(), DataModelI.getInstance().getLanguageString(a_user.getLanguages()), a_user.getUserType());
+                }
+                else{
+                    printWriter.printf("%s,%s,%s,%s,%s,%s,%s\n", a_user.getUserID(), a_user.getFirstName(),a_user.getMiddleName(),a_user.getLastName(),DataModelI.getInstance().getLanguageString(a_user.getLanguages()),a_user.getUserType(),a_user.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");
@@ -246,10 +278,15 @@ public class CsvFileController {
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("userID,firstName,middleName,lastName,language, userType\n");
+            printWriter.print("isWorking,isAvailable,getLanguageSpoken,userID, deleteTime\n");
             while (iterator.hasNext()) {
                 StaffFields staffFields = iterator.next();
-                printWriter.printf("%b,%b,%s,%s\n", staffFields.isWorking(), staffFields.isAvailable(),staffFields.getLanguageSpoken(),staffFields.getUserID());
+                if(staffFields.getDeleteTime() == null) {
+                    printWriter.printf("%b,%b,%s,%s,\n", staffFields.isWorking(), staffFields.isAvailable(), staffFields.getLanguageSpoken(), staffFields.getUserID());
+                }
+                else{
+                    printWriter.printf("%b,%b,%s,%s,%s\n", staffFields.isWorking(), staffFields.isAvailable(), staffFields.getLanguageSpoken(), staffFields.getUserID(), staffFields.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");
@@ -260,15 +297,20 @@ public class CsvFileController {
     }//updateStaffCSVFile ends
 
     private void updateUserPasswordFile(String csvFileName) {
-        Iterator<UserPassword> iterator = DataModelI.getInstance().retrieveUserPasswords().iterator();
+        Iterator<UserPassword> iterator = new UserSecurity().retrieveUserPasswords(true).iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print("userName, password, userID\n");
+            printWriter.print("userName, password, userID, deleteTime\n");
             while (iterator.hasNext()) {
                 UserPassword userPassword = iterator.next();
-                printWriter.printf("%s,%s,%s\n", userPassword.getUserName(), userPassword.getPassword(),userPassword.getUserID());
+                if(userPassword.getDeleteTime() == null) {
+                    printWriter.printf("%s,%s,%s,\n", userPassword.getUserName(), userPassword.getPassword(), userPassword.getUserID());
+                }
+                else{
+                    printWriter.printf("%s,%s,%s,%s\n", userPassword.getUserName(), userPassword.getPassword(), userPassword.getUserID(), userPassword.getDeleteTime().format(dateTimeFormatter));
+                }
             }
             printWriter.close();
             System.out.println("csv file updated");

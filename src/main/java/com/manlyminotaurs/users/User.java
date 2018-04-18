@@ -1,5 +1,6 @@
 package com.manlyminotaurs.users;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public abstract class User {
     String lastName;
     List<String> languages;
     String userType;
+    private LocalDateTime deleteTime;
 
     public User(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType) {
         this.userID = userID;
@@ -75,6 +77,14 @@ public abstract class User {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     public boolean isType(String userType) {

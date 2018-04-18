@@ -65,6 +65,7 @@ public interface IDataModel {
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<String> getAdjacentNodes(Node node);
     List<Edge> getEdgeList();
+    Edge getEdgeByID(String edgeID);
     Edge addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);
     void modifyEdge(Node startNode, Node endNode, int status);
@@ -72,7 +73,7 @@ public interface IDataModel {
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
     Message addMessage(Message messageObject);
-    boolean removeMessage(Message oldMessage);
+    boolean removeMessage(String messageID);
     boolean modifyMessage(Message newMessage);
     String getNextMessageID();
     /*--------------------- Retrieve List of Messages / All or by Attribute ------------------------------------------*/
@@ -110,6 +111,8 @@ public interface IDataModel {
     boolean doesUserPasswordExist(String userName, String password);
     String getIDByUserPassword(String userName, String password);
     List<UserPassword> retrieveUserPasswords();
+    void addUserPassword(String userName, String password, String userID);
+    boolean removeUserPassword(String userID);
 
 
     //---------------------------------------UPDATE CSV FIles--------------------------------
@@ -132,26 +135,22 @@ public interface IDataModel {
     List<Pathfinder> getPathByStartNodeID(String startNodeID);
     List<Pathfinder> getPathByEndNodeID(String endNodeID);
 
-    //------------------------------------Backup Table----------------------------------------------
-    Node addNodeToBackup(String nodeID);
-    Message addMessageToBackup(String messageID);
-    Request addRequestToBackup(String requestID);
-    User addUserToBackup(String userID);
-    UserPassword addUserPasswordToBackup(String userID);
-
-    boolean removeNodeFromBackup(String nodeID);
-    boolean removeMessageFromBackup(String messageID);
-    boolean removeRequestFromBackup(String requestID);
-    boolean removeUserFromBackup(String userID);
-    boolean removeUserPasswordFromBackup(String userID);
-
-    List<BackupEntity> retrieveBackups();
-    boolean revertFromBackupByIDType(String logID, String associatedType);
-    void addBackup(String logID, String associatedID, String associatedType);
-    void permanentlyRemoveBackup(String logID, String associatedID, String associatedType);
-
     //-------------------------------Helper functions-------------------------------------------
     Timestamp convertStringToTimestamp(String timeString);
     java.sql.Date convertStringToDate(String timeString);
 
+    //-------------------------------Backup---------------------------------------
+    boolean permanentlyRemoveNode(Node badNode);
+    boolean permanentlyRemoveEdge(Node startNode, Node endNode);
+    boolean permanentlyRemoveMessage(String messageID);
+    boolean permanentlyRemoveRequest(Request oldRequest);
+    boolean permanentlyRemoveUser(User oldUser);
+    boolean permanentlyRemoveUserPassword(String userID);
+
+    boolean restoreNode(String nodeID);
+    boolean restoreEdge(String startNodeID, String endNodeID);
+    boolean restoreMessage(String messageID);
+    boolean restoreRequest(String requestID);
+    boolean restoreUser(String userID);
+    boolean restoreUserPassword(String userID);
 }

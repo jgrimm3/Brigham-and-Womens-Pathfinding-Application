@@ -38,7 +38,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-
 public class nodeEditorController {
     final double NODEXMIN = 0;
     final double NODEXMAX = 5000;
@@ -63,10 +62,9 @@ public class nodeEditorController {
     String endFloor = "";
     List<Circle> circleList = new ArrayList<>();
     List<Line> edgeLines = new ArrayList<>();
-    Boolean mapNodeChoice;
+    Boolean mapNodeChoice = false;
     Boolean selectNode = false;
     Parent history;
-
 
 
     @FXML
@@ -161,6 +159,8 @@ public class nodeEditorController {
     JFXButton navBtnManageAccounts;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    JFXToggleButton tglAddMapChange;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -183,8 +183,8 @@ public class nodeEditorController {
     int yCoord3D;
 
     @FXML
-    public void initialize() throws Exception{
-        try{
+    public void initialize() throws Exception {
+        try {
             System.out.println("initializing");
             paneDelete.setVisible((false));
             paneDelete.setDisable(true);
@@ -201,81 +201,26 @@ public class nodeEditorController {
             cmboFloorAdd.setItems(floors);
             cmboPathfinding.setItems(Algorithms);
 
-            //set jfx text colors
-
-
             //disable toggle
-            tglMap.disableProperty().bind(( cmboFloor.valueProperty().isNull()));
-
-            //prompt text colors
-            txtShortNameDel.setStyle("-fx-text-fill: White ");
-            txtShortName.setStyle("-fx-prompt-text-fill:  White");
-            txtShortNameMod.setStyle("-fx-prompt-text-fill:  White");
-            txtLongNameDel.setStyle("-fx-prompt-text-fill:  White");
-            txtLongNameMod.setStyle("-fx-prompt-text-fill:  White");
-            txtLongName.setStyle("-fx-prompt-text-fill:  White");
-            txtXCoord3D.setStyle("-fx-prompt-text-fill:  White");
-            txtYCoord3D.setStyle("-fx-prompt-text-fill:  White");
-            txtAdminPassword.setStyle("-fx-prompt-text-fill:  White");
-            txtAdminUser.setStyle("-fx-prompt-text-fill:  White");
-            txtXCoord.setStyle("-fx-prompt-text-fill:  White");
-            txtYCoord.setStyle("-fx-prompt-text-fill:  White");
-
-
-            txtShortNameDel.setStyle("-fx-text-fill: White ");
-            txtShortName.setStyle("-fx-text-fill:  White");
-            txtShortNameMod.setStyle("-fx-text-fill:  White");
-            txtLongNameDel.setStyle("-fx-text-fill: White");
-            txtLongNameMod.setStyle("-fx-text-fill: White");
-            txtLongName.setStyle("-fx-text-fill: White");
-            txtXCoord3D.setStyle("-fx-text-fill:  White");
-            txtYCoord3D.setStyle("-fx-text-fill: White");
-            txtAdminPassword.setStyle("-fx-text-fill: White");
-            txtAdminUser.setStyle("-fx-text-fill: White");
-            txtXCoord.setStyle("-fx-text-fill:  White");
-            txtYCoord.setStyle("-fx-text-fill: White");
+            tglMap.disableProperty().bind((cmboFloor.valueProperty().isNull()));
+            tglAddMapChange.disableProperty().bind((cmboFloorAdd.valueProperty().isNull()));
 
             scrollPane.setVvalue(0.65);
             scrollPane.setHvalue(0.25);
             path.setStrokeWidth(5);
             //printPoints("L2");
 
-            // Initialize Map
-            stackPaneMap.setPrefHeight(3400);
-            stackPaneMap.setPrefWidth(5000);
-            mapImg.setFitHeight(3400);
-            mapImg.setFitWidth(5000);
-            paneMap.setPrefHeight(3400);
-            paneMap.setPrefWidth(5000);
+            floor2DMapLoader("2");
+            drawEdges("2", "2-D");
+            drawCircles("2", "2-D");
 
 
+            // drawCircles("1", "2-D");
+            // drawEdges("1", "2-D" );
 
-           // drawCircles("1", "2-D");
-           // drawEdges("1", "2-D" );
-
-
-
-
-            /*paneMap.getChildren().clear();
-
-            pathfloor2DMapLoader("1");
-
-            List<Node> nodeList = new ArrayList<>();
-            nodeList = DataModelI.getInstance().getNodesByFloor("1");
-
-            for(int x=0;x<nodeList.size(); x++) {
-                Circle tempCircle = new Circle();
-                tempCircle.setCenterX(nodeList.get(x).getXCoord());
-                tempCircle.setCenterY(nodeList.get(x).getYCoord());
-                tempCircle.setRadius(5);
-                tempCircle.setFill(Color.PURPLE);
-                tempCircle.setVisible(true);
-                paneMap.getChildren().add(tempCircle);
-            } */
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e){
-            e.printStackTrace();}
     }
 
     //Swap active panes
@@ -301,6 +246,7 @@ public class nodeEditorController {
     }
 
     public void displayAddPane(ActionEvent event) {   //add Node
+        floor2DMapLoader("2");
         paneDelete.setVisible((false));
         paneDelete.setDisable(true);
         paneModify.setVisible(false);
@@ -321,9 +267,11 @@ public class nodeEditorController {
 
         btnAddNode.disableProperty().bind(booleanBind);
 
-
         //set up comboboxes
         cmboBuilding.setItems(buildings);
+        drawEdges("2", "2-D");
+        drawCircles("2", "2-D");
+
 
     }
 
@@ -353,139 +301,28 @@ public class nodeEditorController {
         btnDeleteNode.disableProperty().bind(booleanBind);
 
         cmboBuildingDel.setItems(buildings);
-
     }
 
 
     public void getXandY(MouseEvent event) throws Exception {
         //see which pane is visible and set the corresponding x and y coordinates
-       /* if (selectNode == true) {
-            if ((paneModify.isVisible() == true) && (selectNode == true)) {
-                System.out.println("looking for edge node");
-                ArrayList<Node> nodesXY = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
-                double tapX = event.getX();
-                double tapY = event.getY();
-                for (Node cur : nodesXY) {
-                    if (((tapX - 10 <= cur.getXCoord()) && (cur.getXCoord() <= tapX + 10)) && ((tapY - 10 <= cur.getYCoord()) && (cur.getYCoord() <= tapY + 10))) {
-                        edgeNodeAdd = cur;
-                        btnSelectEdgeNode.setText(edgeNodeAdd.getLongName());
-                        selectNode = false;
-
-                    } else {
-                        btnSelectEdgeNode.setText("no Node Found");
-                    }
-
-                }
-            }
-        } else {
-
-            if (selectNode == false) {
-                if ((paneAdd.isVisible() == true) && (mapNodeChoice == true)) {
-                    txtXCoord.setText(String.format("%1.0f", event.getX()));
-                    txtYCoord.setText(String.format("%1.0f", event.getY()));
-                } else if ((paneAdd.isVisible() == true) && (mapNodeChoice == false)) {
-                    txtXCoord3D.setText(String.format("%1.0f", event.getX()));
-                    txtYCoord3D.setText(String.format("%1.0f", event.getY()));
-                } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == true)) {
-                    txtXCoordMod.setText(String.format("%1.0f", event.getX()));
-                    txtYCoordMod.setText(String.format("%1.0f", event.getY()));
-                } else if ((paneAdd.isVisible() == false) && (mapNodeChoice == false)) {
-                    txtXCoordMod3D.setText(String.format("%1.0f", event.getX()));
-                    txtYCoordMod3D.setText(String.format("%1.0f", event.getY()));
-                }
+        if (paneAdd.isVisible() == true) {
+            if (mapNodeChoice == true) { // 2D
+                txtXCoord.setText(Double.toString(event.getX()));
+                txtYCoord.setText(Double.toString(event.getY()));
             }
 
-        }*/
-    }
-
-
-Parent createRequest;
-
-    //logout and return to the home screen
-    public void LogOut(ActionEvent event) throws Exception {
-        try {
-            Stage stage;
-            Parent root;
-            //get reference to the button's stage
-            stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
-            KioskInfo.currentUserID = "";
-
-            //create a new scene with root and set the stage
-            Scene scene = new Scene(logout);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (mapNodeChoice == false) { //3D
+                txtXCoord3D.setText(Double.toString(event.getX()));
+                txtYCoord3D.setText(Double.toString(event.getY()));
+            }
         }
-    }
-    public void accountManager(ActionEvent event) throws Exception {
-        try {
-            Stage stage;
-            Parent root;
-            //get reference to the button's stage
-            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
-            //load up Home FXML document;
-            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
 
-            //create a new scene with root and set the stage
-            Scene scene = new Scene(accountManager);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
-    public void loadHistory(ActionEvent event) throws Exception {
-        try {
-            Stage stage;
-            Parent root;
-            //get reference to the button's stage
-            stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
-            //create a new scene with root and set the stage
-            Scene scene = new Scene(history);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void manageRequests (ActionEvent event) throws Exception {
-        try {
-            Stage stage;
-            Parent root;
-            //get reference to the button's stage
-            stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-            //create a new scene with root and set the stage
-            Scene scene = new Scene(manageRequests);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void createRequest(ActionEvent event) throws Exception {
-        try {
-            Stage stage;
-            Parent root;
-            //get reference to the button's stage
-            stage = (Stage) btnLogOut.getScene().getWindow();
-            //load up Home FXML document;
-            createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
-            //create a new scene with root and set the stage
-            Scene scene = new Scene(createRequest);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+
+    Parent createRequest;
+
     //Combo Box selected update next
     //Add node
     public void addSetBuilding(ActionEvent event) {
@@ -497,11 +334,8 @@ Parent createRequest;
     public void addSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
         floor = cmboFloorAdd.getValue().toString();
-        btn2DMap.setDisable(false);
-        btn3DMap.setDisable(false);
-        cmboType.setItems(types);
 
-        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        cmboType.setItems(types);
 
     }
 
@@ -519,10 +353,11 @@ Parent createRequest;
 
     public void modSetFloor(ActionEvent event) {
         //set floor to selected value, use new value to populate Types
-        floor = cmboFloor.getValue().toString();
-        cmboTypeMod.setItems(types);
-        if (tglMap.isSelected()) {
 
+        if (paneModify.isVisible()== true){
+            floor = cmboFloor.getValue().toString();
+            cmboTypeMod.setItems(types);
+        if (tglMap.isSelected()) {
             // Switch 3-D
             tglMap.setText("3-D");
             stackPaneMap.setPrefHeight(2774);
@@ -533,10 +368,10 @@ Parent createRequest;
             paneMap.setPrefWidth(5000);
             edgeLines.clear();
 
-        floor3DMapLoader(cmboFloor.getValue());
+            floor3DMapLoader(cmboFloor.getValue());
             drawEdges(cmboFloor.getValue(), "3-D");
             drawCircles(cmboFloor.getValue(), "3-D");
-         } else{
+        } else {
             stackPaneMap.setPrefHeight(3400);
             stackPaneMap.setPrefWidth(5000);
             mapImg.setFitHeight(3400);
@@ -549,6 +384,38 @@ Parent createRequest;
             drawEdges(cmboFloor.getValue(), "2-D");
             drawCircles(cmboFloor.getValue(), "2-D");
         }
+        }
+        else if(paneAdd.isVisible() == true){
+            floor = cmboFloorAdd.getValue().toString();
+            cmboType.setItems(types);
+        if (tglAddMapChange.isSelected()) {
+            // Switch 3-D
+            tglMap.setText("3-D");
+            stackPaneMap.setPrefHeight(2774);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(2774);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(2774);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+
+            floor3DMapLoader(cmboFloorAdd.getValue());
+            drawEdges(cmboFloorAdd.getValue(), "3-D");
+            drawCircles(cmboFloorAdd.getValue(), "3-D");
+        } else {
+            stackPaneMap.setPrefHeight(3400);
+            stackPaneMap.setPrefWidth(5000);
+            mapImg.setFitHeight(3400);
+            mapImg.setFitWidth(5000);
+            paneMap.setPrefHeight(3400);
+            paneMap.setPrefWidth(5000);
+            edgeLines.clear();
+            floor2DMapLoader(cmboFloorAdd.getValue());
+
+            drawEdges(cmboFloorAdd.getValue(), "2-D");
+            drawCircles(cmboFloorAdd.getValue(), "2-D");
+        }
+        }
     }
 
     public void modSetType(ActionEvent event) {
@@ -556,7 +423,7 @@ Parent createRequest;
         type = cmboTypeMod.getValue().toString();
         List<Node> curNode = DataModelI.getInstance().retrieveNodes();
         System.out.println((int) curNode.size());
-        List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(),cmboTypeMod.getValue(),cmboFloor.getValue());
+        List<String> currentN = DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingMod.getValue(), cmboTypeMod.getValue(), cmboFloor.getValue());
 
 
     }
@@ -586,16 +453,13 @@ Parent createRequest;
     public void delSetType(ActionEvent event) {
         //set type to selected value
         type = cmboTypeDel.getValue().toString();
-        cmboNodeDel.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingDel.getValue(),cmboTypeDel.getValue(),cmboFloorDel.getValue())));
+        cmboNodeDel.setItems(FXCollections.observableArrayList(DataModelI.getInstance().getLongNameByBuildingTypeFloor(cmboBuildingDel.getValue(), cmboTypeDel.getValue(), cmboFloorDel.getValue())));
 
     }
 
     public void delSetNode(ActionEvent event) {
         //set type to selected value
-        DataModelI.getInstance().retrieveNodes();
-        node = DataModelI.getInstance().getNodeByLongName(cmboNodeDel.getValue().toString());
-        txtLongNameDel.setText(node.getLongName());
-        txtShortNameDel.setText(node.getShortName());
+
     }
 
 
@@ -612,14 +476,12 @@ Parent createRequest;
         floor = cmboFloorAdd.getValue().toString();
         type = cmboType.getValue().toString();
         //call add node function
-        DataModelI.getInstance().addNode("",xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
+        DataModelI.getInstance().addNode("", xCoord2D, yCoord2D, floor, building, type, longName, shortName, 1, xCoord3D, yCoord3D);
         btnAddNode.setText("Node Added!");
         //redraw map
-        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        drawCircles(cmboFloorAdd.getValue(), "2-D");
         btnAddNode.setText("Add Node");
     }
-
-
 
 
     //modify node
@@ -659,55 +521,43 @@ Parent createRequest;
 
             //call delete node function
             node = DataModelI.getInstance().getNodeByLongName(longName);
+            clearPoints();
+            clearEdges();
             DataModelI.getInstance().removeNode(node);
-        }
-        else{
+            drawEdges(floor, "2-D");
+            drawCircles(floor, "2-D");
+        } else {
             txtAdminUser.setText("incorrect User and Password");
             txtAdminPassword.clear();
         }
 
         //redraw map
-        drawCircles(cmboFloorAdd.getValue(),"2-D");
+        drawCircles(cmboFloorAdd.getValue(), "2-D");
         btnAddNode.setText("Delete Node");
     }
 
 
-    public void load2DMap(ActionEvent event) {
-        drawCircles(cmboFloorAdd.getValue(),"2-D");
-        mapNodeChoice = true;
-    }
 
-    public void load3DMap(ActionEvent event) {
-        drawCircles(cmboFloorAdd.getValue(),"3-D");
-        mapNodeChoice = false;
-    }
-
-
-    public void waitOnTapNode(ActionEvent event){
-        selectNode = true;
-
-    }
-
-    public void geofence(ActionEvent event){
+    public void geofence(ActionEvent event) {
         int newStatus = 0;
-                switch(node.getStatus()){
-                    case 0:
-                        newStatus = 0;
-                        break;
-                    case 1:
-                        newStatus = 1;
-                        break;
-                        default:
-                            newStatus = 0;
-                }
-                node.setStatus(newStatus);
+        switch (node.getStatus()) {
+            case 0:
+                newStatus = 0;
+                break;
+            case 1:
+                newStatus = 1;
+                break;
+            default:
+                newStatus = 0;
+        }
+        node.setStatus(newStatus);
     }
 
-public void setPathfindAlgorithm(ActionEvent event) {
+    public void setPathfindAlgorithm(ActionEvent event) {
         String Pathfinding;
         Pathfinding = cmboPathfinding.getValue().toString();
-         PathfindingContext Pf = new PathfindingContext();
-        switch (Pathfinding){
+        PathfindingContext Pf = new PathfindingContext();
+        switch (Pathfinding) {
             case "A*":
                 Main.pathStrategy = "A*";
                 break;
@@ -717,187 +567,142 @@ public void setPathfindAlgorithm(ActionEvent event) {
             case "Depth-First Search":
                 Main.pathStrategy = "DFS";
                 break;
-                case "Dykstra":
+            case "Dykstra":
                 Main.pathStrategy = "DYK";
                 break;
-                default:
-                    Main.pathStrategy = "A*";
-        }
-    }
-
-    public void printPoints(String floor, String dimension) {
-        // Connection for the database
-        List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
-
-        // map boundaries
-
-        int i = 0;
-        int x = 0;
-        int y = 0;
-        // Iterate through each node
-        while(i < nodeList.size()) {
-
-            // If the node is on the correct floor
-            if(nodeList.get(i).getFloor().equals(floor)) {
-
-                if(dimension.equals("2-D")) {
-                    // Get x and y coords
-                    x = nodeList.get(i).getXCoord();
-                    y = nodeList.get(i).getYCoord();
-                } else if (dimension.equals("3-D")){
-                    x = nodeList.get(i).getXCoord3D();
-                    y = nodeList.get(i).getYCoord3D();
-                } else {
-                    System.out.println("Invalid dimension");
-                }
-
-                // draw the point on the image
-                Circle circle = new Circle(x, y, 2);
-                Circle outline = new Circle(x,y, 3);
-                circle.setFill(Color.BLACK);
-                outline.setFill(Color.GRAY);
-                pane.getChildren().add(outline);
-                pane.getChildren().add(circle);
-            }
-            i++;
+            default:
+                Main.pathStrategy = "A*";
         }
     }
 
 
-    public void drawCircles(String floor,String dimension) {
+    public void drawCircles(String floor, String dimension) {
 
         //paneMap.getChildren().clear();
 
         // Iterate through each node
-       for(Node currNode: nodeList) {
-           // If the node is on the correct floor
-           if (currNode.getFloor().equals(floor)) {
-               if (dimension.equals("2-D")) {
+        for (Node currNode : nodeList) {
+            // If the node is on the correct floor
+            if (currNode.getFloor().equals(floor)) {
+                if (dimension.equals("2-D")) {
 
-                   Circle tempCircle = new Circle();
-                   tempCircle.setCenterX(currNode.getXCoord());
-                   tempCircle.setCenterY(currNode.getYCoord());
-                   tempCircle.setRadius(8);
-                   tempCircle.setFill(Color.NAVY);
-                   tempCircle.setVisible(true);
-                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                   tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-                           // record a delta distance for the drag and drop operation.
-                           tempCircle.setFill(Color.RED);
-                           dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
-                           dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
-                           tempCircle.setCursor(Cursor.MOVE);
-
-                       }
-                   });
-                   tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-
-                           tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                           tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
-                           tempCircle.setFill(Color.RED);
-                           currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
-                           currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
-
-                       }
-                   });
-                   tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-                           // record a delta distance for the drag and drop operation.
-                           tempCircle.setFill(Color.DARKCYAN);
-                           clearEdges();
-                           DataModelI.getInstance().modifyNode(currNode);
-                         //  drawEdges(floor, "2-D");
-                          // drawCircles(floor, "2-D");
-                          }
-                       });
-                   tempCircle.setCursor(Cursor.HAND);
-                   paneMap.getChildren().add(tempCircle);
-                   circleList.add(tempCircle);
-
-               } else {
-
-                   Circle tempCircle = new Circle();
-                   tempCircle.setCenterX(currNode.getXCoord3D());
-                   tempCircle.setCenterY(currNode.getYCoord3D());
-                   tempCircle.setRadius(8);
-                   tempCircle.setFill(Color.NAVY);
-                   tempCircle.setVisible(true);
-                   tempCircle.setOnMouseClicked(this::chooseNodeEdge);
-                   tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-                           // record a delta distance for the drag and drop operation.
-                           tempCircle.setFill(Color.RED);
-                           dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
-                           dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
-                           tempCircle.setCursor(Cursor.MOVE);
-
-                       }
-                   });
-                   tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-                           tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                           tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
-                           tempCircle.setFill(Color.RED);
-                           currNode.getLoc().setxCoord((int)tempCircle.getCenterX());
-                           currNode.getLoc().setyCoord((int)tempCircle.getCenterY());
+                    Circle tempCircle = new Circle();
+                    tempCircle.setCenterX(currNode.getXCoord());
+                    tempCircle.setCenterY(currNode.getYCoord());
+                    tempCircle.setRadius(8);
+                    tempCircle.setFill(Color.NAVY);
+                    tempCircle.setVisible(true);
+                    tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            if (paneModify.isVisible() == true) {
+                                tempCircle.setFill(Color.RED);
+                                // record a delta distance for the drag and drop operation.
+                                dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                                dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                                txtLongNameMod.setText(currNode.getLongName());
+                                txtShortNameMod.setText( currNode.getShortName());
+                                tempCircle.setCursor(Cursor.MOVE);
+                            }
+                            if (paneDelete.isVisible() == true) {
+                                {
+                                    tempCircle.setFill(Color.RED);
+                                    txtLongNameDel.setText(currNode.getLongName());
+                                    txtShortNameDel.setText(currNode.getShortName());
+                                    cmboBuildingDel.getSelectionModel().select(currNode.getBuilding());
+                                    cmboFloorDel.getSelectionModel().select(currNode.getFloor());
+                                    cmboTypeDel.getSelectionModel().select(currNode.getNodeType());
+                                    cmboNodeDel.getSelectionModel().select(currNode.getLongName());
+                                    tempCircle.setFill(Color.RED);
+                                }
+                            }
+                        }
 
 
+                    });/**/
+                    tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            if (paneModify.isVisible() == true) {
+                                tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                                tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                                tempCircle.setFill(Color.RED);
+                                currNode.getLoc().setxCoord((int) tempCircle.getCenterX());
+                                currNode.getLoc().setyCoord((int) tempCircle.getCenterY());
+                            }
+                        }
+                    });
+                    tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            // record a delta distance for the drag and drop operation.
+                                if (paneModify.isVisible() == true) {
+                            tempCircle.setFill(Color.DARKCYAN);
+                            clearEdges();
+                            DataModelI.getInstance().modifyNode(currNode);
+                            //  drawEdges(floor, "2-D");
+                            // drawCircles(floor, "2-D");
+                        }}
+                    });
+                    tempCircle.setCursor(Cursor.HAND);
+                    paneMap.getChildren().add(tempCircle);
+                    circleList.add(tempCircle);
 
-                       }
-                   });
-                   tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
-                       @Override public void handle(MouseEvent mouseEvent) {
-                           // record a delta distance for the drag and drop operation.
-                           tempCircle.setFill(Color.DARKCYAN);
-                           clearEdges();
-                           DataModelI.getInstance().modifyNode(currNode);
-                           //drawEdges(floor, "3-D");
-                       }
-                   });
-                   tempCircle.setCursor(Cursor.HAND);
+                } else {
 
-                   paneMap.getChildren().add(tempCircle);
-                   circleList.add(tempCircle);
-               }
-           }
-       }
-            }
+                    Circle tempCircle = new Circle();
+                    tempCircle.setCenterX(currNode.getXCoord3D());
+                    tempCircle.setCenterY(currNode.getYCoord3D());
+                    tempCircle.setRadius(8);
+                    tempCircle.setFill(Color.NAVY);
+                    tempCircle.setVisible(true);
+                    tempCircle.setOnMousePressed(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            // record a delta distance for the drag and drop operation.
+                            tempCircle.setFill(Color.RED);
+                            dragDelta.x = tempCircle.getLayoutX() - mouseEvent.getSceneX();
+                            dragDelta.y = tempCircle.getLayoutY() - mouseEvent.getSceneY();
+                            tempCircle.setCursor(Cursor.MOVE);
 
 
+                        }
+                    });
+                    tempCircle.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            tempCircle.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                            tempCircle.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                            tempCircle.setFill(Color.RED);
+                            currNode.getLoc().setxCoord((int) tempCircle.getCenterX());
+                            currNode.getLoc().setyCoord((int) tempCircle.getCenterY());
+                        }
+                    });
+                    tempCircle.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            // record a delta distance for the drag and drop operation.
+                            tempCircle.setFill(Color.DARKCYAN);
 
-    public void chooseNodeEdge(MouseEvent event) {
-        Circle circle = (Circle)event.getTarget();
-        if(mapNodeChoice == true) {
-            for (Node node : nodeList) {
-                if (node.getXCoord() == circle.getCenterX()) {
-                    if (node.getYCoord() == circle.getCenterY()) {
-                        edgeNodeAdd = node;
-                        circle.setFill(Color.RED);
-                        System.out.println("Click recognized");
-                        break;
-                    }
+                            DataModelI.getInstance().modifyNode(currNode);
+                            //drawEdges(floor, "3-D");
+                        }
+                    });
+                    tempCircle.setCursor(Cursor.HAND);
+
+                    paneMap.getChildren().add(tempCircle);
+                    circleList.add(tempCircle);
                 }
             }
-            System.out.println("Node not found");
-        } else {
-            for (Node node : nodeList) {
-                if (node.getXCoord3D() == circle.getCenterX()) {
-                    if (node.getYCoord3D() == circle.getCenterY()) {
-                        edgeNodeAdd = node;
-                        circle.setFill(Color.RED);
-                        System.out.println("Click recognized");
-                        break;
-                    }
-                }
-            }
-            System.out.println("Node not found");
         }
     }
 
+
     final Delta dragDelta = new Delta();
-    class Delta { double x, y; }
+
+    class Delta {
+        double x, y;
+    }
 
     ///draws edges based on 2d or 3d map and floor,
     public void drawEdges(String floor, String dimension) {
@@ -912,18 +717,17 @@ public void setPathfindAlgorithm(ActionEvent event) {
             Circle startCirc = new Circle();
             Circle endCirc = new Circle();
 
-            for(Circle curCirc : circleList) {
-                if (curCirc.getCenterX() == start.getXCoord()&& (curCirc.getCenterY() == start.getYCoord())){
+            for (Circle curCirc : circleList) {
+                if (curCirc.getCenterX() == start.getXCoord() && (curCirc.getCenterY() == start.getYCoord())) {
                     startCirc = curCirc;
-                }
-                else if (curCirc.getCenterX() == end.getXCoord()&& (curCirc.getCenterY() == end.getYCoord())){
+                } else if (curCirc.getCenterX() == end.getXCoord() && (curCirc.getCenterY() == end.getYCoord())) {
                     endCirc = curCirc;
                 }
 
             }
             if ((start.getFloor().equals(floor) && (end.getFloor().equals(floor)))) {
                 if (dimension.equals("2-D")) {
-                   DoubleProperty startx = startCirc.centerXProperty();
+                    DoubleProperty startx = startCirc.centerXProperty();
                     DoubleProperty starty = startCirc.centerYProperty();
                     DoubleProperty endx = endCirc.centerXProperty();
                     DoubleProperty endy = endCirc.centerYProperty();
@@ -960,8 +764,8 @@ public void setPathfindAlgorithm(ActionEvent event) {
         }
     }
 
-       public void edgeSelected(MouseEvent event){
-        Line selected = (Line)event.getTarget();
+    public void edgeSelected(MouseEvent event) {
+        Line selected = (Line) event.getTarget();
 
     }
 
@@ -970,13 +774,15 @@ public void setPathfindAlgorithm(ActionEvent event) {
             paneMap.getChildren().remove(c);
         }
     }
-    private void clearEdges(){
-        for(Line L: edgeLines) {
+
+    private void clearEdges() {
+        for (Line L : edgeLines) {
             paneMap.getChildren().remove(L);
         }
 
     }
-    public void loadMap(ActionEvent event){
+
+    public void loadMap(ActionEvent event) {
         if (tglMap.isSelected()) {
 
             // Switch 3-D
@@ -987,7 +793,7 @@ public void setPathfindAlgorithm(ActionEvent event) {
             mapImg.setFitWidth(5000);
             paneMap.setPrefHeight(2774);
             paneMap.setPrefWidth(5000);
-            edgeLines.clear();
+
 
             floor3DMapLoader(cmboFloor.getValue());
         } else {
@@ -1000,55 +806,53 @@ public void setPathfindAlgorithm(ActionEvent event) {
             mapImg.setFitWidth(5000);
             paneMap.setPrefHeight(3400);
             paneMap.setPrefWidth(5000);
-            edgeLines.clear();
+
             floor2DMapLoader(cmboFloor.getValue());
         }
 
     }
 
     public void floor2DMapLoader(String floor) {
-//		cancelFinish.setVisible(false);
-//		cancelStart.setVisible(false);
-
+        mapNodeChoice = true;
         if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
             new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
             clearPoints();
             clearEdges();
-            drawEdges( "L2", "2-D");
-            drawCircles( "L2", "2-D");
+            drawEdges("L2", "2-D");
+            drawCircles("L2", "2-D");
 
         } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
 
             new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
             clearPoints();
             clearEdges();
-            drawEdges( "L1", "2-D");
-            drawCircles( "L1", "2-D");
+            drawEdges("L1", "2-D");
+            drawCircles("L1", "2-D");
 
         } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
 
             new ProxyImage(mapImg, "01_thefirstfloor.png").display();
             clearPoints();
             clearEdges();
-            drawEdges( "1", "2-D");
-            drawCircles( "1", "2-D");
+            drawEdges("1", "2-D");
+            drawCircles("1", "2-D");
 
         } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
 
             new ProxyImage(mapImg, "02_thesecondfloor.png").display();
             clearPoints();
             clearEdges();
-            drawEdges( "2", "2-D");
-            drawCircles( "2", "2-D");
+            drawEdges("2", "2-D");
+            drawCircles("2", "2-D");
 
         } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
 
             new ProxyImage(mapImg, "03_thethirdfloor.png").display();
             clearPoints();
             clearEdges();
-            drawEdges( "3", "2-D");
-            drawCircles( "3", "2-D");
+            drawEdges("3", "2-D");
+            drawCircles("3", "2-D");
 
         }
 
@@ -1058,48 +862,138 @@ public void setPathfindAlgorithm(ActionEvent event) {
     public void floor3DMapLoader(String floor) {
 //		cancelFinish.setVisible(false);
 //		cancelStart.setVisible(false);
+        mapNodeChoice = false;
         if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
             new ProxyImage(mapImg, "L2-ICONS.png").display();
 
             clearPoints();
             clearEdges();
-            drawEdges( "L2", "3-D");
-            drawCircles( "L2", "3-D");
+            drawEdges("L2", "3-D");
+            drawCircles("L2", "3-D");
 
         } else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
             new ProxyImage(mapImg, "L1-ICONS.png").display();
 
             clearPoints();
             clearEdges();
-            drawEdges( "L1", "3-D");
-            drawCircles( "L1", "3-D");
+            drawEdges("L1", "3-D");
+            drawCircles("L1", "3-D");
 
         } else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
             new ProxyImage(mapImg, "1-ICONS.png").display();
 
             clearPoints();
             clearEdges();
-            drawEdges( "1", "3-D");
-            drawCircles( "1", "3-D");
+            drawEdges("1", "3-D");
+            drawCircles("1", "3-D");
 
         } else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
             new ProxyImage(mapImg, "2-ICONS.png").display();
             clearPoints();
             clearEdges();
-           drawEdges( "2", "3-D");
-            drawCircles( "2", "3-D");
+            drawEdges("2", "3-D");
+            drawCircles("2", "3-D");
 
         } else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
             new ProxyImage(mapImg, "3-ICONS.png").display();
 
             clearPoints();
             clearEdges();
-            drawEdges( "3", "3-D");
-            drawCircles( "3", "3-D");
+            drawEdges("3", "3-D");
+            drawCircles("3", "3-D");
 
         }
 
         currentFloor = floor;
+    }
+    //logout and return to the home screen
+    public void LogOut(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+
+            KioskInfo.currentUserID = "";
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(logout);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void accountManager(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) navBtnManageAccounts.getScene().getWindow();
+            //load up Home FXML document;
+            accountManager = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
+
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(accountManager);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadHistory(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void manageRequests(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createRequest(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            createRequest = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/CreateRequest.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(createRequest);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

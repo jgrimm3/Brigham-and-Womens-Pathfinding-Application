@@ -1,7 +1,6 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.core.KioskInfo;
-import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -38,7 +37,6 @@ public class DataModelI implements IDataModel{
 	private UserSecurity userSecurity;
 	private LogDBUtil logDBUtil;
 	private PathfinderDBUtil pathfinderDBUtil;
-	private BackupDBUtil backupDBUtil;
 
     // list of all objects
 
@@ -65,7 +63,6 @@ public class DataModelI implements IDataModel{
         userSecurity = new UserSecurity();
         logDBUtil = new LogDBUtil();
         pathfinderDBUtil = new PathfinderDBUtil();
-        backupDBUtil = new BackupDBUtil();
     }
 
     public static DataModelI getInstance(){
@@ -78,7 +75,6 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-        addLog("Started Database", LocalDateTime.now(), "N/A", "N/A", "N/A");
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -117,11 +113,11 @@ public class DataModelI implements IDataModel{
     @Override
     @Deprecated
     public List<Node> retrieveNodes() {
-        return nodesDBUtil.retrieveNodes();
+        return nodesDBUtil.getNodeList();
     }
 
     public Map<String, Node> getNodeMap(){
-        return nodesDBUtil.getNodeMap();
+        return nodesDBUtil.getNodeMap(false);
     }
 
     @Override
@@ -145,7 +141,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean removeNode(Node badNode) {
-        boolean tempBool = nodesDBUtil.removeNode(badNode);
+        boolean tempBool = nodesDBUtil.removeNode(badNode.getNodeID());
         addLog("Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
         return tempBool;
     }
@@ -238,7 +234,12 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Edge> getEdgeList() {
-        return nodesDBUtil.getEdgeList();
+        return nodesDBUtil.getEdgeList(false);
+    }
+
+    @Override
+    public Edge getEdgeByID(String edgeID) {
+        return nodesDBUtil.getEdgeByID(edgeID);
     }
 
     @Override
@@ -271,9 +272,9 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean removeMessage(Message oldMessage) {
-        boolean tempBool = messagesDBUtil.removeMessage(oldMessage);
-        addLog("Removed "+ oldMessage.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldMessage.getMessageID(),"message");
+    public boolean removeMessage(String messageID) {
+        boolean tempBool = messagesDBUtil.removeMessage(messageID);
+        addLog("Removed "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(), messageID,"message");
         return tempBool;
     }
 
@@ -291,7 +292,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Message> retrieveMessages() {
-        return messagesDBUtil.retrieveMessages();
+        return messagesDBUtil.retrieveMessages(false);
     }
 
     @Override
@@ -339,7 +340,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Request> retrieveRequests() {
-        return requestsDBUtil.retrieveRequests();
+        return requestsDBUtil.retrieveRequests(false);
     }
 
     @Override
@@ -382,7 +383,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<User> retrieveUsers() {
-        return userDBUtil.retrieveUsers();
+        return userDBUtil.retrieveUsers(false);
     }
 
     @Override
@@ -405,6 +406,8 @@ public class DataModelI implements IDataModel{
         return userDBUtil.getLanguageList(languagesConcat);
     }
 
+    //-----------------------------------------------User Password---------------------------------------------------
+
     @Override
     public String getIDByUserPassword(String userName, String password) {
         UserSecurity userSecurity = new UserSecurity();
@@ -413,7 +416,26 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<UserPassword> retrieveUserPasswords() {
-        return userSecurity.retrieveUserPasswords();
+        return userSecurity.retrieveUserPasswords(false);
+    }
+
+    @Override
+    public void addUserPassword(String userName, String password, String userID) {
+        userSecurity.addUserPassword(userName, password, userID);
+        addLog("Added username and password for UserID: "+ userID +" ",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"userpassword");
+    }
+
+
+    @Override
+    public boolean removeUserPassword(String userID) {
+        boolean tempBool = userSecurity.removeUserPassword(userID);
+        addLog("Removed username and password for UserID: "+ userID +" ",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"userpassword");
+        return tempBool;
+    }
+
+    @Override
+    public boolean doesUserPasswordExist(String userName, String password) {
+        return userSecurity.doesUserPasswordExist(userName, password);
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -453,12 +475,6 @@ public class DataModelI implements IDataModel{
         return logDBUtil.getLogsByLogTime(startTime,endTime);
     }
 
-    //------------------------------------------------------------------------------------------
-
-    @Override
-    public boolean doesUserPasswordExist(String userName, String password) {
-        return userSecurity.doesUserPasswordExist(userName, password);
-    }
 
     //----------------------------------Pathfinding Log-------------------------------------------
 
@@ -485,79 +501,6 @@ public class DataModelI implements IDataModel{
         return pathfinderDBUtil.getPathByEndNodeID(endNodeID);
     }
 
-
-    //----------------------------------------Backup--------------------------------------------
-
-    @Override
-    public Node addNodeToBackup(String nodeID) {
-        return nodesDBUtil.addNodeToBackup(nodeID);
-    }
-
-    @Override
-    public Message addMessageToBackup(String messageID) {
-        return null;
-    }
-
-    @Override
-    public Request addRequestToBackup(String requestID) {
-        return null;
-    }
-
-    @Override
-    public User addUserToBackup(String userID) {
-        return null;
-    }
-
-    @Override
-    public UserPassword addUserPasswordToBackup(String userID) {
-        return null;
-    }
-
-    @Override
-    public boolean removeNodeFromBackup(String nodeID) {
-        return false;
-    }
-
-    @Override
-    public boolean removeMessageFromBackup(String messageID) {
-        return false;
-    }
-
-    @Override
-    public boolean removeRequestFromBackup(String requestID) {
-        return false;
-    }
-
-    @Override
-    public boolean removeUserFromBackup(String userID) {
-        return false;
-    }
-
-    @Override
-    public boolean removeUserPasswordFromBackup(String userID) {
-        return false;
-    }
-
-    @Override
-    public List<BackupEntity> retrieveBackups() {
-        return backupDBUtil.retrieveBackups();
-    }
-
-    @Override
-    public boolean revertFromBackupByIDType(String logID, String associatedType) {
-        return backupDBUtil.revertFromBackupByID(logID, associatedType);
-    }
-
-    @Override
-    public void addBackup(String logID, String associatedID, String associatedType) {
-        backupDBUtil.addBackup(logID, associatedID, associatedType);
-    }
-
-    @Override
-    public void permanentlyRemoveBackup(String logID, String associatedID, String associatedType) {
-        backupDBUtil.permanentlyRemoveBackup(logID, associatedID, associatedType);
-    }
-
     @Override
     public Timestamp convertStringToTimestamp(String timeString) {
         return tableInitializer.convertStringToTimestamp(timeString);
@@ -566,6 +509,72 @@ public class DataModelI implements IDataModel{
     @Override
     public Date convertStringToDate(String timeString) {
         return tableInitializer.convertStringToDate(timeString);
+    }
+
+
+
+    //----------------------------------------Backup--------------------------------------------
+
+    @Override
+    public boolean permanentlyRemoveNode(Node badNode) {
+        boolean tempBool = nodesDBUtil.permanentlyRemoveNode(badNode);
+        addLog("Permanently Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
+        return tempBool;
+    }
+
+    @Override
+    public boolean permanentlyRemoveEdge(Node startNode, Node endNode) {
+        return nodesDBUtil.permanentlyRemoveEdge(startNode, endNode);
+    }
+
+    @Override
+    public boolean permanentlyRemoveMessage(String messageID) {
+        return messagesDBUtil.permanentlyRemoveMessage(messageID);
+    }
+
+    @Override
+    public boolean permanentlyRemoveRequest(Request oldRequest) {
+        return requestsDBUtil.permanentlyRemoveRequest(oldRequest);
+    }
+
+    @Override
+    public boolean permanentlyRemoveUser(User oldUser) {
+        return userDBUtil.permanentlyRemoveUser(oldUser);
+    }
+
+    @Override
+    public boolean permanentlyRemoveUserPassword(String userID) {
+        return userSecurity.permanentlyRemoveUserPassword(userID);
+    }
+
+    @Override
+    public boolean restoreNode(String nodeID) {
+        return nodesDBUtil.restoreNode(nodeID);
+    }
+
+    @Override
+    public boolean restoreEdge(String startNodeID, String endNodeID) {
+        return nodesDBUtil.restoreEdge(startNodeID, endNodeID);
+    }
+
+    @Override
+    public boolean restoreMessage(String messageID) {
+        return messagesDBUtil.restoreMessage(messageID);
+    }
+
+    @Override
+    public boolean restoreRequest(String requestID) {
+        return requestsDBUtil.restoreRequest(requestID);
+    }
+
+    @Override
+    public boolean restoreUser(String userID) {
+        return userDBUtil.restoreUser(userID);
+    }
+
+    @Override
+    public boolean restoreUserPassword(String userID) {
+        return userSecurity.restoreUserPassword(userID);
     }
 
     //--------------------------------------CSV stuffs------------------------------------------

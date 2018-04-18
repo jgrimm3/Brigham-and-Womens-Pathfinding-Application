@@ -3,6 +3,7 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.users.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +14,11 @@ public class UserDBUtil {
 
     public static void setUserIDCounter(int userIDCounter) {
         UserDBUtil.userIDCounter = userIDCounter;
+    }
+
+    private String generateUserID(){
+        userIDCounter++;
+        return Integer.toString(userIDCounter);
     }
 
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
@@ -45,13 +51,56 @@ public class UserDBUtil {
             DataModelI.getInstance().closeConnection();
         }
         //-----------------Adding username and password later-------------------
-        UserSecurity userSecurity = new UserSecurity();
-        userSecurity.addUserPassword(userName, password, userID);
+        DataModelI.getInstance().addUserPassword(userName, password, userID);
 
         return userObject;
     }
 
     boolean removeUser(User oldUser){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ oldUser.getUserID() +"'" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("User removed from database");
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean restoreUser(String userID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE UserAccount SET deleteTime = NULL WHERE userID = ?" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, userID);
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("User added to database");
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean permanentlyRemoveUser(User oldUser){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -65,6 +114,8 @@ public class UserDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
+        DataModelI.getInstance().removeUserPassword(oldUser.getUserID());
+
         return isSuccess;
     }
 
@@ -98,8 +149,9 @@ public class UserDBUtil {
     /**
      *
      *  get data from UserAccount table in database and put them into the list of request objects
+     * @param allEntriesExist
      */
-    public List<User> retrieveUsers() {
+    public List<User> retrieveUsers(boolean allEntriesExist) {
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -112,11 +164,18 @@ public class UserDBUtil {
         List<String> languages;
         String languagesConcat;
         String userType;
+        LocalDateTime deleteTime = null;
         List<User> listOfUsers = new ArrayList<>();
 
         try {
             Statement stmt = connection.createStatement();
-            String str = "SELECT * FROM UserAccount";
+            String str;
+            if(allEntriesExist){
+                str = "SELECT * FROM UserAccount";
+            }
+            else{
+                str = "SELECT * FROM UserAccount WHERE deleteTime IS NULL";
+            }
             ResultSet rset = stmt.executeQuery(str);
 
             while (rset.next()) {
@@ -126,11 +185,17 @@ public class UserDBUtil {
                 lastName = rset.getString("lastName");
                 languagesConcat = rset.getString("language");
                 userType = rset.getString("userType");
+                if(rset.getTimestamp("deleteTime") != null) {
+                    deleteTime = rset.getTimestamp("deleteTime").toLocalDateTime();
+                }else{
+                    deleteTime = null;
+                }
 
                 languages = getLanguageList(languagesConcat);
 
                 // Add the new edge to the list
                 userObject = userBuilder(userID, firstName, middleName, lastName, languages, userType);
+                userObject.setDeleteTime(deleteTime);
                 listOfUsers.add(userObject);
                 System.out.println("User added to the list: " + userID);
             }
@@ -283,10 +348,5 @@ public class UserDBUtil {
                 break;
         }
         return userObject;
-    }
-
-    private String generateUserID(){
-        userIDCounter++;
-        return Integer.toString(userIDCounter);
     }
 }

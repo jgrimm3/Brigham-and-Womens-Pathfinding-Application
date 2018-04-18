@@ -18,6 +18,7 @@ public abstract class Request implements IRequest {
     String nodeID;
     String messageID;
     String password;
+    private LocalDateTime deleteTime;
 
     public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String password, String nodeID, String messageID) {
         this.requestID = requestID;
@@ -108,19 +109,24 @@ public abstract class Request implements IRequest {
         this.endTime = endTime;
     }
 
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
         return priority == request.priority &&
-                Objects.equals(dataModelI, request.dataModelI) &&
                 Objects.equals(requestID, request.requestID) &&
                 Objects.equals(requestType, request.requestType) &&
                 Objects.equals(isComplete, request.isComplete) &&
                 Objects.equals(adminConfirm, request.adminConfirm) &&
-                Objects.equals(startTime, request.startTime) &&
-                Objects.equals(endTime, request.endTime) &&
                 Objects.equals(nodeID, request.nodeID) &&
                 Objects.equals(messageID, request.messageID) &&
                 Objects.equals(password, request.password);
@@ -129,6 +135,6 @@ public abstract class Request implements IRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(dataModelI, requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
+        return Objects.hash(requestID, requestType, priority, isComplete, adminConfirm, nodeID, messageID, password);
     }
 }

@@ -5,6 +5,8 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +29,22 @@ class RequestsDBUtil {
         RequestsDBUtil.requestIDCounter = requestIDCounter;
     }
 
+    public String generateRequestID(){
+        requestIDCounter++;
+        return Integer.toString(requestIDCounter);
+    }
+
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
 	Request addRequest(Request requestObject, Message message){
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        Message mObject= messagesDBUtil.addMessage(message);
+        Message mObject= DataModelI.getInstance().addMessage(message);
+        requestObject.setMessageID(mObject.getMessageID());
+        if(mObject == null){
+            System.out.println("Critical Error in adding message in AddRequest function");
+            return null;
+        }
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -48,7 +59,7 @@ class RequestsDBUtil {
             statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
             statement.setTimestamp(7, Timestamp.valueOf(requestObject.getEndTime()));
             statement.setString(8, requestObject.getNodeID());
-            statement.setString(9, mObject.getMessageID());
+            statement.setString(9, requestObject.getMessageID());
             statement.setString(10, requestObject.getRequestType());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
@@ -63,7 +74,51 @@ class RequestsDBUtil {
         return requestObject;
     }
 
-    boolean removeRequest(Request request) {
+    boolean removeRequest(Request request){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ request.getRequestID()+ "'";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Request already in the database");
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean restoreRequest(String requestID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Request SET deleteTime = NULL WHERE requestID = ?";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, requestID);
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Request already in the database");
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean permanentlyRemoveRequest(Request request) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
         try {
@@ -77,6 +132,8 @@ class RequestsDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
+        DataModelI.getInstance().removeMessage(request.getMessageID());
+
         return isSucessful;
     }
 
@@ -108,11 +165,6 @@ class RequestsDBUtil {
             DataModelI.getInstance().closeConnection();
         }
         return isSuccess;
-    }
-
-    public String generateRequestID(){
-        requestIDCounter++;
-        return Integer.toString(requestIDCounter);
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
@@ -153,7 +205,7 @@ class RequestsDBUtil {
     /**
      *  get data from request table in database and put them into the list of request objects
      */
-    List<Request> retrieveRequests() {
+    List<Request> retrieveRequests(boolean allEntriesExist) {
             // Connection
             Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -170,10 +222,17 @@ class RequestsDBUtil {
             String nodeID;
             String messageID;
             String password;
+            LocalDateTime   deleteTime = null;
             List<Request> listOfRequest = new ArrayList<>();
             try {
                 Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Request";
+                String str;
+                if(allEntriesExist) {
+                    str = "SELECT * FROM Request";
+                }
+                else{
+                    str = "SELECT * FROM Request WHERE deleteTime IS NULL";
+                }
                 ResultSet rset = stmt.executeQuery(str);
 
                 while (rset.next()) {
@@ -187,9 +246,14 @@ class RequestsDBUtil {
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
+                    if(rset.getTimestamp("deleteTime") != null) {
+                        deleteTime = rset.getTimestamp("deleteTime").toLocalDateTime();
+                    } else{
+                        deleteTime = null;
+                    }
                     // Add the new edge to the list
                     requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(),nodeID, messageID, password);
-
+                    requestObject.setDeleteTime(deleteTime);
 
                     listOfRequest.add(requestObject);
                 }
@@ -262,7 +326,7 @@ class RequestsDBUtil {
      */
     List<Request> searchRequestsByReceiver(String receiverID){
         List<Request> selectedRequests = new ArrayList<>();
-        List<Request> listOfRequests = retrieveRequests();
+        List<Request> listOfRequests = retrieveRequests(false);
         List<Message> listOfMessages = DataModelI.getInstance().getMessageByReceiver(receiverID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){
@@ -282,7 +346,7 @@ class RequestsDBUtil {
      */
     List<Request> searchRequestsBySender(String senderID){
         List<Request> selectedRequests = new ArrayList<>();
-        List<Request> listOfRequests = retrieveRequests();
+        List<Request> listOfRequests = retrieveRequests(false);
         List<Message> listOfMessages = DataModelI.getInstance().getMessageBySender(senderID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){
