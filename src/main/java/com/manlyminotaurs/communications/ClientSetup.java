@@ -1,6 +1,5 @@
 package com.manlyminotaurs.communications;
 
-import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
