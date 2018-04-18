@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -154,5 +156,7 @@
             <Font size="74.0" />
          </font>
       </Label>
+      <Button fx:id="btnReset" layoutY="28.0" mnemonicParsing="false" onAction="#resetSyaytem" text="Reset" />
+      <TextField fx:id="txtPswd" layoutX="-3.0" layoutY="4.0" />
    </children>
 </AnchorPane>
