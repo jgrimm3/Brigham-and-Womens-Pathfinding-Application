@@ -121,6 +121,7 @@ public class NodesDBUtilTest {
 		DataModelI.getInstance().updateAllCSVFiles();
 	}
 
+
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
 		Node node = DataModelI.getInstance().getNodeByID("GCONF02001");
@@ -244,7 +245,7 @@ public class NodesDBUtilTest {
 	@Test
 	public void getNamesByBuildingFloorType_returnsCorrectList(){
 		List<String> nameList = DataModelI.getInstance().getNamesByBuildingFloorType("Shapiro","L1","");
-		assertTrue(nameList.contains("L1 Stairs"));
+		assertTrue(nameList.contains("Fenwood Road Exit Node 1 Floor L1"));
 
 		List<String> nameList2 = DataModelI.getInstance().getNamesByBuildingFloorType(null,null,"BATH");
 		assertFalse(nameList2.contains("L1 Stairs"));

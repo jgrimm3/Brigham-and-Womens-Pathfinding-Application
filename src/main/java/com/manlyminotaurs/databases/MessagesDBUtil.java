@@ -82,6 +82,28 @@ class MessagesDBUtil {
         return isSuccess;
     }
 
+    public boolean restoreMessage(String messageID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Message SET deleteTime = NULL WHERE messageID = ?" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, messageID);
+            statement.executeUpdate();
+            System.out.println("Message added to database");
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
     public boolean permanentlyRemoveMessage(String messageID){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -215,8 +237,9 @@ class MessagesDBUtil {
 
     /**
      * Creates a list of objects and stores them in the global variable dataModelI.getMessageList()
+     *
      */
-    public List<Message> retrieveMessages() {
+    public List<Message> retrieveMessages(boolean allEntriesExist) {
             // Connection
             Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -228,10 +251,17 @@ class MessagesDBUtil {
             String senderID;
             String receiverID;
             List<Message> listOfMessages = new ArrayList<>();
+            LocalDateTime deleteTime = null;
 
             try {
                 Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Message WHERE deleteTime IS NULL";
+                String str;
+                if(allEntriesExist) {
+                    str = "SELECT * FROM Message";
+                }
+                else{
+                    str = "SELECT * FROM Message WHERE deleteTime IS NULL";
+                }
                 ResultSet rset = stmt.executeQuery(str);
 
                 while (rset.next()) {
@@ -241,9 +271,15 @@ class MessagesDBUtil {
                     Date sentDate = rset.getDate("sentDate");
                     senderID =rset.getString("senderID");
                     receiverID = rset.getString("receiverID");
+                    if(rset.getTimestamp("deleteTime") != null) {
+                        deleteTime = rset.getTimestamp("deleteTime").toLocalDateTime();
+                    } else{
+                        deleteTime = null;
+                    }
 
                     // Add the new edge to the list
                     messageObject = new Message(messageID,message,isRead, sentDate.toLocalDate(), receiverID, senderID);
+                    messageObject.setDeleteTime(deleteTime);
                     listOfMessages.add(messageObject);
                     System.out.println("Message added to the list: "+messageID);
                 }

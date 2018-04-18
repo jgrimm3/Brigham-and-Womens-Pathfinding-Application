@@ -1,7 +1,6 @@
 package com.manlyminotaurs.databases;
 
 import com.manlyminotaurs.core.KioskInfo;
-import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -119,7 +118,7 @@ public class DataModelI implements IDataModel{
     }
 
     public Map<String, Node> getNodeMap(){
-        return nodesDBUtil.getNodeMap();
+        return nodesDBUtil.getNodeMap(false);
     }
 
     @Override
@@ -236,7 +235,12 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Edge> getEdgeList() {
-        return nodesDBUtil.getEdgeList();
+        return nodesDBUtil.getEdgeList(false);
+    }
+
+    @Override
+    public Edge getEdgeByID(String edgeID) {
+        return nodesDBUtil.getEdgeByID(edgeID);
     }
 
     @Override
@@ -289,7 +293,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Message> retrieveMessages() {
-        return messagesDBUtil.retrieveMessages();
+        return messagesDBUtil.retrieveMessages(false);
     }
 
     @Override
@@ -337,7 +341,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<Request> retrieveRequests() {
-        return requestsDBUtil.retrieveRequests();
+        return requestsDBUtil.retrieveRequests(false);
     }
 
     @Override
@@ -380,7 +384,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<User> retrieveUsers() {
-        return userDBUtil.retrieveUsers();
+        return userDBUtil.retrieveUsers(false);
     }
 
     @Override
@@ -413,7 +417,7 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<UserPassword> retrieveUserPasswords() {
-        return userSecurity.retrieveUserPasswords();
+        return userSecurity.retrieveUserPasswords(false);
     }
 
     @Override
@@ -540,6 +544,36 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean permanentlyRemoveUserPassword(String userID) {
         return userSecurity.permanentlyRemoveUserPassword(userID);
+    }
+
+    @Override
+    public boolean RestoreNode(String nodeID) {
+        return nodesDBUtil.restoreNode(nodeID);
+    }
+
+    @Override
+    public boolean RestoreEdge(String startNodeID, String endNodeID) {
+        return nodesDBUtil.restoreEdge(startNodeID, endNodeID);
+    }
+
+    @Override
+    public boolean restoreMessage(String messageID) {
+        return messagesDBUtil.restoreMessage(messageID);
+    }
+
+    @Override
+    public boolean restoreRequest(String requestID) {
+        return requestsDBUtil.restoreRequest(requestID);
+    }
+
+    @Override
+    public boolean restoreUser(String userID) {
+        return userDBUtil.restoreUser(userID);
+    }
+
+    @Override
+    public boolean restoreUserPassword(String userID) {
+        return userSecurity.restoreUserPassword(userID);
     }
 
     //--------------------------------------CSV stuffs------------------------------------------

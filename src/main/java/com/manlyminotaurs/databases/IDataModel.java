@@ -65,6 +65,7 @@ public interface IDataModel {
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
     List<String> getAdjacentNodes(Node node);
     List<Edge> getEdgeList();
+    Edge getEdgeByID(String edgeID);
     Edge addEdge(Node startNode, Node endNode);
     void removeEdge(Node startNode, Node endNode);
     void modifyEdge(Node startNode, Node endNode, int status);
@@ -145,4 +146,11 @@ public interface IDataModel {
     boolean permanentlyRemoveRequest(Request oldRequest);
     boolean permanentlyRemoveUser(User oldUser);
     boolean permanentlyRemoveUserPassword(String userID);
+
+    boolean RestoreNode(String nodeID);
+    boolean RestoreEdge(String startNodeID, String endNodeID);
+    boolean restoreMessage(String messageID);
+    boolean restoreRequest(String requestID);
+    boolean restoreUser(String userID);
+    boolean restoreUserPassword(String userID);
 }

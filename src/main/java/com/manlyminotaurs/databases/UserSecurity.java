@@ -72,6 +72,25 @@ public class UserSecurity {
         return true;
     }
 
+    boolean restoreUserPassword(String userID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        try {
+            String str = "UPDATE UserPassword SET deleteTime = NULL WHERE userID = ?";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, userID);
+            statement.executeUpdate();
+            System.out.println("UserPassowrd restored to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return true;
+    }
+
     boolean permanentlyRemoveUserPassword(String userID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -140,7 +159,7 @@ public class UserSecurity {
         return false;
     }
 
-    List<UserPassword> retrieveUserPasswords(){
+    List<UserPassword> retrieveUserPasswords(boolean allEntriesExist){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -148,20 +167,33 @@ public class UserSecurity {
         String userName;
         String password;
         String userID;
+        LocalDateTime deleteTime = null;
         List<UserPassword> listOfUserPassword= new ArrayList<>();
 
         try {
             Statement stmt = connection.createStatement();
-            String str = "SELECT * FROM USERPASSWORD WHERE deleteTime IS NULL";
+            String str;
+            if(allEntriesExist){
+                str = "SELECT * FROM USERPASSWORD";
+            }
+            else{
+                str = "SELECT * FROM USERPASSWORD WHERE deleteTime IS NULL";
+            }
             ResultSet rset = stmt.executeQuery(str);
 
             while (rset.next()) {
                 userName = rset.getString("userName");
                 password = rset.getString("password");
                 userID = rset.getString("userID");
+                if(rset.getTimestamp("deleteTime") != null) {
+                    deleteTime = rset.getTimestamp("deleteTime").toLocalDateTime();
+                } else{
+                    deleteTime = null;
+                }
 
                 // Add the new edge to the list
                 UserPassword userPassword = new UserPassword(userName,password,userID);
+                userPassword.setDeleteTime(deleteTime);
                 listOfUserPassword.add(userPassword);
             }
             rset.close();

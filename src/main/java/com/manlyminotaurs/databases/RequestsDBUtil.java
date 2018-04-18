@@ -5,6 +5,7 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,28 @@ class RequestsDBUtil {
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
             statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Request already in the database");
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean restoreRequest(String requestID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Request SET deleteTime = NULL WHERE requestID = ?";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, requestID);
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
             statement.close();
@@ -181,7 +204,7 @@ class RequestsDBUtil {
     /**
      *  get data from request table in database and put them into the list of request objects
      */
-    List<Request> retrieveRequests() {
+    List<Request> retrieveRequests(boolean allEntriesExist) {
             // Connection
             Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -198,10 +221,17 @@ class RequestsDBUtil {
             String nodeID;
             String messageID;
             String password;
+            LocalDateTime   deleteTime = null;
             List<Request> listOfRequest = new ArrayList<>();
             try {
                 Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Request WHERE deleteTime IS NULL";
+                String str;
+                if(allEntriesExist) {
+                    str = "SELECT * FROM Request";
+                }
+                else{
+                    str = "SELECT * FROM Request WHERE deleteTime IS NULL";
+                }
                 ResultSet rset = stmt.executeQuery(str);
 
                 while (rset.next()) {
@@ -215,9 +245,14 @@ class RequestsDBUtil {
                     nodeID = rset.getString("nodeID");
                     messageID = rset.getString("messageID");
                     password = rset.getString("password");
+                    if(rset.getTimestamp("deleteTime") != null) {
+                        deleteTime = rset.getTimestamp("deleteTime").toLocalDateTime();
+                    } else{
+                        deleteTime = null;
+                    }
                     // Add the new edge to the list
                     requestObject = rFactory.genExistingRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime.toLocalDateTime(), endTime.toLocalDateTime(),nodeID, messageID, password);
-
+                    requestObject.setDeleteTime(deleteTime);
 
                     listOfRequest.add(requestObject);
                 }
@@ -290,7 +325,7 @@ class RequestsDBUtil {
      */
     List<Request> searchRequestsByReceiver(String receiverID){
         List<Request> selectedRequests = new ArrayList<>();
-        List<Request> listOfRequests = retrieveRequests();
+        List<Request> listOfRequests = retrieveRequests(false);
         List<Message> listOfMessages = DataModelI.getInstance().getMessageByReceiver(receiverID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){
@@ -310,7 +345,7 @@ class RequestsDBUtil {
      */
     List<Request> searchRequestsBySender(String senderID){
         List<Request> selectedRequests = new ArrayList<>();
-        List<Request> listOfRequests = retrieveRequests();
+        List<Request> listOfRequests = retrieveRequests(false);
         List<Message> listOfMessages = DataModelI.getInstance().getMessageBySender(senderID);
         for(Request a_request: listOfRequests){
             for(Message a_message: listOfMessages){

@@ -62,7 +62,7 @@ class TableInitializer {
         PathfinderDBUtil.setPathFinderIDCounter(initializer.populatePathfindTable("./PathfinderTable.csv"));
         initializer.populateStaffTable("./StaffTable.csv");
         initializer.populateUserPasswordTable("./UserPasswordTable.csv");
-        nodesDBUtil.updateNodeMap();
+        nodesDBUtil.updateNodeMap(false);
 
         System.out.println("-----------------------------");
         System.out.println("-----------------------------");

@@ -93,7 +93,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateNodeCSVFile(String csvFileName) {
-        Iterator iterator = DataModelI.getInstance().getNodeMap().entrySet().iterator();
+        Iterator iterator = new NodesDBUtil().getNodeMap(true).entrySet().iterator();
         System.out.println("Updating node csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -130,7 +130,7 @@ public class CsvFileController {
             e.printStackTrace();
         }
 
-        Iterator<Edge> iterator = DataModelI.getInstance().getEdgeList().iterator();
+        Iterator<Edge> iterator = new NodesDBUtil().getEdgeList(true).iterator();
         System.out.println("Updating edge csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -189,7 +189,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateMessageCSVFile(String csvFileName) {
-        Iterator<Message> iterator = DataModelI.getInstance().retrieveMessages().iterator();
+        Iterator<Message> iterator = new MessagesDBUtil().retrieveMessages(true).iterator();
         System.out.println("Updating message csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -219,7 +219,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateRequestCSVFile(String csvFileName) {
-        Iterator<Request> iterator = DataModelI.getInstance().retrieveRequests().iterator();
+        Iterator<Request> iterator = new RequestsDBUtil().retrieveRequests(true).iterator();
         System.out.println("Updating request csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -249,7 +249,7 @@ public class CsvFileController {
      * @param csvFileName the csv file to be updated
      */
     private void updateUserCSVFile(String csvFileName) {
-        Iterator<User> iterator = DataModelI.getInstance().retrieveUsers().iterator();
+        Iterator<User> iterator = new UserDBUtil().retrieveUsers(true).iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
@@ -297,7 +297,7 @@ public class CsvFileController {
     }//updateStaffCSVFile ends
 
     private void updateUserPasswordFile(String csvFileName) {
-        Iterator<UserPassword> iterator = DataModelI.getInstance().retrieveUserPasswords().iterator();
+        Iterator<UserPassword> iterator = new UserSecurity().retrieveUserPasswords(true).iterator();
         System.out.println("Updating user csv file...");
         try {
             FileWriter fileWriter = new FileWriter(csvFileName);
