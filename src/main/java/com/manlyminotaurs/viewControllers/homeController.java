@@ -2,6 +2,8 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.jfoenix.controls.*;
+import com.manlyminotaurs.communications.SendEmail;
+import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
@@ -103,7 +105,7 @@ public class homeController implements Initializable {
 	final static ObservableList<String> buildings = FXCollections.observableArrayList("None","45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
 	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
 	final static ObservableList<String> types = FXCollections.observableArrayList("None","Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
-
+	ObservableList<String> directions;
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
 
@@ -1070,16 +1072,26 @@ public class homeController implements Initializable {
 		txtUsername.setDisable(false);
 	}
 
-	public void sendDirectionsViaEmail(ActionEvent event) {
+	private String turnListToString(){
+		String out = "";
+		for(String CurrInstruction : directions){ out += CurrInstruction + '\n';}
+		return out;
+	}
 
+	public void sendDirectionsViaEmail(ActionEvent event) {
+		lblEmailMessage.setText("");
+		SendEmail email = new SendEmail(txtEmail.getText(), "B&W Turn-By-Turn Directions", turnListToString());
+		email.send();
+		lblEmailMessage.setText("Email Sent");
+		txtEmail.setText("");
 	}
 
 	public void sendDirectionsViaPhone(ActionEvent event) {
-
-	}
-
-	public void sendDirectionsViaFax(ActionEvent event) {
-
+		lblPhoneMessage.setText("");
+		SendTxt txt = new SendTxt();
+		txt.send(txtPhone.getText(), turnListToString());
+		lblPhoneMessage.setText("Email Sent");
+		txtPhone.setText("");
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -1166,7 +1178,7 @@ public class homeController implements Initializable {
 		// Set new overview panel to correct parameters
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
         // calcDistance function now converts to feet
 		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
 		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
@@ -1816,7 +1828,7 @@ public class homeController implements Initializable {
 				e.printStackTrace();
 			}
 
-            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+            directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
 			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
