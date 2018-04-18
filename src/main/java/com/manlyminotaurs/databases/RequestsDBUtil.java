@@ -5,6 +5,7 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,11 @@ class RequestsDBUtil {
 	Request addRequest(Request requestObject, Message message){
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
-        MessagesDBUtil messagesDBUtil = new MessagesDBUtil();
-        Message mObject= messagesDBUtil.addMessage(message);
+        Message mObject= DataModelI.getInstance().addMessage(message);
+        if(mObject == null){
+            System.out.println("Critical Error in adding message in AddRequest function");
+            return null;
+        }
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -63,7 +67,29 @@ class RequestsDBUtil {
         return requestObject;
     }
 
-    boolean removeRequest(Request request) {
+    boolean removeRequest(Request request){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ request.getRequestID()+ "'";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Request already in the database");
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean permanentlyRemoveRequest(Request request) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
         try {
@@ -77,6 +103,8 @@ class RequestsDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
+        DataModelI.getInstance().removeMessage(request.getMessageID());
+
         return isSucessful;
     }
 
@@ -173,7 +201,7 @@ class RequestsDBUtil {
             List<Request> listOfRequest = new ArrayList<>();
             try {
                 Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Request";
+                String str = "SELECT * FROM Request WHERE deleteTime IS NULL";
                 ResultSet rset = stmt.executeQuery(str);
 
                 while (rset.next()) {

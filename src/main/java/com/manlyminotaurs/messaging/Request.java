@@ -18,6 +18,7 @@ public abstract class Request implements IRequest {
     String nodeID;
     String messageID;
     String password;
+    private LocalDateTime deleteTime;
 
     public Request(String requestID, String requestType, int priority, Boolean isComplete, Boolean adminConfirm, LocalDateTime startTime, LocalDateTime endTime, String password, String nodeID, String messageID) {
         this.requestID = requestID;
@@ -106,6 +107,14 @@ public abstract class Request implements IRequest {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     @Override

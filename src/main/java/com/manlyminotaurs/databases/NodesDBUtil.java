@@ -3,6 +3,8 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.nodes.*;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 //   __   __          ___          ___
@@ -140,7 +142,7 @@ class NodesDBUtil {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
-			String str = "SELECT * FROM MAP_NODES";
+			String str = "SELECT * FROM MAP_NODES WHERE deleteTime IS NULL";
 			stmt = connection.prepareStatement(str);
 			ResultSet rset = stmt.executeQuery();
 
@@ -371,12 +373,42 @@ class NodesDBUtil {
 		}
 	}
 
+	boolean removeNode(String nodeID){
+		boolean isSucessful = false;
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		PreparedStatement statement = null;
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			connection = DataModelI.getInstance().getNewConnection();
+			String str = "UPDATE map_nodes SET deleteTime = ? WHERE nodeID = ?";
+
+			// Create the prepared statement
+			statement = connection.prepareStatement(str);
+			statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+			statement.setString(2, nodeID);
+			statement.executeUpdate();
+			isSucessful = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Node marked deleted");
+			try {
+				statement.close();
+				closeConnection(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return isSucessful;
+		}
+	}
+
 
 	/**
 	 * Removes a node from the list of objects as well as the database
 	 * @param node
 	 */
-	boolean removeNode(Node node) {
+	boolean permanentlyRemoveNode(Node node) {
 		boolean isSucessful = false;
 		nodes.remove(node);
 		// Remove from the database
@@ -489,7 +521,7 @@ class NodesDBUtil {
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			stmt = connection.createStatement();
-			String str = "SELECT * FROM MAP_EDGES";
+			String str = "SELECT * FROM MAP_EDGES WHERE deleteTime IS NULL";
 			ResultSet rset = stmt.executeQuery(str);
 
 			while(rset.next()) {
@@ -519,11 +551,38 @@ class NodesDBUtil {
 	}
 
 	/**
+	 * temporarily remove Edge by marking it
+	 * @param startNode
+	 * @param endNode
+	 */
+	void removeEdge(Node startNode, Node endNode){
+		Connection connection = DataModelI.getInstance().getNewConnection();
+		try {
+			// Connect to the database
+			System.out.println("Getting connection to database...");
+			String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+			String str = "UPDATE MAP_EDGES SET deleteTime = ? WHERE edgeID = '"+ edgeID + "'";
+
+			// Create the prepared statement
+			PreparedStatement statement = connection.prepareStatement(str);
+			statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Node already in the database");
+		} finally {
+			System.out.println("Node modified");
+			DataModelI.getInstance().closeConnection();
+		}
+	}
+
+	/**
 	 * Removes the connection between nodes
 	 * @param startNode start node
 	 * @param endNode   end node
 	 */
-	void removeEdge(Node startNode, Node endNode) {
+	boolean permanentlyRemoveEdge(Node startNode, Node endNode) {
 		// Find the node to remove from the edgeList
 		nodeMap.get(startNode.getNodeID()).getAdjacentNodes().remove(endNode);
 		nodeMap.get(endNode.getNodeID()).getAdjacentNodes().remove(startNode);
@@ -539,6 +598,7 @@ class NodesDBUtil {
 		} finally {
 			closeConnection(connection);
 		}
+		return true;
 	} // removeEdge
 
 	void modifyEdge(Node startNode, Node endNode, int status){

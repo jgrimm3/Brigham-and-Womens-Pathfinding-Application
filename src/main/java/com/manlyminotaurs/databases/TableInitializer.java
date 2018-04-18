@@ -127,7 +127,7 @@ class TableInitializer {
                     team_assigned = node_row[8];
                     xCoord3D = node_row[9];
                     yCoord3D = node_row[10];
-                  //  System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned + " " + xCoord3D + " " + yCoord3D);
+                    //  System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned + " " + xCoord3D + " " + yCoord3D);
 
                     // Add to the database table
                     String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status,xCoord3D,yCoord3d) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -157,7 +157,7 @@ class TableInitializer {
                 //insert rows
                 while (iterator2.hasNext()) {
                     String[] node_row = iterator2.next();
-                   // System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
+                    // System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
                     String str = "INSERT INTO map_edges(edgeID, startNodeID, endNodeID, status) VALUES (?,?,?,?)";
                     PreparedStatement statement = connection.prepareStatement(str);
@@ -226,7 +226,7 @@ class TableInitializer {
                 status = node_row[9];
                 xCoord3D = node_row[10];
                 yCoord3D = node_row[11];
-        //        System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned + " " + xCoord3D + " " + yCoord3D);
+                //        System.out.println("row is: " + node_id + " " + xcoord + " " + ycoord + " " + floor + " " + building + " " + nodeType + " " + long_name + " " + short_name + " " + team_assigned + " " + xCoord3D + " " + yCoord3D);
 
                 // Add to the database table
                 String str = "INSERT INTO map_nodes(nodeID,xCoord,yCoord,floor,building,nodeType,longName,shortName,status,xCoord3D,yCoord3d) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -251,7 +251,7 @@ class TableInitializer {
             //insert rows
             while (iterator2.hasNext()) {
                 String[] node_row = iterator2.next();
-        //        System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
+                //        System.out.println("row is: " + node_row[0] + " " + node_row[1] + " " + node_row[2]);
 
                 String str = "INSERT INTO map_edges(edgeID, startNodeID, endNodeID,status) VALUES (?,?,?,?)";
                 PreparedStatement statement = connection.prepareStatement(str);

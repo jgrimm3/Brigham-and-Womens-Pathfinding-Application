@@ -9,13 +9,15 @@ CREATE TABLE Map_Nodes (
   shortName          VARCHAR(255),
   status             INTEGER,
   xCoord3D            INTEGER,
-  yCoord3D           INTEGER);
+  yCoord3D           INTEGER,
+  deleteTime          TIMESTAMP);
 
 CREATE TABLE Map_Edges (
   edgeID              VARCHAR(255) PRIMARY KEY,
   startNodeID           VARCHAR(10),
   endNodeID             VARCHAR(10),
   status              INTEGER,
+  deleteTime          TIMESTAMP,
   CONSTRAINT fk_startNode FOREIGN KEY (startNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT fk_endNode FOREIGN KEY (endNodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE,
   CONSTRAINT unique_edge UNIQUE (startNodeID,endNodeID));
@@ -27,6 +29,7 @@ Create Table Room (
   popularity     INT,
   isOpen         BOOLEAN,
   nodeID         VARCHAR(10) UNIQUE,
+  deleteTime     TIMESTAMP,
   CONSTRAINT fk_nodeID1 FOREIGN KEY (nodeID) REFERENCES map_nodes(nodeID) ON DELETE CASCADE);
 
 Create Table UserAccount (
@@ -35,12 +38,14 @@ Create Table UserAccount (
   middleName    VARCHAR(255),
   lastName      VARCHAR(255),
   language      VARCHAR(255),
-  userType      VARCHAR(255));
+  userType      VARCHAR(255),
+  deleteTime    TIMESTAMP);
 
 CREATE TABLE UserPassword (
   userName    VARCHAR(15) UNIQUE,
   password    VARCHAR(15),
   userID      VARCHAR(10) UNIQUE,
+  deleteTime  TIMESTAMP DEFAULT NULL,
   CONSTRAINT fk_password_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 CREATE TABLE Staff (
@@ -48,6 +53,7 @@ CREATE TABLE Staff (
   isAvailable         BOOLEAN,
   languageSpoken      VARCHAR(255),
   userID              VARCHAR(10) UNIQUE,
+  deleteTime          TIMESTAMP,
   CONSTRAINT fk_staff_userID FOREIGN KEY (userID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
 
@@ -65,6 +71,7 @@ Create Table Message (
   sentDate      DATE,
   senderID      VARCHAR(10),
   receiverID    VARCHAR(10),
+  deleteTime    TIMESTAMP,
   CONSTRAINT fk_message_senderID FOREIGN KEY (senderID) REFERENCES UserAccount(userID) ON DELETE CASCADE,
   CONSTRAINT fk_message_receiverID FOREIGN KEY (receiverID) REFERENCES UserAccount(userID) ON DELETE CASCADE);
 
@@ -79,6 +86,7 @@ Create Table Request (
   nodeID        VARCHAR(10),
   messageID     VARCHAR(10) UNIQUE,
   password      VARCHAR(255),
+  deleteTime    TIMESTAMP DEFAULT NULL,
   CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE,
   CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
 
@@ -89,18 +97,3 @@ CREATE TABLE Log(
   userID          VARCHAR(10),
   associatedID    VARCHAR(10),
   associatedType  VARCHAR(15));
-
-CREATE TABLE Backup (
-  logID             VARCHAR(10) UNIQUE,
-  otherID           VARCHAR(255),
-  firstItem         VARCHAR(255) DEFAULT '',
-  secondItem        VARCHAR(255) DEFAULT '',
-  thirdItem         VARCHAR(255) DEFAULT '',
-  fourthItem        VARCHAR(255) DEFAULT '',
-  fifthItem         VARCHAR(255) DEFAULT '',
-  sixthItem         VARCHAR(255) DEFAULT '',
-  seventhItem       VARCHAR(255) DEFAULT '',
-  eightItem         VARCHAR(255) DEFAULT '',
-  ninethItem        VARCHAR(255) DEFAULT '',
-  tenthItem         VARCHAR(255) DEFAULT '',
-  CONSTRAINT fk_backup_logID FOREIGN KEY (logID) REFERENCES Log(logID) ON DELETE CASCADE);

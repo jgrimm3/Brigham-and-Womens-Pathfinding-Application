@@ -1,5 +1,6 @@
 package com.manlyminotaurs.nodes;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Edge {
@@ -8,6 +9,7 @@ public class Edge {
 	String endNodeID;
 	String edgeID;
 	int status;
+	private LocalDateTime deleteTime;
 
 	public String getStartNodeID() {
 		return startNodeID;
@@ -39,6 +41,14 @@ public class Edge {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getDeleteTime() {
+		return deleteTime;
+	}
+
+	public void setDeleteTime(LocalDateTime deleteTime) {
+		this.deleteTime = deleteTime;
 	}
 
 	public Edge(String startNodeID, String endNodeID, String edgeID) {
