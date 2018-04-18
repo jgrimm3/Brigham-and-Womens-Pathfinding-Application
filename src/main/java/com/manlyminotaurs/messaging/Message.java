@@ -1,6 +1,7 @@
 package com.manlyminotaurs.messaging;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Message {
@@ -11,7 +12,7 @@ public class Message {
     String senderID;
     String receiverID;
     LocalDate sentDate;
-
+    private LocalDateTime deleteTime;
 
     public Message(String messageID, String message, Boolean isRead, LocalDate sentDate, String receiverID, String senderID) {
         this.messageID = messageID;
@@ -69,6 +70,14 @@ public class Message {
 
     public void setSentDate(LocalDate sentDate) {
         this.sentDate = sentDate;
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     @Override

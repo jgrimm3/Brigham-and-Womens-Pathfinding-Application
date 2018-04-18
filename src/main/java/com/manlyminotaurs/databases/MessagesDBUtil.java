@@ -4,6 +4,7 @@ import com.manlyminotaurs.messaging.Message;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +60,34 @@ class MessagesDBUtil {
         return messageObject;
     }
 
-    public boolean removeMessage(Message message){
+    public boolean removeMessage(String messageID){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE Message SET deleteTime = ? WHERE messageID = '"+ messageID +"'" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            statement.executeUpdate();
+            System.out.println("Message added to database");
+            statement.close();
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    public boolean permanentlyRemoveMessage(String messageID){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             Statement stmt = connection.createStatement();
-            String str = "DELETE FROM Message WHERE messageID = '" + message.getMessageID() + "'";
+            String str = "DELETE FROM Message WHERE messageID = '" + messageID + "'";
             stmt.executeUpdate(str);
             stmt.close();
             System.out.println("Node removed from database");
@@ -208,7 +231,7 @@ class MessagesDBUtil {
 
             try {
                 Statement stmt = connection.createStatement();
-                String str = "SELECT * FROM Message";
+                String str = "SELECT * FROM Message WHERE deleteTime IS NULL";
                 ResultSet rset = stmt.executeQuery(str);
 
                 while (rset.next()) {

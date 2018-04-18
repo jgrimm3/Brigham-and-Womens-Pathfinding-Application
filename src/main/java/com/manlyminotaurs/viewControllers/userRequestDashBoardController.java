@@ -216,7 +216,7 @@ public class userRequestDashBoardController  {
 
             openList.remove(selectedRequest);
 
-            dBUtil.removeMessage(dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()));
+            dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
             dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
         }
     }

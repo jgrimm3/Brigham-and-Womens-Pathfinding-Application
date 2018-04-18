@@ -3,28 +3,23 @@ package com.manlyminotaurs.viewControllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXProgressBar;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
-import com.manlyminotaurs.users.UserType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -351,7 +346,7 @@ public class adminRequestDashboardController {
 
             openList.remove(selectedRequest);
 
-            dBUtil.removeMessage(dBUtil.getMessageByID(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID()));
+            dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
             dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
         }
     }

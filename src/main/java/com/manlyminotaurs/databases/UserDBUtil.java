@@ -3,6 +3,7 @@ package com.manlyminotaurs.databases;
 import com.manlyminotaurs.users.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,13 +46,34 @@ public class UserDBUtil {
             DataModelI.getInstance().closeConnection();
         }
         //-----------------Adding username and password later-------------------
-        UserSecurity userSecurity = new UserSecurity();
-        userSecurity.addUserPassword(userName, password, userID);
+        DataModelI.getInstance().addUserPassword(userName, password, userID);
 
         return userObject;
     }
 
     boolean removeUser(User oldUser){
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        boolean isSuccess = false;
+        try {
+            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ oldUser.getUserID() +"'" ;
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("User added to database");
+            isSuccess = true;
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return isSuccess;
+    }
+
+    boolean permanentlyRemoveUser(User oldUser){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -65,6 +87,8 @@ public class UserDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
+        DataModelI.getInstance().removeUserPassword(oldUser.getUserID());
+
         return isSuccess;
     }
 
@@ -116,7 +140,7 @@ public class UserDBUtil {
 
         try {
             Statement stmt = connection.createStatement();
-            String str = "SELECT * FROM UserAccount";
+            String str = "SELECT * FROM UserAccount WHERE deleteTime IS NULL";
             ResultSet rset = stmt.executeQuery(str);
 
             while (rset.next()) {
