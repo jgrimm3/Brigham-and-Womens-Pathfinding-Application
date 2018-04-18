@@ -6,19 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  * A simple Swing-based client for the chat server.  Graphically
@@ -41,6 +33,7 @@ public class ClientSetup {
     BufferedReader in;
     PrintWriter out;
     Stage stage;
+    public static String IP;
     /**
      * Constructs the client by laying out the GUI and registering a
      * listener with the textfield so that pressing Return in the
@@ -49,7 +42,7 @@ public class ClientSetup {
      * only becomes editable AFTER the client receives the NAMEACCEPTED
      * message from the server.
      */
-    public ClientSetup (String IP, Stage stage) {
+    public ClientSetup(Stage stage) {
         try {
             // Make connection and initialize streams
             Socket socket = new Socket(IP, 9001);

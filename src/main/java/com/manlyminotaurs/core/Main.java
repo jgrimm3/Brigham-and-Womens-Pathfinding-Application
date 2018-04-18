@@ -14,14 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-
-import javax.xml.crypto.Data;
 
 
 public class Main extends Application {
@@ -38,7 +33,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try{
             System.out.println("Checking Status of Emergency");
-            if(new ClientSetup("130.215.13.96", null).requestState().equals("0")) {
+            if(new ClientSetup(null).requestState().equals("0")) {
                 //root is anchor pane that all other screens will be held in
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             }else{
@@ -90,9 +85,17 @@ public class Main extends Application {
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
 
-        if(args.length > 0 && args[0].equals("-s")) {
+        if(args.length < 1){
+            System.out.println("An IP for the server must be specified");
+            System.exit(-1);
+        }
+
+        ClientSetup.IP = args[0];
+
+        if(args.length > 1 && args[1].equals("-s")) {
             new ChatServer().spoolUpServer();
         }
+
         launch(args);
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
 

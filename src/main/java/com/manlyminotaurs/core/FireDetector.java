@@ -9,10 +9,6 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.Enumeration;
@@ -45,7 +41,7 @@ public class FireDetector implements SerialPortEventListener {
 
     public FireDetector(Stage stage) {
         this.stage = stage;
-        client = new ClientSetup("130.215.13.96", stage);
+        client = new ClientSetup(stage);
     }
 
     public void initialize() {
