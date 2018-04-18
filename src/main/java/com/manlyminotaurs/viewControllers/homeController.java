@@ -2,6 +2,9 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.jfoenix.controls.*;
+import com.manlyminotaurs.communications.ClientSetup;
+import com.manlyminotaurs.communications.SendEmail;
+import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
@@ -39,8 +42,18 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.crypto.Data;
@@ -55,33 +68,37 @@ import org.controlsfx.control.textfield.TextFields;
 public class homeController implements Initializable {
 
     //Nested Private Singleton
-    private static class Singleton {
-        private static Singleton instance = null;
-        PathfindingContext pathfindingContext = new PathfindingContext();
-        Boolean handicap;
-        //ratio of  map pixel to a real life meter
-        final double meterPerPixel = 0.099914;
-        //average walking speed in meters per second
-        final double walkSpeed = 1.4;
-
-        private Singleton() {
-
-		}
-		private static class SingletonHolder {
-			private static Singleton MapController = new Singleton();
-
-		}
-
-		public static Singleton getInstance() {
-			return homeController.Singleton.SingletonHolder.MapController;
-		}
-	}
+//    private static class Singleton {
+//        private static Singleton instance = null;
+//        PathfindingContext pathfindingContext = new PathfindingContext();
+//        Boolean handicap;
+//        //ratio of  map pixel to a real life meter
+//		final double meterPerPixel = 0.099914;
+//		final double feetPerMeter = 3.28084;
+//        //average walking speed in meters per second
+//		final double walkSpeed = 1.4;
+//		final double walkSpeedFt = 4.593176;
+//
+//        private Singleton() {
+//
+//		}
+//		private static class SingletonHolder {
+//			private static Singleton MapController = new Singleton();
+//
+//		}
+//
+//		public static Singleton getInstance() {
+//			return homeController.Singleton.SingletonHolder.MapController;
+//		}
+//	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Create objects
 	//
 	//-----------------------------------------------------------------------------------------------------------------
+
+	OptionSingleton optionPicker = OptionSingleton.getOptionPicker();
 	final static ObservableList<String> floors = FXCollections.observableArrayList("None","L2", "L1", "1", "2", "3");
 	//final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
 	final static ObservableList<String> empty = FXCollections.observableArrayList();
@@ -89,7 +106,7 @@ public class homeController implements Initializable {
 	final static ObservableList<String> buildings = FXCollections.observableArrayList("None","45 Francis", "Tower", "Shapiro", "BTM", "15 Francis");
 	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
 	final static ObservableList<String> types = FXCollections.observableArrayList("None","Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
-
+	ObservableList<String> directions;
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
 
@@ -309,7 +326,6 @@ public class homeController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-
 			//final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
 
 			// Set comboboxes for buildings to default lists
@@ -406,30 +422,34 @@ public class homeController implements Initializable {
 
 	public void setStrategy(){
 		if (Main.pathStrategy.equals("A*")) {
-			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
+			optionPicker.pathfindingContext.strategy = new AStarStrategyI();
 		}
 		if (Main.pathStrategy.equals("BFS")) {
-			Singleton.getInstance().pathfindingContext.strategy = new BreadthFirstStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new BreadthFirstStrategyI();
+			optionPicker.pathfindingContext.strategy = new BreadthFirstStrategyI();
 		}
 		if (Main.pathStrategy.equals("DFS")) {
-			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
+			optionPicker.pathfindingContext.strategy = new DepthFirstStrategyI();
 		}
 		if (Main.pathStrategy.equals("DYK")){
-		    Singleton.getInstance().pathfindingContext.strategy = new ClosestStrategyI();
+//		    Singleton.getInstance().pathfindingContext.strategy = new ClosestStrategyI();
+			optionPicker.pathfindingContext.strategy = new ClosestStrategyI();
         }
 	}
 
 	public void toggleHandicap(ActionEvent event) {
 
 		if (tglHandicap.isSelected()) {
-			Singleton.getInstance().handicap = true;
+			optionPicker.handicap = true;
 			// Switch on
 			tglHandicap.setText("ON");
 
 		} else {
 
 			// Switch off
-			Singleton.getInstance().handicap = false;
+			optionPicker.handicap = false;
 			tglHandicap.setText("OFF");
 		}
 	}
@@ -1052,16 +1072,26 @@ public class homeController implements Initializable {
 		txtUsername.setDisable(false);
 	}
 
-	public void sendDirectionsViaEmail(ActionEvent event) {
+	private String turnListToString(){
+		String out = "";
+		for(String CurrInstruction : directions){ out += CurrInstruction + '\n';}
+		return out;
+	}
 
+	public void sendDirectionsViaEmail(ActionEvent event) {
+		lblEmailMessage.setText("");
+		SendEmail email = new SendEmail(txtEmail.getText(), "B&W Turn-By-Turn Directions", turnListToString());
+		email.send();
+		lblEmailMessage.setText("Email Sent");
+		txtEmail.setText("");
 	}
 
 	public void sendDirectionsViaPhone(ActionEvent event) {
-
-	}
-
-	public void sendDirectionsViaFax(ActionEvent event) {
-
+		lblPhoneMessage.setText("");
+		SendTxt txt = new SendTxt();
+		txt.send(txtPhone.getText(), turnListToString());
+		lblPhoneMessage.setText("Text Message Sent");
+		txtPhone.setText("");
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -1148,12 +1178,11 @@ public class homeController implements Initializable {
 		// Set new overview panel to correct parameters
 		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
         // calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-        double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
-        directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
-        directions.add("ETA: " + (int)time + " Minute(s)");
+		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+		directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
         lstDirections.setItems(directions);
 		lstDirections.setItems(directions);
 		listForQR = (LinkedList<Node>)path;
@@ -1792,18 +1821,18 @@ public class homeController implements Initializable {
 			currentFloor = startNode.getFloor();
 
 			try {
-				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+//				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+				pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
 
 			} catch (PathNotFoundException e) {
 				e.printStackTrace();
 			}
 
-            ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+            directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 			// calcDistance function now converts to feet
-            double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-            double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
-            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
-            directions.add("ETA: " + (int)time + " Minute(s)");
+            double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+            directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
             lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;
@@ -2445,6 +2474,40 @@ public class homeController implements Initializable {
 
 			return finalString;
 		}
+
+	}
+@FXML
+Button btnPatientPortal;
+	//Patient Web Portal
+	public void patientPortal(ActionEvent event) throws Exception {
+		StackPane secondaryLayout = new StackPane();
+		Stage primaryStage = (Stage)btnLogin.getScene().getWindow();
+		//secondaryLayout.getChildren().add(secondLabel);
+
+		Stage stage;
+
+		//get reference to the button's stage
+
+		WebView web = new WebView();
+		web.getEngine().load("https://patientgateway.partners.org/public/");
+		Scene scene = new Scene(web);
+
+		// New window (Stage)
+		Stage newWindow = new Stage();
+		newWindow.setTitle("Patient Portal");
+		newWindow.setScene(scene);
+
+		// Specifies the modality for new window.
+		newWindow.initModality(Modality.WINDOW_MODAL);
+
+		// Specifies the owner Window (parent) for new window
+		newWindow.initOwner(primaryStage);
+
+		// Set position of second window, related to primary window.
+		newWindow.setX(primaryStage.getX()+600);
+		newWindow.setY(primaryStage.getY()+250);
+
+		newWindow.show();
 
 	}
 }

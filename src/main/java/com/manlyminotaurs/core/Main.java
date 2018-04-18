@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.databases.DataModelI;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,7 +31,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
-    //private FireDetector fd;
+    private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -60,8 +61,8 @@ public class Main extends Application {
         e.printStackTrace();
     }
 
-    //fd = new FireDetector(primaryStage);
-    //fd.startDetecting();
+    fd = new FireDetector(primaryStage);
+    fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
@@ -72,9 +73,9 @@ public class Main extends Application {
     public void stop(){
         System.out.println("closing Application");
 
-        DataModelI.getInstance().updateAllCSVFiles();
+        //DataModelI.getInstance().updateAllCSVFiles();
         DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
-        
+
         System.out.println("Files Saved!");
     }
 
@@ -86,6 +87,10 @@ public class Main extends Application {
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
+
+        if(args[0].equals("-s")) {
+            new ChatServer().spoolUpServer();
+        }
         launch(args);
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
 

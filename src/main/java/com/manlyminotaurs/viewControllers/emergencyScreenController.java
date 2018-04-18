@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Exit;
@@ -11,8 +12,10 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -23,6 +26,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +41,11 @@ public class emergencyScreenController {
     @FXML
     Pane paneMap;
 
+    @FXML
+    TextField txtPswd;
+
+    @FXML
+    Button btnReset;
 
     @FXML
     ImageView mapImg;
@@ -80,6 +89,7 @@ public class emergencyScreenController {
     String startFloor = "1";
     String endFloor = "1";
     String currentFloor = "1";
+    ClientSetup client;
 
     @FXML
     public void initialize() {
@@ -103,7 +113,7 @@ public class emergencyScreenController {
         printNodePath(path, startFloor, "2-D");
         changeFloor(startFloor);
 
-
+        client = new ClientSetup("130.215.13.96", btnReset.getScene());
     }
 
 
@@ -521,5 +531,10 @@ public class emergencyScreenController {
         path3.getElements().add(new LineTo(-100, 5000));
     }
 
-
+    @FXML
+    public void resetSystem(ActionEvent e){
+        if(txtPswd.getText().equals("Password")){
+            client.sendReset();
+        }
+    }
 }

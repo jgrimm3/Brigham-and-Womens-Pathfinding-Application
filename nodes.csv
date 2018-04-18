@@ -460,6 +460,7 @@ EHALL01201,2610,955,1,45 Francis,HALL,Hallway Node 10 Floor 1,HallE10,Team M,1,2
 EHALL03501,2760,1460,1,45 Francis,HALL,Hallway Node 33 Floor 1,HallE33,Team M,1,2300,1845,
 HHALL01303,1600,1030,3,Tower,HALL,Hallway Connector 13 Floor 3,Hallway H01303,Team M,1,1630,1257,
 CREST003L1,2300,880,L1,45 Francis,REST,Restroom K Elevator Floor L1,Restroom C003L1,Team M,1,10947,7222,
+XCONF20002,5,5,2,Shapiro,CONF,Longname~,shortname~,Team M,3,5,2,2018-04-17 11:30:37:0
 EINFO00101,2460,850,1,45 Francis,INFO,Connor's Center Security Desk Floor 1,Security 1,Team M,1,2305,1440,
 HLABS00103,1235,865,3,Tower,LABS,Reproductive Endocrine Labs,Reproductive Endocrine Labs,Team M,1,1412,1092,
 GHALL02102,1683,1821,2,Shapiro,HALL,Hall Node 21 Floor 2,,Team M,1,1400,1723,
