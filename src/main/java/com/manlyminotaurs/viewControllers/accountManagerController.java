@@ -336,13 +336,14 @@ public class accountManagerController {
 
     }
     public void deleteUser(ActionEvent event){
-        firstName = txtFirstNameDelete.getText();
+        /*firstName = txtFirstNameDelete.getText();
         middleName = txtMiddleNameDelete.getText();
         lastName = txtLastNameDelete.getText();
         languages.add(cmboLanguageDelete.getValue().toString());
         type = cmboTypeDelete.getValue().toString();
         username = txtUsernameDelete.getText();
-        password = txtPasswordDelete.getText();
+        password = txtPasswordDelete.getText();*/
+        userID = txtUserIDDelete.getText();
 
 
 

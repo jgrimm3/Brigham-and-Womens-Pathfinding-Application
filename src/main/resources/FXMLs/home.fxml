@@ -8,6 +8,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -23,6 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.ClosePath?>
 <?import javafx.scene.shape.LineTo?>
 <?import javafx.scene.shape.MoveTo?>
@@ -122,6 +124,31 @@
                                                 <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                             </children>
                                                         </Pane>
+                                          <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" translateX="10.0" translateY="10.0">
+                                             <children>
+                                                <Label fx:id="lblNode" alignment="TOP_LEFT" graphicTextGap="0.0" prefHeight="56.0" prefWidth="242.0" style="-fx-background-color: NAVY; -fx-padding: 5; -fx-border-color: WHITE; -fx-border-width: 3;" text="  Service 1" textFill="WHITE">
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="Arial Bold" size="19.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <Circle fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                                                   </graphic>
+                                                </Label>
+                                                <Text fx:id="nodeFloor" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="L2" textAlignment="CENTER" translateX="17.0" translateY="20.0">
+                                                   <font>
+                                                      <Font name="Arial Black" size="19.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fx:id="nodeFloor1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="FL" textAlignment="CENTER" translateX="18.0" translateY="7.0">
+                                                   <font>
+                                                      <Font name="Arial Black" size="15.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </StackPane>
                                                     </children>
                                                 </Pane>
                                             </children>
