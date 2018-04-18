@@ -51,7 +51,7 @@ public class CsvFileController {
 
             while ((line = bufferedReader.readLine()) != null) {
                 // use comma as separator
-                String[] node_row = line.split(",");
+                String[] node_row = line.split(",",-1);
                 list_of_rows.add(node_row);
             }
             fileReader.close();
