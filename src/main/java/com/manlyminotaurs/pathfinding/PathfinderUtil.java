@@ -25,16 +25,20 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class PathfinderUtil {
     //Unicode arrows
 
-    char lArrow[] = Character.toChars(129092);
-    String leftArrow = new String(lArrow);
-    char rArrow[] = Character.toChars(129094);
-    String rightArrow = new String(rArrow);
-    char slArrow[] = Character.toChars(129184);
-    String slightLeftArrow = new String(slArrow);
-    char sRArrow[] = Character.toChars(129184);
-    String slightRightArrow = new String(sRArrow);
-    char straight[] = Character.toChars(129093);
-    String straightArrow = new String(straight);
+
+    char leftArrow = (char)0x2B60;
+
+    char rightArrow = (char)0x2B62;
+
+    char slightLeftArrow = (char)0x2B66;
+
+    char slightRightArrow = (char)0x2B67;
+
+    char sharpLeftArrow = (char)0x2BA2;
+
+    char sharpRightArrow = (char)0x2BA3;
+
+    char straightArrow = (char)0x2B61;
 
     /**
      * calculates angle from 3 Nodes
