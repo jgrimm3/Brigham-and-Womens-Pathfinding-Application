@@ -30,6 +30,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
+    private FireDetector fd;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -58,6 +59,9 @@ public class Main extends Application {
     }catch(Exception e){
         e.printStackTrace();
     }
+
+    fd = new FireDetector(primaryStage);
+    fd.startDetecting();
 }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
