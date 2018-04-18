@@ -524,26 +524,32 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean permanentlyRemoveEdge(Node startNode, Node endNode) {
+        String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
+        addLog("Permanently Removed "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(),edgeID,"edge");
         return nodesDBUtil.permanentlyRemoveEdge(startNode, endNode);
     }
 
     @Override
     public boolean permanentlyRemoveMessage(String messageID) {
+        addLog("Permanently Removed "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),messageID,"message");
         return messagesDBUtil.permanentlyRemoveMessage(messageID);
     }
 
     @Override
     public boolean permanentlyRemoveRequest(Request oldRequest) {
+        addLog("Permanently Removed "+ oldRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldRequest.getRequestID(),"request");
         return requestsDBUtil.permanentlyRemoveRequest(oldRequest);
     }
 
     @Override
     public boolean permanentlyRemoveUser(User oldUser) {
+        addLog("Permanently Removed "+ oldUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldUser.getUserID(),"user");
         return userDBUtil.permanentlyRemoveUser(oldUser);
     }
 
     @Override
     public boolean permanentlyRemoveUserPassword(String userID) {
+        addLog("Permanently Removed "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(),userID,"user");
         return userSecurity.permanentlyRemoveUserPassword(userID);
     }
 
