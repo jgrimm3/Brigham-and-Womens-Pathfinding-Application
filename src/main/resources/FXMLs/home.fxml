@@ -385,9 +385,9 @@
                                     <children>
                                         <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
                                             <children>
-                                                <Label layoutX="20.0" layoutY="17.0" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
+                                                <Label layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="360.0" text="LOGIN" textFill="WHITE">
                                                     <font>
-                                                        <Font size="55.0" />
+                                                        <Font size="48.0" />
                                                     </font>
                                                 </Label>
                                                 <JFXButton fx:id="btnCloseLogin" ellipsisString="" layoutX="330.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#closeLoginPanel" prefHeight="30.0" prefWidth="30.0">
@@ -403,23 +403,28 @@
                                         </Pane>
                                         <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
                                             <children>
-                                                <JFXButton fx:id="btnLogin" layoutX="20.0" layoutY="270.0" maxHeight="70.0" maxWidth="360.0" onAction="#login" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: #102c57;" text="LOGIN" textFill="WHITE">
+                                                <JFXButton fx:id="btnLogin" layoutX="20.0" layoutY="287.0" maxHeight="70.0" maxWidth="360.0" onAction="#login" prefHeight="53.0" prefWidth="360.0" style="-fx-background-color: #102c57;" text="STAFF LOGIN" textFill="WHITE">
                                                     <font>
                                                         <Font size="30.0" />
                                                     </font>
                                                 </JFXButton>
-                                                <Label layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="360.0" text="USERNAME" textFill="WHITE">
+                                                <Label layoutX="20.0" layoutY="74.0" prefHeight="60.0" prefWidth="360.0" text="USERNAME" textFill="WHITE">
                                                     <font>
-                                                        <Font size="40.0" />
+                                                        <Font size="34.0" />
                                                     </font>
                                                 </Label>
-                                                <Label layoutX="20.0" layoutY="130.0" prefHeight="60.0" prefWidth="360.0" text="PASSWORD" textFill="WHITE">
+                                                <Label layoutX="20.0" layoutY="174.0" prefHeight="60.0" prefWidth="360.0" text="PASSWORD" textFill="WHITE">
                                                     <font>
-                                                        <Font size="40.0" />
+                                                        <Font size="34.0" />
                                                     </font>
                                                 </Label>
-                                                <JFXTextField fx:id="txtUsername" labelFloat="true" layoutX="20.0" layoutY="80.0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
-                                                <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="20.0" layoutY="200.0" prefColumnCount="0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
+                                                <JFXTextField fx:id="txtUsername" labelFloat="true" layoutX="20.0" layoutY="134.0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
+                                                <JFXPasswordField fx:id="txtPassword" labelFloat="true" layoutX="20.0" layoutY="234.0" prefColumnCount="0" prefHeight="40.0" prefWidth="360.0" style="-fx-background-color: #f1f1f1;" />
+                                    <JFXButton fx:id="btnPatientPortal" layoutX="26.0" layoutY="9.0" onAction="#patientPortal" prefHeight="60.0" prefWidth="348.0" style="-fx-background-color: #2f2f2f;" text="Patient Portal" textFill="#fbff0d">
+                                       <font>
+                                          <Font size="27.0" />
+                                       </font>
+                                    </JFXButton>
                                             </children>
                                         </Pane>
                                     </children>
@@ -457,7 +462,7 @@
                                         </ImageView>
                                     </graphic>
                                     <StackPane.margin>
-                                        <Insets bottom="30.0" right="175.0" />
+                                        <Insets bottom="30.0" left="175.0" />
                                     </StackPane.margin>
                                 </JFXButton>
                                 <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" onMouseClicked="#rotateRight" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_CENTER">
@@ -469,7 +474,7 @@
                                         </ImageView>
                                     </graphic>
                                     <StackPane.margin>
-                                        <Insets bottom="30.0" left="175.0" />
+                                        <Insets bottom="30.0" right="175.0" />
                                     </StackPane.margin>
                                 </JFXButton>
                         <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" onAction="#resetRotate" prefHeight="50.0" prefWidth="50.0" StackPane.alignment="BOTTOM_CENTER">
