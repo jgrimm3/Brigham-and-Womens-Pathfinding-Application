@@ -24,7 +24,7 @@ public class CalcDistance {
         if(startNode.getAdjacentNodes().contains(endNode)){
             double distance =  Math.sqrt(Math.pow((startNode.getXCoord() - endNode.getXCoord()),2) +
                     Math.pow((startNode.getYCoord() - endNode.getYCoord()),2));
-            return metersToFeet(distance);
+            return distance;
         }
         return 0;
     }
@@ -44,7 +44,7 @@ public class CalcDistance {
             sum += calcDistance(laggingIterator.next(), leadingIterator.next());
         }
 
-        return metersToFeet(sum);
+        return sum;
     }
 
     /**
@@ -53,7 +53,7 @@ public class CalcDistance {
      * @param distance the distance in meters to convert
      * @return the input distance in feet units
      */
-    private static double metersToFeet(double distance) {
-        return distance*3.2808;
-    }
+//    private static double metersToFeet(double distance) {
+//        return distance*3.2808;
+//    }
 }

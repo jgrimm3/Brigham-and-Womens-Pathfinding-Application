@@ -55,33 +55,37 @@ import org.controlsfx.control.textfield.TextFields;
 public class homeController implements Initializable {
 
     //Nested Private Singleton
-    private static class Singleton {
-        private static Singleton instance = null;
-        PathfindingContext pathfindingContext = new PathfindingContext();
-        Boolean handicap;
-        //ratio of  map pixel to a real life meter
-        final double meterPerPixel = 0.099914;
-        //average walking speed in meters per second
-        final double walkSpeed = 1.4;
-
-        private Singleton() {
-
-		}
-		private static class SingletonHolder {
-			private static Singleton MapController = new Singleton();
-
-		}
-
-		public static Singleton getInstance() {
-			return homeController.Singleton.SingletonHolder.MapController;
-		}
-	}
+//    private static class Singleton {
+//        private static Singleton instance = null;
+//        PathfindingContext pathfindingContext = new PathfindingContext();
+//        Boolean handicap;
+//        //ratio of  map pixel to a real life meter
+//		final double meterPerPixel = 0.099914;
+//		final double feetPerMeter = 3.28084;
+//        //average walking speed in meters per second
+//		final double walkSpeed = 1.4;
+//		final double walkSpeedFt = 4.593176;
+//
+//        private Singleton() {
+//
+//		}
+//		private static class SingletonHolder {
+//			private static Singleton MapController = new Singleton();
+//
+//		}
+//
+//		public static Singleton getInstance() {
+//			return homeController.Singleton.SingletonHolder.MapController;
+//		}
+//	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Create objects
 	//
 	//-----------------------------------------------------------------------------------------------------------------
+
+	OptionSingleton optionPicker = OptionSingleton.getOptionPicker();
 	final static ObservableList<String> floors = FXCollections.observableArrayList("None","L2", "L1", "1", "2", "3");
 	//final static ObservableList<String> mapFloors = FXCollections.observableArrayList("FLOOR: L2", "FLOOR: L1", "FLOOR: 1", "FLOOR: 2", "FLOOR: 3");
 	final static ObservableList<String> empty = FXCollections.observableArrayList();
@@ -406,30 +410,34 @@ public class homeController implements Initializable {
 
 	public void setStrategy(){
 		if (Main.pathStrategy.equals("A*")) {
-			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
+			optionPicker.pathfindingContext.strategy = new AStarStrategyI();
 		}
 		if (Main.pathStrategy.equals("BFS")) {
-			Singleton.getInstance().pathfindingContext.strategy = new BreadthFirstStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new BreadthFirstStrategyI();
+			optionPicker.pathfindingContext.strategy = new BreadthFirstStrategyI();
 		}
 		if (Main.pathStrategy.equals("DFS")) {
-			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
+//			Singleton.getInstance().pathfindingContext.strategy = new DepthFirstStrategyI();
+			optionPicker.pathfindingContext.strategy = new DepthFirstStrategyI();
 		}
 		if (Main.pathStrategy.equals("DYK")){
-		    Singleton.getInstance().pathfindingContext.strategy = new ClosestStrategyI();
+//		    Singleton.getInstance().pathfindingContext.strategy = new ClosestStrategyI();
+			optionPicker.pathfindingContext.strategy = new ClosestStrategyI();
         }
 	}
 
 	public void toggleHandicap(ActionEvent event) {
 
 		if (tglHandicap.isSelected()) {
-			Singleton.getInstance().handicap = true;
+			optionPicker.handicap = true;
 			// Switch on
 			tglHandicap.setText("ON");
 
 		} else {
 
 			// Switch off
-			Singleton.getInstance().handicap = false;
+			optionPicker.handicap = false;
 			tglHandicap.setText("OFF");
 		}
 	}
@@ -1150,10 +1158,9 @@ public class homeController implements Initializable {
 		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
 		ObservableList<String> directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
         // calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-        double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
-        directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
-        directions.add("ETA: " + (int)time + " Minute(s)");
+		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+		directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
         lstDirections.setItems(directions);
 		lstDirections.setItems(directions);
 		listForQR = (LinkedList<Node>)path;
@@ -1792,7 +1799,8 @@ public class homeController implements Initializable {
 			currentFloor = startNode.getFloor();
 
 			try {
-				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+//				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+				pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
 
 			} catch (PathNotFoundException e) {
 				e.printStackTrace();
@@ -1800,10 +1808,9 @@ public class homeController implements Initializable {
 
             ObservableList<String> directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 			// calcDistance function now converts to feet
-            double dist = CalcDistance.calcDistance(pathList)*Singleton.getInstance().meterPerPixel;
-            double time = Math.round(dist/Singleton.getInstance().walkSpeed)/60;
-            directions.add("TOTAL DISTANCE: " + Math.round(dist) + " ft");
-            directions.add("ETA: " + (int)time + " Minute(s)");
+            double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+            directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
             lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;
