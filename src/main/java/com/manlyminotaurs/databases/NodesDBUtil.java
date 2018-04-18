@@ -403,8 +403,9 @@ class NodesDBUtil {
 			List<Edge> listOfEdges = getAdjacentEdges(nodeID);
 			for(Edge aEdge:listOfEdges){
 				DataModelI.getInstance().removeEdge(getNodeByID(aEdge.getStartNodeID()), getNodeByID(aEdge.getEndNodeID()));
+				System.out.println("removing edges~~~~~~~~~~: "+aEdge.getStartNodeID() + "_" + aEdge.getEndNodeID());
 			}
-
+			System.out.println("remove Node~~~~~~~~~~~~:"+nodeID);
 			isSucessful = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
