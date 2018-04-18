@@ -121,6 +121,24 @@ public class NodesDBUtilTest {
 		DataModelI.getInstance().updateAllCSVFiles();
 	}
 
+	@Test
+	public void afterRestoreNode_returnsCorrectList(){
+		Node addedNode = DataModelI.getInstance().addNode("",5, 6, "L2", "BTM", "CONF", "Longname~", "shortname~", 3, 5, 2);
+		Map<String, Node> aMap = DataModelI.getInstance().getNodeMap();
+		String nodeIDTemp = addedNode.getNodeID();
+		Node aNode = DataModelI.getInstance().getNodeByID(addedNode.getNodeID());
+		assertTrue(aNode != null);
+
+		DataModelI.getInstance().removeNode(addedNode);
+		Map<String, Node> aMap2 = DataModelI.getInstance().getNodeMap();
+		Node aNode2 = aMap2.get(addedNode.getNodeID());
+		assertTrue(aNode2 == null);
+
+		DataModelI.getInstance().restoreNode(nodeIDTemp);
+		aNode = DataModelI.getInstance().getNodeMap().get(addedNode.getNodeID());
+		assertTrue(aNode != null);
+	}
+
 
 	@Test
 	public void getByAdjacentNodes_ReturnsCorrectList() {
@@ -231,6 +249,25 @@ public class NodesDBUtilTest {
 //				System.out.println("found edge");
 //			}
 //		}
+	}
+
+	@Test
+	public void afterRestoreEdge_returnsCorrectList(){
+		Node startNode = DataModelI.getInstance().getNodeByID("DHALL00102");
+		Node endNode = DataModelI.getInstance().getNodeByID("BSTAI00302");
+		Edge edge = DataModelI.getInstance().addEdge(startNode,endNode);
+		String edgeIDTemp = edge.getEdgeID();
+		Edge gottenEdge = DataModelI.getInstance().getEdgeByID(edge.getEdgeID());
+		assertTrue(edge != null);
+		assertTrue(gottenEdge != null);
+
+		DataModelI.getInstance().removeEdge(startNode,endNode);
+		Edge gottenEdge2 = DataModelI.getInstance().getEdgeByID(edgeIDTemp);
+		assertTrue(gottenEdge2 == null);
+
+		DataModelI.getInstance().restoreNode(edgeIDTemp);
+		Edge gottenEdge3 = DataModelI.getInstance().getEdgeByID(edgeIDTemp);
+		assertTrue(gottenEdge3 != null);
 	}
 
 	@Test

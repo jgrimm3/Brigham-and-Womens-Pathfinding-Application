@@ -547,12 +547,12 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean RestoreNode(String nodeID) {
+    public boolean restoreNode(String nodeID) {
         return nodesDBUtil.restoreNode(nodeID);
     }
 
     @Override
-    public boolean RestoreEdge(String startNodeID, String endNodeID) {
+    public boolean restoreEdge(String startNodeID, String endNodeID) {
         return nodesDBUtil.restoreEdge(startNodeID, endNodeID);
     }
 

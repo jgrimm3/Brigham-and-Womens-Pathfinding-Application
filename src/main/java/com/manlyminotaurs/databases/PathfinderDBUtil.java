@@ -11,7 +11,7 @@ public class PathfinderDBUtil {
 
     private static int pathFinderIDCounter = 0;
 
-    public static void setPathFinderIDCounter(int logIDCounter) {
+    public static void setPathFinderIDCounter(int pathFinderIDCounter) {
         PathfinderDBUtil.pathFinderIDCounter = pathFinderIDCounter;
     }
 

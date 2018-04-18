@@ -147,8 +147,8 @@ public interface IDataModel {
     boolean permanentlyRemoveUser(User oldUser);
     boolean permanentlyRemoveUserPassword(String userID);
 
-    boolean RestoreNode(String nodeID);
-    boolean RestoreEdge(String startNodeID, String endNodeID);
+    boolean restoreNode(String nodeID);
+    boolean restoreEdge(String startNodeID, String endNodeID);
     boolean restoreMessage(String messageID);
     boolean restoreRequest(String requestID);
     boolean restoreUser(String userID);

@@ -140,7 +140,7 @@ class NodesDBUtil {
 		LocalDateTime deleteTime = null;
 		PreparedStatement stmt = null;
 		Connection connection = null;
-
+        nodeMap.clear();
 		try {
 			connection = DriverManager.getConnection("jdbc:derby:nodesDB");
 			String str;
