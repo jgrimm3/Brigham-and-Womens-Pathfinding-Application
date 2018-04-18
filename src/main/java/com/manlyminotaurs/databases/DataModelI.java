@@ -114,7 +114,7 @@ public class DataModelI implements IDataModel{
     @Override
     @Deprecated
     public List<Node> retrieveNodes() {
-        return nodesDBUtil.retrieveNodes();
+        return nodesDBUtil.getNodeList();
     }
 
     public Map<String, Node> getNodeMap(){

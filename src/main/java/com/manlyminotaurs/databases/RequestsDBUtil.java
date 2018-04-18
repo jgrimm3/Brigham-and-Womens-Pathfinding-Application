@@ -40,6 +40,7 @@ class RequestsDBUtil {
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
         Message mObject= DataModelI.getInstance().addMessage(message);
+        requestObject.setMessageID(mObject.getMessageID());
         if(mObject == null){
             System.out.println("Critical Error in adding message in AddRequest function");
             return null;
@@ -58,7 +59,7 @@ class RequestsDBUtil {
             statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
             statement.setTimestamp(7, Timestamp.valueOf(requestObject.getEndTime()));
             statement.setString(8, requestObject.getNodeID());
-            statement.setString(9, mObject.getMessageID());
+            statement.setString(9, requestObject.getMessageID());
             statement.setString(10, requestObject.getRequestType());
             System.out.println("Prepared statement created...");
             statement.executeUpdate();
