@@ -116,7 +116,7 @@
                                     </LinearGradient>
                                  </stroke>
                               </Path>
-                              <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.25" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                              <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                  <elements>
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
@@ -128,7 +128,7 @@
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
                                           <Stop color="#102c57" />
-                                          <Stop color="#d9e3f2" offset="1.0" />
+                                          <Stop color="BLACK" offset="1.0" />
                                        </stops>
                                     </LinearGradient>
                                  </stroke>
