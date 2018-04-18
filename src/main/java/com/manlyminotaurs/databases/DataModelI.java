@@ -549,31 +549,38 @@ public class DataModelI implements IDataModel{
 
     @Override
     public boolean restoreNode(String nodeID) {
+        addLog("Restored "+ nodeID+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), nodeID,"node");
         return nodesDBUtil.restoreNode(nodeID);
     }
 
     @Override
     public boolean restoreEdge(String startNodeID, String endNodeID) {
+        String edgeID = startNodeID + "_"+ endNodeID;
+        addLog("Restored "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(), edgeID,"edge");
         return nodesDBUtil.restoreEdge(startNodeID, endNodeID);
     }
 
     @Override
     public boolean restoreMessage(String messageID) {
+        addLog("Restored "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(), messageID,"message");
         return messagesDBUtil.restoreMessage(messageID);
     }
 
     @Override
     public boolean restoreRequest(String requestID) {
+        addLog("Restored "+ requestID+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(), requestID,"request");
         return requestsDBUtil.restoreRequest(requestID);
     }
 
     @Override
     public boolean restoreUser(String userID) {
+        addLog("Restored "+ userID+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return userDBUtil.restoreUser(userID);
     }
 
     @Override
     public boolean restoreUserPassword(String userID) {
+        addLog("Restored "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return userSecurity.restoreUserPassword(userID);
     }
 
