@@ -9,11 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -74,13 +71,14 @@ public class PathfinderUtil {
     /**
      * creates string of distance to append to tbt directions
      *
-     * @param startNode: starting node
-     * @param endNode: ending node
+     * @param startNode : starting node
+     * @param endNode : ending node
      * @return distance, ex: "in 500 ft, "...
      */
     private String nodesToDistance(Node startNode, Node endNode) {
-        double distance = CalcDistance.calcDistance(startNode, endNode);
-        String strDouble = String.format("%.2f", distance);
+
+        double distance = CalcDistance.calcDistance(startNode, endNode)*OptionSingleton.getOptionPicker().feetPerPixel;
+        String strDouble = String.format("%.1f", distance);
         return "in " + strDouble + " ft, ";
     }
 
@@ -95,7 +93,7 @@ public class PathfinderUtil {
     public ArrayList<String> angleToText(LinkedList<Node> path) {
         ArrayList<String> tbt = new ArrayList<>();
         /* check for <= 2 node path */
-        if (path.size() <= 2) { tbt.add(straightArrow + nameToString(path.getLast())); return tbt; }
+        if (path.size() <= 2) { tbt.add(straightArrow +  (path.getLast())); return tbt; }
         /* loop through path */
         for (int i = 0; i < path.size() - 2; i++) {
             System.out.println("Intersection: " + (i + 1));
@@ -114,9 +112,10 @@ public class PathfinderUtil {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + leftArrow + nameToString(path.get((i+1))));
             } else if (angle > 315 && angle <= 330) {
                 tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "make a slight left" + nameToString(path.get((i+1))));
-            } //else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
+
+            } else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
         }
-        tbt.add("Arrive" + nameToString(path.getLast()));
+        tbt.add(nodesToDistance(path.get(path.size()-2) , path.getLast()) + " Arrive At " + nameToString(path.getLast()));
         return tbt;
     }
 
