@@ -1,9 +1,12 @@
 package com.manlyminotaurs.users;
 
+import java.time.LocalDateTime;
+
 public class UserPassword {
     String userName;
     String password;
     String userID;
+    private LocalDateTime deleteTime;
 
     public UserPassword(String userName, String password, String userID) {
         this.userName = userName;
@@ -33,5 +36,13 @@ public class UserPassword {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 }

@@ -1,5 +1,8 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
@@ -24,6 +27,7 @@ public class createRequestController{
     Parent manageRequests;
     Parent nodeEdit;
     Parent accountManager;
+    Parent history;
     @FXML
     ScrollPane scrollPane;
     @FXML
@@ -35,37 +39,37 @@ public class createRequestController{
     @FXML
     Pane paneAdd;
     @FXML
-    ComboBox<String> cmboBuilding;
+    JFXComboBox<String> cmboBuilding;
     @FXML
-    Button btnSubmitRequest;
+    JFXButton btnSubmitRequest;
     @FXML
-    ComboBox<String> cmboType;
+    JFXComboBox<String> cmboType;
     @FXML
-    ComboBox<String> cmboNode;
+    JFXComboBox<String> cmboNode;
     @FXML
-    CheckBox chkHighPriority;
+    JFXCheckBox chkHighPriority;
     @FXML
-    CheckBox chkMedPriority;
+    JFXCheckBox chkMedPriority;
     @FXML
-    CheckBox chkLowPriority;
-    @FXML
-    Button btnlogOut;
+    JFXCheckBox chkLowPriority;
     @FXML
     TextArea txtMessage;
     @FXML
     Label lblError;
     @FXML
-    ComboBox<RequestType> cmboReqType;
+    JFXComboBox<RequestType> cmboReqType;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
-    Button navBtnManageRequests;
+    JFXButton btnRequestManager;
     @FXML
-    Button navBtnNodeEditor;
+    JFXButton navBtnNodeEditor;
     @FXML
-    ComboBox<String> cmboFloor;
+    JFXComboBox<String> cmboFloor;
     @FXML
-    Button navBtnManageAccounts;
+    JFXButton navBtnManageAccounts;
+    @FXML
+    JFXButton btnHistory;
 
     String requestType;
     String message;
@@ -82,6 +86,13 @@ public class createRequestController{
         if (!dbUtil.getUserByID(KioskInfo.currentUserID).isType("admin")) {
             navBtnNodeEditor.setVisible(false);
             navBtnNodeEditor.setDisable(true);
+            navBtnNodeEditor.setVisible(false);
+            navBtnNodeEditor.setDisable(true);
+            navBtnManageAccounts.setVisible(false);
+            navBtnManageAccounts.setDisable(true);
+            btnHistory.setVisible(false);
+            btnHistory.setDisable(true);
+
         }
     }
 
@@ -153,7 +164,7 @@ public class createRequestController{
 
     public void getXandY(){}
 
-    public void logOut(ActionEvent event){
+    public void LogOut(ActionEvent event){
         try{
             Stage stage;
             Parent root;
@@ -218,7 +229,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);
@@ -227,6 +238,23 @@ public class createRequestController{
             e.printStackTrace();
         }
     }
+    public void loadHistory(ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){

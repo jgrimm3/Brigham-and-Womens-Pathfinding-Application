@@ -1,9 +1,6 @@
 package com.manlyminotaurs.viewControllers;
-
 import javafx.scene.image.Image;
-        import javafx.scene.image.ImageView;
-
-import java.io.File;
+import javafx.scene.image.ImageView;
 
 public class ProxyImage {
 
@@ -18,6 +15,10 @@ public class ProxyImage {
 
     public void display() {
         imageView.setImage(new Image("/MapImages/" +fileName));
+    }
+
+    public void displayIcon() {
+        imageView.setImage(new Image("/Icons/" +fileName));
     }
 
     public void display2() {

@@ -1,12 +1,14 @@
 package com.manlyminotaurs.users;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.time.LocalDateTime;
 
 public class StaffFields {
     boolean isWorking;
     boolean isAvailable;
     String languageSpoken;
     String userID;
+    private LocalDateTime deleteTime;
 
     public StaffFields(boolean isWorking, boolean isAvailable, String languageSpoken, String userID) {
         this.isWorking = isWorking;
@@ -47,4 +49,11 @@ public class StaffFields {
         this.userID = userID;
     }
 
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 }

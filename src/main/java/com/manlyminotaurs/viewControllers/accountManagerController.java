@@ -1,9 +1,10 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.databases.UserDBUtil;
 import com.manlyminotaurs.users.User;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -11,22 +12,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.List;
 
 public class accountManagerController {
     Parent logout;
@@ -40,15 +33,15 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameAdd;
     @FXML
-    ComboBox cmboLanguageAdd;
+    JFXComboBox cmboLanguageAdd;
     @FXML
-    ComboBox cmboTypeAdd;
+    JFXComboBox cmboTypeAdd;
     @FXML
     JFXTextField txtUsernameAdd;
     @FXML
     JFXTextField txtPasswordAdd;
     @FXML
-    Button btnAddUser;
+    JFXButton btnAddUser;
     @FXML
     JFXTextField txtUserIDModify;
     @FXML
@@ -58,15 +51,15 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameModify;
     @FXML
-    ComboBox cmboLanguageModify;
+    JFXComboBox cmboLanguageModify;
     @FXML
-    ComboBox cmboTypeModify;
+    JFXComboBox cmboTypeModify;
     @FXML
     JFXTextField txtUsernameModify;
     @FXML
     JFXTextField txtPasswordModify;
     @FXML
-    Button btnModifyUser;
+    JFXButton btnModifyUser;
     @FXML
     JFXTextField txtUserIDDelete;
     @FXML
@@ -76,29 +69,32 @@ public class accountManagerController {
     @FXML
     JFXTextField txtLastNameDelete;
     @FXML
-    ComboBox cmboLanguageDelete;
+    JFXComboBox cmboLanguageDelete;
     @FXML
-    ComboBox cmboTypeDelete;
+    JFXComboBox cmboTypeDelete;
     @FXML
     JFXTextField txtUsernameDelete;
     @FXML
     JFXTextField txtPasswordDelete;
     @FXML
-    Button btnDeleteUser;
+    JFXButton btnDeleteUser;
     @FXML
-    Button btnLogOut;
+    JFXButton btnLogOut;
     @FXML
     GridPane gridAdd;
     @FXML
     GridPane gridModify;
     @FXML
     GridPane gridDelete;
+    @FXML
+    JFXButton btnHistory;
 
     final static ObservableList<String> Languages = FXCollections.observableArrayList("English", "Spanish", "Chinese", "Filipino", "Vietnamese", "Arabic","French","Korean","Russian","German","Hindi","Haitian Creole","Hindi","Portuge","Italian","Polish","Urdu","Japanese","Dothraki","Klingon");
     final static ObservableList<String> UserTypes = FXCollections.observableArrayList("Doctor", "Nurse", "Visitor", "Admin", "Janitor", "Interpreter", "Patient", "Security");
     String firstName;
     String middleName;
     String lastName;
+    List<String> languages = FXCollections.observableArrayList();
     String language;
     String type;
     String username;
@@ -115,10 +111,8 @@ public class accountManagerController {
             gridModify.setDisable(true);
             gridAdd.setDisable(false);
             gridAdd.setVisible(true);
-            btnAddUser.setDisable(true);
-            BooleanBinding booleanBind = Bindings.or(txtFirstNameAdd.textProperty().isEmpty(),
-                    txtMiddleNameAdd.textProperty().isEmpty()).or(txtLastNameAdd.textProperty().isEmpty()).or(txtUsernameAdd.textProperty().isEmpty()).or(txtPasswordAdd.textProperty().isEmpty());
-            btnAddUser.disableProperty().bind(booleanBind);
+
+
             cmboLanguageAdd.setItems(Languages);
             cmboTypeAdd.setItems(UserTypes);
 
@@ -136,12 +130,11 @@ public class accountManagerController {
         gridModify.setDisable(false);
         gridAdd.setDisable(true);
         gridAdd.setVisible(false);
-        btnModifyUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameModify.textProperty().isEmpty(),
-                txtMiddleNameModify.textProperty().isEmpty()).or(txtLastNameModify.textProperty().isEmpty()).or(txtUsernameModify.textProperty().isEmpty()).or(txtPasswordModify.textProperty().isEmpty());
-        btnModifyUser.disableProperty().bind(booleanBind);
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
+
+
+
 
     }
     public void displayDeleteGrid(ActionEvent event){
@@ -151,12 +144,10 @@ public class accountManagerController {
         gridModify.setDisable(true);
         gridAdd.setDisable(true);
         gridAdd.setVisible(false);
-        btnDeleteUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameDelete.textProperty().isEmpty(),
-                txtMiddleNameDelete.textProperty().isEmpty()).or(txtLastNameDelete.textProperty().isEmpty()).or(txtUsernameDelete.textProperty().isEmpty()).or(txtPasswordDelete.textProperty().isEmpty());
-        btnDeleteUser.disableProperty().bind(booleanBind);
+
         cmboLanguageDelete.setItems(Languages);
         cmboTypeDelete.setItems(UserTypes);
+
 
     }
     public void displayAddGrid(ActionEvent event) {
@@ -166,14 +157,12 @@ public class accountManagerController {
         gridModify.setDisable(true);
         gridAdd.setDisable(false);
         gridAdd.setVisible(true);
-        btnAddUser.setDisable(true);
-        BooleanBinding booleanBind = Bindings.or(txtFirstNameAdd.textProperty().isEmpty(),
-                txtMiddleNameAdd.textProperty().isEmpty()).or(txtLastNameAdd.textProperty().isEmpty()).or(txtUsernameAdd.textProperty().isEmpty()).or(txtPasswordAdd.textProperty().isEmpty());
-        btnAddUser.disableProperty().bind(booleanBind);
+
+
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
     }
-    public void logOut(javafx.event.ActionEvent event) throws Exception {
+    public void LogOut(javafx.event.ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
@@ -192,14 +181,51 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
-    public void manageRequest (ActionEvent event) throws Exception {
+    Parent history;
+    public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
             Parent root;
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            history = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminHistory.fxml"));
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(history);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void manageRequest (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+            }else{
+                manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+            }
+            //create a new scene with root and set the stage
+            Scene scene = new Scene(manageRequests);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void manageAcc (ActionEvent event) throws Exception {
+        try {
+            Stage stage;
+            Parent root;
+            //get reference to the button's stage
+            stage = (Stage) btnLogOut.getScene().getWindow();
+            //load up Home FXML document;
+            manageRequests = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/accountManager.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(manageRequests);
             stage.setScene(scene);
@@ -215,7 +241,7 @@ public class accountManagerController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/nodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);
@@ -226,7 +252,7 @@ public class accountManagerController {
     }
 
     public void setLanguageAdd(ActionEvent event){
-        language = cmboLanguageAdd.getValue().toString();
+        languages.add(cmboLanguageAdd.getValue().toString());
 
     }
     public void setTypeAdd(ActionEvent event){
@@ -234,7 +260,7 @@ public class accountManagerController {
 
     }
     public void setLanguageModify(ActionEvent event){
-        language = cmboLanguageModify.getValue().toString();
+        languages.add(cmboLanguageModify.getValue().toString());
 
     }
     public void setTypeModify(ActionEvent event){
@@ -242,7 +268,7 @@ public class accountManagerController {
 
     }
     public void setLanguageDelete(ActionEvent event){
-        language = cmboLanguageDelete.getValue().toString();
+        languages.add(cmboLanguageDelete.getValue().toString());
 
     }
     public void setTypeDelete(ActionEvent event){
@@ -254,34 +280,47 @@ public class accountManagerController {
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
         middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
         lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
-        language = DataModelI.getInstance().getUserByID(userID).getLanguage();
+        languages = DataModelI.getInstance().getUserByID(userID).getLanguages();
         type = DataModelI.getInstance().getUserByID(userID).getUserType();
         txtFirstNameModify.setText(firstName);
         txtMiddleNameModify.setText(middleName);
         txtLastNameModify.setText(lastName);
-//        cmboLanguageModify.setItems(language);
-//        cmboLanguageModify.setItems(type);
+        language = languages.get(0);
+        cmboLanguageModify.getSelectionModel().select(language);
+        cmboTypeModify.getSelectionModel().select(type);
     }
     public void targetUserDelete(ActionEvent event){
         userID = txtUserIDDelete.getText();
+        firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
+        middleName = DataModelI.getInstance().getUserByID(userID).getMiddleName();
+        lastName = DataModelI.getInstance().getUserByID(userID).getLastName();
+        languages = DataModelI.getInstance().getUserByID(userID).getLanguages();
+        type = DataModelI.getInstance().getUserByID(userID).getUserType();
+        txtFirstNameDelete.setText(firstName);
+        txtMiddleNameDelete.setText(middleName);
+        txtLastNameDelete.setText(lastName);
+        language = languages.get(0);
+        cmboLanguageDelete.getSelectionModel().select(language);
+        cmboTypeDelete.getSelectionModel().select(type);
     }
     public void addUser(ActionEvent event){
         firstName = txtFirstNameAdd.getText();
         middleName = txtMiddleNameAdd.getText();
         lastName = txtLastNameAdd.getText();
-        language = cmboLanguageAdd.getValue().toString();
+        languages.add(cmboLanguageAdd.getValue().toString());
         type = cmboTypeAdd.getValue().toString();
         username = txtUsernameAdd.getText();
         password = txtPasswordAdd.getText();
 
-        DataModelI.getInstance().addUser(firstName,middleName,lastName,language,type,username,password);
+        DataModelI.getInstance().addUser("", firstName, middleName, lastName, languages, type, username, password);
 
     }
     public void modifyUser(ActionEvent event){
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
         lastName = txtLastNameModify.getText();
-        language = cmboLanguageModify.getValue().toString();
+        languages = new ArrayList<>();
+        languages.add(cmboLanguageModify.getValue().toString());
         type = cmboTypeModify.getValue().toString();
         username = txtUsernameModify.getText();
         password = txtPasswordModify.getText();
@@ -290,17 +329,19 @@ public class accountManagerController {
         DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
         DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
         DataModelI.getInstance().getUserByID(userID).setUserType(type);
-        DataModelI.getInstance().getUserByID(userID).setLanguage(language);
+        DataModelI.getInstance().getUserByID(userID).addLanguage(language);
 
     }
     public void deleteUser(ActionEvent event){
-        firstName = txtFirstNameDelete.getText();
+        /*firstName = txtFirstNameDelete.getText();
         middleName = txtMiddleNameDelete.getText();
         lastName = txtLastNameDelete.getText();
-        language = cmboLanguageDelete.getValue().toString();
+        languages.add(cmboLanguageDelete.getValue().toString());
         type = cmboTypeDelete.getValue().toString();
         username = txtUsernameDelete.getText();
-        password = txtPasswordDelete.getText();
+        password = txtPasswordDelete.getText();*/
+        userID = txtUserIDDelete.getText();
+        user = DataModelI.getInstance().getUserByID(userID);
 
         DataModelI.getInstance().removeUser(user);
 

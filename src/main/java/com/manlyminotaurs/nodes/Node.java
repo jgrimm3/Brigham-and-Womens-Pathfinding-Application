@@ -1,5 +1,6 @@
 package com.manlyminotaurs.nodes;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ public abstract class Node implements INode {
     private String nodeType;
     private List<Node> adjacentNodes;
     private int popularity;
+    private LocalDateTime deleteTime;
 
     public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status,
                 int xCoord3D, int yCoord3D) {
@@ -77,6 +79,14 @@ public abstract class Node implements INode {
 
     public boolean removeAdjacentNode(Node node){
         return this.adjacentNodes.remove(node);
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     @Override
