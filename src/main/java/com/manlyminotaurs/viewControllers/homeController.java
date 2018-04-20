@@ -2476,7 +2476,9 @@ public class homeController implements Initializable {
 		}
 
 	}
-@FXML
+
+
+	@FXML
 Button btnPatientPortal;
 	//Patient Web Portal
 	public void patientPortal(ActionEvent event) throws Exception {
