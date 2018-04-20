@@ -191,7 +191,14 @@
                                        </image>
                                     </ImageView>
                                  </graphic></JFXButton>
-                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0" />
+                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/Floor1Icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
                               <JFXButton fx:id="btn2" buttonType="RAISED" ellipsisString="" layoutY="80.0" onAction="#changeFloor2" prefHeight="50.0" prefWidth="50.0">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
@@ -208,11 +215,6 @@
                                        </image>
                                     </ImageView>
                                  </graphic></JFXButton>
-                              <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="31.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Icons/Floor1Icon.png" />
-                                 </image>
-                              </ImageView>
                                     </children>
                                     <StackPane.margin>
                                         <Insets left="20.0" top="20.0" />
@@ -617,9 +619,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="BUILDING" unFocusColor="WHITE" />
-                                                        <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="FLOOR" unFocusColor="WHITE" />
-                                                        <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="TYPE" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="BUILDING" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="FLOOR" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterStart" prefWidth="120.0" promptText="TYPE" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
@@ -658,7 +660,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationStart" layoutX="15.0" layoutY="100.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" visible="false" />
-                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="WHITE" />
+                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setStartLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                     <JFXListView fx:id="lstStartFiltered" layoutX="15.0" layoutY="105.0" prefHeight="90.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>
@@ -689,9 +691,9 @@
                                                                 <Insets left="20.0" />
                                                             </opaqueInsets>
                                                         </Label>
-                                                        <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="BUILDING" unFocusColor="WHITE" />
-                                                        <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="FLOOR" unFocusColor="WHITE" />
-                                                        <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="TYPE" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="BUILDING" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="110.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="FLOOR" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                                        <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="160.0" maxWidth="120.0" onAction="#filterEnd" prefWidth="120.0" promptText="TYPE" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                                     </children>
                                                 </Pane>
                                                 <Pane maxHeight="70.0" maxWidth="420.0" prefHeight="70.0" prefWidth="420.0" style="-fx-background-color: #102c57;">
@@ -738,7 +740,7 @@
                                                     </opaqueInsets>
                                                 </Label>
                                                 <ComboBox fx:id="comLocationEnd" layoutX="15.0" layoutY="100.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" visible="false" />
-                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" unFocusColor="WHITE" />
+                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" labelFloat="true" layoutX="15.0" layoutY="60.0" maxWidth="240.0" onAction="#setEndLocation" prefWidth="240.0" promptText="TYPE TO SEARCH" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                     <JFXListView fx:id="lstEndFiltered" layoutX="15.0" layoutY="105.0" prefHeight="90.0" prefWidth="240.0" />
                                             </children>
                                         </Pane>

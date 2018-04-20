@@ -5,7 +5,6 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Exit;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.nodes.Room;
 import com.manlyminotaurs.pathfinding.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -26,7 +25,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -113,7 +111,7 @@ public class emergencyScreenController {
         printNodePath(path, startFloor, "2-D");
         changeFloor(startFloor);
 
-        client = new ClientSetup("130.215.13.96", btnReset.getScene());
+        client = new ClientSetup(null);
     }
 
 

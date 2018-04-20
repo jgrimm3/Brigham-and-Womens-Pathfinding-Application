@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.core.RoomService;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
@@ -92,7 +93,8 @@ public class adminRequestDashboardController {
     JFXButton navBtnNodeEditor;
     @FXML
     JFXButton btnHistory;
-
+    @FXML
+    JFXButton btnRoomServiceAPI;
 
 
     Parent nodeEdit;
@@ -188,6 +190,23 @@ public class adminRequestDashboardController {
             e.printStackTrace();}
     }
 
+    public void loadAPI(ActionEvent event){
+        /*
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+*/
+    }
+
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
@@ -263,7 +282,7 @@ public class adminRequestDashboardController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLS/nodeEditor.fxml"));
+            nodeEdit = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/NodeEditor.fxml"));
             //create a new scene with root and set the stage
             Scene scene = new Scene(nodeEdit);
             stage.setScene(scene);

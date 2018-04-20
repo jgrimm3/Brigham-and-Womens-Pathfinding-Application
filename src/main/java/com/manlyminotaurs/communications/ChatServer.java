@@ -127,6 +127,10 @@ public class ChatServer {
                                 writer.println("Reset" + name + " Has Reset The System");
                             }
                         }
+                    }else if(input.startsWith("STATE")){
+                        for (PrintWriter writer : writers) {
+                            writer.println(state);
+                        }
                     }
                 }
             } catch (IOException e) {

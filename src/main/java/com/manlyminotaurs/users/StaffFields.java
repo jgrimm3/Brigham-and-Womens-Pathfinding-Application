@@ -1,6 +1,5 @@
 package com.manlyminotaurs.users;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.time.LocalDateTime;
 
