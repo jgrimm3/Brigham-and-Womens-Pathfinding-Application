@@ -1,13 +1,16 @@
-package com.manlyminotaurs.viewControllers;
+package main.java.com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import com.sun.deploy.association.Action;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import com.manlyminotaurs.core.Main;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
@@ -22,7 +25,25 @@ public class idleMapController {
     JFXButton btnInfo;
 
     @FXML
+    JFXButton btnOpenPortal;
+
+    @FXML
     Button idleMap;
+
+    // login pane
+    @FXML
+    Pane paneLogin;
+
+    @FXML
+    JFXButton btnLogin3;
+
+    @FXML
+    JFXTextField txtUsername;
+
+    @FXML
+    JFXPasswordField txtPassword;
+
+
 
     //event listener on Map
     @FXML
