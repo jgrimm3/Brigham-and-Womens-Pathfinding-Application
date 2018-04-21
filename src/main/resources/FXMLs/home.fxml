@@ -156,7 +156,7 @@
                            <graphic>
                               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/HelpIcon.png" />
+                                    <Image url="@../Icons/HelpIcon.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -170,7 +170,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/FloorL2Icon.png" />
+                                          <Image url="@../Icons/FloorL2Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -179,7 +179,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/FloorL1Icon.png" />
+                                          <Image url="@../Icons/FloorL1Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -188,7 +188,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/Floor1Icon.png" />
+                                          <Image url="@../Icons/Floor1Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -197,7 +197,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/Floor2Icon.png" />
+                                          <Image url="@../Icons/Floor2Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -206,7 +206,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/Floor3Icon.png" />
+                                          <Image url="@../Icons/Floor3Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -225,19 +225,19 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/DirectionsIcon.png" />
+                                          <Image url="@../Icons/DirectionsIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
                               <Pane layoutX="90.0" layoutY="15.0" prefHeight="50.0" prefWidth="403.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
-                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setStartLocation" prefHeight="30.0" prefWidth="330.0" promptText="START LOCATION" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setStartLocation" prefHeight="30.0" prefWidth="330.0" promptText="START LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                     <JFXButton fx:id="btnOpenStartDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#openStartDirectory" prefHeight="47.0" prefWidth="64.0">
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/DirectoryIcon.png" />
+                                                <Image url="@../Icons/DirectoryIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -246,7 +246,7 @@
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/ExitDirectoryIcon.png" />
+                                                <Image url="@../Icons/ExitDirectoryIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -258,11 +258,11 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <JFXButton ellipsisString="" layoutX="975.0" layoutY="-5.0" prefHeight="80.0" prefWidth="120.0">
+                              <JFXButton fx:id="btnGo" ellipsisString="" layoutX="975.0" layoutY="-5.0" onAction="#drawPath" prefHeight="80.0" prefWidth="120.0">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/GoIcon.png" />
+                                          <Image url="@../Icons/GoIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -273,17 +273,17 @@
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/DirectoryIcon.png" />
+                                                <Image url="@../Icons/DirectoryIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setEndLocation" prefHeight="30.0" prefWidth="330.0" promptText="END LOCATION" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setEndLocation" prefHeight="30.0" prefWidth="330.0" promptText="END LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                     <JFXButton fx:id="btnCloseEndDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#closeEndDirectory" prefHeight="47.0" prefWidth="64.0">
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/ExitDirectoryIcon.png" />
+                                                <Image url="@../Icons/ExitDirectoryIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -294,7 +294,7 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/RefreshIcon.png" />
+                                          <Image url="@../Icons/RefreshIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -305,9 +305,9 @@
                            <children>
                               <JFXButton fx:id="btnQuickDirections" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#toggleQuickButtons" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
-                                    <ImageView fx:id="imgNavigation1" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgNavigation" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/NearestIcon.png" />
+                                          <Image url="@../Icons/NearestIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -325,7 +325,7 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/NearestIcon.png" />
+                                          <Image url="@../Icons/NearestElevatorIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -334,7 +334,7 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/NearestIcon.png" />
+                                          <Image url="@../Icons/NearestExitIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -350,7 +350,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/RotateClockwiseIcon.png" />
+                                          <Image url="@../Icons/RotateClockwiseIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -359,7 +359,7 @@
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/RotateCounterClockwiseIcon.png" />
+                                          <Image url="@../Icons/RotateCounterClockwiseIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -368,17 +368,17 @@
                                  <graphic>
                                     <ImageView fx:id="imgCompass1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/CompassIcon.png" />
+                                          <Image url="@../Icons/CompassIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="100.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" prefHeight="20.0" prefWidth="140.0" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" />
+                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="100.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
                               <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#zoomOut" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/ZoomOutIcon.png" />
+                                          <Image url="@../Icons/ZoomOutIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -387,7 +387,7 @@
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/ZoomInIcon.png" />
+                                          <Image url="@../Icons/ZoomInIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -401,7 +401,7 @@
                            <graphic>
                               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/HomeIcon.png" />
+                                    <Image url="@../Icons/HomeIcon.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -418,7 +418,7 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/LeftArrowIcon.png" />
+                                          <Image url="@../Icons/LeftArrowIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -427,7 +427,7 @@
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/RightArrowIcon.png" />
+                                          <Image url="@../Icons/RightArrowIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -482,7 +482,7 @@
                            <graphic>
                               <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/2DIcon.png" />
+                                    <Image url="@../Icons/2DIcon.png" />
                                  </image>
                               </ImageView>
                            </graphic>
