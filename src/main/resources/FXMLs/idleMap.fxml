@@ -29,13 +29,13 @@
       </HBox>
       <VBox layoutX="1192.0" layoutY="89.0" prefHeight="631.0" prefWidth="88.0" style="-fx-background-color: #102c57;" visible="false" />
       <VBox layoutY="82.0" prefHeight="638.0" prefWidth="87.0" style="-fx-background-color: #102c57;" visible="false" />
-      <Button layoutX="390.0" layoutY="330.0" minHeight="80.0" minWidth="500.0" mnemonicParsing="false" style="-fx-background-color: #2b65ac;" text="Click to Start Navigation" textFill="WHITE">
+      <Button fx:id="btnBeginNav" layoutX="390.0" layoutY="330.0" minHeight="80.0" minWidth="500.0" mnemonicParsing="false" style="-fx-background-color: #2b65ac;" text="Click to Start Navigation" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
       <ComboBox layoutX="390.0" layoutY="420.0" prefHeight="50.0" prefWidth="325.0" promptText="Select Language" />
-      <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnLogin" fitHeight="100.0" fitWidth="100.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Icons/ProfileIcon.png" />
          </image>
@@ -45,7 +45,7 @@
             <Image url="@../Icons/ProfileIcon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="1150.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnInfo" fitHeight="100.0" fitWidth="100.0" layoutX="1150.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Icons/AboutIcon.png" />
          </image>

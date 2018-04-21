@@ -1,5 +1,6 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,15 @@ import javafx.stage.Stage;
 
 
 public class idleMapController {
+    @FXML
+    JFXButton btnBeginNav;
+
+    @FXML
+    JFXButton btnLogin;
+
+    @FXML
+    JFXButton btnInfo;
+
     @FXML
     Button idleMap;
 
