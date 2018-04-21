@@ -462,11 +462,11 @@
                                           <Insets left="20.0" />
                                        </opaqueInsets>
                                     </Label>
-                                    <JFXButton fx:id="btnOpenSend1" ellipsisString="" layoutX="261.0" layoutY="-5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#openSendPanel" prefHeight="80.0" prefWidth="80.0">
+                                    <JFXButton fx:id="btnOpenSend" ellipsisString="" layoutX="261.0" layoutY="-5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#openSendPanel" prefHeight="80.0" prefWidth="80.0">
                                        <graphic>
                                           <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/SendIcon.png" />
+                                                <Image url="@../Icons/SendIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -525,7 +525,7 @@
                                        <graphic>
                                           <ImageView fitHeight="80.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/SetIcon.png" />
+                                                <Image url="@../Icons/SetIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
