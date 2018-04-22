@@ -232,7 +232,7 @@
                               </JFXButton>
                               <Pane layoutX="90.0" layoutY="15.0" prefHeight="50.0" prefWidth="403.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
-                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setStartLocation" prefHeight="30.0" prefWidth="330.0" promptText="START LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXTextField fx:id="txtLocationStart" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="320.0" onAction="#setStartLocation" prefHeight="30.0" prefWidth="320.0" promptText="START LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                     <JFXButton fx:id="btnOpenStartDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#openStartDirectory" prefHeight="47.0" prefWidth="64.0">
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -242,7 +242,7 @@
                                           </ImageView>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton fx:id="btnCloseStartDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#closeStartDirectory" prefHeight="47.0" prefWidth="64.0">
+                                    <JFXButton fx:id="btnCloseStartDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#closeStartDirectory" prefHeight="47.0" prefWidth="64.0" visible="false">
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -278,8 +278,8 @@
                                           </ImageView>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="330.0" onAction="#setEndLocation" prefHeight="30.0" prefWidth="330.0" promptText="END LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXButton fx:id="btnCloseEndDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#closeEndDirectory" prefHeight="47.0" prefWidth="64.0">
+                                    <JFXTextField fx:id="txtLocationEnd" focusColor="WHITE" layoutX="15.0" layoutY="7.0" maxHeight="30.0" maxWidth="320.0" onAction="#setEndLocation" prefHeight="30.0" prefWidth="320.0" promptText="END LOCATION" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXButton fx:id="btnCloseEndDirectory" buttonType="RAISED" ellipsisString="" layoutX="350.0" layoutY="-5.0" onAction="#closeEndDirectory" prefHeight="47.0" prefWidth="64.0" visible="false">
                                        <graphic>
                                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -290,7 +290,7 @@
                                     </JFXButton>
                                  </children>
                               </Pane>
-                              <JFXButton fx:id="btnRestart" ellipsisString="" layoutX="975.0" layoutY="-5.0" onAction="#restart" prefHeight="80.0" prefWidth="120.0">
+                              <JFXButton fx:id="btnRestart" ellipsisString="" layoutX="975.0" layoutY="-5.0" onAction="#restart" prefHeight="80.0" prefWidth="120.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -312,16 +312,16 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/BathroomIcon.png" />
+                                          <Image url="@../Icons/BathroomIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -330,7 +330,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -495,16 +495,16 @@
                               <Pane layoutY="29.0" maxHeight="655.0" maxWidth="600.0" minHeight="300.0" minWidth="350.0" prefHeight="645.0" prefWidth="600.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
                                     <JFXListView fx:id="lstStartDirectory" layoutX="15.0" layoutY="105.0" maxHeight="535.0" maxWidth="570.0" prefHeight="525.0" prefWidth="570.0" />
-                                    <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="600.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
                                  <children>
-                                    <Label contentDisplay="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="20.0" maxHeight="40.0" maxWidth="360.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="360.0" text="HOSPITAL DIRECTORY">
+                                    <Label contentDisplay="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="20.0" maxHeight="40.0" maxWidth="360.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="360.0" text="HOSPITAL DIRECTORY - START">
                                        <font>
-                                          <Font name="System Bold" size="30.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                        <textFill>
                                           <LinearGradient endX="1.0" endY="1.0">
@@ -542,16 +542,16 @@
                               <Pane layoutY="29.0" maxHeight="655.0" maxWidth="600.0" minHeight="300.0" minWidth="350.0" prefHeight="645.0" prefWidth="600.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
                                     <JFXListView fx:id="lstEndDirectory" layoutX="15.0" layoutY="105.0" maxHeight="535.0" maxWidth="570.0" prefHeight="525.0" prefWidth="570.0" />
-                                    <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="600.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
                                  <children>
-                                    <Label contentDisplay="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="20.0" maxHeight="40.0" maxWidth="360.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="360.0" text="HOSPITAL DIRECTORY">
+                                    <Label contentDisplay="CENTER" graphicTextGap="0.0" layoutX="15.0" layoutY="20.0" maxHeight="40.0" maxWidth="360.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="360.0" text="HOSPITAL DIRECTORY - END">
                                        <font>
-                                          <Font name="System Bold" size="30.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                        <textFill>
                                           <LinearGradient endX="1.0" endY="1.0">

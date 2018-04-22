@@ -9,12 +9,12 @@
 
 .jfx-combo-box {
     /*-fx-background-color:   #2b65ac; */
-    -fx-text-fill: #1f1f1f;
+    -fx-text-fill: white;
     -fx-prompt-text-fill:  white;
     -jfx-focus-color: white;
     -jfx-unfocus-color: white;
 }
-.jfx-combo-box .cell:selected{ -fx-text-fill: #1f1f1f; }
+.jfx-combo-box .cell:selected{ -fx-text-fill: white; }
 
 /*
 #dark-blue {

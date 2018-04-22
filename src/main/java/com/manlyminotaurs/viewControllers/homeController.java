@@ -183,12 +183,6 @@ public class homeController implements Initializable {
 	Label lblLocationEnd;
 
 	@FXML
-	Pane paneStartLocation;
-
-	@FXML
-	Pane paneEndLocation;
-
-	@FXML
 	ImageView mapImg;
 
 	@FXML
@@ -256,14 +250,8 @@ public class homeController implements Initializable {
 		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 
-		txtLocationStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comBuildingStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comFloorStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comTypeStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		txtLocationEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comBuildingEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comFloorEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
-		comTypeEnd.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
+		lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
+		lstEndDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
 
 	}
 
@@ -526,23 +514,7 @@ public class homeController implements Initializable {
 		}
 	}
 
-	public void filterStart(ActionEvent event) {
 
-		System.out.println("hi you filtered start");
-		// Ed's function in call below
-		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
-		lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
-	}
-
-	public void filterEnd(ActionEvent event) {
-		System.out.println("hi you filtered end");
-
-		// Ed's function in call below
-		//TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
-
-		//TextFields.bindAutoCompletion(txtLocationEnd, buildings);
-		lstEndDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
-	}
 
 	public void setStartLocation(ActionEvent event) {
 		System.out.println("You set a start location: " + txtLocationStart.getText());
@@ -553,13 +525,8 @@ public class homeController implements Initializable {
 
 	}
 
-	public void setStart(ActionEvent event) {
 
-	}
 
-	public void setEnd(ActionEvent event) {
-
-	}
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Directions
@@ -579,9 +546,6 @@ public class homeController implements Initializable {
 
 	@FXML
 	JFXListView<String> lstDirections;
-
-	@FXML
-	Button btnRestart;
 
 	@FXML
 	Pane paneSend;
@@ -628,10 +592,6 @@ public class homeController implements Initializable {
 		comTypeStart.setDisable(true);
 		comTypeEnd.setDisable(true);
 
-		// Show pathfinding interface and hide directions interface
-		panePathfinding.setVisible(true);
-		paneDirections.setVisible(false);
-
 		tglMap.setSelected(false);
 		tglMap.setText("2-D");
 		changeFloor("1");
@@ -659,7 +619,6 @@ public class homeController implements Initializable {
 		paneSend.setVisible(false);
 
 		// Disable Everything Else
-		btnRestart.setDisable(false);
 		btnHelp.setDisable(false);
 		btnQuickDirections.setDisable(false);
 		btnQuickBathroom.setDisable(false);
@@ -839,12 +798,7 @@ public class homeController implements Initializable {
     StackPane paneHelpPathfind;
 
 	public void openHelpPanel(ActionEvent event) {
-
-		if (btnGo.isVisible()) {
-			paneHelpPathfind.setVisible(true);
-		} else if (btnRestart.isVisible()) {
-			paneHelpDirections.setVisible(true);
-		}
+	    paneHelpPathfind.setVisible(true);
 	}
 
 	public void closeHelpDirections(MouseEvent mouseEvent) {
@@ -1199,27 +1153,29 @@ public class homeController implements Initializable {
 	}
 
 	public void drawPath(ActionEvent event) {
+
+		System.out.println(txtLocationStart.getText());
+		System.out.println(txtLocationEnd.getText());
+
+		String startName = txtLocationStart.getText();
+		String endName = txtLocationEnd.getText();
+
 		String dimension;
 
-		// !!!
-		if (txtLocationStart.getText().equals("START LOCATION") || txtLocationEnd.getText().equals("END LOCATION")) { // !!! add .equals using as a tester
-
+		if (startName.equals("") || endName.equals("")) {
 			System.out.println("Pick a start and end location!");
-
 		} else {
-
 
 			PathfinderUtil pathfinderUtil = new PathfinderUtil();
 
 			//List<Node> nodeList = new ArrayList<>();
 			//LinkedList<Node> pathList = new LinkedList<>();
 			//nodeList = DataModelI.getInstance().retrieveNodes();
-			Node startNode = DataModelI.getInstance().getNodeByLongName(txtLocationStart.getText());
-			Node endNode = DataModelI.getInstance().getNodeByLongName(txtLocationEnd.getText());
+			Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
+			Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+
 			startFloor = startNode.getFloor();
-			lblStartLocation1.setText(startNode.getLongName());
 			endFloor = endNode.getFloor();
-			lblEndLocation1.setText(endNode.getLongName());
 			currentFloor = startNode.getFloor();
 
 			try {
@@ -1238,8 +1194,6 @@ public class homeController implements Initializable {
             lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;
-            //pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));
-            // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 
 			// Draw path code
 			if (tglMap.isSelected()) {
@@ -1253,23 +1207,6 @@ public class homeController implements Initializable {
 				printNodePath(pathList, startFloor, dimension);
 				changeFloor(startFloor);
 			}
-
-
-			// Clear old fields
-
-			// Show directions interface and hide pathfinding interface
-			panePathfinding.setVisible(false);
-			paneDirections.setVisible(true);
-
-			// Clean up Navigation Fields
-			comBuildingEnd.setItems(buildings);
-			comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-			comFloorEnd.setDisable(true);
-			comFloorEnd.getSelectionModel().clearSelection();
-			comFloorEnd.setItems(empty);
-			comTypeEnd.setDisable(true);
-			comTypeEnd.getSelectionModel().clearSelection();
-			comTypeEnd.setItems(empty);
 
 			animationCircle.setVisible(true);
 			//overMap.getChildren().add(animationCircle);
@@ -1294,6 +1231,7 @@ public class homeController implements Initializable {
 			//printPoints(comChangeFloor.getValue(), dimension);
 
 			// Update Directions
+
 		}
 	}
 
@@ -1512,24 +1450,6 @@ public class homeController implements Initializable {
 	@FXML
 	Label lblNode;
 
-	@FXML
-	JFXButton btnAbout;
-
-	@FXML
-	JFXButton btnCloseAbout;
-
-	@FXML
-	Pane paneAbout;
-
-	public void closeAboutPanel(ActionEvent event) {
-		paneAbout.setVisible(false);
-	}
-
-	public void openAboutPanel(ActionEvent event) {
-		paneAbout.setVisible(true);
-	}
-
-
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(ActionEvent event) {
 		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
@@ -1639,7 +1559,7 @@ public class homeController implements Initializable {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
-	//                                           Change Floors
+	//                                           Bread Crumb
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 
@@ -1829,6 +1749,31 @@ public class homeController implements Initializable {
 
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------
+	//
+	//                                           Directory
+	//
+	//-----------------------------------------------------------------------------------------------------------------
+
+	@FXML
+	JFXButton btnCloseStartDirectory;
+
+    @FXML
+    JFXButton btnOpenStartDirectory;
+
+    @FXML
+    JFXButton btnCloseEndDirectory;
+
+    @FXML
+    JFXButton btnOpenEndDirectory;
+
+	@FXML
+	Pane paneStartDirectory;
+
+	@FXML
+	Pane paneEndDirectory;
+
+
 	public String convertType(String type) {
 
 		if (type == null) {
@@ -1925,19 +1870,76 @@ public class homeController implements Initializable {
 	}
 
 	public void openStartDirectory(ActionEvent event) {
+		btnCloseStartDirectory.setVisible(true);
+		btnOpenStartDirectory.setVisible(false);
+		paneStartDirectory.setVisible(true);
+		paneEndDirectory.setVisible(false);
+
+		btnOpenEndDirectory.setVisible(true);
+		btnCloseEndDirectory.setVisible(false);
+
+		comBuildingStart.getSelectionModel().clearSelection();
+		comFloorStart.getSelectionModel().clearSelection();
+		comTypeStart.getSelectionModel().clearSelection();
 
 	}
 
 	public void closeStartDirectory(ActionEvent event) {
-
+        btnCloseStartDirectory.setVisible(false);
+        btnOpenStartDirectory.setVisible(true);
+        paneStartDirectory.setVisible(false);
 	}
 
 	public void openEndDirectory(ActionEvent event) {
+        btnCloseEndDirectory.setVisible(true);
+        btnOpenEndDirectory.setVisible(false);
+        paneEndDirectory.setVisible(true);
+        paneStartDirectory.setVisible(false);
 
+		btnOpenStartDirectory.setVisible(true);
+		btnCloseStartDirectory.setVisible(false);
 	}
 
 	public void closeEndDirectory(ActionEvent event) {
+        btnCloseEndDirectory.setVisible(false);
+        btnOpenEndDirectory.setVisible(true);
+        paneEndDirectory.setVisible(false);
+	}
 
+	public void setStart(ActionEvent event) {
+		String startLocation = lstStartDirectory.getSelectionModel().getSelectedItem();
+		txtLocationStart.setText(startLocation);
+
+		btnCloseStartDirectory.setVisible(false);
+		btnOpenStartDirectory.setVisible(true);
+		paneStartDirectory.setVisible(false);
+	}
+
+	public void setEnd(ActionEvent event) {
+		String endLocation = lstEndDirectory.getSelectionModel().getSelectedItem();
+		txtLocationEnd.setText(endLocation);
+
+		btnCloseEndDirectory.setVisible(false);
+		btnOpenEndDirectory.setVisible(true);
+		paneEndDirectory.setVisible(false);
+	}
+
+	public void filterStart(ActionEvent event) {
+
+		System.out.println("hi you filtered start");
+		// Ed's function in call below
+		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
+		lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
+	}
+
+	public void filterEnd(ActionEvent event) {
+		System.out.println("hi you filtered end");
+
+		// Ed's function in call below
+		//TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
+
+		//TextFields.bindAutoCompletion(txtLocationEnd, buildings);
+		lstEndDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
 	}
 
 	public void goHome(ActionEvent event) {
