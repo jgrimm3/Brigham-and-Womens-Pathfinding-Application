@@ -73,6 +73,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+    * Initialize the database
+    *
+    */
     public void startDB() {
         tableInitializer.setupDatabase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
@@ -80,6 +84,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+     * Connect to the database
+     *
+     */
     public Connection getNewConnection() {
         try {
             if(DataModelI.getInstance().connection == null || DataModelI.getInstance().connection.isClosed()) {
@@ -92,6 +100,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+     * Terminate database connection
+     *
+     */
     public boolean closeConnection() {
         try {
             if(DataModelI.getInstance().connection != null) {
@@ -116,16 +128,28 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.getNodeList();
     }
 
+    /*
+     * Retrieve map of Nodes
+     *
+     */
     public Map<String, Node> getNodeMap(){
         return nodesDBUtil.getNodeMap(false);
     }
 
     @Override
+    /*
+     * Retreive list of Nodes
+     *
+     */
     public List<Node> getNodeList() {
         return nodesDBUtil.getNodeList();
     }
 
     @Override
+    /*
+     * Modify a Node
+     *
+     */
     public boolean modifyNode(Node newNode) {
         boolean tempBool =  nodesDBUtil.modifyNode(newNode);
         addLog("Modified "+ newNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newNode.getNodeID(),"node");
@@ -133,6 +157,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+     * Add a Node
+     *
+     */
     public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
         Node tempNode =  nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
         addLog("Added "+ tempNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempNode.getNodeID(),"node");
@@ -140,6 +168,10 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+     * Remove a Node
+     *
+     */
     public boolean removeNode(Node badNode) {
         boolean tempBool = nodesDBUtil.removeNode(badNode.getNodeID());
         addLog("Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
@@ -153,6 +185,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    /*
+     * @param nodeID ID of Node
+     * @returns boolean
+     * Query database for Node
+     */
     public boolean doesNodeExist(String nodeID) {
         return nodesDBUtil.doesNodeExist(nodeID);
     }

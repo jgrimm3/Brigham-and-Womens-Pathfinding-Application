@@ -58,8 +58,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        fd = new FireDetector(primaryStage);
-        fd.startDetecting();
+//        fd = new FireDetector(primaryStage);
+//        fd.startDetecting();
     }
     // wait for application to finish,calls Platform exit, save files.
     @FXML
