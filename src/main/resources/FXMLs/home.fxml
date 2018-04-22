@@ -166,45 +166,45 @@
                         </JFXButton>
                         <Pane maxHeight="400.0" maxWidth="115.0" minHeight="400.0" minWidth="100.0" prefHeight="400.0" prefWidth="115.0" StackPane.alignment="TOP_LEFT">
                            <children>
-                              <JFXButton fx:id="btnL2" buttonType="RAISED" ellipsisString="" layoutY="320.0" onAction="#changeFloorL2" prefHeight="50.0" prefWidth="50.0">
+                              <JFXButton fx:id="btnL2" buttonType="RAISED" ellipsisString="" layoutY="320.0" onAction="#changeFloorL2" prefHeight="50.0" prefWidth="50.0" text="l">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgL2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/FloorL2Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnL1" buttonType="RAISED" ellipsisString="" layoutY="240.0" onAction="#changeFloorL1" prefHeight="50.0" prefWidth="50.0">
+                              <JFXButton fx:id="btnL1" buttonType="RAISED" ellipsisString="" layoutY="240.0" onAction="#changeFloorL1" prefHeight="50.0" prefWidth="50.0" text="l">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgL1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/FloorL1Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0">
+                              <JFXButton fx:id="btn1" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" onAction="#changeFloor1" prefHeight="50.0" prefWidth="50.0" text="l">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="img1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor1Icon.png" />
+                                          <Image url="@../Icons/Floor1IconSelected.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btn2" buttonType="RAISED" ellipsisString="" layoutY="80.0" onAction="#changeFloor2" prefHeight="50.0" prefWidth="50.0">
+                              <JFXButton fx:id="btn2" buttonType="RAISED" ellipsisString="" layoutY="80.0" onAction="#changeFloor2" prefHeight="50.0" prefWidth="50.0" text="l">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="img2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/Floor2Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btn3" buttonType="RAISED" ellipsisString="" onAction="#changeFloor3" prefHeight="50.0" prefWidth="50.0">
+                              <JFXButton fx:id="btn3" buttonType="RAISED" ellipsisString="" onAction="#changeFloor3" prefHeight="50.0" prefWidth="50.0" text="l">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="img3" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/Floor3Icon.png" />
                                        </image>
@@ -221,7 +221,7 @@
                               <Insets right="20.0" top="30.0" />
                            </StackPane.margin>
                            <children>
-                              <JFXButton ellipsisString="" layoutX="-10.0" layoutY="-5.0" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnDirections" ellipsisString="" layoutX="-10.0" layoutY="-5.0" onAction="#openDirectionsPane" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -346,7 +346,7 @@
                         </Pane>
                         <Pane maxHeight="125.0" maxWidth="250.0" prefHeight="125.0" prefWidth="250.0" StackPane.alignment="BOTTOM_LEFT">
                            <children>
-                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onMouseClicked="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onAction="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -355,7 +355,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onMouseClicked="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
+                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onAction="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -366,7 +366,7 @@
                               </JFXButton>
                               <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" layoutX="90.0" layoutY="10.0" maxHeight="60.0" maxWidth="75.0" minHeight="60.0" minWidth="60.0" onAction="#resetRotate" prefHeight="60.0" prefWidth="75.0" text="l">
                                  <graphic>
-                                    <ImageView fx:id="imgCompass1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/CompassIcon.png" />
                                        </image>
@@ -374,7 +374,7 @@
                                  </graphic>
                               </JFXButton>
                               <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="100.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
-                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#zoomOut" prefHeight="30.0" prefWidth="30.0">
+                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomOut" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -383,7 +383,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onMouseClicked="#zoomIn" prefHeight="30.0" prefWidth="30.0">
+                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomIn" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -414,7 +414,7 @@
                               <Insets bottom="30.0" />
                            </StackPane.margin>
                            <children>
-                              <JFXButton fx:id="bftLeft" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#previousStep" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnLeft" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#previousStep" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -434,11 +434,11 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane maxHeight="617.0" maxWidth="350.0" minHeight="317.0" minWidth="350.0" prefHeight="617.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" visible="false" StackPane.alignment="TOP_RIGHT">
+                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <Pane layoutY="29.0" maxHeight="600.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
-                                    <JFXListView fx:id="lstDirections" layoutX="15.0" layoutY="46.0" maxHeight="535.0" maxWidth="390.0" prefHeight="535.0" prefWidth="321.0" />
+                                    <JFXListView fx:id="lstDirections" layoutX="15.0" layoutY="65.0" maxHeight="520.0" maxWidth="320.0" prefHeight="520.0" prefWidth="320.0" />
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="350.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
@@ -495,9 +495,9 @@
                               <Pane layoutY="29.0" maxHeight="655.0" maxWidth="600.0" minHeight="300.0" minWidth="350.0" prefHeight="645.0" prefWidth="600.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
                                     <JFXListView fx:id="lstStartDirectory" layoutX="15.0" layoutY="105.0" maxHeight="535.0" maxWidth="570.0" prefHeight="525.0" prefWidth="570.0" />
-                                    <JFXComboBox fx:id="comBuildingStart1" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comFloorStart1" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comTypeStart1" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comBuildingStart" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comFloorStart" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comTypeStart" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="600.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
@@ -542,9 +542,9 @@
                               <Pane layoutY="29.0" maxHeight="655.0" maxWidth="600.0" minHeight="300.0" minWidth="350.0" prefHeight="645.0" prefWidth="600.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
                                     <JFXListView fx:id="lstEndDirectory" layoutX="15.0" layoutY="105.0" maxHeight="535.0" maxWidth="570.0" prefHeight="525.0" prefWidth="570.0" />
-                                    <JFXComboBox fx:id="comBuildingEnd1" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comFloorEnd1" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
-                                    <JFXComboBox fx:id="comTypeEnd1" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterStart" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comBuildingEnd" focusColor="WHITE" layoutX="15.0" layoutY="60.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="BUILDING" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comFloorEnd" focusColor="WHITE" layoutX="215.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="FLOOR" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="comTypeEnd" focusColor="WHITE" layoutX="415.0" layoutY="60.0" maxHeight="30.0" maxWidth="170.0" onAction="#filterEnd" prefHeight="30.0" prefWidth="170.0" promptText="TYPE" stylesheets="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/StyleSheets/Jfeonix.css" unFocusColor="WHITE" />
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="600.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
@@ -572,7 +572,7 @@
                                        <graphic>
                                           <ImageView fitHeight="80.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/SetIcon.png" />
+                                                <Image url="@../Icons/SetIcon.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -744,6 +744,73 @@
                               </Pane>
                            </children>
                         </StackPane>
+                        <Pane fx:id="paneSend" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="850.0" style="-fx-background-color: #f1f1f1; -fx-background-radius: 15;">
+                           <children>
+                              <Pane layoutY="55.0" prefHeight="140.0" prefWidth="850.0" style="-fx-background-color: #1f1f1f;">
+                                 <children>
+                                    <Label layoutX="30.0" layoutY="90.0" prefHeight="32.0" prefWidth="790.0" text="Type in your phone number or email to receive your step-by-step directions directly to your mobile device." textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Pane prefHeight="130.0" prefWidth="850.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;">
+                                 <children>
+                                    <JFXButton fx:id="btnCloseSend" ellipsisString="" layoutX="750.0" layoutY="35.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#closeSendPanel" prefHeight="40.0" prefWidth="40.0" text="Bu">
+                                       <graphic>
+                                          <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Icons/ExitIcon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                    <Label layoutX="30.0" layoutY="30.0" text="SEND DIRECTIONS" textFill="WHITE">
+                                       <font>
+                                          <Font size="60.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Pane layoutY="200.0" prefHeight="343.0" prefWidth="850.0">
+                                 <children>
+                                    <JFXTextField fx:id="txtEmail" layoutX="30.0" layoutY="80.0" prefHeight="60.0" prefWidth="600.0" />
+                                    <Label layoutX="30.0" layoutY="30.0" text="EMAIL">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField fx:id="txtPhone" layoutX="30.0" layoutY="230.0" prefHeight="60.0" prefWidth="600.0" />
+                                    <Label layoutX="30.0" layoutY="180.0" text="PHONE">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXButton fx:id="btnEmail" ellipsisString="" layoutX="670.0" layoutY="20.0" onAction="#sendDirectionsViaEmail" prefHeight="130.0" prefWidth="130.0">
+                                       <graphic>
+                                          <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Icons/EmailIcon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnPhone" ellipsisString="" layoutX="670.0" layoutY="170.0" onAction="#sendDirectionsViaPhone" prefHeight="100.0" prefWidth="100.0">
+                                       <graphic>
+                                          <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Icons/PhoneIcon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                    <Label fx:id="lblEmailMessage" alignment="BOTTOM_RIGHT" layoutX="330.0" layoutY="140.0" prefHeight="30.0" prefWidth="300.0" />
+                                    <Label fx:id="lblPhoneMessage" alignment="BOTTOM_RIGHT" layoutX="330.0" layoutY="290.0" prefHeight="30.0" prefWidth="300.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
                      </children>
                   </StackPane>
                </children>
