@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1900.0" AnchorPane.bottomAnchor="411.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="14.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.manlyminotaurs.viewControllers.idleMapController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1900.0" AnchorPane.bottomAnchor="411.0" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="14.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.idleMapController">
    <children>
       <ImageView fitHeight="1071.0" fitWidth="1902.0" layoutY="-55.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,7 +33,7 @@
             <Font size="30.0" />
          </font></JFXButton>
       <JFXComboBox layoutX="550.0" layoutY="500.0" minHeight="50.0" minWidth="325.0" promptText="   Select Language" style="-fx-background-color: #2f2f2f;" />
-      <JFXButton fx:id="btnLogin" buttonType="RAISED" ellipsisString="" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+      <JFXButton fx:id="btnLogin" buttonType="RAISED" ellipsisString="" onAction="#openLoginPanel" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,7 +42,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnInfo" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <JFXButton fx:id="btnInfo" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="10.0" onAction="#openAboutPanel" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -51,7 +51,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnOpenPortal" buttonType="RAISED" ellipsisString="" layoutX="900.0" layoutY="10.0" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0">
+      <JFXButton fx:id="btnOpenPortal" buttonType="RAISED" ellipsisString="" layoutX="900.0" layoutY="10.0" onAction="#patientPortal" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -69,7 +69,7 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnCloseLogin" ellipsisString="" layoutX="330.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0">
+                  <JFXButton fx:id="btnCloseLogin" ellipsisString="" layoutX="330.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#closeLoginPanel" prefHeight="30.0" prefWidth="30.0">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -80,9 +80,9 @@
                   </JFXButton>
                </children>
             </Pane>
-            <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
+            <Pane layoutY="100.0" prefHeight="360.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false">
                <children>
-                  <JFXButton fx:id="btnLogin3" layoutX="20.0" layoutY="287.0" maxHeight="70.0" maxWidth="360.0" prefHeight="53.0" prefWidth="360.0" style="-fx-background-color: #102c57;" text="STAFF LOGIN" textFill="WHITE">
+                  <JFXButton fx:id="btnLogin3" layoutX="20.0" layoutY="287.0" maxHeight="70.0" maxWidth="360.0" onAction="#login" prefHeight="53.0" prefWidth="360.0" style="-fx-background-color: #102c57;" text="STAFF LOGIN" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -108,7 +108,7 @@
             <Pane prefHeight="670.0" prefWidth="850.0" style="-fx-background-color: #102c57;">
                <children>
                   <Pane prefHeight="100.0" prefWidth="850.0" style="-fx-background-color: #2f2f2f;" />
-                  <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="780.0" layoutY="30.0" prefHeight="7.0" prefWidth="5.0">
+                  <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="780.0" layoutY="30.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
