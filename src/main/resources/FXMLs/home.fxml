@@ -112,7 +112,7 @@
                                                 </Path>
                                                 <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
-                                                      <Image url="@../../../../../../CS3733-TeamM-Iteration3/CS3733_TeamM_Iter3/src/main/resources/Icons/destination.png" />
+                                                      <Image url="@../MapImages/01_thefirstfloor.png" />
                                                    </image>
                                                 </ImageView>
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
