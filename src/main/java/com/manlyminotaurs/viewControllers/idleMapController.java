@@ -11,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -30,6 +33,8 @@ public class idleMapController {
     @FXML
     Button idleMap;
 
+    @FXML
+    Button paneAbout;
     // login pane
     @FXML
     Pane paneLogin;
@@ -43,9 +48,50 @@ public class idleMapController {
     @FXML
     JFXPasswordField txtPassword;
 
+    public void initialize() {}
 
+    public void closeAboutPanel(ActionEvent event) {
+        paneAbout.setVisible(false);
+    }
 
-    //event listener on Map
+    public void openAboutPanel(ActionEvent event) {
+        paneAbout.setVisible(true);
+    }
+
+    //Open patient Web Portal
+    public void patientPortal(ActionEvent event) throws Exception {
+        StackPane secondaryLayout = new StackPane();
+        Stage primaryStage = (Stage)btnLogin.getScene().getWindow();
+        //secondaryLayout.getChildren().add(secondLabel);
+
+        Stage stage;
+
+        //get reference to the button's stage
+
+        WebView web = new WebView();
+        web.getEngine().load("https://patientgateway.partners.org/public/");
+        Scene scene = new Scene(web);
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Patient Portal");
+        newWindow.setScene(scene);
+
+        // Specifies the modality for new window.
+        newWindow.initModality(Modality.WINDOW_MODAL);
+
+        // Specifies the owner Window (parent) for new window
+        newWindow.initOwner(primaryStage);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX()+600);
+        newWindow.setY(primaryStage.getY()+250);
+
+        newWindow.show();
+
+    }
+
+    /*event listener on Map
     @FXML
     public void mapActive(ActionEvent event)throws Exception{
     try{
@@ -63,6 +109,8 @@ public class idleMapController {
         }
         catch (Exception e){
         e.printStackTrace();}
-    }
+    } */
+
+
 
 }
