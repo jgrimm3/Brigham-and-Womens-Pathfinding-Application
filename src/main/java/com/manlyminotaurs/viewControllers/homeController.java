@@ -240,7 +240,6 @@ public class homeController implements Initializable {
 	public void setPathfindingScreen() {
 
 		paneDirections.setVisible(false);
-		panePathfinding.setVisible(true);
 
 		comBuildingStart.setItems(buildings);
 		comBuildingEnd.setItems(buildings);
@@ -254,8 +253,8 @@ public class homeController implements Initializable {
 
 		floor2DMapLoader("1");
 
-		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
-		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comTypeStart.getValue(), comFloorStart.getValue())));
+		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
+		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 
 		txtLocationStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
 		comBuildingStart.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: white; -fx-font-size: 13;");
@@ -288,6 +287,7 @@ public class homeController implements Initializable {
 
 	@FXML
 	public void initialize() {
+
 		setPathfindingScreen();
 		changeFloor("1");
 		setStrategy();

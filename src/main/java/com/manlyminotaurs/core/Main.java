@@ -39,7 +39,7 @@ public class Main extends Application {
             }else{
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
             }
-            Scene world = new Scene(root, 1920, 1080);
+            Scene world = new Scene(root, 1900, 1000);
             primaryStage.setTitle("Brigham and Women's Hospital Navigation");
             //add style sheets here
 

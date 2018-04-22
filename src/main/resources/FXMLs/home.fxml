@@ -434,7 +434,7 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" StackPane.alignment="TOP_RIGHT">
+                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" visible="false" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <Pane layoutY="29.0" maxHeight="600.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
@@ -744,7 +744,7 @@
                               </Pane>
                            </children>
                         </StackPane>
-                        <Pane fx:id="paneSend" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="850.0" style="-fx-background-color: #f1f1f1; -fx-background-radius: 15;">
+                        <Pane fx:id="paneSend" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="850.0" style="-fx-background-color: #f1f1f1; -fx-background-radius: 15;" visible="false">
                            <children>
                               <Pane layoutY="55.0" prefHeight="140.0" prefWidth="850.0" style="-fx-background-color: #1f1f1f;">
                                  <children>
