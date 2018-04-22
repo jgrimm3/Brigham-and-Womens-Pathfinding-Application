@@ -3,6 +3,7 @@ package com.manlyminotaurs.core;
 import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.timeout.Memento;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,9 +21,11 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class Main extends Application {
+    public static Memento memnto;
 
     static AnchorPane root; //root holds all other screens
     static boolean createTables = true;
+
 
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
@@ -31,11 +34,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        KioskInfo.myStage = primaryStage;
         try{
             System.out.println("Checking Status of Emergency");
             if(new ClientSetup(null).requestState().equals("0")) {
                 //root is anchor pane that all other screens will be held in
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
             }else{
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
             }
