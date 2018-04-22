@@ -3,6 +3,8 @@ package main.java.com.manlyminotaurs.viewControllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.manlyminotaurs.core.KioskInfo;
+import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +18,17 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Have begin navigation button open home.fxml
+// TODO: Make sure login button works and opens admin fxml's
 
 public class idleMapController {
+
+    @FXML
+    JFXTextField txtUsername;
+
+    @FXML
+    JFXPasswordField txtPassword;
+
     @FXML
     JFXButton btnBeginNav;
 
@@ -31,24 +42,20 @@ public class idleMapController {
     JFXButton btnOpenPortal;
 
     @FXML
-    Button idleMap;
+    Pane paneAbout;
 
-    @FXML
-    Button paneAbout;
-    // login pane
     @FXML
     Pane paneLogin;
 
     @FXML
     JFXButton btnLogin3;
 
-    @FXML
-    JFXTextField txtUsername;
+    public void initialize() {
+        paneAbout.setVisible(false);
+        paneLogin.setVisible(false);
+    }
 
-    @FXML
-    JFXPasswordField txtPassword;
-
-    public void initialize() {}
+    /* opening and closing the about panel ***********************************/
 
     public void closeAboutPanel(ActionEvent event) {
         paneAbout.setVisible(false);
@@ -58,8 +65,49 @@ public class idleMapController {
         paneAbout.setVisible(true);
     }
 
-    //Open patient Web Portal
-    public void patientPortal(ActionEvent event) throws Exception {
+
+    /* opening and closing the login panel ***********************************/
+
+    public void openLoginPanel(ActionEvent event) {
+
+        txtUsername.setText("");
+        txtPassword.setText("");
+
+        // Show login panel
+        paneLogin.setVisible(true);
+
+    }
+
+    public void closeLoginPanel(ActionEvent event) {
+
+        txtUsername.setText("");
+        txtPassword.setText("");
+
+        // Hide login panel
+        paneLogin.setVisible(false);
+    }
+
+    public void login(ActionEvent event) {
+
+        String userName = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        if (userName.equals("") || password.equals("")) {
+
+            // print message
+            System.out.println("Please completely fill in the username and password fields");
+        } else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
+            // open admin fxml
+        } else {
+            // print message
+            System.out.println("Wrong username and password!");
+
+        }
+    }
+
+    /* Open patient Web Portal *********************************************/
+
+    public void patientPortal(ActionEvent event) {
         StackPane secondaryLayout = new StackPane();
         Stage primaryStage = (Stage)btnLogin.getScene().getWindow();
         //secondaryLayout.getChildren().add(secondLabel);

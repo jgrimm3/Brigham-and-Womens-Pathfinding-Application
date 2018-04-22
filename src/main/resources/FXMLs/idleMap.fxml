@@ -33,7 +33,7 @@
             <Font size="30.0" />
          </font></JFXButton>
       <JFXComboBox layoutX="550.0" layoutY="500.0" minHeight="50.0" minWidth="325.0" promptText="   Select Language" style="-fx-background-color: #2f2f2f;" />
-      <JFXButton fx:id="btnLogin" buttonType="RAISED" ellipsisString="" onAction="#btnLogin" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+      <JFXButton fx:id="btnLogin" buttonType="RAISED" ellipsisString="" onAction="#openLoginPanel" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,7 +42,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnInfo" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="10.0" onAction="#btnInfo" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <JFXButton fx:id="btnInfo" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="10.0" onAction="#openAboutPanel" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -51,7 +51,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnOpenPortal" buttonType="RAISED" ellipsisString="" layoutX="900.0" layoutY="10.0" onAction="#btnOpenPortal" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0">
+      <JFXButton fx:id="btnOpenPortal" buttonType="RAISED" ellipsisString="" layoutX="900.0" layoutY="10.0" onAction="#patientPortal" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0">
          <graphic>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -60,7 +60,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <Pane fx:id="paneLogin" layoutX="100.0" layoutY="430.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;" visible="false">
+      <Pane fx:id="paneLogin" layoutX="100.0" layoutY="430.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: #2b65ac;">
          <children>
             <Pane prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #102c57;">
                <children>
@@ -69,7 +69,7 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnCloseLogin" ellipsisString="" layoutX="330.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0">
+                  <JFXButton fx:id="btnCloseLogin" ellipsisString="" layoutX="330.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#closeLoginPanel" prefHeight="30.0" prefWidth="30.0">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -108,7 +108,7 @@
             <Pane prefHeight="670.0" prefWidth="850.0" style="-fx-background-color: #102c57;">
                <children>
                   <Pane prefHeight="100.0" prefWidth="850.0" style="-fx-background-color: #2f2f2f;" />
-                  <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="780.0" layoutY="30.0" prefHeight="7.0" prefWidth="5.0">
+                  <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="780.0" layoutY="30.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
