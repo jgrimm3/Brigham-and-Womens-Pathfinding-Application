@@ -9,7 +9,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -344,9 +343,9 @@
                               <Insets right="30.0" top="30.0" />
                            </StackPane.margin>
                         </Pane>
-                        <Pane maxHeight="125.0" maxWidth="250.0" prefHeight="125.0" prefWidth="250.0" StackPane.alignment="BOTTOM_LEFT">
+                        <Pane maxHeight="200.0" maxWidth="380.0" prefHeight="200.0" prefWidth="350.0" StackPane.alignment="BOTTOM_LEFT">
                            <children>
-                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onAction="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" layoutY="70.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onAction="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -355,7 +354,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onAction="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
+                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="70.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onAction="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -364,7 +363,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" layoutX="90.0" layoutY="10.0" maxHeight="60.0" maxWidth="75.0" minHeight="60.0" minWidth="60.0" onAction="#resetRotate" prefHeight="60.0" prefWidth="75.0" text="l">
+                              <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" layoutX="90.0" layoutY="80.0" maxHeight="60.0" maxWidth="75.0" minHeight="60.0" minWidth="60.0" onAction="#resetRotate" prefHeight="60.0" prefWidth="75.0" text="l">
                                  <graphic>
                                     <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -373,8 +372,8 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="100.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
-                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomOut" prefHeight="30.0" prefWidth="30.0">
+                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="170.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
+                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomOut" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -383,11 +382,20 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomIn" prefHeight="30.0" prefWidth="30.0">
+                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="160.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomIn" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/ZoomInIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="btnToggleMap" ellipsisString="" layoutX="250.0" layoutY="100.0" maxWidth="0.0" onAction="#toggleMap" prefHeight="70.0" prefWidth="70.0" text="l">
+                                 <graphic>
+                                    <ImageView fx:id="imgBtnMap" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Icons/2DIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -478,18 +486,6 @@
                               <Insets right="40.0" top="30.0" />
                            </StackPane.margin>
                         </Pane>
-                        <ToggleButton fx:id="tglMap" mnemonicParsing="false" onAction="#toggleMap" prefHeight="70.0" prefWidth="70.0" StackPane.alignment="BOTTOM_LEFT">
-                           <graphic>
-                              <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Icons/2DIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <StackPane.margin>
-                              <Insets bottom="30.0" left="275.0" />
-                           </StackPane.margin>
-                        </ToggleButton>
                         <Pane fx:id="paneStartDirectory" maxHeight="675.0" maxWidth="600.0" minHeight="300.0" minWidth="300.0" prefHeight="675.0" prefWidth="600.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" visible="false" StackPane.alignment="TOP_LEFT">
                            <children>
                               <Pane layoutY="29.0" maxHeight="655.0" maxWidth="600.0" minHeight="300.0" minWidth="350.0" prefHeight="645.0" prefWidth="600.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">

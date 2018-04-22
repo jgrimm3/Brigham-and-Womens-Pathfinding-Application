@@ -112,6 +112,7 @@ public class homeController implements Initializable {
 	final int MAPY2D = 3400;
 
 	String currentFloor = "1";
+	String currentDimension = "2-D";
 
 	Parent adminRequest;
 	Parent staffRequest;
@@ -139,9 +140,6 @@ public class homeController implements Initializable {
 
 	@FXML
 	Label lblHandicap;
-
-	@FXML
-	ToggleButton tglMap;
 
 	@FXML
 	Label lblMap;
@@ -230,6 +228,12 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnGo;
 
+	@FXML
+	JFXButton btnToggleMap;
+
+	@FXML
+	ImageView imgBtnMap;
+
 
 	public void setPathfindingScreen() {
 
@@ -242,10 +246,10 @@ public class homeController implements Initializable {
 		comTypeStart.setItems(types);
 		comTypeEnd.setItems(types);
 
-		tglMap.setSelected(false);
-		tglMap.setText("2-D");
+		currentFloor = "1";
+		currentDimension = "2-D";
 
-		floor2DMapLoader("1");
+		changeFloor("1");
 
 		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
@@ -311,17 +315,12 @@ public class homeController implements Initializable {
 		circleList.clear();
 		printKiosk();
 		isStart = true;
-		comBuildingStart.setDisable(false);
-		comBuildingEnd.setDisable(false);
-		comFloorStart.setDisable(false);
-		comFloorEnd.setDisable(false);
-		comTypeStart.setDisable(false);
-		comTypeEnd.setDisable(false);
 
-		if (tglMap.isSelected()) {
+		if (currentDimension.equals("2-D")) {
 
 			// Switch 3-D
-			tglMap.setText("3-D");
+			new ProxyImage(imgBtnMap,"3DIcon.png").displayIcon();
+			currentDimension = "3-D";
 			stackPaneMap.setPrefHeight(2774);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(2774);
@@ -332,7 +331,8 @@ public class homeController implements Initializable {
 		} else {
 
 			// Switch 2-D
-			tglMap.setText("2-D");
+			new ProxyImage(imgBtnMap,"2DIcon.png").displayIcon();
+			currentDimension = "2-D";
 			stackPaneMap.setPrefHeight(3400);
 			stackPaneMap.setPrefWidth(5000);
 			mapImg.setFitHeight(3400);
@@ -348,7 +348,7 @@ public class homeController implements Initializable {
 
 		Circle kiosk = new Circle();
 
-		if(tglMap.isSelected()) {
+		if(currentDimension.equals("3-D")) {
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
 			clearPoints();
 		} else {
@@ -376,7 +376,7 @@ public class homeController implements Initializable {
 	}
 
 	public void goToKiosk() {
-		if(tglMap.isSelected()) {
+		if(currentDimension.equals("3-D")) {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 2774.0);
 			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		} else {
@@ -402,7 +402,7 @@ public class homeController implements Initializable {
 		hideStartAndEnd();
 		//printKiosk();
 		circleList.clear();
-		if (tglMap.isSelected())
+		if (currentDimension.equals("3-D"))
 			printPoints(currentFloor, "3-D");
 		else
 			printPoints(currentFloor, "2-D");
@@ -415,7 +415,7 @@ public class homeController implements Initializable {
 		clearPoints();
 		hideStartAndEnd();
 		circleList.clear();
-		if (tglMap.isSelected())
+		if (currentDimension.equals("3-D"))
 			printPoints(currentFloor, "3-D");
 		else
 			printPoints(currentFloor, "2-D");
@@ -444,7 +444,7 @@ public class homeController implements Initializable {
 
 	public void chooseStartNode(MouseEvent event) {
 		Circle circle = (Circle)event.getTarget();
-		if(!tglMap.isSelected()) {
+		if(!currentDimension.equals("3-D")) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -481,7 +481,7 @@ public class homeController implements Initializable {
 	public void chooseEndNode(MouseEvent event) {
 		Circle circle = (Circle)event.getTarget();
 		System.out.println(circle.getCenterX());
-		if(!tglMap.isSelected()) {
+		if(!currentDimension.equals("3-D")) {
 			for (Node node : nodeList) {
 				if (node.getXCoord() == circle.getCenterX()) {
 					if (node.getYCoord() == circle.getCenterY()) {
@@ -592,8 +592,8 @@ public class homeController implements Initializable {
 		comTypeStart.setDisable(true);
 		comTypeEnd.setDisable(true);
 
-		tglMap.setSelected(false);
-		tglMap.setText("2-D");
+		//tglMap.setSelected(false);
+		//tglMap.setText("2-D");
 		changeFloor("1");
 		currentFloor = "1";
 
@@ -737,7 +737,7 @@ public class homeController implements Initializable {
 		// Draw path code
 
 		// Change floor
-		if (tglMap.isSelected()) {
+		if (currentDimension.equals("3-D")) {
 			// use 3-D
 			System.out.println("using 3d stairs");
 			printNodePath(path, startFloor, "3-D");
@@ -1196,7 +1196,7 @@ public class homeController implements Initializable {
             listForQR = (LinkedList) pathList;
 
 			// Draw path code
-			if (tglMap.isSelected()) {
+			if (currentDimension.equals("3-D")) {
 				// use 3-D
 				dimension = "3-D";
 				printNodePath(pathList, startFloor, dimension);
@@ -1288,7 +1288,7 @@ public class homeController implements Initializable {
 		System.out.println("Recognized a click");
 
 		if(!startFloor.equals(currentFloor)) {
-			if (tglMap.isSelected()) { // 3-D
+			if (currentDimension.equals("3-D")) { // 3-D
 				changeFloor(startFloor);
 
 			} else { // 2-D
@@ -1305,7 +1305,7 @@ public class homeController implements Initializable {
 	private void endCircleClicked(MouseEvent event) {
 		System.out.println("Recognized a click");
 		if(!endFloor.equals(currentFloor)) {
-			if (tglMap.isSelected()) { // 3-D
+			if (currentDimension.equals("3-D")) { // 3-D
 				changeFloor(endFloor);
 
 			} else { // 2-D
@@ -1571,7 +1571,6 @@ public class homeController implements Initializable {
 
 	public void previousStep(ActionEvent event) {
 		System.out.println("selected previous step");
-
 	}
 
 	public void nextStep(ActionEvent event) {
@@ -1614,7 +1613,7 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloorL2(ActionEvent event) {
-		if (tglMap.isSelected() == true) {
+		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("L2");
 		} else {
 			floor2DMapLoader("L2");
@@ -1642,7 +1641,7 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloorL1(ActionEvent event) {
-		if (tglMap.isSelected() == true) {
+		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("L1");
 		} else {
 			floor2DMapLoader("L1");
@@ -1668,7 +1667,7 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloor1(ActionEvent event) {
-		if (tglMap.isSelected() == true) {
+		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("1");
 		} else {
 			floor2DMapLoader("1");
@@ -1695,7 +1694,7 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloor2(ActionEvent event) {
-		if (tglMap.isSelected() == true) {
+		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("2");
 		} else {
 			floor2DMapLoader("2");
@@ -1722,7 +1721,7 @@ public class homeController implements Initializable {
 	}
 
 	public void changeFloor3(ActionEvent event) {
-		if (tglMap.isSelected() == true) {
+		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("3");
 		} else {
 			floor2DMapLoader("3");
@@ -1925,20 +1924,10 @@ public class homeController implements Initializable {
 	}
 
 	public void filterStart(ActionEvent event) {
-
-		System.out.println("hi you filtered start");
-		// Ed's function in call below
-		//TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
-		lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
+	    lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(),comFloorStart.getValue(),convertType(comTypeStart.getValue()))));
 	}
 
 	public void filterEnd(ActionEvent event) {
-		System.out.println("hi you filtered end");
-
-		// Ed's function in call below
-		//TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
-
-		//TextFields.bindAutoCompletion(txtLocationEnd, buildings);
 		lstEndDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(),comFloorEnd.getValue(),convertType(comTypeEnd.getValue()))));
 	}
 
