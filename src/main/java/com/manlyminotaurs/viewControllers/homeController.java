@@ -108,11 +108,6 @@ public class homeController implements Initializable {
 	//final ObservableList<String> types = FXCollections.observableArrayList(DataModelI.getInstance().getTypesFromList());
 	final static ObservableList<String> types = FXCollections.observableArrayList("None","Laboratory","Information", "Retail", "Bathroom", "Stair", "Service","Restroom","Elevator", "Department", "Conference","Exit");
 	ObservableList<String> directions;
-	ObservableList<Node> floorL2Nodes = FXCollections.observableArrayList();
-	ObservableList<Node> floorL1Nodes = FXCollections.observableArrayList();
-	ObservableList<Node> floor1Nodes = FXCollections.observableArrayList();
-	ObservableList<Node> floor2Nodes = FXCollections.observableArrayList();
-	ObservableList<Node> floor3Nodes = FXCollections.observableArrayList();
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
 
@@ -822,107 +817,6 @@ public class homeController implements Initializable {
 	}
 
 	public void findQuickExit(ActionEvent event) {
-        // Pathfind to nearest bathroom
-        String startFloor = "1";
-        Node bathroomNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "EXIT", "Node 1, 3", "n1x3y", 1, 0, 0);
-        // Pathfind to nearest bathroom
-        PathfinderUtil pu = new PathfinderUtil();
-        PathfindingContext pf = new PathfindingContext();
-        List<Node> path = new LinkedList<Node>();
-
-
-        //ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
-        //Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
-
-        try {
-            path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
-            pathList = path;
-
-        } catch (PathNotFoundException e) {
-            e.printStackTrace();
-        }
-        // Show directions interface and hide pathfinding interface
-        panePathfinding.setVisible(false);
-        paneDirections.setVisible(true);
-        // Set new overview panel to correct parameters
-        lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
-        lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
-        directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
-        // calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
-        directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-        directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
-        lstDirections.setItems(directions);
-        lstDirections.setItems(directions);
-        listForQR = (LinkedList<Node>)path;
-        pu.generateQR(pu.angleToText((LinkedList<Node>)path));
-        // new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
-        // Draw path code
-        if (tglHandicap.isSelected()) {
-            // use elevator
-            if (tglMap.isSelected()) {
-                // use 3-D
-                printNodePath(path, startFloor, "3-D");
-                changeFloor(startFloor);
-                comChangeFloor.setValue("FLOOR: " + startFloor);
-            } else {
-                // use 2-D
-                printNodePath(path, startFloor, "2-D");
-                changeFloor(startFloor);
-                comChangeFloor.setValue("FLOOR: " + startFloor);
-            }
-        } else {
-            // use stairs
-            if (tglMap.isSelected()) {
-                // use 3-D
-                System.out.println("using 3d stairs");
-                printNodePath(path, startFloor, "3-D");
-                changeFloor(startFloor);
-                comChangeFloor.setValue("FLOOR: " + startFloor);
-            } else {
-                // use 2-D
-                printNodePath(path, startFloor, "2-D");
-                changeFloor(startFloor);
-                comChangeFloor.setValue("FLOOR: " + startFloor);
-            }
-        }
-        // Clear old fields
-        // Show directions interface and hide pathfinding interface
-        panePathfinding.setVisible(false);
-        paneDirections.setVisible(true);
-        // Set new overview panel to correct parameters
-        //lblStartLocation1.setText(comLocationStart.getValue());
-        //lblEndLocation1.setText(comLocationEnd.getValue());
-        // Clean up Navigation Fields
-        comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
-        comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
-        comBuildingEnd.setItems(buildings);
-        comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-        comFloorStart.setDisable(true);
-        comFloorStart.getSelectionModel().clearSelection();
-        comFloorStart.setItems(empty);
-        comFloorEnd.setDisable(true);
-        comFloorEnd.getSelectionModel().clearSelection();
-        comFloorEnd.setItems(empty);
-        comTypeStart.setDisable(true);
-        comTypeStart.getSelectionModel().clearSelection();
-        comTypeStart.setItems(empty);
-        comTypeEnd.setDisable(true);
-        comTypeEnd.getSelectionModel().clearSelection();
-        comTypeEnd.setItems(empty);
-        //comLocationStart.setDisable(true);
-        //comLocationStart.getSelectionModel().clearSelection();
-        //comLocationStart.setItems(empty);
-        //comLocationEnd.setDisable(true);
-        //comLocationEnd.getSelectionModel().clearSelection();
-        //comLocationEnd.setItems(empty);
-        lblStartLocation.setText("START LOCATION");
-        lblEndLocation.setText("END LOCATION");
-        if (paneHelp.isVisible()) {
-            lblHelp1.setVisible(false);
-            lblHelp2.setVisible(true);
-        }
-        // Directions Update
 
     }
 
@@ -1337,22 +1231,6 @@ public class homeController implements Initializable {
 			}
 
             directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-			// add directions to seperate floors
-			for (Node node: pathList) {
-			    String floor = node.getFloor();
-			    switch(floor) {
-                    case "L2": floorL2Nodes.add(node);
-                    case "L1": floorL1Nodes.add(node);
-                    case "1": floor1Nodes.add(node);
-                    case "2": floor2Nodes.add(node);
-                    case "3": floor3Nodes.add(node);
-                }
-            }
-            System.out.println("Floor L2 Size: " + floorL2Nodes.size());
-            System.out.println("Floor L1 Size: " + floorL1Nodes.size());
-            System.out.println("Floor 1 Size: " + floor1Nodes.size());
-            System.out.println("Floor 2 Size: " + floor2Nodes.size());
-            System.out.println("Floor 3 Size: " + floor3Nodes.size());
 			// calcDistance function now converts to feet
             double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
 			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
