@@ -290,8 +290,6 @@ public class homeController implements Initializable {
 
 	public void toggleMap(ActionEvent event) {
 		clearPoints();
-		printKiosk();
-		isStart = true;
 
 		if (currentDimension.equals("2-D")) {
 
@@ -305,6 +303,8 @@ public class homeController implements Initializable {
 			paneMap.setPrefHeight(2774);
 			paneMap.setPrefWidth(5000);
 			floor3DMapLoader(currentFloor);
+			printKiosk();
+			printPoints(currentFloor, currentDimension);
 		} else {
 
 			// Switch 2-D
@@ -317,6 +317,8 @@ public class homeController implements Initializable {
 			paneMap.setPrefHeight(3400);
 			paneMap.setPrefWidth(5000);
 			floor2DMapLoader(currentFloor);
+			printKiosk();
+			printPoints(currentFloor, currentDimension);
 		}
 
 	}
@@ -345,7 +347,7 @@ public class homeController implements Initializable {
 		kiosk.setOnMouseClicked(this::startCircleClicked);
 		kiosk.setOnMouseEntered(this::printStartName);
 		kiosk.setOnMouseExited(this::removeStartName);
-		paneMap.getChildren().add(kiosk);
+		pointMap.getChildren().add(kiosk);
 		circleList.add(kiosk);
 	}
 
@@ -443,12 +445,6 @@ public class homeController implements Initializable {
 	private void showStartAndEnd() {
 		clearPoints();
 		printKiosk();
-		comBuildingStart.setDisable(false);
-		comBuildingEnd.setDisable(false);
-		comFloorStart.setDisable(false);
-		comFloorEnd.setDisable(false);
-		comTypeStart.setDisable(false);
-		comTypeEnd.setDisable(false);
 	}
 
 	private void hideStartAndEnd() {
@@ -1085,6 +1081,9 @@ public class homeController implements Initializable {
 	javafx.scene.text.Text startName;
 
 	@FXML
+	Pane pointMap;
+
+	@FXML
 	javafx.scene.text.Text endName;
 
 	@FXML
@@ -1092,6 +1091,8 @@ public class homeController implements Initializable {
 
 	@FXML
 	ImageView arrow;
+
+	List<ImageView> iconList = new ArrayList<>();
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
 
@@ -1156,7 +1157,6 @@ public class homeController implements Initializable {
 
 	/**
 	 * Prints the given path on the map
-	 *
 	 * @param path the nodes to draw a path between
 	 */
 	private void printNodePath(List<Node> path, String floor, String dimension) {
@@ -1399,10 +1399,15 @@ public class homeController implements Initializable {
 	}
 
 	private void clearPoints() {
-		circleList.clear();
 		for(Circle c: circleList) {
-			paneMap.getChildren().remove(c);
+			pointMap.getChildren().remove(c);	// clears all the node circle
 		}
+		circleList.clear();
+
+		for(ImageView i: iconList) {
+			pointMap.getChildren().remove(i);	// clears all the node icons
+		}
+		iconList.clear();
 	}
 
 	@FXML
@@ -1437,27 +1442,63 @@ public class homeController implements Initializable {
 					System.out.println("Invalid dimension");
 				}
 
-				Circle circle = new Circle(x, y, 10);
+				ImageView icon = new ImageView();				// The icon for the node
+				Circle circle = new Circle(x, y, 25);	// The node circle
 				circle.setId(currNode.getShortName());
 				circle.setFill(Color.WHITE);
 				circle.setStroke(Color.BLACK);
 				circle.setStrokeWidth(4);
+
 
 				if (isStart)
 					circle.setOnMouseClicked(this::chooseStartNode);
 				else
 					circle.setOnMouseClicked(this::chooseEndNode);
 
-				circleList.add(circle);
-				circle.setOnMouseEntered(this::printName);
-				circle.setOnMouseExited(this::removeName);
-				scrollGroup.getChildren().add(circle);
+				circleList.add(circle);							// Circle list is used to remove circles later
+				icon.setOnMouseEntered(this::printName);		// When hovered show name
+				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
+				pointMap.getChildren().add(circle);
+				makeNodeIcon(currNode, icon);
 			}
 			i++;
 		}
 	}
 
-
+	/**
+	 * Makes the icon for the node and displays it on the map
+	 * @param node the node to be given an icon
+	 * @param icon the imageview the icon will be displayed on
+	 */
+	public void makeNodeIcon(Node node, ImageView icon) {
+		icon.setX(node.getXCoord()-25);
+		icon.setY(node.getYCoord()-25);
+		icon.setFitHeight(50);
+		icon.setFitWidth(50);
+		pointMap.getChildren().add(icon);
+		iconList.add(icon);						// Used to remove the icons later
+		if(node.getNodeType().equals("REST")) {
+			new ProxyImage(icon, "RestroomIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("CONF")) {
+			new ProxyImage(icon, "ConferenceIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("EXIT")) {
+			new ProxyImage(icon, "ExitIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("SERV")) {
+			new ProxyImage(icon, "RestroomIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("INFO")) {
+			new ProxyImage(icon, "InfoIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("LABS")) {
+			new ProxyImage(icon, "LaboratoryIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("DEPT")) {
+			new ProxyImage(icon, "DepartmentIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("STAI")) {
+			new ProxyImage(icon, "StairIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("ELEV")) {
+			new ProxyImage(icon, "ElevatorIcon.png").displayIcon();
+		} else if(node.getNodeType().equals("RETL")) {
+			new ProxyImage(icon, "RetailIcon.png").displayIcon();
+		}
+	}
 
 	private String returnFloorName(String floorName) {
 		switch (floorName) {
@@ -1588,12 +1629,12 @@ public class homeController implements Initializable {
 	//private FadeTransition nameTransition = new FadeTransition(Duration.millis(400), currName);
 
 	private void printName(MouseEvent mouseEvent) {
-		Circle currCircle = (Circle)mouseEvent.getTarget();
+		ImageView currCircle = (ImageView) mouseEvent.getTarget();
 //		nodeFloor.setText(currentFloor);
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
-		nodePane.setLayoutX(currCircle.getCenterX());
-		nodePane.setLayoutY(currCircle.getCenterY());
+		nodePane.setLayoutX(currCircle.getX());
+		nodePane.setLayoutY(currCircle.getY());
 		//name.setRotate(-overMap.getRotate());
 		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(0);
@@ -1718,8 +1759,9 @@ public class homeController implements Initializable {
 
 		currentFloor = "L2";
 		clearPoints();
+		printPoints(currentFloor, currentDimension);
 		printKiosk();
-		cancel(null);
+
 		btnL2.setLayoutX(20);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -1746,8 +1788,9 @@ public class homeController implements Initializable {
 
 		currentFloor = "L1";
 		clearPoints();
+		printPoints(currentFloor, currentDimension);
 		printKiosk();
-		cancel(null);
+
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(20);
 		btn1.setLayoutX(0);
@@ -1772,8 +1815,9 @@ public class homeController implements Initializable {
 
 		currentFloor = "1";
 		clearPoints();
+		printPoints(currentFloor, currentDimension);
 		printKiosk();
-		cancel(null);
+
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(20);
@@ -1799,8 +1843,9 @@ public class homeController implements Initializable {
 
 		currentFloor = "2";
 		clearPoints();
+		printPoints(currentFloor, currentDimension);
 		printKiosk();
-		cancel(null);
+
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -1826,8 +1871,8 @@ public class homeController implements Initializable {
 
 		currentFloor = "3";
 		clearPoints();
+		printPoints(currentFloor, currentDimension);
 		printKiosk();
-		cancel(null);
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);

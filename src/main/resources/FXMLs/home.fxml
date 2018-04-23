@@ -75,6 +75,7 @@
                                                       </Label>
                                                    </children>
                                                 </StackPane>
+                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
                                              </children>
                                           </Pane>
                                        </children>
