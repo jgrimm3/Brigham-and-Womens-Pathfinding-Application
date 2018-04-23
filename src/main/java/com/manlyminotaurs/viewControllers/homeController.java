@@ -2,6 +2,7 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.jfoenix.controls.*;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.communications.SendEmail;
 import com.manlyminotaurs.communications.SendTxt;
@@ -16,6 +17,8 @@ import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -578,7 +581,7 @@ public class homeController implements Initializable {
 	JFXButton btnOpenSend;
 
 	@FXML
-	JFXListView<String> lstDirections;
+	JFXTreeTableView treeDirections;
 
 	@FXML
 	Button btnRestart;
@@ -770,9 +773,30 @@ public class homeController implements Initializable {
 		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
 		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
 		directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
-        lstDirections.setItems(directions);
-		lstDirections.setItems(directions);
+
+		JFXTreeTableColumn<floorDir, String> floorColumn = new JFXTreeTableColumn<>("Floor");
+		floorColumn.setPrefWidth(315);
+		floorColumn.setCellValueFactory((TreeTableColumn.CellDataFeatures<floorDir, String> param) ->{
+			if(floorColumn.validateValue(param)) return param.getValue().getValue().floor;
+			else return floorColumn.getComputedValue(param);
+		});
+
+       // lstDirections.setItems(directions);
+		//lstDirections.setItems(directions);
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("turn left");
+		temp.add("turn right");
 		listForQR = (LinkedList<Node>)path;
+		ObservableList<floorDir> fDirs = FXCollections.observableArrayList();
+		fDirs.add(new floorDir("L2", temp));
+		fDirs.add(new floorDir("L1", temp));
+		fDirs.add(new floorDir("1", temp));
+		fDirs.add(new floorDir("2", temp));
+		fDirs.add(new floorDir("3", temp));
+
+		// build tree
+		final TreeItem<floorDir> root = new RecursiveTreeItem<floorDir>(fDirs, RecursiveTreeObject::getChildren);
+
 		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
 		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
 		// Draw path code
@@ -815,7 +839,19 @@ public class homeController implements Initializable {
 		// Directions Update
 
 	}
+	//seting up hierachal floor directions
+	class floorDir extends RecursiveTreeObject<floorDir> {
+		StringProperty floor;
+		ArrayList<String> dirs;
 
+
+		public  floorDir(String floor, ArrayList<String> dirs) {
+			this.floor = new SimpleStringProperty(floor);
+			for(int i = 0; i < dirs.size(); i++) {
+				this.dirs.set(i, dirs.get(i));
+			}
+		}
+	}
 	public void findQuickExit(ActionEvent event) {
 
     }
@@ -1235,7 +1271,7 @@ public class homeController implements Initializable {
             double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
 			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
             directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
-            lstDirections.setItems(directions);
+          //  lstDirections.setItems(directions);
 
             listForQR = (LinkedList) pathList;
             //pathfinderUtil.generateQR(pathfinderUtil.angleToText((LinkedList) pathList));

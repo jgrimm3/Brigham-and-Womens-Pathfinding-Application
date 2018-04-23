@@ -1,4 +1,4 @@
-package main.java.com.manlyminotaurs.viewControllers;
+package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -18,8 +18,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-// TODO: Have begin navigation button open home.fxml
-// TODO: Make sure login button works and opens admin fxml's
+
+
 
 public class idleMapController {
 
@@ -97,12 +97,46 @@ public class idleMapController {
             // print message
             System.out.println("Please completely fill in the username and password fields");
         } else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
-            // open admin fxml
+            try{
+                    Parent login;
+                    Stage stage;
+                    //get reference to the button's stage
+                    stage=(Stage)btnLogin3.getScene().getWindow();
+                    //load up Home FXML document
+                    login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+
+                    KioskInfo.currentUserID = "";
+
+                    //create a new scene with root and set the stage
+                    Scene scene=new Scene(login);
+                    stage.setScene(scene);
+                    stage.show();
+            } catch (Exception e){
+            e.printStackTrace();}
+
         } else {
             // print message
             System.out.println("Wrong username and password!");
 
         }
+    }
+
+    public void openHome(ActionEvent event){
+        try{
+            Parent login;
+            Stage stage;
+            //get reference to the button's stage
+            stage=(Stage)btnLogin3.getScene().getWindow();
+            //load up Home FXML document
+            login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+
+
+            //create a new scene with root and set the stage
+            Scene scene=new Scene(login);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e){
+            e.printStackTrace();}
     }
 
     /* Open patient Web Portal *********************************************/
