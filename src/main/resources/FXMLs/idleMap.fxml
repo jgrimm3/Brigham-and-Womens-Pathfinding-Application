@@ -17,14 +17,9 @@
             <Image url="@../MapImages/1-ICONS.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" prefHeight="100.0" prefWidth="1900.0" style="-fx-background-color: #102c57;" text="Brigham and Women's Hospital Navigation" textFill="WHITE">
+      <JFXButton fx:id="btnBeginNav" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="551.0" layoutY="698.0" minHeight="100.0" minWidth="800.0" onAction="#goHome" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: #2b65ac;" text="WELCOME, CLICK TO NAVIGATE" textFill="WHITE" AnchorPane.bottomAnchor="380.0" AnchorPane.leftAnchor="450.0">
          <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="btnBeginNav" buttonType="RAISED" layoutX="551.0" layoutY="698.0" minHeight="80.0" minWidth="800.0" onAction="#goHome" style="-fx-background-color: #2b65ac;" text="Click to Start Navigation" textFill="WHITE">
-         <font>
-            <Font size="30.0" />
+            <Font size="50.0" />
          </font></JFXButton>
       <JFXButton fx:id="btnLogin" buttonType="RAISED" ellipsisString="" onAction="#openLoginPanel" prefHeight="100.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
          <graphic>
@@ -122,6 +117,15 @@
                   </Label>
                </children>
             </Pane>
+         </children>
+      </Pane>
+      <Pane layoutX="233.0" prefHeight="300.0" prefWidth="1667.0" style="-fx-background-color: #102c57;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="450.0" fitWidth="600.0" layoutX="650.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Icons/BWHLogo.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>
