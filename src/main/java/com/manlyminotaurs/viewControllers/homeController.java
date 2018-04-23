@@ -2,32 +2,23 @@ package com.manlyminotaurs.viewControllers;
 
 //import com.manlyminotaurs.core.KioskInfo;
 import com.jfoenix.controls.*;
-import com.manlyminotaurs.communications.ClientSetup;
-import com.manlyminotaurs.communications.SendEmail;
 import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.nodes.INode;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.nodes.Room;
 import com.manlyminotaurs.pathfinding.*;
 import javafx.animation.*;
-import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -42,23 +33,10 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.xml.crypto.Data;
-import java.io.File;
-import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -128,6 +106,7 @@ public class homeController implements Initializable {
 	boolean isStart = true;
 	javafx.scene.text.Text currName;
 	FadeTransition fade;
+	List<String> breadcrumbs = new ArrayList<>();
 	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -193,19 +172,7 @@ public class homeController implements Initializable {
 	Pane paneMap;
 
 	@FXML
-	Path pathL2;
-
-	@FXML
-	Path pathL1;
-
-	@FXML
-	Path path1;
-
-	@FXML
-	Path path2;
-
-	@FXML
-	Path path3;
+	Path diffPath;
 
 	@FXML
 	Path currPath;
@@ -233,6 +200,9 @@ public class homeController implements Initializable {
 
 	@FXML
 	ImageView imgBtnMap;
+
+	@FXML
+	Group scrollGroup;
 
 
 	public void setPathfindingScreen() {
@@ -287,6 +257,7 @@ public class homeController implements Initializable {
 		setStrategy();
 		//createMap();
 
+		scrollPaneMap.setContent(scrollGroup);
 		setKiosk();
 		printKiosk();
 		goToKiosk();
@@ -385,6 +356,54 @@ public class homeController implements Initializable {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		}
+	}
+
+	public void snap(Node startNode, Node endNode) {
+
+		// 2D Variables
+		int startX2D = startNode.getXCoord();
+		int startY2D = startNode.getYCoord();
+		int endX2D = endNode.getXCoord();
+		int endY2D = endNode.getYCoord();
+
+		// 3D Variables
+		int startX3D = startNode.getXCoord3D();
+		int startY3D = startNode.getYCoord3D();
+		int endX3D = endNode.getXCoord3D();
+		int endY3D = endNode.getYCoord3D();
+
+		double snapX;
+		double snapY;
+
+		if (currentDimension.equals("3-D")) { // 3D
+
+			snapY = (startY3D + ((endY3D-startY3D)/2))/2774.0;
+			snapX = (startX3D + ((endX3D-startX3D)/2))/5000.0;
+
+		} else { // 2D
+
+			snapY = (startY2D + (((endY2D-startY2D)/2))-200)/3400.0;
+			snapX = (startX2D + (((endX2D-startX2D)/2))-300)/5000.0;
+		}
+
+		scrollPaneMap.setVvalue(snapY);
+		scrollPaneMap.setHvalue(snapX);
+
+		System.out.println(snapX);
+		System.out.println(snapY);
+		System.out.println("start x2d " + startX2D);
+		System.out.println("start y2d " + startY2D);
+		System.out.println("start x3d " + startX3D);
+		System.out.println("start y3d " + startY3D);
+		System.out.println("end x2d " + endX2D);
+		System.out.println("end y2d " + endY2D);
+		System.out.println("end x3d " + endX3D);
+		System.out.println("end y3d " + endY3D);
+		System.out.println(scrollPaneMap.getVvalue());
+		System.out.println(scrollPaneMap.getHvalue());
+
+
+
 	}
 
 	private void setKiosk() { // location isnt getting set correctly for floor or type
@@ -610,7 +629,7 @@ public class homeController implements Initializable {
 		startName.setVisible(false);
 		endName.setVisible(false);
 
-		animationCircle.setVisible(false);
+		arrow.setVisible(false);
 		setKiosk();
 
 	}
@@ -634,11 +653,11 @@ public class homeController implements Initializable {
 	}
 
 	public void sendDirectionsViaEmail(ActionEvent event) {
-		lblEmailMessage.setText("");
+		/*lblEmailMessage.setText("");
 		SendEmail email = new SendEmail(txtEmail.getText(), "B&W Turn-By-Turn Directions", turnListToString());
 		email.send();
 		lblEmailMessage.setText("Email Sent");
-		txtEmail.setText("");
+		txtEmail.setText(""); */
 	}
 
 	public void sendDirectionsViaPhone(ActionEvent event) {
@@ -865,6 +884,7 @@ public class homeController implements Initializable {
 
 		}
 
+		animatePath();
 		currentFloor = floor;
 	}
 
@@ -901,7 +921,7 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "3-D");
 
 		}
-
+		animatePath();
 		currentFloor = floor;
 	}
 
@@ -924,7 +944,7 @@ public class homeController implements Initializable {
 	javafx.scene.text.Text destinationText;
 
 	@FXML
-	Circle animationCircle;
+	ImageView arrow;
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
 
@@ -997,19 +1017,6 @@ public class homeController implements Initializable {
 		clearPath();
 		int i = 0;
 		if (!path.isEmpty()) {
-			double snapX = 0.0;
-			double snapY = 0.0;
-			if (dimension.equals("3-D")) {
-				snapX = (double) path.get(0).getXCoord() / 5000.0;
-				snapY = (double) path.get(0).getYCoord() / 2744.0;
-			} else if (dimension.equals("2-D")) {
-				snapX = (double) path.get(0).getXCoord() / 5000.0;
-				snapY = (double) path.get(0).getYCoord() / 3400.0;
-			} else {
-				System.out.println("Invalid dimension");
-			}
-			scrollPaneMap.setVvalue(snapY);
-			scrollPaneMap.setHvalue(snapX);
 			while (i < path.size()) {
 				// Give starting point
 				MoveTo moveTo = new MoveTo();
@@ -1022,21 +1029,9 @@ public class homeController implements Initializable {
 					if (path.get(i).getFloor().equals(floor)) {
 						// add the path
 						addPath(currPath, dimension, startNode, endNode, moveTo, lineTo);
-					} else if(path.get(i).getFloor().equals("L2")){
+					} else {
 						// add the path
-						addPath(pathL2, dimension, startNode, endNode, moveTo, lineTo);
-					} else if(path.get(i).getFloor().equals("L1")){
-						// add the path
-						addPath(pathL1, dimension, startNode, endNode, moveTo, lineTo);
-					} else if(path.get(i).getFloor().equals("1")){
-						// add the path
-						addPath(path1, dimension, startNode, endNode, moveTo, lineTo);
-					} else if(path.get(i).getFloor().equals("2")){
-						// add the path
-						addPath(path2, dimension, startNode, endNode, moveTo, lineTo);
-					} else if(path.get(i).getFloor().equals("3")){
-						// add the path
-						addPath(path3, dimension, startNode, endNode, moveTo, lineTo);
+						addPath(diffPath, dimension, startNode, endNode, moveTo, lineTo);
 					}
 				}
 				i++;
@@ -1050,6 +1045,8 @@ public class homeController implements Initializable {
 
 			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
+			snap(startNode, endNode);
+
 			//javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
 			//javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
 			destination.setVisible(true);
@@ -1090,29 +1087,6 @@ public class homeController implements Initializable {
 				System.out.println("Invalid dimension");
 			}
 
-			/*
-			ScaleTransition scaleTransitionCircle = new ScaleTransition(Duration.millis(1000), startCircle);
-			scaleTransitionCircle.setToX(1.0f);
-			scaleTransitionCircle.setToY(1.0f);
-			scaleTransitionCircle.setToX(2f);
-			scaleTransitionCircle.setToY(2f);
-			scaleTransitionCircle.setCycleCount(Timeline.INDEFINITE);
-			scaleTransitionCircle.setAutoReverse(true);
-
-			FadeTransition fadeTransitionCircle = new FadeTransition(Duration.millis(1000), startCircle);
-			fadeTransitionCircle.setFromValue(1);
-			fadeTransitionCircle.setToValue(0);
-			fadeTransitionCircle.setAutoReverse(true);
-			fadeTransitionCircle.setCycleCount(Timeline.INDEFINITE);
-
-			ParallelTransition parallelTransition = new ParallelTransition();
-			parallelTransition.getChildren().add(scaleTransition);
-			parallelTransition.getChildren().add(scaleTransitionCircle);
-			parallelTransition.getChildren().add(fadeTransitionCircle); */
-
-			//nameList.add(startName);
-			//nameList.add(endName);
-
 			// Draw Start Circle
 			startCircle.setRadius(8);
 			startCircle.setFill(Color.NAVY);
@@ -1134,23 +1108,11 @@ public class homeController implements Initializable {
 
 			endFloor = endNode.getFloor();
 
-
 			// adds circles to map
 			paneMap.getChildren().remove(startCircle);
 			paneMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
-			if(!pathRunning) {
-				pathRunning = true;
-				ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(2000), destination);
-				scaleTransition.setToX(1.3f);
-				scaleTransition.setToY(1.3f);
-				scaleTransition.setToX(1.2f);
-				scaleTransition.setToY(1.2f);
-				scaleTransition.setCycleCount(Timeline.INDEFINITE);
-				scaleTransition.setAutoReverse(true);
-				scaleTransition.play();
-			}
 		}
 	}
 
@@ -1210,31 +1172,29 @@ public class homeController implements Initializable {
 				changeFloor(startFloor);
 			}
 
-			animationCircle.setVisible(true);
-			//overMap.getChildren().add(animationCircle);
-
-			SequentialTransition sequentialTransition = new SequentialTransition();
-			animationCircle.setVisible(true);
-			double wantedVelocity = .03;
-
-			for(int i = 1; i<pathList.size(); i++) {
-				TranslateTransition translateTransition = new TranslateTransition(Duration.millis(calcTime(pathList, i, wantedVelocity)), animationCircle);
-				translateTransition.setFromX(pathList.get(i-1).getXCoord()+11);
-				translateTransition.setFromY(pathList.get(i-1).getYCoord()+11);
-				translateTransition.setToX(pathList.get(i).getXCoord()+11);
-				translateTransition.setToY(pathList.get(i).getYCoord()+11);
-				translateTransition.setCycleCount(1);
-				translateTransition.setAutoReverse(true);
-				sequentialTransition.getChildren().add(translateTransition);
-			}
-			sequentialTransition.setCycleCount(Timeline.INDEFINITE);
-			sequentialTransition.play();
-
-			//printPoints(comChangeFloor.getValue(), dimension);
-
-			// Update Directions
+			animatePath();
 
 		}
+	}
+
+	public void getBreadcrumbs() {
+		int i = 0;
+		String curr = "";
+		while(i < pathList.size()) {
+			if(pathList.get(i).getFloor().equals(curr)) {
+			} else {
+				curr = pathList.get(i).getFloor();
+				breadcrumbs.add(curr);
+			}
+		}
+	}
+
+	private void animatePath() {
+		arrow.setVisible(true);
+		PathTransition pathTransition = new PathTransition(Duration.millis(7500), currPath, arrow);
+		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+		pathTransition.setCycleCount(Timeline.INDEFINITE);
+		pathTransition.play();
 	}
 
 	private double getDistance(Node a, Node b) {
@@ -1255,35 +1215,7 @@ public class homeController implements Initializable {
 
 	private void clearPath() {
 		currPath.getElements().clear();
-		currPath.getElements().add(new MoveTo(-100, -100));
-		currPath.getElements().add(new LineTo(5000, -100));
-		currPath.getElements().add(new LineTo(5000, 5000));
-		currPath.getElements().add(new LineTo(-100, 5000));
-		pathL2.getElements().clear();
-		pathL2.getElements().add(new MoveTo(-100, -100));
-		pathL2.getElements().add(new LineTo(5000, -100));
-		pathL2.getElements().add(new LineTo(5000, 5000));
-		pathL2.getElements().add(new LineTo(-100, 5000));
-		pathL1.getElements().clear();
-		pathL1.getElements().add(new MoveTo(-100, -100));
-		pathL1.getElements().add(new LineTo(5000, -100));
-		pathL1.getElements().add(new LineTo(5000, 5000));
-		pathL1.getElements().add(new LineTo(-100, 5000));
-		path1.getElements().clear();
-		path1.getElements().add(new MoveTo(-100, -100));
-		path1.getElements().add(new LineTo(5000, -100));
-		path1.getElements().add(new LineTo(5000, 5000));
-		path1.getElements().add(new LineTo(-100, 5000));
-		path2.getElements().clear();
-		path2.getElements().add(new MoveTo(-100, -100));
-		path2.getElements().add(new LineTo(5000, -100));
-		path2.getElements().add(new LineTo(5000, 5000));
-		path2.getElements().add(new LineTo(-100, 5000));
-		path3.getElements().clear();
-		path3.getElements().add(new MoveTo(-100, -100));
-		path3.getElements().add(new LineTo(5000, -100));
-		path3.getElements().add(new LineTo(5000, 5000));
-		path3.getElements().add(new LineTo(-100, 5000));
+		diffPath.getElements().clear();
 	}
 
 	private void startCircleClicked(MouseEvent event) {
@@ -1452,18 +1384,33 @@ public class homeController implements Initializable {
 	@FXML
 	Label lblNode;
 
+	@FXML
+	Slider sldZoom;
+
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(ActionEvent event) {
-		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
-			overMap.setScaleX(overMap.getScaleX() + .1);
-			overMap.setScaleY(overMap.getScaleY() + .1);
+		if(!(scrollGroup.getScaleX() > 2) || !(scrollGroup.getScaleY() > 2)) {
+			scrollGroup.setScaleX(overMap.getScaleX() + .1);
+			scrollGroup.setScaleY(overMap.getScaleY() + .1);
+			sldZoom.setValue(((overMap.getScaleX()+.1)-.7) * 100);
 		}
 	}
 
 	public void zoomOut(ActionEvent event) {
-		if(!(overMap.getScaleX() < .70) || !(overMap.getScaleY() < .70)) {
-			overMap.setScaleX(overMap.getScaleX() - .1);
-			overMap.setScaleY(overMap.getScaleY() - .1);
+		if(!(scrollGroup.getScaleX() < .5) || !(scrollGroup.getScaleY() < .5)) {
+			scrollGroup.setScaleX(overMap.getScaleX() - .1);
+			scrollGroup.setScaleY(overMap.getScaleY() - .1);
+			sldZoom.setValue(((overMap.getScaleX()-.1)-.7) * 100);
+		}
+	}
+
+	public void zoom(Event event) {
+		if(sldZoom.getValue()>50) {
+			scrollGroup.setScaleX(.7 + (sldZoom.getValue() / 100));
+			scrollGroup.setScaleY(.7 + (sldZoom.getValue() / 100));
+		} else {
+			scrollGroup.setScaleX(.7 + (sldZoom.getValue() / 100));
+			scrollGroup.setScaleY(.7 + (sldZoom.getValue() / 100));
 		}
 	}
 
