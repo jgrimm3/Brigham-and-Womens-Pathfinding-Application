@@ -5,7 +5,6 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,11 +73,11 @@ class RequestsDBUtil {
         return requestObject;
     }
 
-    boolean removeRequest(Request request){
+    boolean removeRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
         try {
-            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ request.getRequestID()+ "'";
+            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ requestID+ "'";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);

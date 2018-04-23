@@ -1,6 +1,5 @@
 package com.manlyminotaurs.databases;
 
-import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -85,7 +84,7 @@ public interface IDataModel {
     /*----------------------------------------- Requests ------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
     Request addRequest(Request requestObject, Message messageObject);
-    boolean removeRequest(Request oldRequest);
+    boolean removeRequest(String requestID);
     boolean modifyRequest(Request newRequest);
     String getNextRequestID();
     /*-------------------------- Retrieve List of Requests / All or by Attribute ------------------------------------*/
@@ -98,7 +97,7 @@ public interface IDataModel {
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
-    boolean removeUser(User oldUser);
+    boolean removeUser(String userID);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
@@ -121,7 +120,7 @@ public interface IDataModel {
     //-------------------------------------LOG Table--------------------------------------------
     List<Log> retrieveLogData();
     Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType);
-    boolean removeLog(Log oldLog);
+    boolean removeLog(String logID);
     Log getLogByLogID(String logID);
     List<Log> getLogsByUserID(String userID);
     List<Log> getLogsByAssociatedType(String associatedType);

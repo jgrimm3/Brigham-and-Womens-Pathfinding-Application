@@ -34,6 +34,7 @@ public class SendEmail {
                 return new PasswordAuthentication("3733.d18.teamm@gmail.com", "manlyMinotaurs");
             }
         });
+
         Message simpleMessage = new MimeMessage(mailSession);
 
         InternetAddress fromAddress = null;

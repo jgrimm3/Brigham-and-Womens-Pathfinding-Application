@@ -1,12 +1,10 @@
 package database;
 
 import com.manlyminotaurs.databases.DataModelI;
-import com.manlyminotaurs.databases.UserDBUtil;
 import com.manlyminotaurs.users.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class UserDBUtilTest {
         assertTrue(DataModelI.getInstance().retrieveUsers().contains(aUser));
 
         List<User> listOfUsers = DataModelI.getInstance().retrieveUsers();
-        DataModelI.getInstance().removeUser(aUser);
+        DataModelI.getInstance().removeUser(aUser.getUserID());
         List<User> listOfUsers2 = DataModelI.getInstance().retrieveUsers();
         assertFalse(DataModelI.getInstance().retrieveUsers().contains(aUser));
 

@@ -9,6 +9,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -191,7 +192,7 @@ public class adminRequestDashboardController {
     }
 
     public void loadAPI(ActionEvent event){
-        /*
+
 
         RoomService roomService = new RoomService();
         try
@@ -204,7 +205,7 @@ public class adminRequestDashboardController {
         {
             e.printStackTrace();
         }
-*/
+
     }
 
     public void LogOut(ActionEvent event){
@@ -213,7 +214,7 @@ public class adminRequestDashboardController {
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -368,7 +369,7 @@ public class adminRequestDashboardController {
             openList.remove(selectedRequest);
 
             dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
-            dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
+            dBUtil.removeRequest(selectedRequest.requestID);
         }
     }
 

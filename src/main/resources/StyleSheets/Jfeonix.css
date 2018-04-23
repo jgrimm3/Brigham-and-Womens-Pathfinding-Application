@@ -4,16 +4,19 @@
     -jfx-unfocus-color: WHITE;
     -fx-text-fill: WHITE;
     -fx-font-weight: bold;
+    -fx-font-size: 15px;
 }
+
 .jfx-combo-box {
-    -fx-background-color:   #2b65ac;
-    -fx-text-fill: #edbf54;
-    -fx-prompt-text-fill:  #edbf54;
-    -jfx-focus-color:#edbf54;
+    /*-fx-background-color:   #2b65ac; */
+    -fx-text-fill: white;
+    -fx-prompt-text-fill:  white;
+    -jfx-focus-color: white;
     -jfx-unfocus-color: white;
 }
-.jfx-combo-box .cell:selected{ -fx-background-color: #263146; -fx-text-fill: #edbf54; }
+.jfx-combo-box .cell:selected{ -fx-text-fill: white; }
 
+/*
 #dark-blue {
     -fx-background-color:
             #090a0c,
@@ -29,6 +32,24 @@
     -fx-font-size: 12px;
     -fx-padding: 10 20 10 20;
 }
+
 #dark-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}*/
+
+.jfx-slider .thumb{
+   -fx-background-color: #102c57;
+}
+
+.jfx-slider > .colored-track {
+     -fx-background-color: #102c57;
+}
+
+.jfx-slider > .animated-thumb {
+     -fx-background-color: #102c57;
+}
+
+.jfx-slider .slider-value {
+     -fx-fill: white;
+     -fx-stroke: white;
 }

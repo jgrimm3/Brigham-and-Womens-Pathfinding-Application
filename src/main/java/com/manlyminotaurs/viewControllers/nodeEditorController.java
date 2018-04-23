@@ -11,6 +11,7 @@ import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.DoubleProperty;
@@ -92,7 +93,6 @@ public class nodeEditorController {
     JFXComboBox<String> cmboBuilding;
     @FXML
     JFXComboBox<String> cmboType;
-
     @FXML
     JFXTextField txtShortName;
     @FXML
@@ -133,6 +133,8 @@ public class nodeEditorController {
     JFXButton btnHistory;
     @FXML
     JFXToggleButton tglAddMapChange;
+    @FXML
+    JFXTextField txtTimeOut;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -951,7 +953,7 @@ public class nodeEditorController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -963,7 +965,22 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+    public void loadAPI(ActionEvent event){
 
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+
+    }
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -1030,6 +1047,17 @@ public class nodeEditorController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+@FXML
+JFXButton btnUpdateTimeout;
+    //TODO connect Memento
+    public void timeOutUpdate (ActionEvent event){
+        String newTime = txtTimeOut.getText();
+        if ((newTime.matches(".*[^0-9].*")) || (newTime.matches(".*\\D.*"))) {
+          txtTimeOut.setText("Please Enter a Valid Time");
+        }else {
+            int timeOut = Integer.parseInt(newTime);
         }
     }
 

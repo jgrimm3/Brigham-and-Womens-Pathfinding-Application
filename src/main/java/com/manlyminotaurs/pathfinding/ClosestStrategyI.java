@@ -28,7 +28,7 @@ public class ClosestStrategyI extends DistancePathfinder implements IPathFinding
      * @return: LinkedList<ClosestStrategyNode>: linked list of nodes to the destination
      * @throws new PathNotFoundException
      */
-    private LinkedList<PathfindingNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+    private LinkedList<PathfindingNode> calcPath2(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
         // keep track of all visited nodes
         Set<Node> visited = new HashSet<>();
         // keep queue
@@ -71,7 +71,96 @@ public class ClosestStrategyI extends DistancePathfinder implements IPathFinding
         // no paths found
         throw new PathNotFoundException();
     }
+    private LinkedList<PathfindingNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+        String target = endNode.getNode().getNodeType();
+        Queue<ClosestStrategyNode> q = new LinkedList<>();
+        ClosestStrategyNode currentNode = startNode;
+        q.add(currentNode);
+        ArrayList<PathfindingNode> visitedNodes = new ArrayList<>();
 
+        while(!q.isEmpty()) {
+            currentNode = q.remove();
+            currentNode.setVisitedStatus(true);
+            visitedNodes.add(currentNode);
+            if (!currentNode.getNode().equals(endNode.getNode())) {
+                for (Node node: currentNode.getNode().getAdjacentNodes()) {
+                    boolean wasVisited = false;
+                    for(PathfindingNode bfs : visitedNodes){
+                        if(bfs.getNode().getNodeType().equals(target)){
+                            wasVisited = true;
+                        }
+                    }
+                    if(!wasVisited){
+                        q.add(new ClosestStrategyNode(node, currentNode));
+                    }else {
+                        ClosestStrategyNode nowVisisted = new ClosestStrategyNode(node, currentNode);
+                        nowVisisted.setVisitedStatus(true);
+                        visitedNodes.add(nowVisisted);
+                    }
+                }
+            }else{
+                return getNodeTrail(currentNode);
+            }
+        }
+        throw new PathNotFoundException();
+    }
+
+    /**
+     * Get all the edges that a node belongs to, in the form of list of nodes
+     *
+     * @param pNode: scored node
+     * @return list of node's edges, node list
+     */
+    private ArrayList<Node> getEdges(PathfindingNode pNode) throws OrphanNodeException{
+        ArrayList<Node> nodeEdges = new ArrayList<>(pNode.getNode().getAdjacentNodes());
+        if(nodeEdges.isEmpty()){ throw new OrphanNodeException("Node has no valid edges"); }
+        return nodeEdges;
+    }
+
+
+    /**
+     * Checks to see if A* is allowed to route through the given node
+     * @param sNode: node
+     * @return True if allowed to visit node, false if not
+     */
+    boolean isValidNode(BFSNode sNode){
+        return sNode.getNode().getStatus() == 1;
+    }
+
+
+    private LinkedList<PathfindingNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
+        String target = endNode.getNode().getNodeType();
+        Queue<ClosestStrategyNode> q = new LinkedList<>();
+        ClosestStrategyNode currentNode = startNode;
+        q.add(currentNode);
+        ArrayList<PathfindingNode> visitedNodes = new ArrayList<>();
+
+        while(!q.isEmpty()) {
+            currentNode = q.remove();
+            currentNode.setVisitedStatus(true);
+            visitedNodes.add(currentNode);
+            if (!currentNode.getNode().getNodeType().equals(target)) {
+                for (Node node: currentNode.getNode().getAdjacentNodes()) {
+                    boolean wasVisited = false;
+                    for(PathfindingNode bfs : visitedNodes){
+                        if(bfs.getNode().equals(node)){
+                            wasVisited = true;
+                        }
+                    }
+                    if(!wasVisited){
+                        q.add(new ClosestStrategyNode(node, currentNode));
+                    }else {
+                        ClosestStrategyNode nowVisisted = new ClosestStrategyNode(node, currentNode);
+                        nowVisisted.setVisitedStatus(true);
+                        visitedNodes.add(nowVisisted);
+                    }
+                }
+            }else{
+                return getNodeTrail(currentNode);
+            }
+        }
+        throw new PathNotFoundException();
+    }
 
     /**
      * looks through open list to find the node with the shortest distance
