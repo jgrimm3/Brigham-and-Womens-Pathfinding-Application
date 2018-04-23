@@ -8,12 +8,6 @@ import java.util.*;
 
 public class BreadthFirstStrategyI implements IPathFindingStrategy {
 
-    /*
-    TODO:
-    - need to Have BFS find a nearest type of node
-    - Flesh out error handling
-     */
-
     /**
      * Wrapper for calcPath function. Creates empty data structures.
      *
