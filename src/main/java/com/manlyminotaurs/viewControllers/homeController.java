@@ -236,6 +236,7 @@ public class homeController implements Initializable {
 
 			setPathfindingScreen();
 			printPoints("1", "2-D");
+			scrollPaneMap.setContent(scrollGroup);
 			setKiosk();
 			printKiosk();
 			goToKiosk();
@@ -258,6 +259,7 @@ public class homeController implements Initializable {
 		//createMap();
 
 		scrollPaneMap.setContent(scrollGroup);
+		printPoints("1", "2-D");
 		setKiosk();
 		printKiosk();
 		goToKiosk();
@@ -1303,7 +1305,7 @@ public class homeController implements Initializable {
 				circleList.add(circle);
 				circle.setOnMouseEntered(this::printName);
 				circle.setOnMouseExited(this::removeName);
-				overMap.getChildren().add(circle);
+				scrollGroup.getChildren().add(circle);
 			}
 			i++;
 		}
@@ -1390,17 +1392,17 @@ public class homeController implements Initializable {
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(ActionEvent event) {
 		if(!(scrollGroup.getScaleX() > 2) || !(scrollGroup.getScaleY() > 2)) {
-			scrollGroup.setScaleX(overMap.getScaleX() + .1);
-			scrollGroup.setScaleY(overMap.getScaleY() + .1);
-			sldZoom.setValue(((overMap.getScaleX()+.1)-.7) * 100);
+			scrollGroup.setScaleX(scrollGroup.getScaleX() + .1);
+			scrollGroup.setScaleY(scrollGroup.getScaleY() + .1);
+			sldZoom.setValue(((scrollGroup.getScaleX()+.1)-.7) * 100);
 		}
 	}
 
 	public void zoomOut(ActionEvent event) {
 		if(!(scrollGroup.getScaleX() < .5) || !(scrollGroup.getScaleY() < .5)) {
-			scrollGroup.setScaleX(overMap.getScaleX() - .1);
-			scrollGroup.setScaleY(overMap.getScaleY() - .1);
-			sldZoom.setValue(((overMap.getScaleX()-.1)-.7) * 100);
+			scrollGroup.setScaleX(scrollGroup.getScaleX() - .1);
+			scrollGroup.setScaleY(scrollGroup.getScaleY() - .1);
+			sldZoom.setValue(((scrollGroup.getScaleX()-.1)-.7) * 100);
 		}
 	}
 
@@ -1415,13 +1417,13 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateRight(ActionEvent event) {
-		overMap.setRotate(overMap.getRotate() - 30);
+		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation - 30);
 	}
 
 	public void rotateLeft(ActionEvent event) {
-		overMap.setRotate(overMap.getRotate() + 30);
+		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation + 30);
 
