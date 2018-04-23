@@ -457,11 +457,11 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseStartNode(MouseEvent event) {
-		Circle circle = (Circle)event.getTarget();
+		ImageView circle = (ImageView) event.getTarget();
 		if(!currentDimension.equals("3-D")) {
 			for (Node node : nodeList) {
-				if (node.getXCoord() == circle.getCenterX()) {
-					if (node.getYCoord() == circle.getCenterY()) {
+				if (node.getXCoord() == circle.getX()) {
+					if (node.getYCoord() == circle.getY()) {
 						System.out.println("Click recognized");
 						comBuildingStart.getSelectionModel().select(node.getBuilding());
 						comFloorStart.getSelectionModel().select(node.getFloor());
@@ -475,8 +475,8 @@ public class homeController implements Initializable {
 			System.out.println("Node not found");
 		} else {
 			for (Node node : nodeList) {
-				if (node.getXCoord3D() == circle.getCenterX()) {
-					if (node.getYCoord3D() == circle.getCenterY()) {
+				if (node.getXCoord3D() == circle.getX()) {
+					if (node.getYCoord3D() == circle.getY()) {
 						System.out.println("Click recognized");
 						comBuildingStart.getSelectionModel().select(node.getBuilding());
 						comFloorStart.getSelectionModel().select(node.getFloor());
@@ -493,12 +493,11 @@ public class homeController implements Initializable {
 	}
 
 	public void chooseEndNode(MouseEvent event) {
-		Circle circle = (Circle)event.getTarget();
-		System.out.println(circle.getCenterX());
+		ImageView circle = (ImageView) event.getTarget();
 		if(!currentDimension.equals("3-D")) {
 			for (Node node : nodeList) {
-				if (node.getXCoord() == circle.getCenterX()) {
-					if (node.getYCoord() == circle.getCenterY()) {
+				if (node.getXCoord() == circle.getX()) {
+					if (node.getYCoord() == circle.getY()) {
 						System.out.println("Click recognized");
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
@@ -512,8 +511,8 @@ public class homeController implements Initializable {
 			System.out.println("Node not found");
 		} else {
 			for (Node node : nodeList) {
-				if (node.getXCoord3D() == circle.getCenterX()) {
-					if (node.getYCoord3D() == circle.getCenterY()) {
+				if (node.getXCoord3D() == circle.getX()) {
+					if (node.getYCoord3D() == circle.getY()) {
 						System.out.println("Click recognized");
 						comBuildingEnd.getSelectionModel().select(node.getBuilding());
 						comFloorEnd.getSelectionModel().select(node.getFloor());
@@ -806,6 +805,7 @@ public class homeController implements Initializable {
 			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
 
 			pathList = path;
+			System.out.println(pathList.size());
 
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
@@ -1400,7 +1400,7 @@ public class homeController implements Initializable {
 
 	private void clearPoints() {
 		for(Circle c: circleList) {
-			pointMap.getChildren().remove(c);	// clears all the node circle
+			pointMap.getChildren().remove(c);	// clears all the node circles (only the kiosk now)
 		}
 		circleList.clear();
 
@@ -1443,22 +1443,22 @@ public class homeController implements Initializable {
 				}
 
 				ImageView icon = new ImageView();				// The icon for the node
-				Circle circle = new Circle(x, y, 25);	// The node circle
+				/*Circle circle = new Circle(x, y, 25);	// The node circle
 				circle.setId(currNode.getShortName());
 				circle.setFill(Color.WHITE);
 				circle.setStroke(Color.BLACK);
-				circle.setStrokeWidth(4);
+				circle.setStrokeWidth(4); */
 
 
 				if (isStart)
-					circle.setOnMouseClicked(this::chooseStartNode);
+					icon.setOnMouseClicked(this::chooseStartNode);
 				else
-					circle.setOnMouseClicked(this::chooseEndNode);
+					icon.setOnMouseClicked(this::chooseEndNode);
 
-				circleList.add(circle);							// Circle list is used to remove circles later
+				//circleList.add(circle);							// Circle list is used to remove circles later
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
 				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
-				pointMap.getChildren().add(circle);
+				//pointMap.getChildren().add(circle);
 				makeNodeIcon(currNode, icon);
 			}
 			i++;
