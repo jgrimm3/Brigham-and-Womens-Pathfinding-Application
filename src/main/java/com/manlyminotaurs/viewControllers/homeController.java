@@ -15,11 +15,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +38,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -286,6 +289,7 @@ public class homeController implements Initializable {
 
 			setPathfindingScreen();
 			printPoints("1", "2-D");
+			scrollPaneMap.setContent(scrollGroup);
 			setKiosk();
 			printKiosk();
 			goToKiosk();
@@ -308,6 +312,7 @@ public class homeController implements Initializable {
 		//createMap();
 
 		scrollPaneMap.setContent(scrollGroup);
+		printPoints("1", "2-D");
 		setKiosk();
 		printKiosk();
 		goToKiosk();
@@ -1914,7 +1919,8 @@ public class homeController implements Initializable {
 
 	@FXML
 	Pane paneEndDirectory;
-
+	@FXML
+	JFXButton btnHome;
 
 	public String convertType(String type) {
 
@@ -2075,7 +2081,21 @@ public class homeController implements Initializable {
 	}
 
 	public void goHome(ActionEvent event) {
+		try{
+			Parent login;
+			Stage stage;
+			//get reference to the button's stage
+			stage=(Stage)btnHome.getScene().getWindow();
+			//load up Home FXML document
+			login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
+
+			//create a new scene with root and set the stage
+			Scene scene=new Scene(login);
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e){
+			e.printStackTrace();}
 	}
 
 	public void listenForStartLocation(MouseEvent mouseEvent) {
