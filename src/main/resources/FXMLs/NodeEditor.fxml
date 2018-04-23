@@ -259,9 +259,9 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out" textFill="#080000">
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minHeight="80.0" minWidth="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out" textFill="#080000">
                <VBox.margin>
-                  <Insets bottom="100.0" left="30.0" right="30.0" top="440.0" />
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="415.0" />
                </VBox.margin>
                <font>
                   <Font name="System Bold" size="28.0" />
