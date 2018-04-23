@@ -69,17 +69,17 @@
                   <GaussianBlur radius="0.5" />
                </effect>
                <children>
-                  <JFXButton fx:id="btnModifyNode" layoutX="167.0" layoutY="-2.0" onAction="#modifyNode" prefHeight="60.0" prefWidth="195.0" text="Modify" textFill="WHITE">
+                  <JFXButton fx:id="btnModifyNode" layoutX="167.0" layoutY="-2.0" onAction="#displayModifyPane" prefHeight="60.0" prefWidth="195.0" text="Modify" textFill="WHITE">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnDeleteNodePane" layoutX="366.0" layoutY="-1.0" onAction="#deleteNode" prefHeight="63.0" prefWidth="145.0" text="Delete" textFill="WHITE">
+                  <JFXButton fx:id="btnDeleteNodePane" layoutX="366.0" layoutY="-1.0" onAction="#displayDeletePane" prefHeight="63.0" prefWidth="145.0" text="Delete" textFill="WHITE">
                      <font>
                         <Font size="29.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnMenuAdd" layoutX="2.0" layoutY="-2.0" minWidth="158.0" onAction="#addNode" prefHeight="63.0" prefWidth="165.0" text="Add" textFill="WHITE">
+                  <JFXButton fx:id="btnMenuAdd" layoutX="2.0" layoutY="-2.0" minWidth="158.0" onAction="#displayAddPane" prefHeight="63.0" prefWidth="165.0" text="Add" textFill="WHITE">
                      <font>
                         <Font size="29.0" />
                      </font>
@@ -90,22 +90,22 @@
       </Pane>
       <Pane id="Add" fx:id="paneAdd" layoutX="441.0" layoutY="224.0" prefHeight="836.0" prefWidth="506.0">
          <children>
-            <JFXToggleButton fx:id="tglAddMapChange" layoutX="195.0" layoutY="271.0" onAction="#modSetFloor" text="  3-D" textFill="WHITE">
+            <JFXToggleButton fx:id="tglAddMapChange" layoutX="203.0" layoutY="34.0" onAction="#modSetFloor" size="12.0" text="  3-D" textFill="WHITE" toggleColor="#ebd64f">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXToggleButton>
-            <Label layoutX="139.0" layoutY="286.0" text="2-D" textFill="WHITE">
+            <Label layoutX="160.0" layoutY="54.0" text="2-D" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtLongName" focusColor="#edbf54" layoutX="57.0" layoutY="355.0" prefHeight="60.0" prefWidth="378.0" promptText="LongName" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtLongName" focusColor="#edbf54" layoutX="57.0" layoutY="338.0" prefHeight="60.0" prefWidth="378.0" promptText="LongName" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtShortName" layoutX="57.0" layoutY="264.0" prefHeight="60.0" prefWidth="378.0" promptText="ShortName" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtShortName" layoutX="57.0" layoutY="271.0" prefHeight="60.0" prefWidth="378.0" promptText="ShortName" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -118,30 +118,30 @@
                   </LinearGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txtXCoord" focusColor="#edbf54" layoutX="35.0" layoutY="544.0" prefHeight="39.0" prefWidth="104.0" promptText="2D X" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtXCoord" focusColor="#edbf54" layoutX="35.0" layoutY="552.0" prefHeight="39.0" prefWidth="152.0" promptText="2D X" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord" focusColor="#edbf54" layoutX="35.0" layoutY="622.0" prefHeight="39.0" prefWidth="104.0" promptText="2D Y" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtYCoord" focusColor="#edbf54" layoutX="35.0" layoutY="612.0" prefHeight="39.0" prefWidth="152.0" promptText="2D Y" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtXCoord3D" focusColor="#edbf54" layoutX="300.0" layoutY="551.0" prefHeight="39.0" prefWidth="115.0" promptText="3D X" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtXCoord3D" focusColor="#edbf54" layoutX="277.0" layoutY="560.0" prefHeight="25.0" prefWidth="174.0" promptText="3D X" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtYCoord3D" focusColor="#edbf54" layoutX="300.0" layoutY="622.0" prefHeight="39.0" prefWidth="124.0" promptText="3D Y" translateY="80.0" unFocusColor="WHITE">
+            <JFXTextField fx:id="txtYCoord3D" focusColor="#edbf54" layoutX="277.0" layoutY="612.0" prefHeight="39.0" prefWidth="174.0" promptText="3D Y" translateY="80.0" unFocusColor="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXComboBox fx:id="cmboBuilding" layoutX="121.0" layoutY="62.0" onAction="#addSetBuilding" prefHeight="32.0" prefWidth="250.0" promptText="Building" stylesheets="@../StyleSheets/Jfeonix.css" />
-            <JFXComboBox fx:id="cmboFloorAdd" layoutX="121.0" layoutY="134.0" onAction="#addSetFloor" prefHeight="32.0" prefWidth="250.0" promptText="Floor" />
-            <JFXComboBox fx:id="cmboType" layoutX="121.0" layoutY="204.0" onAction="#addSetType" prefHeight="32.0" prefWidth="250.0" promptText="Type" />
-            <JFXToggleButton fx:id="tglEdge" layoutX="207.0" layoutY="530.0" onAction="#geofence" text="Toggle Edge" textFill="WHITE">
+            <JFXComboBox fx:id="cmboBuilding" layoutX="121.0" layoutY="158.0" onAction="#addSetBuilding" prefHeight="32.0" prefWidth="250.0" promptText="Building" stylesheets="@../StyleSheets/Jfeonix.css" />
+            <JFXComboBox fx:id="cmboFloorAdd" layoutX="121.0" layoutY="222.0" onAction="#addSetFloor" prefHeight="32.0" prefWidth="250.0" promptText="Floor" />
+            <JFXComboBox fx:id="cmboType" layoutX="121.0" layoutY="279.0" onAction="#addSetType" prefHeight="32.0" prefWidth="250.0" promptText="Type" />
+            <JFXToggleButton fx:id="tglEdge" layoutX="211.0" layoutY="512.0" size="12.0" text="Edge" textFill="WHITE" toggleColor="#ebd64f">
                <font>
                   <Font size="19.0" />
                </font>
@@ -274,7 +274,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <JFXComboBox fx:id="cmboPathfinding" focusColor="WHITE" maxHeight="80.0" minHeight="80.0" minWidth="-Infinity" onAction="#setPathfindAlgorithm" prefHeight="80.0" prefWidth="536.0" promptText="Select Global Pathfinding Algorithm" style="-fx-background-color: #2B65AC;" unFocusColor="#ecff1b" GridPane.columnIndex="1" />
+            <JFXComboBox fx:id="cmboPathfinding" focusColor="WHITE" maxHeight="80.0" minHeight="80.0" minWidth="-Infinity" onAction="#setPathfindAlgorithm" prefHeight="80.0" prefWidth="536.0" promptText="Select Global Pathfinding Algorithm" style="-fx-background-color: #2B65AC;" unFocusColor="#ecff1b" visibleRowCount="1" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>
