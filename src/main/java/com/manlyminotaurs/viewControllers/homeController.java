@@ -290,7 +290,6 @@ public class homeController implements Initializable {
 
 	public void toggleMap(ActionEvent event) {
 		clearPoints();
-		circleList.clear();
 		printKiosk();
 		isStart = true;
 
@@ -328,12 +327,9 @@ public class homeController implements Initializable {
 
 		if(currentDimension.equals("3-D")) {
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
-			clearPoints();
 		} else {
 			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
-			clearPoints();
 		}
-		circleList.clear();
 		//circleList.remove(kiosk);
 
 		System.out.println(currentFloor + " is the floor");
@@ -424,10 +420,8 @@ public class homeController implements Initializable {
 	public void printNodesOnFloorStart(MouseEvent event) {
 		isStart = true;
 		showStartAndEnd();
-		clearPoints();
 		hideStartAndEnd();
 		//printKiosk();
-		circleList.clear();
 		if (currentDimension.equals("3-D"))
 			printPoints(currentFloor, "3-D");
 		else
@@ -438,9 +432,7 @@ public class homeController implements Initializable {
 	public void printNodesOnFloorEnd(MouseEvent event) {
 		isStart = false;
 		showStartAndEnd();
-		clearPoints();
 		hideStartAndEnd();
-		circleList.clear();
 		if (currentDimension.equals("3-D"))
 			printPoints(currentFloor, "3-D");
 		else
@@ -1407,6 +1399,7 @@ public class homeController implements Initializable {
 	}
 
 	private void clearPoints() {
+		circleList.clear();
 		for(Circle c: circleList) {
 			paneMap.getChildren().remove(c);
 		}
@@ -1596,7 +1589,7 @@ public class homeController implements Initializable {
 
 	private void printName(MouseEvent mouseEvent) {
 		Circle currCircle = (Circle)mouseEvent.getTarget();
-		nodeFloor.setText(currentFloor);
+//		nodeFloor.setText(currentFloor);
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
 		nodePane.setLayoutX(currCircle.getCenterX());
@@ -1724,7 +1717,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L2";
-		circleList.clear();
+		clearPoints();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(20);
@@ -1752,7 +1745,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "L1";
-		circleList.clear();
+		clearPoints();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -1778,7 +1771,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "1";
-		circleList.clear();
+		clearPoints();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -1805,7 +1798,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "2";
-		circleList.clear();
+		clearPoints();
 		printKiosk();
 		cancel(null);
 		btnL2.setLayoutX(0);
@@ -1832,7 +1825,7 @@ public class homeController implements Initializable {
 		}
 
 		currentFloor = "3";
-		circleList.clear();
+		clearPoints();
 		printKiosk();
 		cancel(null);
 

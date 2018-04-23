@@ -36,7 +36,7 @@ public class Main extends Application {
             System.out.println("Checking Status of Emergency");
             if(true) {//new ClientSetup(null).requestState().equals("0")) {
                 //root is anchor pane that all other screens will be held in
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
             }else{
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
             }
