@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
@@ -49,6 +50,23 @@ public class idleMapController {
 
     @FXML
     JFXButton btnLogin3;
+
+    @FXML
+    JFXButton btnCloseAbout;
+
+    @FXML
+    Label lblHour;
+
+    @FXML
+    Label lblMinute;
+
+    @FXML
+    Label lblDate;
+
+    @FXML
+    JFXButton btnGiftShop;
+
+
 
     public void initialize() {
         paneAbout.setVisible(false);
@@ -101,7 +119,7 @@ public class idleMapController {
                     Parent login;
                     Stage stage;
                     //get reference to the button's stage
-                    stage=(Stage)btnLogin3.getScene().getWindow();
+                    stage=(Stage)btnLogin.getScene().getWindow();
                     //load up Home FXML document
                     login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
@@ -125,7 +143,7 @@ public class idleMapController {
             Parent login;
             Stage stage;
             //get reference to the button's stage
-            stage=(Stage)btnLogin3.getScene().getWindow();
+            stage=(Stage)btnLogin.getScene().getWindow();
             //load up Home FXML document
             login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
@@ -170,6 +188,10 @@ public class idleMapController {
         newWindow.setY(primaryStage.getY()+250);
 
         newWindow.show();
+
+    }
+
+    public void giftShop(ActionEvent event) {
 
     }
 

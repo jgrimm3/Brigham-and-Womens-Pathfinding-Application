@@ -6,7 +6,6 @@
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -21,7 +20,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -53,48 +51,33 @@
                                           </ImageView>
                                           <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                              <children>
-                                                <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
-                                                <Path fx:id="diffPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.5" stroke="#2e2eff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
                                                 <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
                                                       <Image url="@../MapImages/01_thefirstfloor.png" />
                                                    </image>
                                                 </ImageView>
+                                                <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
+                                                <Path fx:id="diffPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.5" stroke="#2e2eff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                 <Text fx:id="startName" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                 <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                                                <ImageView fx:id="arrow" fitHeight="32.5" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                   <image>
+                                                      <Image url="@../Icons/arrow.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" visible="false">
+                                                   <children>
+                                                      <Label fx:id="lblNode" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #102c57; -fx-background-radius: 15; -fx-border-color: #919191; -fx-border-width: 5; -fx-border-radius: 10;" text="Location" textFill="WHITE">
+                                                         <padding>
+                                                            <Insets left="10.0" />
+                                                         </padding>
+                                                      </Label>
+                                                   </children>
+                                                </StackPane>
+                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
                                              </children>
                                           </Pane>
-                                          <ImageView fx:id="arrow" fitHeight="32.5" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                                             <image>
-                                                <Image url="@../Icons/arrow.png" />
-                                             </image>
-                                          </ImageView>
-                                          <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" visible="false">
-                                             <children>
-                                                <Label fx:id="lblNode1" alignment="TOP_LEFT" graphicTextGap="0.0" prefHeight="56.0" prefWidth="242.0" style="-fx-background-color: NAVY; -fx-padding: 5; -fx-border-color: WHITE; -fx-border-width: 3;" text="  Service 1" textFill="WHITE">
-                                                   <cursor>
-                                                      <Cursor fx:constant="DEFAULT" />
-                                                   </cursor>
-                                                   <font>
-                                                      <Font name="Arial Bold" size="19.0" />
-                                                   </font>
-                                                   <graphic>
-                                                      <Circle fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-                                                   </graphic>
-                                                </Label>
-                                                <Text fx:id="nodeFloor1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="L2" textAlignment="CENTER" translateX="17.0" translateY="20.0">
-                                                   <font>
-                                                      <Font name="Arial Black" size="19.0" />
-                                                   </font>
-                                                </Text>
-                                                <Text fx:id="nodeFloor11" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="FL" textAlignment="CENTER" translateX="18.0" translateY="7.0">
-                                                   <font>
-                                                      <Font name="Arial Black" size="15.0" />
-                                                   </font>
-                                                </Text>
-                                             </children>
-                                          </StackPane>
                                        </children>
                                     </StackPane>
                                  </children>
@@ -110,7 +93,7 @@
                               </ImageView>
                            </graphic>
                            <StackPane.margin>
-                              <Insets bottom="30.0" right="130.0" />
+                              <Insets bottom="130.0" right="30.0" />
                            </StackPane.margin>
                         </JFXButton>
                         <Pane maxHeight="400.0" maxWidth="115.0" minHeight="400.0" minWidth="100.0" prefHeight="400.0" prefWidth="115.0" StackPane.alignment="TOP_LEFT">
@@ -250,9 +233,9 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane maxHeight="400.0" maxWidth="100.0" minWidth="100.0" prefHeight="400.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+                        <Pane maxHeight="80.0" maxWidth="430.0" minWidth="100.0" prefHeight="400.0" prefWidth="414.0" StackPane.alignment="BOTTOM_RIGHT">
                            <children>
-                              <JFXButton fx:id="btnQuickDirections" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#toggleQuickButtons" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnQuickDirections" buttonType="RAISED" ellipsisString="" layoutX="350.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#toggleQuickButtons" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fx:id="imgNavigation" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -261,7 +244,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutX="250.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -270,7 +253,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutX="150.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -279,7 +262,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutX="50.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -290,7 +273,7 @@
                               </JFXButton>
                            </children>
                            <StackPane.margin>
-                              <Insets right="30.0" top="30.0" />
+                              <Insets bottom="40.0" right="150.0" />
                            </StackPane.margin>
                         </Pane>
                         <Pane maxHeight="200.0" maxWidth="380.0" prefHeight="200.0" prefWidth="350.0" StackPane.alignment="BOTTOM_LEFT">
@@ -557,34 +540,34 @@
                               <Insets left="150.0" top="140.0" />
                            </StackPane.margin>
                         </Pane>
-                        <StackPane fx:id="paneHelpDirections" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" onMouseClicked="#closeHelpDirections" prefHeight="1000.0" prefWidth="1900.0" visible="false">
+                        <StackPane fx:id="paneHelp" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" onMouseClicked="#closeHelp" prefHeight="1000.0" prefWidth="1900.0" visible="false">
                            <children>
                               <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
-                              <Pane maxHeight="230.0" maxWidth="240.0" minHeight="230.0" minWidth="240.0" prefHeight="230.0" prefWidth="240.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="TOP_LEFT">
+                              <Pane maxHeight="115.0" maxWidth="240.0" minHeight="115.0" minWidth="340.0" prefHeight="115.0" prefWidth="240.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="TOP_LEFT">
                                  <StackPane.margin>
-                                    <Insets left="130.0" top="30.0" />
+                                    <Insets left="130.0" top="170.0" />
                                  </StackPane.margin>
                                  <children>
-                                    <Label layoutX="15.0" layoutY="15.0" text="DIRECTIONS" textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="15.0" text="DIRECTIONS BUTTON" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="170.0" prefWidth="205.0" text="Press the directions button to view/hide text step by step directions. Once the pane is open, press the send button to then send the text directions to your mobile device via phone number and email." textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="50.0" prefWidth="310.0" text="Press the directions button to view/hide text step by step directions." textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </Pane>
-                              <Pane maxHeight="150.0" maxWidth="200.0" minHeight="150.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="TOP_CENTER">
+                              <Pane maxHeight="175.0" maxWidth="200.0" minHeight="150.0" minWidth="200.0" prefHeight="175.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="TOP_CENTER">
                                  <children>
-                                    <Label layoutX="15.0" layoutY="15.0" text="RESTART" textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="15.0" text="GO" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="90.0" prefWidth="170.0" text="To generate another path, press the restart button to restart the pathfinding process." textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="110.0" prefWidth="170.0" text="To generate a path, press the go button to see an animated path and find out where you need to go." textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -594,28 +577,23 @@
                                     <Insets left="870.0" top="130.0" />
                                  </StackPane.margin>
                               </Pane>
-                              <Pane maxHeight="145.0" maxWidth="550.0" minHeight="145.0" minWidth="550.0" prefHeight="145.0" prefWidth="550.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="BOTTOM_CENTER">
+                              <Pane maxHeight="130.0" maxWidth="550.0" minHeight="130.0" minWidth="550.0" prefHeight="130.0" prefWidth="550.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="BOTTOM_CENTER">
                                  <children>
                                     <Label layoutX="15.0" layoutY="15.0" text="PATH NAVIGATION" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="80.0" prefWidth="520.0" text="Once a path has been generated, press the left and right arrow buttons to see the next step in the path. Press the buttons in the middle to select a specific step. If you would like to disable the turn by turn navigation, use the toggle button to select your preference." textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="60.0" prefWidth="520.0" text="Once a path has been generated, press the left and right arrow buttons to see the next floor. Press the floor buttons in the middle to view a floor that is traveled through. " textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
                                  </children>
                                  <StackPane.margin>
-                                    <Insets bottom="160.0" right="30.0" />
+                                    <Insets bottom="160.0" />
                                  </StackPane.margin>
                               </Pane>
-                           </children>
-                        </StackPane>
-                        <StackPane fx:id="paneHelpPathfind" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" onMouseClicked="#closeHelpPathfind" prefHeight="1000.0" prefWidth="1900.0" visible="false" StackPane.alignment="CENTER">
-                           <children>
-                              <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
                               <Pane maxHeight="100.0" maxWidth="240.0" minHeight="109.0" minWidth="200.0" prefHeight="100.0" prefWidth="240.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="TOP_LEFT">
                                  <StackPane.margin>
                                     <Insets left="130.0" top="30.0" />
@@ -667,53 +645,70 @@
                                     <Insets top="130.0" />
                                  </StackPane.margin>
                               </Pane>
-                              <Pane maxHeight="140.0" maxWidth="550.0" minHeight="140.0" minWidth="550.0" prefHeight="140.0" prefWidth="550.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="CENTER_RIGHT">
+                              <Pane maxHeight="210.0" maxWidth="280.0" minHeight="210.0" minWidth="280.0" prefHeight="210.0" prefWidth="280.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="BOTTOM_RIGHT">
                                  <children>
                                     <Label layoutX="15.0" layoutY="15.0" text="QUICK DIRECTIONS" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="80.0" prefWidth="520.0" text="To make a path quickly to the nearest bathroom, exit, or elevator, press a quick direction button to find the nearest bathroom/exit/elevator. The start location is set by default at your kiosk location. " textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="154.0" prefWidth="250.0" text="To make a path quickly to the nearest bathroom, exit, or elevator, press a quick direction button to find the nearest bathroom/exit/elevator. The start location is set by default at your kiosk location. " textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
                                  </children>
                                  <StackPane.margin>
-                                    <Insets right="30.0" />
+                                    <Insets bottom="160.0" right="370.0" />
                                  </StackPane.margin>
                               </Pane>
-                              <Pane maxHeight="140.0" maxWidth="225.0" minHeight="140.0" minWidth="225.0" prefHeight="140.0" prefWidth="225.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="BOTTOM_RIGHT">
+                              <Pane maxHeight="120.0" maxWidth="225.0" minHeight="120.0" minWidth="225.0" prefHeight="120.0" prefWidth="225.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="BOTTOM_RIGHT">
                                  <children>
                                     <Label layoutX="15.0" layoutY="15.0" text="HOME" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="80.0" prefWidth="220.0" text="Press the home button to return to the entry screen where you can change the language and login." textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="50.0" prefWidth="190.0" text="Press the home button to return to the entry screen." textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
                                  </children>
                                  <StackPane.margin>
-                                    <Insets bottom="130.0" right="30.0" />
+                                    <Insets bottom="250.0" right="30.0" />
                                  </StackPane.margin>
                               </Pane>
-                              <Pane maxHeight="135.0" maxWidth="200.0" minHeight="135.0" minWidth="200.0" prefHeight="135.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;">
+                              <Pane maxHeight="130.0" maxWidth="200.0" minHeight="130.0" minWidth="200.0" prefHeight="130.0" prefWidth="200.0" style="-fx-background-color: #2f2f2f;">
                                  <children>
                                     <Label layoutX="15.0" layoutY="15.0" text="LOCATIONS" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="70.0" prefWidth="175.0" text="Hover over locations to see their names and description." textFill="WHITE" wrapText="true">
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="70.0" prefWidth="175.0" text="Hover over locations to see their names." textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
                                  </children>
+                              </Pane>
+                              <Pane maxHeight="260.0" maxWidth="280.0" minHeight="260.0" minWidth="280.0" prefHeight="260.0" prefWidth="280.0" style="-fx-background-color: #2f2f2f;" StackPane.alignment="CENTER">
+                                 <children>
+                                    <Label layoutX="15.0" layoutY="15.0" text="DIRECTIONS" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="50.0" prefHeight="194.0" prefWidth="250.0" text="Read the text step-by-step directions to figure out how to get to your destination. If you have a mobile device, press the send button and fill in the required field to recieve directions on your device via text or email. If you tap on a specifc direction, you may see where that step takes place on the map." textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <StackPane.margin>
+                                    <Insets bottom="70.0" left="800.0" />
+                                 </StackPane.margin>
                               </Pane>
                            </children>
                         </StackPane>
