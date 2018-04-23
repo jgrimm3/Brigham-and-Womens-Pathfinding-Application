@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" stylesheets="@../StyleSheets/Jfeonix.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.adminHistoryController">
    <children>
-      <Pane layoutX="627.0" layoutY="846.0" prefHeight="200.0" prefWidth="1207.0" style="-fx-background-color: #2b65ac;">
+      <Pane layoutX="655.0" layoutY="805.0" prefHeight="200.0" prefWidth="1210.0" style="-fx-background-color: #2b65ac;">
          <children>
             <Label fx:id="lblTime" layoutX="44.0" layoutY="139.0" text="Time Stamp" textFill="WHITE">
                <font>
@@ -45,19 +45,19 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnRevert" layoutX="1049.0" layoutY="26.0" onAction="#revert" prefHeight="51.0" prefWidth="101.0" text="Revert" textFill="WHITE">
+            <JFXButton fx:id="btnRevert" layoutX="1032.0" layoutY="26.0" onAction="#revert" prefHeight="51.0" prefWidth="118.0" text="Revert" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnRemove" layoutX="1033.0" layoutY="114.0" onAction="#removeLog" prefHeight="51.0" prefWidth="133.0" text="Remove" textFill="WHITE">
+            <JFXButton fx:id="btnRemove" layoutX="1025.0" layoutY="114.0" onAction="#removeLog" prefHeight="51.0" prefWidth="141.0" text="Remove" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
          </children>
       </Pane>
-      <TableView fx:id="tblHistory" layoutX="628.0" layoutY="97.0" onMouseClicked="#entryClicked" prefHeight="749.0" prefWidth="1207.0">
+      <TableView fx:id="tblHistory" layoutX="655.0" layoutY="55.0" onMouseClicked="#entryClicked" prefHeight="750.0" prefWidth="1210.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
@@ -74,9 +74,9 @@
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" minWidth="80.0" prefHeight="80.0" prefWidth="420.0" style="-fx-background-color: #2B65AC;">
                <children>
-                  <Label text="Kiosk History" textFill="#f1f1f1">
+                  <Label text="Kiosk History" textFill="#ebd64f">
                      <font>
-                        <Font size="21.0" />
+                        <Font size="36.0" />
                      </font>
                      <padding>
                         <Insets left="20.0" top="20.0" />
@@ -169,16 +169,35 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="79.0" prefWidth="360.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
-               <VBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="530.0" />
-               </VBox.margin>
+            <JFXButton fx:id="btnRoomServiceAPI" alignment="BASELINE_LEFT" maxHeight="70.0" onAction="#loadAPI" prefHeight="70.0" prefWidth="480.0" text="   Room Service  " textFill="#f1f1f1">
                <font>
                   <Font size="21.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets left="1.0" />
+               </opaqueInsets>
+               <graphic>
+                  <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minHeight="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out" textAlignment="RIGHT">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="400.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
          </children>
       </VBox>
       <JFXTextField fx:id="txtUserID" layoutX="434.0" layoutY="488.0" prefHeight="25.0" prefWidth="183.0" promptText="Filter By User ID" />
+      <Label layoutX="1122.0" layoutY="2.0" text="Kiosk History Log" textFill="#ebd64f">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -245,12 +245,26 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
-               <VBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="525.0" />
-               </VBox.margin>
+            <JFXButton fx:id="btnRoomServiceAPI" alignment="BASELINE_LEFT" maxHeight="70.0" onAction="#loadAPI" prefHeight="70.0" prefWidth="480.0" text="   Room Service  " textFill="#f1f1f1">
                <font>
                   <Font size="21.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets left="1.0" />
+               </opaqueInsets>
+               <graphic>
+                  <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out" textFill="#080000">
+               <VBox.margin>
+                  <Insets bottom="100.0" left="30.0" right="30.0" top="440.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
          </children>
@@ -265,15 +279,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label minHeight="80.0" minWidth="-Infinity" prefHeight="124.0" prefWidth="1377.0" style="-fx-background-color: #2B65AC;" text="Admin Node Editor" textFill="#f1f1f1">
+            <Label minHeight="80.0" minWidth="-Infinity" prefHeight="124.0" prefWidth="1377.0" style="-fx-background-color: #2B65AC;" text="Admin Node Editor" textFill="#ebd64f">
                <font>
-                  <Font size="28.0" />
+                  <Font size="33.0" />
                </font>
                <padding>
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <JFXComboBox fx:id="cmboPathfinding" focusColor="WHITE" labelFloat="true" maxHeight="80.0" minHeight="80.0" minWidth="-Infinity" onAction="#setPathfindAlgorithm" prefHeight="80.0" prefWidth="577.0" promptText="           Select Global Pathfinding Algorithm" style="-fx-background-color: #2B65AC;" unFocusColor="#ecff1b" visibleRowCount="0" GridPane.columnIndex="2" />
+            <JFXComboBox fx:id="cmboPathfinding" focusColor="WHITE" labelFloat="true" maxHeight="80.0" minHeight="80.0" minWidth="-Infinity" onAction="#setPathfindAlgorithm" prefHeight="80.0" prefWidth="577.0" promptText="           Select Global Pathfinding Algorithm" style="-fx-background-color: #2B65AC;" unFocusColor="#ecff1b" visibleRowCount="5" GridPane.columnIndex="2" />
             <JFXButton fx:id="btnUpdateTimeout" alignment="CENTER_RIGHT" contentDisplay="RIGHT" onAction="#timeOutUpdate" prefHeight="79.0" prefWidth="178.0" text="Update Timeout" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />

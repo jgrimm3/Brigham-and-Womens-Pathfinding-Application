@@ -19,14 +19,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" stylesheets="@../StyleSheets/Jfeonix.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.adminRequestDashboardController">
    <children>
-      <Pane layoutX="1166.0" layoutY="188.0" prefHeight="841.0" prefWidth="750.0" style="-fx-background-color: #2b65ac;">
+      <Pane layoutX="1166.0" layoutY="171.0" prefHeight="841.0" prefWidth="750.0" style="-fx-background-color: #2b65ac;">
          <effect>
             <DropShadow />
          </effect>
          <children>
-            <PieChart fx:id="pieChart" layoutX="97.0" layoutY="528.0" legendSide="LEFT" prefHeight="313.0" prefWidth="562.0" snapToPixel="false" title="All Requests By Priority" />
+            <PieChart fx:id="pieChart" layoutX="97.0" layoutY="514.0" legendSide="LEFT" prefHeight="313.0" prefWidth="562.0" snapToPixel="false" title="All Requests By Priority" />
          </children></Pane>
-      <Pane layoutX="1166.0" layoutY="654.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
+      <Pane layoutX="1166.0" layoutY="622.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
          <children>
             <Label layoutX="325.0" layoutY="11.0" text="Statistics" textFill="#f1f1f1">
                <font>
@@ -35,7 +35,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="415.0" layoutY="188.0" prefHeight="841.0" prefWidth="750.0" style="-fx-background-color: #2b65ac;">
+      <Pane layoutX="415.0" layoutY="170.0" prefHeight="841.0" prefWidth="750.0" style="-fx-background-color: #2b65ac;">
          <effect>
             <DropShadow />
          </effect>
@@ -46,7 +46,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Pane layoutX="1.0" layoutY="466.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
+            <Pane layoutY="452.0" prefHeight="60.0" prefWidth="750.0" style="-fx-background-color: #102c57;">
                <children>
                   <Label layoutX="310.0" layoutY="8.0" text="Request Details" textFill="WHITE">
                      <font>
@@ -55,13 +55,22 @@
                   </Label>
                </children>
             </Pane>
-            <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="29.0" layoutY="550.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="#f1f1f1" />
-            <JFXButton fx:id="btnCompleteRequest" layoutX="104.0" layoutY="700.0" onAction="#completeClicked" prefHeight="34.0" prefWidth="115.0" text="Complete" textFill="WHITE" />
-            <JFXButton fx:id="btnDeleteRequest" layoutX="588.0" layoutY="698.0" onAction="#deleteSelected" prefHeight="34.0" prefWidth="115.0" text="Delete" textFill="WHITE" />
-            <JFXComboBox fx:id="combBoxAssignNurse" focusColor="#fdfdff" layoutX="356.0" layoutY="705.0" onAction="#nurseSelected" promptText="Assign Nurse" unFocusColor="WHITE" />
-            <JFXPasswordField fx:id="txtPassword" focusColor="WHITE" layoutX="84.0" layoutY="757.0" promptText="Admin Password" unFocusColor="WHITE" />
+            <Label fx:id="lblRequestDetails" alignment="TOP_LEFT" layoutX="29.0" layoutY="550.0" prefHeight="122.0" prefWidth="700.0" style="-fx-border-color: #edbf54;" text="Request Details..." textFill="#f1f1f1">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <JFXButton fx:id="btnCompleteRequest" layoutX="156.0" layoutY="697.0" onAction="#completeClicked" prefHeight="54.0" prefWidth="145.0" text="Complete" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="btnDeleteRequest" layoutX="588.0" layoutY="698.0" onAction="#deleteSelected" prefHeight="34.0" prefWidth="115.0" text="Delete" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font></JFXButton>
+            <JFXComboBox fx:id="combBoxAssignNurse" focusColor="#fdfdff" layoutX="333.0" layoutY="706.0" onAction="#nurseSelected" prefHeight="25.0" prefWidth="199.0" promptText="Assign Nurse" unFocusColor="WHITE" />
+            <JFXPasswordField fx:id="txtPassword" focusColor="WHITE" layoutX="14.0" layoutY="718.0" promptText="Admin Password" unFocusColor="WHITE" />
          </children></Pane>
-      <TableView fx:id="tblClosedRequests" layoutX="1192.0" layoutY="219.0" onMouseClicked="#closedListClicked" prefHeight="400.0" prefWidth="700.0">
+      <TableView fx:id="tblClosedRequests" layoutX="1192.0" layoutY="203.0" onMouseClicked="#closedListClicked" prefHeight="400.0" prefWidth="700.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -99,13 +108,13 @@
             </Label>
          </children>
       </Pane>
-      <VBox layoutX="-5.0" layoutY="-1.0" maxHeight="1080.0" prefHeight="1051.0" prefWidth="420.0" style="-fx-background-color: #222222;">
+      <VBox layoutX="-5.0" layoutY="-1.0" maxHeight="1087.0" prefHeight="1080.0" prefWidth="420.0" style="-fx-background-color: #222222;">
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="240.0" style="-fx-background-color: #2B65AC;">
                <children>
-                  <Label text="Request Dashboard" textFill="#f1f1f1">
+                  <Label text="Request Dashboard" textFill="#ebd64f">
                      <font>
-                        <Font size="21.0" />
+                        <Font size="35.0" />
                      </font>
                      <padding>
                         <Insets left="20.0" top="20.0" />
@@ -212,12 +221,12 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" minHeight="60.0" onAction="#LogOut" prefHeight="68.0" prefWidth="360.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" minHeight="60.0" onAction="#LogOut" prefHeight="68.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out">
                <VBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="480.0" />
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="425.0" />
                </VBox.margin>
                <font>
-                  <Font size="21.0" />
+                  <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
          </children>
