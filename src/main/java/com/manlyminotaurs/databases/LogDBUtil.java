@@ -93,12 +93,12 @@ public class LogDBUtil {
     }
 
     //delete log
-    boolean removeLog(Log oldLog){
+    boolean removeLog(String logID){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
             Statement stmt = connection.createStatement();
-            String str = "DELETE FROM Log WHERE logID = '" + oldLog.getLogID() + "'";
+            String str = "DELETE FROM Log WHERE logID = '" + logID + "'";
             stmt.executeUpdate(str);
             stmt.close();
             isSuccess = true;

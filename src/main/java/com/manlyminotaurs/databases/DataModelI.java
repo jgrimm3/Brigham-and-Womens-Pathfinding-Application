@@ -12,7 +12,6 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -321,9 +320,9 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean removeRequest(Request oldRequest) {
-        boolean tempBool = requestsDBUtil.removeRequest(oldRequest);
-        addLog("Removed "+ oldRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldRequest.getRequestID(),"request");
+    public boolean removeRequest(String requestID) {
+        boolean tempBool = requestsDBUtil.removeRequest(requestID);
+        addLog("Removed "+ requestID +" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),requestID,"request");
         return tempBool;
     }
 
@@ -369,9 +368,9 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean removeUser(User oldUser) {
-        boolean tempBool = userDBUtil.removeUser(oldUser);
-        addLog("Removed "+ oldUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),oldUser.getUserID(),"user");
+    public boolean removeUser(String userID) {
+        boolean tempBool = userDBUtil.removeUser(userID);
+        addLog("Removed "+ userID +" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return tempBool;
     }
 
@@ -452,8 +451,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public boolean removeLog(Log oldLog) {
-        return logDBUtil.removeLog(oldLog);
+    public boolean removeLog(String logID) {
+        return logDBUtil.removeLog(logID);
     }
 
     @Override

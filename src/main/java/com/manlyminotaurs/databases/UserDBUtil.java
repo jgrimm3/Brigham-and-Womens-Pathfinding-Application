@@ -56,11 +56,11 @@ public class UserDBUtil {
         return userObject;
     }
 
-    boolean removeUser(User oldUser){
+    boolean removeUser(String userID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
         try {
-            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ oldUser.getUserID() +"'" ;
+            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ userID +"'" ;
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -211,14 +211,14 @@ public class UserDBUtil {
         return listOfUsers;
     } // retrieveUsers() ends
 
-    List<String> getLanguageList ( String languagesConcat){
+    public List<String> getLanguageList ( String languagesConcat){
         // Input: String languageConcat = "English/Spanish"
         // Output: List <String> languages = [ "English" , "Spanish" ]
         List<String> languages = new ArrayList<String>(Arrays.asList(languagesConcat.split("/")));
         return languages;
     }
 
-    String getLanguageString(List<String> languages){
+    public String getLanguageString(List<String> languages){
         String full_language = languages.get(0);
         for(int i = 1; i<languages.size(); i++){
             full_language = full_language + "/" + languages.get(i);
