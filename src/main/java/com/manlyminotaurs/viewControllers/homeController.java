@@ -221,6 +221,8 @@ public class homeController implements Initializable {
 
 		changeFloor("1");
 
+		printPoints("1","2-D");
+
 		TextFields.bindAutoCompletion(txtLocationStart, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 		TextFields.bindAutoCompletion(txtLocationEnd, FXCollections.observableArrayList(DataModelI.getInstance().getNamesByBuildingFloorType(null, null, null)));
 
@@ -233,7 +235,7 @@ public class homeController implements Initializable {
 		try {
 
 			setPathfindingScreen();
-
+			printPoints("1", "2-D");
 			setKiosk();
 			printKiosk();
 			goToKiosk();
@@ -1451,7 +1453,7 @@ public class homeController implements Initializable {
 				circleList.add(circle);
 				circle.setOnMouseEntered(this::printName);
 				circle.setOnMouseExited(this::removeName);
-				paneMap.getChildren().add(circle);
+				overMap.getChildren().add(circle);
 			}
 			i++;
 		}
@@ -2029,6 +2031,35 @@ public class homeController implements Initializable {
 	}
 
 	public void goHome(ActionEvent event) {
+
+	}
+
+	public void listenForStartLocation(MouseEvent mouseEvent) {
+		System.out.println("Start Location Text Field Touched");
+	}
+
+	public void listenForEndLocation(MouseEvent mouseEvent) {
+	    System.out.println("End Location Text Field Touched");
+    }
+
+	@FXML
+	JFXButton btnStep1;
+
+	@FXML
+	JFXButton btnStep2;
+
+	@FXML
+	JFXButton btnStep3;
+
+	public void step1(ActionEvent event) {
+
+	}
+
+	public void step2(ActionEvent event) {
+
+	}
+
+	public void step3(ActionEvent event) {
 
 	}
 }
