@@ -66,6 +66,7 @@
                                                       <Image url="@../Icons/arrow.png" />
                                                    </image>
                                                 </ImageView>
+                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
                                                 <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" visible="false">
                                                    <children>
                                                       <Label fx:id="lblNode" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #102c57; -fx-background-radius: 15; -fx-border-color: #919191; -fx-border-width: 5; -fx-border-radius: 10;" text="Location" textFill="WHITE">
@@ -75,7 +76,6 @@
                                                       </Label>
                                                    </children>
                                                 </StackPane>
-                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
                                              </children>
                                           </Pane>
                                        </children>
@@ -373,27 +373,27 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnStep1" buttonType="RAISED" ellipsisString="" layoutX="120.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step1" prefHeight="70.0" prefWidth="70.0">
+                              <JFXButton fx:id="btnStep1" buttonType="RAISED" disable="true" ellipsisString="" layoutX="120.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step1" prefHeight="70.0" prefWidth="70.0">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imageStep1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/Floor1Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnStep2" buttonType="RAISED" ellipsisString="" layoutX="210.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step2" prefHeight="70.0" prefWidth="70.0">
+                              <JFXButton fx:id="btnStep2" buttonType="RAISED" disable="true" ellipsisString="" layoutX="210.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step2" prefHeight="70.0" prefWidth="70.0">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imageStep2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/Floor2Icon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnStep3" buttonType="RAISED" ellipsisString="" layoutX="300.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step3" prefHeight="70.0" prefWidth="70.0">
+                              <JFXButton fx:id="btnStep3" buttonType="RAISED" disable="true" ellipsisString="" layoutX="300.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#step3" prefHeight="70.0" prefWidth="70.0">
                                  <graphic>
-                                    <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imageStep3" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Icons/Floor3Icon.png" />
                                        </image>

@@ -289,10 +289,7 @@ public class homeController implements Initializable {
 	}
 
 	public void toggleMap(ActionEvent event) {
-		clearPoints();
-
 		if (currentDimension.equals("2-D")) {
-
 			// Switch 3-D
 			new ProxyImage(imgBtnMap,"3DIcon.png").displayIcon();
 			currentDimension = "3-D";
@@ -304,6 +301,7 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor3DMapLoader(currentFloor);
 			printKiosk();
+			clearPoints();
 			printPoints(currentFloor, currentDimension);
 		} else {
 
@@ -318,6 +316,7 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor2DMapLoader(currentFloor);
 			printKiosk();
+			clearPoints();
 			printPoints(currentFloor, currentDimension);
 		}
 
@@ -1259,6 +1258,8 @@ public class homeController implements Initializable {
 
 	public void drawPath(ActionEvent event) {
 
+		clearPath();
+
 		System.out.println(txtLocationStart.getText());
 		System.out.println(txtLocationEnd.getText());
 
@@ -1297,7 +1298,6 @@ public class homeController implements Initializable {
 			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
             directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
             lstDirections.setItems(directions);
-
             listForQR = (LinkedList) pathList;
 
 			// Draw path code
@@ -1313,20 +1313,9 @@ public class homeController implements Initializable {
 				changeFloor(startFloor);
 			}
 
+			breadBoy();
 			animatePath();
 
-		}
-	}
-
-	public void getBreadcrumbs() {
-		int i = 0;
-		String curr = "";
-		while(i < pathList.size()) {
-			if(pathList.get(i).getFloor().equals(curr)) {
-			} else {
-				curr = pathList.get(i).getFloor();
-				breadcrumbs.add(curr);
-			}
 		}
 	}
 
@@ -1437,22 +1426,17 @@ public class homeController implements Initializable {
 				}
 
 				ImageView icon = new ImageView();				// The icon for the node
-				/*Circle circle = new Circle(x, y, 25);	// The node circle
-				circle.setId(currNode.getShortName());
-				circle.setFill(Color.WHITE);
-				circle.setStroke(Color.BLACK);
-				circle.setStrokeWidth(4); */
-
+				icon.setId(currNode.getShortName());
+				icon.setX(x-25);
+				icon.setY(y-25);
 
 				if (isStart)
 					icon.setOnMouseClicked(this::chooseStartNode);
 				else
 					icon.setOnMouseClicked(this::chooseEndNode);
 
-				//circleList.add(circle);							// Circle list is used to remove circles later
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
 				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
-				//pointMap.getChildren().add(circle);
 				makeNodeIcon(currNode, icon);
 			}
 			i++;
@@ -1465,8 +1449,6 @@ public class homeController implements Initializable {
 	 * @param icon the imageview the icon will be displayed on
 	 */
 	public void makeNodeIcon(Node node, ImageView icon) {
-		icon.setX(node.getXCoord()-25);
-		icon.setY(node.getYCoord()-25);
 		icon.setFitHeight(50);
 		icon.setFitWidth(50);
 		pointMap.getChildren().add(icon);
@@ -1624,12 +1606,10 @@ public class homeController implements Initializable {
 
 	private void printName(MouseEvent mouseEvent) {
 		ImageView currCircle = (ImageView) mouseEvent.getTarget();
-//		nodeFloor.setText(currentFloor);
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
-		nodePane.setLayoutX(currCircle.getX());
+		nodePane.setLayoutX(currCircle.getX() + 45);
 		nodePane.setLayoutY(currCircle.getY());
-		//name.setRotate(-overMap.getRotate());
 		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(0);
 		fade.setToValue(1);
@@ -2103,6 +2083,15 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnStep3;
 
+	@FXML
+	ImageView imageStep1;
+
+	@FXML
+	ImageView imageStep2;
+
+	@FXML
+	ImageView imageStep3;
+
 	public void step1(ActionEvent event) {
 
 	}
@@ -2112,6 +2101,45 @@ public class homeController implements Initializable {
 	}
 
 	public void step3(ActionEvent event) {
+
+	}
+
+	/**
+	 * Sets the global variable breadrumbs to all the floors that need to be traversed
+	 */
+	public void getBreadcrumbs() {
+		int i = 0;
+		String curr = "";
+		while(i < pathList.size()) {
+			if(pathList.get(i).getFloor().equals(curr)) {
+
+			} else {
+				curr = pathList.get(i).getFloor();
+				breadcrumbs.add(curr);
+			}
+			i++;
+		}
+	}
+
+	/**
+	 * Sets the images and buttons for the breadcrumbs based on the global variable bradcrumbs
+	 */
+	public void breadBoy() {
+		getBreadcrumbs();
+		int i = 0;
+		while(i < breadcrumbs.size()) {
+			if(i == 0) {
+				btnStep1.setDisable(false);
+				new ProxyImage(imageStep1, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+			} else if(i==1) {
+				btnStep2.setDisable(false);
+				new ProxyImage(imageStep2, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+			} else if (i==2) {
+				btnStep3.setDisable(false);
+				new ProxyImage(imageStep3, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+			}
+			i++;
+		}
 
 	}
 
