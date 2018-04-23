@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
@@ -52,6 +53,20 @@ public class idleMapController {
 
     @FXML
     JFXButton btnCloseAbout;
+
+    @FXML
+    Label lblHour;
+
+    @FXML
+    Label lblMinute;
+
+    @FXML
+    Label lblDate;
+
+    @FXML
+    JFXButton btnGiftShop;
+
+
 
     public void initialize() {
         paneAbout.setVisible(false);
