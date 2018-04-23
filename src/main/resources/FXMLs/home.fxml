@@ -92,7 +92,7 @@
                               </ImageView>
                            </graphic>
                            <StackPane.margin>
-                              <Insets bottom="30.0" right="130.0" />
+                              <Insets bottom="130.0" right="30.0" />
                            </StackPane.margin>
                         </JFXButton>
                         <Pane maxHeight="400.0" maxWidth="115.0" minHeight="400.0" minWidth="100.0" prefHeight="400.0" prefWidth="115.0" StackPane.alignment="TOP_LEFT">
@@ -232,9 +232,9 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane maxHeight="400.0" maxWidth="100.0" minWidth="100.0" prefHeight="400.0" prefWidth="100.0" StackPane.alignment="BOTTOM_RIGHT">
+                        <Pane maxHeight="80.0" maxWidth="430.0" minWidth="100.0" prefHeight="400.0" prefWidth="414.0" StackPane.alignment="BOTTOM_RIGHT">
                            <children>
-                              <JFXButton fx:id="btnQuickDirections" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#toggleQuickButtons" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnQuickDirections" buttonType="RAISED" ellipsisString="" layoutX="350.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#toggleQuickButtons" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fx:id="imgNavigation" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -243,7 +243,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickBathroom" ellipsisString="" layoutX="250.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickBathroom" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -252,7 +252,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickElevator" buttonType="RAISED" ellipsisString="" layoutX="150.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickElevator" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -261,7 +261,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false">
+                              <JFXButton fx:id="btnQuickExit" buttonType="RAISED" ellipsisString="" layoutX="50.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#findQuickExit" prefHeight="80.0" prefWidth="80.0" visible="false">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -272,7 +272,7 @@
                               </JFXButton>
                            </children>
                            <StackPane.margin>
-                              <Insets right="30.0" top="30.0" />
+                              <Insets bottom="40.0" right="150.0" />
                            </StackPane.margin>
                         </Pane>
                         <Pane maxHeight="200.0" maxWidth="380.0" prefHeight="200.0" prefWidth="350.0" StackPane.alignment="BOTTOM_LEFT">
