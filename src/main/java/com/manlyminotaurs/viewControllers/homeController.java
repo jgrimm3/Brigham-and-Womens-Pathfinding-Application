@@ -797,12 +797,162 @@ public class homeController implements Initializable {
 	}
 
 	public void findQuickExit(ActionEvent event) {
+// Pathfind to nearest exit
+		String startFloor = "1";
+		Node bathroomNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "EXIT", "Node 1, 3", "n1x3y", 1, 0, 0);
+		// Pathfind to nearest bathroom
+		PathfinderUtil pu = new PathfinderUtil();
+		PathfindingContext pf = new PathfindingContext();
+		List<Node> path = new LinkedList<Node>();
+
+
+		//ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
+		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
+
+		try {
+			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+
+			pathList = path;
+
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// Show directions interface and hide pathfinding interface
+		panePathfinding.setVisible(false);
+		paneDirections.setVisible(true);
+		// Set new overview panel to correct parameters
+		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
+		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
+		directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		// calcDistance function now converts to feet
+		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+		directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
+		lstDirections.setItems(directions);
+		lstDirections.setItems(directions);
+		listForQR = (LinkedList<Node>)path;
+		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
+		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+		// Draw path code
+
+		// Change floor
+		if (currentDimension.equals("3-D")) {
+			// use 3-D
+			System.out.println("using 3d stairs");
+			printNodePath(path, startFloor, "3-D");
+			changeFloor(startFloor);
+		} else {
+			// use 2-D
+			printNodePath(path, startFloor, "2-D");
+			changeFloor(startFloor);
+		}
+
+		// Clear old fields
+		// Show directions interface and hide pathfinding interface
+		panePathfinding.setVisible(false);
+		paneDirections.setVisible(true);
+
+		// Clean up Navigation Fields
+		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
+		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
+		comBuildingEnd.setItems(buildings);
+		comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
+		comFloorStart.setDisable(true);
+		comFloorStart.getSelectionModel().clearSelection();
+		comFloorStart.setItems(empty);
+		comFloorEnd.setDisable(true);
+		comFloorEnd.getSelectionModel().clearSelection();
+		comFloorEnd.setItems(empty);
+		comTypeStart.setDisable(true);
+		comTypeStart.getSelectionModel().clearSelection();
+		comTypeStart.setItems(empty);
+		comTypeEnd.setDisable(true);
+		comTypeEnd.getSelectionModel().clearSelection();
+		comTypeEnd.setItems(empty);
+
+		// Directions Update
 
     }
 
     public void findQuickElevator(ActionEvent event) {
+		// Pathfind to nearest elevator
+		String startFloor = "1";
+		Node bathroomNode = new Room("N1X3Y", 1, 3, "F1", "BUILD1", "ELEV", "Node 1, 3", "n1x3y", 1, 0, 0);
+		// Pathfind to nearest bathroom
+		PathfinderUtil pu = new PathfinderUtil();
+		PathfindingContext pf = new PathfindingContext();
+		List<Node> path = new LinkedList<Node>();
 
-    }
+
+		//ArrayList<Node> nodes = new ArrayList<>(DataModelI.getInstance().retrieveNodes());
+		//Node startNode = DataModelI.getInstance().getNodeByLongNameFromList("Hallway Node 2 Floor 1", nodes);
+
+		try {
+			path = pf.getPath(KioskInfo.getMyLocation(), bathroomNode, new ClosestStrategyI());
+
+			pathList = path;
+
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// Show directions interface and hide pathfinding interface
+		panePathfinding.setVisible(false);
+		paneDirections.setVisible(true);
+		// Set new overview panel to correct parameters
+		lblStartLocation1.setText("Current Location"); // !!! change to default kiosk location
+		lblEndLocation1.setText("Nearest Bathroom"); // !!! change to nearest bathoom
+		directions = FXCollections.observableArrayList(pu.angleToText((LinkedList<Node>)path));
+		// calcDistance function now converts to feet
+		double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
+		directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+		directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
+		lstDirections.setItems(directions);
+		lstDirections.setItems(directions);
+		listForQR = (LinkedList<Node>)path;
+		pu.generateQR(pu.angleToText((LinkedList<Node>)path));
+		// new ProxyImage(imgQRCode,"CrunchifyQR.png").display2();
+		// Draw path code
+
+		// Change floor
+		if (currentDimension.equals("3-D")) {
+			// use 3-D
+			System.out.println("using 3d stairs");
+			printNodePath(path, startFloor, "3-D");
+			changeFloor(startFloor);
+		} else {
+			// use 2-D
+			printNodePath(path, startFloor, "2-D");
+			changeFloor(startFloor);
+		}
+
+		// Clear old fields
+		// Show directions interface and hide pathfinding interface
+		panePathfinding.setVisible(false);
+		paneDirections.setVisible(true);
+
+		// Clean up Navigation Fields
+		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
+		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
+		comBuildingEnd.setItems(buildings);
+		comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
+		comFloorStart.setDisable(true);
+		comFloorStart.getSelectionModel().clearSelection();
+		comFloorStart.setItems(empty);
+		comFloorEnd.setDisable(true);
+		comFloorEnd.getSelectionModel().clearSelection();
+		comFloorEnd.setItems(empty);
+		comTypeStart.setDisable(true);
+		comTypeStart.getSelectionModel().clearSelection();
+		comTypeStart.setItems(empty);
+		comTypeEnd.setDisable(true);
+		comTypeEnd.getSelectionModel().clearSelection();
+		comTypeEnd.setItems(empty);
+
+		// Directions Update
+
+	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
