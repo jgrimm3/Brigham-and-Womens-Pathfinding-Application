@@ -1047,6 +1047,7 @@ public class homeController implements Initializable {
 			lblHelp2.setVisible(false);
 		}
 
+		animationCircle.setVisible(false);
 		setKiosk();
 
 	}
@@ -1567,6 +1568,9 @@ public class homeController implements Initializable {
 	@FXML
 	javafx.scene.text.Text destinationText;
 
+	@FXML
+	Circle animationCircle;
+
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
 
 	/**
@@ -1921,10 +1925,46 @@ public class homeController implements Initializable {
 				lblHelp2.setVisible(true);
 			}
 
+			animationCircle.setVisible(true);
+			//overMap.getChildren().add(animationCircle);
+
+			SequentialTransition sequentialTransition = new SequentialTransition();
+			animationCircle.setVisible(true);
+			double wantedVelocity = .03;
+
+			for(int i = 1; i<pathList.size(); i++) {
+				TranslateTransition translateTransition = new TranslateTransition(Duration.millis(calcTime(pathList, i, wantedVelocity)), animationCircle);
+				translateTransition.setFromX(pathList.get(i-1).getXCoord()+11);
+				translateTransition.setFromY(pathList.get(i-1).getYCoord()+11);
+				translateTransition.setToX(pathList.get(i).getXCoord()+11);
+				translateTransition.setToY(pathList.get(i).getYCoord()+11);
+				translateTransition.setCycleCount(1);
+				translateTransition.setAutoReverse(true);
+				sequentialTransition.getChildren().add(translateTransition);
+			}
+			sequentialTransition.setCycleCount(Timeline.INDEFINITE);
+			sequentialTransition.play();
+
 			//printPoints(comChangeFloor.getValue(), dimension);
 
 			// Update Directions
 		}
+	}
+
+	private double getDistance(Node a, Node b) {
+		double num;
+		if(Math.abs((num = a.getXCoord() - b.getXCoord())) > 0) {
+			return Math.abs(num);
+		} else if(Math.abs((num = a.getYCoord()-b.getYCoord())) > 0)
+		{
+			return Math.abs(num);
+		}
+		return 0;
+	}
+
+	private double calcTime(List<Node> pathList, int i, double wantedVelocity) {
+		double d = getDistance(pathList.get(i-1), pathList.get(i));
+		return Math.abs(d/wantedVelocity);
 	}
 
 	private void clearPath() {
@@ -2483,7 +2523,9 @@ public class homeController implements Initializable {
 		}
 
 	}
-@FXML
+
+
+	@FXML
 Button btnPatientPortal;
 	//Patient Web Portal
 	public void patientPortal(ActionEvent event) throws Exception {

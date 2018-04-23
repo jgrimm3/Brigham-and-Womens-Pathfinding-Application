@@ -4,6 +4,7 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.timeout.Memento;
 import com.manlyminotaurs.timeout.ResetTask;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,15 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 
 public class idleMapController implements Initializable{
+    @FXML
+    JFXButton btnBeginNav;
+
+    @FXML
+    JFXButton btnLogin;
+
+    @FXML
+    JFXButton btnInfo;
+
     @FXML
     Button idleMap;
 
