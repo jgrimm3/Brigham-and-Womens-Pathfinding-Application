@@ -133,7 +133,7 @@ public class userRequestDashBoardController  {
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
