@@ -8,16 +8,18 @@ import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
-import org.json.simple.JSONArray;
+import jdk.nashorn.internal.parser.JSONParser;
+/*import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 //for parsing Json Object
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+*/
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 public class JsonController {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
@@ -31,7 +33,7 @@ public class JsonController {
      * @return
      */
     public String receieveRequestJson(String requestedJson) {
-        JSONParser parser = new JSONParser();
+        /*JSONParser parser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(requestedJson);
             String requestedJsonType = (String) jsonObject.get("Type");
@@ -93,13 +95,14 @@ public class JsonController {
         }
         return null;
     }
-
-    /**
-     * returns retrieved Data in Json String from Kiosk to Web app
-     * @param requestedJson
-     * @return Json format string
-     */
-    public String retrieveJson(String requestedJson) {
+*/
+        /**
+         * returns retrieved Data in Json String from Kiosk to Web app
+         * @param requestedJson
+         * @return Json format string
+         */
+        /*
+        public String retrieveJson (String requestedJson){
         JSONObject requestedJsonObject = null;
         switch(requestedJson){
             case "Log":
@@ -116,13 +119,14 @@ public class JsonController {
                 break;
         }
         return requestedJsonObject.toJSONString();
-    }
 
-    //------------------------------------------------------------------------------------------------------
-    //---------------------------------------Log Starts-----------------------------------------------------
-    //------------------------------------------------------------------------------------------------------
+        }
 
-    private boolean removeLogJson(JSONObject jsonObject){
+        //------------------------------------------------------------------------------------------------------
+        //---------------------------------------Log Starts-----------------------------------------------------
+        //------------------------------------------------------------------------------------------------------
+
+   /* private boolean removeLogJson(JSONObject jsonObject){
         JSONParser parser = new JSONParser();
         boolean isSuccessful = false;
 
@@ -395,3 +399,7 @@ public class JsonController {
         System.out.println(retrievedString);
     }
 }
+*/
+        return "whoops";
+    }
+    }

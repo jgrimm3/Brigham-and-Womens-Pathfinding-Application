@@ -8,6 +8,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -171,7 +172,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -255,7 +256,22 @@ public class createRequestController{
         }
     }
 
+    public void loadAPI(ActionEvent event){
 
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+
+    }
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){
             cmboNode.setItems(FXCollections.observableArrayList(

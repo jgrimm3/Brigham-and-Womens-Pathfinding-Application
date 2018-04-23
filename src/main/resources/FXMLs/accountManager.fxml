@@ -182,16 +182,16 @@
       </GridPane>
       <GridPane fx:id="gridDelete" layoutY="180.0" prefHeight="900.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
          <columnConstraints>
-            <ColumnConstraints maxWidth="510.0" minWidth="0.0" prefWidth="510.0" />
-            <ColumnConstraints maxWidth="960.0" minWidth="700.0" prefWidth="960.0" />
-            <ColumnConstraints maxWidth="510.0" minWidth="300.0" prefWidth="510.0" />
+            <ColumnConstraints maxWidth="547.709228515625" minWidth="0.0" prefWidth="547.709228515625" />
+            <ColumnConstraints maxWidth="1347.337646484375" minWidth="700.0" prefWidth="1296.290771484375" />
+            <ColumnConstraints maxWidth="510.0" minWidth="22.662353515625" prefWidth="58.9144287109375" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints />
             <RowConstraints maxHeight="900.0" minHeight="700.0" prefHeight="900.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Pane disable="true" minWidth="700.0" prefHeight="860.0" prefWidth="900.0" style="-fx-background-color: #2b65ac;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Pane disable="true" minWidth="700.0" prefHeight="860.0" prefWidth="1300.0" style="-fx-background-color: #2b65ac;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="20.0" top="20.0" />
                </GridPane.margin>
@@ -201,7 +201,7 @@
             </Pane>
             <JFXTextField fx:id="txtUserIDDelete" maxWidth="800.0" minWidth="400.0" onAction="#targetUserDelete" prefHeight="60.0" prefWidth="800.0" promptText="Enter Target User ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets bottom="640.0" left="80.0" right="80.0" />
+                  <Insets bottom="680.0" left="250.0" right="80.0" />
                </GridPane.margin>
                <font>
                   <Font size="18.0" />
@@ -209,7 +209,7 @@
             </JFXTextField>
             <JFXTextField fx:id="txtFirstNameDelete" maxWidth="800.0" minWidth="400.0" prefHeight="60.0" prefWidth="800.0" promptText="First Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets bottom="480.0" left="80.0" right="80.0" />
+                  <Insets bottom="540.0" left="250.0" right="80.0" />
                </GridPane.margin>
                <font>
                   <Font size="18.0" />
@@ -220,7 +220,7 @@
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="320.0" left="80.0" right="80.0" />
+                  <Insets bottom="400.0" left="250.0" right="80.0" />
                </GridPane.margin>
             </JFXTextField>
             <JFXTextField fx:id="txtLastNameDelete" maxWidth="800.0" minWidth="400.0" prefHeight="60.0" prefWidth="800.0" promptText="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -228,7 +228,7 @@
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="160.0" left="80.0" right="80.0" />
+                  <Insets bottom="260.0" left="250.0" right="80.0" />
                </GridPane.margin>
             </JFXTextField>
             <JFXTextField fx:id="txtUsernameDelete" maxWidth="800.0" minWidth="400.0" prefHeight="60.0" prefWidth="800.0" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -236,7 +236,7 @@
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="80.0" right="80.0" top="320.0" />
+                  <Insets left="250.0" right="80.0" top="200.0" />
                </GridPane.margin>
             </JFXTextField>
             <JFXTextField fx:id="txtPasswordDelete" maxWidth="800.0" minWidth="400.0" prefHeight="60.0" prefWidth="800.0" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -244,17 +244,17 @@
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="80.0" right="80.0" top="480.0" />
+                  <Insets left="250.0" right="80.0" top="350.0" />
                </GridPane.margin>
             </JFXTextField>
             <JFXComboBox fx:id="cmboTypeDelete" focusColor="WHITE" onAction="#setTypeDelete" prefHeight="77.0" prefWidth="252.0" promptText="User Type" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="150.0" top="100.0" />
+                  <Insets left="250.0" />
                </GridPane.margin>
             </JFXComboBox>
             <JFXComboBox fx:id="cmboLanguageDelete" focusColor="WHITE" onAction="#setLanguageDelete" prefHeight="74.0" prefWidth="253.0" promptText="Language" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="500.0" top="100.0" />
+                  <Insets left="800.0" />
                </GridPane.margin>
             </JFXComboBox>
             <JFXButton fx:id="btnDeleteUser" onAction="#deleteUser" prefHeight="61.0" prefWidth="389.0" text="Delete User" textFill="#f8db00" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -262,7 +262,7 @@
                   <Font size="29.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="275.0" top="700.0" />
+                  <Insets left="450.0" top="550.0" />
                </GridPane.margin>
             </JFXButton>
          </children>
@@ -293,40 +293,40 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane gridLinesVisible="true" layoutX="484.0" layoutY="80.0" prefHeight="100.0" prefWidth="1436.0" AnchorPane.leftAnchor="484.0" AnchorPane.rightAnchor="0.0">
+      <GridPane gridLinesVisible="true" layoutX="484.0" layoutY="80.0" prefHeight="100.0" prefWidth="1436.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="NEVER" maxWidth="511.0" minWidth="510.0" prefWidth="511.0" />
-          <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="522.0" prefWidth="522.0" />
-            <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="409.0" prefWidth="409.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="500.0" minWidth="50.0" prefWidth="500.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="500.0" minWidth="0.0" prefWidth="500.0" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="50.0" prefWidth="500.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="btnMenuAdd" maxWidth="-Infinity" minWidth="510.0" onAction="#displayAddGrid" prefHeight="100.0" prefWidth="511.0" style="-fx-background-color: #102c57;" text="Add User" textFill="#edbf54">
+            <JFXButton fx:id="btnMenuAdd" maxWidth="-Infinity" minWidth="500.0" onAction="#displayAddGrid" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #102c57;" text="Add User" textFill="#edbf54">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnModifyNode" maxWidth="-Infinity" minWidth="522.0" onAction="#displayModifyGrid" prefHeight="100.0" prefWidth="522.0" style="-fx-background-color: #102c57;" text="Modify User" textFill="#edbf54" GridPane.columnIndex="1">
+            <JFXButton fx:id="btnModifyNode" maxWidth="-Infinity" minWidth="500.0" onAction="#displayModifyGrid" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #102c57;" text="Modify User" textFill="#edbf54" GridPane.columnIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnDeleteNode" maxWidth="-Infinity" onAction="#displayDeleteGrid" prefHeight="100.0" prefWidth="409.0" style="-fx-background-color: #102c57;" text="Delete User" textFill="#edbf54" GridPane.columnIndex="2">
+            <JFXButton fx:id="btnDeleteNode" maxWidth="-Infinity" minWidth="500.0" onAction="#displayDeleteGrid" prefHeight="100.0" prefWidth="477.0" style="-fx-background-color: #102c57;" text="Delete User" textFill="#edbf54" GridPane.columnIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
          </children>
       </GridPane>
-      <VBox maxHeight="1080.0" prefHeight="1079.0" prefWidth="490.0" style="-fx-background-color: #222222;">
+      <VBox maxHeight="1080.0" prefHeight="1079.0" prefWidth="420.0" style="-fx-background-color: #222222;">
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="240.0" style="-fx-background-color: #2B65AC;">
                <children>
-                  <Label text="  Admin Panel" textFill="#f1f1f1">
+                  <Label text="  Admin Panel" textFill="#ebd64f">
                      <font>
-                        <Font size="21.0" />
+                        <Font size="36.0" />
                      </font>
                      <padding>
                         <Insets left="20.0" top="20.0" />
@@ -419,12 +419,26 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: #2B65AC;" text="Log Out" textFill="#f1f1f1">
-               <VBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="525.0" />
-               </VBox.margin>
+            <JFXButton fx:id="btnRoomServiceAPI" alignment="BASELINE_LEFT" maxHeight="70.0" onAction="#loadAPI" prefHeight="70.0" prefWidth="480.0" text="   Room Service  " textFill="#f1f1f1">
                <font>
                   <Font size="21.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets left="1.0" />
+               </opaqueInsets>
+               <graphic>
+                  <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minHeight="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="400.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="28.0" />
                </font>
             </JFXButton>
          </children>
