@@ -132,6 +132,8 @@ public class nodeEditorController {
     JFXButton btnHistory;
     @FXML
     JFXToggleButton tglAddMapChange;
+    @FXML
+    JFXTextField txtTimeOut;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -1029,6 +1031,17 @@ public class nodeEditorController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+@FXML
+JFXButton btnUpdateTimeout;
+    //TODO connect Memento
+    public void timeOutUpdate (ActionEvent event){
+        String newTime = txtTimeOut.getText();
+        if ((newTime.matches(".*[^0-9].*")) || (newTime.matches(".*\\D.*"))) {
+          txtTimeOut.setText("Please Enter a Valid Time");
+        }else {
+            int timeOut = Integer.parseInt(newTime);
         }
     }
 
