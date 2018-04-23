@@ -134,8 +134,6 @@ public class emergencyScreenController {
 
         client = new ClientSetup(null);
 
-
-
     }
 
 
