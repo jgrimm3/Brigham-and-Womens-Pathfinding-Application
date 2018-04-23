@@ -11,12 +11,16 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -128,9 +132,24 @@ public class idleMapController implements Initializable {
                     //get reference to the button's stage
                     stage = (Stage) btnLogin.getScene().getWindow();
                     //load up Home FXML document
-                    login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
-                    KioskInfo.currentUserID = "";
+                    KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName.toLowerCase(), password.toLowerCase());
+
+                    if(DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                        login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+                    }else{
+                        login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                    }
+
+                    stage.addEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+
+                    if(KioskInfo.myTimer != null){
+                        KioskInfo.myTimer.cancel();
+                    }
+                    KioskInfo.myTimer = new Timer();
+                    KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
+
+                    Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
                     //create a new scene with root and set the stage
                     Scene scene = new Scene(login);
@@ -156,6 +175,15 @@ public class idleMapController implements Initializable {
                 //load up Home FXML document
                 login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
+                stage.addEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+
+                if(KioskInfo.myTimer != null){
+                    KioskInfo.myTimer.cancel();
+                }
+                KioskInfo.myTimer = new Timer();
+                KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
+
+                Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
                 //create a new scene with root and set the stage
                 Scene scene = new Scene(login);
@@ -243,6 +271,6 @@ public class idleMapController implements Initializable {
                 KioskInfo.currentUserID = Main.memnto.getState();
             }
             Stage stage = KioskInfo.myStage;
-            stage.removeEventHandler(MouseEvent.ANY, KioskInfo.myHandler);
+            stage.removeEventHandler(InputEvent.ANY, KioskInfo.myHandler);
         }
     }
