@@ -293,34 +293,34 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane gridLinesVisible="true" layoutX="484.0" layoutY="80.0" prefHeight="100.0" prefWidth="1436.0" AnchorPane.leftAnchor="484.0" AnchorPane.rightAnchor="0.0">
+      <GridPane gridLinesVisible="true" layoutX="484.0" layoutY="80.0" prefHeight="100.0" prefWidth="1436.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="NEVER" maxWidth="511.0" minWidth="510.0" prefWidth="511.0" />
-          <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="522.0" prefWidth="522.0" />
-            <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="409.0" prefWidth="409.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="500.0" minWidth="50.0" prefWidth="500.0" />
+          <ColumnConstraints hgrow="NEVER" maxWidth="500.0" minWidth="0.0" prefWidth="500.0" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="640.0" minWidth="50.0" prefWidth="500.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="btnMenuAdd" maxWidth="-Infinity" minWidth="510.0" onAction="#displayAddGrid" prefHeight="100.0" prefWidth="511.0" style="-fx-background-color: #102c57;" text="Add User" textFill="#edbf54">
+            <JFXButton fx:id="btnMenuAdd" maxWidth="-Infinity" minWidth="500.0" onAction="#displayAddGrid" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #102c57;" text="Add User" textFill="#edbf54">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnModifyNode" maxWidth="-Infinity" minWidth="522.0" onAction="#displayModifyGrid" prefHeight="100.0" prefWidth="522.0" style="-fx-background-color: #102c57;" text="Modify User" textFill="#edbf54" GridPane.columnIndex="1">
+            <JFXButton fx:id="btnModifyNode" maxWidth="-Infinity" minWidth="500.0" onAction="#displayModifyGrid" prefHeight="100.0" prefWidth="500.0" style="-fx-background-color: #102c57;" text="Modify User" textFill="#edbf54" GridPane.columnIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnDeleteNode" maxWidth="-Infinity" onAction="#displayDeleteGrid" prefHeight="100.0" prefWidth="409.0" style="-fx-background-color: #102c57;" text="Delete User" textFill="#edbf54" GridPane.columnIndex="2">
+            <JFXButton fx:id="btnDeleteNode" maxWidth="-Infinity" minWidth="500.0" onAction="#displayDeleteGrid" prefHeight="100.0" prefWidth="477.0" style="-fx-background-color: #102c57;" text="Delete User" textFill="#edbf54" GridPane.columnIndex="2">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
          </children>
       </GridPane>
-      <VBox maxHeight="1080.0" prefHeight="1079.0" prefWidth="490.0" style="-fx-background-color: #222222;">
+      <VBox maxHeight="1080.0" prefHeight="1079.0" prefWidth="420.0" style="-fx-background-color: #222222;">
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="240.0" style="-fx-background-color: #2B65AC;">
                <children>
@@ -433,7 +433,7 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" onAction="#LogOut" prefHeight="70.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out">
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minHeight="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="400.0" />
                </VBox.margin>
