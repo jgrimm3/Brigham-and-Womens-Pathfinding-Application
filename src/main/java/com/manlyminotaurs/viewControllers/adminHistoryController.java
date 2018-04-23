@@ -16,8 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
@@ -115,14 +113,13 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
     }
     public void removeLog(){
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
-        Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
         lblNodeID.setText("Node ID:");
         lblUserID.setText("User ID: ");
         lblLogID.setText("Log ID: " );
         lblDescription.setText("Description: ");
         lblTime.setText("Time Stamp: ");
         lblType.setText("Type: ");
-        DataModelI.getInstance().removeLog(actualLog);
+        DataModelI.getInstance().removeLog(selectedEntry.logID);
         histList.removeAll();
         histList.clear();
         tblHistory.setItems(null);

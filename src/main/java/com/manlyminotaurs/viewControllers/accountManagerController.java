@@ -6,8 +6,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.users.User;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -341,9 +339,8 @@ public class accountManagerController {
         username = txtUsernameDelete.getText();
         password = txtPasswordDelete.getText();*/
         userID = txtUserIDDelete.getText();
-        user = DataModelI.getInstance().getUserByID(userID);
 
-        DataModelI.getInstance().removeUser(user);
+        DataModelI.getInstance().removeUser(userID);
 
     }
 }
