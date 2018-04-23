@@ -1,6 +1,5 @@
 package com.manlyminotaurs.communications;
 
-
 import java.util.Properties;
 
 import javax.mail.*;
