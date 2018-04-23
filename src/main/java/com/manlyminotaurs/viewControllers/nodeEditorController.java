@@ -92,7 +92,6 @@ public class nodeEditorController {
     JFXComboBox<String> cmboBuilding;
     @FXML
     JFXComboBox<String> cmboType;
-
     @FXML
     JFXTextField txtShortName;
     @FXML
