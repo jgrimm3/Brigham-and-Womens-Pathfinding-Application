@@ -38,7 +38,7 @@ public class JsonController {
             String requestedJsonOperation = (String) jsonObject.get("Operation");
 
             switch(requestedJsonType){
-                case "Log":
+                case "log":
                     if(requestedJsonOperation.equals("remove")){
                         removeLogJson(jsonObject);
                     }
@@ -47,7 +47,7 @@ public class JsonController {
                     }
                     break;
 
-                case "User":
+                case "user":
                     if(requestedJsonOperation.equals("add")){
                         addUserJson(jsonObject);
                     }
@@ -62,7 +62,7 @@ public class JsonController {
                     }
                     break;
 
-                case "Request":
+                case "request":
                     if(requestedJsonOperation.equals("add")){
                         addRequestJson(jsonObject);
                     }
@@ -77,13 +77,13 @@ public class JsonController {
                     }
                     break;
 
-                case "Node":
+                case "node":
                     if(requestedJsonOperation.equals("retrieve")){
                         retrieveJson(requestedJsonType);
                     }
                     break;
 
-                case "Emergency":
+                case "emergency":
 
                     break;
             }
@@ -155,7 +155,8 @@ public class JsonController {
             jsonLogArray.add(obj);
         }
 
-        wholeObj.put("Log", "retrieve");
+        wholeObj.put("Type", "log");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonLogArray);
 
         return wholeObj;
@@ -235,7 +236,8 @@ public class JsonController {
             jsonRequestArray.add(obj);
         }
 
-        wholeObj.put("Request", "retrieve");
+        wholeObj.put("Type", "request");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonRequestArray);
 
         return wholeObj;
@@ -312,7 +314,8 @@ public class JsonController {
             jsonUserArray.add(obj);
         }
 
-        wholeObj.put("User", "retrieve");
+        wholeObj.put("Type", "user");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonUserArray);
 
         return wholeObj;
@@ -325,6 +328,7 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
     //--------------------------------------------Nodes Start-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
     private JSONObject retrieveNodesJson(){
         JSONObject wholeObj = new JSONObject();
         JSONObject obj;
@@ -348,7 +352,8 @@ public class JsonController {
             jsonUserArray.add(obj);
         }
 
-        wholeObj.put("Node", "retrieve");
+        wholeObj.put("Type", "node");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonUserArray);
 
         return wholeObj;
@@ -357,6 +362,21 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
     //--------------------------------------------Nodes End-------------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------
+    //----------------------------------------Emergency Start-----------------------------------------------
+    //------------------------------------------------------------------------------------------------------
+
+    private void makeEmergencyJson(String emergencyType){
+        JSONObject wholeObj = new JSONObject();
+        wholeObj.put("Type","emergency");
+        wholeObj.put("EmergencyType", emergencyType);
+    }
+
+    //------------------------------------------------------------------------------------------------------
+    //-----------------------------------------Emergency End------------------------------------------------
+    //------------------------------------------------------------------------------------------------------
+
 
     public static void main(String[] args) {
         DataModelI.getInstance().startDB();
