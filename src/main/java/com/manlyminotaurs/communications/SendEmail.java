@@ -1,5 +1,8 @@
 package com.manlyminotaurs.communications;
 
+
+
+//import java.net.Authenticator;
 import java.util.Properties;
 
 import javax.mail.*;

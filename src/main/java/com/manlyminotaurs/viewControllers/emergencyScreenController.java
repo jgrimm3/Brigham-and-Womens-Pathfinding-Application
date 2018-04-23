@@ -1,5 +1,7 @@
 package com.manlyminotaurs.viewControllers;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
@@ -17,6 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -25,6 +28,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
+import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +38,8 @@ import java.util.List;
 public class emergencyScreenController {
     @FXML
     ScrollPane scrollPaneMap;
+    @FXML
+    AnchorPane backPane;
 
     @FXML
     StackPane stackPaneMap;
@@ -40,10 +48,10 @@ public class emergencyScreenController {
     Pane paneMap;
 
     @FXML
-    TextField txtPswd;
+    JFXPasswordField txtPswd;
 
     @FXML
-    Button btnReset;
+    JFXButton btnReset;
 
     @FXML
     ImageView mapImg;
@@ -93,10 +101,11 @@ public class emergencyScreenController {
     public void initialize() {
         printKiosk();
         goToKiosk();
+        txtPswd.setStyle("-fx-prompt-text-fill: WHITE");
         // Pathfind to nearest Exit
         String startFloor = KioskInfo.getMyLocation().getFloor();
         Node realExit= DataModelI.getInstance().getNodeByID("EEXIT00101");
-        Node exitNode = new Exit("575657", 0, 0, "1", "BUILD2", "EXIT", "Node 2, 1", "11y", 1, 1, 1);
+        Node exitNode = new Exit("388738", 0, 0, "1", "BUILD2", "EXIT", "Node 2, 1", "11y", 1, 1, 1);
         // Pathfind to nearest bathroom
         PathfinderUtil pu = new PathfinderUtil();
         PathfindingContext pf = new PathfindingContext();
@@ -112,6 +121,9 @@ public class emergencyScreenController {
         changeFloor(startFloor);
 
         client = new ClientSetup(null);
+
+
+
     }
 
 
@@ -536,3 +548,4 @@ public class emergencyScreenController {
         }
     }
 }
+
