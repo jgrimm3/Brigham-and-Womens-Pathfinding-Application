@@ -91,6 +91,8 @@ public class homeController implements Initializable {
 	ObservableList<String> directions;
 	final int MAPX2D = 5000;
 	final int MAPY2D = 3400;
+	int nodeIconWidth = 40;
+	int nodeIconHeight = 40;
 
 	String currentFloor = "1";
 	String currentDimension = "2-D";
@@ -106,10 +108,10 @@ public class homeController implements Initializable {
 	String startFloor = "";
 	String endFloor = "";
 	List<Circle> circleList = new ArrayList<>();
-	boolean isStart = true;
 	javafx.scene.text.Text currName;
 	FadeTransition fade;
 	List<String> breadcrumbs = new ArrayList<>();
+	Boolean forStart = false;
 	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -420,7 +422,6 @@ public class homeController implements Initializable {
 	}
 
 	public void printNodesOnFloorStart(MouseEvent event) {
-		isStart = true;
 		showStartAndEnd();
 		hideStartAndEnd();
 		//printKiosk();
@@ -432,7 +433,6 @@ public class homeController implements Initializable {
 	}
 
 	public void printNodesOnFloorEnd(MouseEvent event) {
-		isStart = false;
 		showStartAndEnd();
 		hideStartAndEnd();
 		if (currentDimension.equals("3-D"))
@@ -456,78 +456,98 @@ public class homeController implements Initializable {
 		comTypeEnd.setDisable(true);
 	}
 
-	public void chooseStartNode(MouseEvent event) {
+	public void chooseNode(MouseEvent event) {
 		ImageView circle = (ImageView) event.getTarget();
-		if(!currentDimension.equals("3-D")) {
-			for (Node node : nodeList) {
-				if (node.getXCoord() == circle.getX()) {
-					if (node.getYCoord() == circle.getY()) {
-						System.out.println("Click recognized");
-						comBuildingStart.getSelectionModel().select(node.getBuilding());
-						comFloorStart.getSelectionModel().select(node.getFloor());
-						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						txtLocationStart.setText(node.getLongName());
-						showStartAndEnd();
-						break;
+
+		System.out.println("hi i clicked on a node");
+
+		if (forStart == true) { // Update Location Start Text Field
+			if (!currentDimension.equals("3-D")) { // 2D Start
+				for (Node node : nodeList) {
+					if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+
+
+						if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+
+
+							System.out.println("Click recognized");
+
+							// Set Directory to Identify Start Location
+							comBuildingStart.getSelectionModel().select(node.getBuilding());
+							comFloorStart.getSelectionModel().select(node.getFloor());
+							comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+							// Set Start Text Field to Start Location
+							txtLocationStart.setText(node.getLongName());
+							//showStartAndEnd();
+							break;
+						}
 					}
 				}
-			}
-			System.out.println("Node not found");
-		} else {
-			for (Node node : nodeList) {
-				if (node.getXCoord3D() == circle.getX()) {
-					if (node.getYCoord3D() == circle.getY()) {
-						System.out.println("Click recognized");
-						comBuildingStart.getSelectionModel().select(node.getBuilding());
-						comFloorStart.getSelectionModel().select(node.getFloor());
-						comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						//comLocationStart.getSelectionModel().select(node.getLongName());
-						txtLocationStart.setText(node.getLongName());
-						showStartAndEnd();
-						break;
+				System.out.println("2D Node not found for start");
+			} else { // 3D Start
+				for (Node node : nodeList) {
+					if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+						if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+							System.out.println("Click recognized");
+
+							// Set Directory to Identify Start Location
+							comBuildingStart.getSelectionModel().select(node.getBuilding());
+							comFloorStart.getSelectionModel().select(node.getFloor());
+							comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+							//comLocationStart.getSelectionModel().select(node.getLongName());
+
+							// Set Start Text Field to Start Location
+							txtLocationStart.setText(node.getLongName());
+							//showStartAndEnd();
+							break;
+						}
 					}
 				}
+				System.out.println("3D Node not found for start");
 			}
-			System.out.println("Node not found");
+		} else{ // Update Location End Text Field
+			if(!currentDimension.equals("3-D")) { // 2D End
+				for (Node node : nodeList) {
+					if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+						if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+							System.out.println("Click recognized");
+
+							// Set Directory to Identify End Location
+							comBuildingEnd.getSelectionModel().select(node.getBuilding());
+							comFloorEnd.getSelectionModel().select(node.getFloor());
+							comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+							// Set End Text Field to End Location
+							txtLocationEnd.setText(node.getLongName());
+							//showStartAndEnd();
+							break;
+						}
+					}
+				}
+				System.out.println("2D Node not found for end");
+			} else { // 3D End
+				for (Node node : nodeList) {
+					if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+						if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+							System.out.println("Click recognized");
+
+							// Set Directory to Identify End Location
+							comBuildingEnd.getSelectionModel().select(node.getBuilding());
+							comFloorEnd.getSelectionModel().select(node.getFloor());
+							comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+							// Set End Text Field to End Location
+							txtLocationEnd.setText(node.getLongName());
+							//showStartAndEnd();
+							break;
+						}
+					}
+				}
+				System.out.println("3D Node not found for end");
+			}
 		}
 	}
-
-	public void chooseEndNode(MouseEvent event) {
-		ImageView circle = (ImageView) event.getTarget();
-		if(!currentDimension.equals("3-D")) {
-			for (Node node : nodeList) {
-				if (node.getXCoord() == circle.getX()) {
-					if (node.getYCoord() == circle.getY()) {
-						System.out.println("Click recognized");
-						comBuildingEnd.getSelectionModel().select(node.getBuilding());
-						comFloorEnd.getSelectionModel().select(node.getFloor());
-						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						txtLocationEnd.setText(node.getLongName());
-						showStartAndEnd();
-						break;
-					}
-				}
-			}
-			System.out.println("Node not found");
-		} else {
-			for (Node node : nodeList) {
-				if (node.getXCoord3D() == circle.getX()) {
-					if (node.getYCoord3D() == circle.getY()) {
-						System.out.println("Click recognized");
-						comBuildingEnd.getSelectionModel().select(node.getBuilding());
-						comFloorEnd.getSelectionModel().select(node.getFloor());
-						comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-						txtLocationEnd.setText(node.getLongName());
-						showStartAndEnd();
-						break;
-					}
-				}
-			}
-			System.out.println("Node not found");
-		}
-	}
-
-
 
 	public void setStartLocation(ActionEvent event) {
 		System.out.println("You set a start location: " + txtLocationStart.getText());
@@ -991,31 +1011,31 @@ public class homeController implements Initializable {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
-			new ProxyImage(mapImg, "00_thelowerlevel2.png").display();
+			new ProxyImage(mapImg, "L2_NoIcons.png").display();
 			clearPath();
 			printNodePath(pathList, "L2", "2-D");
 
 		} else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
 
-			new ProxyImage(mapImg, "00_thelowerlevel1.png").display();
+			new ProxyImage(mapImg, "L1_NoIcons.png").display();
 			clearPath();
 			printNodePath(pathList, "L1", "2-D");
 
 		} else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
 
-			new ProxyImage(mapImg, "01_thefirstfloor.png").display();
+			new ProxyImage(mapImg, "1_NoIcons.png").display();
 			clearPath();
 			printNodePath(pathList, "1", "2-D");
 
 		} else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
 
-			new ProxyImage(mapImg, "02_thesecondfloor.png").display();
+			new ProxyImage(mapImg, "2_NoIcons.png").display();
 			clearPath();
 			printNodePath(pathList, "2", "2-D");
 
 		} else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
 
-			new ProxyImage(mapImg, "03_thethirdfloor.png").display();
+			new ProxyImage(mapImg, "3_NoIcons.png").display();
 			clearPath();
 			printNodePath(pathList, "3", "2-D");
 
@@ -1028,31 +1048,31 @@ public class homeController implements Initializable {
 	public void floor3DMapLoader(String floor) {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
-			new ProxyImage(mapImg, "L2-ICONS.png").display();
+			new ProxyImage(mapImg, "L2-NO-ICONS.png").display();
 
 			clearPath();
 			printNodePath(pathList, "L2", "3-D");
 
 		} else if (floor.equals("FLOOR: L1") || floor.equals("L1")) {
-			new ProxyImage(mapImg, "L1-ICONS.png").display();
+			new ProxyImage(mapImg, "L1-NO-ICONS.png").display();
 
 			clearPath();
 			printNodePath(pathList, "L1", "3-D");
 
 		} else if (floor.equals("FLOOR: 1") || floor.equals("1")) {
-			new ProxyImage(mapImg, "1-ICONS.png").display();
+			new ProxyImage(mapImg, "1-NO-ICONS.png").display();
 
 			clearPath();
 			printNodePath(pathList, "1", "3-D");
 
 		} else if (floor.equals("FLOOR: 2") || floor.equals("2")) {
-			new ProxyImage(mapImg, "2-ICONS.png").display();
+			new ProxyImage(mapImg, "2-NO-ICONS.png").display();
 
 			clearPath();
 			printNodePath(pathList, "2", "3-D");
 
 		} else if (floor.equals("FLOOR: 3") || floor.equals("3")) {
-			new ProxyImage(mapImg, "3-ICONS.png").display();
+			new ProxyImage(mapImg, "3-NO-ICONS.png").display();
 
 			clearPath();
 			printNodePath(pathList, "3", "3-D");
@@ -1443,11 +1463,7 @@ public class homeController implements Initializable {
 				circle.setStroke(Color.BLACK);
 				circle.setStrokeWidth(4); */
 
-
-				if (isStart)
-					icon.setOnMouseClicked(this::chooseStartNode);
-				else
-					icon.setOnMouseClicked(this::chooseEndNode);
+				icon.setOnMouseClicked(this::chooseNode);
 
 				//circleList.add(circle);							// Circle list is used to remove circles later
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
@@ -1465,10 +1481,10 @@ public class homeController implements Initializable {
 	 * @param icon the imageview the icon will be displayed on
 	 */
 	public void makeNodeIcon(Node node, ImageView icon) {
-		icon.setX(node.getXCoord()-25);
-		icon.setY(node.getYCoord()-25);
-		icon.setFitHeight(50);
-		icon.setFitWidth(50);
+		icon.setX(node.getXCoord()-nodeIconWidth/2);
+		icon.setY(node.getYCoord()-nodeIconHeight/2);
+		icon.setFitHeight(nodeIconHeight);
+		icon.setFitWidth(nodeIconWidth);
 		pointMap.getChildren().add(icon);
 		iconList.add(icon);						// Used to remove the icons later
 		if(node.getNodeType().equals("REST")) {
@@ -1476,7 +1492,7 @@ public class homeController implements Initializable {
 		} else if(node.getNodeType().equals("CONF")) {
 			new ProxyImage(icon, "ConferenceIcon.png").displayIcon();
 		} else if(node.getNodeType().equals("EXIT")) {
-			new ProxyImage(icon, "ExitIcon.png").displayIcon();
+			new ProxyImage(icon, "ExitDoorIcon.png").displayIcon();
 		} else if(node.getNodeType().equals("SERV")) {
 			new ProxyImage(icon, "RestroomIcon.png").displayIcon();
 		} else if(node.getNodeType().equals("INFO")) {
@@ -2088,10 +2104,12 @@ public class homeController implements Initializable {
 
 	public void listenForStartLocation(MouseEvent mouseEvent) {
 		System.out.println("Start Location Text Field Touched");
+		forStart = true;
 	}
 
 	public void listenForEndLocation(MouseEvent mouseEvent) {
 	    System.out.println("End Location Text Field Touched");
+	    forStart = false;
     }
 
 	@FXML
