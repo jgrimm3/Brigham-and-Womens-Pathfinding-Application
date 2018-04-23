@@ -1,4 +1,5 @@
 package com.manlyminotaurs.communications;
+
 //for creating JSON object
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.databases.UserDBUtil;
@@ -8,13 +9,15 @@ import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.users.User;
-import jdk.nashorn.internal.parser.JSONParser;
-/*import org.json.simple.JSONArray;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 //for parsing Json Object
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-*/
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,14 +36,14 @@ public class JsonController {
      * @return
      */
     public String receieveRequestJson(String requestedJson) {
-        /*JSONParser parser = new JSONParser();
+        JSONParser parser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(requestedJson);
             String requestedJsonType = (String) jsonObject.get("Type");
             String requestedJsonOperation = (String) jsonObject.get("Operation");
 
             switch(requestedJsonType){
-                case "Log":
+                case "log":
                     if(requestedJsonOperation.equals("remove")){
                         removeLogJson(jsonObject);
                     }
@@ -49,7 +52,7 @@ public class JsonController {
                     }
                     break;
 
-                case "User":
+                case "user":
                     if(requestedJsonOperation.equals("add")){
                         addUserJson(jsonObject);
                     }
@@ -64,7 +67,7 @@ public class JsonController {
                     }
                     break;
 
-                case "Request":
+                case "request":
                     if(requestedJsonOperation.equals("add")){
                         addRequestJson(jsonObject);
                     }
@@ -79,13 +82,13 @@ public class JsonController {
                     }
                     break;
 
-                case "Node":
+                case "node":
                     if(requestedJsonOperation.equals("retrieve")){
                         retrieveJson(requestedJsonType);
                     }
                     break;
 
-                case "Emergency":
+                case "emergency":
 
                     break;
             }
@@ -95,13 +98,12 @@ public class JsonController {
         }
         return null;
     }
-*/
+
         /**
          * returns retrieved Data in Json String from Kiosk to Web app
          * @param requestedJson
          * @return Json format string
          */
-        /*
         public String retrieveJson (String requestedJson){
         JSONObject requestedJsonObject = null;
         switch(requestedJson){
@@ -126,7 +128,7 @@ public class JsonController {
         //---------------------------------------Log Starts-----------------------------------------------------
         //------------------------------------------------------------------------------------------------------
 
-   /* private boolean removeLogJson(JSONObject jsonObject){
+   private boolean removeLogJson(JSONObject jsonObject){
         JSONParser parser = new JSONParser();
         boolean isSuccessful = false;
 
@@ -159,7 +161,8 @@ public class JsonController {
             jsonLogArray.add(obj);
         }
 
-        wholeObj.put("Log", "retrieve");
+        wholeObj.put("Type", "log");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonLogArray);
 
         return wholeObj;
@@ -239,7 +242,8 @@ public class JsonController {
             jsonRequestArray.add(obj);
         }
 
-        wholeObj.put("Request", "retrieve");
+        wholeObj.put("Type", "request");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonRequestArray);
 
         return wholeObj;
@@ -316,7 +320,8 @@ public class JsonController {
             jsonUserArray.add(obj);
         }
 
-        wholeObj.put("User", "retrieve");
+        wholeObj.put("Type", "user");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonUserArray);
 
         return wholeObj;
@@ -329,6 +334,7 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
     //--------------------------------------------Nodes Start-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
     private JSONObject retrieveNodesJson(){
         JSONObject wholeObj = new JSONObject();
         JSONObject obj;
@@ -352,7 +358,8 @@ public class JsonController {
             jsonUserArray.add(obj);
         }
 
-        wholeObj.put("Node", "retrieve");
+        wholeObj.put("Type", "node");
+        wholeObj.put("Operation", "retrieve");
         wholeObj.put("Data", jsonUserArray);
 
         return wholeObj;
@@ -361,6 +368,21 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
     //--------------------------------------------Nodes End-------------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------
+    //----------------------------------------Emergency Start-----------------------------------------------
+    //------------------------------------------------------------------------------------------------------
+
+    private void makeEmergencyJson(String emergencyType){
+        JSONObject wholeObj = new JSONObject();
+        wholeObj.put("Type","emergency");
+        wholeObj.put("EmergencyType", emergencyType);
+    }
+
+    //------------------------------------------------------------------------------------------------------
+    //-----------------------------------------Emergency End------------------------------------------------
+    //------------------------------------------------------------------------------------------------------
+
 
     public static void main(String[] args) {
         DataModelI.getInstance().startDB();
@@ -379,7 +401,3 @@ public class JsonController {
         System.out.println(retrievedString);
     }
 }
-*/
-        return "whoops";
-    }
-    }
