@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.jfoenix.controls.JFXButton;
 import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.databases.DataModelI;
@@ -39,7 +40,7 @@ public class Main extends Application {
             }else{
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
             }
-            Scene world = new Scene(root, 1920, 1080);
+            Scene world = new Scene(root, 1900, 1000);
             primaryStage.setTitle("Brigham and Women's Hospital Navigation");
             //add style sheets here
 
@@ -99,4 +100,7 @@ public class Main extends Application {
 
         launch(args);
     }
+
+
+
 }
