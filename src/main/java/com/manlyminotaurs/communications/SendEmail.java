@@ -1,12 +1,9 @@
 package com.manlyminotaurs.communications;
 
-import com.manlyminotaurs.messaging.Message;
-import com.manlyminotaurs.nodes.Transport;
 
-import java.net.Authenticator;
+//import java.net.Authenticator;
 import java.util.Properties;
 
-import javax.jms.Session;
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.AddressException;
@@ -39,6 +36,7 @@ public class SendEmail {
                 return new PasswordAuthentication("3733.d18.teamm@gmail.com", "manlyMinotaurs");
             }
         });
+
         Message simpleMessage = new MimeMessage(mailSession);
 
         InternetAddress fromAddress = null;

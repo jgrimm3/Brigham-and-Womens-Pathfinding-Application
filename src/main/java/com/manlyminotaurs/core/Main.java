@@ -1,5 +1,6 @@
 package com.manlyminotaurs.core;
 
+import com.jfoenix.controls.JFXButton;
 import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.databases.DataModelI;
@@ -100,4 +101,7 @@ public class Main extends Application {
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
 
     }
+
+
+
 }
