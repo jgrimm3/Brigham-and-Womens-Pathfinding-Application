@@ -2559,4 +2559,6 @@ Button btnPatientPortal;
 		newWindow.show();
 
 	}
+
+	public void closeHelp() {}
 }
