@@ -120,15 +120,14 @@ public class idleMapController {
 
         }
     }
-
-    public void openHome(ActionEvent event){
+    public void goHome(ActionEvent event) {
         try{
             Parent login;
             Stage stage;
             //get reference to the button's stage
             stage=(Stage)btnLogin3.getScene().getWindow();
             //load up Home FXML document
-            login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+            login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
 
             //create a new scene with root and set the stage
@@ -138,6 +137,7 @@ public class idleMapController {
         } catch (Exception e){
             e.printStackTrace();}
     }
+
 
     /* Open patient Web Portal *********************************************/
 
