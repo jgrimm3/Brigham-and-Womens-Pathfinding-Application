@@ -11,6 +11,7 @@ import com.manlyminotaurs.nodes.Edge;
 import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.DoubleProperty;
@@ -964,7 +965,22 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+    public void loadAPI(ActionEvent event){
 
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+
+    }
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;

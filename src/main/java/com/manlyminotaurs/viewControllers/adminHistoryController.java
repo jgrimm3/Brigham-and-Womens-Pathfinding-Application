@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.log.Log;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -261,6 +262,22 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void loadAPI(ActionEvent event){
+
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+
     }
     public void LogOut(ActionEvent event){
         try{
