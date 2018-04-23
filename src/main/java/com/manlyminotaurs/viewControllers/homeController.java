@@ -956,22 +956,16 @@ public class homeController implements Initializable {
 	JFXButton btnHelp;
 
 	@FXML
-	StackPane paneHelpDirections;
-
-	@FXML
-    StackPane paneHelpPathfind;
+	StackPane paneHelp;
 
 	public void openHelpPanel(ActionEvent event) {
-	    paneHelpPathfind.setVisible(true);
+	    paneHelp.setVisible(true);
 	}
 
-	public void closeHelpDirections(MouseEvent mouseEvent) {
-		paneHelpDirections.setVisible(false);
+	public void closeHelp(MouseEvent mouseEvent) {
+		paneHelp.setVisible(false);
 	}
 
-	public void closeHelpPathfind(MouseEvent mouseEvent) {
-		paneHelpPathfind.setVisible(false);
-	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	//
