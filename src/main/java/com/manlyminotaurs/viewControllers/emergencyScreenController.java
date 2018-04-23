@@ -22,6 +22,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
@@ -29,6 +31,7 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.ArrayList;
@@ -110,6 +113,15 @@ public class emergencyScreenController {
         PathfinderUtil pu = new PathfinderUtil();
         PathfindingContext pf = new PathfindingContext();
         List<Node> path = new LinkedList<Node>();
+
+        URL resource = getClass().getResource("/Sound/EvacuationEmergency Voice Sample from Matthew Kelly (Highcroft.com).mp3");
+        MediaPlayer a =new MediaPlayer(new Media(resource.toString()));
+        a.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                a.seek(Duration.ZERO);
+            }
+        });
+        a.play();
 
         try {
             path = pf.getPath(KioskInfo.getMyLocation(), realExit, new AStarStrategyI());
