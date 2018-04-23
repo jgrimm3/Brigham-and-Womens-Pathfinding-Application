@@ -16,12 +16,15 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -205,8 +208,55 @@ public class homeController implements Initializable {
 	Group scrollGroup;
 
 
-	public void setPathfindingScreen() {
+	//TODO: THIS IS ALL TEST CODE
+	private double scaleValue = 0.7;
+	private javafx.scene.Node zoomNode;
 
+	private void updateScale() {
+		mapImg.setScaleX(scaleValue);
+		mapImg.setScaleY(scaleValue);
+	}
+
+	public void onScroll(ScrollEvent e){
+		System.out.println("I AM SCROLLING");
+		onScroll(e.getTextDeltaY(), new Point2D(e.getX(), e.getY()));
+	}
+
+	public void onScroll(double wheelDelta, Point2D mousePoint) {
+		double zoomIntensity = 0.02;
+
+		double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
+		zoomNode = scrollGroup;
+		Bounds innerBounds = zoomNode.getLayoutBounds();
+		Bounds viewportBounds = scrollPaneMap.getViewportBounds();
+
+		// calculate pixel offsets from [0, 1] range
+		double valX = scrollPaneMap.getHvalue() * (innerBounds.getWidth() - viewportBounds.getWidth());
+		double valY = scrollPaneMap.getVvalue() * (innerBounds.getHeight() - viewportBounds.getHeight());
+
+		scaleValue = scaleValue * zoomFactor;
+		updateScale();
+		scrollPaneMap.layout(); // refresh ScrollPane scroll positions & target bounds
+
+		// convert target coordinates to zoomTarget coordinates
+		Point2D posInZoomTarget = mapImg.parentToLocal(zoomNode.parentToLocal(mousePoint));
+
+		// calculate adjustment of scroll position (pixels)
+		Point2D adjustment = mapImg.getLocalToParentTransform().deltaTransform(posInZoomTarget.multiply(zoomFactor - 1));
+
+		// convert back to [0, 1] range
+		// (too large/small values are automatically corrected by ScrollPane)
+		Bounds updatedInnerBounds = zoomNode.getBoundsInLocal();
+		scrollPaneMap.setHvalue((valX + adjustment.getX()) / (updatedInnerBounds.getWidth() - viewportBounds.getWidth()));
+		scrollPaneMap.setVvalue((valY + adjustment.getY()) / (updatedInnerBounds.getHeight() - viewportBounds.getHeight()));
+	}
+
+	//TODO: END TEST CODE
+
+
+
+
+	public void setPathfindingScreen() {
 		paneDirections.setVisible(false);
 
 		comBuildingStart.setItems(buildings);
@@ -1453,7 +1503,7 @@ public class homeController implements Initializable {
 				circleList.add(circle);
 				circle.setOnMouseEntered(this::printName);
 				circle.setOnMouseExited(this::removeName);
-				overMap.getChildren().add(circle);
+				scrollGroup.getChildren().add(circle);
 			}
 			i++;
 		}
@@ -1492,8 +1542,6 @@ public class homeController implements Initializable {
 	//                                           Rotate and Zoom on 2D map
 	//
 	//-----------------------------------------------------------------------------------------------------------------
-	@FXML
-	Pane overMap; // this is just a pane that i put the nodes/paths/map on so they will all scale and rotate together
 
 	@FXML
 	JFXButton btnZoomOut;
@@ -1529,9 +1577,6 @@ public class homeController implements Initializable {
 	JFXButton btn3;
 
 	@FXML
-	Text nodeFloor;
-
-	@FXML
 	Label lblNode;
 
 	@FXML
@@ -1540,17 +1585,17 @@ public class homeController implements Initializable {
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(ActionEvent event) {
 		if(!(scrollGroup.getScaleX() > 2) || !(scrollGroup.getScaleY() > 2)) {
-			scrollGroup.setScaleX(overMap.getScaleX() + .1);
-			scrollGroup.setScaleY(overMap.getScaleY() + .1);
-			sldZoom.setValue(((overMap.getScaleX()+.1)-.7) * 100);
+			scrollGroup.setScaleX(scrollGroup.getScaleX() + .1);
+			scrollGroup.setScaleY(scrollGroup.getScaleY() + .1);
+			sldZoom.setValue(((scrollGroup.getScaleX()+.1)-.7) * 100);
 		}
 	}
 
 	public void zoomOut(ActionEvent event) {
 		if(!(scrollGroup.getScaleX() < .5) || !(scrollGroup.getScaleY() < .5)) {
-			scrollGroup.setScaleX(overMap.getScaleX() - .1);
-			scrollGroup.setScaleY(overMap.getScaleY() - .1);
-			sldZoom.setValue(((overMap.getScaleX()-.1)-.7) * 100);
+			scrollGroup.setScaleX(scrollGroup.getScaleX() - .1);
+			scrollGroup.setScaleY(scrollGroup.getScaleY() - .1);
+			sldZoom.setValue(((scrollGroup.getScaleX()-.1)-.7) * 100);
 		}
 	}
 
@@ -1565,20 +1610,20 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateRight(ActionEvent event) {
-		overMap.setRotate(overMap.getRotate() - 30);
+		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation - 30);
 	}
 
 	public void rotateLeft(ActionEvent event) {
-		overMap.setRotate(overMap.getRotate() + 30);
+		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation + 30);
 
 	}
 
 	public void resetRotate(ActionEvent event) {
-		overMap.setRotate(0);
+		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
 	}
 
@@ -1591,7 +1636,6 @@ public class homeController implements Initializable {
 
 	private void printName(MouseEvent mouseEvent) {
 		Circle currCircle = (Circle)mouseEvent.getTarget();
-		nodeFloor.setText(currentFloor);
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
 		nodePane.setLayoutX(currCircle.getCenterX());
