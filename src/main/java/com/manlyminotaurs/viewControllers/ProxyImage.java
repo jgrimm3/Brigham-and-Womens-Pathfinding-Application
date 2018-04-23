@@ -20,9 +20,4 @@ public class ProxyImage {
     public void displayIcon() {
         imageView.setImage(new Image("/Icons/" +fileName));
     }
-
-    public void display2() {
-        imageView.setImage(new Image("/QR/"+fileName));
-    }
-
 }
