@@ -78,7 +78,7 @@
             <Font size="50.0" />
          </font>
       </JFXButton>
-      <StackPane fx:id="paneLogin" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" onMouseClicked="#closeHelpPathfind" prefHeight="1000.0" prefWidth="1900.0" visible="false">
+      <StackPane fx:id="paneLogin" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" prefHeight="1000.0" prefWidth="1900.0" visible="false">
          <children>
             <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
             <Pane maxHeight="530.0" maxWidth="520.0" prefHeight="530.0" prefWidth="510.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="CENTER">
@@ -118,7 +118,7 @@
             </Pane>
          </children>
       </StackPane>
-      <StackPane fx:id="paneAbout" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" onMouseClicked="#closeHelpPathfind" prefHeight="1000.0" prefWidth="1900.0" visible="false">
+      <StackPane fx:id="paneAbout" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" prefHeight="1000.0" prefWidth="1900.0" visible="false">
          <children>
             <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="670.0" prefWidth="850.0" style="-fx-background-color: #2b65ac;">
@@ -139,7 +139,7 @@
                               <Image url="@../Icons/AboutPage.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="lblHelp1" layoutX="40.0" layoutY="40.0" prefHeight="70.0" prefWidth="272.0" text="ABOUT" textFill="WHITE">
+                        <Label layoutX="40.0" layoutY="40.0" prefHeight="70.0" prefWidth="272.0" text="ABOUT" textFill="WHITE">
                            <font>
                               <Font size="55.0" />
                            </font>
