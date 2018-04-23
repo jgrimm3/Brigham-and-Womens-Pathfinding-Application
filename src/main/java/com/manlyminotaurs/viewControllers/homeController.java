@@ -13,8 +13,10 @@ import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -104,6 +106,7 @@ public class homeController implements Initializable {
 	boolean isStart = true;
 	javafx.scene.text.Text currName;
 	FadeTransition fade;
+	List<String> breadcrumbs = new ArrayList<>();
 	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -198,6 +201,9 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView imgBtnMap;
 
+	@FXML
+	Group scrollGroup;
+
 
 	public void setPathfindingScreen() {
 
@@ -249,6 +255,7 @@ public class homeController implements Initializable {
 		setStrategy();
 		//createMap();
 
+		scrollPaneMap.setContent(scrollGroup);
 		setKiosk();
 		printKiosk();
 		goToKiosk();
@@ -347,6 +354,54 @@ public class homeController implements Initializable {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 			scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
 		}
+	}
+
+	public void snap(Node startNode, Node endNode) {
+
+		// 2D Variables
+		int startX2D = startNode.getXCoord();
+		int startY2D = startNode.getYCoord();
+		int endX2D = endNode.getXCoord();
+		int endY2D = endNode.getYCoord();
+
+		// 3D Variables
+		int startX3D = startNode.getXCoord3D();
+		int startY3D = startNode.getYCoord3D();
+		int endX3D = endNode.getXCoord3D();
+		int endY3D = endNode.getYCoord3D();
+
+		double snapX;
+		double snapY;
+
+		if (currentDimension.equals("3-D")) { // 3D
+
+			snapY = (startY3D + ((endY3D-startY3D)/2))/2774.0;
+			snapX = (startX3D + ((endX3D-startX3D)/2))/5000.0;
+
+		} else { // 2D
+
+			snapY = (startY2D + (((endY2D-startY2D)/2))-200)/3400.0;
+			snapX = (startX2D + (((endX2D-startX2D)/2))-300)/5000.0;
+		}
+
+		scrollPaneMap.setVvalue(snapY);
+		scrollPaneMap.setHvalue(snapX);
+
+		System.out.println(snapX);
+		System.out.println(snapY);
+		System.out.println("start x2d " + startX2D);
+		System.out.println("start y2d " + startY2D);
+		System.out.println("start x3d " + startX3D);
+		System.out.println("start y3d " + startY3D);
+		System.out.println("end x2d " + endX2D);
+		System.out.println("end y2d " + endY2D);
+		System.out.println("end x3d " + endX3D);
+		System.out.println("end y3d " + endY3D);
+		System.out.println(scrollPaneMap.getVvalue());
+		System.out.println(scrollPaneMap.getHvalue());
+
+
+
 	}
 
 	private void setKiosk() { // location isnt getting set correctly for floor or type
@@ -960,19 +1015,6 @@ public class homeController implements Initializable {
 		clearPath();
 		int i = 0;
 		if (!path.isEmpty()) {
-			double snapX = 0.0;
-			double snapY = 0.0;
-			if (dimension.equals("3-D")) {
-				snapX = (double) path.get(0).getXCoord() / 5000.0;
-				snapY = (double) path.get(0).getYCoord() / 2744.0;
-			} else if (dimension.equals("2-D")) {
-				snapX = (double) path.get(0).getXCoord() / 5000.0;
-				snapY = (double) path.get(0).getYCoord() / 3400.0;
-			} else {
-				System.out.println("Invalid dimension");
-			}
-			scrollPaneMap.setVvalue(snapY);
-			scrollPaneMap.setHvalue(snapX);
 			while (i < path.size()) {
 				// Give starting point
 				MoveTo moveTo = new MoveTo();
@@ -1001,6 +1043,8 @@ public class homeController implements Initializable {
 
 			Node endNode = pathList.get(pathList.size()-1);
 			Node startNode = pathList.get(0);
+			snap(startNode, endNode);
+
 			//javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
 			//javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
 			destination.setVisible(true);
@@ -1128,6 +1172,18 @@ public class homeController implements Initializable {
 
 			animatePath();
 
+		}
+	}
+
+	public void getBreadcrumbs() {
+		int i = 0;
+		String curr = "";
+		while(i < pathList.size()) {
+			if(pathList.get(i).getFloor().equals(curr)) {
+			} else {
+				curr = pathList.get(i).getFloor();
+				breadcrumbs.add(curr);
+			}
 		}
 	}
 
@@ -1326,18 +1382,33 @@ public class homeController implements Initializable {
 	@FXML
 	Label lblNode;
 
+	@FXML
+	Slider sldZoom;
+
 	// The zooming is a bit weird... should be looked into more in the future
 	public void zoomIn(ActionEvent event) {
-		if(!(overMap.getScaleX() > 1.2) || !(overMap.getScaleY() > 1.2)) {
-			overMap.setScaleX(overMap.getScaleX() + .1);
-			overMap.setScaleY(overMap.getScaleY() + .1);
+		if(!(scrollGroup.getScaleX() > 2) || !(scrollGroup.getScaleY() > 2)) {
+			scrollGroup.setScaleX(overMap.getScaleX() + .1);
+			scrollGroup.setScaleY(overMap.getScaleY() + .1);
+			sldZoom.setValue(((overMap.getScaleX()+.1)-.7) * 100);
 		}
 	}
 
 	public void zoomOut(ActionEvent event) {
-		if(!(overMap.getScaleX() < .70) || !(overMap.getScaleY() < .70)) {
-			overMap.setScaleX(overMap.getScaleX() - .1);
-			overMap.setScaleY(overMap.getScaleY() - .1);
+		if(!(scrollGroup.getScaleX() < .5) || !(scrollGroup.getScaleY() < .5)) {
+			scrollGroup.setScaleX(overMap.getScaleX() - .1);
+			scrollGroup.setScaleY(overMap.getScaleY() - .1);
+			sldZoom.setValue(((overMap.getScaleX()-.1)-.7) * 100);
+		}
+	}
+
+	public void zoom(Event event) {
+		if(sldZoom.getValue()>50) {
+			scrollGroup.setScaleX(.7 + (sldZoom.getValue() / 100));
+			scrollGroup.setScaleY(.7 + (sldZoom.getValue() / 100));
+		} else {
+			scrollGroup.setScaleX(.7 + (sldZoom.getValue() / 100));
+			scrollGroup.setScaleY(.7 + (sldZoom.getValue() / 100));
 		}
 	}
 
