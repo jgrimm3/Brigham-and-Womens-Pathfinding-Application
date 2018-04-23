@@ -50,6 +50,9 @@ public class idleMapController {
     @FXML
     JFXButton btnLogin3;
 
+    @FXML
+    JFXButton btnCloseAbout;
+
     public void initialize() {
         paneAbout.setVisible(false);
         paneLogin.setVisible(false);
@@ -101,7 +104,7 @@ public class idleMapController {
                     Parent login;
                     Stage stage;
                     //get reference to the button's stage
-                    stage=(Stage)btnLogin3.getScene().getWindow();
+                    stage=(Stage)btnLogin.getScene().getWindow();
                     //load up Home FXML document
                     login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
 
@@ -125,7 +128,7 @@ public class idleMapController {
             Parent login;
             Stage stage;
             //get reference to the button's stage
-            stage=(Stage)btnLogin3.getScene().getWindow();
+            stage=(Stage)btnLogin.getScene().getWindow();
             //load up Home FXML document
             login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
@@ -170,6 +173,10 @@ public class idleMapController {
         newWindow.setY(primaryStage.getY()+250);
 
         newWindow.show();
+
+    }
+
+    public void giftShop(ActionEvent event) {
 
     }
 
