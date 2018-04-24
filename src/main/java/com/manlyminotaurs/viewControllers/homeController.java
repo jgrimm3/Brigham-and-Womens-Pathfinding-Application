@@ -246,7 +246,6 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -291,10 +290,7 @@ public class homeController implements Initializable {
 	}
 
 	public void toggleMap(ActionEvent event) {
-		clearPoints();
-
 		if (currentDimension.equals("2-D")) {
-
 			// Switch 3-D
 			new ProxyImage(imgBtnMap,"3DIcon.png").displayIcon();
 			currentDimension = "3-D";
@@ -306,6 +302,7 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor3DMapLoader(currentFloor);
 			printKiosk();
+			clearPoints();
 			printPoints(currentFloor, currentDimension);
 		} else {
 
@@ -320,6 +317,7 @@ public class homeController implements Initializable {
 			paneMap.setPrefWidth(5000);
 			floor2DMapLoader(currentFloor);
 			printKiosk();
+			clearPoints();
 			printPoints(currentFloor, currentDimension);
 		}
 
@@ -1040,8 +1038,12 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "2-D");
 
 		}
-
-		animatePath();
+		if(breadcrumbs.contains(floor)) {
+			arrow.setVisible(true);
+			animatePath();
+		} else {
+			arrow.setVisible(false);
+		}
 		currentFloor = floor;
 	}
 
@@ -1078,7 +1080,12 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "3-D");
 
 		}
-		animatePath();
+		if(breadcrumbs.contains(floor)) {
+			arrow.setVisible(true);
+			animatePath();
+		} else {
+			arrow.setVisible(false);
+		}
 		currentFloor = floor;
 	}
 
@@ -1278,75 +1285,69 @@ public class homeController implements Initializable {
 	}
 
 	public void drawPath(ActionEvent event) {
+		try {
+			clearPath();
 
-		System.out.println(txtLocationStart.getText());
-		System.out.println(txtLocationEnd.getText());
+			System.out.println(txtLocationStart.getText());
+			System.out.println(txtLocationEnd.getText());
 
-		String startName = txtLocationStart.getText();
-		String endName = txtLocationEnd.getText();
+			String startName = txtLocationStart.getText();
+			String endName = txtLocationEnd.getText();
 
-		String dimension;
+			String dimension;
 
-		if (startName.equals("") || endName.equals("")) {
-			System.out.println("Pick a start and end location!");
-		} else {
+			if (startName.equals("") || endName.equals("")) {
+				System.out.println("Pick a start and end location!");
+			} else {
 
-			PathfinderUtil pathfinderUtil = new PathfinderUtil();
+				PathfinderUtil pathfinderUtil = new PathfinderUtil();
 
-			//List<Node> nodeList = new ArrayList<>();
-			//LinkedList<Node> pathList = new LinkedList<>();
-			//nodeList = DataModelI.getInstance().retrieveNodes();
-			Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
-			Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+				//List<Node> nodeList = new ArrayList<>();
+				//LinkedList<Node> pathList = new LinkedList<>();
+				//nodeList = DataModelI.getInstance().retrieveNodes();
+				Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
+				Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
 
-			startFloor = startNode.getFloor();
-			endFloor = endNode.getFloor();
-			currentFloor = startNode.getFloor();
+				startFloor = startNode.getFloor();
+				endFloor = endNode.getFloor();
+				currentFloor = startNode.getFloor();
 
-			try {
+				try {
 //				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
-				pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+					pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
 
-			} catch (PathNotFoundException e) {
-				e.printStackTrace();
+				} catch (PathNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+				// calcDistance function now converts to feet
+				double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+				directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+				directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
+				lstDirections.setItems(directions);
+				listForQR = (LinkedList) pathList;
+
+				// Draw path code
+				if (currentDimension.equals("3-D")) {
+					// use 3-D
+					dimension = "3-D";
+					printNodePath(pathList, startFloor, dimension);
+					changeFloor(startFloor);
+				} else {
+					// use 2-D
+					dimension = "2-D";
+					printNodePath(pathList, startFloor, dimension);
+					changeFloor(startFloor);
+				}
+
+				breadBoy();
+				animatePath();
+
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 
-            directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-			// calcDistance function now converts to feet
-            double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
-			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-            directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
-            lstDirections.setItems(directions);
-
-            listForQR = (LinkedList) pathList;
-
-			// Draw path code
-			if (currentDimension.equals("3-D")) {
-				// use 3-D
-				dimension = "3-D";
-				printNodePath(pathList, startFloor, dimension);
-				changeFloor(startFloor);
-			} else {
-				// use 2-D
-				dimension = "2-D";
-				printNodePath(pathList, startFloor, dimension);
-				changeFloor(startFloor);
-			}
-
-			animatePath();
-
-		}
-	}
-
-	public void getBreadcrumbs() {
-		int i = 0;
-		String curr = "";
-		while(i < pathList.size()) {
-			if(pathList.get(i).getFloor().equals(curr)) {
-			} else {
-				curr = pathList.get(i).getFloor();
-				breadcrumbs.add(curr);
-			}
 		}
 	}
 
@@ -1457,18 +1458,12 @@ public class homeController implements Initializable {
 				}
 
 				ImageView icon = new ImageView();				// The icon for the node
-				/*Circle circle = new Circle(x, y, 25);	// The node circle
-				circle.setId(currNode.getShortName());
-				circle.setFill(Color.WHITE);
-				circle.setStroke(Color.BLACK);
-				circle.setStrokeWidth(4); */
+				icon.setId(currNode.getShortName());
 
 				icon.setOnMouseClicked(this::chooseNode);
 
-				//circleList.add(circle);							// Circle list is used to remove circles later
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
 				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
-				//pointMap.getChildren().add(circle);
 				makeNodeIcon(currNode, icon);
 			}
 			i++;
@@ -1627,7 +1622,7 @@ public class homeController implements Initializable {
 	}
 
 	public void resetRotate(ActionEvent event) {
-		overMap.setRotate(0);
+		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
 	}
 
@@ -1640,12 +1635,10 @@ public class homeController implements Initializable {
 
 	private void printName(MouseEvent mouseEvent) {
 		ImageView currCircle = (ImageView) mouseEvent.getTarget();
-//		nodeFloor.setText(currentFloor);
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
-		nodePane.setLayoutX(currCircle.getX());
+		nodePane.setLayoutX(currCircle.getX() + 45);
 		nodePane.setLayoutY(currCircle.getY());
-		//name.setRotate(-overMap.getRotate());
 		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(0);
 		fade.setToValue(1);
@@ -1772,19 +1765,12 @@ public class homeController implements Initializable {
 		printPoints(currentFloor, currentDimension);
 		printKiosk();
 
-		btnL2.setLayoutX(20);
-		btnL1.setLayoutX(0);
-		btn1.setLayoutX(0);
-		btn2.setLayoutX(0);
-		btn3.setLayoutX(0);
 
 		new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
-
-
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor L2");
 	}
@@ -1807,11 +1793,12 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1IconSelected.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1IconSelected.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor L1");
 	}
@@ -1834,11 +1821,11 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor 1");
 
@@ -1862,12 +1849,11 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(20);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
-
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 		System.out.println("you selected floor 2");
 
 	}
@@ -1890,11 +1876,12 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(20);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
+
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
 
 		System.out.println("you selected floor 3");
 
@@ -2132,4 +2119,84 @@ public class homeController implements Initializable {
 	public void step3(ActionEvent event) {
 
 	}
+
+	/**
+	 * Sets the global variable breadrumbs to all the floors that need to be traversed
+	 */
+	public void getBreadcrumbs() {
+		int i = 0;
+		String curr = "";
+		while(i < pathList.size()) {
+			if(pathList.get(i).getFloor().equals(curr)) {
+
+			} else {
+				curr = pathList.get(i).getFloor();
+				breadcrumbs.add(curr);
+			}
+			i++;
+		}
+	}
+
+	/**
+	 * Sets the images and buttons for the breadcrumbs based on the global variable bradcrumbs
+	 */
+	public void breadBoy() {
+		getBreadcrumbs();
+		int i = 0;
+		while(i < breadcrumbs.size()) {
+			if(i == 0) {
+				btnStep1.setDisable(false);
+				breadHelper(btnStep1, breadcrumbs.get(i));
+			} else if(i==1) {
+				btnStep2.setDisable(false);
+				breadHelper(btnStep2, breadcrumbs.get(i));
+			} else if (i==2) {
+				btnStep3.setDisable(false);
+				breadHelper(btnStep3, breadcrumbs.get(i));
+			}
+			i++;
+		}
+
+	}
+
+	public void breadHelper(Button btn, String floor) {
+
+		ImageView icon = new ImageView();
+		icon.setFitWidth(70);
+		icon.setFitHeight(70);
+
+		if(floor.equals("1")) {
+			new ProxyImage(icon, "Floor1Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("2")) {
+			new ProxyImage(icon, "Floor2Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("3")) {
+			new ProxyImage(icon, "Floor3Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("L1")) {
+			new ProxyImage(icon, "FloorL1Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("L2")) {
+			new ProxyImage(icon, "FloorL2Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}
+	}
+
+	@FXML
+	public void breadFloorSwitch1(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(0));
+	}
+
+	@FXML
+	public void breadFloorSwitch2(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(1));
+	}
+
+	@FXML
+	public void breadFloorSwitch3(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(2));
+	}
+
+	public void closeHelp() {}
 }

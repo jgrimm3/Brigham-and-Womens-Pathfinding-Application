@@ -130,6 +130,7 @@ public class ClientSetup {
             return null;
         }
     }
+
     public void sendReset(){
         out.println("Reset");
     }
