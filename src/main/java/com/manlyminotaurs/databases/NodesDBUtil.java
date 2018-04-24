@@ -384,6 +384,10 @@ class NodesDBUtil {
 		}
 	}
 
+	/**
+	 * Remove Node from database
+	 * @param nodeID the unique nodeID for the Node to be deleted
+	 */
 	boolean removeNode(String nodeID){
 		boolean isSucessful = false;
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -484,11 +488,11 @@ class NodesDBUtil {
 
 	/*---------------------------------------- Add/delete/edit "edges" -------------------------------------------------*/
 
-	/**
-	 * Adds the edge and the corresponding entry in the database table
-	 * @param startNode
-	 * @param endNode
-	 * @return
+	 /**
+	 * Add Edge - a connected pair of Nodes - to database
+	 * @param startNode one of the Nodes in the Edge
+	 * @param endNode the other Node in the Edge
+	 * @return	Edge object
 	 */
 	Edge addEdge(Node startNode, Node endNode) {
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -543,7 +547,11 @@ class NodesDBUtil {
 		return edge;
 	}
 
-
+	/**
+	 * Retrieve Edge by edgeID from database
+	 * @param edgeID the edgeID to search for
+	 * @return Edge object
+	 */
 	Edge getEdgeByID(String edgeID){
 
 		Edge edge = null;
@@ -584,6 +592,11 @@ class NodesDBUtil {
 		return edge;
 	}
 
+	/**
+	 * Retrieve list of Edges in database
+	 * @param allEntriesExist True to include deleted Nodes
+	 * @return List of Edges
+	 */
 	List<Edge> getEdgeList(boolean allEntriesExist){
 		List<Edge> listOfEdges = new ArrayList<Edge>();
 		/*
@@ -649,9 +662,9 @@ class NodesDBUtil {
 	}
 
 	/**
-	 * temporarily remove Edge by marking it
-	 * @param startNode
-	 * @param endNode
+	 * Mark Edge as removed in database
+	 * @param startNode one of the Nodes in the Edge
+	 * @param endNode the other Node in the Edge
 	 */
 	void removeEdge(Node startNode, Node endNode){
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -675,7 +688,12 @@ class NodesDBUtil {
 			DataModelI.getInstance().closeConnection();
 		}
 	}
-
+	/**
+	 * Mark Edge as not-removed in database
+	 * @param startNodeID nodeID of one of the Nodes in the Edge
+	 * @param endNodeID nodeID the other Node in the Edge
+	 * @return boolean corresponding to success
+	 */
 	boolean restoreEdge(String startNodeID, String endNodeID){
 		Connection connection = DataModelI.getInstance().getNewConnection();
 
@@ -700,9 +718,9 @@ class NodesDBUtil {
 	}
 
 	/**
-	 * Removes the connection between nodes
-	 * @param startNode start node
-	 * @param endNode   end node
+	 * Remove Edge from database
+	 * @param startNode one of the Nodes in the Edge
+	 * @param endNode the other Node in the Edge
 	 */
 	boolean permanentlyRemoveEdge(Node startNode, Node endNode) {
 		// Find the node to remove from the edgeList
@@ -723,6 +741,12 @@ class NodesDBUtil {
 		return true;
 	} // removeEdge
 
+	/**
+	 * Modify Edge in database
+	 * @param startNode one of the Nodes in the Edge
+	 * @param endNode the other Node in the Edge
+	 * @param status the active status of the Edge
+	 */
 	void modifyEdge(Node startNode, Node endNode, int status){
 		Connection connection = DataModelI.getInstance().getNewConnection();
 		try {
@@ -747,6 +771,11 @@ class NodesDBUtil {
 
 	/*----------------------------------------- Helper functions -----------------------------------------------------*/
 
+	/**
+	 * Retrieve list of Nodes adjacent to given Node
+	 * @param node the Node for which to check adjacent Nodes
+	 * @return List of Strings
+	 */
 	List<String> getAdjacentNodes(Node node) {
 		List<String> adjacentNodes = new ArrayList<>();
         // Connection
@@ -835,6 +864,11 @@ class NodesDBUtil {
 	}
 
 	//---------------------------------------Getter functions---------------------------------
+
+	/**
+	 * Retrieve list of buildings in database
+	 * @return List of Nodes
+	 */
 	List<String> getBuildingsFromList() {
 		List<String> buildings = new ArrayList<>();
 		String building;
@@ -861,6 +895,10 @@ class NodesDBUtil {
 		return buildings;
 	}
 
+	/**
+	 * Retrieve list of types in database
+	 * @return List of Strings
+	 */
 	List<String> getTypesFromList() {
 		List<String> types = new ArrayList<>();
 		String type;
@@ -950,6 +988,10 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+	/**
+	 * Retrieve list of longNames in database
+	 * @return List of Strings
+	 */
 	List<String> getLongNames(){
 		List<String> listOfLongNames = new ArrayList<>();
 
@@ -1029,6 +1071,10 @@ class NodesDBUtil {
 	}
 
 	@Deprecated
+	/**
+	 * Retrieve Nodes from database that match a given type
+	 * @param type the Node type to match
+	 */
 	public List<Node> getNodesByType(String type) {
 		List<Node> selectedNodes = new ArrayList<>();
 		List<Node> allNodes = retrieveNodes();
@@ -1065,6 +1111,10 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+	/**
+	 * Query Node existence in database
+	 * @param nodeID the ID of the node to check
+	 */
     public boolean doesNodeExist(String nodeID) {
         return nodeMap.containsKey(nodeID);
     }
@@ -1113,8 +1163,8 @@ class NodesDBUtil {
 	/**
 	 * return the node object that has the matching nodeID with the ID provided in the argument
 	 * return null if it can't  find any
-	 * @param nodeID
-	 * @return
+	 * @param nodeID the ID of the node to search for
+	 * @return Node object
 	 */
 	public Node getNodeByID(String nodeID) {
 		return nodeMap.get(nodeID);
@@ -1130,6 +1180,12 @@ class NodesDBUtil {
 		return null;
 	}
 
+	/**
+	 * Find nearest Node to given X and Y coordinates
+	 * @param xCoord the X coordinate
+	 * @param yCoord the Y coordinate
+	 * @return Node object
+	 */
 	Node getNodeByCoords(int xCoord, int yCoord) {
 		// Connection
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -1160,8 +1216,8 @@ class NodesDBUtil {
 
 	/**
 	 * get the node that has non-unique long name which describes the node
-	 * @param longName
-	 * @return
+	 * @param longName the longName of a Node
+	 * @return Node object
 	 */
 	Node getNodeByLongName(String longName){
 		// Connection
@@ -1194,11 +1250,11 @@ class NodesDBUtil {
 	}
 
 	/**
-	 * account for 8 different possibilites of all three null, two null, one null, all not null
-	 * @param building
-	 * @param floor
-	 * @param type
-	 * @return
+	 * Retrieve Nodes from database that match a given building, floor, and type
+	 * @param building the building to filter by
+	 * @param floor the floor to filter by
+	 * @param type the type to filter by
+	 * @return List of Strings
 	 */
 	public List<String> getNamesByBuildingFloorType(String building, String floor, String type){
 

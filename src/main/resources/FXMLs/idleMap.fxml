@@ -56,12 +56,12 @@
       </ImageView>
       <Pane maxHeight="300.0" prefHeight="300.0" prefWidth="520.0" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="250.0">
          <children>
-            <Label fx:id="lblTime" layoutX="-168.0" layoutY="31.0" text="00:00 AM" textFill="WHITE">
+            <Label fx:id="lblTime" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="205.0" layoutY="14.0" text="0:00" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="164.0" />
                </font>
             </Label>
-            <Label fx:id="lblDate" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="230.0" maxHeight="50.0" prefHeight="50.0" prefWidth="496.0" text="FRIDAY | APRIL 25, 2018" textFill="WHITE">
+            <Label fx:id="lblDate" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="230.0" maxHeight="50.0" prefHeight="50.0" prefWidth="496.0" text="AM 00/00/0000" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>
