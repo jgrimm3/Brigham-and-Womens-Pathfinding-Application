@@ -54,3 +54,6 @@ logID,description,logTime,userID,associatedID,associatedType
 73,Application Started,2018-04-23 18:49:12:215,N/A,N/A,application
 74,Pathfind fromEINFO00101 to FSTAI00101 is done,2018-04-23 18:49:49:847,null,22,pathfind
 75,Application Closed,2018-04-23 18:50:08:235,N/A,N/A,application
+81,Database Setup,2018-04-24 17:09:14:943,N/A,N/A,database
+82,Application Started,2018-04-24 17:09:14:986,N/A,N/A,application
+83,Application Closed,2018-04-24 17:13:48:610,N/A,N/A,application
