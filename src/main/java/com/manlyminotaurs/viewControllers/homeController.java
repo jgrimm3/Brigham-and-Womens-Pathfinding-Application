@@ -2570,6 +2570,9 @@ public class homeController implements Initializable {
 	@FXML
 	private void printStartName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), startName);
+		Rotate rotationTransform = new Rotate(-scrollGroup.getRotate(), -45, 0);
+		startName.getTransforms().clear();
+		startName.getTransforms().add(rotationTransform);
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.setAutoReverse(true);
@@ -2590,6 +2593,9 @@ public class homeController implements Initializable {
 	@FXML
 	private void printEndName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), endName);
+		Rotate rotationTransform = new Rotate(-scrollGroup.getRotate(), -45, 0);
+		endName.getTransforms().clear();
+		endName.getTransforms().add(rotationTransform);
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.setAutoReverse(true);
