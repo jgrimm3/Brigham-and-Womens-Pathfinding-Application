@@ -244,7 +244,6 @@ public class homeController implements Initializable {
 			printKiosk();
 			goToKiosk();
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1019,8 +1018,12 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "2-D");
 
 		}
-
-		animatePath();
+		if(breadcrumbs.contains(floor)) {
+			arrow.setVisible(true);
+			animatePath();
+		} else {
+			arrow.setVisible(false);
+		}
 		currentFloor = floor;
 	}
 
@@ -1057,7 +1060,12 @@ public class homeController implements Initializable {
 			printNodePath(pathList, "3", "3-D");
 
 		}
-		animatePath();
+		if(breadcrumbs.contains(floor)) {
+			arrow.setVisible(true);
+			animatePath();
+		} else {
+			arrow.setVisible(false);
+		}
 		currentFloor = floor;
 	}
 
@@ -1257,64 +1265,68 @@ public class homeController implements Initializable {
 	}
 
 	public void drawPath(ActionEvent event) {
+		try {
+			clearPath();
 
-		clearPath();
+			System.out.println(txtLocationStart.getText());
+			System.out.println(txtLocationEnd.getText());
 
-		System.out.println(txtLocationStart.getText());
-		System.out.println(txtLocationEnd.getText());
+			String startName = txtLocationStart.getText();
+			String endName = txtLocationEnd.getText();
 
-		String startName = txtLocationStart.getText();
-		String endName = txtLocationEnd.getText();
+			String dimension;
 
-		String dimension;
-
-		if (startName.equals("") || endName.equals("")) {
-			System.out.println("Pick a start and end location!");
-		} else {
-
-			PathfinderUtil pathfinderUtil = new PathfinderUtil();
-
-			//List<Node> nodeList = new ArrayList<>();
-			//LinkedList<Node> pathList = new LinkedList<>();
-			//nodeList = DataModelI.getInstance().retrieveNodes();
-			Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
-			Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
-
-			startFloor = startNode.getFloor();
-			endFloor = endNode.getFloor();
-			currentFloor = startNode.getFloor();
-
-			try {
-//				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
-				pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
-
-			} catch (PathNotFoundException e) {
-				e.printStackTrace();
-			}
-
-            directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-			// calcDistance function now converts to feet
-            double dist = CalcDistance.calcDistance(pathList)*OptionSingleton.getOptionPicker().feetPerPixel;
-			directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-            directions.add(String.format("ETA: %.1f s", dist/OptionSingleton.getOptionPicker().walkSpeedFt));
-            lstDirections.setItems(directions);
-            listForQR = (LinkedList) pathList;
-
-			// Draw path code
-			if (currentDimension.equals("3-D")) {
-				// use 3-D
-				dimension = "3-D";
-				printNodePath(pathList, startFloor, dimension);
-				changeFloor(startFloor);
+			if (startName.equals("") || endName.equals("")) {
+				System.out.println("Pick a start and end location!");
 			} else {
-				// use 2-D
-				dimension = "2-D";
-				printNodePath(pathList, startFloor, dimension);
-				changeFloor(startFloor);
-			}
 
-			breadBoy();
-			animatePath();
+				PathfinderUtil pathfinderUtil = new PathfinderUtil();
+
+				//List<Node> nodeList = new ArrayList<>();
+				//LinkedList<Node> pathList = new LinkedList<>();
+				//nodeList = DataModelI.getInstance().retrieveNodes();
+				Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
+				Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+
+				startFloor = startNode.getFloor();
+				endFloor = endNode.getFloor();
+				currentFloor = startNode.getFloor();
+
+				try {
+//				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+					pathList = optionPicker.pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
+
+				} catch (PathNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+				// calcDistance function now converts to feet
+				double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+				directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
+				directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
+				lstDirections.setItems(directions);
+				listForQR = (LinkedList) pathList;
+
+				// Draw path code
+				if (currentDimension.equals("3-D")) {
+					// use 3-D
+					dimension = "3-D";
+					printNodePath(pathList, startFloor, dimension);
+					changeFloor(startFloor);
+				} else {
+					// use 2-D
+					dimension = "2-D";
+					printNodePath(pathList, startFloor, dimension);
+					changeFloor(startFloor);
+				}
+
+				breadBoy();
+				animatePath();
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 	}
@@ -1736,19 +1748,12 @@ public class homeController implements Initializable {
 		printPoints(currentFloor, currentDimension);
 		printKiosk();
 
-		btnL2.setLayoutX(20);
-		btnL1.setLayoutX(0);
-		btn1.setLayoutX(0);
-		btn2.setLayoutX(0);
-		btn3.setLayoutX(0);
 
 		new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
-
-
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor L2");
 	}
@@ -1771,11 +1776,12 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1IconSelected.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1IconSelected.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor L1");
 	}
@@ -1798,11 +1804,11 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
 		System.out.println("you selected floor 1");
 
@@ -1826,12 +1832,11 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(20);
 		btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
-
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 		System.out.println("you selected floor 2");
 
 	}
@@ -1854,11 +1859,12 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(20);
 
-        new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
+
+		new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
 
 		System.out.println("you selected floor 3");
 
@@ -2083,15 +2089,6 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnStep3;
 
-	@FXML
-	ImageView imageStep1;
-
-	@FXML
-	ImageView imageStep2;
-
-	@FXML
-	ImageView imageStep3;
-
 	public void step1(ActionEvent event) {
 
 	}
@@ -2130,17 +2127,56 @@ public class homeController implements Initializable {
 		while(i < breadcrumbs.size()) {
 			if(i == 0) {
 				btnStep1.setDisable(false);
-				new ProxyImage(imageStep1, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+				breadHelper(btnStep1, breadcrumbs.get(i));
 			} else if(i==1) {
 				btnStep2.setDisable(false);
-				new ProxyImage(imageStep2, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+				breadHelper(btnStep2, breadcrumbs.get(i));
 			} else if (i==2) {
 				btnStep3.setDisable(false);
-				new ProxyImage(imageStep3, "/Icons/Floor" + breadcrumbs.get(i) + "Icon.png").displayIcon();
+				breadHelper(btnStep3, breadcrumbs.get(i));
 			}
 			i++;
 		}
 
+	}
+
+	public void breadHelper(Button btn, String floor) {
+
+		ImageView icon = new ImageView();
+		icon.setFitWidth(70);
+		icon.setFitHeight(70);
+
+		if(floor.equals("1")) {
+			new ProxyImage(icon, "Floor1Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("2")) {
+			new ProxyImage(icon, "Floor2Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("3")) {
+			new ProxyImage(icon, "Floor3Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("L1")) {
+			new ProxyImage(icon, "FloorL1Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}else if(floor.equals("L2")) {
+			new ProxyImage(icon, "FloorL2Icon.png").displayIcon();
+			btn.setGraphic(icon);
+		}
+	}
+
+	@FXML
+	public void breadFloorSwitch1(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(0));
+	}
+
+	@FXML
+	public void breadFloorSwitch2(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(1));
+	}
+
+	@FXML
+	public void breadFloorSwitch3(MouseEvent mouseEvent) {
+		changeFloor(breadcrumbs.get(2));
 	}
 
 	public void closeHelp() {}
