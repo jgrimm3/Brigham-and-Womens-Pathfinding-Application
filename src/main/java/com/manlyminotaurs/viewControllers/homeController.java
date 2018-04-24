@@ -102,7 +102,8 @@ public class homeController implements Initializable {
 
 	Parent adminRequest;
 	Parent staffRequest;
-	Circle startCircle = new Circle();
+	//Circle startCircle = new Circle();
+	ImageView startImg = new ImageView();
 	List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
 	List<Node> pathList = new ArrayList<>();
 	LinkedList<Node> listForQR = new LinkedList<Node>();
@@ -629,7 +630,7 @@ public class homeController implements Initializable {
 		changeFloor("1");
 		currentFloor = "1";
 
-		paneMap.getChildren().remove(startCircle);
+		//paneMap.getChildren().remove(startCircle);
 		//overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
 		//overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
 		destinationText.setVisible(false);
@@ -1261,29 +1262,31 @@ public class homeController implements Initializable {
 			}
 
 			// Draw Start Circle
-			startCircle.setRadius(8);
-			startCircle.setFill(Color.NAVY);
-			startCircle.setVisible(true);
-			startCircle.setCenterX(startX);
-			startCircle.setCenterY(startY);
-			startCircle.setStroke(Color.BLACK);
-			startCircle.setStrokeWidth(3);
+			//startCircle.setRadius(8);
+			//startCircle.setFill(Color.NAVY);
+			//startCircle.setVisible(true);
+			startImg.setX(startX);
+			startImg.setY(startY);
+			//startCircle.setStroke(Color.BLACK);
+			//startCircle.setStrokeWidth(3);
 
 			// Set on mouse clicked to switch between floors
 			startFloor = startNode.getFloor();
-			startCircle.setOnMouseClicked(this::startCircleClicked);
-			startCircle.setOnMouseEntered(this::printStartName);
-			startCircle.setOnMouseExited(this::removeStartName);
+			startImg.setOnMouseClicked(this::startCircleClicked);
+			startImg.setOnMouseEntered(this::printStartName);
+			startImg.setOnMouseExited(this::removeStartName);
 
 			if (!startFloor.equals(floor)) {
-				startCircle.setFill(Color.GRAY);
+				startImg.setVisible(false);
+			} else {
+				startImg.setVisible(true);
 			}
 
 			endFloor = endNode.getFloor();
 
 			// adds circles to map
-			paneMap.getChildren().remove(startCircle);
-			paneMap.getChildren().add(startCircle);
+			//paneMap.getChildren().remove(startCircle);
+			//paneMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
 		}
@@ -1787,6 +1790,13 @@ public class homeController implements Initializable {
 			destination.setVisible(false);
 		}
 
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
 		new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
 		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
 		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
@@ -1813,6 +1823,13 @@ public class homeController implements Initializable {
 		} else {
 			destination.setVisible(false);
 		}
+
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(20);
@@ -1848,6 +1865,13 @@ public class homeController implements Initializable {
 			destination.setVisible(false);
 		}
 
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(20);
@@ -1882,6 +1906,13 @@ public class homeController implements Initializable {
 			destination.setVisible(false);
 		}
 
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -1914,6 +1945,13 @@ public class homeController implements Initializable {
 		} else {
 			destination.setVisible(false);
 		}
+
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
