@@ -386,3 +386,17 @@ logID,description,logTime,userID,associatedID,associatedType
 860,Database Setup,2018-04-24 00:00:04:087,N/A,N/A,database
 861,Application Started,2018-04-24 00:00:04:099,N/A,N/A,application
 862,Application Closed,2018-04-24 00:00:36:437,N/A,N/A,application
+868,Database Setup,2018-04-24 13:14:36:089,N/A,N/A,database
+869,Application Started,2018-04-24 13:14:36:101,N/A,N/A,application
+870,Application Closed,2018-04-24 13:19:16:072,N/A,N/A,application
+876,Database Setup,2018-04-24 13:26:11:623,N/A,N/A,database
+877,Application Started,2018-04-24 13:26:11:633,N/A,N/A,application
+878,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:32:480,null,82,pathfind
+879,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:36:743,null,83,pathfind
+880,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:38:837,null,84,pathfind
+881,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:43:683,null,85,pathfind
+882,Application Closed,2018-04-24 13:26:50:870,N/A,N/A,application
+888,Database Setup,2018-04-24 13:27:38:678,N/A,N/A,database
+889,Application Started,2018-04-24 13:27:38:690,N/A,N/A,application
+890,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:27:51:126,null,86,pathfind
+891,Application Closed,2018-04-24 13:28:02:868,N/A,N/A,application
