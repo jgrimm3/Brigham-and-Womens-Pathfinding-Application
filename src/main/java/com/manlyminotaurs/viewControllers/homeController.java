@@ -920,7 +920,7 @@ public class homeController implements Initializable {
 		if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
 		directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-		
+
 		paneDirections.setVisible(true);
 
         listForQR = (LinkedList) pathList;
