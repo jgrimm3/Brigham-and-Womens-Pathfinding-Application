@@ -227,8 +227,9 @@ public class homeController implements Initializable {
     TreeItem<String> floor2 = new TreeItem<>("Floor 2");
     TreeItem<String> floor3 = new TreeItem<>("Floor 3");
 
+    String etaDistance = "";
 
-    TreeItem<String> root = new TreeItem<>("Hospital Floors");
+    TreeItem<String> root = new TreeItem<>(etaDistance);
 
     LinkedList<Node> floorL2DirectionNodes = new LinkedList<>();
     LinkedList<Node> floorL1DirectionNodes = new LinkedList<>();
@@ -830,8 +831,7 @@ public class homeController implements Initializable {
 		boolean use2 = false;
 		boolean use3 = false;
 
-		//directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-		for (Node node: pathList) {
+			for (Node node: pathList) {
 			String floorName = node.getFloor();
 			if (floorName.equals("L2")) {
 				floorL2DirectionNodes.add(node);
@@ -899,6 +899,10 @@ public class homeController implements Initializable {
 		floor2.getChildren().setAll(floorDirection2);
 		floor3.getChildren().setAll(floorDirection3);
 
+		// calcDistance function now converts to feet
+		double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+		etaDistance = String.format("TOTAL DISTANCE: %.1f ft      ETA: %.1f s", dist, dist / OptionSingleton.getOptionPicker().walkSpeedFt);
+		TreeItem<String> root = new TreeItem<>(etaDistance);
 
 		root.getChildren().setAll(floor3, floor2,  floor1, floorL1, floorL2);
 		colDirections.setCellValueFactory(
@@ -915,10 +919,6 @@ public class homeController implements Initializable {
 		if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
 		paneDirections.setVisible(true);
-		// calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
-        //directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-       // directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
 
         listForQR = (LinkedList) pathList;
 
@@ -1068,6 +1068,10 @@ public class homeController implements Initializable {
 		floor2.getChildren().setAll(floorDirection2);
 		floor3.getChildren().setAll(floorDirection3);
 
+		// calcDistance function now converts to feet
+		double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+		etaDistance = String.format("TOTAL DISTANCE: %.1f ft      ETA: %.1f s", dist, dist / OptionSingleton.getOptionPicker().walkSpeedFt);
+		TreeItem<String> root = new TreeItem<>(etaDistance);
 
 		root.getChildren().setAll(floor3, floor2,  floor1, floorL1, floorL2);
 		colDirections.setCellValueFactory(
@@ -1085,13 +1089,10 @@ public class homeController implements Initializable {
 
 		paneDirections.setVisible(true);
 
-        //txtLocationEnd.setText(pathList.get(pathList.size()-1).getLongName());
-       // directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 
-        // calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
-        //directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-       // directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
+
+
+
 
         listForQR = (LinkedList) pathList;
 
@@ -1241,6 +1242,10 @@ public class homeController implements Initializable {
         floor2.getChildren().setAll(floorDirection2);
         floor3.getChildren().setAll(floorDirection3);
 
+		// calcDistance function now converts to feet
+		double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+		etaDistance = String.format("TOTAL DISTANCE: %.1f ft      ETA: %.1f s", dist, dist / OptionSingleton.getOptionPicker().walkSpeedFt);
+		TreeItem<String> root = new TreeItem<>(etaDistance);
 
         root.getChildren().setAll(floor3, floor2,  floor1, floorL1, floorL2);
         colDirections.setCellValueFactory(
@@ -1259,9 +1264,6 @@ public class homeController implements Initializable {
         paneDirections.setVisible(true);
         //directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
         // calcDistance function now converts to feet
-        double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
-       // directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-        //directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
 
         listForQR = (LinkedList) pathList;
 
@@ -1739,6 +1741,10 @@ public class homeController implements Initializable {
 				floor2.getChildren().setAll(floorDirection2);
 				floor3.getChildren().setAll(floorDirection3);
 
+				// calcDistance function now converts to feet
+				double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
+				etaDistance = String.format("TOTAL DISTANCE: %.1f ft       ETA: %.1f s", dist, dist / OptionSingleton.getOptionPicker().walkSpeedFt);
+				TreeItem<String> root = new TreeItem<>(etaDistance);
 
 				root.getChildren().setAll(floor3, floor2,  floor1, floorL1, floorL2);
 				colDirections.setCellValueFactory(
@@ -1755,10 +1761,7 @@ public class homeController implements Initializable {
 				if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
 				paneDirections.setVisible(true);
-				// calcDistance function now converts to feet
-				double dist = CalcDistance.calcDistance(pathList) * OptionSingleton.getOptionPicker().feetPerPixel;
-				//directions.add(String.format("TOTAL DISTANCE: %.1f ft", dist));
-				//directions.add(String.format("ETA: %.1f s", dist / OptionSingleton.getOptionPicker().walkSpeedFt));
+
 
 				listForQR = (LinkedList) pathList;
 
