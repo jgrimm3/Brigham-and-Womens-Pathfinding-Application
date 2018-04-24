@@ -61,7 +61,7 @@
                   <Font size="164.0" />
                </font>
             </Label>
-            <Label fx:id="lblDate" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="230.0" maxHeight="50.0" prefHeight="50.0" prefWidth="496.0" text="FRIDAY | APRIL 25, 2018" textFill="WHITE">
+            <Label fx:id="lblDate" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="230.0" maxHeight="50.0" prefHeight="50.0" prefWidth="496.0" text="00/00/0000" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>
