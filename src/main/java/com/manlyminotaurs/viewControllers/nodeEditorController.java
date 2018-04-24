@@ -1057,7 +1057,7 @@ JFXButton btnUpdateTimeout;
         if ((newTime.matches(".*[^0-9].*")) || (newTime.matches(".*\\D.*"))) {
           txtTimeOut.setText("Please Enter a Valid Time");
         }else {
-            int timeOut = Integer.parseInt(newTime);
+            KioskInfo.myDelay = 1000 * Integer.parseInt(newTime);
         }
     }
 
