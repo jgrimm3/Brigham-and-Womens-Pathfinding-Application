@@ -2,14 +2,18 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.timeout.Memento;
-import com.manlyminotaurs.timeout.ResetTask;
+import com.manlyminotaurs.timeertasks.ClockTask;
+import com.manlyminotaurs.timeertasks.Memento;
+import com.manlyminotaurs.timeertasks.ResetTask;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -33,8 +37,13 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class idleMapController implements Initializable {
+
+
+    public static SimpleStringProperty clocktime = new SimpleStringProperty();
 
         @FXML
         JFXTextField txtUsername;
@@ -67,10 +76,7 @@ public class idleMapController implements Initializable {
         JFXButton btnCloseAbout;
 
         @FXML
-        Label lblHour;
-
-        @FXML
-        Label lblMinute;
+        Label lblTime;
 
         @FXML
         Label lblDate;
@@ -231,46 +237,34 @@ public class idleMapController implements Initializable {
 
         public void giftShop(ActionEvent event) {
 
+
+        GiftShop gshop = new GiftShop();
+        try{
+           gshop.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
         }
 
-    /*event listener on Map
-    @FXML
-    public void mapActive(ActionEvent event)throws Exception{
-    try{
-
-        Stage stage;
-        Parent root;
-        //get reference to the button's stage
-        stage=(Stage)idleMap.getScene().getWindow();
-        stage.addEventHandler(MouseEvent.ANY, KioskInfo.myHandler);
-
-        if(KioskInfo.myTimer != null){
-            KioskInfo.myTimer.cancel();
-        }
-        KioskInfo.myTimer = new Timer();
-        KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
-
-        Main.memnto = new Memento(KioskInfo.getCurrentUserID());
-
-        //load up OTHER FXML document
-        root=FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
-        //create a new scene with root and set the stage
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        }
-        catch (Exception e){
-        e.printStackTrace();}
-    } */
+}
 
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
+            lblTime.textProperty().bind(clocktime);
+            ClockTask clockTimer = new ClockTask();
+            Timer clockUpdater = new Timer();
+
+            clockUpdater.schedule(clockTimer, 1, 20*1000);
+//            lblTime.textProperty().set("HI");
+
             if (Main.memnto != null) {
                 KioskInfo.currentUserID = Main.memnto.getState();
             }
             Stage stage = KioskInfo.myStage;
             stage.removeEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+
         }
     }
