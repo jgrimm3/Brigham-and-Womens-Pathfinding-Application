@@ -2,14 +2,17 @@ package com.manlyminotaurs.viewControllers;
 
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
-import com.manlyminotaurs.timeout.Memento;
-import com.manlyminotaurs.timeout.ResetTask;
+import com.manlyminotaurs.timeertasks.ClockTask;
+import com.manlyminotaurs.timeertasks.Memento;
+import com.manlyminotaurs.timeertasks.ResetTask;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -33,8 +36,13 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class idleMapController implements Initializable {
+
+
+    public static SimpleStringProperty clocktime = new SimpleStringProperty();
 
         @FXML
         JFXTextField txtUsername;
@@ -67,10 +75,7 @@ public class idleMapController implements Initializable {
         JFXButton btnCloseAbout;
 
         @FXML
-        Label lblHour;
-
-        @FXML
-        Label lblMinute;
+        Label lblTime;
 
         @FXML
         Label lblDate;
@@ -267,10 +272,18 @@ public class idleMapController implements Initializable {
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
+            lblTime.textProperty().bind(clocktime);
+            ClockTask clockTimer = new ClockTask();
+            Timer clockUpdater = new Timer();
+
+            clockUpdater.schedule(clockTimer, 1, 20*1000);
+//            lblTime.textProperty().set("HI");
+
             if (Main.memnto != null) {
                 KioskInfo.currentUserID = Main.memnto.getState();
             }
             Stage stage = KioskInfo.myStage;
             stage.removeEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+
         }
     }

@@ -1,4 +1,4 @@
-package com.manlyminotaurs.timeout;
+package com.manlyminotaurs.timeertasks;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ public class ResetTask extends TimerTask {
 
     @Override
     public void run() {
-        if(myStage != null){
+        if (myStage != null) {
             Platform.runLater(
                     () -> {
                         Parent root;
@@ -34,7 +34,7 @@ public class ResetTask extends TimerTask {
                         }
                     }
             );
-        }else{
+        } else {
             System.out.println("Stage Not Set");
         }
     }
