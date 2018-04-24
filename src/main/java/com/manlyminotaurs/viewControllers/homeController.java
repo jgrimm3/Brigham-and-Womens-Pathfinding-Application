@@ -1462,6 +1462,7 @@ public class homeController implements Initializable {
 
 				icon.setOnMouseClicked(this::chooseNode);
 
+				//circleList.add(circle);							// Circle list is used to remove circles later
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
 				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
 				makeNodeIcon(currNode, icon);
@@ -2108,6 +2109,15 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnStep3;
 
+	@FXML
+	ImageView imageStep1;
+
+	@FXML
+	ImageView imageStep2;
+
+	@FXML
+	ImageView imageStep3;
+
 	public void step1(ActionEvent event) {
 
 	}
@@ -2199,4 +2209,5 @@ public class homeController implements Initializable {
 	}
 
 	public void closeHelp() {}
+
 }
