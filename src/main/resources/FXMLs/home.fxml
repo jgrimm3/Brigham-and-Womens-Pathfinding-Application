@@ -9,6 +9,8 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -402,11 +404,15 @@
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" visible="false" StackPane.alignment="TOP_RIGHT">
+                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <Pane layoutY="29.0" maxHeight="600.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
-                                    <JFXListView fx:id="lstDirections" layoutX="15.0" layoutY="65.0" maxHeight="520.0" maxWidth="320.0" prefHeight="520.0" prefWidth="320.0" />
+                                    <TreeTableView fx:id="tblDirections" layoutX="15.0" layoutY="71.0" prefHeight="510.0" prefWidth="320.0">
+                                      <columns>
+                                        <TreeTableColumn fx:id="colDirections" prefWidth="319.0" text="Turn By Turn Directions" />
+                                      </columns>
+                                    </TreeTableView>
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="350.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">
