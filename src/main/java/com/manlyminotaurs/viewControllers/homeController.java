@@ -36,6 +36,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
@@ -1463,11 +1464,12 @@ public class homeController implements Initializable {
 
 				ImageView icon = new ImageView();                // The icon for the node
 				icon.setId(currNode.getShortName());
-				icon.setX(x-25);
-				icon.setY(y-25);
+				//icon.setX(x-25);
+				//icon.setY(y-25);
 
+				icon.setX(x-nodeIconWidth/2);
+				icon.setY(y-nodeIconHeight/2);
 				icon.setOnMouseClicked(this::chooseNode);
-
 				icon.setOnMouseEntered(this::printName);		// When hovered show name
 				icon.setOnMouseExited(this::removeName);		// Remove name when mouse exited
 				makeNodeIcon(currNode, icon);
@@ -1495,8 +1497,6 @@ public class homeController implements Initializable {
 	 * @param icon the imageview the icon will be displayed on
 	 */
 	public void makeNodeIcon(Node node, ImageView icon) {
-		icon.setX(node.getXCoord()-nodeIconWidth/2);
-		icon.setY(node.getYCoord()-nodeIconHeight/2);
 		icon.setFitHeight(nodeIconHeight);
 		icon.setFitWidth(nodeIconWidth);
 		pointMap.getChildren().add(icon);
@@ -1659,8 +1659,13 @@ public class homeController implements Initializable {
 		ImageView currCircle = (ImageView) mouseEvent.getTarget();
 		lblNode.setText("  " + currCircle.getId());
 		nodePane.setVisible(true);
-		nodePane.setLayoutX(currCircle.getX() + 45);
-		nodePane.setLayoutY(currCircle.getY());
+		nodePane.setLayoutX(currCircle.getX()+45);
+		nodePane.setLayoutY(currCircle.getY());//+45*Math.sin(Math.toRadians(scrollGroup.getRotate())));
+//		nodePane.setRotate(-scrollGroup.getRotate());
+		Rotate rotationTransform = new Rotate(-scrollGroup.getRotate(), -45, 0);
+// 		nodePane.getTransforms().set(1, rotationTransform);
+		nodePane.getTransforms().clear();
+		nodePane.getTransforms().add(rotationTransform);
 		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(0);
 		fade.setToValue(1);
@@ -2161,7 +2166,7 @@ public class homeController implements Initializable {
 	ImageView imageStep3;
 
 	@FXML
-	public void nextBreadcrumb() { //TODO fix
+	public void nextBreadcrumb() {
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != breadcrumbs.size()-1) {
@@ -2176,7 +2181,7 @@ public class homeController implements Initializable {
 	}
 
 	@FXML
-	public void lastBreadcrumb () { // TODO fix
+	public void lastBreadcrumb () {
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != 0) {
