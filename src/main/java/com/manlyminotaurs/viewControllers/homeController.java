@@ -941,7 +941,7 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-		panePathfinding.setVisible(false);
+
 		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
