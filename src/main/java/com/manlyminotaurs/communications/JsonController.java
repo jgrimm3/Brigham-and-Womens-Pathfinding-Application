@@ -374,6 +374,7 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
 
     private void makeEmergencyJson(String emergencyType){
+
         JSONObject wholeObj = new JSONObject();
         wholeObj.put("Type","emergency");
         wholeObj.put("EmergencyType", emergencyType);

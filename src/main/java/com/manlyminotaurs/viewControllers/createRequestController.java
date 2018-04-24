@@ -8,7 +8,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaursAPI.core.RoomService;
+//import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -258,7 +258,7 @@ public class createRequestController{
 
     public void loadAPI(ActionEvent event){
 
-
+/*
         RoomService roomService = new RoomService();
         try
 
@@ -270,8 +270,9 @@ public class createRequestController{
         {
             e.printStackTrace();
         }
-
+*/
     }
+
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){
             cmboNode.setItems(FXCollections.observableArrayList(

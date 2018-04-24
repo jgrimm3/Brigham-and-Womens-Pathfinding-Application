@@ -13,7 +13,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
+//import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -35,6 +35,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -181,7 +183,7 @@ public class idleMapController implements Initializable {
                 //load up Home FXML document
                 login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
-                stage.addEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+                stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
 
                 if(KioskInfo.myTimer != null){
                     KioskInfo.myTimer.cancel();
@@ -235,19 +237,25 @@ public class idleMapController implements Initializable {
 
         }
 
-        public void giftShop(ActionEvent event) {
-
-
-        GiftShop gshop = new GiftShop();
-        try{
-           gshop.run(0, 0, 1920, 1080, null, null, null);
-        }catch(
-                Exception e)
-
-        {
-            e.printStackTrace();
+        public void getDate(){
+            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("a MM/dd/yyyy");
+            LocalDateTime now = LocalDateTime.now();
+            lblDate.setText(dateFmt.format(now));
         }
 
+        public void giftShop(ActionEvent event) {
+//
+//
+//        GiftShop gshop = new GiftShop();
+//        try{
+//           gshop.run(0, 0, 1920, 1080, null, null, null);
+//        }catch(
+//                Exception e)
+//
+//        {
+//            e.printStackTrace();
+//        }
+//
 }
 
 
@@ -258,13 +266,13 @@ public class idleMapController implements Initializable {
             Timer clockUpdater = new Timer();
 
             clockUpdater.schedule(clockTimer, 1, 20*1000);
-//            lblTime.textProperty().set("HI");
+
+            getDate();
 
             if (Main.memnto != null) {
                 KioskInfo.currentUserID = Main.memnto.getState();
             }
             Stage stage = KioskInfo.myStage;
-            stage.removeEventHandler(InputEvent.ANY, KioskInfo.myHandler);
-
+            stage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
         }
     }
