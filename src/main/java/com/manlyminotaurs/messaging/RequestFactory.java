@@ -4,7 +4,6 @@ package com.manlyminotaurs.messaging;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.nodes.Node;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,20 +21,25 @@ public class RequestFactory {
     public Request genNewRequest(RequestType requestType, Node nodeAt, String message, String senderID, int priority) {
         Message newMsg;
         Request newReq;
-        String messageID;
+
+        newMsg = new Message("", message, false, LocalDate.now(), "11", senderID);
         switch (requestType) {
             case MedicalRequest:
-                newMsg = new Message("", message, false, LocalDate.now(), "11", senderID);
                 newReq = new MedicalRequest(dataModel.getNextRequestID(), "MedicalRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
-                return dataModel.addRequest(newReq, newMsg);
-
+                break;
             case JanitorialRequest:
-                newMsg = new Message("", message, false, LocalDate.now(), "11", senderID);
                 newReq = new JanitorialRequest(dataModel.getNextRequestID(), "JanitorialRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
-                return dataModel.addRequest(newReq, newMsg);
+                break;
+            case TranslatorRequest:
+                newReq = new TranslatorRequest(dataModel.getNextRequestID(), "TranslatorRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
+                break;
+            case SecurityRequest:
+                newReq = new SecurityRequest(dataModel.getNextRequestID(), "SecurityRequest", priority, false, false, LocalDateTime.now(), LocalDateTime.now(), nodeAt.getNodeID(), "", requestType.toString());
+                break;
             default:
                 return null;
         }
+        return dataModel.addRequest(newReq, newMsg);
     }
 
     /**
@@ -57,8 +61,11 @@ public class RequestFactory {
         if(requestType.equals("MedicalRequest")) {
             newReq = new MedicalRequest(requestID, "MedicalRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }else if(requestType.equals("JanitorialRequest")) {
-
             newReq = new JanitorialRequest(requestID, "JanitorialRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
+        }else if(requestType.equals("TranslatorRequest")) {
+            newReq = new TranslatorRequest(requestID, "TranslatorRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
+        }else if(requestType.equals("SecurityRequest")) {
+            newReq = new SecurityRequest(requestID, "SecurityRequest", priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }else {
             newReq = new MedicalRequest(requestID, requestType, priority, isComplete, adminConfirm, startTime, endTime, nodeID, messageID, password);
         }

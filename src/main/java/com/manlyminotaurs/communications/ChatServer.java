@@ -125,11 +125,11 @@ public class ChatServer {
                         out.println("good bye");
                         break;
                     }
-                    else if (input.startsWith("NEWCONNECTION")) {
-                            names.add(String.valueOf(names.size()));
-                            out.println("NAMEACCEPTED");
-                            writers.add(out);
-                            System.out.println("New Client Added: " + writers.size());
+                    if (input.startsWith("NEWCONNECTION")){
+                        names.add(String.valueOf(names.size()));
+                        writers.add(out);
+                        out.println("NAMEACCEPTED");
+                        System.out.println("New Client Added: " + writers.size());
                     } else if (input.startsWith("EMERGENCY")) {
                         System.out.println("We Have Entered Emergency Mode");
                         if (state == 0) {
