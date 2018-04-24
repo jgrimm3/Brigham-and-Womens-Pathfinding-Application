@@ -1605,7 +1605,7 @@ public class homeController implements Initializable {
 	}
 
 	public void resetRotate(ActionEvent event) {
-		overMap.setRotate(0);
+		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
 	}
 
