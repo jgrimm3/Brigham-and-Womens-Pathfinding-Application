@@ -183,7 +183,7 @@ public class idleMapController implements Initializable {
                 //load up Home FXML document
                 login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
 
-                stage.addEventHandler(InputEvent.ANY, KioskInfo.myHandler);
+                stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
 
                 if(KioskInfo.myTimer != null){
                     KioskInfo.myTimer.cancel();
@@ -273,7 +273,6 @@ public class idleMapController implements Initializable {
                 KioskInfo.currentUserID = Main.memnto.getState();
             }
             Stage stage = KioskInfo.myStage;
-            stage.removeEventHandler(InputEvent.ANY, KioskInfo.myHandler);
-
+            stage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
         }
     }
