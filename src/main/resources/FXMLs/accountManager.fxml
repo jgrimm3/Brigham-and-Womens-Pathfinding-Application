@@ -325,7 +325,7 @@
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="240.0" style="-fx-background-color: #2B65AC;">
                <children>
-                  <Label text="  Admin Panel" textFill="WHITE">
+                  <Label text=" Account Manager" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
