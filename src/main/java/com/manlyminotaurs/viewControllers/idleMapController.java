@@ -238,7 +238,7 @@ public class idleMapController implements Initializable {
         }
 
         public void getDate(){
-            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("a MM/dd/yyyy");
             LocalDateTime now = LocalDateTime.now();
             lblDate.setText(dateFmt.format(now));
         }
