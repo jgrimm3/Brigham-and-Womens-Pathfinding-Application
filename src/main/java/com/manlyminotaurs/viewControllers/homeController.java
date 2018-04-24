@@ -102,22 +102,23 @@ public class homeController implements Initializable {
     String currentFloor = "1";
     String currentDimension = "2-D";
 
-    Parent adminRequest;
-    Parent staffRequest;
-    Circle startCircle = new Circle();
-    List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
-    List<Node> pathList = new LinkedList<>();
-    LinkedList<Node> listForQR = new LinkedList<Node>();
-    //List<javafx.scene.text.Text> nameList = new ArrayList<>();
-    Image imageQRCode;
-    String startFloor = "";
-    String endFloor = "";
-    List<Circle> circleList = new ArrayList<>();
-    javafx.scene.text.Text currName;
-    FadeTransition fade;
-    List<String> breadcrumbs = new ArrayList<>();
-    Boolean forStart = false;
-    //Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
+	Parent adminRequest;
+	Parent staffRequest;
+	//Circle startCircle = new Circle();
+	ImageView startImg = new ImageView();
+	List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+	List<Node> pathList = new LinkedList<>();
+	LinkedList<Node> listForQR = new LinkedList<Node>();
+	//List<javafx.scene.text.Text> nameList = new ArrayList<>();
+	Image imageQRCode;
+	String startFloor = "";
+	String endFloor = "";
+	List<Circle> circleList = new ArrayList<>();
+	javafx.scene.text.Text currName;
+	FadeTransition fade;
+	List<String> breadcrumbs = new ArrayList<>();
+	Boolean forStart = false;
+	//Map<Integer, Map<Integer, Node>> nodeMap = new HashMap<>(); was trying to speed up start and end choose time
 
     //-----------------------------------------------------------------------------------------------------------------
     //
@@ -671,16 +672,16 @@ public class homeController implements Initializable {
         changeFloor("1");
         currentFloor = "1";
 
-        paneMap.getChildren().remove(startCircle);
-        //overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
-        //overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
-        destinationText.setVisible(false);
-        destination.setVisible(false);
-        //nameList.clear();
-        startName.setText("");
-        endName.setText("");
-        startName.setVisible(false);
-        endName.setVisible(false);
+		//paneMap.getChildren().remove(startCircle);
+		//overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
+		//overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
+		destinationText.setVisible(false);
+		destination.setVisible(false);
+		//nameList.clear();
+		startName.setText("");
+		endName.setText("");
+		startName.setVisible(false);
+		endName.setVisible(false);
 
         arrow.setVisible(false);
         setKiosk();
@@ -1669,34 +1670,36 @@ public class homeController implements Initializable {
                 System.out.println("Invalid dimension");
             }
 
-            // Draw Start Circle
-            startCircle.setRadius(8);
-            startCircle.setFill(Color.NAVY);
-            startCircle.setVisible(true);
-            startCircle.setCenterX(startX);
-            startCircle.setCenterY(startY);
-            startCircle.setStroke(Color.BLACK);
-            startCircle.setStrokeWidth(3);
+			// Draw Start Circle
+			//startCircle.setRadius(8);
+			//startCircle.setFill(Color.NAVY);
+			//startCircle.setVisible(true);
+			startImg.setX(startX);
+			startImg.setY(startY);
+			//startCircle.setStroke(Color.BLACK);
+			//startCircle.setStrokeWidth(3);
 
-            // Set on mouse clicked to switch between floors
-            startFloor = startNode.getFloor();
-            startCircle.setOnMouseClicked(this::startCircleClicked);
-            startCircle.setOnMouseEntered(this::printStartName);
-            startCircle.setOnMouseExited(this::removeStartName);
+			// Set on mouse clicked to switch between floors
+			startFloor = startNode.getFloor();
+			startImg.setOnMouseClicked(this::startCircleClicked);
+			startImg.setOnMouseEntered(this::printStartName);
+			startImg.setOnMouseExited(this::removeStartName);
 
-            if (!startFloor.equals(floor)) {
-                startCircle.setFill(Color.GRAY);
-            }
+			if (!startFloor.equals(floor)) {
+				startImg.setVisible(false);
+			} else {
+				startImg.setVisible(true);
+			}
 
             endFloor = endNode.getFloor();
 
-            // adds circles to map
-            paneMap.getChildren().remove(startCircle);
-            paneMap.getChildren().add(startCircle);
-            //overMap.getChildren().add(startName);
-            //overMap.getChildren().add(endName);
-        }
-    }
+			// adds circles to map
+			//paneMap.getChildren().remove(startCircle);
+			//paneMap.getChildren().add(startCircle);
+			//overMap.getChildren().add(startName);
+			//overMap.getChildren().add(endName);
+		}
+	}
 
     public void drawPath(ActionEvent event) {
         try {
@@ -2359,11 +2362,18 @@ public class homeController implements Initializable {
         btn2.setLayoutX(0);
         btn3.setLayoutX(0);
 
-        new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
-        new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
-        new ProxyImage(img1, "Floor1Icon.png").displayIcon();
-        new ProxyImage(img2, "Floor2Icon.png").displayIcon();
-        new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
+		new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
+		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
+		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
+		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
+		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
         System.out.println("you selected floor L2");
     }
@@ -2386,11 +2396,18 @@ public class homeController implements Initializable {
             destination.setVisible(false);
         }
 
-        btnL2.setLayoutX(0);
-        btnL1.setLayoutX(20);
-        btn1.setLayoutX(0);
-        btn2.setLayoutX(0);
-        btn3.setLayoutX(0);
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(20);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
 
 
         new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
@@ -2420,11 +2437,18 @@ public class homeController implements Initializable {
             destination.setVisible(false);
         }
 
-        btnL2.setLayoutX(0);
-        btnL1.setLayoutX(0);
-        btn1.setLayoutX(20);
-        btn2.setLayoutX(0);
-        btn3.setLayoutX(0);
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(20);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(0);
 
         new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
         new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
@@ -2454,11 +2478,18 @@ public class homeController implements Initializable {
             destination.setVisible(false);
         }
 
-        btnL2.setLayoutX(0);
-        btnL1.setLayoutX(0);
-        btn1.setLayoutX(0);
-        btn2.setLayoutX(20);
-        btn3.setLayoutX(0);
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(20);
+		btn3.setLayoutX(0);
 
         new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
         new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
@@ -2487,11 +2518,18 @@ public class homeController implements Initializable {
             destination.setVisible(false);
         }
 
-        btnL2.setLayoutX(0);
-        btnL1.setLayoutX(0);
-        btn1.setLayoutX(0);
-        btn2.setLayoutX(0);
-        btn3.setLayoutX(20);
+		if (!startFloor.equals(currentFloor)) {
+			startImg.setVisible(false);
+		} else {
+			startImg.setVisible(true);
+		}
+
+
+		btnL2.setLayoutX(0);
+		btnL1.setLayoutX(0);
+		btn1.setLayoutX(0);
+		btn2.setLayoutX(0);
+		btn3.setLayoutX(20);
 
 
         new ProxyImage(imgL2, "FloorL2Icon.png").displayIcon();
