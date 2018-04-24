@@ -1291,6 +1291,7 @@ public class homeController implements Initializable {
 	public void drawPath(ActionEvent event) {
 		try {
 			clearPath();
+			breadcrumbs.clear();
 
 			System.out.println(txtLocationStart.getText());
 			System.out.println(txtLocationEnd.getText());
@@ -2164,9 +2165,9 @@ public class homeController implements Initializable {
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != breadcrumbs.size()-1) {
-				if(i == 1) {
+				if(i == 0) {
 					breadFloorSwitch2(null);
-				} else if (i == 2) {
+				} else if (i == 1) {
 					breadFloorSwitch3(null);
 				}
 			}
@@ -2179,9 +2180,9 @@ public class homeController implements Initializable {
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != 0) {
-				if(i == 3) {
+				if(i == 2) {
 					breadFloorSwitch2(null);
-				} else if (i == 2) {
+				} else if (i == 1) {
 					breadFloorSwitch1(null);
 				}
 			}
@@ -2190,20 +2191,20 @@ public class homeController implements Initializable {
 	}
 
 	/**
-	 * Sets the global variable breadrumbs to all the floors that need to be traversed
-	 */
+		 * Sets the global variable breadrumbs to all the floors that need to be traversed
+		 */
 	public void getBreadcrumbs() {
-		int i = 0;
-		String curr = "";
-		while (i < pathList.size()) {
-			if (pathList.get(i).getFloor().equals(curr)) {
+			int i = 0;
+			String curr = "";
+			while (i < pathList.size()) {
+				if (pathList.get(i).getFloor().equals(curr)) {
 
-			} else {
-				curr = pathList.get(i).getFloor();
-				breadcrumbs.add(curr);
+				} else {
+					curr = pathList.get(i).getFloor();
+					breadcrumbs.add(curr);
+				}
+				i++;
 			}
-			i++;
-		}
 	}
 
 	/**
@@ -2225,6 +2226,7 @@ public class homeController implements Initializable {
 			}
 			i++;
 		}
+		breadFloorSwitch1(null);
 	}
 
 	/**
@@ -2258,26 +2260,38 @@ public class homeController implements Initializable {
 
 	@FXML
 	public void breadFloorSwitch1(MouseEvent mouseEvent) {
-		changeFloor(breadcrumbs.get(0));
-		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
-		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
-		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+		try {
+			changeFloor(breadcrumbs.get(0));
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Sall good");
+		}
 	}
 
 	@FXML
 	public void breadFloorSwitch2(MouseEvent mouseEvent) {
-		changeFloor(breadcrumbs.get(1));
-		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
-		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
-		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+		try {
+			changeFloor(breadcrumbs.get(1));
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Sall good");
+		}
 	}
 
 	@FXML
 	public void breadFloorSwitch3(MouseEvent mouseEvent) {
-		changeFloor(breadcrumbs.get(2));
-		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
-		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
-		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		try {
+			changeFloor(breadcrumbs.get(2));
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Sall good");
+		}
 	}
 
 	public void closeHelp() {}
