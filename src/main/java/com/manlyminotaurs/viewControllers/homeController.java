@@ -1696,15 +1696,6 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnRight;
 
-	public void previousStep(ActionEvent event) {
-		System.out.println("selected previous step");
-	}
-
-	public void nextStep(ActionEvent event) {
-		System.out.println("selected next step");
-	}
-
-
 	//-----------------------------------------------------------------------------------------------------------------
 	//
 	//                                           Change Floors
@@ -2131,16 +2122,26 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView imageStep3;
 
-	public void step1(ActionEvent event) {
-
+	@FXML
+	public void nextBreadcrumb() {
+		int i = 0;
+		while(i < breadcrumbs.size()) {
+			if(currentFloor.equals(breadcrumbs.get(i)) && i != breadcrumbs.size()-1) {
+				changeFloor(breadcrumbs.get(i+1));
+			}
+			i++;
+		}
 	}
 
-	public void step2(ActionEvent event) {
-
-	}
-
-	public void step3(ActionEvent event) {
-
+	@FXML
+	public void lastBreadcrumb () {
+		int i = 0;
+		while(i < breadcrumbs.size()) {
+			if(currentFloor.equals(breadcrumbs.get(i)) && i != 0) {
+				changeFloor(breadcrumbs.get(i-1));
+			}
+			i++;
+		}
 	}
 
 	/**

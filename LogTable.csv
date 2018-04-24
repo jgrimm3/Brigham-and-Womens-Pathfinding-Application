@@ -192,3 +192,30 @@ logID,description,logTime,userID,associatedID,associatedType
 396,Application Started,2018-04-23 20:22:11:046,N/A,N/A,application
 397,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:23:14:120,null,49,pathfind
 398,Application Closed,2018-04-23 20:23:18:874,N/A,N/A,application
+404,Database Setup,2018-04-23 20:27:06:019,N/A,N/A,database
+405,Application Started,2018-04-23 20:27:06:031,N/A,N/A,application
+406,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:27:15:607,null,50,pathfind
+407,Application Closed,2018-04-23 20:29:39:148,N/A,N/A,application
+413,Database Setup,2018-04-23 20:29:51:706,N/A,N/A,database
+414,Application Started,2018-04-23 20:29:51:714,N/A,N/A,application
+415,Pathfind fromEINFO00101 to HBATH00203 is done,2018-04-23 20:30:02:639,null,51,pathfind
+416,Application Closed,2018-04-23 20:31:05:012,N/A,N/A,application
+422,Database Setup,2018-04-23 20:35:27:865,N/A,N/A,database
+423,Application Started,2018-04-23 20:35:27:876,N/A,N/A,application
+424,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:35:40:994,null,52,pathfind
+425,Application Closed,2018-04-23 20:35:51:558,N/A,N/A,application
+431,Database Setup,2018-04-23 20:36:14:611,N/A,N/A,database
+432,Application Started,2018-04-23 20:36:14:622,N/A,N/A,application
+433,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:36:49:987,null,53,pathfind
+434,Application Closed,2018-04-23 20:37:02:490,N/A,N/A,application
+440,Database Setup,2018-04-23 20:39:10:036,N/A,N/A,database
+441,Application Started,2018-04-23 20:39:10:045,N/A,N/A,application
+442,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-23 20:39:24:178,null,54,pathfind
+443,Application Closed,2018-04-23 20:39:37:003,N/A,N/A,application
+449,Database Setup,2018-04-23 20:40:48:821,N/A,N/A,database
+450,Application Started,2018-04-23 20:40:48:829,N/A,N/A,application
+451,Application Closed,2018-04-23 20:42:25:059,N/A,N/A,application
+457,Database Setup,2018-04-23 20:42:47:596,N/A,N/A,database
+458,Application Started,2018-04-23 20:42:47:602,N/A,N/A,application
+459,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:43:30:907,null,55,pathfind
+460,Application Closed,2018-04-23 20:43:47:321,N/A,N/A,application
