@@ -104,9 +104,13 @@ public class homeController implements Initializable {
 
 	Parent adminRequest;
 	Parent staffRequest;
-	//Circle startCircle = new Circle();
-	ImageView startImg = new ImageView();
-	List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
+	Circle startCircle = new Circle();
+	List<Node> nodeList = new ArrayList<>();
+	List<Node> mapNodeListL2 = new ArrayList<>();
+	List<Node> mapNodeListL1 = new ArrayList<>();
+	List<Node> mapNodeList1 = new ArrayList<>();
+	List<Node> mapNodeList2 = new ArrayList<>();
+	List<Node> mapNodeList3 = new ArrayList<>();
 	List<Node> pathList = new LinkedList<>();
 	LinkedList<Node> listForQR = new LinkedList<Node>();
 	//List<javafx.scene.text.Text> nameList = new ArrayList<>();
@@ -261,6 +265,9 @@ public class homeController implements Initializable {
 		currentFloor = "1";
 		currentDimension = "2-D";
 
+		nodeList = DataModelI.getInstance().getNodeList();
+		filterFloorLists(nodeList);
+
 		changeFloor("1");
 
 		printPoints("1", "2-D");
@@ -323,6 +330,55 @@ public class homeController implements Initializable {
 		printKiosk();
 		goToKiosk();
 
+	}
+
+	public void filterFloorLists(List<Node> listOfNodes) {
+
+		ArrayList<Node> floorL2 = new ArrayList<Node>();
+		ArrayList<Node> floorL1 = new ArrayList<Node>();
+		ArrayList<Node> floor1 = new ArrayList<Node>();
+		ArrayList<Node> floor2 = new ArrayList<Node>();
+		ArrayList<Node> floor3 = new ArrayList<Node>();
+
+		for(Node node: listOfNodes) {
+			if (node.getFloor().equals("L2"))  {
+				if(node.getNodeType().equals("HALL")) {
+					continue;
+				} else {
+					floorL2.add(node);
+				}
+			} else if (node.getFloor().equals("L1")) {
+				if(node.getNodeType().equals("HALL")) {
+					continue;
+				} else {
+					floorL1.add(node);
+				}
+			} else if (node.getFloor().equals("1")) {
+				if(node.getNodeType().equals("HALL")) {
+					continue;
+				} else {
+					floor1.add(node);
+				}
+			} else if (node.getFloor().equals("2")) {
+				if(node.getNodeType().equals("HALL")) {
+					continue;
+				} else {
+					floor2.add(node);
+				}
+			} else if (node.getFloor().equals("3")) {
+				if(node.getNodeType().equals("HALL")) {
+					continue;
+				} else {
+					floor3.add(node);
+				}
+			}
+		}
+
+		mapNodeListL2 = floorL2;
+		mapNodeListL1 = floorL1;
+		mapNodeList1 = floor1;
+		mapNodeList2 = floor2;
+		mapNodeList3 = floor3;
 	}
 
 	public void setStrategy() {
@@ -515,88 +571,423 @@ public class homeController implements Initializable {
 
 		if (forStart == true) { // Update Location Start Text Field
 			if (!currentDimension.equals("3-D")) { // 2D Start
-				for (Node node : nodeList) {
-					if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+				if (currentFloor.equals("L2")) {
+					for (Node node : mapNodeListL2) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
 
 
-						if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
 
 
-							System.out.println("Click recognized");
+								System.out.println("Click recognized");
 
-							// Set Directory to Identify Start Location
-							comBuildingStart.getSelectionModel().select(node.getBuilding());
-							comFloorStart.getSelectionModel().select(node.getFloor());
-							comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 
-							// Set Start Text Field to Start Location
-							txtLocationStart.setText(node.getLongName());
-							//showStartAndEnd();
-							break;
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
 						}
 					}
+					System.out.println("2D Node not found for start");
+				} else if (currentFloor.equals("L1")) {
+					for (Node node : mapNodeListL1) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+
+
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+
+
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for start");
+				} else if (currentFloor.equals("1")) {
+					for (Node node : mapNodeList1) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+
+
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+
+
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for start");
+				}else if (currentFloor.equals("2")) {
+					for (Node node : mapNodeList2) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+
+
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+
+
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for start");
+				}else if (currentFloor.equals("3")) {
+					for (Node node : mapNodeList3) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+
+
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+
+
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for start");
 				}
-				System.out.println("2D Node not found for start");
 			} else { // 3D Start
-				for (Node node : nodeList) {
-					if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
-						if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
-							System.out.println("Click recognized");
+				if (currentFloor.equals("L2")) {
+					for (Node node : mapNodeListL2) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
 
-							// Set Directory to Identify Start Location
-							comBuildingStart.getSelectionModel().select(node.getBuilding());
-							comFloorStart.getSelectionModel().select(node.getFloor());
-							comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
-							//comLocationStart.getSelectionModel().select(node.getLongName());
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								//comLocationStart.getSelectionModel().select(node.getLongName());
 
-							// Set Start Text Field to Start Location
-							txtLocationStart.setText(node.getLongName());
-							//showStartAndEnd();
-							break;
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
 						}
 					}
+					System.out.println("3D Node not found for start");
+				} else if (currentFloor.equals("L1")) {
+					for (Node node : mapNodeListL1) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								//comLocationStart.getSelectionModel().select(node.getLongName());
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for start");
+				} else if (currentFloor.equals("1")) {
+					for (Node node : mapNodeList1) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								//comLocationStart.getSelectionModel().select(node.getLongName());
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for start");
+				} else if (currentFloor.equals("2")) {
+					for (Node node : mapNodeList2) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								//comLocationStart.getSelectionModel().select(node.getLongName());
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for start");
+				} else if (currentFloor.equals("3")) {
+					for (Node node : mapNodeList3) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify Start Location
+								comBuildingStart.getSelectionModel().select(node.getBuilding());
+								comFloorStart.getSelectionModel().select(node.getFloor());
+								comTypeStart.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								//comLocationStart.getSelectionModel().select(node.getLongName());
+
+								// Set Start Text Field to Start Location
+								txtLocationStart.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for start");
 				}
-				System.out.println("3D Node not found for start");
 			}
 		} else{ // Update Location End Text Field
 			if(!currentDimension.equals("3-D")) { // 2D End
-				for (Node node : nodeList) {
-					if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
-						if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
-							System.out.println("Click recognized");
+				if (currentFloor.equals("L2")) {
+					for (Node node : mapNodeListL2) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
 
-							// Set Directory to Identify End Location
-							comBuildingEnd.getSelectionModel().select(node.getBuilding());
-							comFloorEnd.getSelectionModel().select(node.getFloor());
-							comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 
-							// Set End Text Field to End Location
-							txtLocationEnd.setText(node.getLongName());
-							//showStartAndEnd();
-							break;
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
 						}
 					}
+					System.out.println("2D Node not found for end");
+				} else if (currentFloor.equals("L1")) {
+					for (Node node : mapNodeListL1) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for end");
+				} else if (currentFloor.equals("1")) {
+					for (Node node : mapNodeList1) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for end");
+				} else if (currentFloor.equals("2")) {
+					for (Node node : mapNodeList2) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for end");
+				} else if (currentFloor.equals("3")) {
+					for (Node node : mapNodeList3) {
+						if ((node.getXCoord() >= circle.getX()) && (node.getXCoord() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord() >= circle.getY()) && (node.getYCoord() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("2D Node not found for end");
 				}
-				System.out.println("2D Node not found for end");
 			} else { // 3D End
-				for (Node node : nodeList) {
-					if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
-						if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
-							System.out.println("Click recognized");
+				if (currentFloor.equals("L2")) {
+					for (Node node : mapNodeListL2) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
 
-							// Set Directory to Identify End Location
-							comBuildingEnd.getSelectionModel().select(node.getBuilding());
-							comFloorEnd.getSelectionModel().select(node.getFloor());
-							comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
 
-							// Set End Text Field to End Location
-							txtLocationEnd.setText(node.getLongName());
-							//showStartAndEnd();
-							break;
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
 						}
 					}
+					System.out.println("3D Node not found for end");
+				} else if (currentFloor.equals("L1")) {
+					for (Node node : mapNodeListL1) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for end");
+				} else if (currentFloor.equals("1")) {
+					for (Node node : mapNodeList1) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for end");
+				} else if (currentFloor.equals("2")) {
+					for (Node node : mapNodeList2) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for end");
+				} else if (currentFloor.equals("3")) {
+					for (Node node : mapNodeList3) {
+						if ((node.getXCoord3D() >= circle.getX()) && (node.getXCoord3D() <= circle.getX()+nodeIconWidth)) {
+							if ((node.getYCoord3D() >= circle.getY()) && (node.getYCoord3D() <= circle.getY()+nodeIconHeight)) {
+								System.out.println("Click recognized");
+
+								// Set Directory to Identify End Location
+								comBuildingEnd.getSelectionModel().select(node.getBuilding());
+								comFloorEnd.getSelectionModel().select(node.getFloor());
+								comTypeEnd.getSelectionModel().select(convertTypeReverse(node.getNodeType()));
+
+								// Set End Text Field to End Location
+								txtLocationEnd.setText(node.getLongName());
+								//showStartAndEnd();
+								break;
+							}
+						}
+					}
+					System.out.println("3D Node not found for end");
 				}
-				System.out.println("3D Node not found for end");
+
+
+
 			}
 		}
 	}
@@ -674,7 +1065,7 @@ public class homeController implements Initializable {
 		changeFloor("1");
 		currentFloor = "1";
 
-		//paneMap.getChildren().remove(startCircle);
+		paneMap.getChildren().remove(startCircle);
 		//overMap.getChildren().remove(nameList.get(0)); // TODO wont remove the text why
 		//overMap.getChildren().remove(nameList.get(1)); // TODO wont remove the text why
 		destinationText.setVisible(false);
@@ -942,7 +1333,7 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-
+		panePathfinding.setVisible(false);
 		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
@@ -1644,31 +2035,29 @@ public class homeController implements Initializable {
 			}
 
 			// Draw Start Circle
-			//startCircle.setRadius(8);
-			//startCircle.setFill(Color.NAVY);
-			//startCircle.setVisible(true);
-			startImg.setX(startX);
-			startImg.setY(startY);
-			//startCircle.setStroke(Color.BLACK);
-			//startCircle.setStrokeWidth(3);
+			startCircle.setRadius(8);
+			startCircle.setFill(Color.NAVY);
+			startCircle.setVisible(true);
+			startCircle.setCenterX(startX);
+			startCircle.setCenterY(startY);
+			startCircle.setStroke(Color.BLACK);
+			startCircle.setStrokeWidth(3);
 
 			// Set on mouse clicked to switch between floors
 			startFloor = startNode.getFloor();
-			startImg.setOnMouseClicked(this::startCircleClicked);
-			startImg.setOnMouseEntered(this::printStartName);
-			startImg.setOnMouseExited(this::removeStartName);
+			startCircle.setOnMouseClicked(this::startCircleClicked);
+			startCircle.setOnMouseEntered(this::printStartName);
+			startCircle.setOnMouseExited(this::removeStartName);
 
 			if (!startFloor.equals(floor)) {
-				startImg.setVisible(false);
-			} else {
-				startImg.setVisible(true);
+				startCircle.setFill(Color.GRAY);
 			}
 
 			endFloor = endNode.getFloor();
 
 			// adds circles to map
-			//paneMap.getChildren().remove(startCircle);
-			//paneMap.getChildren().add(startCircle);
+			paneMap.getChildren().remove(startCircle);
+			paneMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
 		}
@@ -2286,13 +2675,6 @@ public class homeController implements Initializable {
 		btn2.setLayoutX(0);
 		btn3.setLayoutX(0);
 
-		if (!startFloor.equals(currentFloor)) {
-			startImg.setVisible(false);
-		} else {
-			startImg.setVisible(true);
-		}
-
-
 		new ProxyImage(imgL2, "FloorL2IconSelected.png").displayIcon();
 		new ProxyImage(imgL1, "FloorL1Icon.png").displayIcon();
 		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
@@ -2319,13 +2701,6 @@ public class homeController implements Initializable {
 		} else {
 			destination.setVisible(false);
 		}
-
-		if (!startFloor.equals(currentFloor)) {
-			startImg.setVisible(false);
-		} else {
-			startImg.setVisible(true);
-		}
-
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(20);
@@ -2361,13 +2736,6 @@ public class homeController implements Initializable {
 			destination.setVisible(false);
 		}
 
-		if (!startFloor.equals(currentFloor)) {
-			startImg.setVisible(false);
-		} else {
-			startImg.setVisible(true);
-		}
-
-
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(20);
@@ -2402,13 +2770,6 @@ public class homeController implements Initializable {
 			destination.setVisible(false);
 		}
 
-		if (!startFloor.equals(currentFloor)) {
-			startImg.setVisible(false);
-		} else {
-			startImg.setVisible(true);
-		}
-
-
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
 		btn1.setLayoutX(0);
@@ -2441,13 +2802,6 @@ public class homeController implements Initializable {
 		} else {
 			destination.setVisible(false);
 		}
-
-		if (!startFloor.equals(currentFloor)) {
-			startImg.setVisible(false);
-		} else {
-			startImg.setVisible(true);
-		}
-
 
 		btnL2.setLayoutX(0);
 		btnL1.setLayoutX(0);
