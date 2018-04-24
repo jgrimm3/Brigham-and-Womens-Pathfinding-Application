@@ -3,6 +3,7 @@ package com.manlyminotaurs.viewControllers;
 //import com.manlyminotaurs.core.KioskInfo;
 
 import com.jfoenix.controls.*;
+import com.manlyminotaurs.communications.SendEmail;
 import com.manlyminotaurs.communications.SendTxt;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
@@ -708,11 +709,11 @@ public class homeController implements Initializable {
 	}
 
 	public void sendDirectionsViaEmail(ActionEvent event) {
-		/*lblEmailMessage.setText("");
+		lblEmailMessage.setText("");
 		SendEmail email = new SendEmail(txtEmail.getText(), "B&W Turn-By-Turn Directions", turnListToString());
 		email.send();
 		lblEmailMessage.setText("Email Sent");
-		txtEmail.setText(""); */
+		txtEmail.setText("");
 	}
 
 	public void sendDirectionsViaPhone(ActionEvent event) {
@@ -918,6 +919,8 @@ public class homeController implements Initializable {
 		if( use2 == true){tblDirections.getTreeItem(2).setExpanded(true);}
 		if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
+		directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+		
 		paneDirections.setVisible(true);
 
         listForQR = (LinkedList) pathList;
@@ -999,7 +1002,7 @@ public class homeController implements Initializable {
 		boolean use2 = false;
 		boolean use3 = false;
 
-		//directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
+
 		for (Node node: pathList) {
 			String floorName = node.getFloor();
 			if (floorName.equals("L2")) {
@@ -1078,7 +1081,7 @@ public class homeController implements Initializable {
 				(TreeTableColumn.CellDataFeatures<String, String> param) ->  new SimpleStringProperty(param.getValue().getValue()));
 
 		tblDirections.setRoot(root);
-
+		directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 		tblDirections.getRoot().setExpanded(true);
 
 		if( useL2 == true){tblDirections.getTreeItem(5).setExpanded(true);}
@@ -1088,10 +1091,6 @@ public class homeController implements Initializable {
 		if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
 		paneDirections.setVisible(true);
-
-
-
-
 
 
         listForQR = (LinkedList) pathList;
@@ -1173,7 +1172,6 @@ public class homeController implements Initializable {
 		boolean use2 = false;
 		boolean use3 = false;
 
-        //directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
         for (Node node: pathList) {
             String floorName = node.getFloor();
             if (floorName.equals("L2")) {
@@ -1260,7 +1258,7 @@ public class homeController implements Initializable {
 		if( use1 == true){tblDirections.getTreeItem(3).setExpanded(true);}
 		if( use2 == true){tblDirections.getTreeItem(2).setExpanded(true);}
 		if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
-
+		directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
         paneDirections.setVisible(true);
         //directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
         // calcDistance function now converts to feet
@@ -1646,8 +1644,6 @@ public class homeController implements Initializable {
 					e.printStackTrace();
 				}
 
-				//directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
-
 				String dirFloorL2 = "";
 				String dirFloorL1 = "";
 				String dirFloor1 = "";
@@ -1672,7 +1668,6 @@ public class homeController implements Initializable {
 				boolean use2 = false;
 				boolean use3 = false;
 
-				//directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 				for (Node node: pathList) {
 					String floorName = node.getFloor();
 					if (floorName.equals("L2")) {
@@ -1760,6 +1755,7 @@ public class homeController implements Initializable {
 				if( use2 == true){tblDirections.getTreeItem(2).setExpanded(true);}
 				if( use3 == true){tblDirections.getTreeItem(1).setExpanded(true);}
 
+				directions = FXCollections.observableArrayList(pathfinderUtil.angleToText((LinkedList) pathList));
 				paneDirections.setVisible(true);
 
 
