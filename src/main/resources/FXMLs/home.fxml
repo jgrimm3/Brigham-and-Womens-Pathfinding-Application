@@ -377,7 +377,7 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor1Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -386,7 +386,7 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor2Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -395,7 +395,7 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep3" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor3Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>

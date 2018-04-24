@@ -1475,6 +1475,18 @@ public class homeController implements Initializable {
 		}
 	}
 
+	public void updateIconRotate() {
+		for(ImageView icon: iconList) {
+			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
+			rt.setToAngle(-scrollGroup.getRotate());
+			//rt.setByAngle(360-scrollGroup.getRotate());
+			rt.setCycleCount(1);
+			rt.setAutoReverse(true);
+			rt.play();
+			//icon.setRotate(360-scrollGroup.getRotate());
+		}
+	}
+
 	/**
 	 * Makes the icon for the node and displays it on the map
 	 *
@@ -1618,18 +1630,21 @@ public class homeController implements Initializable {
 		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation - 30);
+		updateIconRotate();
 	}
 
 	public void rotateLeft(ActionEvent event) {
 		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation + 30);
+		updateIconRotate();
 
 	}
 
 	public void resetRotate(ActionEvent event) {
 		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
+		updateIconRotate();
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -2145,22 +2160,30 @@ public class homeController implements Initializable {
 	ImageView imageStep3;
 
 	@FXML
-	public void nextBreadcrumb() {
+	public void nextBreadcrumb() { //TODO fix
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != breadcrumbs.size()-1) {
-				changeFloor(breadcrumbs.get(i+1));
+				if(i == 1) {
+					breadFloorSwitch2(null);
+				} else if (i == 2) {
+					breadFloorSwitch3(null);
+				}
 			}
 			i++;
 		}
 	}
 
 	@FXML
-	public void lastBreadcrumb () {
+	public void lastBreadcrumb () { // TODO fix
 		int i = 0;
 		while(i < breadcrumbs.size()) {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != 0) {
-				changeFloor(breadcrumbs.get(i-1));
+				if(i == 3) {
+					breadFloorSwitch2(null);
+				} else if (i == 2) {
+					breadFloorSwitch1(null);
+				}
 			}
 			i++;
 		}
@@ -2202,7 +2225,6 @@ public class homeController implements Initializable {
 			}
 			i++;
 		}
-
 	}
 
 	/**
@@ -2237,16 +2259,25 @@ public class homeController implements Initializable {
 	@FXML
 	public void breadFloorSwitch1(MouseEvent mouseEvent) {
 		changeFloor(breadcrumbs.get(0));
+		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
+		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
 	}
 
 	@FXML
 	public void breadFloorSwitch2(MouseEvent mouseEvent) {
 		changeFloor(breadcrumbs.get(1));
+		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
+		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
 	}
 
 	@FXML
 	public void breadFloorSwitch3(MouseEvent mouseEvent) {
 		changeFloor(breadcrumbs.get(2));
+		new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
+		new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+		new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
 	}
 
 	public void closeHelp() {}
