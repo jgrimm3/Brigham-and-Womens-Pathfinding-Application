@@ -1169,7 +1169,9 @@ public class homeController implements Initializable {
 
         // Pathfind to nearest bathroom
         String startFloor = "1";
-
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
         clearPath();
 
         System.out.println(txtLocationStart.getText());
@@ -1333,8 +1335,8 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-		panePathfinding.setVisible(false);
-		paneDirections.setVisible(true);
+		//panePathfinding.setVisible(false);
+		//paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1355,12 +1357,17 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
     public void findQuickExit(ActionEvent event) {
         // Pathfind to nearest exit
         clearPath();
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
 
         System.out.println(txtLocationStart.getText());
         System.out.println(txtLocationEnd.getText());
@@ -1523,8 +1530,8 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-		panePathfinding.setVisible(false);
-		paneDirections.setVisible(true);
+//		panePathfinding.setVisible(false);
+//		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1545,11 +1552,16 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
     public void findQuickElevator(ActionEvent event) {
         // Pathfind to nearest bathroom
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
         String startFloor = "1";
 
         clearPath();
@@ -1716,8 +1728,8 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-		panePathfinding.setVisible(false);
-		paneDirections.setVisible(true);
+//		panePathfinding.setVisible(false);
+//		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1738,6 +1750,8 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
