@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" stylesheets="@../StyleSheets/Jfeonix.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.createRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" stylesheets="@../StyleSheets/JfeonixAdmin.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.createRequestController">
    <children>
       <Pane layoutX="479.0" layoutY="131.0" prefHeight="896.0" prefWidth="1386.0" style="-fx-background-color: #2b65ac;">
          <children>
@@ -25,28 +25,31 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmboReqType" layoutX="90.0" layoutY="80.0" prefHeight="45.0" prefWidth="400.0" promptText="Request Type" />
-            <JFXCheckBox fx:id="chkHighPriority" checkedColor="#10e87c" layoutX="628.0" layoutY="634.0" onAction="#setHighPriority" prefHeight="54.0" prefWidth="192.0" text="High Priority" textFill="#f85e5e" unCheckedColor="WHITE">
+            <JFXComboBox fx:id="cmboReqType" labelFloat="true" layoutX="90.0" layoutY="80.0" prefHeight="45.0" prefWidth="400.0" promptText="Request Type" />
+            <JFXCheckBox fx:id="chkHighPriority" checkedColor="#edb64f" layoutX="630.0" layoutY="630.0" onAction="#setHighPriority" text="High Priority" textFill="WHITE" unCheckedColor="WHITE">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font></JFXCheckBox>
-            <JFXCheckBox fx:id="chkMedPriority" checkedColor="#11ff88" layoutX="883.0" layoutY="638.0" onAction="#setMedPriority" text="Medium Proirity" textFill="#ffb254" unCheckedColor="WHITE">
+            <JFXCheckBox fx:id="chkMedPriority" checkedColor="#edb64f" layoutX="870.0" layoutY="630.0" onAction="#setMedPriority" text="Medium Priority" textFill="WHITE" unCheckedColor="WHITE">
                <font>
                   <Font size="25.0" />
                </font></JFXCheckBox>
-            <JFXCheckBox fx:id="chkLowPriority" checkedColor="#01ff80" layoutX="1146.0" layoutY="637.0" onAction="#setLowPriority" text="Low Priority" textFill="#10f26e" unCheckedColor="WHITE">
+            <JFXCheckBox fx:id="chkLowPriority" checkedColor="#edb64f" layoutX="1145.0" layoutY="630.0" onAction="#setLowPriority" text="Low Priority" textFill="WHITE" unCheckedColor="WHITE">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font></JFXCheckBox>
-            <JFXButton fx:id="btnSubmitRequest" layoutX="840.0" layoutY="695.0" onAction="#submitRequest" prefHeight="74.0" prefWidth="265.0" text="Submit Request" textFill="WHITE">
+            <JFXButton fx:id="btnSubmitRequest" buttonType="RAISED" layoutX="840.0" layoutY="695.0" onAction="#submitRequest" prefHeight="74.0" prefWidth="265.0" style="-fx-background-color: #102c57;" text="Submit Request" textFill="WHITE">
                <font>
                   <Font size="29.0" />
                </font></JFXButton>
-            <JFXComboBox fx:id="cmboBuilding" layoutX="90.0" layoutY="277.0" onAction="#updateNodeSet" prefHeight="80.0" prefWidth="400.0" promptText="Building" />
-            <JFXComboBox fx:id="cmboFloor" layoutX="90.0" layoutY="421.0" onAction="#updateNodeSet" prefHeight="60.0" prefWidth="400.0" promptText="Floor" />
-            <JFXComboBox fx:id="cmboType" layoutX="90.0" layoutY="524.0" onAction="#updateNodeSet" prefHeight="45.0" prefWidth="400.0" promptText="Type" />
-            <JFXComboBox fx:id="cmboNode" layoutX="90.0" layoutY="611.0" prefHeight="47.0" prefWidth="400.0" promptText="Node" />
-            <JFXTextArea fx:id="txtMessage" focusColor="#ffe415" layoutX="605.0" layoutY="54.0" prefHeight="506.0" prefWidth="734.0" promptText="Enter Request Details" unFocusColor="WHITE" />
+            <JFXComboBox fx:id="cmboBuilding" labelFloat="true" layoutX="90.0" layoutY="300.0" onAction="#updateNodeSet" prefHeight="50.0" prefWidth="400.0" promptText="Building" />
+            <JFXComboBox fx:id="cmboFloor" labelFloat="true" layoutX="90.0" layoutY="400.0" onAction="#updateNodeSet" prefHeight="50.0" prefWidth="400.0" promptText="Floor" />
+            <JFXComboBox fx:id="cmboType" labelFloat="true" layoutX="90.0" layoutY="500.0" onAction="#updateNodeSet" prefHeight="50.0" prefWidth="400.0" promptText="Type" />
+            <JFXComboBox fx:id="cmboNode" labelFloat="true" layoutX="90.0" layoutY="600.0" prefHeight="50.0" prefWidth="400.0" promptText="Node" />
+            <JFXTextArea fx:id="txtMessage" focusColor="#edbf57" labelFloat="true" layoutX="605.0" layoutY="80.0" prefHeight="505.0" prefWidth="735.0" promptText="Please Enter Request Details" style="-fx-text-inner-color: white; -fx-prompt-text-fill: white;" stylesheets="@../StyleSheets/JfeonixAdmin.css" unFocusColor="WHITE" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font></JFXTextArea>
          </children>
          <effect>
             <DropShadow />
@@ -74,7 +77,7 @@
          <children>
             <Pane maxHeight="80.0" minHeight="80.0" prefHeight="80.0" prefWidth="240.0" style="-fx-background-color: #2B65AC;">
                <children>
-                  <Label text="Create Requests" textFill="#ebd64f">
+                  <Label text="Create Requests" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -183,7 +186,7 @@
                   <FontAwesomeIconView fill="#f1f1f1" glyphName="USERS" size="29" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minWidth="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: ebd64f;" text="Log Out">
+            <JFXButton fx:id="btnLogOut" buttonType="RAISED" maxHeight="80.0" minWidth="80.0" onAction="#LogOut" prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: #edbf54;" text="Log Out">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="390.0" />
                </VBox.margin>
