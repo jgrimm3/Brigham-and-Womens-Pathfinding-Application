@@ -1390,7 +1390,7 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 
-	public void floor2DMapLoader(String floor) {
+	private void floor2DMapLoader(String floor) {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 
@@ -1433,7 +1433,7 @@ public class homeController implements Initializable {
 		currentFloor = floor;
 	}
 
-	public void floor3DMapLoader(String floor) {
+	private void floor3DMapLoader(String floor) {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
 			new ProxyImage(mapImg, "L2-NO-ICONS.png").display();
@@ -1678,6 +1678,7 @@ public class homeController implements Initializable {
 		try {
 			clearPath();
 			breadcrumbs.clear();
+			setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
 
 			System.out.println(txtLocationStart.getText());
 			System.out.println(txtLocationEnd.getText());
@@ -1957,7 +1958,7 @@ public class homeController implements Initializable {
 				}
 
 				ImageView icon = new ImageView();                // The icon for the node
-				icon.setId(currNode.getShortName());
+				icon.setId(currNode.getLongName());
 				//icon.setX(x-25);
 				//icon.setY(y-25);
 
@@ -1972,7 +1973,7 @@ public class homeController implements Initializable {
 		}
 	}
 
-	public void updateIconRotate() {
+	private void updateIconRotate() {
 		for(ImageView icon: iconList) {
 			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
 			rt.setToAngle(-scrollGroup.getRotate());
@@ -1988,7 +1989,7 @@ public class homeController implements Initializable {
 	 * @param node the node to be given an icon
 	 * @param icon the imageview the icon will be displayed on
 	 */
-	public void makeNodeIcon(Node node, ImageView icon) {
+	private void makeNodeIcon(Node node, ImageView icon) {
 		icon.setFitHeight(nodeIconHeight);
 		icon.setFitWidth(nodeIconWidth);
 		pointMap.getChildren().add(icon);
@@ -2492,7 +2493,7 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnHome;
 
-	public String convertType(String type) {
+	private String convertType(String type) {
 
 		if (type == null) {
 			return null;
@@ -2679,6 +2680,11 @@ public class homeController implements Initializable {
 	    forStart = false;
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	//
+	//                                           Bread Boi's - SO MUCH BREAD
+	//
+	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
 	JFXButton btnStep1;
 
@@ -2697,6 +2703,12 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView imageStep3;
 
+	List<Node> breadSection1 = new ArrayList<>();
+
+	List<Node> breadSection2 = new ArrayList<>();
+
+	List<Node> breadSection3 = new ArrayList<>();
+
 	@FXML
 	public void nextBreadcrumb() {
 		int i = 0;
@@ -2704,8 +2716,10 @@ public class homeController implements Initializable {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != breadcrumbs.size()-1) {
 				if(i == 0) {
 					breadFloorSwitch2(null);
+					break;
 				} else if (i == 1) {
 					breadFloorSwitch3(null);
+					break;
 				}
 			}
 			i++;
@@ -2719,8 +2733,10 @@ public class homeController implements Initializable {
 			if(currentFloor.equals(breadcrumbs.get(i)) && i != 0) {
 				if(i == 2) {
 					breadFloorSwitch2(null);
+					break;
 				} else if (i == 1) {
 					breadFloorSwitch1(null);
+					break;
 				}
 			}
 			i++;
@@ -2730,12 +2746,11 @@ public class homeController implements Initializable {
 	/**
 		 * Sets the global variable breadrumbs to all the floors that need to be traversed
 		 */
-	public void getBreadcrumbs() {
+	private void getBreadcrumbs() {
 			int i = 0;
 			String curr = "";
 			while (i < pathList.size()) {
 				if (pathList.get(i).getFloor().equals(curr)) {
-
 				} else {
 					curr = pathList.get(i).getFloor();
 					breadcrumbs.add(curr);
@@ -2744,11 +2759,37 @@ public class homeController implements Initializable {
 			}
 	}
 
+	private void getBreadSections() {
+		int i = 0;
+		int section = 0;
+		String curr = "";
+		while(i < pathList.size()) {
+			if(pathList.get(i).getFloor().equals(curr)) {
+
+			} else {
+				curr = pathList.get(i).getFloor();
+				section++;
+				if(section == 1) {
+					breadSection1.add(pathList.get(i));
+				} else if (section == 2) {
+					breadSection2.add(pathList.get(i));
+					breadSection1.add(pathList.get(i-1));
+				} else if (section == 3) {
+					breadSection3.add(pathList.get(i));
+					breadSection2.add(pathList.get(i-1));
+				}
+			}
+			i++;
+		}
+		breadSection3.add(pathList.get(pathList.size()-1));
+	}
+
 	/**
 	 * Sets the images and buttons for the breadcrumbs based on the global variable bradcrumbs
 	 */
-	public void breadBoy() {
+	private void breadBoy() {
 		getBreadcrumbs();
+		getBreadSections();
 		int i = 0;
 		while (i < breadcrumbs.size()) {
 			if (i == 0) {
@@ -2773,7 +2814,7 @@ public class homeController implements Initializable {
 	 * @param floor floor of the icon
 	 * @param icon  the icon to hold the graphic
 	 */
-	public void breadHelper(Button btn, String floor, ImageView icon) {
+	private void breadHelper(Button btn, String floor, ImageView icon) {
 		icon.setFitWidth(70);
 		icon.setFitHeight(70);
 
@@ -2802,6 +2843,7 @@ public class homeController implements Initializable {
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			breadSnap("1");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
@@ -2814,6 +2856,7 @@ public class homeController implements Initializable {
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			breadSnap("2");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
@@ -2826,9 +2869,29 @@ public class homeController implements Initializable {
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+			breadSnap("3");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
+	}
+
+	private void breadSnap(String num) {
+		if(num.equals("1")) {
+			snap(breadSection1.get(0), breadSection1.get(breadSection1.size()-1));
+		} else if(num.equals("2")) {
+			snap(breadSection2.get(0), breadSection2.get(breadSection2.size()-1));
+		}else if(num.equals("3")) {
+			snap(breadSection3.get(0), breadSection3.get(breadSection3.size()-1));
+		}
+	}
+
+	private void setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease() {
+		new ProxyImage(imageStep3, "InvalidIcon.png").displayIcon();
+		new ProxyImage(imageStep1, "InvalidIcon.png").displayIcon();
+		new ProxyImage(imageStep2, "InvalidIcon.png").displayIcon();
+		btnStep1.setDisable(true);
+		btnStep2.setDisable(true);
+		btnStep3.setDisable(true);
 	}
 
 	public void closeHelp() {}
