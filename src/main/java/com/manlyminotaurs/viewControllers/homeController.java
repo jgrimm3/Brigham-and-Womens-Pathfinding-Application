@@ -1482,11 +1482,9 @@ public class homeController implements Initializable {
 		for(ImageView icon: iconList) {
 			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
 			rt.setToAngle(-scrollGroup.getRotate());
-			//rt.setByAngle(360-scrollGroup.getRotate());
 			rt.setCycleCount(1);
 			rt.setAutoReverse(true);
 			rt.play();
-			//icon.setRotate(360-scrollGroup.getRotate());
 		}
 	}
 
