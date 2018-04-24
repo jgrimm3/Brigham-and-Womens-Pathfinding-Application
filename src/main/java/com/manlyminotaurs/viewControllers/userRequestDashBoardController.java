@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Request;
-import com.manlyminotaursAPI.core.RoomService;
+//import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -128,7 +128,7 @@ public class userRequestDashBoardController  {
     }
 
     public void loadAPI(ActionEvent event){
-
+/*
 
         RoomService roomService = new RoomService();
         try
@@ -141,7 +141,7 @@ public class userRequestDashBoardController  {
         {
             e.printStackTrace();
         }
-
+*/
     }
     public void LogOut(ActionEvent event){
         try{

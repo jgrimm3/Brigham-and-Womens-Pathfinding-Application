@@ -1,11 +1,9 @@
 package com.manlyminotaurs.core;
 
 import com.manlyminotaurs.nodes.Node;
-import com.manlyminotaurs.timeout.ResetTask;
-import javafx.event.Event;
+import com.manlyminotaurs.timeertasks.ResetTask;
 import javafx.event.EventHandler;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.Timer;

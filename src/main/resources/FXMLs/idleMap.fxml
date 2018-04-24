@@ -56,14 +56,9 @@
       </ImageView>
       <Pane maxHeight="300.0" prefHeight="300.0" prefWidth="520.0" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="250.0">
          <children>
-            <Label fx:id="lblHour" maxHeight="250.0" prefHeight="250.0" prefWidth="260.0" text="01" textFill="WHITE">
+            <Label fx:id="lblTime" layoutX="-168.0" layoutY="31.0" text="00:00 AM" textFill="WHITE">
                <font>
-                  <Font size="200.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblMinute" layoutX="260.0" maxHeight="250.0" prefHeight="250.0" prefWidth="260.0" text="43" textFill="WHITE">
-               <font>
-                  <Font size="200.0" />
+                  <Font size="164.0" />
                </font>
             </Label>
             <Label fx:id="lblDate" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="230.0" maxHeight="50.0" prefHeight="50.0" prefWidth="496.0" text="FRIDAY | APRIL 25, 2018" textFill="WHITE">

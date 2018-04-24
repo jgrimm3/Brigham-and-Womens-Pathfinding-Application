@@ -9,6 +9,8 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,31 +53,32 @@
                                           </ImageView>
                                           <Pane fx:id="paneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getXandY" prefHeight="3400.0" prefWidth="5000.0">
                                              <children>
-                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
-                                                   <image>
-                                                      <Image url="@../MapImages/01_thefirstfloor.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" layoutX="10.0" layoutY="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
-                                                <Path fx:id="diffPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.5" stroke="#2e2eff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
+                                                <Path fx:id="diffPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.5" stroke="#2e2eff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" visible="false" />
+                                                <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" />
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-                                                <Text fx:id="startName" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-                                                <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                 <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
-                                                <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" visible="false">
+                                                <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0">
                                                    <children>
-                                                      <Label fx:id="lblNode" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #102c57; -fx-background-radius: 15; -fx-border-color: #919191; -fx-border-width: 5; -fx-border-radius: 10;" text="Location" textFill="WHITE">
-                                                         <padding>
-                                                            <Insets left="10.0" />
-                                                         </padding>
-                                                      </Label>
+                                                      <Label fx:id="lblNode" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #102c57; -fx-background-radius: 15; -fx-border-color: #919191; -fx-border-width: 5; -fx-border-radius: 10;" text="Location" textFill="WHITE" />
                                                    </children>
                                                 </StackPane>
+                                                <ImageView fx:id="startImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                   <image>
+                                                      <Image url="@../Icons/StartIcon.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                   <image>
+                                                      <Image url="@../Icons/DestinationIcon.png" />
+                                                   </image>
+                                                </ImageView>
                                                 <ImageView fx:id="arrow" fitHeight="32.5" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
                                                       <Image url="@../Icons/arrow.png" />
                                                    </image>
                                                 </ImageView>
+                                                <Text fx:id="startName" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                                                <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                              </children>
                                           </Pane>
                                        </children>
@@ -276,9 +279,9 @@
                               <Insets bottom="40.0" right="150.0" />
                            </StackPane.margin>
                         </Pane>
-                        <Pane maxHeight="200.0" maxWidth="380.0" prefHeight="200.0" prefWidth="350.0" StackPane.alignment="BOTTOM_LEFT">
+                        <Pane maxHeight="140.0" maxWidth="340.0" prefHeight="140.0" prefWidth="340.0" StackPane.alignment="BOTTOM_LEFT">
                            <children>
-                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" layoutY="70.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onAction="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnRotateClockwise" buttonType="RAISED" ellipsisString="" layoutX="160.0" maxHeight="80.0" maxWidth="80.0" minHeight="70.0" minWidth="70.0" onAction="#rotateLeft" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -287,7 +290,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" layoutY="70.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onAction="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
+                              <JFXButton fx:id="btnRotateCounterClockwise" buttonType="RAISED" ellipsisString="" layoutX="10.0" maxHeight="80.0" maxWidth="80.0" minHeight="50.0" minWidth="50.0" onAction="#rotateRight" prefHeight="80.0" prefWidth="80.0" text="l">
                                  <graphic>
                                     <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -296,7 +299,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" layoutX="90.0" layoutY="80.0" maxHeight="60.0" maxWidth="75.0" minHeight="60.0" minWidth="60.0" onAction="#resetRotate" prefHeight="60.0" prefWidth="75.0" text="l">
+                              <JFXButton fx:id="btnCompass" buttonType="RAISED" ellipsisString="" layoutX="90.0" layoutY="10.0" maxHeight="60.0" maxWidth="75.0" minHeight="60.0" minWidth="60.0" onAction="#resetRotate" prefHeight="60.0" prefWidth="75.0" text="l">
                                  <graphic>
                                     <ImageView fx:id="imgCompass" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -305,8 +308,8 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="170.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" onMouseClicked="#zoom" onMouseDragged="#zoom" onMouseMoved="#zoom" onMouseReleased="#zoom" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
-                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="160.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomOut" prefHeight="30.0" prefWidth="30.0">
+                              <JFXSlider fx:id="sldZoom" layoutX="60.0" layoutY="100.0" maxHeight="20.0" maxWidth="140.0" minHeight="20.0" minWidth="60.0" onMouseClicked="#zoom" onMouseDragged="#zoom" onMouseMoved="#zoom" onMouseReleased="#zoom" prefHeight="20.0" prefWidth="140.0" stylesheets="@../StyleSheets/Jfeonix.css" />
+                              <JFXButton fx:id="btnZoomOut" buttonType="RAISED" ellipsisString="" layoutX="20.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomOut" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -315,7 +318,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="160.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomIn" prefHeight="30.0" prefWidth="30.0">
+                              <JFXButton fx:id="btnZoomIn" buttonType="RAISED" ellipsisString="" layoutX="190.0" layoutY="90.0" maxHeight="30.0" maxWidth="30.0" onAction="#zoomIn" prefHeight="30.0" prefWidth="30.0">
                                  <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -324,7 +327,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnToggleMap" ellipsisString="" layoutX="250.0" layoutY="100.0" maxWidth="0.0" onAction="#toggleMap" prefHeight="70.0" prefWidth="70.0" text="l">
+                              <JFXButton fx:id="btnToggleMap" ellipsisString="" layoutX="250.0" layoutY="30.0" maxWidth="0.0" onAction="#toggleMap" prefHeight="70.0" prefWidth="70.0" text="l">
                                  <graphic>
                                     <ImageView fx:id="imgBtnMap" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -335,7 +338,7 @@
                               </JFXButton>
                            </children>
                            <StackPane.margin>
-                              <Insets bottom="40.0" left="10.0" />
+                              <Insets bottom="30.0" left="10.0" />
                            </StackPane.margin>
                         </Pane>
                         <JFXButton fx:id="btnHome" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#goHome" prefHeight="80.0" prefWidth="80.0" StackPane.alignment="BOTTOM_RIGHT">
@@ -355,7 +358,7 @@
                               <Insets bottom="30.0" />
                            </StackPane.margin>
                            <children>
-                              <JFXButton fx:id="btnRight" buttonType="RAISED" ellipsisString="" layoutX="400.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#nextStep" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnRight" buttonType="RAISED" ellipsisString="" layoutX="400.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#nextBreadcrumb" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -364,7 +367,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnLeft" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#previousStep" prefHeight="80.0" prefWidth="80.0">
+                              <JFXButton fx:id="btnLeft" buttonType="RAISED" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#lastBreadcrumb" prefHeight="80.0" prefWidth="80.0">
                                  <graphic>
                                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -377,7 +380,7 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor1Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -386,7 +389,7 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep2" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor2Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -395,18 +398,22 @@
                                  <graphic>
                                     <ImageView fx:id="imageStep3" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Icons/Floor3Icon.png" />
+                                          <Image url="@../Icons/InvalidIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
                            </children>
                         </Pane>
-                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" visible="false" StackPane.alignment="TOP_RIGHT">
+                        <Pane fx:id="paneDirections" maxHeight="630.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="630.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 15;" StackPane.alignment="TOP_RIGHT">
                            <children>
                               <Pane layoutY="29.0" maxHeight="600.0" maxWidth="350.0" minHeight="300.0" minWidth="350.0" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 15;">
                                  <children>
-                                    <JFXListView fx:id="lstDirections" layoutX="15.0" layoutY="65.0" maxHeight="520.0" maxWidth="320.0" prefHeight="520.0" prefWidth="320.0" />
+                                    <TreeTableView fx:id="tblDirections" layoutX="15.0" layoutY="71.0" prefHeight="510.0" prefWidth="320.0">
+                                      <columns>
+                                        <TreeTableColumn fx:id="colDirections" prefWidth="319.0" text="Turn By Turn Directions" />
+                                      </columns>
+                                    </TreeTableView>
                                  </children>
                               </Pane>
                               <Pane maxHeight="80.0" maxWidth="350.0" minHeight="80.0" minWidth="350.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #102c57; -fx-background-radius: 20;">

@@ -9,7 +9,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
-import com.manlyminotaursAPI.core.RoomService;
+//import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -159,7 +159,7 @@ public class adminRequestDashboardController {
                     FXCollections.observableArrayList(
                             new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
                             new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
-                           new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+                             new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
 
             pieChart.getData().clear();
             pieChart.setData(pieChartData);
@@ -193,7 +193,7 @@ public class adminRequestDashboardController {
 
     public void loadAPI(ActionEvent event){
 
-
+/*
         RoomService roomService = new RoomService();
         try
 
@@ -205,7 +205,7 @@ public class adminRequestDashboardController {
         {
             e.printStackTrace();
         }
-
+*/
     }
 
     public void LogOut(ActionEvent event){
