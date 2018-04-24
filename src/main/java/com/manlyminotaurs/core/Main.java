@@ -72,8 +72,6 @@ public class Main extends Application {
 
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
         DataModelI.getInstance().updateAllCSVFiles();
-        //DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
-
         System.out.println("Files Saved!");
     }
 
@@ -81,10 +79,10 @@ public class Main extends Application {
         if(createTables) {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
-            DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
+ //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
-        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
+//        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
 
         if(args.length < 1){
             System.out.println("An IP for the server must be specified");
