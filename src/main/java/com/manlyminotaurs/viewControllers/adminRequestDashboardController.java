@@ -159,7 +159,7 @@ public class adminRequestDashboardController {
                     FXCollections.observableArrayList(
                             new PieChart.Data("High Priority", reqestList.stream().filter(request -> request.getPriority()==1).count()),
                             new PieChart.Data("Med Priority", reqestList.stream().filter(request -> request.getPriority()==2).count()),
-                           new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
+                             new PieChart.Data("Low Priority", reqestList.stream().filter(request -> request.getPriority()==3).count()));
 
             pieChart.getData().clear();
             pieChart.setData(pieChartData);

@@ -13,6 +13,7 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.sun.deploy.association.Action;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -236,38 +237,18 @@ public class idleMapController implements Initializable {
 
         public void giftShop(ActionEvent event) {
 
+
+        GiftShop gshop = new GiftShop();
+        try{
+           gshop.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
         }
 
-    /*event listener on Map
-    @FXML
-    public void mapActive(ActionEvent event)throws Exception{
-    try{
-
-        Stage stage;
-        Parent root;
-        //get reference to the button's stage
-        stage=(Stage)idleMap.getScene().getWindow();
-        stage.addEventHandler(MouseEvent.ANY, KioskInfo.myHandler);
-
-        if(KioskInfo.myTimer != null){
-            KioskInfo.myTimer.cancel();
-        }
-        KioskInfo.myTimer = new Timer();
-        KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
-
-        Main.memnto = new Memento(KioskInfo.getCurrentUserID());
-
-        //load up OTHER FXML document
-        root=FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
-
-        //create a new scene with root and set the stage
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        }
-        catch (Exception e){
-        e.printStackTrace();}
-    } */
+}
 
 
         @Override
