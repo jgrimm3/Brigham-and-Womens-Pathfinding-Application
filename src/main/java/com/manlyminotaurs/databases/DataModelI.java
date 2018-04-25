@@ -75,7 +75,7 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * initialize database
+     * Initialize database
      */
     @Override
     public void startDB() {
@@ -88,8 +88,8 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * set up database connection
-     * @return connection
+     * Set up database connection
+     * @return Connection
      */
     @Override
     public Connection getNewConnection() {
@@ -104,8 +104,8 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     *  close database connection
-     * @return true if successful
+     * Close connection to database using jdbc
+     * @return True if successful
      */
     @Override
     public boolean closeConnection() {
@@ -138,16 +138,16 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * gets node map
-     * @return map<String, Node>
+     * Retrieve Map of Nodes using updateNodeMap
+     * @return Map of nodeID's and Nodes
      */
     public Map<String, Node> getNodeMap(){
         return nodesDBUtil.getNodeMap(false);
     }
 
     /**
-     * gets node list of nodes in db
-     * @return list of nodes
+     * Get List of Nodes from local Map of Nodes
+     * @return List of Nodes
      */
     @Override
     public List<Node> getNodeList() {
@@ -155,9 +155,9 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * modifies node in db
-     * @param newNode node to modify
-     * @return true if successful
+     * Update the Node in the database with the matching nodeID
+     * @param newNode the updated Node
+     * @return True if successful
      */
     @Override
     public boolean modifyNode(Node newNode) {
@@ -167,19 +167,16 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * adds a new node to db
-     * @param nodeID
-     * @param xCoord
-     * @param yCoord
-     * @param floor
-     * @param building
-     * @param nodeType
-     * @param longName
-     * @param shortName
-     * @param status
-     * @param xCoord3D
-     * @param yCoord3D
-     * @return node added
+     * Adds the java object and the corresponding entry in the database table
+     * @param nodeID unique ID
+     * @param xCoord xcoord
+     * @param yCoord ycoord
+     * @param nodeType node type
+     * @param longName long name of the node
+     * @param shortName short name of the node
+     * @param status active status of the Node
+     * @param yCoord3D yCoord3D
+     * @param xCoord3D xCoord3D
      */
     @Override
     public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
@@ -188,52 +185,57 @@ public class DataModelI implements IDataModel{
         return tempNode;
     }
 
-    @Override
     /**
-     * Remove Node from database
-     * @param Node the Node to be deleted
+     * Soft remove Node from database
+     * @param badNode the Node to be deleted
+     * @return True if successful
      */
+    @Override
     public boolean removeNode(Node badNode) {
         boolean tempBool = nodesDBUtil.removeNode(badNode.getNodeID());
         addLog("Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
         return tempBool;
     }
 
-    @Override
-    @Deprecated
     /**
      * Retrieve Nodes from database that match a given type
      * @param type the Node type to match
      */
+    @Override
+    @Deprecated
     public List<Node> getNodesByType(String type) {
         return nodesDBUtil.getNodesByType(type);
     }
 
-    @Override
     /**
      * Query Node existence in database
      * @param nodeID the ID of the node to check
+     * @return True if Node is found
      */
+    @Override
     public boolean doesNodeExist(String nodeID) {
         return nodesDBUtil.doesNodeExist(nodeID);
     }
 
-    @Override
     /**
      * Retrieve Nodes from database that match a given building, floor, and type
      * @param building the building to filter by
      * @param floor the floor to filter by
      * @param type the type to filter by
+     * @return List of Strings
      */
+    @Override
     public List<String> getNamesByBuildingFloorType(String building, String floor, String type) {
         return nodesDBUtil.getNamesByBuildingFloorType(building, floor, type);
     }
 
-    @Override
     /**
-     * Find node in database by nodeID
+     * return the node object that has the matching nodeID with the ID provided in the argument
+     * return null if it can't  find any
      * @param nodeID the ID of the node to search for
+     * @return Node object
      */
+    @Override
     public Node getNodeByID(String nodeID) {
         return nodesDBUtil.getNodeByID(nodeID);
     }
@@ -270,37 +272,41 @@ public class DataModelI implements IDataModel{
     @Deprecated
 	public List<Node> getNodesByBuilding(String building) { return nodesDBUtil.getNodesByBuilding(building); }
 
-    @Override
     /**
      * Retrieve list of buildings in database
+     * @return List of Nodes
      */
+    @Override
     public List<String> getBuildingsFromList() {
         return nodesDBUtil.getBuildingsFromList();
     }
 
-    @Override
     /**
      * Retrieve list of types in database
+     * @return List of Strings
      */
+    @Override
     public List<String> getTypesFromList() {
         return nodesDBUtil.getTypesFromList();
     }
 
-    @Override
     /**
      * Find nearest Node to given X and Y coordinates
      * @param xCoord the X coordinate
      * @param yCoord the Y coordinate
+     * @return Node object
      */
+    @Override
     public Node getNodeByCoords(int xCoord, int yCoord) {
         return nodesDBUtil.getNodeByCoords(xCoord, yCoord);
     }
 
-    @Override
     /**
-     * Retrieve Node by longName
+     * get the node that has non-unique long name which describes the node
      * @param longName the longName of a Node
+     * @return Node object
      */
+    @Override
     public Node getNodeByLongName(String longName) {
         return nodesDBUtil.getNodeByLongName(longName);
     }
@@ -317,10 +323,11 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.getNodeByLongNameFromList(longName, nodeList);
     }
 
-    @Override
     /**
      * Retrieve list of longNames in database
+     * @return List of Strings
      */
+    @Override
     public List<String> getLongNames() {
         return nodesDBUtil.getLongNames();
     }
@@ -351,65 +358,69 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.getLongNameByBuildingTypeFloor(building,type,floor);
     }
 
-    @Override
     /**
      * Retrieve list of Nodes adjacent to given Node
      * @param node the Node for which to check adjacent Nodes
+     * @return List of Strings
      */
+    @Override
     public List<String> getAdjacentNodes(Node node) {
         return nodesDBUtil.getAdjacentNodes(node);
     }
 
     //-------------------------------------------Edges---------------------------------------------------
 
-    @Override
     /**
      * Retrieve list of Edges in database
+     * @return List of Edges
      */
+    @Override
     public List<Edge> getEdgeList() {
         return nodesDBUtil.getEdgeList(false);
     }
 
-    @Override
     /**
      * Retrieve Edge by edgeID from database
      * @param edgeID the edgeID to search for
+     * @return Edge object
      */
+    @Override
     public Edge getEdgeByID(String edgeID) {
         return nodesDBUtil.getEdgeByID(edgeID);
     }
 
-    @Override
     /**
      * Add Edge - a connected pair of Nodes - to database
      * @param startNode one of the Nodes in the Edge
      * @param endNode the other Node in the Edge
+     * @return	Edge object
      */
+    @Override
     public Edge addEdge(Node startNode, Node endNode) {
         Edge tempEdge = nodesDBUtil.addEdge(startNode, endNode);
         addLog("Added "+ tempEdge.getEdgeID()+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(),tempEdge.getEdgeID(),"edge");
         return tempEdge;
     }
 
-    @Override
     /**
-     * Remove Edge from database
+     * Mark Edge as removed in database
      * @param startNode one of the Nodes in the Edge
      * @param endNode the other Node in the Edge
      */
+    @Override
     public void removeEdge(Node startNode, Node endNode) {
         String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
         nodesDBUtil.removeEdge(startNode, endNode);
         addLog("Removed "+ edgeID+" Edge",LocalDateTime.now(), KioskInfo.getCurrentUserID(), edgeID,"edge");
     }
 
-    @Override
     /**
      * Modify Edge in database
      * @param startNode one of the Nodes in the Edge
      * @param endNode the other Node in the Edge
      * @param status the active status of the Edge
      */
+    @Override
     public void modifyEdge(Node startNode, Node endNode, int status) {
         String edgeID = startNode.getNodeID() + "_" + endNode.getNodeID();
         nodesDBUtil.modifyEdge(startNode, endNode, status);
@@ -418,11 +429,11 @@ public class DataModelI implements IDataModel{
 
     /*------------------------------------------------ Messages -------------------------------------------------------*/
 
-    @Override
     /**
      * Add message to the database
      * @param messageObject the Message object to add to the database
      */
+    @Override
     public void addMessage(Message messageObject) {
         messagesDBUtil.addMessage(messageObject);
     }
@@ -433,79 +444,86 @@ public class DataModelI implements IDataModel{
         return tempMessageID;
     }
 
-    @Override
     /**
      * Remove message from the database
      * @param messageID the messageID of the Message object to be removed from the database
      */
+    @Override
     public boolean removeMessage(String messageID) {
         boolean tempBool = messagesDBUtil.removeMessage(messageID);
         addLog("Removed "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(), messageID,"message");
         return tempBool;
     }
 
-    @Override
     /**
      * Modify message in the database
      * @param newMessage the Message object to modify in the database
      */
+    @Override
     public boolean modifyMessage(Message newMessage) {
         boolean tempBool = messagesDBUtil.modifyMessage(newMessage);
         addLog("Modified "+ newMessage.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newMessage.getMessageID(),"message");
         return tempBool;
     }
 
-    @Override
     /**
      * Generate new messageID
+     * @return unique ID
      */
+    @Override
     public String getNextMessageID() {
         return messagesDBUtil.generateMessageID();
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database
+     * @return List of Message objects
      */
+    @Override
     public List<Message> retrieveMessages() {
         return messagesDBUtil.retrieveMessages(false);
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database filtered by senderID
      * @param senderID the String identifying the sender of a message
+     * @return List of Message objects
      */
+    @Override
     public List<Message> getMessageBySender(String senderID) {
         return messagesDBUtil.searchMessageBySender(senderID);
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database filtered by receiverID
-     * @param recieverID the String identifying the receiver of a message
+     * @param receiverID the String identifying the receiver of a message
+     * @return List of Message objects
      */
+    @Override
     public List<Message> getMessageByReceiver(String receiverID) {
         return messagesDBUtil.searchMessageByReceiver(receiverID);
     }
 
-    @Override
     /**
      * Retrieve Message object from database matching a given messageID
-     * @param messageID the String identifying the unique ID of a message
+     * @param ID the String identifying the unique ID of a message
+     * @return Message object
      */
+    @Override
     public Message getMessageByID(String ID) {
         return messagesDBUtil.getMessageByID(ID);
     }
 
 
     /*------------------------------------------------ Requests -------------------------------------------------------*/
-    @Override
+
     /**
      * Add Request object to database with Message object
      * @param requestObject the Request to add
      * @param messageObject the Message to add
+     * @return Request object
      */
+    @Override
     public Request addRequest(Request requestObject, Message messageObject) {
         Request newRequest = requestsDBUtil.addRequest(requestObject, messageObject);
         firebaseDBUtil.updateRequestFirebase();
@@ -518,11 +536,11 @@ public class DataModelI implements IDataModel{
         return requestsDBUtil.addRequest(requestObject);
     }
 
-    @Override
     /**
      * Remove Request object from database by requestID
      * @param requestID the unique string identifier for Requests
      */
+    @Override
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
         firebaseDBUtil.removeRequestFirebase(requestID);
@@ -530,11 +548,12 @@ public class DataModelI implements IDataModel{
         return tempBool;
     }
 
-    @Override
     /**
      * Modify Request object in database
      * @param newRequest the updated Request object
+     * @return True if successful
      */
+    @Override
     public boolean modifyRequest(Request newRequest) {
         boolean tempBool = requestsDBUtil.modifyRequest(newRequest);
         firebaseDBUtil.updateRequestFirebase();
@@ -542,45 +561,50 @@ public class DataModelI implements IDataModel{
         return tempBool;
     }
 
-    @Override
     /**
      * Request new unique string identifier for Requests
+     * @return unique ID
      */
+    @Override
     public String getNextRequestID() {
         return requestsDBUtil.generateRequestID();
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database
+     * @return List of Request objects
      */
+    @Override
     public List<Request> retrieveRequests() {
         return requestsDBUtil.retrieveRequests(false);
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database filtered by senderID
      * @param senderID the unique string identifier for sender
+     * @return List of Request objects
      */
+    @Override
     public List<Request> getRequestBySender(String senderID) {
         return requestsDBUtil.searchRequestsBySender(senderID);
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database filtered by receiverID
      * @param receiverID the unique string identifier for receiver
+     * @return List of Request objects
      */
+    @Override
     public List<Request> getRequestByReceiver(String receiverID) {
         return requestsDBUtil.searchRequestsByReceiver(receiverID);
     }
 
-    @Override
     /**
      * Retrieve Request object from database by requestID
      * @param requestID the unique string identifier for Request
+     * @return Request object
      */
+    @Override
     public Request getRequestByID(String requestID) {
         return requestsDBUtil.getRequestByID(requestID);
     }
@@ -588,7 +612,7 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     /**
-     * adds a user to the db
+     * Add a User object to the database
      * @param userID id
      * @param firstName fname
      * @param middleName mname
@@ -597,7 +621,7 @@ public class DataModelI implements IDataModel{
      * @param userType usertype
      * @param userName username
      * @param password pass
-     * @return User created
+     * @return User object created
      */
     @Override
     public User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {

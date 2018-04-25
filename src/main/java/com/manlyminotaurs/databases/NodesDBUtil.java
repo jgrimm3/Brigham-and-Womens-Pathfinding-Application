@@ -20,16 +20,25 @@ import java.util.*;
 //finish erd diagram and create request table
 class NodesDBUtil {
 
-	int nodeIDGeneratorCount = 200;
-	int elevatorCounter = 0;
-	List<Node> nodes;
-	static Map<String, Node> nodeMap;
+	private int nodeIDGeneratorCount = 200;
+	private int elevatorCounter = 0;
+	private List<Node> nodes;
+	private static Map<String, Node> nodeMap;
 
+	/**
+	 * Retrieve Map of Nodes using updateNodeMap
+	 * @param allEntriesExist True to include deleted Nodes
+	 * @return Map of nodeID's and Nodes
+	 */
 	Map<String, Node> getNodeMap(boolean allEntriesExist) {
 		updateNodeMap(allEntriesExist);
 		return nodeMap;
 	}
 
+	/**
+	 * Get List of Nodes from local Map of Nodes
+	 * @return List of Nodes
+	 */
 	List<Node> getNodeList(){
 		updateNodeMap(false);
 		List<Node> listOfNodes = new ArrayList(nodeMap.values());
@@ -37,14 +46,17 @@ class NodesDBUtil {
 	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
+	/**
+	 * Initialize ArrayList of Nodes and HashMap of nodeID's and Nodes
+	 */
 	public NodesDBUtil() {
 		nodes = new ArrayList<>();
 		nodeMap  = new HashMap<>();
 	}
 
 	/**
-	 * close connection to database using jdbc
-	 * @param connection
+	 * Close connection to database using jdbc
+	 * @param connection the connection to terminate
 	 */
 	static void closeConnection(Connection connection) {
 		try {
@@ -125,9 +137,9 @@ class NodesDBUtil {
 	} // retrieveNodes() ends
 
 	/**
-	 * updates node map from db
-	 * @param allEntriesExist
-	 * @return map<String, Node>
+	 * Update local Node Map with Nodes from the database
+	 * @param allEntriesExist True to include deleted Nodes
+	 * @return Map of nodeID's and Nodes
 	 */
 	Map<String, Node> updateNodeMap(boolean allEntriesExist){
 		// Variables
@@ -196,9 +208,6 @@ class NodesDBUtil {
 		return nodeMap;
 	} // retrieveNodeMap() ends
 
-    /**
-     * adds all edges of a node
-     */
 	@Deprecated
 	 private void addAllEdges() {
 		for(Node x: nodes) {
@@ -215,7 +224,7 @@ class NodesDBUtil {
 	}
 
     /**
-     * connects nodes in db
+     * Connect Nodes in database
      */
 	private void connectNodes() {
 		for (Node xNode : nodeMap.values()){
@@ -232,10 +241,10 @@ class NodesDBUtil {
 	}
 
     /**
-     * sees if two nodes are neighbors
-     * @param start
-     * @param end
-     * @return true if success
+     * Check if two Nodes are neighbors using getAdjacentNodes
+     * @param start one of the two Nodes
+     * @param end the other Node
+     * @return True if end Node ID is in start Nodes List of adjacent Nodes
      */
 	private boolean areNeighbors(Node start, Node end) {
 		for(Node x: start.getAdjacentNodes()) {
@@ -250,13 +259,13 @@ class NodesDBUtil {
 
 	/**
 	 * Adds the java object and the corresponding entry in the database table
-     * @param nodeID
+     * @param nodeID unique ID
      * @param xCoord    xcoord
      * @param yCoord    ycoord
      * @param nodeType  node type
      * @param longName  long name of the node
      * @param shortName short name of the node
-     * @param status
+     * @param status active status of Node
      * @param yCoord3D  yCoord3D
      * @param xCoord3D  xCoord3D
      */
@@ -304,12 +313,11 @@ class NodesDBUtil {
 		return aNode;
 	} // end addNode()
 
-
-    /**
-     * adds node to backup
-     * @param nodeID
-     * @return
-     */
+	/**
+	 * Add the Node given by the unique nodeID to the backup
+	 * @param nodeID the ID of the Node to save
+	 * @return Node that was backed up
+	 */
 	Node addNodeToBackup(String nodeID) {
 		Node aNode = getNodeByID(nodeID);
 		int xCoord = aNode.getXCoord();
@@ -365,8 +373,9 @@ class NodesDBUtil {
 
 
 	/**
-     * modifies node in db
-	 * @param node to modify
+	 * Update the Node in the database with the matching nodeID
+	 * @param node the updated Node
+	 * @return True if successful
 	 */
 	boolean modifyNode(Node node) {
 		boolean isSucessful = false;
@@ -408,7 +417,7 @@ class NodesDBUtil {
 	}
 
 	/**
-	 * Remove Node from database
+	 * Soft remove Node from database
 	 * @param nodeID the unique nodeID for the Node to be deleted
 	 */
 	boolean removeNode(String nodeID){
@@ -448,11 +457,11 @@ class NodesDBUtil {
 		}
 	}
 
-    /**
-     * restores node from db
-     * @param nodeID of node
-     * @return true if success
-     */
+	/**
+	 * Restore Node from the database
+	 * @param nodeID the unique nodeID for the soft-deleted Node
+     * @return True if successful
+	 */
 	boolean restoreNode(String nodeID){
 		boolean isSucessful = false;
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -484,7 +493,8 @@ class NodesDBUtil {
 
 	/**
 	 * Removes a node from the list of objects as well as the database
-	 * @param node
+	 * @param node the Node to be removed
+	 * @return True if successfully removed - False if it didn't exist
 	 */
 	boolean permanentlyRemoveNode(Node node) {
 		boolean isSucessful = false;
@@ -551,10 +561,10 @@ class NodesDBUtil {
 	} // end addEdge()
 
 	/**
-	 * Makes an "edge" between nodes
-	 * @param startNodeID
-	 * @param endNodeID
-	 * @return
+	 * Makes an Edge between nodes - the two Nodes are adjacent
+	 * @param startNodeID one Node in the Edge
+	 * @param endNodeID the other Node in the Edge
+	 * @return Edge object
 	 */
 	private Edge makeEdge(String startNodeID, String endNodeID){
 		Edge edge = null;
@@ -850,8 +860,8 @@ class NodesDBUtil {
 
 	/**
 	 * find all adjacent edges from the node object using sql query
-	 * @param nodeid of node
-	 * @return list of edges to node
+	 * @param nodeID unique ID of Node object
+	 * @return List of Edge objects
 	 */
 	private List<Edge> getAdjacentEdges(String nodeID) {
 		List<Edge> listOfEdges = new ArrayList<Edge>();
@@ -953,14 +963,6 @@ class NodesDBUtil {
 		return types;
 	}
 
-
-    /**
-     * returns list of nodes by building type floor
-     * @param nodeBuilding name of building
-     * @param nodeType node type
-     * @param nodeFloor floor num
-     * @return list of nodes within params
-     */
 	@Deprecated
 	List<Node> getNodesByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<Node> selectedNodes = new ArrayList<>();
@@ -1058,13 +1060,13 @@ class NodesDBUtil {
 		return listOfLongNames;
 	}
 
-    /**
-     * gets long name by building type floor
-     * @param nodeBuilding building
-     * @param nodeType type
-     * @param nodeFloor floor
-     * @return list of long names within said parameters
-     */
+	/**
+	 * Retrieve longNames of Nodes from database that match a given building, type, and floor
+	 * @param nodeBuilding the Node building to match
+	 * @param nodeType the Node type to match
+	 * @param nodeFloor the Node floor to match
+	 * @return List of Nodes with matching parameters
+	 */
 	List<String> getLongNameByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<String> selectedNames = new ArrayList<>();
 		PreparedStatement stmt = null;
@@ -1113,10 +1115,6 @@ class NodesDBUtil {
 	}
 
 	@Deprecated
-	/**
-	 * Retrieve Nodes from database that match a given type
-	 * @param type the Node type to match
-	 */
 	public List<Node> getNodesByType(String type) {
 		List<Node> selectedNodes = new ArrayList<>();
 		List<Node> allNodes = retrieveNodes();
@@ -1129,11 +1127,11 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-    /**
-     * gets list of nodes based on floor
-     * @param floor string of floor
-     * @return list of node
-     */
+	/**
+	 * Retrieve Nodes from database that match a given floor
+	 * @param floor the Node type to match
+	 * @return List of Nodes with matching floor
+	 */
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
 
@@ -1145,11 +1143,6 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
-    /**
-     * gets list of nodes based on building
-     * @param building building name
-     * @return list of nodes
-     */
 	@Deprecated
 	public List<Node> getNodesByBuilding(String building) {
 		List<Node> selectedNodes = new ArrayList<>();
@@ -1166,6 +1159,7 @@ class NodesDBUtil {
 	/**
 	 * Query Node existence in database
 	 * @param nodeID the ID of the node to check
+	 * @return True if Node is found
 	 */
     public boolean doesNodeExist(String nodeID) {
         return nodeMap.containsKey(nodeID);
@@ -1174,19 +1168,19 @@ class NodesDBUtil {
 
 	/**
 	 * builds and returns a node with given attributes
-	 * @param nodeID
-	 * @param xCoord
-	 * @param yCoord
-	 * @param floor
-	 * @param building
-	 * @param nodeType
-	 * @param longName
-	 * @param shortName
-	 * @param status
-	 * @param xCoord3D
-	 * @param yCoord3D
-	 * @param deleteTime
-	 * @return
+	 * @param nodeID the unique ID of the Node
+	 * @param xCoord the x-coordinate on the 2D map
+	 * @param yCoord the y-coordinate on the 2D map
+	 * @param floor the floor level of the Node
+	 * @param building the building of the Node
+	 * @param nodeType the type of the Node
+	 * @param longName the descriptive long name
+	 * @param shortName the less-descriptive short name
+	 * @param status the active status of the Node
+	 * @param xCoord3D the x-coordinate on the 3D map
+	 * @param yCoord3D the y-coordinate on the 3D map
+	 * @param deleteTime the time the Node was marked as deleted
+	 * @return Node object
 	 */
     public Node buildNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D, LocalDateTime deleteTime){
         Node aNode;
@@ -1346,12 +1340,6 @@ class NodesDBUtil {
 		return listOfNames;
 	}
 
-    /**
-     * gets node by long name from a list in db
-     * @param longName long name of node
-     * @param nodeList list of node to search
-     * @return node that matches long name
-     */
 	@Deprecated
 	Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
 	    for(Node x : nodeList) {
@@ -1363,12 +1351,12 @@ class NodesDBUtil {
     }
 
 	/**
-	 * used to generate unique nodeID when adding a new node on the map
+	 * Generate unique nodeID when adding a new node on the map
 	 *
-	 * @param nodeType
-	 * @param floor
-	 * @param elevatorLetter
-	 * @return
+	 * @param nodeType the type of Node
+	 * @param floor the floor of the Node
+	 * @param elevatorLetter must not be null or empty string
+	 * @return unique nodeID
 	 */
 	public String generateNodeID(String nodeType, String floor, String elevatorLetter) {
 		String nodeID = "X" + nodeType;

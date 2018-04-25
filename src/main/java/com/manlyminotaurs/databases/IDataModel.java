@@ -59,7 +59,8 @@ public interface IDataModel {
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
     List<String> getLongNames();
-    boolean doesNodeExist(String type);
+
+    boolean doesNodeExist(String nodeID);
 
     List<String> getNamesByBuildingFloorType(String building, String floor, String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/

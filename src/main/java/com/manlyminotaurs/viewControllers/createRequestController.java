@@ -106,7 +106,7 @@ public class createRequestController{
 
     /**
      * submits request and clears comboboxes
-     * @param event
+     * @param event Submit button pressed
      */
     public void submitRequest(javafx.event.ActionEvent event){
         boolean isErrored = false;
