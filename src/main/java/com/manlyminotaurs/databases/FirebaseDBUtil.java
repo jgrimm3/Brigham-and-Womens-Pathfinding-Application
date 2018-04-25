@@ -489,6 +489,20 @@ public class FirebaseDBUtil {
                     else if(emergencyType.equals("other")){
                         client.sendEmergency();
                     }
+                    DocumentReference docRef = firestoreDB.collection("emergencies").document("1");
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("type", "");
+                    //asynchronously write data
+                    ApiFuture<WriteResult> result = docRef.set(data);
+
+                    try {
+                        System.out.println("Update time : " + result.get().getUpdateTime());
+                    }catch (ExecutionException e2) {
+                        e2.printStackTrace();
+                    } catch (InterruptedException e3) {
+                        e3.printStackTrace();
+                    }
+
                 } else {
                     System.out.print("Current data: null");
                 }

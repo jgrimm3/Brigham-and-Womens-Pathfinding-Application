@@ -67,7 +67,7 @@ public class Main extends Application {
 
             fd = new FireDetector(primaryStage);
             fd.startDetecting();
-            //new FirebaseDBUtil().listenToEmergency();
+            new FirebaseDBUtil().listenToEmergency();
 
             primaryStage.show();
         }catch(Exception e){
