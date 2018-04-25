@@ -138,8 +138,8 @@ public class DataModelI implements IDataModel{
     }
 
     /**
-     * gets node map
-     * @return map<String, Node>
+     * Retrieve HashMap of nodeID's and Nodes
+     * @return HashMap of nodeID's and Nodes
      */
     public Map<String, Node> getNodeMap(){
         return nodesDBUtil.getNodeMap(false);
