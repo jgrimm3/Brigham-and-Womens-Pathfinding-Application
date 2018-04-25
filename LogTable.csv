@@ -560,3 +560,11 @@ logID,description,logTime,userID,associatedID,associatedType
 1354,Application Closed,2018-04-24 23:21:36:700,N/A,N/A,application
 1360,Pathfind fromIDEPT00803 to BDEPT00702 is done,2018-04-24 23:23:08:419,null,182,pathfind
 1361,Application Closed,2018-04-24 23:24:07:415,N/A,N/A,application
+1367,Pathfind fromEINFO00101 to FEXIT00301 is done,2018-04-24 23:28:17:681,null,183,pathfind
+1368,Application Closed,2018-04-24 23:28:26:877,N/A,N/A,application
+1374,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 23:29:56:027,null,184,pathfind
+1375,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:30:10:388,null,185,pathfind
+1376,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:32:427,null,186,pathfind
+1377,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:38:517,null,187,pathfind
+1378,Pathfind fromEINFO00101 to IDEPT00703 is done,2018-04-24 23:30:53:298,null,188,pathfind
+1379,Application Closed,2018-04-24 23:31:04:878,N/A,N/A,application

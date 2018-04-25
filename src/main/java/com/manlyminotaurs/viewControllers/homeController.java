@@ -487,13 +487,13 @@ public class homeController implements Initializable {
 
 		if (currentDimension.equals("3-D")) { // 3D
 
-			snapY = (startY3D + Math.abs(((endY3D - startY3D)) / 2)) / 2774.0;
-			snapX = (startX3D + Math.abs(((endX3D - startX3D)) / 2)) / 5000.0;
+			snapY = (Math.abs(((endY3D + startY3D)) / 2)) / 2774.0;
+			snapX = (Math.abs(((endX3D + startX3D)) / 2)) / 5000.0;
 
 		} else { // 2D
 
-			snapY = (startY2D + Math.abs(((endY2D - startY2D)) / 2)) / 3400.0;
-			snapX = (startX2D + Math.abs(((endX2D - startX2D)) / 2)) / 5000.0;
+			snapY = (Math.abs(((endY2D + startY2D)) / 2)) / 3400.0;
+			snapX = (Math.abs(((endX2D + startX2D)) / 2)) / 5000.0;
 		}
 
 		Timeline timeline = new Timeline();
