@@ -429,11 +429,11 @@ public class DataModelI implements IDataModel{
 
     /*------------------------------------------------ Messages -------------------------------------------------------*/
 
-    @Override
     /**
      * Add message to the database
      * @param messageObject the Message object to add to the database
      */
+    @Override
     public void addMessage(Message messageObject) {
         messagesDBUtil.addMessage(messageObject);
     }
@@ -444,79 +444,86 @@ public class DataModelI implements IDataModel{
         return tempMessageID;
     }
 
-    @Override
     /**
      * Remove message from the database
      * @param messageID the messageID of the Message object to be removed from the database
      */
+    @Override
     public boolean removeMessage(String messageID) {
         boolean tempBool = messagesDBUtil.removeMessage(messageID);
         addLog("Removed "+ messageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(), messageID,"message");
         return tempBool;
     }
 
-    @Override
     /**
      * Modify message in the database
      * @param newMessage the Message object to modify in the database
      */
+    @Override
     public boolean modifyMessage(Message newMessage) {
         boolean tempBool = messagesDBUtil.modifyMessage(newMessage);
         addLog("Modified "+ newMessage.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newMessage.getMessageID(),"message");
         return tempBool;
     }
 
-    @Override
     /**
      * Generate new messageID
+     * @return unique ID
      */
+    @Override
     public String getNextMessageID() {
         return messagesDBUtil.generateMessageID();
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database
+     * @return List of Message objects
      */
+    @Override
     public List<Message> retrieveMessages() {
         return messagesDBUtil.retrieveMessages(false);
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database filtered by senderID
      * @param senderID the String identifying the sender of a message
+     * @return List of Message objects
      */
+    @Override
     public List<Message> getMessageBySender(String senderID) {
         return messagesDBUtil.searchMessageBySender(senderID);
     }
 
-    @Override
     /**
      * Retrieve list of all Message objects in database filtered by receiverID
-     * @param recieverID the String identifying the receiver of a message
+     * @param receiverID the String identifying the receiver of a message
+     * @return List of Message objects
      */
+    @Override
     public List<Message> getMessageByReceiver(String receiverID) {
         return messagesDBUtil.searchMessageByReceiver(receiverID);
     }
 
-    @Override
     /**
      * Retrieve Message object from database matching a given messageID
-     * @param messageID the String identifying the unique ID of a message
+     * @param ID the String identifying the unique ID of a message
+     * @return Message object
      */
+    @Override
     public Message getMessageByID(String ID) {
         return messagesDBUtil.getMessageByID(ID);
     }
 
 
     /*------------------------------------------------ Requests -------------------------------------------------------*/
-    @Override
+
     /**
      * Add Request object to database with Message object
      * @param requestObject the Request to add
      * @param messageObject the Message to add
+     * @return Request object
      */
+    @Override
     public Request addRequest(Request requestObject, Message messageObject) {
         Request newRequest = requestsDBUtil.addRequest(requestObject, messageObject);
         firebaseDBUtil.updateRequestFirebase();
@@ -529,11 +536,11 @@ public class DataModelI implements IDataModel{
         return requestsDBUtil.addRequest(requestObject);
     }
 
-    @Override
     /**
      * Remove Request object from database by requestID
      * @param requestID the unique string identifier for Requests
      */
+    @Override
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
         firebaseDBUtil.removeRequestFirebase(requestID);
@@ -541,11 +548,12 @@ public class DataModelI implements IDataModel{
         return tempBool;
     }
 
-    @Override
     /**
      * Modify Request object in database
      * @param newRequest the updated Request object
+     * @return True if successful
      */
+    @Override
     public boolean modifyRequest(Request newRequest) {
         boolean tempBool = requestsDBUtil.modifyRequest(newRequest);
         firebaseDBUtil.updateRequestFirebase();
@@ -553,45 +561,50 @@ public class DataModelI implements IDataModel{
         return tempBool;
     }
 
-    @Override
     /**
      * Request new unique string identifier for Requests
+     * @return unique ID
      */
+    @Override
     public String getNextRequestID() {
         return requestsDBUtil.generateRequestID();
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database
+     * @return List of Request objects
      */
+    @Override
     public List<Request> retrieveRequests() {
         return requestsDBUtil.retrieveRequests(false);
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database filtered by senderID
      * @param senderID the unique string identifier for sender
+     * @return List of Request objects
      */
+    @Override
     public List<Request> getRequestBySender(String senderID) {
         return requestsDBUtil.searchRequestsBySender(senderID);
     }
 
-    @Override
     /**
      * Retrieve list of all Request objects in database filtered by receiverID
      * @param receiverID the unique string identifier for receiver
+     * @return List of Request objects
      */
+    @Override
     public List<Request> getRequestByReceiver(String receiverID) {
         return requestsDBUtil.searchRequestsByReceiver(receiverID);
     }
 
-    @Override
     /**
      * Retrieve Request object from database by requestID
      * @param requestID the unique string identifier for Request
+     * @return Request object
      */
+    @Override
     public Request getRequestByID(String requestID) {
         return requestsDBUtil.getRequestByID(requestID);
     }
@@ -599,7 +612,7 @@ public class DataModelI implements IDataModel{
 	/*------------------------------------------------ Users -------------------------------------------------------*/
 
     /**
-     * adds a user to the db
+     * Add a User object to the database
      * @param userID id
      * @param firstName fname
      * @param middleName mname
@@ -608,7 +621,7 @@ public class DataModelI implements IDataModel{
      * @param userType usertype
      * @param userName username
      * @param password pass
-     * @return User created
+     * @return User object created
      */
     @Override
     public User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
