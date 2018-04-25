@@ -36,10 +36,13 @@ public class CsvFileController {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
     /*---------------------------------- Parse CSV File --------------------------------------------------*/
     /**
-     * http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html
-     * https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+     *
+     *
      * @param csv_file_name the name of the csv file
      * @return arrayList of columns from the csv
+     * @see
+     * <a href="https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/">How to parse a CSV five in Java</a><br>
+     * <a href="http://www.avajava.com/tutorials/lessons/how-do-i-read-a-string-from-a-file-line-by-line.html">How to read a string from a file line by line in Java</a>
      */
     public List<String[]> parseCsvFile(String csv_file_name) {
         System.out.println("Parsing csv file: "+csv_file_name);
@@ -74,8 +77,15 @@ public class CsvFileController {
     } // parseCsvFile() ends
 
 
-    /*---------------------------------- Update CSV Files --------------------------------------------------*/
-
+    /*---------------------------------- Update All CSV Files --------------------------------------------------*/
+    /**
+     *
+     * @see
+     * <p>
+     *     "Hello!"
+     * </p>
+     *
+     */
     public void updateAllCSVFiles(){
         updateNodeCSVFile("./nodes.csv");
         updateEdgeCSVFile("./edges.csv");
@@ -91,6 +101,10 @@ public class CsvFileController {
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
+     * @see
+     * <p>
+     *     "PrintWriter class"
+     * </p>
      */
     private void updateNodeCSVFile(String csvFileName) {
         Iterator iterator = new NodesDBUtil().getNodeMap(true).entrySet().iterator();
