@@ -67,7 +67,6 @@ public class Main extends Application {
 
             fd = new FireDetector(primaryStage);
             fd.startDetecting();
-//            DataModelI.getInstance().listenToEmergency();
 
             primaryStage.show();
         }catch(Exception e){
