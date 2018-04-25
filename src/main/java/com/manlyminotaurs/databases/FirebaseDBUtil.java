@@ -459,6 +459,7 @@ public class FirebaseDBUtil {
     //---------------------------------------------User Ends------------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    private static boolean firstCheck = true;
 
     public void listenToEmergency(){
         DocumentReference docRef = firestoreDB.collection("emergencies").document("1");
@@ -473,7 +474,7 @@ public class FirebaseDBUtil {
 
                 ClientSetup client = new ClientSetup(null);
 
-                if (snapshot != null && snapshot.exists()) {
+                if (snapshot != null && snapshot.exists() && !firstCheck) {
                     String emergencyType = (String) snapshot.getData().get("type");
                     System.out.println("Current data: " + emergencyType);
 
@@ -490,6 +491,7 @@ public class FirebaseDBUtil {
                         client.sendEmergency();
                     }
                 } else {
+                    firstCheck = false;
                     System.out.print("Current data: null");
                 }
             }
