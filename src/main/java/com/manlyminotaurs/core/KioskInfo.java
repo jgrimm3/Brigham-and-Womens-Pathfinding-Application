@@ -7,6 +7,7 @@ import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 
 import java.util.Timer;
+import java.util.prefs.Preferences;
 
 public class KioskInfo {
     public static Node getMyLocation() {
@@ -25,8 +26,9 @@ public class KioskInfo {
 
     public static Timer myTimer;
     public static Node myLocation;
-    public static int myDelay = 15000;
     public static Stage myStage;
+
+    private static Preferences pref = Preferences.userRoot().node(Main.class.getName());
 
     public static EventHandler<InputEvent> myHandler = new EventHandler<InputEvent>() {
         @Override
@@ -35,7 +37,7 @@ public class KioskInfo {
                 myTimer.cancel();
             }
             myTimer = new Timer();
-            myTimer.schedule(new ResetTask(myStage), myDelay);
+            myTimer.schedule(new ResetTask(myStage), pref.getInt("DelayTime", 15000));
         }
     };
 }
