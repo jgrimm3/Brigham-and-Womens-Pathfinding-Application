@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 //import com.sun.deploy.association.Action;
+import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 //import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
@@ -138,7 +139,6 @@ public class idleMapController implements Initializable {
             String password = txtPassword.getText();
 
             if (userName.equals("") || password.equals("")) {
-
                 // print message
                 lblLoginWarning.setVisible(true);
                 lblLoginWarning.setText("Please completely fill in the username and password fields");
@@ -154,12 +154,12 @@ public class idleMapController implements Initializable {
                     KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName.toLowerCase(), password.toLowerCase());
 
                     lblLoginWarning.setVisible(false);
+                        if (DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
+                            login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
+                        } else {
+                            login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
+                        }
 
-                    if(DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
-                        login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
-                    }else{
-                        login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/userRequestDashBoard.fxml"));
-                    }
 
                     stage.addEventHandler(InputEvent.ANY, KioskInfo.myHandler);
 
@@ -175,6 +175,7 @@ public class idleMapController implements Initializable {
                     Scene scene = new Scene(login);
                     stage.setScene(scene);
                     stage.show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -261,17 +262,17 @@ public class idleMapController implements Initializable {
         }
 
         public void giftShop(ActionEvent event) {
-//
-//
-//        GiftShop gshop = new GiftShop();
-//        try{
-//           gshop.run(0, 0, 1920, 1080, null, null, null);
-//        }catch(
-//                Exception e)
-//
-//        {
-//            e.printStackTrace();
-//        }
+
+
+        GiftShop gshop = new GiftShop();
+        try{
+           gshop.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
 //
 }
 
@@ -295,5 +296,9 @@ public class idleMapController implements Initializable {
             }
             Stage stage = KioskInfo.myStage;
             stage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
+            if(KioskInfo.myTimer != null){
+                KioskInfo.myTimer.cancel();
+            }
         }
     }

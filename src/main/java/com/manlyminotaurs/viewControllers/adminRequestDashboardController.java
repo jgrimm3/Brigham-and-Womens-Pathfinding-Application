@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -127,6 +128,11 @@ public class adminRequestDashboardController {
     @FXML
     public void initialize() throws Exception{
         try{
+            KioskInfo.myStage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+            if(KioskInfo.myTimer != null){
+                KioskInfo.myTimer.cancel();
+            }
+            
             reqestList.clear();
          //   dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
             reqestList.setAll(dBUtil.retrieveRequests());
@@ -223,8 +229,6 @@ public class adminRequestDashboardController {
      * @param event
      */
     public void loadAPI(ActionEvent event){
-
-
         RoomService roomService = new RoomService();
         try
 

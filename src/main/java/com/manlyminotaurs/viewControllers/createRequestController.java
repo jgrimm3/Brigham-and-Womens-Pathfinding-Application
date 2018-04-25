@@ -169,7 +169,7 @@ public class createRequestController{
         chkHighPriority.setSelected(true);
         chkMedPriority.setSelected(false);
         chkLowPriority.setSelected(false);
-        priority = 3;
+        priority = 1;
     }
 
     /**
@@ -193,7 +193,7 @@ public class createRequestController{
         chkHighPriority.setSelected(false);
         chkMedPriority.setSelected(false);
         chkLowPriority.setSelected(true);
-        priority = 1;
+        priority =  3;
     }
 
     /**

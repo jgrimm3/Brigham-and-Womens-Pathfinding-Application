@@ -65,9 +65,9 @@ public class Main extends Application {
             primaryStage.setWidth(primaryScreenBounds.getWidth());
             primaryStage.setHeight(primaryScreenBounds.getHeight());
 
-//            fd = new FireDetector(primaryStage);
-//            fd.startDetecting();
-            DataModelI.getInstance().listenToEmergency();
+            fd = new FireDetector(primaryStage);
+            fd.startDetecting();
+//            DataModelI.getInstance().listenToEmergency();
 
             primaryStage.show();
         }catch(Exception e){

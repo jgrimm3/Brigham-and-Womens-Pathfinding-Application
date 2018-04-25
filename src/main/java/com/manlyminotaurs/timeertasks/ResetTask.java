@@ -28,6 +28,7 @@ public class ResetTask extends TimerTask {
                         //load up Home FXML document;
                         try {
                             root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+                            System.out.println("Timing Out");
                             //create a new scene with root and set the stage
                             Scene scene = new Scene(root);
                             myStage.setScene(scene);
