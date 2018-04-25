@@ -11,3 +11,5 @@ userID,firstName,middleName,lastName,language, userType, deleteTime
 10,Rohit,,Unnam,Indian,patient,
 11,Ebenezer,,Ampiah,Greek,admin,
 12,Roger,,Rolfes,Swedish,janitor,
+13,Roger,,Rolfes,Swedish,janitor,
+14,new,,user,Swedish,janitor,

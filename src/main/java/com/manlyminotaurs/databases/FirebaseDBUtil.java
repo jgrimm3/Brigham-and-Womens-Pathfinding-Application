@@ -105,7 +105,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveLogFirebase(){
+    public List<Log> retrieveLogFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("logs").get();
         // ...
@@ -143,10 +143,10 @@ public class FirebaseDBUtil {
             listOfLog.add(logObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateLogDerby(listOfLog);
+        return listOfLog;
     }
 
-    private void updateLogDerby(List<Log> listOfLog){
+    public void updateLogDerby(List<Log> listOfLog){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
         Statement stmt = null;
@@ -208,7 +208,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveRequestFirebase(){
+    public List<Request> retrieveRequestFirebase(){
         //---------------------------Retrieve data from Firebase database-----------------------------------------------
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("requests").get();
@@ -265,10 +265,10 @@ public class FirebaseDBUtil {
             listOfRequest.add(requestObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateRequestDerby(listOfRequest);
+        return listOfRequest;
     }
 
-    private void updateRequestDerby(List<Request> listOfRequest){
+    public void updateRequestDerby(List<Request> listOfRequest){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -286,6 +286,17 @@ public class FirebaseDBUtil {
             DataModelI.getInstance().addRequest(aRequest);
         }
         System.out.println("updateRequestDerby Done");
+    }
+
+    public void removeRequestFirebase(String requestID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("requests").document(requestID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------
@@ -325,7 +336,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveUserFirebase(){
+    public List<User> retrieveUserFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("users").get();
         // ...
@@ -371,11 +382,11 @@ public class FirebaseDBUtil {
             userObject.setDeleteTime(deleteTime);
             listOfUser.add(userObject);
         }
-        //-----------------------------------Update Derby Database----------------------------------------------------
-        updateUserDerby(listOfUser);
+
+        return listOfUser;
     }
 
-    private void updateUserDerby(List<User> listOfUser){
+    public void updateUserDerby(List<User> listOfUser){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -393,6 +404,17 @@ public class FirebaseDBUtil {
             DataModelI.getInstance().addUser(aUser);
         }
         System.out.println("updateUserDerby Done");
+    }
+
+    public void removeUserFirebase(String userID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("users").document(userID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------
