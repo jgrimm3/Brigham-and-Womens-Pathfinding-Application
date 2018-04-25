@@ -83,8 +83,6 @@ public class FirebaseDBUtil {
             e.printStackTrace();
         }
         firestoreDB = firestoreOptions.getService();
-
-        listenToEmergency();
     }
 
     //------------------------------------------------------------------------------------------------------

@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
-//import com.manlyminotaurs.core.RoomService;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;

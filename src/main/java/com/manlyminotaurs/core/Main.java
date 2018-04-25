@@ -67,7 +67,7 @@ public class Main extends Application {
 
             fd = new FireDetector(primaryStage);
             fd.startDetecting();
-            new FirebaseDBUtil().listenToEmergency();
+            //new FirebaseDBUtil().listenToEmergency();
 
             primaryStage.show();
         }catch(Exception e){
@@ -130,6 +130,7 @@ public class Main extends Application {
         Preferences.userRoot().node(Main.class.getName()).getInt("DelayTime", 15000);
 
 
+        DataModelI.getInstance().listenToEmergency();
         launch(args);
     }
 

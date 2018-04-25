@@ -174,4 +174,5 @@ public interface IDataModel {
 
     void removeRequestFirebase(String requestID);
     void removeUserFirebase(String userID);
+    void listenToEmergency();
 }
