@@ -400,3 +400,15 @@ logID,description,logTime,userID,associatedID,associatedType
 889,Application Started,2018-04-24 13:27:38:690,N/A,N/A,application
 890,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:27:51:126,null,86,pathfind
 891,Application Closed,2018-04-24 13:28:02:868,N/A,N/A,application
+897,Database Setup,2018-04-24 19:44:34:596,N/A,N/A,database
+898,Application Started,2018-04-24 19:44:34:715,N/A,N/A,application
+899,Application Closed,2018-04-24 19:50:28:064,N/A,N/A,application
+905,Database Setup,2018-04-24 19:51:52:422,N/A,N/A,database
+906,Application Started,2018-04-24 19:51:52:548,N/A,N/A,application
+907,Application Closed,2018-04-24 19:58:28:637,N/A,N/A,application
+913,Database Setup,2018-04-24 19:59:54:236,N/A,N/A,database
+914,Application Started,2018-04-24 19:59:54:268,N/A,N/A,application
+915,Application Closed,2018-04-24 20:04:04:461,N/A,N/A,application
+921,Database Setup,2018-04-24 20:20:41:585,N/A,N/A,database
+922,Application Started,2018-04-24 20:20:41:625,N/A,N/A,application
+923,Application Closed,2018-04-24 20:21:26:724,N/A,N/A,application

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.prefs.Preferences;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.AnchorPane;
@@ -79,6 +80,8 @@ public class Main extends Application {
         //DataModelI.getInstance().addLog("Database saved to CSV files",LocalDateTime.now(), "N/A", "N/A","database");
 
         System.out.println("Files Saved!");
+
+        System.exit(0);
     }
 
     public static void main(String[] args) throws IOException {
@@ -89,6 +92,8 @@ public class Main extends Application {
         }
         KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
         DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
+
+        Preferences.userRoot().node(Main.class.getName()).getInt("DelayTime", 15000);
 
         if(args.length < 1){
             System.out.println("An IP for the server must be specified");
