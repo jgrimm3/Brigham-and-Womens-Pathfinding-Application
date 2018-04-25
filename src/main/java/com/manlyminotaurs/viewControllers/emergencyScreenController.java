@@ -101,7 +101,7 @@ public class emergencyScreenController {
     String endFloor = "1";
     String currentFloor = "1";
     ClientSetup client;
-
+    MediaPlayer a;
     @FXML
     public void initialize() {
         Stage stage = KioskInfo.myStage;
@@ -120,7 +120,7 @@ public class emergencyScreenController {
         List<Node> path = new LinkedList<Node>();
 
         URL resource = getClass().getResource("/Sound/EvacuationEmergency Voice Sample from Matthew Kelly (Highcroft.com).mp3");
-        MediaPlayer a =new MediaPlayer(new Media(resource.toString()));
+        a = new MediaPlayer(new Media(resource.toString()));
         a.setOnEndOfMedia(new Runnable() {
             public void run() {
                 a.seek(Duration.ZERO);
@@ -561,6 +561,8 @@ public class emergencyScreenController {
         if(txtPswd.getText().equals("Password")){
             Stage stage = (Stage) txtPswd.getScene().getWindow();
             stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
+            a.stop();
 
             client.sendReset();
         }
