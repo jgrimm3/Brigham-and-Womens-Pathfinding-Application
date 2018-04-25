@@ -67,7 +67,7 @@
                                                       <Image url="@../Icons/StartIcon.png" />
                                                    </image>
                                                 </ImageView>
-                                                <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                <ImageView fx:id="destination" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#endCircleClicked" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
                                                       <Image url="@../Icons/DestinationIcon.png" />
                                                    </image>
@@ -77,8 +77,18 @@
                                                       <Image url="@../Icons/arrow.png" />
                                                    </image>
                                                 </ImageView>
+                                                <ImageView fx:id="kioskIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Icons/KisoskIcon.png" />
+                                                   </image>
+                                                </ImageView>
                                                 <Text fx:id="startName" layoutX="10.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
                                                 <Text fx:id="endName" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+                                                <ImageView fx:id="startIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                   <image>
+                                                      <Image url="@../Icons/StartIcon.png" />
+                                                   </image>
+                                                </ImageView>
                                              </children>
                                           </Pane>
                                        </children>
