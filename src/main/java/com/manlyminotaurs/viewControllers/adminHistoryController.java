@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.log.Log;
-//import com.manlyminotaursAPI.core.RoomService;
 import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -10,6 +10,9 @@ repositories {
 	flatDir{
 		dirs 'src/main/resources/RoomServiceAPI-1.0.jar'
 	}
+	maven {
+		url 'https://ravana.dyn.wpi.edu/maven'
+	}
 }
 
 sourceSets {
@@ -62,7 +65,9 @@ dependencies {
 			[group: 'org.controlsfx', name: 'controlsfx', version: '8.40.14'],
 			[group: 'de.jensd', name: 'fontawesomefx', version: '8.9'],
 			[group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'],
-			[group: 'javax.websocket', name: 'javax.websocket-api', version:'1.1']
+			[group: 'javax.websocket', name: 'javax.websocket-api', version:'1.1'],
+			[group: 'd18.teamM', name: 'RoomService', version: '1.0.2'],
+			[group: 'd18.teamO', name: 'GiftShop', version: '1.0.2']
 	)
 	compile(
 			[group: 'junit', name: 'junit', version: '4.12'],
@@ -78,7 +83,9 @@ dependencies {
 			[group: 'org.rxtx', name: 'rxtx', version: '2.1.7'],
 			[group: 'de.jensd', name: 'fontawesomefx', version: '8.9'],
 			[group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'],
-			[group: 'javax.websocket', name: 'javax.websocket-api', version:'1.1']
+			[group: 'javax.websocket', name: 'javax.websocket-api', version:'1.1'],
+			[group: 'd18.teamM', name: 'RoomService', version: '1.0.2'],
+			[group: 'd18.teamO', name: 'GiftShop', version: '1.0.2']
 	)
 
 	compile 'junit:junit:4.12'

@@ -69,8 +69,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        fd = new FireDetector(primaryStage);
-        fd.startDetecting();
+//        fd = new FireDetector(primaryStage);
+//        fd.startDetecting();
     }
     // wait for application to finish,calls Platform exit, save files.
 
@@ -123,7 +123,7 @@ public class Main extends Application {
             new ChatServer().spoolUpServer();
             System.out.println("SERVER IS UP");
         }
-
+        DataModelI.getInstance().listenToEmergency();
         launch(args);
     }
 

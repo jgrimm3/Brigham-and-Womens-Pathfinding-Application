@@ -1151,6 +1151,12 @@ public class DataModelI implements IDataModel{
         firebaseDBUtil.removeUserFirebase(userID);
     }
 
+    @Override
+    public void listenToEmergency() {
+        firebaseDBUtil.listenToEmergency();
+    }
+
+
     //--------------------------------------CSV stuffs------------------------------------------
 
     /**
