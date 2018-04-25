@@ -238,7 +238,7 @@ public class UserDBUtil {
                 str = "SELECT * FROM UserAccount";
             }
             else{
-                str = "SELECT * FROM UserAccount WHERE deleteTime IS NULL";
+                str = "SELECT * FROM UserAccount WHERE deleteTime IS NOT NULL";
             }
             ResultSet rset = stmt.executeQuery(str);
 
@@ -364,7 +364,7 @@ public class UserDBUtil {
 
         try {
             Statement stmt = connection.createStatement();
-            String str = "SELECT * FROM UserAccount WHERE userID = '" + userID + "'";
+            String str = "SELECT * FROM UserAccount WHERE userID = '" + userID + "' AND deleteTime IS NOT NULL";
             ResultSet rset = stmt.executeQuery(str);
 
             if (rset.next()) {

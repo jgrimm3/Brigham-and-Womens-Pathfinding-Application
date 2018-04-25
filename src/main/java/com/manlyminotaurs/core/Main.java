@@ -107,7 +107,7 @@ public class Main extends Application {
         if(createTables) {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
-            //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
+ //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
 
         if(args.length < 1){
