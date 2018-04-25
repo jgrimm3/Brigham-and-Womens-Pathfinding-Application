@@ -76,9 +76,9 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-        firebaseDBUtil.initializeFirebase();
-        firebaseDBUtil.updateUserFirebase();
-        firebaseDBUtil.updateRequestFirebase();
+//        firebaseDBUtil.initializeFirebase();
+//        firebaseDBUtil.updateUserFirebase();
+//        firebaseDBUtil.updateRequestFirebase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -423,7 +423,7 @@ public class DataModelI implements IDataModel{
      */
     public Request addRequest(Request requestObject, Message messageObject) {
         Request newRequest = requestsDBUtil.addRequest(requestObject, messageObject);
-        firebaseDBUtil.updateRequestFirebase();
+      //  firebaseDBUtil.updateRequestFirebase();
         addLog("Added "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
         return newRequest;
     }
@@ -440,7 +440,7 @@ public class DataModelI implements IDataModel{
      */
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
-        firebaseDBUtil.removeRequestFirebase(requestID);
+   //     firebaseDBUtil.removeRequestFirebase(requestID);
         addLog("Removed "+ requestID +" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),requestID,"request");
         return tempBool;
     }
@@ -452,7 +452,7 @@ public class DataModelI implements IDataModel{
      */
     public boolean modifyRequest(Request newRequest) {
         boolean tempBool = requestsDBUtil.modifyRequest(newRequest);
-        firebaseDBUtil.updateRequestFirebase();
+   //     firebaseDBUtil.updateRequestFirebase();
         addLog("Modified "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
         return tempBool;
     }
@@ -505,7 +505,7 @@ public class DataModelI implements IDataModel{
     @Override
     public User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
         User newUser = userDBUtil.addUser(userID, firstName, middleName, lastName, languages, userType, userName, password);
-        firebaseDBUtil.updateUserFirebase();
+     //   firebaseDBUtil.updateUserFirebase();
         addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return newUser;
     }
@@ -518,7 +518,7 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean removeUser(String userID) {
         boolean tempBool = userDBUtil.removeUser(userID);
-        firebaseDBUtil.removeUserFirebase(userID);
+    //    firebaseDBUtil.removeUserFirebase(userID);
         addLog("Removed "+ userID +" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return tempBool;
     }
@@ -526,7 +526,7 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyUser(User newUser) {
         boolean tempBool = userDBUtil.modifyUser(newUser);
-        firebaseDBUtil.updateUserFirebase();
+      //  firebaseDBUtil.updateUserFirebase();
         addLog("Modified "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return tempBool;
     }

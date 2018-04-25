@@ -88,19 +88,19 @@
       </Pane>
       <Pane id="Add" fx:id="paneAdd" layoutX="441.0" layoutY="160.0" prefHeight="836.0" prefWidth="506.0">
          <children>
-            <Label fx:id="lblDeleted" layoutX="95.0" layoutY="755.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Node Deleted" textFill="WHITE">
+            <Label fx:id="lblDeleted" alignment="CENTER" layoutX="95.0" layoutY="755.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Node Deleted" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="39.0" />
+                  <Font size="27.0" />
                </font>
             </Label>
-            <Label fx:id="lblAdded" layoutX="85.0" layoutY="745.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="New Node Added" textFill="WHITE">
+            <Label fx:id="lblAdded" alignment="CENTER" contentDisplay="CENTER" layoutX="85.0" layoutY="745.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Node Added" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="39.0" />
+                  <Font size="26.0" />
                </font>
             </Label>
-            <Label fx:id="lblModifed" layoutX="95.0" layoutY="755.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Node Modified" textFill="WHITE">
+            <Label fx:id="lblModifed" alignment="CENTER" contentDisplay="CENTER" layoutX="95.0" layoutY="755.0" opacity="0.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Node Modified" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="39.0" />
+                  <Font size="26.0" />
                </font>
             </Label>
             <JFXToggleButton fx:id="tglAddMapChange" layoutX="203.0" layoutY="34.0" onAction="#modSetFloor" size="12.0" text="  3-D" textFill="WHITE" toggleColor="#edbf54">

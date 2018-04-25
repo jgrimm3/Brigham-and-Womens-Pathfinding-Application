@@ -10,6 +10,7 @@ import com.manlyminotaurs.nodes.Location;
 import com.manlyminotaurs.nodes.Node;
 import com.manlyminotaurs.pathfinding.PathfindingContext;
 //import com.manlyminotaursAPI.core.RoomService;
+import javafx.animation.FadeTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.DoubleProperty;
@@ -32,6 +33,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -134,6 +136,12 @@ public class nodeEditorController {
     JFXToggleButton tglAddMapChange;
     @FXML
     JFXTextField txtTimeOut;
+    @FXML
+    Label lblAdded;
+    @FXML
+    Label lblModified;
+    @FXML
+    Label lblDeleted;
 
 
     final ObservableList<String> buildings = FXCollections.observableArrayList(DataModelI.getInstance().getBuildingsFromList());
@@ -167,6 +175,10 @@ public class nodeEditorController {
             BooleanBinding booleanBindAdd = Bindings.or(txtYCoord.textProperty().isEmpty(),
                     txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty());
             btnMenuAdd.disableProperty().bind(booleanBindAdd);
+
+            BooleanBinding booleanBindModify = Bindings.or(txtYCoord.textProperty().isEmpty(),
+                    txtXCoord.textProperty().isEmpty()).or(txtShortName.textProperty().isEmpty()).or(txtLongName.textProperty().isEmpty()).or(txtYCoord3D.textProperty().isEmpty()).or(txtXCoord3D.textProperty().isEmpty());
+            btnModifyNode.disableProperty().bind(booleanBindModify);
 
             BooleanBinding booleanBindDel = Bindings.or(txtLongName.textProperty().isEmpty(),
                     (cmboBuilding.valueProperty().isNull()).or(cmboFloorAdd.valueProperty().isNull()).or(cmboType.valueProperty().isNull()));
@@ -347,6 +359,13 @@ public class nodeEditorController {
             drawCircles(cmboFloorAdd.getValue(), "2-D");
             drawEdges(cmboFloorAdd.getValue(), "2-D");
         }
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblAdded);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
     }
 
 
@@ -367,6 +386,12 @@ public class nodeEditorController {
 
         //  btnModifyNode.setText("Node Updated");
         //redraw map
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblModified);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
     }
 
     //delete ode
@@ -395,6 +420,12 @@ public class nodeEditorController {
             drawCircles(cmboFloorAdd.getValue(), "2-D");
             drawEdges(cmboFloorAdd.getValue(), "2-D");
         }
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblDeleted);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
     }
 
 

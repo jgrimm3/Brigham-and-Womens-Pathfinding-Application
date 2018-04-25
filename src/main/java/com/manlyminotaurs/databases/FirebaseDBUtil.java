@@ -46,7 +46,7 @@ public class FirebaseDBUtil {
     public void initializeFirebase(){
         FileInputStream serviceAccount = null;
         try {
-            serviceAccount = new FileInputStream(getClass().getResource("/cs3733-web-app-firebase-adminsdk-r1g9x-e36575f789.json").getFile());
+            serviceAccount = new FileInputStream("./cs3733-web-app-firebase-adminsdk-r1g9x-e36575f789.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

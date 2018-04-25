@@ -20,9 +20,9 @@
    <children>
       <Pane layoutX="479.0" layoutY="131.0" prefHeight="896.0" prefWidth="1386.0" style="-fx-background-color: #2b65ac;">
          <children>
-            <Label fx:id="lblAdded" layoutX="550.0" layoutY="20.0" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Request Created" textFill="WHITE">
+            <Label fx:id="lblAdded" alignment="CENTER" contentDisplay="CENTER" layoutX="550.0" layoutY="20.0" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Request Created" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="39.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <Label fx:id="lblError" alignment="CENTER" layoutX="133.0" layoutY="778.0" prefHeight="60.0" prefWidth="249.0" textFill="RED">
