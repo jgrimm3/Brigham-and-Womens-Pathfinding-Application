@@ -3,6 +3,7 @@ package com.manlyminotaurs.core;
 import com.manlyminotaurs.communications.ChatServer;
 import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.databases.DataModelI;
+import com.manlyminotaurs.databases.FirebaseDBUtil;
 import com.manlyminotaurs.timeertasks.Memento;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -64,13 +65,14 @@ public class Main extends Application {
             primaryStage.setWidth(primaryScreenBounds.getWidth());
             primaryStage.setHeight(primaryScreenBounds.getHeight());
 
+            fd = new FireDetector(primaryStage);
+            fd.startDetecting();
+            new FirebaseDBUtil().listenToEmergency();
+
             primaryStage.show();
         }catch(Exception e){
             e.printStackTrace();
         }
-
-        fd = new FireDetector(primaryStage);
-        fd.startDetecting();
     }
     // wait for application to finish,calls Platform exit, save files.
 
@@ -105,12 +107,8 @@ public class Main extends Application {
         if(createTables) {
             System.out.println("version 7");
             DataModelI.getInstance().startDB();
- //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
+            //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
-        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
-//        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
-
-        Preferences.userRoot().node(Main.class.getName()).getInt("DelayTime", 15000);
 
         if(args.length < 1){
             System.out.println("An IP for the server must be specified");
@@ -123,6 +121,14 @@ public class Main extends Application {
             new ChatServer().spoolUpServer();
             System.out.println("SERVER IS UP");
         }
+
+
+
+        KioskInfo.setMyLocation(DataModelI.getInstance().getNodeByID("EINFO00101"));
+//        DataModelI.getInstance().addLog("Application Started",LocalDateTime.now(), "N/A", "N/A","application");
+
+        Preferences.userRoot().node(Main.class.getName()).getInt("DelayTime", 15000);
+
 
         launch(args);
     }

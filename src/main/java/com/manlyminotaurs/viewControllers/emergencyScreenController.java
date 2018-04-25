@@ -648,6 +648,7 @@ public class emergencyScreenController {
             stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
 
             a.stop();
+            a.dispose();
 
             client.sendReset();
         }

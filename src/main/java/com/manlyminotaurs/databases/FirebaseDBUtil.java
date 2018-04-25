@@ -473,20 +473,23 @@ public class FirebaseDBUtil {
                     return;
                 }
 
+                ClientSetup client = new ClientSetup(null);
+
                 if (snapshot != null && snapshot.exists()) {
                     String emergencyType = (String) snapshot.getData().get("type");
                     System.out.println("Current data: " + emergencyType);
+
                     if(emergencyType.equals("fire")){
-                        new ClientSetup(null).sendEmergency();
+                        client.sendEmergency();
                     }
                     else if(emergencyType.equals("bomb")){
-                        new ClientSetup(null).sendEmergency();
+                        client.sendEmergency();
                     }
                     else if(emergencyType.equals("shooter")){
-                        new ClientSetup(null).sendEmergency();
+                        client.sendEmergency();
                     }
                     else if(emergencyType.equals("other")){
-                        new ClientSetup(null).sendEmergency();
+                        client.sendEmergency();
                     }
                 } else {
                     System.out.print("Current data: null");

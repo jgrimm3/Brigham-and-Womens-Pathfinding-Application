@@ -71,6 +71,7 @@ public class ClientSetup {
                         String line = in.readLine();
                         if (line.startsWith("EMERGENCY")) {
                             if(stage != null){
+                                System.out.println("I Am Activating The Emergency Map");
                                 // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
                                 Platform.runLater(
                                         () -> {
