@@ -583,3 +583,7 @@ logID,description,logTime,userID,associatedID,associatedType
 1432,Application Closed,2018-04-25 01:23:42:493,N/A,N/A,application
 1438,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:27:49:394,null,194,pathfind
 1439,Application Closed,2018-04-25 01:29:37:257,N/A,N/A,application
+1445,Pathfind fromEINFO00101 to EEXIT00101 is done,2018-04-25 02:28:37:664,null,195,pathfind
+1446,Application Closed,2018-04-25 02:32:45:117,N/A,N/A,application
+1452,Pathfind fromEINFO00101 to EEXIT00101 is done,2018-04-25 02:49:58:173,null,196,pathfind
+1453,Application Closed,2018-04-25 02:52:38:693,N/A,N/A,application
