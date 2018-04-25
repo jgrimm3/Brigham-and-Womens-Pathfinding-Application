@@ -219,6 +219,7 @@ public class nodeEditorController {
     public void addSetBuilding(ActionEvent event) {
         building = cmboBuilding.getValue().toString();
         cmboFloorAdd.setItems(floors);
+        cmboType.setItems(types);
     }
 
     public void addSetFloor(ActionEvent event) {

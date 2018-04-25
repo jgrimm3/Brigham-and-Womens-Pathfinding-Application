@@ -76,7 +76,9 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-       // firebaseDBUtil.initializeFirebase();
+        firebaseDBUtil.initializeFirebase();
+        firebaseDBUtil.updateUserFirebase();
+        firebaseDBUtil.updateRequestFirebase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -438,7 +440,7 @@ public class DataModelI implements IDataModel{
      */
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
-        firebaseDBUtil.updateRequestFirebase();
+        firebaseDBUtil.removeRequestFirebase(requestID);
         addLog("Removed "+ requestID +" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),requestID,"request");
         return tempBool;
     }
@@ -468,7 +470,6 @@ public class DataModelI implements IDataModel{
      * Retrieve list of all Request objects in database
      */
     public List<Request> retrieveRequests() {
-        firebaseDBUtil.retrieveRequestFirebase();
         return requestsDBUtil.retrieveRequests(false);
     }
 
@@ -517,7 +518,7 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean removeUser(String userID) {
         boolean tempBool = userDBUtil.removeUser(userID);
-        firebaseDBUtil.updateUserFirebase();
+        firebaseDBUtil.removeUserFirebase(userID);
         addLog("Removed "+ userID +" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return tempBool;
     }
@@ -532,7 +533,6 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<User> retrieveUsers() {
-        firebaseDBUtil.retrieveUserFirebase();
         return userDBUtil.retrieveUsers(false);
     }
 
@@ -763,8 +763,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveRequestFirebase() {
-        firebaseDBUtil.retrieveRequestFirebase();
+    public List<Request> retrieveRequestFirebase() {
+        return firebaseDBUtil.retrieveRequestFirebase();
     }
 
     @Override
@@ -773,8 +773,8 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveLogFirebase() {
-        firebaseDBUtil.retrieveLogFirebase();
+    public List<Log> retrieveLogFirebase() {
+        return firebaseDBUtil.retrieveLogFirebase();
     }
 
     @Override
@@ -783,8 +783,33 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
-    public void retrieveUserFirebase() {
-        firebaseDBUtil.retrieveUserFirebase();
+    public List<User> retrieveUserFirebase() {
+        return firebaseDBUtil.retrieveUserFirebase();
+    }
+
+    @Override
+    public void updateRequestDerby(List<Request> listOfRequest) {
+        firebaseDBUtil.updateRequestDerby(listOfRequest);
+    }
+
+    @Override
+    public void updateUserDerby(List<User> listOfUser) {
+        firebaseDBUtil.updateUserDerby(listOfUser);
+    }
+
+    @Override
+    public void updateLogDerby(List<Log> listOfLog) {
+        firebaseDBUtil.updateLogDerby(listOfLog);
+    }
+
+    @Override
+    public void removeRequestFirebase(String requestID) {
+        firebaseDBUtil.removeRequestFirebase(requestID);
+    }
+
+    @Override
+    public void removeUserFirebase(String userID) {
+        firebaseDBUtil.removeUserFirebase(userID);
     }
 
     //--------------------------------------CSV stuffs------------------------------------------
