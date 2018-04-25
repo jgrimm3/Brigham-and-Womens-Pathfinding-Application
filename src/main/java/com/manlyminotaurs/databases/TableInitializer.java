@@ -35,6 +35,9 @@ class TableInitializer {
         }
     }
 
+    /**
+     * sets up tables
+     */
     void setupDatabase(){
         System.out.println("Registering Oracle Driver");
         try {
@@ -272,6 +275,12 @@ class TableInitializer {
     }
 
 
+    /**
+     * populate user account tables in db
+     *
+     * @param CsvFileName
+     * @return account table int
+     */
     private int populateUserAccountTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         int userIDCounter = 0;
@@ -311,6 +320,11 @@ class TableInitializer {
         return userIDCounter;
     }
 
+    /**
+     * populates staff table db
+     *
+     * @param CsvFileName
+     */
     private void populateStaffTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -342,6 +356,10 @@ class TableInitializer {
         }
     }
 
+    /**
+     * populates user password table in db
+     * @param CsvFileName
+     */
     private void populateUserPasswordTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -372,6 +390,11 @@ class TableInitializer {
         }
     }
 
+    /**
+     * popoulates message table in db
+     * @param CsvFileName
+     * @return message table int
+     */
     private int populateMessageTable(String CsvFileName) {
         int messageIDCounter = 0;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -411,6 +434,11 @@ class TableInitializer {
         return messageIDCounter;
     }
 
+    /**
+     * populates request table db
+     * @param CsvFileName
+     * @return request table counter
+     */
     private int populateRequestTable(String CsvFileName) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         int requestIDCounter = 0;
@@ -486,6 +514,11 @@ class TableInitializer {
         }
     }
 
+    /**
+     * populates log table in db
+     * @param CsvFileName
+     * @return log table index
+     */
     private int populateLogTable(String CsvFileName){
         Connection connection = DataModelI.getInstance().getNewConnection();
         int logIDCounter = 0;
@@ -530,6 +563,11 @@ class TableInitializer {
         return logIDCounter;
     }
 
+    /**
+     * populates pathfinding table db
+     * @param CsvFileName
+     * @return table counter
+     */
     private int populatePathfindTable(String CsvFileName){
         Connection connection = DataModelI.getInstance().getNewConnection();
         int pathfinderIDCounter = 0;
@@ -613,6 +651,11 @@ class TableInitializer {
         return isScriptExecuted;
     }
 
+    /**
+     * convert string to timestamp db
+     * @param timeString
+     * @return Timestamp
+     */
     public Timestamp convertStringToTimestamp(String timeString) {/*
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
        // formatter = formatter.withLocale( putAppropriateLocaleHere );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
@@ -631,6 +674,12 @@ class TableInitializer {
         return new Timestamp(parsedTimeStamp.getTime());
     }
 
+    /**
+     * converts string to date in db
+     *
+     * @param timeString
+     * @return sql date
+     */
     public java.sql.Date convertStringToDate(String timeString) {/*
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
        // formatter = formatter.withLocale( putAppropriateLocaleHere );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH

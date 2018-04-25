@@ -6,11 +6,18 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.annotations.Nullable;
+import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.users.User;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.json.simple.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,18 +39,20 @@ public class FirebaseDBUtil {
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
         FirebaseDBUtil firebaseDBUtil = new FirebaseDBUtil();
-        firebaseDBUtil.initializeFirebase();
         // firebaseDBUtil.updateRequestFirebase();
         // firebaseDBUtil.retrieveRequestFirebase();
         // firebaseDBUtil.updateLogFirebase();
         // firebaseDBUtil.retrieveLogFirebase();
-        // firebaseDBUtil.updateUserFirebase();
+   //     firebaseDBUtil.updateUserFirebase();
         // firebaseDBUtil.retrieveUserFirebase();
     }
 
     Firestore firestoreDB;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
 
+    /**
+     * initializes firebase db
+     */
     public void initializeFirebase(){
         FileInputStream serviceAccount = null;
         try {
@@ -51,24 +60,38 @@ public class FirebaseDBUtil {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        FirebaseOptions options = null;
+//
+//        FirebaseOptions options = null;
+//        try {
+//            options = new FirebaseOptions.Builder()
+//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                    .setDatabaseUrl("https://cs3733-web-app.firebaseio.com/")
+//                    .build();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        FirebaseApp.initializeApp(options);
+//        firestoreDB = FirestoreClient.getFirestore();
+        FirestoreOptions firestoreOptions = null;
         try {
-            options = new FirebaseOptions.Builder()
+            firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://cs3733-web-app.firebaseio.com/")
+                    .setProjectId("cs3733-web-app")
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        FirebaseApp.initializeApp(options);
-        firestoreDB = FirestoreClient.getFirestore();
+        firestoreDB = firestoreOptions.getService();
     }
 
     //------------------------------------------------------------------------------------------------------
     //---------------------------------------Log Starts-----------------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
+    /**
+     * updates log of firebase db
+     */
 
     public void updateLogFirebase(){
         List<Log> listOfLog = DataModelI.getInstance().retrieveLogData();
@@ -96,7 +119,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveLogFirebase(){
+    public List<Log> retrieveLogFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("logs").get();
         // ...
@@ -134,9 +157,13 @@ public class FirebaseDBUtil {
             listOfLog.add(logObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateLogDerby(listOfLog);
+        return listOfLog;
     }
 
+    /**
+     * updates log derby
+     * @param listOfLog list of logs to update
+     */
     public void updateLogDerby(List<Log> listOfLog){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
@@ -167,6 +194,9 @@ public class FirebaseDBUtil {
     //------------------------------------------Request Starts----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * updates request of firebase db
+     */
 
     public void updateRequestFirebase(){
         List<Request> listOfRequest = DataModelI.getInstance().retrieveRequests();
@@ -199,7 +229,10 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveRequestFirebase(){
+    /**
+     * retrieves requests from firebase db
+     */
+    public List<Request> retrieveRequestFirebase(){
         //---------------------------Retrieve data from Firebase database-----------------------------------------------
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("requests").get();
@@ -256,9 +289,13 @@ public class FirebaseDBUtil {
             listOfRequest.add(requestObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateRequestDerby(listOfRequest);
+        return listOfRequest;
     }
 
+    /**
+     * updates request derby
+     * @param listOfRequest list of request
+     */
     public void updateRequestDerby(List<Request> listOfRequest){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
@@ -279,6 +316,17 @@ public class FirebaseDBUtil {
         System.out.println("updateRequestDerby Done");
     }
 
+    public void removeRequestFirebase(String requestID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("requests").document(requestID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     //------------------------------------------------------------------------------------------------------
     //-------------------------------------------Request Ends-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
@@ -288,6 +336,9 @@ public class FirebaseDBUtil {
     //--------------------------------------------User Starts-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * updates user firebase db
+     */
 
     public void updateUserFirebase(){
         List<User> listOfUser = DataModelI.getInstance().retrieveUsers();
@@ -316,7 +367,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    public void retrieveUserFirebase(){
+    public List<User> retrieveUserFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("users").get();
         // ...
@@ -362,11 +413,14 @@ public class FirebaseDBUtil {
             userObject.setDeleteTime(deleteTime);
             listOfUser.add(userObject);
         }
-        //-----------------------------------Update Derby Database----------------------------------------------------
-        updateUserDerby(listOfUser);
+
+        return listOfUser;
     }
 
     public void updateUserDerby(List<User> listOfUser){
+
+        List<Message> listOfMessages = DataModelI.getInstance().retrieveMessages();
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -383,19 +437,62 @@ public class FirebaseDBUtil {
         for(User aUser: listOfUser) {
             DataModelI.getInstance().addUser(aUser);
         }
+        for(Message aMessage:listOfMessages){
+            DataModelI.getInstance().addMessage(aMessage);
+        }
+
         System.out.println("updateUserDerby Done");
+    }
+
+    public void removeUserFirebase(String userID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("users").document(userID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------
     //---------------------------------------------User Ends------------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
-    //------------------------------------------------------------------------------------------------------
-    //--------------------------------------------Nodes Start-----------------------------------------------
-    //------------------------------------------------------------------------------------------------------
 
-    public void updateNodeFirebase(){
+    public void listenToEmergency(){
+        DocumentReference docRef = firestoreDB.collection("emergencies").document("1");
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirestoreException e) {
+                if (e != null) {
+                    System.err.println("Listen failed: " + e);
+                    return;
+                }
 
+                ClientSetup client = new ClientSetup(null);
+
+                if (snapshot != null && snapshot.exists()) {
+                    String emergencyType = (String) snapshot.getData().get("type");
+                    System.out.println("Current data: " + emergencyType);
+
+                    if(emergencyType.equals("fire")){
+                        client.sendEmergency();
+                    }
+                    else if(emergencyType.equals("bomb")){
+                        client.sendEmergency();
+                    }
+                    else if(emergencyType.equals("shooter")){
+                        client.sendEmergency();
+                    }
+                    else if(emergencyType.equals("other")){
+                        client.sendEmergency();
+                    }
+                } else {
+                    System.out.print("Current data: null");
+                }
+            }
+        });
     }
-
 }

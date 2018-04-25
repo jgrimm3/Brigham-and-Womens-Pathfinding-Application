@@ -80,6 +80,13 @@ public class Message {
         this.deleteTime = deleteTime;
     }
 
+
+    /**
+     * compares all aspects of an object
+     *
+     * @param o object
+     * @return true if same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,6 +100,10 @@ public class Message {
                 Objects.equals(sentDate, message1.sentDate);
     }
 
+    /**
+     * returns object in hashcode
+     * @return
+     */
     @Override
     public int hashCode() {
 

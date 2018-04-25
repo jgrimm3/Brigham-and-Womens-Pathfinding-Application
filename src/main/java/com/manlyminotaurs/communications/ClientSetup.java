@@ -1,5 +1,6 @@
 package com.manlyminotaurs.communications;
 
+import com.manlyminotaurs.viewControllers.emergencyScreenController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,6 +61,9 @@ public class ClientSetup {
 
     }
 
+    /**
+     *  spool up client
+     */
     public void spoolUpClient() {
         Thread serverThread = new Thread() {
             public void run() {
@@ -68,6 +72,7 @@ public class ClientSetup {
                         String line = in.readLine();
                         if (line.startsWith("EMERGENCY")) {
                             if(stage != null){
+                                System.out.println("I Am Activating The Emergency Map");
                                 // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
                                 Platform.runLater(
                                         () -> {
@@ -94,7 +99,8 @@ public class ClientSetup {
                                             Parent root;
                                             //load up Home FXML document;
                                             try {
-                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+                                                emergencyScreenController.a.dispose();
                                                 //create a new scene with root and set the stage
                                                 Scene scene = new Scene(root);
                                                 stage.setScene(scene);
@@ -118,19 +124,31 @@ public class ClientSetup {
         serverThread.start();
     }
 
+    /**
+     * print emergency
+     */
     public void sendEmergency(){
         out.println("EMERGENCY");
     }
 
+    /**
+     * ask for a state
+     * @return
+     */
     public String requestState() {
         out.println("STATE");
+        System.out.println("State Request Sent");
         try {
+            System.out.println("State Response Received");
             return in.readLine();
         } catch (Exception e) {
             return null;
         }
     }
 
+    /**
+     * send reset
+     */
     public void sendReset(){
         out.println("Reset");
     }

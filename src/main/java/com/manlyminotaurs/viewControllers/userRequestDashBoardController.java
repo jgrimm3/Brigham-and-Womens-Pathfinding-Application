@@ -81,6 +81,7 @@ public class userRequestDashBoardController  {
     public void initialize() throws Exception{
         try{
             reqestList.clear();
+         //   dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
             reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));

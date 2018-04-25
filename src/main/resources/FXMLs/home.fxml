@@ -7,6 +7,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.PerspectiveCamera?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TreeTableColumn?>
@@ -44,6 +45,7 @@
                            <content>
                               <Group fx:id="scrollGroup">
                                  <children>
+                                    <PerspectiveCamera />
                                     <StackPane fx:id="stackPaneMap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="3400.0" prefWidth="5000.0">
                                        <children>
                                           <ImageView fx:id="mapImg" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #99d8bb;">
@@ -56,19 +58,12 @@
                                                 <Path fx:id="diffPath" blendMode="DARKEN" fill="WHITE" layoutX="20.0" layoutY="20.0" opacity="0.5" stroke="#2e2eff" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="4.0" visible="false" />
                                                 <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" stroke="#ff6700" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0" />
                                                 <Text fx:id="destinationText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0">
-                                                   <children>
-                                                      <Label fx:id="lblNoPath" layoutX="824.0" layoutY="479.0" text="No Path Found" textFill="RED" visible="false">
-                                                         <font>
-                                                            <Font size="34.0" />
-                                                         </font>
-                                                      </Label>
-                                                   </children></Pane>
                                                 <StackPane fx:id="nodePane" alignment="TOP_LEFT" prefHeight="80.0" prefWidth="197.0" visible="false">
                                                    <children>
                                                       <Label fx:id="lblNode" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #102c57; -fx-background-radius: 15; -fx-border-color: #919191; -fx-border-width: 5; -fx-border-radius: 10;" text="Location" textFill="WHITE" />
                                                    </children>
                                                 </StackPane>
+                                                <Pane fx:id="pointMap" prefHeight="1000.0" prefWidth="1900.0" />
                                                 <ImageView fx:id="startImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                                    <image>
                                                       <Image url="@../Icons/StartIcon.png" />
@@ -116,6 +111,16 @@
                               <Insets bottom="130.0" right="30.0" />
                            </StackPane.margin>
                         </JFXButton>
+                        <Label fx:id="lblError" opacity="0.0" style="-fx-background-color: #de1a1a; -fx-label-padding: 5;" text="ERROR: Invalid Entry" textFill="WHITE">
+                           <font>
+                              <Font size="39.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblErrorPath" layoutX="766.0" layoutY="481.0" opacity="0.0" style="-fx-background-color: #de1a1a; -fx-label-padding: 5;" text="ERROR: No Path Found" textFill="WHITE">
+                           <font>
+                              <Font size="39.0" />
+                           </font>
+                        </Label>
                         <Pane maxHeight="400.0" maxWidth="115.0" minHeight="400.0" minWidth="100.0" prefHeight="400.0" prefWidth="115.0" StackPane.alignment="TOP_LEFT">
                            <children>
                               <JFXButton fx:id="btnL2" buttonType="RAISED" ellipsisString="" layoutY="320.0" onAction="#changeFloorL2" prefHeight="50.0" prefWidth="50.0" text="l">

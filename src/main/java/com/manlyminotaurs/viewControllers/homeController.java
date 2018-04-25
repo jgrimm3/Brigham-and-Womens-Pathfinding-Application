@@ -98,7 +98,8 @@ public class homeController implements Initializable {
 	final int MAPY2D = 3400;
 	int nodeIconWidth = 40;
 	int nodeIconHeight = 40;
-
+	String currSnap = "1";
+	double rotation;
 	String currentFloor = "1";
 	String currentDimension = "2-D";
 
@@ -248,7 +249,9 @@ public class homeController implements Initializable {
 	ArrayList<String> directions2 = new ArrayList();
 	ArrayList<String> directions3 = new ArrayList();
 
-
+    /**
+     * sets up the screen by setting up the comboboxes, variables, and sets up the autocomplete for textfields
+     */
 	public void setPathfindingScreen() {
 
 		paneDirections.setVisible(false);
@@ -278,6 +281,11 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * sets up screen at intialization
+     * @param location URL location
+     * @param resources resources
+     */
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 
@@ -305,6 +313,9 @@ public class homeController implements Initializable {
 
 	// Set Floor Map and Floor Combobox to correct setting
 
+    /**
+     * sets up screen for fxmls
+     */
 	@FXML
 	public void initialize() {
 
@@ -319,7 +330,7 @@ public class homeController implements Initializable {
 				(TreeTableColumn.CellDataFeatures<String, String> param) ->  new SimpleStringProperty(param.getValue().getValue()));
 
 		tblDirections.setRoot(root);
-
+		rotation = scrollGroup.getRotate();
 		tblDirections.getRoot().setExpanded(true);
 		tblDirections.getRoot().setExpanded(true);
 		scrollPaneMap.setContent(scrollGroup);
@@ -330,6 +341,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * filter floor lists from the main node list
+     * @param listOfNodes list of nodes
+     */
 	public void filterFloorLists(List<Node> listOfNodes) {
 
 		ArrayList<Node> floorL2 = new ArrayList<Node>();
@@ -379,6 +394,9 @@ public class homeController implements Initializable {
 		mapNodeList3 = floor3;
 	}
 
+    /**
+     * sets strategy based
+     */
 	public void setStrategy() {
 		if (Main.pathStrategy.equals("A*")) {
 //			Singleton.getInstance().pathfindingContext.strategy = new AStarStrategyI();
@@ -398,6 +416,10 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * change the map to 2d or 3d
+     * @param event
+     */
 	public void toggleMap(ActionEvent event) {
 		if (currentDimension.equals("2-D")) {
 			// Switch 3-D
@@ -413,6 +435,7 @@ public class homeController implements Initializable {
 			printKiosk();
 			clearPoints();
 			printPoints(currentFloor, currentDimension);
+			breadSnap(currSnap);
 		} else {
 
 			// Switch 2-D
@@ -428,10 +451,14 @@ public class homeController implements Initializable {
 			printKiosk();
 			clearPoints();
 			printPoints(currentFloor, currentDimension);
+			breadSnap(currSnap);
 		}
 
 	}
 
+    /**
+     * prints kiosk location
+     */
 	public void printKiosk() {
 
 		if (currentDimension.equals("3-D")) {
@@ -450,11 +477,14 @@ public class homeController implements Initializable {
 			kioskIcon.setVisible(false);
 		}
 
-		//kioskIcon.setOnMouseClicked(this::startCircleClicked);
-		//kioskIcon.setOnMouseEntered(this::printStartName);
-		//kioskIcon.setOnMouseExited(this::removeStartName);
+		kioskIcon.setOnMouseClicked(this::startCircleClicked);
+		kioskIcon.setOnMouseEntered(this::printStartName);
+		kioskIcon.setOnMouseExited(this::removeStartName);
 	}
 
+    /**
+     * sets screen to kiosk location
+     */
 	public void goToKiosk() {
 		if (currentDimension.equals("3-D")) {
 			scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 2774.0);
@@ -465,6 +495,11 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * screen snaps to the path
+     * @param startNode start node of path
+     * @param endNode end node of path
+     */
 	public void snap(Node startNode, Node endNode) {
 
 		// 2D Variables
@@ -484,18 +519,14 @@ public class homeController implements Initializable {
 
 		if (currentDimension.equals("3-D")) { // 3D
 
-			snapY = (startY3D + ((endY3D - startY3D) / 2)) / 2774.0;
-			snapX = (startX3D + ((endX3D - startX3D) / 2)) / 5000.0;
+			snapY = (Math.abs(((endY3D + startY3D)) / 2)) / 2774.0;
+			snapX = (Math.abs(((endX3D + startX3D)) / 2)) / 5000.0;
 
 		} else { // 2D
 
-			snapY = (startY2D + (((endY2D - startY2D) / 2)) - 200) / 3400.0;
-			snapX = (startX2D + (((endX2D - startX2D) / 2)) - 300) / 5000.0;
+			snapY = (Math.abs(((endY2D + startY2D)) / 2)) / 3400.0;
+			snapX = (Math.abs(((endX2D + startX2D)) / 2)) / 5000.0;
 		}
-
-		//scrollPaneMap.setVvalue(snapY);
-		//scrollPaneMap.setHvalue(snapX);
-
 
 		Timeline timeline = new Timeline();
 		KeyValue kv = new KeyValue(scrollPaneMap.vvalueProperty(), snapY);
@@ -507,7 +538,7 @@ public class homeController implements Initializable {
 		timeline.play();
 
 
-		/*System.out.println(snapX);
+		System.out.println(snapX);
 		System.out.println(snapY);
 		System.out.println("start x2d " + startX2D);
 		System.out.println("start y2d " + startY2D);
@@ -518,21 +549,29 @@ public class homeController implements Initializable {
 		System.out.println("end x3d " + endX3D);
 		System.out.println("end y3d " + endY3D);
 		System.out.println(scrollPaneMap.getVvalue());
-		System.out.println(scrollPaneMap.getHvalue()); */
+		System.out.println(scrollPaneMap.getHvalue());
 
 
 	}
 
+    /**
+     * sets up kiosk by loading it as the starting location, prints the icon for it, and sets the screen to the location
+     */
 	private void setKiosk() { // location isnt getting set correctly for floor or type
 		//comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
 		//comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
 		//comTypeStart.getSelectionModel().select(convertTypeReverse(KioskInfo.myLocation.getNodeType()));
 		txtLocationStart.setText(KioskInfo.myLocation.getLongName());
-		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
-		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		//scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
+		//scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		goToKiosk();
 		printKiosk();
 	}
 
+    /**
+     * prints nodes on the start floor
+     * @param event
+     */
 	public void printNodesOnFloorStart(MouseEvent event) {
 		showStartAndEnd();
 		hideStartAndEnd();
@@ -544,6 +583,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * prints nodes on the end floor
+     * @param event
+     */
 	public void printNodesOnFloorEnd(MouseEvent event) {
 		showStartAndEnd();
 		hideStartAndEnd();
@@ -554,11 +597,17 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * clears points and prints kiosk
+     */
 	private void showStartAndEnd() {
 		clearPoints();
 		printKiosk();
 	}
 
+    /**
+     * disables comboboxes in directory
+     */
 	private void hideStartAndEnd() {
 		comBuildingStart.setDisable(true);
 		comBuildingEnd.setDisable(true);
@@ -568,6 +617,10 @@ public class homeController implements Initializable {
 		comTypeEnd.setDisable(true);
 	}
 
+    /**
+     * allows user to choose node and set location start or end based on click
+     * @param event
+     */
 	public void chooseNode(MouseEvent event) {
 		ImageView circle = (ImageView) event.getTarget();
 
@@ -996,10 +1049,18 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * set start location
+     * @param event
+     */
 	public void setStartLocation(ActionEvent event) {
 		System.out.println("You set a start location: " + txtLocationStart.getText());
 	}
 
+    /**
+     * set end location
+     * @param event
+     */
 	public void setEndLocation(ActionEvent event) {
 		System.out.println("You set a start location: " + txtLocationEnd.getText());
 
@@ -1013,12 +1074,8 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
 	Pane paneDirections;
-
-
 	@FXML
 	JFXButton btnOpenSend;
-
-
 	@FXML
 	Pane paneSend;
 
@@ -1046,10 +1103,18 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnDirections;
 
+    /**
+     * shows send pane
+     * @param event
+     */
 	public void openSendPanel(ActionEvent event) {
 		paneSend.setVisible(true);
 	}
 
+    /**
+     * clears path and and resets comboboxes
+     * @param event
+     */
 	public void restart(ActionEvent event) {
 		// Clear path
 		clearPath();
@@ -1085,6 +1150,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * closes send panel
+     * @param event
+     */
 	public void closeSendPanel(ActionEvent event) {
 
 		// Hide QR code
@@ -1097,6 +1166,10 @@ public class homeController implements Initializable {
 		btnOpenSend.setDisable(false);
 	}
 
+    /**
+     * turns list to string
+     * @return
+     */
 	private String turnListToString() {
 		String out = "";
 		for (String CurrInstruction : directions) {
@@ -1105,6 +1178,10 @@ public class homeController implements Initializable {
 		return out;
 	}
 
+    /**
+     * sends directions via email
+     * @param event
+     */
 	public void sendDirectionsViaEmail(ActionEvent event) {
 		lblEmailMessage.setText("");
 		SendEmail email = new SendEmail(txtEmail.getText(), "B&W Turn-By-Turn Directions", turnListToString());
@@ -1113,6 +1190,10 @@ public class homeController implements Initializable {
 		txtEmail.setText("");
 	}
 
+    /**
+     * sends directions via phone
+     * @param event
+     */
 	public void sendDirectionsViaPhone(ActionEvent event) {
 		lblPhoneMessage.setText("");
 		SendTxt txt = new SendTxt();
@@ -1121,6 +1202,10 @@ public class homeController implements Initializable {
 		txtPhone.setText("");
 	}
 
+    /**
+     * shows directions pane
+     * @param event
+     */
 	public void openDirectionsPane(ActionEvent event) {
 		if (paneDirections.isVisible()) {
 			paneDirections.setVisible(false);
@@ -1149,6 +1234,10 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView imgNavigation;
 
+    /**
+     * toggles showing quick button
+     * @param event
+     */
 	public void toggleQuickButtons(ActionEvent event) {
 
 		if (btnQuickBathroom.isVisible() == true) {
@@ -1169,6 +1258,10 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * finds nearest bathroom and pathfinds to it
+     * @param event
+     */
     public void findQuickBathroom(ActionEvent event) {
 
         // Pathfind to nearest bathroom
@@ -1365,6 +1458,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * finds nearest exit and pathfinds to it
+     * @param event
+     */
     public void findQuickExit(ActionEvent event) {
         // Pathfind to nearest exit
         clearPath();
@@ -1390,8 +1487,6 @@ public class homeController implements Initializable {
         currentFloor = startNode.getFloor();
         // update end name
         txtLocationEnd.setText(exitNode.getLongName());
-
-
 
         try {
 //				pathList = Singleton.getInstance().pathfindingContext.getPath(startNode, endNode, new AStarStrategyI());
@@ -1559,6 +1654,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * finds nearest elevator and pathfinds to it
+     * @param event
+     */
     public void findQuickElevator(ActionEvent event) {
         // Pathfind to nearest bathroom
 		clearPath();
@@ -1767,10 +1866,18 @@ public class homeController implements Initializable {
 	@FXML
 	StackPane paneHelp;
 
+    /**
+     * shows help panel
+     * @param event
+     */
 	public void openHelpPanel(ActionEvent event) {
 		paneHelp.setVisible(true);
 	}
 
+    /**
+     * closes help panel
+     * @param mouseEvent
+     */
 	public void closeHelp(MouseEvent mouseEvent) {
 		paneHelp.setVisible(false);
 	}
@@ -1782,6 +1889,11 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * gets x and y
+     * @param event
+     * @throws Exception
+     */
 	public void getXandY(MouseEvent event) throws Exception {
 		//see which pane is visible and set the corresponding x and y coordinates
 		if (paneMap.isVisible() == true) {
@@ -1796,6 +1908,10 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * loads 2d floor map given floor
+     * @param floor floor
+     */
 	private void floor2DMapLoader(String floor) {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
@@ -1839,6 +1955,10 @@ public class homeController implements Initializable {
 		currentFloor = floor;
 	}
 
+    /**
+     * loads 3d floor map given floor
+     * @param floor floor
+     */
 	private void floor3DMapLoader(String floor) {
 
 		if (floor.equals("FLOOR: L2") || floor.equals("L2")) {
@@ -1909,7 +2029,10 @@ public class homeController implements Initializable {
 	ImageView arrow;
 
 	@FXML
-	Label lblNoPath;
+	Label lblError;
+
+	@FXML
+	Label lblErrorPath;
 
 	List<ImageView> iconList = new ArrayList<>();
 
@@ -1917,7 +2040,6 @@ public class homeController implements Initializable {
 
 	/**
 	 * Maps the value from the old boundary to the new boundary
-	 *
 	 * @param value  the value to be transferred
 	 * @param oldMin the old min value (x or y)
 	 * @param oldMax the old max value (x or y)
@@ -1930,6 +2052,7 @@ public class homeController implements Initializable {
 	}
 
 	/**
+     * adds path
 	 * @param startNode node to draw from
 	 * @param endNode   node to draw to
 	 * @param moveTo    start point of line to be drawn
@@ -1964,6 +2087,15 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * set text based on x and y given
+     * @param text text
+     * @param finishX finish x coordinate
+     * @param finishY finish y coordinate
+     * @param subX subtract x coordinate
+     * @param subY subtract y coordinate
+     * @param font font
+     */
 	private void setText(javafx.scene.text.Text text, int finishX, int finishY, int subX, int subY, Font font) {
 		text.setTranslateX(finishX - subX);
 		text.setTranslateY(finishY - subY);
@@ -1974,11 +2106,12 @@ public class homeController implements Initializable {
 		text.setStrokeWidth(2);
 	}
 
-	/**
-	 * Prints the given path on the map
-	 *
-	 * @param path the nodes to draw a path between
-	 */
+    /**
+     * prints node path
+     * @param path past list of nodes
+     * @param floor floor
+     * @param dimension dimension
+     */
 	private void printNodePath(List<Node> path, String floor, String dimension) {
 		System.out.println("Attempting to print path between nodes...");
 		clearPath();
@@ -2044,8 +2177,8 @@ public class homeController implements Initializable {
 				finishY = endNode.getYCoord3D();
 				startX = startNode.getXCoord3D();
 				startY = startNode.getYCoord3D();
-				destination.setX(finishX-25);
-				destination.setY(finishY-25);
+				destination.setTranslateX(finishX-25);
+				destination.setTranslateY(finishY-25);
 				setText(destinationText, finishX, finishY, 35, 60, font);
 				setText(startName, startX, startY, -15, 0, font);
 				//startName.setRotate(-overMap.getRotate());
@@ -2083,11 +2216,13 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * draws path of start and end node and updates directions
+     * @param event
+     */
 	public void drawPath(ActionEvent event) {
 		try {
-			clearPath();
-			breadcrumbs.clear();
-			setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+
 
 			System.out.println(txtLocationStart.getText());
 			System.out.println(txtLocationEnd.getText());
@@ -2108,6 +2243,21 @@ public class homeController implements Initializable {
 				//nodeList = DataModelI.getInstance().retrieveNodes();
 				Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
 				Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+
+				if(startNode == null || endNode == null) {
+					lblError.setOpacity(1);
+					FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblError);
+					fadeTransition.setFromValue(1);
+					fadeTransition.setToValue(0);
+					fadeTransition.setCycleCount(1);
+					fadeTransition.setAutoReverse(true);
+					fadeTransition.play();
+					return;
+				} else {
+					clearPath();
+					breadcrumbs.clear();
+					setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+				}
 
 				startFloor = startNode.getFloor();
 				endFloor = endNode.getFloor();
@@ -2257,9 +2407,20 @@ public class homeController implements Initializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			lblErrorPath.setOpacity(1);
+			FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblErrorPath);
+			fadeTransition.setFromValue(1);
+			fadeTransition.setToValue(0);
+			fadeTransition.setCycleCount(1);
+			fadeTransition.setAutoReverse(true);
+			fadeTransition.play();
+
 		}
 	}
 
+    /**
+     * animates path with path transition
+     */
 	private void animatePath() {
 		arrow.setVisible(true);
 		PathTransition pathTransition = new PathTransition(Duration.millis(7500), currPath, arrow);
@@ -2268,6 +2429,12 @@ public class homeController implements Initializable {
 		pathTransition.play();
 	}
 
+    /**
+     * gets the distance between 2 nodes
+     * @param a node a
+     * @param b node b
+     * @return distance
+     */
 	private double getDistance(Node a, Node b) {
 		double num;
 		if (Math.abs((num = a.getXCoord() - b.getXCoord())) > 0) {
@@ -2278,16 +2445,30 @@ public class homeController implements Initializable {
 		return 0;
 	}
 
+    /**
+     * calculates time based on velocity
+     * @param pathList pathlist of nodes
+     * @param i desired node in list
+     * @param wantedVelocity velocity
+     * @return time
+     */
 	private double calcTime(List<Node> pathList, int i, double wantedVelocity) {
 		double d = getDistance(pathList.get(i - 1), pathList.get(i));
 		return Math.abs(d / wantedVelocity);
 	}
 
+    /**
+     * clears paths on screen
+     */
 	private void clearPath() {
 		currPath.getElements().clear();
 		diffPath.getElements().clear();
 	}
 
+    /**
+     * sets the floor based on start cicle clicked
+     * @param event
+     */
 	private void startCircleClicked(MouseEvent event) {
 		System.out.println("Recognized a click");
 
@@ -2305,6 +2486,10 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * sets the floor based on end circle clicked
+     * @param event
+     */
 	@FXML
 	private void endCircleClicked(MouseEvent event) {
 		System.out.println("Recognized a click");
@@ -2321,6 +2506,9 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * clears icon points
+     */
 	private void clearPoints() {
 		for (Circle c : circleList) {
 			pointMap.getChildren().remove(c);    // clears all the node circles (only the kiosk now)
@@ -2333,11 +2521,20 @@ public class homeController implements Initializable {
 		iconList.clear();
 	}
 
+    /**
+     * resets screen by cleaing points and printing the kiosk
+     * @param mouseEvent
+     */
 	@FXML
 	private void cancel(MouseEvent mouseEvent) {
 		showStartAndEnd();
 	}
 
+    /**
+     * prints icons for nodes and sets up their interaction
+     * @param floor floor
+     * @param dimension dimension: 2d or 3d
+     */
 	private void printPoints(String floor, String dimension) {
 		// Connection for the database
 		//List<Node> nodeList = DataModelI.getInstance().retrieveNodes();
@@ -2381,10 +2578,14 @@ public class homeController implements Initializable {
 		}
 	}
 
-	private void updateIconRotate() {
+    /**
+     * updates icon based on rotate and animates it
+     * @param rotate rotate quantity
+     */
+	private void updateIconRotate(double rotate) {
 		for(ImageView icon: iconList) {
 			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
-			rt.setToAngle(-scrollGroup.getRotate());
+			rt.setToAngle(-rotate);
 			rt.setCycleCount(1);
 			rt.setAutoReverse(true);
 			rt.play();
@@ -2425,6 +2626,11 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * converts the floor name given into another
+     * @param floorName name of floor
+     * @return converted name
+     */
 	private String returnFloorName(String floorName) {
 		switch (floorName) {
 			case "FLOOR: L2":
@@ -2501,7 +2707,10 @@ public class homeController implements Initializable {
 	@FXML
 	Slider sldZoom;
 
-	// The zooming is a bit weird... should be looked into more in the future
+    /**
+     * zooms into map
+     * @param event
+     */
 	public void zoomIn(ActionEvent event) {
 		if (!(scrollGroup.getScaleX() > 2) || !(scrollGroup.getScaleY() > 2)) {
 			scrollGroup.setScaleX(scrollGroup.getScaleX() + .1);
@@ -2510,6 +2719,10 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * zooms out map
+     * @param event
+     */
 	public void zoomOut(ActionEvent event) {
 		if (!(scrollGroup.getScaleX() < .5) || !(scrollGroup.getScaleY() < .5)) {
 			scrollGroup.setScaleX(scrollGroup.getScaleX() - .1);
@@ -2518,6 +2731,10 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * zooms based on slider
+     * @param event
+     */
 	public void zoom(Event event) {
 		if (sldZoom.getValue() > 50) {
 			scrollGroup.setScaleX(.7 + (sldZoom.getValue() / 100));
@@ -2528,27 +2745,53 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * rotates clockwise
+     * @param event
+     */
 	public void rotateRight(ActionEvent event) {
-		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+		//scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+		rotation = rotation - 30;
+
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
+		rotateTransition.setToAngle(rotation);
+		rotateTransition.setAutoReverse(true);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation - 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 	}
 
+    /**
+     * roatates counter clockwise
+     * @param event
+     */
 	public void rotateLeft(ActionEvent event) {
-		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+		//scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+		rotation = rotation + 30;
+
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
+		rotateTransition.setToAngle(rotation);
+		rotateTransition.setAutoReverse(true);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation + 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 
 	}
 
+    /**
+     * resets rotate
+     * @param event
+     */
 	public void resetRotate(ActionEvent event) {
 		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
-		updateIconRotate();
+		updateIconRotate(0);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -2558,6 +2801,10 @@ public class homeController implements Initializable {
 	//-----------------------------------------------------------------------------------------------------------------
 	//private FadeTransition nameTransition = new FadeTransition(Duration.millis(400), currName);
 
+    /**
+     * prints node pane based on location of circle
+     * @param mouseEvent
+     */
 	private void printName(MouseEvent mouseEvent) {
 		ImageView currCircle = (ImageView) mouseEvent.getTarget();
 		lblNode.setText("  " + currCircle.getId());
@@ -2577,6 +2824,10 @@ public class homeController implements Initializable {
 		fade.play();
 	}
 
+    /**
+     * removes node pane with transition
+     * @param mouseEvent
+     */
 	private void removeName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), nodePane);
 		fade.setFromValue(1);
@@ -2588,6 +2839,10 @@ public class homeController implements Initializable {
 	}
 
 
+    /**
+     * prints the node start name with animation
+     * @param mouseEvent
+     */
 	@FXML
 	private void printStartName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), startName);
@@ -2601,6 +2856,10 @@ public class homeController implements Initializable {
 		fade.play();
 	}
 
+    /**
+     * removes the node start name with animation
+     * @param mouseEvent
+     */
 	@FXML
 	private void removeStartName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), startName);
@@ -2611,6 +2870,10 @@ public class homeController implements Initializable {
 		fade.play();
 	}
 
+    /**
+     * prints the node end name with animation
+     * @param mouseEvent
+     */
 	@FXML
 	private void printEndName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), endName);
@@ -2624,6 +2887,10 @@ public class homeController implements Initializable {
 		fade.play();
 	}
 
+    /**
+     * removes the node end name with animation
+     * @param mouseEvent
+     */
 	@FXML
 	private void removeEndName(MouseEvent mouseEvent) {
 		fade = new FadeTransition(Duration.millis(200), endName);
@@ -2667,6 +2934,10 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView img3;
 
+    /**
+     * change floor based on given floor
+     * @param floor
+     */
 	private void changeFloor(String floor) {
 		if (floor.equals("L2"))
 			changeFloorL2(null);
@@ -2680,6 +2951,10 @@ public class homeController implements Initializable {
 			changeFloor3(null);
 	}
 
+    /**
+     * change to floor L2 and updates buttons
+     * @param event
+     */
 	public void changeFloorL2(ActionEvent event) {
 		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("L2");
@@ -2709,9 +2984,21 @@ public class homeController implements Initializable {
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor L2");
 	}
 
+    /**
+     * change floor to L1 and update buttons
+     * @param event
+     */
 	public void changeFloorL1(ActionEvent event) {
 		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("L1");
@@ -2743,9 +3030,21 @@ public class homeController implements Initializable {
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor L1");
 	}
 
+    /**
+     * change floor to 1 and updates buttons
+     * @param event
+     */
 	public void changeFloor1(ActionEvent event) {
 		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("1");
@@ -2775,11 +3074,22 @@ public class homeController implements Initializable {
 		new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 
 		System.out.println("you selected floor 1");
 
 	}
 
+    /**
+     * change floor to 2 and updates buttons
+     * @param event
+     */
 	public void changeFloor2(ActionEvent event) {
 		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("2");
@@ -2809,10 +3119,23 @@ public class homeController implements Initializable {
 		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
 		new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor 2");
 
 	}
 
+    /**
+     * changes floor to 3 and updates the buttons
+     * @param event
+     */
 	public void changeFloor3(ActionEvent event) {
 		if (currentDimension.equals("3-D")) {
 			floor3DMapLoader("3");
@@ -2844,6 +3167,14 @@ public class homeController implements Initializable {
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
 
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor 3");
 
 	}
@@ -2874,6 +3205,11 @@ public class homeController implements Initializable {
 	@FXML
 	JFXButton btnHome;
 
+    /**
+     * converts type for the purposes of displaying human readable names for comboboxes in directory
+     * @param type type
+     * @return database readable type name
+     */
 	private String convertType(String type) {
 
 		if (type == null) {
@@ -2922,6 +3258,11 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * converts the database readable types in to human readable types
+     * @param type type
+     * @return human readable types
+     */
 	public String convertTypeReverse(String type) {
 
 		if (type == null) {
@@ -2969,6 +3310,10 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * shows start directory pane
+     * @param event
+     */
 	public void openStartDirectory(ActionEvent event) {
 		btnCloseStartDirectory.setVisible(true);
 		btnOpenStartDirectory.setVisible(false);
@@ -2984,12 +3329,20 @@ public class homeController implements Initializable {
 
 	}
 
+    /**
+     * closes start directory pane
+     * @param event
+     */
 	public void closeStartDirectory(ActionEvent event) {
 		btnCloseStartDirectory.setVisible(false);
 		btnOpenStartDirectory.setVisible(true);
 		paneStartDirectory.setVisible(false);
 	}
 
+    /**
+     * shows end directory pane
+     * @param event
+     */
 	public void openEndDirectory(ActionEvent event) {
 		btnCloseEndDirectory.setVisible(true);
 		btnOpenEndDirectory.setVisible(false);
@@ -3000,12 +3353,20 @@ public class homeController implements Initializable {
 		btnCloseStartDirectory.setVisible(false);
 	}
 
+    /**
+     * closes end directory pane
+     * @param event
+     */
 	public void closeEndDirectory(ActionEvent event) {
 		btnCloseEndDirectory.setVisible(false);
 		btnOpenEndDirectory.setVisible(true);
 		paneEndDirectory.setVisible(false);
 	}
 
+    /**
+     * sets the start location based on the directory selection
+     * @param event
+     */
 	public void setStart(ActionEvent event) {
 		String startLocation = lstStartDirectory.getSelectionModel().getSelectedItem();
 		txtLocationStart.setText(startLocation);
@@ -3015,6 +3376,10 @@ public class homeController implements Initializable {
 		paneStartDirectory.setVisible(false);
 	}
 
+    /**
+     * sets the end location based on the directory selection
+     * @param event
+     */
 	public void setEnd(ActionEvent event) {
 		String endLocation = lstEndDirectory.getSelectionModel().getSelectedItem();
 		txtLocationEnd.setText(endLocation);
@@ -3024,14 +3389,26 @@ public class homeController implements Initializable {
 		paneEndDirectory.setVisible(false);
 	}
 
+    /**
+     * filters the directory based on the comboboxes in the start directory
+     * @param event
+     */
 	public void filterStart(ActionEvent event) {
 		lstStartDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingStart.getValue(), comFloorStart.getValue(), convertType(comTypeStart.getValue()))));
 	}
 
+    /**
+     * filters the directory based on the comboboxes in the end directory
+     * @param event
+     */
 	public void filterEnd(ActionEvent event) {
 		lstEndDirectory.setItems(FXCollections.observableList(DataModelI.getInstance().getNamesByBuildingFloorType(comBuildingEnd.getValue(), comFloorEnd.getValue(), convertType(comTypeEnd.getValue()))));
 	}
 
+    /**
+     * loads the idle map screen
+     * @param event
+     */
 	public void goHome(ActionEvent event) {
 		try {
 			Parent login;
@@ -3051,11 +3428,19 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * switches listener for updating the text field for the start location
+     * @param mouseEvent
+     */
 	public void listenForStartLocation(MouseEvent mouseEvent) {
 		System.out.println("Start Location Text Field Touched");
 		forStart = true;
 	}
 
+    /**
+     * switches listener for updating the text field for the end location
+     * @param mouseEvent
+     */
 	public void listenForEndLocation(MouseEvent mouseEvent) {
 	    System.out.println("End Location Text Field Touched");
 	    forStart = false;
@@ -3090,6 +3475,9 @@ public class homeController implements Initializable {
 
 	List<Node> breadSection3 = new ArrayList<>();
 
+    /**
+     * switches to the next breadcrumb
+     */
 	@FXML
 	public void nextBreadcrumb() {
 		int i = 0;
@@ -3107,6 +3495,9 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * switches to the last breadcrumb
+     */
 	@FXML
 	public void lastBreadcrumb () {
 		int i = 0;
@@ -3125,8 +3516,8 @@ public class homeController implements Initializable {
 	}
 
 	/**
-		 * Sets the global variable breadrumbs to all the floors that need to be traversed
-		 */
+     * Sets the global variable breadrumbs to all the floors that need to be traversed
+     */
 	private void getBreadcrumbs() {
 		breadcrumbs.clear();
 			int i = 0;
@@ -3141,6 +3532,9 @@ public class homeController implements Initializable {
 			}
 	}
 
+    /**
+     * gets the bread crumb sections
+     */
 	private void getBreadSections() {
 		breadSection1.clear();
 		breadSection2.clear();
@@ -3221,55 +3615,78 @@ public class homeController implements Initializable {
 		}
 	}
 
+    /**
+     * switches the first bread crumb floor to the right picture
+     * @param mouseEvent
+     */
 	@FXML
 	public void breadFloorSwitch1(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(0));
+			breadSnap("1");
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
-			breadSnap("1");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
 	}
 
+    /**
+     * switches the second bread crumb floor to the right picture
+     * @param mouseEvent
+     */
 	@FXML
 	public void breadFloorSwitch2(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(1));
+			breadSnap("2");
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
-			breadSnap("2");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
 	}
 
+    /**
+     * switches the third bread crumb floor to the right picture
+     * @param mouseEvent
+     */
 	@FXML
 	public void breadFloorSwitch3(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(2));
+			breadSnap("3");
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
-			breadSnap("3");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
 	}
 
+    /**
+     * screen snaps to the right bread crumb
+     * @param num
+     */
 	private void breadSnap(String num) {
+		getBreadSections();
 		if(num.equals("1")) {
 			snap(breadSection1.get(0), breadSection1.get(breadSection1.size()-1));
+			currSnap = "1";
 		} else if(num.equals("2")) {
 			snap(breadSection2.get(0), breadSection2.get(breadSection2.size()-1));
+			currSnap = "2";
 		}else if(num.equals("3")) {
 			snap(breadSection3.get(0), breadSection3.get(breadSection3.size()-1));
+			currSnap = "3";
 		}
 	}
 
+    /**
+     * sets the breadcrumbs to invalid icons
+     */
 	private void setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease() {
 		new ProxyImage(imageStep3, "InvalidIcon.png").displayIcon();
 		new ProxyImage(imageStep1, "InvalidIcon.png").displayIcon();
@@ -3278,6 +3695,6 @@ public class homeController implements Initializable {
 		btnStep2.setDisable(true);
 		btnStep3.setDisable(true);
 	}
-
+	
 	public void closeHelp() {}
 }

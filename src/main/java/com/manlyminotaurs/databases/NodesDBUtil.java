@@ -223,6 +223,9 @@ class NodesDBUtil {
 		}
 	}
 
+    /**
+     * Connect Nodes in database
+     */
 	private void connectNodes() {
 		for (Node xNode : nodeMap.values()){
 			List<String> nodeIDs = getAdjacentNodes(xNode);
@@ -237,6 +240,12 @@ class NodesDBUtil {
 		}
 	}
 
+    /**
+     * Check if two Nodes are neighbors using getAdjacentNodes
+     * @param start one of the two Nodes
+     * @param end the other Node
+     * @return True if end Node ID is in start Nodes List of adjacent Nodes
+     */
 	private boolean areNeighbors(Node start, Node end) {
 		for(Node x: start.getAdjacentNodes()) {
 			if(x.getNodeID().equals(end.getNodeID())) {
@@ -449,8 +458,9 @@ class NodesDBUtil {
 	}
 
 	/**
-	 * Add Node back to database
-	 * @param nodeID the unique nodeID for the deleted Node
+	 * Restore Node from the database
+	 * @param nodeID the unique nodeID for the soft-deleted Node
+     * @return True if successful
 	 */
 	boolean restoreNode(String nodeID){
 		boolean isSucessful = false;
@@ -551,10 +561,10 @@ class NodesDBUtil {
 	} // end addEdge()
 
 	/**
-	 * Makes an "edge" between nodes
-	 * @param startNodeID
-	 * @param endNodeID
-	 * @return
+	 * Makes an Edge between nodes - the two Nodes are adjacent
+	 * @param startNodeID one Node in the Edge
+	 * @param endNodeID the other Node in the Edge
+	 * @return Edge object
 	 */
 	private Edge makeEdge(String startNodeID, String endNodeID){
 		Edge edge = null;

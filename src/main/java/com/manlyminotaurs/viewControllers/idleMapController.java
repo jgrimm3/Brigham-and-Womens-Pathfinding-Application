@@ -10,7 +10,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
-import com.sun.deploy.association.Action;
+//import com.sun.deploy.association.Action;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 //import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Rotate;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -37,6 +38,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -165,7 +167,7 @@ public class idleMapController implements Initializable {
                         KioskInfo.myTimer.cancel();
                     }
                     KioskInfo.myTimer = new Timer();
-                    KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 0));
+                    KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 15*1000));
 
                     Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
@@ -181,7 +183,7 @@ public class idleMapController implements Initializable {
                 // print message
                 System.out.println("Wrong username and password!");
                 lblLoginWarning.setVisible(true);
-                lblLoginWarning.setText("Invalid username and password");
+                lblLoginWarning.setText("Invalid username or password");
 
             }
         }
@@ -201,7 +203,7 @@ public class idleMapController implements Initializable {
                     KioskInfo.myTimer.cancel();
                 }
                 KioskInfo.myTimer = new Timer();
-                KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 0));
+                KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 15*1000));
 
                 Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
@@ -250,9 +252,12 @@ public class idleMapController implements Initializable {
         }
 
         public void getDate(){
-            DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("a MM/dd/yyyy");
             LocalDateTime now = LocalDateTime.now();
-            lblDate.setText(dateFmt.format(now));
+            DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("a ");
+            clocktime.set(timeFmt.format(now));
+            Date date = new Date();
+            String dateString = timeFmt.format(now)+ date.toString().substring(0, date.toString().indexOf(' ', 8))+ date.toString().substring(date.toString().lastIndexOf(' '));
+            lblDate.setText(dateString);
         }
 
         public void giftShop(ActionEvent event) {
@@ -273,6 +278,10 @@ public class idleMapController implements Initializable {
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
+
+//            Rotate rotate = new Rotate(30);
+//            paneLogin.getTransforms().add(rotate);
+
             lblTime.textProperty().bind(clocktime);
             ClockTask clockTimer = new ClockTask();
             Timer clockUpdater = new Timer();

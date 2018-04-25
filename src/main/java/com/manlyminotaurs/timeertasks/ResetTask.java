@@ -16,6 +16,9 @@ public class ResetTask extends TimerTask {
         this.myStage = myStage;
     }
 
+    /**
+     * runs a reset on task
+     */
     @Override
     public void run() {
         if (myStage != null) {

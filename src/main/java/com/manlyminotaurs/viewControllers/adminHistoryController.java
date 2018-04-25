@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.log.Log;
-//import com.manlyminotaursAPI.core.RoomService;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -65,7 +65,10 @@ public class adminHistoryController {
     JFXButton btnRemove;
 
 
-
+    /**
+     * sets up the tables and lists for the screen
+     * @throws Exception
+     */
     @FXML
     public void initialize() throws Exception {
         try {
@@ -100,18 +103,26 @@ public class adminHistoryController {
         }
     }
 
+    /**
+     * fills in the user labels from the selected entry in the log
+     */
     public void entryClicked() {
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
-if (tblHistory.getSelectionModel().getSelectedItem() != null) {
-    Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
-    lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
-    lblUserID.setText("User ID: " + actualLog.getUserID());
-    lblLogID.setText("Log ID: " + actualLog.getLogID());
-    lblDescription.setText("Description: " + actualLog.getDescription());
-    lblTime.setText("Time Stamp: " + actualLog.getLogTime());
-    lblType.setText("Type: " + actualLog.getAssociatedType());
-}
+
+        if (tblHistory.getSelectionModel().getSelectedItem() != null) {
+            Log actualLog = DataModelI.getInstance().getLogByLogID(selectedEntry.logID);
+            lblNodeID.setText("Node ID: " + actualLog.getAssociatedID());
+            lblUserID.setText("User ID: " + actualLog.getUserID());
+            lblLogID.setText("Log ID: " + actualLog.getLogID());
+            lblDescription.setText("Description: " + actualLog.getDescription());
+            lblTime.setText("Time Stamp: " + actualLog.getLogTime());
+            lblType.setText("Type: " + actualLog.getAssociatedType());
+        }
     }
+
+    /**
+     * deletes selected entry from the log
+     */
     public void removeLog(){
         logEntry selectedEntry = (logEntry) tblHistory.getSelectionModel().getSelectedItem();
         lblNodeID.setText("Node ID:");
@@ -149,59 +160,95 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
             this.logID = logID;
         }
 
+        /**
+         * get description of log entry
+         * @return log entry description
+         */
         public String getDescription() {
             return description;
         }
 
+        /**
+         * get log time of log entry
+         * @return log entry log time
+         */
         public LocalDateTime getLogTime() {
             return logTime;
         }
 
-
+        /**
+         * get user id of log entry
+         * @return user id
+         */
         public String getUserID() {
             return userID;
         }
 
+        /**
+         * get node id of log entry
+         * @return node id
+         */
         public String getNodeID() {
             return nodeID;
         }
 
+        /**
+         * get node type of log entry
+         * @return node type
+         */
         public String getNodeType() {
             return nodeType;
         }
+
+        /**
+         * get log id of log entry
+         * @return log id
+         */
         public String getLogID() {
             return logID;
         }
 
     }
-        public void revert(ActionEvent event) {
-            if (lblType.getText().equals("node")) {
-                DataModelI.getInstance().restoreNode(lblNodeID.getText());
-            }
-            if (lblType.getText().equals("request")) {
-                DataModelI.getInstance().restoreRequest(lblNodeID.getText());
-            }
 
-            if (lblType.getText().equals("message")) {
-                DataModelI.getInstance().restoreMessage(lblNodeID.getText());
-            }
-            if (lblType.getText().equals("user")) {
-                DataModelI.getInstance().restoreUser(lblUserID.getText());
-            }
-            if (lblType.getText().equals("userpassword")) {
-                DataModelI.getInstance().restoreUserPassword(lblUserID.getText());
-            }
-            histList.removeAll();
-            histList.clear();
-            tblHistory.setItems(null);
-            ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
-            for (Log currLog : logList) {
-                histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
-                tblHistory.setItems(histList);
-            }
-
-
+    /**
+     * undos action in log
+     * @param event
+     */
+    public void revert(ActionEvent event) {
+        if (lblType.getText().equals("node")) {
+            DataModelI.getInstance().restoreNode(lblNodeID.getText());
         }
+
+        if (lblType.getText().equals("request")) {
+                DataModelI.getInstance().restoreRequest(lblNodeID.getText());
+        }
+
+        if (lblType.getText().equals("message")) {
+                DataModelI.getInstance().restoreMessage(lblNodeID.getText());
+        }
+
+        if (lblType.getText().equals("user")) {
+                DataModelI.getInstance().restoreUser(lblUserID.getText());
+        }
+
+        if (lblType.getText().equals("userpassword")) {
+            DataModelI.getInstance().restoreUserPassword(lblUserID.getText());
+        }
+
+        histList.removeAll();
+        histList.clear();
+        tblHistory.setItems(null);
+        ObservableList<Log> logList = FXCollections.observableArrayList(DataModelI.getInstance().retrieveLogData());
+        for (Log currLog : logList) {
+            histList.add(new logEntry(currLog.getLogID(), currLog.getLogTime(), currLog.getDescription(), currLog.getUserID(), currLog.getAssociatedID(), currLog.getAssociatedType()));
+            tblHistory.setItems(histList);
+        }
+    }
+
+    /**
+     * filters the log based on the type and user textfields
+     * @param event
+     */
     public void filterLog(ActionEvent event) {
         histList.removeAll();
         histList.clear();
@@ -231,6 +278,10 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
 
     }
 
+    /**
+     * reverts the log to an unfiltered list
+     * @param event
+     */
     public void unFilterLog(ActionEvent event) {
         histList.removeAll();
         histList.clear();
@@ -247,6 +298,12 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
     Parent accountManager;
     Parent createRequest;
     Parent manageRequests;
+
+    /**
+     * load node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -263,8 +320,13 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads room service api
+     * @param event
+     */
     public void loadAPI(ActionEvent event){
-/*
+
 
         RoomService roomService = new RoomService();
         try
@@ -277,8 +339,13 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
         {
             e.printStackTrace();
         }
-*/
+
     }
+
+    /**
+     * loads idle map screen
+     * @param event
+     */
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
@@ -297,6 +364,12 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
         catch (Exception e){
             e.printStackTrace();}
     }
+
+    /**
+     * loads account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -314,6 +387,12 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads create request screen
+     * @param event
+     * @throws Exception
+     */
     public void createRequest(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -331,6 +410,11 @@ if (tblHistory.getSelectionModel().getSelectedItem() != null) {
         }
     }
 
+    /**
+     * loads admin request dashboard screen
+     * @param event
+     * @throws Exception
+     */
     public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;

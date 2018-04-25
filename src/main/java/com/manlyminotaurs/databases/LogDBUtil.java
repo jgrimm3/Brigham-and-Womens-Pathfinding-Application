@@ -16,12 +16,19 @@ public class LogDBUtil {
         LogDBUtil.logIDCounter = logIDCounter;
     }
 
+    /**
+     * generates a log id
+     * @return log id
+     */
     private String generateLogID(){
         logIDCounter++;
         return Integer.toString(logIDCounter);
     }
 
-    //get logs from data
+    /**
+     * get log data from database
+     * @return list of logs from db
+     */
     public List<Log> retrieveLogData(){
         List<Log> listOfLogs = new ArrayList<>();
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -53,7 +60,7 @@ public class LogDBUtil {
             }
             rset.close();
             stmt.close();
-            System.out.println("Done adding users");
+            System.out.println("Done adding logs");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -63,7 +70,15 @@ public class LogDBUtil {
         return listOfLogs;
     }
 
-    //add log
+    /**
+     * creates log and adds log to db
+     * @param description
+     * @param logTime
+     * @param userID
+     * @param associatedID
+     * @param associatedType
+     * @return log
+     */
     Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType) {
 
         String logID = generateLogID();
@@ -92,6 +107,10 @@ public class LogDBUtil {
         return newLog;
     }
 
+    /**
+     * adds log to db
+     * @param newLog to create
+     */
     public void addLog(Log newLog) {
 
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -116,7 +135,11 @@ public class LogDBUtil {
     }
 
 
-    //delete log
+    /**
+     * removes log from db
+     * @param logID of log to remove
+     * @return true if success
+     */
     boolean removeLog(String logID){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -135,7 +158,11 @@ public class LogDBUtil {
         return isSuccess;
     }
 
-    //get log by iD
+    /**
+     * retrieves log by id
+     * @param logID of log to get
+     * @return log
+     */
     Log getLogByLogID(String logID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -174,6 +201,11 @@ public class LogDBUtil {
         return newLog;
     }
 
+    /**
+     * gets logs by the id from db
+     * @param userID of log
+     * @return list of log
+     */
     List<Log> getLogsByUserID(String userID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -213,6 +245,11 @@ public class LogDBUtil {
         return listOfLog;
     }
 
+    /**
+     * gets logs by association type from db
+     * @param associatedType type
+     * @return list of logs
+     */
     List<Log> getLogsByAssociatedType(String associatedType){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -252,6 +289,12 @@ public class LogDBUtil {
         return listOfLog;
     }
 
+    /**
+     * gets log by log timeframe
+     * @param startTime
+     * @param endTime
+     * @return list of log
+     */
     List<Log> getLogsByLogTime(LocalDateTime startTime, LocalDateTime endTime){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -293,6 +336,11 @@ public class LogDBUtil {
         return listOfLog;
     }
 
+    /**
+     * gets log by time choice
+     * @param timeChoice timechoice
+     * @return list of log
+     */
     public List<Log> getLogsByLogTimeChoice(String timeChoice){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
         List<Log> listOfLogs = null;

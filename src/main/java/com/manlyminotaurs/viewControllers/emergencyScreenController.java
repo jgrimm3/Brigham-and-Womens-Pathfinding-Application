@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -28,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -43,45 +45,34 @@ public class emergencyScreenController {
     ScrollPane scrollPaneMap;
     @FXML
     AnchorPane backPane;
-
     @FXML
     StackPane stackPaneMap;
-
     @FXML
     Pane paneMap;
-
     @FXML
     JFXPasswordField txtPswd;
-
     @FXML
     JFXButton btnReset;
-
     @FXML
     ImageView mapImg;
     @FXML
     Pane overMap;
-
     @FXML
     Label lblEmergency;
     @FXML
     Path pathL2;
-
     @FXML
     Path pathL1;
-
     @FXML
     Path path1;
-
     @FXML
     Path path2;
-
     @FXML
     Path path3;
     @FXML
     javafx.scene.text.Text startName;
     @FXML
     javafx.scene.text.Text endName;
-
     @FXML
     javafx.scene.text.Text destinationText;
     @FXML
@@ -99,9 +90,16 @@ public class emergencyScreenController {
     String endFloor = "1";
     String currentFloor = "1";
     ClientSetup client;
+    public static MediaPlayer a;
 
+    /**
+     * sets up emergency screen
+     */
     @FXML
     public void initialize() {
+        Stage stage = KioskInfo.myStage;
+        stage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
         printKiosk();
         goToKiosk();
         txtPswd.setStyle("-fx-prompt-text-fill: WHITE");
@@ -115,7 +113,7 @@ public class emergencyScreenController {
         List<Node> path = new LinkedList<Node>();
 
         URL resource = getClass().getResource("/Sound/EvacuationEmergency Voice Sample from Matthew Kelly (Highcroft.com).mp3");
-        MediaPlayer a =new MediaPlayer(new Media(resource.toString()));
+        a = new MediaPlayer(new Media(resource.toString()));
         a.setOnEndOfMedia(new Runnable() {
             public void run() {
                 a.seek(Duration.ZERO);
@@ -124,7 +122,7 @@ public class emergencyScreenController {
         a.play();
 
         try {
-            path = pf.getPath(KioskInfo.getMyLocation(), realExit, new AStarStrategyI());
+            path = pf.getPath(KioskInfo.getMyLocation(), exitNode, new ClosestStrategyI());
             pathList = path;
         } catch (PathNotFoundException e) {
             e.printStackTrace();
@@ -136,13 +134,24 @@ public class emergencyScreenController {
 
     }
 
-
+    /**
+     * generates the kiosk circle
+     */
     public void printKiosk() {
         Circle kiosk = new Circle();
-            kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
-            kiosk.setFill(Color.RED);
-        }
+        kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+        kiosk.setFill(Color.RED);
+    }
 
+    /**
+     * draws lines start node and end node
+     * @param currPath current path
+     * @param dimension dimension: 2d or 3d
+     * @param startNode start node
+     * @param endNode end node
+     * @param moveTo move To
+     * @param lineTo line To
+     */
     private void addPath(Path currPath, String dimension, Node startNode, Node endNode, MoveTo moveTo, LineTo lineTo) {
         if (startNode != null && endNode != null) {
             System.out.println("Found a path!");
@@ -172,6 +181,15 @@ public class emergencyScreenController {
         }
     }
 
+    /**
+     * sets the text at desired location
+     * @param text text
+     * @param finishX finish x coordinate
+     * @param finishY finish y coordinate
+     * @param subX subtract x coordinate used for calculation
+     * @param subY subtract y coordinate used for calculation
+     * @param font font
+     */
     private void setText(javafx.scene.text.Text text, int finishX, int finishY, int subX, int subY, Font font) {
         text.setTranslateX(finishX-subX);
         text.setTranslateY(finishY-subY);
@@ -183,13 +201,23 @@ public class emergencyScreenController {
     }
 
 
+    /**
+     * sets screen to kiosk location
+     */
     public void goToKiosk() {
             scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
             scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
             floor2DMapLoader(startFloor);
     }
+
     boolean pathRunning;
 
+    /**
+     * print node path and snap to the path
+     * @param path path which is a list of nodes
+     * @param floor floor
+     * @param dimension dimension: 2d or 3d
+     */
     private void printNodePath(List<Node> path, String floor, String dimension) {
         System.out.println("Attempting to print path between nodes...");
         int i = 0;
@@ -252,7 +280,7 @@ public class emergencyScreenController {
             //javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
             destination.setVisible(true);
             destinationText.setVisible(true);
-        ;
+
             destinationText.setText("FL " + endFloor);
             Font font = Font.font("Verdana", FontWeight.BOLD, 40);
 
@@ -324,6 +352,11 @@ public class emergencyScreenController {
             }
         }
     }
+
+    /**
+     * change floor based on floor input
+     * @param floor floor
+     */
     private void changeFloor(String floor) {
         if(floor.equals("L2"))
             changeFloorL2(null);
@@ -337,6 +370,10 @@ public class emergencyScreenController {
             changeFloor3(null);
     }
 
+    /**
+     * change floor to L2
+     * @param event
+     */
     public void changeFloorL2(ActionEvent event) {
 
             floor2DMapLoader("L2");
@@ -348,6 +385,10 @@ public class emergencyScreenController {
         System.out.println("you selected floor L2");
     }
 
+    /**
+     * change floor to L1
+     * @param event
+     */
     public void changeFloorL1(ActionEvent event) {
 
             floor2DMapLoader("L1");
@@ -358,6 +399,10 @@ public class emergencyScreenController {
 
     }
 
+    /**
+     * change floor to 1
+     * @param event
+     */
     public void changeFloor1(ActionEvent event) {
 
             floor2DMapLoader("1");
@@ -371,6 +416,10 @@ public class emergencyScreenController {
 
     }
 
+    /**
+     * change floor to 2
+     * @param event
+     */
     public void changeFloor2(ActionEvent event) {
 
             floor2DMapLoader("2");
@@ -384,6 +433,10 @@ public class emergencyScreenController {
 
     }
 
+    /**
+     * change floor to 3
+     * @param event
+     */
     public void changeFloor3(ActionEvent event) {
 
             floor2DMapLoader("3");
@@ -394,6 +447,11 @@ public class emergencyScreenController {
         System.out.println("you selected floor 3");
 
     }
+
+    /**
+     * sets the floor of the circle clicked
+     * @param event
+     */
     private void startCircleClicked(MouseEvent event) {
         System.out.println("Recognized a click");
 
@@ -407,6 +465,11 @@ public class emergencyScreenController {
         }
 
     }
+
+    /**
+     * loads 2D floor maps based on floor
+     * @param floor floor
+     */
     public void floor2DMapLoader(String floor) {
 //		cancelFinish.setVisible(false);
 //		cancelStart.setVisible(false);
@@ -446,7 +509,10 @@ public class emergencyScreenController {
         currentFloor = floor;
     }
 
-
+    /**
+     * print name of circle clicked
+     * @param mouseEvent
+     */
     private void printName(MouseEvent mouseEvent) {
         Circle currCircle = (Circle)mouseEvent.getTarget();
         javafx.scene.text.Text name = new javafx.scene.text.Text(currCircle.getId());
@@ -479,6 +545,10 @@ public class emergencyScreenController {
         paneMap.getChildren().remove(currName);
     }
 
+    /**
+     * print start name with fade
+     * @param mouseEvent
+     */
     @FXML
     private void printStartName(MouseEvent mouseEvent) {
         fade = new FadeTransition(Duration.millis(200), startName);
@@ -489,6 +559,10 @@ public class emergencyScreenController {
         fade.play();
     }
 
+    /**
+     * remove start name with fade
+     * @param mouseEvent
+     */
     @FXML
     private void removeStartName(MouseEvent mouseEvent) {
         fade = new FadeTransition(Duration.millis(200), startName);
@@ -499,6 +573,10 @@ public class emergencyScreenController {
         fade.play();
     }
 
+    /**
+     * print end name with fade
+     * @param mouseEvent
+     */
     @FXML
     private void printEndName(MouseEvent mouseEvent) {
         fade = new FadeTransition(Duration.millis(200), endName);
@@ -509,6 +587,10 @@ public class emergencyScreenController {
         fade.play();
     }
 
+    /**
+     * remove end name with fade
+     * @param mouseEvent
+     */
     @FXML
     private void removeEndName(MouseEvent mouseEvent) {
         fade = new FadeTransition(Duration.millis(200), endName);
@@ -518,6 +600,10 @@ public class emergencyScreenController {
         fade.setCycleCount(1);
         fade.play();
     }
+
+    /**
+     * clear path from screen
+     */
     private void clearPath() {
         currPath.getElements().clear();
         currPath.getElements().add(new MoveTo(-100, -100));
@@ -551,9 +637,19 @@ public class emergencyScreenController {
         path3.getElements().add(new LineTo(-100, 5000));
     }
 
+    /**
+     * resets system
+     * @param e
+     */
     @FXML
     public void resetSystem(ActionEvent e){
         if(txtPswd.getText().equals("Password")){
+            Stage stage = (Stage) txtPswd.getScene().getWindow();
+            stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
+            a.stop();
+            a.dispose();
+
             client.sendReset();
         }
     }
