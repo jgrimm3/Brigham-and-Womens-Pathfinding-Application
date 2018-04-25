@@ -25,7 +25,7 @@ public class ClockTask extends TimerTask {
         Platform.runLater(
                 () -> {
                     LocalDateTime now = LocalDateTime.now();
-                    DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("h:mm a");
+                    DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("h:mm");
                     clocktime.set(timeFmt.format(now));
 
                 }
