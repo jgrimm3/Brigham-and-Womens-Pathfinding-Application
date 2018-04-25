@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -28,6 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -102,6 +104,9 @@ public class emergencyScreenController {
 
     @FXML
     public void initialize() {
+        Stage stage = KioskInfo.myStage;
+        stage.removeEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
         printKiosk();
         goToKiosk();
         txtPswd.setStyle("-fx-prompt-text-fill: WHITE");
@@ -554,6 +559,9 @@ public class emergencyScreenController {
     @FXML
     public void resetSystem(ActionEvent e){
         if(txtPswd.getText().equals("Password")){
+            Stage stage = (Stage) txtPswd.getScene().getWindow();
+            stage.addEventFilter(InputEvent.ANY, KioskInfo.myHandler);
+
             client.sendReset();
         }
     }
