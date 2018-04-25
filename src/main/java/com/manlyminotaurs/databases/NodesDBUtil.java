@@ -259,13 +259,13 @@ class NodesDBUtil {
 
 	/**
 	 * Adds the java object and the corresponding entry in the database table
-     * @param nodeID
+     * @param nodeID unique ID
      * @param xCoord    xcoord
      * @param yCoord    ycoord
      * @param nodeType  node type
      * @param longName  long name of the node
      * @param shortName short name of the node
-     * @param status
+     * @param status active status of Node
      * @param yCoord3D  yCoord3D
      * @param xCoord3D  xCoord3D
      */
