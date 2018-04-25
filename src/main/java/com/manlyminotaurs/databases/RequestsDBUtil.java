@@ -35,6 +35,13 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
+
+    /**
+     * adds request to db
+     * @param requestObject request
+     * @param message message
+     * @return request created
+     */
 	Request addRequest(Request requestObject, Message message){
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
@@ -74,6 +81,11 @@ class RequestsDBUtil {
     }
 
 
+    /**
+     * adds request based on request object
+     * @param requestObject req
+     * @return added request
+     */
     Request addRequest(Request requestObject){
         //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
@@ -106,6 +118,11 @@ class RequestsDBUtil {
         return requestObject;
     }
 
+    /**
+     * removes request linked to ID from db
+     * @param requestID of request
+     * @return true if success
+     */
 
     boolean removeRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -129,6 +146,11 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
+    /**
+     * reverts deleted request
+     * @param requestID id of request
+     * @return true if success
+     */
     boolean restoreRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -151,6 +173,11 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
+    /**
+     * PERMANENTLY removes a request
+     * @param request
+     * @return true if success
+     */
     boolean permanentlyRemoveRequest(Request request) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
@@ -170,6 +197,11 @@ class RequestsDBUtil {
         return isSucessful;
     }
 
+    /**
+     * modifies a request in db
+     * @param newRequest to modify
+     * @return true if success
+     */
     public boolean modifyRequest(Request newRequest) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -201,6 +233,13 @@ class RequestsDBUtil {
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
+
+    /**
+     * sets status of admin
+     *
+     * @param request
+     * @param newConfirmStatus
+     */
     void setIsAdminConfim(Request request, boolean newConfirmStatus){
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -217,6 +256,11 @@ class RequestsDBUtil {
         }
     }
 
+    /**
+     * set if complete to true
+     * @param request
+     * @param newCompleteStatus
+     */
     void setIsComplete(Request request, boolean newCompleteStatus){
         Connection connection = DataModelI.getInstance().getNewConnection();
         request.setComplete(newCompleteStatus);
@@ -301,6 +345,11 @@ class RequestsDBUtil {
         return listOfRequest;
     } // retrieveRequests() ends
 
+    /**
+     * gets request from database with matching ID
+     * @param requestID of req
+     * @return request
+     */
 	Request getRequestByID(String requestID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();

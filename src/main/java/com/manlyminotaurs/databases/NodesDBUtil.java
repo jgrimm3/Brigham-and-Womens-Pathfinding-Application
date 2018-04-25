@@ -124,6 +124,11 @@ class NodesDBUtil {
 		return nodes;
 	} // retrieveNodes() ends
 
+	/**
+	 * updates node map from db
+	 * @param allEntriesExist
+	 * @return map<String, Node>
+	 */
 	Map<String, Node> updateNodeMap(boolean allEntriesExist){
 		// Variables
 		Node node = null;
@@ -191,6 +196,9 @@ class NodesDBUtil {
 		return nodeMap;
 	} // retrieveNodeMap() ends
 
+    /**
+     * adds all edges of a node
+     */
 	@Deprecated
 	 private void addAllEdges() {
 		for(Node x: nodes) {
@@ -206,6 +214,9 @@ class NodesDBUtil {
 		}
 	}
 
+    /**
+     * connects nodes in db
+     */
 	private void connectNodes() {
 		for (Node xNode : nodeMap.values()){
 			List<String> nodeIDs = getAdjacentNodes(xNode);
@@ -220,6 +231,12 @@ class NodesDBUtil {
 		}
 	}
 
+    /**
+     * sees if two nodes are neighbors
+     * @param start
+     * @param end
+     * @return true if success
+     */
 	private boolean areNeighbors(Node start, Node end) {
 		for(Node x: start.getAdjacentNodes()) {
 			if(x.getNodeID().equals(end.getNodeID())) {
@@ -288,6 +305,11 @@ class NodesDBUtil {
 	} // end addNode()
 
 
+    /**
+     * adds node to backup
+     * @param nodeID
+     * @return
+     */
 	Node addNodeToBackup(String nodeID) {
 		Node aNode = getNodeByID(nodeID);
 		int xCoord = aNode.getXCoord();
@@ -343,7 +365,8 @@ class NodesDBUtil {
 
 
 	/**
-	 * @param node
+     * modifies node in db
+	 * @param node to modify
 	 */
 	boolean modifyNode(Node node) {
 		boolean isSucessful = false;
@@ -425,6 +448,11 @@ class NodesDBUtil {
 		}
 	}
 
+    /**
+     * restores node from db
+     * @param nodeID of node
+     * @return true if success
+     */
 	boolean restoreNode(String nodeID){
 		boolean isSucessful = false;
 		Connection connection = DataModelI.getInstance().getNewConnection();
@@ -822,8 +850,8 @@ class NodesDBUtil {
 
 	/**
 	 * find all adjacent edges from the node object using sql query
-	 * @param node
-	 * @return
+	 * @param nodeid of node
+	 * @return list of edges to node
 	 */
 	private List<Edge> getAdjacentEdges(String nodeID) {
 		List<Edge> listOfEdges = new ArrayList<Edge>();
@@ -926,6 +954,13 @@ class NodesDBUtil {
 	}
 
 
+    /**
+     * returns list of nodes by building type floor
+     * @param nodeBuilding name of building
+     * @param nodeType node type
+     * @param nodeFloor floor num
+     * @return list of nodes within params
+     */
 	@Deprecated
 	List<Node> getNodesByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<Node> selectedNodes = new ArrayList<>();
@@ -1023,6 +1058,13 @@ class NodesDBUtil {
 		return listOfLongNames;
 	}
 
+    /**
+     * gets long name by building type floor
+     * @param nodeBuilding building
+     * @param nodeType type
+     * @param nodeFloor floor
+     * @return list of long names within said parameters
+     */
 	List<String> getLongNameByBuildingTypeFloor (String nodeBuilding, String nodeType, String nodeFloor) {
 		List<String> selectedNames = new ArrayList<>();
 		PreparedStatement stmt = null;
@@ -1087,6 +1129,11 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+    /**
+     * gets list of nodes based on floor
+     * @param floor string of floor
+     * @return list of node
+     */
 	public List<Node> getNodesByFloor(String floor) {
 		List<Node> selectedNodes = new ArrayList<>();
 
@@ -1098,6 +1145,11 @@ class NodesDBUtil {
 		return selectedNodes;
 	}
 
+    /**
+     * gets list of nodes based on building
+     * @param building building name
+     * @return list of nodes
+     */
 	@Deprecated
 	public List<Node> getNodesByBuilding(String building) {
 		List<Node> selectedNodes = new ArrayList<>();
@@ -1294,6 +1346,12 @@ class NodesDBUtil {
 		return listOfNames;
 	}
 
+    /**
+     * gets node by long name from a list in db
+     * @param longName long name of node
+     * @param nodeList list of node to search
+     * @return node that matches long name
+     */
 	@Deprecated
 	Node getNodeByLongNameFromList(String longName, List<Node> nodeList) {
 	    for(Node x : nodeList) {

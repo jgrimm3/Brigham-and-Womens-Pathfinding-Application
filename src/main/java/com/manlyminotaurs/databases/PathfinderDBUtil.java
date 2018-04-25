@@ -11,17 +11,28 @@ public class PathfinderDBUtil {
 
     private static int pathFinderIDCounter = 0;
 
+    /**
+     * sets pathfinder id counter to 0
+     * @param pathFinderIDCounter global var
+     */
     public static void setPathFinderIDCounter(int pathFinderIDCounter) {
         PathfinderDBUtil.pathFinderIDCounter = pathFinderIDCounter;
     }
 
+    /**
+     * generates a pathfinder id
+     * @return incremented pathfinder id
+     */
     private String generatePathfinderID(){
         pathFinderIDCounter++;
         return Integer.toString(pathFinderIDCounter);
     }
 
 
-    //retrieve pathfindings
+    /**
+     * retrieves pathfinding
+     * @return list of pathfinder (edges)
+     */
     public List<Pathfinder> retrievePathfinderData(){
         List<Pathfinder> listOfPath = new ArrayList<>();
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -58,7 +69,12 @@ public class PathfinderDBUtil {
         return listOfPath;
     }
 
-    //Add pathfinding
+    /**
+     * adds a path to pathfind to
+     * @param startNodeID id of start
+     * @param endNodeID id of end
+     * @return pathfinder (edge)
+     */
     public Pathfinder addPath(String startNodeID, String endNodeID){
 
         String pathfinderID = generatePathfinderID();
@@ -84,7 +100,11 @@ public class PathfinderDBUtil {
         return pathfinder;
     }
 
-    //remove pathfinding
+    /**
+     * removes path from db
+     * @param pathfinder path to remove
+     * @return true if success
+     */
     boolean removePath(Pathfinder pathfinder){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -103,7 +123,11 @@ public class PathfinderDBUtil {
         return isSuccess;
     }
 
-    //get pathfinding by IDs
+    /**
+     * gets path by path id
+     * @param pathfinderID id of path
+     * @return path (edge)
+     */
     Pathfinder getPathByPathfinderID(String pathfinderID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -138,6 +162,11 @@ public class PathfinderDBUtil {
         return pathfinder;
     }
 
+    /**
+     * gets path connected to start node
+     * @param startNodeID id of node
+     * @return list of paths
+     */
     List<Pathfinder> getPathByStartNodeID(String startNodeID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -174,6 +203,11 @@ public class PathfinderDBUtil {
         return listOfPath;
     }
 
+    /**
+     * gets path based on end node id
+     * @param endNodeID id of end node
+     * @return list of paths (edges)
+     */
     List<Pathfinder> getPathByEndNodeID(String endNodeID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();

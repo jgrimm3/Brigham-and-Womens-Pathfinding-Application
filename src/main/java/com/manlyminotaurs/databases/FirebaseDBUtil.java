@@ -43,6 +43,9 @@ public class FirebaseDBUtil {
     Firestore firestoreDB;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:S");
 
+    /**
+     * initializes firebase db
+     */
     public void initializeFirebase(){
         FileInputStream serviceAccount = null;
         try {
@@ -79,6 +82,10 @@ public class FirebaseDBUtil {
     //---------------------------------------Log Starts-----------------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * updates log of firebase db
+     */
+
     public void updateLogFirebase(){
         List<Log> listOfLog = DataModelI.getInstance().retrieveLogData();
         for(Log aLog: listOfLog) {
@@ -105,6 +112,9 @@ public class FirebaseDBUtil {
         }
     }
 
+    /**
+     * retrieves log firebase db
+     */
     public void retrieveLogFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("logs").get();
@@ -146,6 +156,10 @@ public class FirebaseDBUtil {
         updateLogDerby(listOfLog);
     }
 
+    /**
+     * updates log derby
+     * @param listOfLog list of logs to update
+     */
     private void updateLogDerby(List<Log> listOfLog){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
@@ -176,6 +190,9 @@ public class FirebaseDBUtil {
     //------------------------------------------Request Starts----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * updates request of firebase db
+     */
 
     public void updateRequestFirebase(){
         List<Request> listOfRequest = DataModelI.getInstance().retrieveRequests();
@@ -208,6 +225,9 @@ public class FirebaseDBUtil {
         }
     }
 
+    /**
+     * retrieves requests from firebase db
+     */
     public void retrieveRequestFirebase(){
         //---------------------------Retrieve data from Firebase database-----------------------------------------------
         // asynchronously retrieve all users
@@ -268,6 +288,10 @@ public class FirebaseDBUtil {
         updateRequestDerby(listOfRequest);
     }
 
+    /**
+     * updates request derby
+     * @param listOfRequest list of request
+     */
     private void updateRequestDerby(List<Request> listOfRequest){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
@@ -297,6 +321,9 @@ public class FirebaseDBUtil {
     //--------------------------------------------User Starts-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * updates user firebase db
+     */
 
     public void updateUserFirebase(){
         List<User> listOfUser = DataModelI.getInstance().retrieveUsers();
@@ -325,6 +352,9 @@ public class FirebaseDBUtil {
         }
     }
 
+    /**
+     * retrieves user firebase db
+     */
     public void retrieveUserFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("users").get();
@@ -375,6 +405,10 @@ public class FirebaseDBUtil {
         updateUserDerby(listOfUser);
     }
 
+    /**
+     * updates user derby db
+     * @param listOfUser list of user to update
+     */
     private void updateUserDerby(List<User> listOfUser){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
