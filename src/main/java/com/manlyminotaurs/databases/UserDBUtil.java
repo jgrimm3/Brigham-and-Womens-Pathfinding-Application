@@ -22,6 +22,20 @@ public class UserDBUtil {
     }
 
     /*------------------------------------ Add / Remove / Modify User -------------------------------------------------*/
+
+    /**
+     * creates a user to add to db
+     *
+     * @param userID
+     * @param firstName
+     * @param middleName
+     * @param lastName
+     * @param languages
+     * @param userType
+     * @param userName
+     * @param password
+     * @return user added
+     */
     User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password){
 
         if(userID == null || userID.equals("")) {
@@ -56,11 +70,46 @@ public class UserDBUtil {
         return userObject;
     }
 
-    boolean removeUser(User oldUser){
+    /**
+     * adds a user to db
+     * @param userObject
+     */
+    void addUser(User userObject){
+
+        String concatLanguages = String.join("/", userObject.getLanguages());
+        Connection connection =  DataModelI.getInstance().getNewConnection();
+        try {
+            String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language,userType) VALUES (?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, userObject.getUserID());
+            statement.setString(2, userObject.getFirstName());
+            statement.setString(3, userObject.getMiddleName());
+            statement.setString(4, userObject.getLastName());
+            statement.setString(5, concatLanguages);
+            statement.setString(6, userObject.getUserType());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            System.out.println("User added to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally{
+            DataModelI.getInstance().closeConnection();
+        }
+    }
+
+    /**
+     * removes user from db
+     * @param userID
+     * @return true if success
+     */
+    boolean removeUser(String userID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
         try {
-            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ oldUser.getUserID() +"'" ;
+            String str = "UPDATE UserAccount SET deleteTime = ? WHERE userID = '"+ userID +"'" ;
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -78,6 +127,11 @@ public class UserDBUtil {
         return isSuccess;
     }
 
+    /**
+     * reverts deleted user back to db
+     * @param userID of deleted
+     * @return true if success
+     */
     boolean restoreUser(String userID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -100,6 +154,11 @@ public class UserDBUtil {
         return isSuccess;
     }
 
+    /**
+     * PERMANENTLY removes user from db
+     * @param oldUser to delete
+     * @return true if success
+     */
     boolean permanentlyRemoveUser(User oldUser){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -119,6 +178,11 @@ public class UserDBUtil {
         return isSuccess;
     }
 
+    /**
+     * modifies user in db
+     * @param newUser to modify
+     * @return true if success
+     */
     public boolean modifyUser(User newUser) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -211,14 +275,24 @@ public class UserDBUtil {
         return listOfUsers;
     } // retrieveUsers() ends
 
-    List<String> getLanguageList ( String languagesConcat){
+    /**
+     * get list of langs
+     * @param languagesConcat string of languages
+     * @return tokenized list of string
+     */
+    public List<String> getLanguageList ( String languagesConcat){
         // Input: String languageConcat = "English/Spanish"
         // Output: List <String> languages = [ "English" , "Spanish" ]
         List<String> languages = new ArrayList<String>(Arrays.asList(languagesConcat.split("/")));
         return languages;
     }
 
-    String getLanguageString(List<String> languages){
+    /**
+     * gets language string
+     * @param languages list
+     * @return String
+     */
+    public String getLanguageString(List<String> languages){
         String full_language = languages.get(0);
         for(int i = 1; i<languages.size(); i++){
             full_language = full_language + "/" + languages.get(i);
@@ -226,6 +300,10 @@ public class UserDBUtil {
         return full_language;
     }
 
+    /**
+     * retrieve staff fields from db
+     * @return list of staff fields
+     */
     public List<StaffFields> retrieveStaffs() {
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -266,6 +344,11 @@ public class UserDBUtil {
         return listOfStaffs;
     } // retrieveStaffs() ends
 
+    /**
+     * gets user based on id
+     * @param userID to get
+     * @return user
+     */
     User getUserByID(String userID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -281,7 +364,7 @@ public class UserDBUtil {
 
         try {
             Statement stmt = connection.createStatement();
-            String str = "SELECT * FROM UserAccount WHERE userID = '" + userID + "'";
+            String str = "SELECT * FROM UserAccount WHERE userID = '" + userID + "' AND deleteTime IS NULL";
             ResultSet rset = stmt.executeQuery(str);
 
             if (rset.next()) {
@@ -308,6 +391,16 @@ public class UserDBUtil {
         return userObject;
     }
 
+    /**
+     * creates user
+     * @param userID
+     * @param firstName
+     * @param middleName
+     * @param lastName
+     * @param languages
+     * @param userType
+     * @return User created
+     */
     public static User userBuilder(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType){
         User userObject;
         switch (userType) {

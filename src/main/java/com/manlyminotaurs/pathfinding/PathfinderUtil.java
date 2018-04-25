@@ -97,31 +97,39 @@ public class PathfinderUtil {
     public ArrayList<String> angleToText(LinkedList<Node> path) {
         ArrayList<String> tbt = new ArrayList<>();
         /* check for <= 2 node path */
-        if (path.size() <= 2) { tbt.add(straightArrow + ""+  (path.getLast())); return tbt; }
-        /* loop through path */
-        for (int i = 0; i < path.size() - 2; i++) {
-            System.out.println("Intersection: " + (i + 1));
-            double angle = calcAngle(path.get(i), path.get((i+1)), path.get((i+2)));
-            if (angle > 30 && angle <= 45) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + slightRightArrow + nameToString(path.get((i+1))));
-            } else if (angle > 45 && angle <= 135) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + rightArrow + nameToString(path.get((i+1))));
-            } else if (angle > 135 && angle <= 175) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + sharpRightArrow+ nameToString(path.get((i+1))));
-            } else if (angle > 175 && angle <= 185) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + "turn around" + nameToString(path.get((i+1))));
-            } else if (angle > 185 && angle <= 225) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + sharpLeftArrow + nameToString(path.get((i+1))));
-            } else if (angle > 225 && angle <= 315) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + leftArrow + nameToString(path.get((i+1))));
-            } else if (angle > 315 && angle <= 330) {
-                tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + slightLeftArrow + nameToString(path.get((i+1))));
+        if (path.size() < 1) { tbt.add("");
+        return tbt;}
+            if (path.size() <= 2) {
+                tbt.add(straightArrow + "" + (path.getLast()));
+                return tbt;
+            }
+            /* loop through path */
+            for (int i = 0; i < path.size() - 2; i++) {
+                System.out.println("Intersection: " + (i + 1));
+                double angle = calcAngle(path.get(i), path.get((i + 1)), path.get((i + 2)));
+                if (angle > 30 && angle <= 45) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + slightRightArrow + nameToString(path.get((i + 1))));
+                } else if (angle > 45 && angle <= 135) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + rightArrow + nameToString(path.get((i + 1))));
+                } else if (angle > 135 && angle <= 175) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + sharpRightArrow + nameToString(path.get((i + 1))));
+                } else if (angle > 175 && angle <= 185) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + "turn around" + nameToString(path.get((i + 1))));
+                } else if (angle > 185 && angle <= 225) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + sharpLeftArrow + nameToString(path.get((i + 1))));
+                } else if (angle > 225 && angle <= 315) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + leftArrow + nameToString(path.get((i + 1))));
+                } else if (angle > 315 && angle <= 330) {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + slightLeftArrow + nameToString(path.get((i + 1))));
 
-            } else { tbt.add(nodesToDistance(path.get(i), path.get(i+1)) + straightArrow + nameToString(path.get((i+1)))); }
+                } else {
+                    tbt.add(nodesToDistance(path.get(i), path.get(i + 1)) + straightArrow + nameToString(path.get((i + 1))));
+                }
+            }
+            tbt.add(nodesToDistance(path.get(path.size() - 2), path.getLast()) + " Arrive At " + nameToString(path.getLast()));
+            return tbt;
+
         }
-        tbt.add(nodesToDistance(path.get(path.size()-2) , path.getLast()) + " Arrive At " + nameToString(path.getLast()));
-        return tbt;
-    }
 
     /**
      * @author Crunchify.com

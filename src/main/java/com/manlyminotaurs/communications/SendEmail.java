@@ -20,7 +20,11 @@ public class SendEmail {
         this.text = text;
     }
 
-    public void send(){
+    /**
+     * send an email
+     */
+
+        public void send(){
 
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -34,6 +38,7 @@ public class SendEmail {
                 return new PasswordAuthentication("3733.d18.teamm@gmail.com", "manlyMinotaurs");
             }
         });
+
         Message simpleMessage = new MimeMessage(mailSession);
 
         InternetAddress fromAddress = null;

@@ -91,6 +91,11 @@ public abstract class User {
         return this.userType.equalsIgnoreCase(userType);
     }
 
+    /**
+     * overide to compare every aspect of user
+     * @param o
+     * @return true if same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

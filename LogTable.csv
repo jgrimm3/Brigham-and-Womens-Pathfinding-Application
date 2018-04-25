@@ -42,3 +42,548 @@ logID,description,logTime,userID,associatedID,associatedType
 46,Application Started,2018-04-18 03:13:17:299,N/A,N/A,application
 52,Database Setup,2018-04-18 03:16:28:105,N/A,N/A,database
 53,Application Started,2018-04-18 03:16:28:128,N/A,N/A,application
+59,Database Setup,2018-04-23 16:38:17:697,N/A,N/A,database
+60,Application Started,2018-04-23 16:38:17:705,N/A,N/A,application
+61,Application Closed,2018-04-23 16:39:13:642,N/A,N/A,application
+67,Database Setup,2018-04-23 16:41:03:600,N/A,N/A,database
+68,Application Started,2018-04-23 16:41:03:611,N/A,N/A,application
+69,Application Closed,2018-04-23 16:41:20:840,N/A,N/A,application
+75,Database Setup,2018-04-23 16:41:53:123,N/A,N/A,database
+76,Application Started,2018-04-23 16:41:53:131,N/A,N/A,application
+77,Application Closed,2018-04-23 16:42:04:724,N/A,N/A,application
+83,Database Setup,2018-04-23 16:42:22:918,N/A,N/A,database
+84,Application Started,2018-04-23 16:42:22:929,N/A,N/A,application
+85,Application Closed,2018-04-23 16:42:34:489,N/A,N/A,application
+91,Database Setup,2018-04-23 16:43:18:425,N/A,N/A,database
+92,Application Started,2018-04-23 16:43:18:434,N/A,N/A,application
+93,Application Closed,2018-04-23 16:43:40:438,N/A,N/A,application
+99,Database Setup,2018-04-23 16:46:11:573,N/A,N/A,database
+100,Application Started,2018-04-23 16:46:11:582,N/A,N/A,application
+101,Application Closed,2018-04-23 16:46:20:821,N/A,N/A,application
+107,Database Setup,2018-04-23 16:47:32:198,N/A,N/A,database
+108,Application Started,2018-04-23 16:47:32:206,N/A,N/A,application
+109,Application Closed,2018-04-23 16:47:55:853,N/A,N/A,application
+115,Database Setup,2018-04-23 16:59:10:185,N/A,N/A,database
+116,Application Started,2018-04-23 16:59:10:199,N/A,N/A,application
+117,Application Closed,2018-04-23 18:16:58:920,N/A,N/A,application
+123,Database Setup,2018-04-23 18:17:17:172,N/A,N/A,database
+124,Application Started,2018-04-23 18:17:17:180,N/A,N/A,application
+125,Application Closed,2018-04-23 18:18:20:213,N/A,N/A,application
+131,Database Setup,2018-04-23 18:35:54:280,N/A,N/A,database
+132,Application Started,2018-04-23 18:35:54:286,N/A,N/A,application
+133,Pathfind fromEINFO00101 to EEXIT00101 is done,2018-04-23 18:36:02:033,null,17,pathfind
+134,Pathfind fromEINFO00101 to CCONF003L1 is done,2018-04-23 18:36:12:473,null,18,pathfind
+135,Pathfind fromEINFO00101 to WELEV00KL2 is done,2018-04-23 18:36:28:548,null,19,pathfind
+136,Pathfind fromGLABS014L2 to GSERV02301 is done,2018-04-23 18:36:37:512,null,20,pathfind
+137,Application Closed,2018-04-23 18:37:22:768,N/A,N/A,application
+143,Database Setup,2018-04-23 18:38:37:805,N/A,N/A,database
+144,Application Started,2018-04-23 18:38:37:812,N/A,N/A,application
+145,Pathfind fromEINFO00101 to AINFO001L2 is done,2018-04-23 18:38:47:061,null,21,pathfind
+146,Pathfind fromGSERV02301 to AINFO001L2 is done,2018-04-23 18:40:10:769,null,22,pathfind
+147,Application Closed,2018-04-23 18:41:00:133,N/A,N/A,application
+153,Database Setup,2018-04-23 18:42:06:068,N/A,N/A,database
+154,Application Started,2018-04-23 18:42:06:074,N/A,N/A,application
+155,Pathfind fromEINFO00101 to AINFO001L2 is done,2018-04-23 18:42:15:406,null,23,pathfind
+156,Application Closed,2018-04-23 18:42:22:014,N/A,N/A,application
+162,Database Setup,2018-04-23 18:44:07:043,N/A,N/A,database
+163,Application Started,2018-04-23 18:44:07:057,N/A,N/A,application
+164,Application Closed,2018-04-23 18:44:44:150,N/A,N/A,application
+170,Database Setup,2018-04-23 18:50:53:410,N/A,N/A,database
+171,Application Started,2018-04-23 18:50:53:419,N/A,N/A,application
+172,Pathfind fromEINFO00101 to AINFO001L2 is done,2018-04-23 18:51:04:990,null,24,pathfind
+173,Application Closed,2018-04-23 18:51:09:325,N/A,N/A,application
+179,Database Setup,2018-04-23 18:58:28:304,N/A,N/A,database
+180,Application Started,2018-04-23 18:58:28:311,N/A,N/A,application
+181,Application Closed,2018-04-23 18:59:16:066,N/A,N/A,application
+187,Database Setup,2018-04-23 19:01:01:756,N/A,N/A,database
+188,Application Started,2018-04-23 19:01:01:762,N/A,N/A,application
+189,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-23 19:01:17:470,null,25,pathfind
+190,Pathfind fromEINFO00101 to GELEV00N01 is done,2018-04-23 19:01:26:879,null,26,pathfind
+191,Application Closed,2018-04-23 19:05:34:928,N/A,N/A,application
+197,Database Setup,2018-04-23 19:12:25:495,N/A,N/A,database
+198,Application Started,2018-04-23 19:12:25:502,N/A,N/A,application
+199,Application Closed,2018-04-23 19:12:42:772,N/A,N/A,application
+205,Database Setup,2018-04-23 19:13:30:561,N/A,N/A,database
+206,Application Started,2018-04-23 19:13:30:568,N/A,N/A,application
+207,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 19:13:43:920,null,27,pathfind
+208,Application Closed,2018-04-23 19:16:10:784,N/A,N/A,application
+214,Database Setup,2018-04-23 19:17:13:344,N/A,N/A,database
+215,Application Started,2018-04-23 19:17:13:351,N/A,N/A,application
+216,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-23 19:17:22:228,null,28,pathfind
+217,Application Closed,2018-04-23 19:18:09:726,N/A,N/A,application
+223,Database Setup,2018-04-23 19:20:08:385,N/A,N/A,database
+224,Application Started,2018-04-23 19:20:08:408,N/A,N/A,application
+225,Pathfind fromEINFO00101 to FINFO00101 is done,2018-04-23 19:20:19:884,null,29,pathfind
+226,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 19:20:45:772,null,30,pathfind
+227,Application Closed,2018-04-23 19:20:55:099,N/A,N/A,application
+233,Database Setup,2018-04-23 19:21:11:173,N/A,N/A,database
+234,Application Started,2018-04-23 19:21:11:182,N/A,N/A,application
+235,Pathfind fromEINFO00101 to HBATH00203 is done,2018-04-23 19:21:35:947,null,31,pathfind
+236,Application Closed,2018-04-23 19:21:56:314,N/A,N/A,application
+242,Database Setup,2018-04-23 19:23:52:895,N/A,N/A,database
+243,Application Started,2018-04-23 19:23:52:906,N/A,N/A,application
+244,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 19:24:17:255,null,32,pathfind
+245,Application Closed,2018-04-23 19:24:32:676,N/A,N/A,application
+251,Database Setup,2018-04-23 19:24:56:705,N/A,N/A,database
+252,Application Started,2018-04-23 19:24:56:712,N/A,N/A,application
+253,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 19:25:07:900,null,33,pathfind
+254,Application Closed,2018-04-23 19:25:20:093,N/A,N/A,application
+260,Database Setup,2018-04-23 19:25:29:198,N/A,N/A,database
+261,Application Started,2018-04-23 19:25:29:208,N/A,N/A,application
+262,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 19:25:39:408,null,34,pathfind
+263,Application Closed,2018-04-23 19:27:13:373,N/A,N/A,application
+269,Database Setup,2018-04-23 19:28:28:587,N/A,N/A,database
+270,Application Started,2018-04-23 19:28:28:594,N/A,N/A,application
+271,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 19:28:38:688,null,35,pathfind
+272,Application Closed,2018-04-23 19:29:24:270,N/A,N/A,application
+278,Database Setup,2018-04-23 19:30:38:180,N/A,N/A,database
+279,Application Started,2018-04-23 19:30:38:192,N/A,N/A,application
+280,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 19:30:51:930,null,36,pathfind
+281,Application Closed,2018-04-23 19:31:12:338,N/A,N/A,application
+287,Database Setup,2018-04-23 19:56:23:860,N/A,N/A,database
+288,Application Started,2018-04-23 19:56:23:874,N/A,N/A,application
+289,Pathfind fromEINFO00101 to HBATH00203 is done,2018-04-23 19:56:35:321,null,37,pathfind
+290,Application Closed,2018-04-23 19:56:42:829,N/A,N/A,application
+296,Database Setup,2018-04-23 20:01:11:228,N/A,N/A,database
+297,Application Started,2018-04-23 20:01:11:236,N/A,N/A,application
+298,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-23 20:01:24:772,null,38,pathfind
+299,Application Closed,2018-04-23 20:01:29:891,N/A,N/A,application
+305,Database Setup,2018-04-23 20:02:10:408,N/A,N/A,database
+306,Application Started,2018-04-23 20:02:10:414,N/A,N/A,application
+307,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-23 20:02:39:912,null,39,pathfind
+308,Application Closed,2018-04-23 20:03:40:892,N/A,N/A,application
+314,Database Setup,2018-04-23 20:04:12:045,N/A,N/A,database
+315,Application Started,2018-04-23 20:04:12:056,N/A,N/A,application
+316,Pathfind fromEINFO00101 to HBATH00102 is done,2018-04-23 20:04:33:408,null,40,pathfind
+317,Application Closed,2018-04-23 20:05:14:026,N/A,N/A,application
+323,Database Setup,2018-04-23 20:06:14:712,N/A,N/A,database
+324,Application Started,2018-04-23 20:06:14:720,N/A,N/A,application
+325,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-23 20:06:39:001,null,41,pathfind
+326,Application Closed,2018-04-23 20:07:23:756,N/A,N/A,application
+332,Database Setup,2018-04-23 20:09:10:921,N/A,N/A,database
+333,Application Started,2018-04-23 20:09:10:931,N/A,N/A,application
+334,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:09:33:608,null,42,pathfind
+335,Application Closed,2018-04-23 20:09:41:135,N/A,N/A,application
+341,Database Setup,2018-04-23 20:10:04:221,N/A,N/A,database
+342,Application Started,2018-04-23 20:10:04:229,N/A,N/A,application
+343,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-23 20:10:15:428,null,43,pathfind
+344,Application Closed,2018-04-23 20:11:10:102,N/A,N/A,application
+350,Database Setup,2018-04-23 20:12:24:037,N/A,N/A,database
+351,Application Started,2018-04-23 20:12:24:046,N/A,N/A,application
+352,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:12:35:461,null,44,pathfind
+353,Application Closed,2018-04-23 20:12:42:334,N/A,N/A,application
+359,Database Setup,2018-04-23 20:13:50:008,N/A,N/A,database
+360,Application Started,2018-04-23 20:13:50:018,N/A,N/A,application
+361,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:13:58:521,null,45,pathfind
+362,Application Closed,2018-04-23 20:14:06:522,N/A,N/A,application
+368,Database Setup,2018-04-23 20:14:52:408,N/A,N/A,database
+369,Application Started,2018-04-23 20:14:52:416,N/A,N/A,application
+370,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:15:02:693,null,46,pathfind
+371,Application Closed,2018-04-23 20:15:15:683,N/A,N/A,application
+377,Database Setup,2018-04-23 20:15:57:654,N/A,N/A,database
+378,Application Started,2018-04-23 20:15:57:663,N/A,N/A,application
+379,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:16:07:330,null,47,pathfind
+380,Application Closed,2018-04-23 20:17:10:978,N/A,N/A,application
+386,Database Setup,2018-04-23 20:17:43:313,N/A,N/A,database
+387,Application Started,2018-04-23 20:17:43:321,N/A,N/A,application
+388,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:17:58:876,null,48,pathfind
+389,Application Closed,2018-04-23 20:18:20:149,N/A,N/A,application
+395,Database Setup,2018-04-23 20:22:11:034,N/A,N/A,database
+396,Application Started,2018-04-23 20:22:11:046,N/A,N/A,application
+397,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:23:14:120,null,49,pathfind
+398,Application Closed,2018-04-23 20:23:18:874,N/A,N/A,application
+404,Database Setup,2018-04-23 20:27:06:019,N/A,N/A,database
+405,Application Started,2018-04-23 20:27:06:031,N/A,N/A,application
+406,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:27:15:607,null,50,pathfind
+407,Application Closed,2018-04-23 20:29:39:148,N/A,N/A,application
+413,Database Setup,2018-04-23 20:29:51:706,N/A,N/A,database
+414,Application Started,2018-04-23 20:29:51:714,N/A,N/A,application
+415,Pathfind fromEINFO00101 to HBATH00203 is done,2018-04-23 20:30:02:639,null,51,pathfind
+416,Application Closed,2018-04-23 20:31:05:012,N/A,N/A,application
+422,Database Setup,2018-04-23 20:35:27:865,N/A,N/A,database
+423,Application Started,2018-04-23 20:35:27:876,N/A,N/A,application
+424,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:35:40:994,null,52,pathfind
+425,Application Closed,2018-04-23 20:35:51:558,N/A,N/A,application
+431,Database Setup,2018-04-23 20:36:14:611,N/A,N/A,database
+432,Application Started,2018-04-23 20:36:14:622,N/A,N/A,application
+433,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:36:49:987,null,53,pathfind
+434,Application Closed,2018-04-23 20:37:02:490,N/A,N/A,application
+440,Database Setup,2018-04-23 20:39:10:036,N/A,N/A,database
+441,Application Started,2018-04-23 20:39:10:045,N/A,N/A,application
+442,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-23 20:39:24:178,null,54,pathfind
+443,Application Closed,2018-04-23 20:39:37:003,N/A,N/A,application
+449,Database Setup,2018-04-23 20:40:48:821,N/A,N/A,database
+450,Application Started,2018-04-23 20:40:48:829,N/A,N/A,application
+451,Application Closed,2018-04-23 20:42:25:059,N/A,N/A,application
+457,Database Setup,2018-04-23 20:42:47:596,N/A,N/A,database
+458,Application Started,2018-04-23 20:42:47:602,N/A,N/A,application
+459,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:43:30:907,null,55,pathfind
+460,Application Closed,2018-04-23 20:43:47:321,N/A,N/A,application
+466,Database Setup,2018-04-23 20:47:31:653,N/A,N/A,database
+467,Application Started,2018-04-23 20:47:31:663,N/A,N/A,application
+468,Application Closed,2018-04-23 20:48:21:665,N/A,N/A,application
+474,Database Setup,2018-04-23 20:49:02:081,N/A,N/A,database
+475,Application Started,2018-04-23 20:49:02:100,N/A,N/A,application
+476,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 20:49:44:542,null,56,pathfind
+477,Application Closed,2018-04-23 20:50:20:328,N/A,N/A,application
+483,Database Setup,2018-04-23 20:51:46:027,N/A,N/A,database
+484,Application Started,2018-04-23 20:51:46:038,N/A,N/A,application
+485,Application Closed,2018-04-23 20:52:25:479,N/A,N/A,application
+491,Database Setup,2018-04-23 20:53:18:668,N/A,N/A,database
+492,Application Started,2018-04-23 20:53:18:677,N/A,N/A,application
+493,Application Closed,2018-04-23 20:53:31:524,N/A,N/A,application
+499,Database Setup,2018-04-23 20:53:48:985,N/A,N/A,database
+500,Application Started,2018-04-23 20:53:48:994,N/A,N/A,application
+501,Application Closed,2018-04-23 20:54:04:895,N/A,N/A,application
+507,Database Setup,2018-04-23 20:55:08:004,N/A,N/A,database
+508,Application Started,2018-04-23 20:55:08:012,N/A,N/A,application
+509,Application Closed,2018-04-23 20:55:31:674,N/A,N/A,application
+515,Database Setup,2018-04-23 20:55:50:387,N/A,N/A,database
+516,Application Started,2018-04-23 20:55:50:394,N/A,N/A,application
+517,Application Closed,2018-04-23 20:58:58:052,N/A,N/A,application
+523,Database Setup,2018-04-23 21:03:10:448,N/A,N/A,database
+524,Application Started,2018-04-23 21:03:10:458,N/A,N/A,application
+525,Application Closed,2018-04-23 21:03:46:851,N/A,N/A,application
+531,Database Setup,2018-04-23 21:06:38:356,N/A,N/A,database
+532,Application Started,2018-04-23 21:06:38:365,N/A,N/A,application
+533,Application Closed,2018-04-23 21:07:19:881,N/A,N/A,application
+539,Database Setup,2018-04-23 21:07:29:481,N/A,N/A,database
+540,Application Started,2018-04-23 21:07:29:487,N/A,N/A,application
+541,Application Closed,2018-04-23 21:07:37:932,N/A,N/A,application
+547,Database Setup,2018-04-23 21:07:54:535,N/A,N/A,database
+548,Application Started,2018-04-23 21:07:54:543,N/A,N/A,application
+549,Application Closed,2018-04-23 21:08:51:079,N/A,N/A,application
+555,Database Setup,2018-04-23 21:09:22:597,N/A,N/A,database
+556,Application Started,2018-04-23 21:09:22:608,N/A,N/A,application
+557,Application Closed,2018-04-23 21:09:50:246,N/A,N/A,application
+563,Database Setup,2018-04-23 21:12:14:143,N/A,N/A,database
+564,Application Started,2018-04-23 21:12:14:151,N/A,N/A,application
+565,Application Closed,2018-04-23 21:15:01:137,N/A,N/A,application
+571,Database Setup,2018-04-23 21:21:23:972,N/A,N/A,database
+572,Application Started,2018-04-23 21:21:23:984,N/A,N/A,application
+573,Application Closed,2018-04-23 21:31:10:600,N/A,N/A,application
+579,Database Setup,2018-04-23 21:33:24:646,N/A,N/A,database
+580,Application Started,2018-04-23 21:33:24:655,N/A,N/A,application
+581,Application Closed,2018-04-23 21:33:44:465,N/A,N/A,application
+587,Database Setup,2018-04-23 21:33:56:704,N/A,N/A,database
+588,Application Started,2018-04-23 21:33:56:718,N/A,N/A,application
+589,Application Closed,2018-04-23 21:34:18:565,N/A,N/A,application
+595,Database Setup,2018-04-23 21:34:37:516,N/A,N/A,database
+596,Application Started,2018-04-23 21:34:37:526,N/A,N/A,application
+597,Application Closed,2018-04-23 21:34:52:648,N/A,N/A,application
+603,Database Setup,2018-04-23 21:41:20:675,N/A,N/A,database
+604,Application Started,2018-04-23 21:41:20:686,N/A,N/A,application
+605,Application Closed,2018-04-23 21:42:11:376,N/A,N/A,application
+611,Database Setup,2018-04-23 21:42:26:777,N/A,N/A,database
+612,Application Started,2018-04-23 21:42:26:797,N/A,N/A,application
+613,Application Closed,2018-04-23 21:43:04:808,N/A,N/A,application
+619,Database Setup,2018-04-23 21:43:24:584,N/A,N/A,database
+620,Application Started,2018-04-23 21:43:24:592,N/A,N/A,application
+621,Application Closed,2018-04-23 21:43:35:691,N/A,N/A,application
+627,Database Setup,2018-04-23 21:43:52:180,N/A,N/A,database
+628,Application Started,2018-04-23 21:43:52:192,N/A,N/A,application
+629,Application Closed,2018-04-23 21:44:05:457,N/A,N/A,application
+635,Database Setup,2018-04-23 21:44:20:186,N/A,N/A,database
+636,Application Started,2018-04-23 21:44:20:194,N/A,N/A,application
+637,Application Closed,2018-04-23 21:44:36:914,N/A,N/A,application
+643,Database Setup,2018-04-23 21:44:51:910,N/A,N/A,database
+644,Application Started,2018-04-23 21:44:51:922,N/A,N/A,application
+645,Application Closed,2018-04-23 21:45:10:008,N/A,N/A,application
+651,Database Setup,2018-04-23 21:45:26:972,N/A,N/A,database
+652,Application Started,2018-04-23 21:45:26:979,N/A,N/A,application
+653,Application Closed,2018-04-23 21:45:49:691,N/A,N/A,application
+659,Database Setup,2018-04-23 21:46:03:561,N/A,N/A,database
+660,Application Started,2018-04-23 21:46:03:568,N/A,N/A,application
+661,Application Closed,2018-04-23 21:46:21:903,N/A,N/A,application
+667,Database Setup,2018-04-23 21:47:57:001,N/A,N/A,database
+668,Application Started,2018-04-23 21:47:57:010,N/A,N/A,application
+669,Application Closed,2018-04-23 21:48:44:521,N/A,N/A,application
+675,Database Setup,2018-04-23 21:49:41:648,N/A,N/A,database
+676,Application Started,2018-04-23 21:49:41:658,N/A,N/A,application
+677,Application Closed,2018-04-23 21:49:54:688,N/A,N/A,application
+683,Database Setup,2018-04-23 21:50:08:881,N/A,N/A,database
+684,Application Started,2018-04-23 21:50:08:892,N/A,N/A,application
+685,Application Closed,2018-04-23 21:50:38:488,N/A,N/A,application
+691,Database Setup,2018-04-23 21:51:28:872,N/A,N/A,database
+692,Application Started,2018-04-23 21:51:28:884,N/A,N/A,application
+693,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 21:51:40:653,null,57,pathfind
+694,Application Closed,2018-04-23 21:52:15:501,N/A,N/A,application
+700,Database Setup,2018-04-23 21:55:37:760,N/A,N/A,database
+701,Application Started,2018-04-23 21:55:37:770,N/A,N/A,application
+702,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 21:56:14:465,null,58,pathfind
+703,Application Closed,2018-04-23 21:56:27:470,N/A,N/A,application
+709,Database Setup,2018-04-23 22:01:10:100,N/A,N/A,database
+710,Application Started,2018-04-23 22:01:10:110,N/A,N/A,application
+711,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 22:01:19:853,null,59,pathfind
+712,Application Closed,2018-04-23 22:01:29:325,N/A,N/A,application
+718,Database Setup,2018-04-23 22:01:45:507,N/A,N/A,database
+719,Application Started,2018-04-23 22:01:45:515,N/A,N/A,application
+720,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 22:01:58:585,null,60,pathfind
+721,Application Closed,2018-04-23 22:02:07:943,N/A,N/A,application
+727,Database Setup,2018-04-23 22:03:27:410,N/A,N/A,database
+728,Application Started,2018-04-23 22:03:27:418,N/A,N/A,application
+729,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 22:03:36:376,null,61,pathfind
+730,Application Closed,2018-04-23 22:03:50:707,N/A,N/A,application
+736,Database Setup,2018-04-23 22:07:28:272,N/A,N/A,database
+737,Application Started,2018-04-23 22:07:28:283,N/A,N/A,application
+738,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 22:07:37:050,null,62,pathfind
+739,Application Closed,2018-04-23 22:07:53:887,N/A,N/A,application
+745,Database Setup,2018-04-23 23:10:40:054,N/A,N/A,database
+746,Application Started,2018-04-23 23:10:40:062,N/A,N/A,application
+747,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:10:49:181,null,63,pathfind
+748,Application Closed,2018-04-23 23:10:58:303,N/A,N/A,application
+754,Database Setup,2018-04-23 23:13:39:854,N/A,N/A,database
+755,Application Started,2018-04-23 23:13:39:867,N/A,N/A,application
+756,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:13:49:729,null,64,pathfind
+757,Application Closed,2018-04-23 23:14:05:634,N/A,N/A,application
+763,Database Setup,2018-04-23 23:16:43:494,N/A,N/A,database
+764,Application Started,2018-04-23 23:16:43:501,N/A,N/A,application
+765,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:17:00:691,null,65,pathfind
+766,Pathfind fromEINFO00101 to WELEV00KL1 is done,2018-04-23 23:18:38:841,null,66,pathfind
+767,Pathfind fromEINFO00101 to ESTAI00101 is done,2018-04-23 23:18:48:529,null,67,pathfind
+768,Pathfind fromEINFO00101 to IHALL01703 is done,2018-04-23 23:18:52:109,null,68,pathfind
+769,Pathfind fromEINFO00101 to ESTAI00201 is done,2018-04-23 23:19:03:630,null,69,pathfind
+770,Pathfind fromEINFO00101 to FSTAI00101 is done,2018-04-23 23:19:09:671,null,70,pathfind
+771,Pathfind fromEINFO00101 to FDEPT00301 is done,2018-04-23 23:19:14:206,null,71,pathfind
+772,Application Closed,2018-04-23 23:19:23:146,N/A,N/A,application
+778,Database Setup,2018-04-23 23:20:29:936,N/A,N/A,database
+779,Application Started,2018-04-23 23:20:29:945,N/A,N/A,application
+780,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:20:42:866,null,72,pathfind
+781,Pathfind fromEINFO00101 to FEXIT00201 is done,2018-04-23 23:21:00:830,null,73,pathfind
+782,Application Closed,2018-04-23 23:21:04:494,N/A,N/A,application
+788,Database Setup,2018-04-23 23:21:14:174,N/A,N/A,database
+789,Application Started,2018-04-23 23:21:14:184,N/A,N/A,application
+790,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-23 23:21:24:424,null,74,pathfind
+791,Application Closed,2018-04-23 23:22:11:777,N/A,N/A,application
+797,Database Setup,2018-04-23 23:35:48:737,N/A,N/A,database
+798,Application Started,2018-04-23 23:35:48:748,N/A,N/A,application
+799,Application Closed,2018-04-23 23:36:04:353,N/A,N/A,application
+805,Database Setup,2018-04-23 23:37:58:373,N/A,N/A,database
+806,Application Started,2018-04-23 23:37:58:385,N/A,N/A,application
+807,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:38:08:157,null,75,pathfind
+808,Application Closed,2018-04-23 23:38:18:870,N/A,N/A,application
+814,Database Setup,2018-04-23 23:38:45:984,N/A,N/A,database
+815,Application Started,2018-04-23 23:38:45:991,N/A,N/A,application
+816,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:38:56:765,null,76,pathfind
+817,Application Closed,2018-04-23 23:39:02:138,N/A,N/A,application
+823,Database Setup,2018-04-23 23:40:25:799,N/A,N/A,database
+824,Application Started,2018-04-23 23:40:25:809,N/A,N/A,application
+825,Pathfind fromEINFO00101 to HBATH00203 is done,2018-04-23 23:40:33:312,null,77,pathfind
+826,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-23 23:40:38:746,null,78,pathfind
+827,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-23 23:40:40:024,null,79,pathfind
+828,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-23 23:40:40:673,null,80,pathfind
+829,Application Closed,2018-04-23 23:40:43:100,N/A,N/A,application
+835,Database Setup,2018-04-23 23:43:23:354,N/A,N/A,database
+836,Application Started,2018-04-23 23:43:23:361,N/A,N/A,application
+837,Pathfind fromEINFO00101 to HBATH00103 is done,2018-04-23 23:43:32:774,null,81,pathfind
+838,Application Closed,2018-04-23 23:55:57:310,N/A,N/A,application
+844,Database Setup,2018-04-23 23:56:07:655,N/A,N/A,database
+845,Application Started,2018-04-23 23:56:07:664,N/A,N/A,application
+846,Application Closed,2018-04-23 23:57:10:321,N/A,N/A,application
+852,Database Setup,2018-04-23 23:57:43:965,N/A,N/A,database
+853,Application Started,2018-04-23 23:57:43:977,N/A,N/A,application
+854,Application Closed,2018-04-23 23:58:20:002,N/A,N/A,application
+860,Database Setup,2018-04-24 00:00:04:087,N/A,N/A,database
+861,Application Started,2018-04-24 00:00:04:099,N/A,N/A,application
+862,Application Closed,2018-04-24 00:00:36:437,N/A,N/A,application
+868,Database Setup,2018-04-24 13:14:36:089,N/A,N/A,database
+869,Application Started,2018-04-24 13:14:36:101,N/A,N/A,application
+870,Application Closed,2018-04-24 13:19:16:072,N/A,N/A,application
+876,Database Setup,2018-04-24 13:26:11:623,N/A,N/A,database
+877,Application Started,2018-04-24 13:26:11:633,N/A,N/A,application
+878,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:32:480,null,82,pathfind
+879,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:36:743,null,83,pathfind
+880,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:38:837,null,84,pathfind
+881,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:26:43:683,null,85,pathfind
+882,Application Closed,2018-04-24 13:26:50:870,N/A,N/A,application
+888,Database Setup,2018-04-24 13:27:38:678,N/A,N/A,database
+889,Application Started,2018-04-24 13:27:38:690,N/A,N/A,application
+890,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 13:27:51:126,null,86,pathfind
+891,Application Closed,2018-04-24 13:28:02:868,N/A,N/A,application
+897,Database Setup,2018-04-24 17:35:17:819,N/A,N/A,database
+898,Application Started,2018-04-24 17:35:17:828,N/A,N/A,application
+899,Pathfind fromEINFO00101 to FDEPT00301 is done,2018-04-24 17:36:56:443,null,87,pathfind
+900,Pathfind fromEINFO00101 to FDEPT00301 is done,2018-04-24 17:37:08:731,null,88,pathfind
+901,Pathfind fromACONF00103 to FDEPT00301 is done,2018-04-24 17:37:44:923,null,89,pathfind
+902,Pathfind fromHDEPT00203 to AREST00103 is done,2018-04-24 17:38:32:477,null,90,pathfind
+903,Application Closed,2018-04-24 17:39:47:537,N/A,N/A,application
+909,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:30:905,null,91,pathfind
+910,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:33:477,null,92,pathfind
+911,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:35:106,null,93,pathfind
+912,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:36:526,null,94,pathfind
+913,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:37:645,null,95,pathfind
+914,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:39:746,null,96,pathfind
+915,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:40:712,null,97,pathfind
+916,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:41:462,null,98,pathfind
+917,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:42:911,null,99,pathfind
+918,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 19:21:43:789,null,100,pathfind
+919,Application Closed,2018-04-24 19:21:50:840,N/A,N/A,application
+925,Pathfind fromEINFO00101 to WELEV00K01 is done,2018-04-24 19:24:08:372,null,101,pathfind
+926,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 19:24:39:953,null,102,pathfind
+927,Application Closed,2018-04-24 19:24:55:288,N/A,N/A,application
+933,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 19:25:13:631,null,103,pathfind
+934,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 19:25:29:340,null,104,pathfind
+935,Pathfind fromEINFO00101 to WELEV00M01 is done,2018-04-24 19:27:53:768,null,105,pathfind
+936,Pathfind fromFRETL00101 to WELEV00L01 is done,2018-04-24 19:29:26:682,null,106,pathfind
+937,Pathfind fromFRETL00101 to GSERV02301 is done,2018-04-24 19:29:31:240,null,107,pathfind
+938,Application Closed,2018-04-24 19:30:01:901,N/A,N/A,application
+944,Application Closed,2018-04-24 19:37:25:697,N/A,N/A,application
+950,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 19:46:16:996,null,108,pathfind
+951,Application Closed,2018-04-24 19:46:26:853,N/A,N/A,application
+957,Pathfind fromEINFO00101 to FDEPT00401 is done,2018-04-24 19:46:54:043,null,109,pathfind
+958,Application Closed,2018-04-24 19:47:00:651,N/A,N/A,application
+964,Pathfind fromEINFO00101 to WELEV00L01 is done,2018-04-24 19:48:03:780,null,110,pathfind
+965,Application Closed,2018-04-24 19:48:17:401,N/A,N/A,application
+971,Pathfind fromEINFO00101 to FDEPT00601 is done,2018-04-24 19:49:19:353,null,111,pathfind
+972,Application Closed,2018-04-24 19:49:24:084,N/A,N/A,application
+978,Pathfind fromEINFO00101 to FSERV00401 is done,2018-04-24 19:50:55:104,null,112,pathfind
+979,Pathfind fromEINFO00101 to WELEV00L02 is done,2018-04-24 19:51:15:660,null,113,pathfind
+980,Pathfind fromEINFO00101 to HRETL00302 is done,2018-04-24 19:51:35:103,null,114,pathfind
+981,Pathfind fromEINFO00101 to HRETL00102 is done,2018-04-24 19:51:49:227,null,115,pathfind
+982,Pathfind fromEINFO00101 to GINFO01902 is done,2018-04-24 19:52:03:972,null,116,pathfind
+983,Pathfind fromEINFO00101 to GSTAI00501 is done,2018-04-24 19:52:13:221,null,117,pathfind
+984,Application Closed,2018-04-24 19:52:26:966,N/A,N/A,application
+990,Pathfind fromEINFO00101 to AELEV00S01 is done,2018-04-24 19:56:11:584,null,118,pathfind
+991,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 19:56:29:081,null,119,pathfind
+992,Application Closed,2018-04-24 19:56:51:711,N/A,N/A,application
+998,Pathfind fromEINFO00101 to ESTAI00101 is done,2018-04-24 19:59:00:913,null,120,pathfind
+999,Application Closed,2018-04-24 19:59:05:093,N/A,N/A,application
+1005,Pathfind fromEINFO00101 to FREST00101 is done,2018-04-24 20:05:29:864,null,121,pathfind
+1006,Pathfind fromEINFO00101 to WELEV00L01 is done,2018-04-24 20:05:36:754,null,122,pathfind
+1007,Pathfind fromFSERV00101 to WELEV00L01 is done,2018-04-24 20:05:46:034,null,123,pathfind
+1008,Pathfind fromFEXIT00101 to WELEV00L01 is done,2018-04-24 20:06:19:876,null,124,pathfind
+1009,Pathfind fromFEXIT00101 to FSERV00101 is done,2018-04-24 20:06:25:044,null,125,pathfind
+1010,Application Closed,2018-04-24 20:06:46:097,N/A,N/A,application
+1016,Application Closed,2018-04-24 20:11:13:733,N/A,N/A,application
+1022,Pathfind fromEINFO00101 to FSTAI00101 is done,2018-04-24 20:15:16:025,null,126,pathfind
+1023,Pathfind fromEINFO00101 to AELEV00S01 is done,2018-04-24 20:15:23:164,null,127,pathfind
+1024,Application Closed,2018-04-24 20:15:34:761,N/A,N/A,application
+1030,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 20:15:55:384,null,128,pathfind
+1031,Application Closed,2018-04-24 20:16:23:981,N/A,N/A,application
+1037,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 20:17:14:631,null,129,pathfind
+1038,Application Closed,2018-04-24 20:17:37:726,N/A,N/A,application
+1044,Application Closed,2018-04-24 20:18:52:534,N/A,N/A,application
+1050,Application Closed,2018-04-24 20:20:47:599,N/A,N/A,application
+1056,Pathfind fromEINFO00101 to ADEPT00201 is done,2018-04-24 20:21:50:054,null,130,pathfind
+1057,Application Closed,2018-04-24 20:22:11:766,N/A,N/A,application
+1063,Application Closed,2018-04-24 20:32:22:708,N/A,N/A,application
+1069,Pathfind fromEINFO00101 to WELEV00M01 is done,2018-04-24 20:40:49:424,null,131,pathfind
+1070,Pathfind fromEINFO00101 to FSERV00101 is done,2018-04-24 20:41:11:424,null,132,pathfind
+1071,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 20:41:16:866,null,133,pathfind
+1072,Pathfind fromEINFO00101 to FSERV00101 is done,2018-04-24 20:42:15:750,null,134,pathfind
+1073,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 20:42:21:810,null,135,pathfind
+1074,Pathfind fromEINFO00101 to HSTAI00103 is done,2018-04-24 20:42:36:133,null,136,pathfind
+1075,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 20:43:30:451,null,137,pathfind
+1076,Application Closed,2018-04-24 20:44:11:288,N/A,N/A,application
+1082,Pathfind fromEINFO00101 to FREST00101 is done,2018-04-24 20:44:29:075,null,138,pathfind
+1083,Pathfind fromEINFO00101 to WELEV00L02 is done,2018-04-24 20:44:40:239,null,139,pathfind
+1084,Application Closed,2018-04-24 20:45:11:056,N/A,N/A,application
+1090,Pathfind fromEINFO00101 to HRETL00302 is done,2018-04-24 20:45:55:344,null,140,pathfind
+1091,Pathfind fromEINFO00101 to N1X3Y is done,2018-04-24 20:46:07:083,null,141,pathfind
+1092,Pathfind fromFRETL00101 to WELEV00J01 is done,2018-04-24 20:46:30:010,null,142,pathfind
+1093,Application Closed,2018-04-24 20:46:43:342,N/A,N/A,application
+1099,Pathfind fromEINFO00101 to HLABS00103 is done,2018-04-24 20:47:19:275,null,143,pathfind
+1100,Application Closed,2018-04-24 20:47:58:087,N/A,N/A,application
+1106,Pathfind fromEINFO00101 to HDEPT00203 is done,2018-04-24 20:49:13:152,null,144,pathfind
+1107,Pathfind fromEINFO00101 to IDEPT00503 is done,2018-04-24 20:50:04:081,null,145,pathfind
+1108,Pathfind fromAEXIT001L2 to IDEPT00503 is done,2018-04-24 20:50:16:261,null,146,pathfind
+1109,Application Closed,2018-04-24 20:51:01:135,N/A,N/A,application
+1115,Pathfind fromASTAI00101 to EEXIT00201 is done,2018-04-24 20:53:10:143,null,147,pathfind
+1116,Application Closed,2018-04-24 20:54:46:417,N/A,N/A,application
+1122,Application Closed,2018-04-24 21:58:55:196,N/A,N/A,application
+1128,Application Closed,2018-04-24 22:03:08:693,N/A,N/A,application
+1134,Application Closed,2018-04-24 22:05:09:359,N/A,N/A,application
+1140,Application Closed,2018-04-24 22:07:58:022,N/A,N/A,application
+1146,Application Closed,2018-04-24 22:10:07:021,N/A,N/A,application
+1152,Application Closed,2018-04-24 22:10:33:339,N/A,N/A,application
+1158,Application Closed,2018-04-24 22:11:05:122,N/A,N/A,application
+1164,Pathfind fromEINFO00101 to GREST01201 is done,2018-04-24 22:11:44:456,null,148,pathfind
+1165,Application Closed,2018-04-24 22:11:59:655,N/A,N/A,application
+1171,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 22:12:31:203,null,149,pathfind
+1172,Application Closed,2018-04-24 22:12:46:938,N/A,N/A,application
+1178,Pathfind fromEINFO00101 to FDEPT00501 is done,2018-04-24 22:15:23:862,null,150,pathfind
+1179,Application Closed,2018-04-24 22:15:57:536,N/A,N/A,application
+1185,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 22:18:17:144,null,151,pathfind
+1186,Pathfind fromEINFO00101 to ASTAI00101 is done,2018-04-24 22:18:29:814,null,152,pathfind
+1187,Application Closed,2018-04-24 22:18:45:535,N/A,N/A,application
+1193,Pathfind fromEINFO00101 to WELEV00M01 is done,2018-04-24 22:22:05:721,null,153,pathfind
+1194,Application Closed,2018-04-24 22:22:12:514,N/A,N/A,application
+1200,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 22:22:53:370,null,154,pathfind
+1201,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 22:23:16:855,null,155,pathfind
+1202,Application Closed,2018-04-24 22:24:42:397,N/A,N/A,application
+1208,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 22:25:26:029,null,156,pathfind
+1209,Pathfind fromEINFO00101 to ALABS001L2 is done,2018-04-24 22:26:35:156,null,157,pathfind
+1210,Application Closed,2018-04-24 22:27:46:459,N/A,N/A,application
+1216,Pathfind fromEINFO00101 to FDEPT00101 is done,2018-04-24 22:28:53:845,null,158,pathfind
+1217,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 22:29:04:858,null,159,pathfind
+1218,Application Closed,2018-04-24 22:30:14:207,N/A,N/A,application
+1224,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 22:33:58:907,null,160,pathfind
+1225,Application Closed,2018-04-24 22:34:20:924,N/A,N/A,application
+1231,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 22:36:07:451,null,161,pathfind
+1232,Application Closed,2018-04-24 22:36:41:170,N/A,N/A,application
+1238,Pathfind fromEINFO00101 to GDEPT01901 is done,2018-04-24 22:43:43:255,null,162,pathfind
+1239,Application Closed,2018-04-24 22:44:11:364,N/A,N/A,application
+1245,Pathfind fromEINFO00101 to GEXIT001L1 is done,2018-04-24 22:44:34:718,null,163,pathfind
+1246,Application Closed,2018-04-24 22:45:09:699,N/A,N/A,application
+1252,Pathfind fromEINFO00101 to GEXIT00101 is done,2018-04-24 22:45:43:017,null,164,pathfind
+1253,Application Closed,2018-04-24 22:46:13:745,N/A,N/A,application
+1259,Pathfind fromEINFO00101 to ARETL00101 is done,2018-04-24 22:47:27:554,null,165,pathfind
+1260,Application Closed,2018-04-24 22:48:02:079,N/A,N/A,application
+1266,Pathfind fromEINFO00101 to GLABS014L2 is done,2018-04-24 22:49:37:141,null,166,pathfind
+1267,Application Closed,2018-04-24 22:49:55:542,N/A,N/A,application
+1273,Application Closed,2018-04-24 22:50:56:655,N/A,N/A,application
+1279,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 22:54:48:238,null,167,pathfind
+1280,Application Closed,2018-04-24 22:55:48:438,N/A,N/A,application
+1286,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 22:59:24:468,null,168,pathfind
+1287,Application Closed,2018-04-24 22:59:54:368,N/A,N/A,application
+1293,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 23:00:23:389,null,169,pathfind
+1294,Application Closed,2018-04-24 23:00:34:203,N/A,N/A,application
+1300,Pathfind fromEINFO00101 to GDEPT01901 is done,2018-04-24 23:01:45:334,null,170,pathfind
+1301,Pathfind fromEINFO00101 to GDEPT01901 is done,2018-04-24 23:02:44:683,null,171,pathfind
+1302,Application Closed,2018-04-24 23:02:57:916,N/A,N/A,application
+1308,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-24 23:05:15:392,null,172,pathfind
+1309,Application Closed,2018-04-24 23:05:26:740,N/A,N/A,application
+1315,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:06:02:675,null,173,pathfind
+1316,Application Closed,2018-04-24 23:07:55:798,N/A,N/A,application
+1322,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:08:51:231,null,174,pathfind
+1323,Application Closed,2018-04-24 23:09:06:765,N/A,N/A,application
+1329,Pathfind fromEINFO00101 to GDEPT01901 is done,2018-04-24 23:13:15:422,null,175,pathfind
+1330,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-24 23:13:53:989,null,176,pathfind
+1331,Application Closed,2018-04-24 23:14:08:325,N/A,N/A,application
+1337,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:16:12:189,null,177,pathfind
+1338,Application Closed,2018-04-24 23:16:51:672,N/A,N/A,application
+1344,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:18:26:430,null,178,pathfind
+1345,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:18:53:787,null,179,pathfind
+1346,Application Closed,2018-04-24 23:19:06:554,N/A,N/A,application
+1352,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:21:13:458,null,180,pathfind
+1353,Pathfind fromEINFO00101 to BINFO00202 is done,2018-04-24 23:21:24:530,null,181,pathfind
+1354,Application Closed,2018-04-24 23:21:36:700,N/A,N/A,application
+1360,Pathfind fromIDEPT00803 to BDEPT00702 is done,2018-04-24 23:23:08:419,null,182,pathfind
+1361,Application Closed,2018-04-24 23:24:07:415,N/A,N/A,application
+1367,Pathfind fromEINFO00101 to FEXIT00301 is done,2018-04-24 23:28:17:681,null,183,pathfind
+1368,Application Closed,2018-04-24 23:28:26:877,N/A,N/A,application
+1374,Pathfind fromEINFO00101 to FLABS00101 is done,2018-04-24 23:29:56:027,null,184,pathfind
+1375,Pathfind fromEINFO00101 to ADEPT00101 is done,2018-04-24 23:30:10:388,null,185,pathfind
+1376,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:32:427,null,186,pathfind
+1377,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:38:517,null,187,pathfind
+1378,Pathfind fromEINFO00101 to IDEPT00703 is done,2018-04-24 23:30:53:298,null,188,pathfind
+1379,Application Closed,2018-04-24 23:31:04:878,N/A,N/A,application
+1385,Application Closed,2018-04-24 23:57:16:293,N/A,N/A,application
+1391,Application Closed,2018-04-25 00:09:34:313,N/A,N/A,application
+1397,Application Closed,2018-04-25 00:12:07:531,N/A,N/A,application
+1403,Pathfind fromEINFO00101 to ESTAI00201 is done,2018-04-25 00:33:48:430,null,189,pathfind
+1404,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 00:34:02:552,null,190,pathfind
+1405,Application Closed,2018-04-25 00:34:58:197,N/A,N/A,application
+1411,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 00:43:09:829,null,191,pathfind
+1412,Application Closed,2018-04-25 00:47:21:896,N/A,N/A,application
+1418,Application Closed,2018-04-25 01:18:21:982,N/A,N/A,application
+1424,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:19:36:423,null,192,pathfind
+1425,Application Closed,2018-04-25 01:19:49:803,N/A,N/A,application
+1431,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:23:08:759,null,193,pathfind
+1432,Application Closed,2018-04-25 01:23:42:493,N/A,N/A,application
+1438,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:27:49:394,null,194,pathfind
+1439,Application Closed,2018-04-25 01:29:37:257,N/A,N/A,application
+1445,Pathfind fromEINFO00101 to EEXIT00101 is done,2018-04-25 02:28:37:664,null,195,pathfind
+1446,Application Closed,2018-04-25 02:32:45:117,N/A,N/A,application
+1452,Pathfind fromEINFO00101 to EEXIT00101 is done,2018-04-25 02:49:58:173,null,196,pathfind
+1453,Application Closed,2018-04-25 02:52:38:693,N/A,N/A,application

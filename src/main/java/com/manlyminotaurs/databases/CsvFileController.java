@@ -258,6 +258,7 @@ public class CsvFileController {
 
 
     /*---------------------------------- Users --------------------------------------------------*/
+
     /**
      * Write formatted String to CSVFile using PrintWriter class
      * @param csvFileName the csv file to be updated
@@ -286,6 +287,10 @@ public class CsvFileController {
         }
     }//updateUserCSVFile ends
 
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
     private void updateStaffTable(String csvFileName) {
         Iterator<StaffFields> iterator = DataModelI.getInstance().retrieveStaffs().iterator();
         System.out.println("Updating user csv file...");
@@ -310,6 +315,10 @@ public class CsvFileController {
         }
     }//updateStaffCSVFile ends
 
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
     private void updateUserPasswordFile(String csvFileName) {
         Iterator<UserPassword> iterator = new UserSecurity().retrieveUserPasswords(true).iterator();
         System.out.println("Updating user csv file...");
@@ -336,6 +345,11 @@ public class CsvFileController {
 
 
     ///----------------------------------------Log-----------------------------------
+
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
     private void updateLogCSVFile(String csvFileName) {
         Iterator<Log> iterator = DataModelI.getInstance().retrieveLogData().iterator();
         System.out.println("Updating log csv file...");
@@ -355,6 +369,10 @@ public class CsvFileController {
         }
     }//updateLogCSVFile ends
 
+    /**
+     * Write formatted String to CSVFile using PrintWriter class
+     * @param csvFileName the csv file to be updated
+     */
     private void updatePathfinderCSVFile(String csvFileName) {
         Iterator<Pathfinder> iterator = DataModelI.getInstance().retrievePathfinderData().iterator();
         System.out.println("Updating log csv file...");

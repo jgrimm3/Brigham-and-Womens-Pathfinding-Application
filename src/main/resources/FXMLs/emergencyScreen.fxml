@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,9 +18,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.emergencyScreenController">
+<AnchorPane fx:id="backPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #B22222;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.emergencyScreenController">
    <children>
-      <ScrollPane fx:id="scrollPaneMap" layoutX="-1.0" layoutY="-4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1158.0" prefWidth="1921.0">
+      <ScrollPane fx:id="scrollPaneMap" layoutX="100.0" layoutY="100.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1720.0">
          <content>
             <StackPane fx:id="stackPaneMap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="3400.0" prefWidth="5000.0">
                <children>
@@ -118,7 +118,7 @@
                                     </LinearGradient>
                                  </stroke>
                               </Path>
-                              <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
+                              <Path fx:id="currPath" blendMode="DARKEN" fill="WHITE" stroke="#ffa600" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="4.0">
                                  <elements>
                                     <MoveTo x="-100.0" y="-100.0" />
                                     <LineTo x="5000.0" y="-100.0" />
@@ -126,14 +126,6 @@
                                     <LineTo x="-100.0" y="5000.0" />
                                     <ClosePath />
                                  </elements>
-                                 <stroke>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop color="#102c57" />
-                                          <Stop color="BLACK" offset="1.0" />
-                                       </stops>
-                                    </LinearGradient>
-                                 </stroke>
                               </Path>
                               <ImageView fx:id="destination" fitHeight="75.0" fitWidth="75.0" onMouseEntered="#printEndName" onMouseExited="#removeEndName" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
@@ -151,12 +143,20 @@
             </StackPane>
          </content>
       </ScrollPane>
-      <Label fx:id="lblEmergency" layoutX="400.0" layoutY="30.0" text="Emergency, Please Exit the Building" textFill="#f81414">
+      <Label fx:id="lblEmergency" layoutX="402.0" layoutY="-7.0" text="Emergency, Please Exit the Building" textFill="WHITE">
          <font>
             <Font size="74.0" />
          </font>
       </Label>
-      <Button fx:id="btnReset" layoutY="28.0" mnemonicParsing="false" onAction="#resetSystem" text="Reset" />
-      <TextField fx:id="txtPswd" layoutX="-3.0" layoutY="4.0" />
+      <JFXButton fx:id="btnReset" layoutX="850.0" layoutY="953.0" onAction="#resetSystem" text="Reset Emergency" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </JFXButton>
+      <JFXPasswordField fx:id="txtPswd" alignment="CENTER" focusColor="#ffa600" layoutX="870.0" layoutY="904.0" prefHeight="38.0" prefWidth="221.0" promptText="Admin Password" unFocusColor="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </JFXPasswordField>
    </children>
 </AnchorPane>
