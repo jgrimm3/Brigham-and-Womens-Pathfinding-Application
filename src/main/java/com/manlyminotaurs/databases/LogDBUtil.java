@@ -53,7 +53,7 @@ public class LogDBUtil {
             }
             rset.close();
             stmt.close();
-            System.out.println("Done adding users");
+            System.out.println("Done adding logs");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

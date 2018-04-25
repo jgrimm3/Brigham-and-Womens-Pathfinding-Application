@@ -32,14 +32,44 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
-    public Message addMessage(Message messageObject){
+    public String addMessage(String messageID, String message, boolean isRead, LocalDate sentDate, String senderID, String receiverID){
         System.out.println("addMessage");
-        if(messageObject.getMessageID() == null || messageObject.getMessageID().equals("")) {
-            messageObject.setMessageID(generateMessageID());
+        if(messageID == null || messageID.equals("")) {
+            messageID = generateMessageID();
         }
-        if(messageObject.getSentDate() == null || messageObject.getSentDate().equals("")){
-            messageObject.setSentDate(LocalDate.now());
+        if(sentDate == null || sentDate.equals("")){
+            sentDate = LocalDate.now();
         }
+
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        try {
+            String str = "INSERT INTO Message(messageID, message, isRead, sentDate, senderID, receiverID) VALUES (?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, messageID);
+            statement.setString(2, message);
+            statement.setBoolean(3, isRead);
+            statement.setDate(4, Date.valueOf(sentDate));
+            statement.setString(5, senderID);
+            statement.setString(6, receiverID);
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("Node added to database");
+        } catch (SQLException e)
+        {
+            System.out.println("Message already in the database");
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return messageID;
+    }
+
+
+    public void addMessage(Message messageObject){
+        System.out.println("addMessage");
 
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -64,7 +94,6 @@ class MessagesDBUtil {
         } finally {
             DataModelI.getInstance().closeConnection();
         }
-        return messageObject;
     }
 
     public boolean removeMessage(String messageID){

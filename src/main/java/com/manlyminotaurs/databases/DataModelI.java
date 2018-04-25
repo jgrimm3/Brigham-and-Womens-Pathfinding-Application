@@ -11,6 +11,7 @@ import com.manlyminotaurs.users.User;
 import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -342,10 +343,14 @@ public class DataModelI implements IDataModel{
      * Add message to the database
      * @param messageObject the Message object to add to the database
      */
-    public Message addMessage(Message messageObject) {
-        Message tempMessage = messagesDBUtil.addMessage(messageObject);
-        addLog("Added "+ messageObject.getMessageID()+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),messageObject.getMessageID(),"message");
-        return tempMessage;
+    public void addMessage(Message messageObject) {
+        messagesDBUtil.addMessage(messageObject);
+    }
+
+    public String addMessage(String messageID, String message, boolean isRead, LocalDate sentDate, String senderID, String receiverID){
+        String tempMessageID = messagesDBUtil.addMessage(messageID, message,isRead,sentDate,senderID,receiverID);
+        addLog("Added "+ tempMessageID+" Message",LocalDateTime.now(), KioskInfo.getCurrentUserID(),tempMessageID,"message");
+        return tempMessageID;
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,8 @@ public interface IDataModel {
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
-    Message addMessage(Message messageObject);
+    void addMessage(Message messageObject);
+    String addMessage(String messageID, String message, boolean isRead, LocalDate sentDate, String senderID, String receiverID);
     boolean removeMessage(String messageID);
     boolean modifyMessage(Message newMessage);
     String getNextMessageID();

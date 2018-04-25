@@ -269,12 +269,20 @@ public class FirebaseDBUtil {
     }
 
     public void updateRequestDerby(List<Request> listOfRequest){
+
+        List<Message> listOfMessage = new ArrayList<>();
+//        for(Request aRequest: listOfRequest) {
+//            listOfMessage.add(DataModelI.getInstance().getMessageByID(aRequest.getMessageID()));
+//        }
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
             String str = "DELETE FROM REQUEST";
             stmt.executeUpdate(str);
+//            str = "DELETE FROM MESSAGE";
+//            stmt.executeUpdate(str);
             stmt.close();
             System.out.println("Request wiped out from database");
         } catch (SQLException e) {
@@ -282,6 +290,11 @@ public class FirebaseDBUtil {
         } finally{
             DataModelI.getInstance().closeConnection();
         }
+
+//        System.out.println("hello");
+//        for(Message aMessage: listOfMessage){
+//            DataModelI.getInstance().addMessage(aMessage);
+//        }
         for(Request aRequest: listOfRequest) {
             DataModelI.getInstance().addRequest(aRequest);
         }
@@ -387,6 +400,9 @@ public class FirebaseDBUtil {
     }
 
     public void updateUserDerby(List<User> listOfUser){
+
+        List<Message> listOfMessages = DataModelI.getInstance().retrieveMessages();
+
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -403,6 +419,10 @@ public class FirebaseDBUtil {
         for(User aUser: listOfUser) {
             DataModelI.getInstance().addUser(aUser);
         }
+        for(Message aMessage:listOfMessages){
+            DataModelI.getInstance().addMessage(aMessage);
+        }
+
         System.out.println("updateUserDerby Done");
     }
 

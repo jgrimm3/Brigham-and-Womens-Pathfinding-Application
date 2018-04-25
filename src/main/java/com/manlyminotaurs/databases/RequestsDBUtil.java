@@ -38,12 +38,15 @@ class RequestsDBUtil {
 	Request addRequest(Request requestObject, Message message){
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
-        Message mObject= DataModelI.getInstance().addMessage(message);
-        requestObject.setMessageID(mObject.getMessageID());
-        if(mObject == null){
+        if(message == null){
             System.out.println("Critical Error in adding message in AddRequest function");
             return null;
         }
+
+        String aMessageID = DataModelI.getInstance().addMessage(message.getMessageID(),message.getMessage(),message.getRead(),message.getSentDate(),message.getSenderID(),message.getReceiverID());
+        message.setMessageID(aMessageID);
+        requestObject.setMessageID(message.getMessageID());
+
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
