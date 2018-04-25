@@ -115,6 +115,7 @@ public class accountManagerController {
             cmboLanguageAdd.setItems(Languages);
             cmboTypeAdd.setItems(UserTypes);
 
+            DataModelI.getInstance().updateUserDerby(DataModelI.getInstance().retrieveUserFirebase());
 
 
         }
