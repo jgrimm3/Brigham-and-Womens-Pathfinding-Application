@@ -56,6 +56,32 @@ public class UserDBUtil {
         return userObject;
     }
 
+    void addUser(User userObject){
+
+        String concatLanguages = String.join("/", userObject.getLanguages());
+        Connection connection =  DataModelI.getInstance().getNewConnection();
+        try {
+            String str = "INSERT INTO UserAccount(userID,firstName,middleName,lastName,language,userType) VALUES (?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, userObject.getUserID());
+            statement.setString(2, userObject.getFirstName());
+            statement.setString(3, userObject.getMiddleName());
+            statement.setString(4, userObject.getLastName());
+            statement.setString(5, concatLanguages);
+            statement.setString(6, userObject.getUserType());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            System.out.println("User added to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally{
+            DataModelI.getInstance().closeConnection();
+        }
+    }
+
     boolean removeUser(String userID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;

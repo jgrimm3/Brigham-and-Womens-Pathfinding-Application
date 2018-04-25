@@ -73,6 +73,40 @@ class RequestsDBUtil {
         return requestObject;
     }
 
+
+    Request addRequest(Request requestObject){
+        //   Connection connection = DataModelI.getInstance().getNewConnection();
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
+            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, requestObject.getRequestID());
+            statement.setString(2, requestObject.getRequestType());
+            statement.setInt(3, requestObject.getPriority());
+            statement.setBoolean(4, requestObject.getComplete());
+            statement.setBoolean(5, requestObject.getAdminConfirm());
+            statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
+            statement.setTimestamp(7, Timestamp.valueOf(requestObject.getEndTime()));
+            statement.setString(8, requestObject.getNodeID());
+            statement.setString(9, requestObject.getMessageID());
+            statement.setString(10, requestObject.getRequestType());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("Request added to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return requestObject;
+    }
+
+
     boolean removeRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;

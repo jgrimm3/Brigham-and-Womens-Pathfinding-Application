@@ -92,6 +92,30 @@ public class LogDBUtil {
         return newLog;
     }
 
+    public void addLog(Log newLog) {
+
+        Connection connection = DataModelI.getInstance().getNewConnection();
+        try {
+            String str = "INSERT INTO Log(logID,description,logTime,userID,associatedID,associatedType) VALUES (?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, newLog.getLogID());
+            statement.setString(2, newLog.getDescription());
+            statement.setTimestamp(3, Timestamp.valueOf(newLog.getLogTime()));
+            statement.setString(4, newLog.getUserID());
+            statement.setString(5, newLog.getAssociatedID());
+            statement.setString(6, newLog.getAssociatedType());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            System.out.println("Log added to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
     //delete log
     boolean removeLog(String logID){
         boolean isSuccess = false;
