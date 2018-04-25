@@ -450,9 +450,9 @@ public class homeController implements Initializable {
 			kioskIcon.setVisible(false);
 		}
 
-		kioskIcon.setOnMouseClicked(this::startCircleClicked);
-		kioskIcon.setOnMouseEntered(this::printStartName);
-		kioskIcon.setOnMouseExited(this::removeStartName);
+		//kioskIcon.setOnMouseClicked(this::startCircleClicked);
+		//kioskIcon.setOnMouseEntered(this::printStartName);
+		//kioskIcon.setOnMouseExited(this::removeStartName);
 	}
 
 	public void goToKiosk() {
@@ -1908,6 +1908,9 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView arrow;
 
+	@FXML
+	Label lblNoPath;
+
 	List<ImageView> iconList = new ArrayList<>();
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
@@ -2254,7 +2257,6 @@ public class homeController implements Initializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 	}
 
