@@ -148,8 +148,7 @@ public class FireDetector implements SerialPortEventListener {
      * @throws Exception
      */
     public void startDetecting() throws Exception {
-        FireDetector main = new FireDetector(stage);
-        main.initialize();
+        this.initialize();
         Thread t=new Thread() {
             public void run() {
                 //the following line will keep this app alive for 1000 seconds,

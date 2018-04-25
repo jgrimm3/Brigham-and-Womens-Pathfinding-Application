@@ -90,7 +90,7 @@ public class emergencyScreenController {
     String endFloor = "1";
     String currentFloor = "1";
     ClientSetup client;
-    MediaPlayer a;
+    public static MediaPlayer a;
 
     /**
      * sets up emergency screen
@@ -122,7 +122,7 @@ public class emergencyScreenController {
         a.play();
 
         try {
-            path = pf.getPath(KioskInfo.getMyLocation(), realExit, new AStarStrategyI());
+            path = pf.getPath(KioskInfo.getMyLocation(), exitNode, new ClosestStrategyI());
             pathList = path;
         } catch (PathNotFoundException e) {
             e.printStackTrace();

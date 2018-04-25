@@ -1,5 +1,6 @@
 package com.manlyminotaurs.communications;
 
+import com.manlyminotaurs.viewControllers.emergencyScreenController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -99,6 +100,7 @@ public class ClientSetup {
                                             //load up Home FXML document;
                                             try {
                                                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
+                                                emergencyScreenController.a.dispose();
                                                 //create a new scene with root and set the stage
                                                 Scene scene = new Scene(root);
                                                 stage.setScene(scene);
