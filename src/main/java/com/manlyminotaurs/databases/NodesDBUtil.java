@@ -20,10 +20,10 @@ import java.util.*;
 //finish erd diagram and create request table
 class NodesDBUtil {
 
-	int nodeIDGeneratorCount = 200;
-	int elevatorCounter = 0;
-	List<Node> nodes;
-	static Map<String, Node> nodeMap;
+	private int nodeIDGeneratorCount = 200;
+	private int elevatorCounter = 0;
+	private List<Node> nodes;
+	private static Map<String, Node> nodeMap;
 
 	/**
 	 * Retrieve Map of Nodes using updateNodeMap
@@ -46,6 +46,9 @@ class NodesDBUtil {
 	}
 	/*---------------------------------------- Create java objects ---------------------------------------------------*/
 
+	/**
+	 * Initialize ArrayList of Nodes and HashMap of nodeID's and Nodes
+	 */
 	public NodesDBUtil() {
 		nodes = new ArrayList<>();
 		nodeMap  = new HashMap<>();
