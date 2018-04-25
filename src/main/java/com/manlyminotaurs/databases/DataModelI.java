@@ -36,6 +36,7 @@ public class DataModelI implements IDataModel{
 	private UserSecurity userSecurity;
 	private LogDBUtil logDBUtil;
 	private PathfinderDBUtil pathfinderDBUtil;
+	private FirebaseDBUtil firebaseDBUtil;
 
     // list of all objects
 
@@ -62,6 +63,7 @@ public class DataModelI implements IDataModel{
         userSecurity = new UserSecurity();
         logDBUtil = new LogDBUtil();
         pathfinderDBUtil = new PathfinderDBUtil();
+        firebaseDBUtil = new FirebaseDBUtil();
     }
 
     public static DataModelI getInstance(){
@@ -74,6 +76,7 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
+        firebaseDBUtil.initializeFirebase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -418,6 +421,7 @@ public class DataModelI implements IDataModel{
      */
     public Request addRequest(Request requestObject, Message messageObject) {
         Request newRequest = requestsDBUtil.addRequest(requestObject, messageObject);
+        firebaseDBUtil.updateRequestFirebase();
         addLog("Added "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
         return newRequest;
     }
@@ -434,6 +438,7 @@ public class DataModelI implements IDataModel{
      */
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
+        firebaseDBUtil.updateRequestFirebase();
         addLog("Removed "+ requestID +" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),requestID,"request");
         return tempBool;
     }
@@ -445,6 +450,7 @@ public class DataModelI implements IDataModel{
      */
     public boolean modifyRequest(Request newRequest) {
         boolean tempBool = requestsDBUtil.modifyRequest(newRequest);
+        firebaseDBUtil.updateRequestFirebase();
         addLog("Modified "+ newRequest.getRequestID()+" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newRequest.getRequestID(),"request");
         return tempBool;
     }
@@ -462,6 +468,7 @@ public class DataModelI implements IDataModel{
      * Retrieve list of all Request objects in database
      */
     public List<Request> retrieveRequests() {
+        firebaseDBUtil.retrieveRequestFirebase();
         return requestsDBUtil.retrieveRequests(false);
     }
 
@@ -497,6 +504,7 @@ public class DataModelI implements IDataModel{
     @Override
     public User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password) {
         User newUser = userDBUtil.addUser(userID, firstName, middleName, lastName, languages, userType, userName, password);
+        firebaseDBUtil.updateUserFirebase();
         addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return newUser;
     }
@@ -509,6 +517,7 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean removeUser(String userID) {
         boolean tempBool = userDBUtil.removeUser(userID);
+        firebaseDBUtil.updateUserFirebase();
         addLog("Removed "+ userID +" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"user");
         return tempBool;
     }
@@ -516,12 +525,14 @@ public class DataModelI implements IDataModel{
     @Override
     public boolean modifyUser(User newUser) {
         boolean tempBool = userDBUtil.modifyUser(newUser);
+        firebaseDBUtil.updateUserFirebase();
         addLog("Modified "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return tempBool;
     }
 
     @Override
     public List<User> retrieveUsers() {
+        firebaseDBUtil.retrieveUserFirebase();
         return userDBUtil.retrieveUsers(false);
     }
 
@@ -737,6 +748,43 @@ public class DataModelI implements IDataModel{
     public boolean restoreUserPassword(String userID) {
         addLog("Restored "+ userID+" username and password",LocalDateTime.now(), KioskInfo.getCurrentUserID(), userID,"userpassword");
         return userSecurity.restoreUserPassword(userID);
+    }
+
+    //--------------------------------Firebase Database----------------------------------
+
+    @Override
+    public void initializeFirebase() {
+        firebaseDBUtil.initializeFirebase();
+    }
+
+    @Override
+    public void updateRequestFirebase() {
+        firebaseDBUtil.updateRequestFirebase();
+    }
+
+    @Override
+    public void retrieveRequestFirebase() {
+        firebaseDBUtil.retrieveRequestFirebase();
+    }
+
+    @Override
+    public void updateLogFirebase() {
+        firebaseDBUtil.updateLogFirebase();
+    }
+
+    @Override
+    public void retrieveLogFirebase() {
+        firebaseDBUtil.retrieveLogFirebase();
+    }
+
+    @Override
+    public void updateUserFirebase() {
+        firebaseDBUtil.updateUserFirebase();
+    }
+
+    @Override
+    public void retrieveUserFirebase() {
+        firebaseDBUtil.retrieveUserFirebase();
     }
 
     //--------------------------------------CSV stuffs------------------------------------------
