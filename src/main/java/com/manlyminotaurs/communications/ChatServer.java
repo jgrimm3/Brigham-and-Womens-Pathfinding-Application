@@ -64,7 +64,6 @@ public class ChatServer {
             while (true) {
                 System.out.println("Main: Handler");
                 Handler aHandler = new Handler(listener.accept());
-                aHandler.doHandshake();
                 aHandler.start();
             }
         } finally {
@@ -89,7 +88,6 @@ public class ChatServer {
          */
         public Handler(Socket socket) {
             this.socket = socket;
-            doHandshake();
         }
 
         /**
@@ -101,29 +99,18 @@ public class ChatServer {
          */
         public void run() {
             try {
-                System.out.println("");
+
                 // Create character streams for the socket.
-                int socketCounter = 0;
                 in = new BufferedReader(new InputStreamReader(
                         socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                String input = null;
-
-                //String aSocketInput = input;//socket.getInputStream().toString();
-
-
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
-                while ((input = in.readLine()) != null) {
-//                    if (input == null) {
-//                        System.out.println("----------------------Stop--------------------------");
-//
-//                        //return;
-//                    }
-                    if (".".equals(input)) {
-                        out.println("good bye");
-                        break;
+                while (true) {
+                    String input = in.readLine();
+                    if (input == null) {
+                        return;
                     }
                     if (input.startsWith("NEWCONNECTION")){
                         names.add(String.valueOf(names.size()));
@@ -132,40 +119,32 @@ public class ChatServer {
                         System.out.println("New Client Added: " + writers.size());
                     } else if (input.startsWith("EMERGENCY")) {
                         System.out.println("We Have Entered Emergency Mode");
-                        if (state == 0) {
+                        if(state ==0) {
                             state = 1;
                             for (PrintWriter writer : writers) {
                                 writer.println("EMERGENCY" + name + " Has issued an Emergency");
                             }
                         }
-                    } else if (input.startsWith("Reset")) {
-                        System.out.println("We Have Entered Normal Mode");
-                        if (state == 1) {
+                    } else if(input.startsWith("Reset")){
+                        if(state == 1) {
+                            System.out.println("We Have Entered Normal Mode");
                             state = 0;
                             for (PrintWriter writer : writers) {
                                 writer.println("Reset" + name + " Has Reset The System");
+                                System.out.println("Message Sent To Client");
                             }
                         }
-                    } else if (input.startsWith("STATE")) {
+                    }else if(input.startsWith("STATE")){
                         for (PrintWriter writer : writers) {
                             writer.println(state);
                         }
-                    } else {
-                        System.out.println("else statement: " + input);
-                        decodeMessage(input);
-                        decodeMessage2(input);
-                        for (PrintWriter writer : writers) {
-                            writer.println("received some data");
-                        }
                     }
                 }
-            }
-             catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(e);
             } finally {
                 // This client is going down!  Remove its name and its print
                 // writer from the sets, and close its socket.
-                System.out.println("client going down!");
                 if (name != null) {
                     names.remove(name);
                 }
@@ -181,6 +160,10 @@ public class ChatServer {
         }
 
         //--------------handshaking to upgrade http connection to web socket connection------------------
+
+        /**
+         *  upgrade http connection to web socket connection
+         */
         public void doHandshake() {
             //translate bytes of request to string
             String data = null;
@@ -223,6 +206,10 @@ public class ChatServer {
         }
     }
 
+
+    /**
+     *  spool server
+     */
     public void spoolUpServer() {
         Thread serverThread = new Thread() {
             public void run() {
@@ -251,6 +238,11 @@ public class ChatServer {
         serverThread.start();
     }
 
+    /**
+     *  decodde given message to binary
+     *
+     * @param aString input string
+     */
     static void decodeMessage(String aString){
         byte[] byteArray = new byte[0];
         try {
@@ -269,6 +261,12 @@ public class ChatServer {
         System.out.println("");
     }
 
+    /**
+     * decode message
+     *
+     * @param aString input string
+     * @throws IOException
+     */
     static void decodeMessage2(String aString) throws IOException{
         byte[] _rawIn = aString.getBytes("UTF-8");
         int maskIndex = 2;
@@ -296,6 +294,8 @@ public class ChatServer {
         System.out.println();
     }
 
-
+    public static int getState() {
+        return state;
+    }
 }
 

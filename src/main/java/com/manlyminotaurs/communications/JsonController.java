@@ -31,9 +31,10 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
 
     /**
+     * run json operation and attempt to receieve json request
      *
-     * @param requestedJson
-     * @return
+     * @param requestedJson takes in requested json object
+     * @return returns null if parse exception
      */
     public String receieveRequestJson(String requestedJson) {
         JSONParser parser = new JSONParser();
@@ -101,7 +102,7 @@ public class JsonController {
 
         /**
          * returns retrieved Data in Json String from Kiosk to Web app
-         * @param requestedJson
+         * @param requestedJson json object to request
          * @return Json format string
          */
         public String retrieveJson (String requestedJson){
@@ -128,6 +129,14 @@ public class JsonController {
         //---------------------------------------Log Starts-----------------------------------------------------
         //------------------------------------------------------------------------------------------------------
 
+    /**
+     *
+     * removes json object from log
+     *
+     * @param jsonObject object to remove
+     * @return true if function is successful
+     */
+
    private boolean removeLogJson(JSONObject jsonObject){
         JSONParser parser = new JSONParser();
         boolean isSuccessful = false;
@@ -144,6 +153,11 @@ public class JsonController {
         return isSuccessful;
     }
 
+    /**
+     * finds json object in the log
+     *
+     * @return json log object
+     */
     private JSONObject retrieveLogJson(){
         JSONObject wholeObj = new JSONObject();
         JSONObject obj;
@@ -177,6 +191,12 @@ public class JsonController {
     //------------------------------------------Request Starts----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+
+    /**
+     *  add json object request
+     *
+     * @param jsonObject jsonObject
+     */
     private void addRequestJson(JSONObject jsonObject){
         JSONObject jsonRow  = (JSONObject) jsonObject.get("Data");
 
@@ -191,12 +211,22 @@ public class JsonController {
         rFactory.genNewRequest(RequestType.valueOf(requestType),aNode,message,senderID,Integer.parseInt(priority));
     }
 
+    /**
+     * remove the json object from the requests
+     *
+     * @param jsonObject json object to remove
+     */
     private void removeRequestJson(JSONObject jsonObject){
         JSONObject jsonRow = (JSONObject) jsonObject.get("Data");
         String requestID = jsonRow.get("requestID").toString();
         DataModelI.getInstance().removeRequest(requestID);
     }
 
+    /**
+     *  modify current json object
+     *
+     * @param jsonObject json object to modify
+     */
     private void modifyRequestJson(JSONObject jsonObject){
         JSONObject jsonRow  = (JSONObject) jsonObject.get("Data");
 
@@ -221,6 +251,11 @@ public class JsonController {
         DataModelI.getInstance().modifyRequest(newReq);
     }
 
+    /**
+     * retrieves json request
+     *
+     * @return the proper json request
+     */
     private JSONObject retrieveRequestJson(){
         JSONObject wholeObj = new JSONObject();
         JSONObject obj;
@@ -258,6 +293,12 @@ public class JsonController {
     //--------------------------------------------User Starts-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * adds json user
+     *
+     * @param jsonObject json user to add
+     */
+
     private void addUserJson(JSONObject jsonObject){
         JSONObject jsonRow = (JSONObject) jsonObject.get("Data");
 
@@ -274,12 +315,22 @@ public class JsonController {
         DataModelI.getInstance().addUser(userID,firstName,middleName,lastName,languages,userType,userName,userPassword);
     }
 
+    /**
+     * removes specified json object
+     *
+     * @param jsonObject json user to remove
+     */
     private void removeUserJson(JSONObject jsonObject){
         JSONObject jsonRow = (JSONObject) jsonObject.get("Data");
         String userID = jsonRow.get("userID").toString();
         DataModelI.getInstance().removeUser(userID);
     }
 
+    /**
+     *  modifies input json user
+     *
+     * @param jsonObject to modify
+     */
     private void modifyUserJson(JSONObject jsonObject){
         JSONObject jsonRow = (JSONObject) jsonObject.get("Data");
 
@@ -302,6 +353,11 @@ public class JsonController {
         DataModelI.getInstance().modifyUser(aUser);
     }
 
+    /**
+     * gets a json user
+     *
+     * @return json user
+     */
     private JSONObject retrieveUserJson(){
         JSONObject wholeObj = new JSONObject();
         JSONObject obj;
@@ -334,6 +390,12 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
     //--------------------------------------------Nodes Start-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
+
+    /**
+     * retrieve json nodes
+     *
+     * @return json node
+     */
 
     private JSONObject retrieveNodesJson(){
         JSONObject wholeObj = new JSONObject();
@@ -373,6 +435,12 @@ public class JsonController {
     //----------------------------------------Emergency Start-----------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
+    /**
+     * creates an emergency
+     *
+     * @param emergencyType type of emergency
+     */
+
     private void makeEmergencyJson(String emergencyType){
 
         JSONObject wholeObj = new JSONObject();
@@ -385,6 +453,10 @@ public class JsonController {
     //------------------------------------------------------------------------------------------------------
 
 
+    /**
+     * main function
+     * @param args n/a
+     */
     public static void main(String[] args) {
         DataModelI.getInstance().startDB();
 

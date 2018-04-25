@@ -32,6 +32,10 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Add/remove/modify message -------------------------------------------------*/
+    /**
+     * adds message to db
+     * @return message added
+     */
     public String addMessage(String messageID, String message, boolean isRead, LocalDate sentDate, String senderID, String receiverID){
         System.out.println("addMessage");
         if(messageID == null || messageID.equals("")) {
@@ -96,6 +100,11 @@ class MessagesDBUtil {
         }
     }
 
+    /**
+     * removes message from db
+     * @param messageID from db
+     * @return true if success
+     */
     public boolean removeMessage(String messageID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -118,6 +127,11 @@ class MessagesDBUtil {
         return isSuccess;
     }
 
+    /**
+     * reverts removed message back to db
+     * @param messageID of message
+     * @return true if success
+     */
     public boolean restoreMessage(String messageID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -140,6 +154,11 @@ class MessagesDBUtil {
         return isSuccess;
     }
 
+    /**
+     *  PERMANENTLY removes a message
+     * @param messageID of message
+     * @return true if success
+     */
     public boolean permanentlyRemoveMessage(String messageID){
         boolean isSuccess = false;
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -158,6 +177,11 @@ class MessagesDBUtil {
         return isSuccess;
     }
 
+    /**
+     * modifies a message in db
+     * @param newMessage message
+     * @return true if success
+     */
     public boolean modifyMessage(Message newMessage) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -185,6 +209,12 @@ class MessagesDBUtil {
     }
 
     /*------------------------------------ Search message by Receiver/Sender -------------------------------------------------*/
+
+    /**
+     * searches message in db based on receiver
+     * @param receiverID receiver id of message
+     * @return list of messages from receiver
+     */
     public List<Message> searchMessageByReceiver(String receiverID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
@@ -224,6 +254,12 @@ class MessagesDBUtil {
         }
         return listOfMessages;
     }
+
+    /**
+     * searches message by sender in db
+     * @param senderID of sender
+     * @return list of messages from sender
+     */
 
     public List<Message> searchMessageBySender(String senderID){
         // Connection
@@ -326,6 +362,11 @@ class MessagesDBUtil {
         return listOfMessages;
     } // retrieveMessages() ends
 
+    /**
+     * gets message based on ID from db
+     * @param messageID of message
+     * @return message
+     */
     public Message getMessageByID(String messageID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();

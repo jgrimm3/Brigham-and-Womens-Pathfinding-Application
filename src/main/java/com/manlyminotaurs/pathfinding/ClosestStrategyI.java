@@ -21,6 +21,13 @@ public class ClosestStrategyI implements IPathFindingStrategy {
         return path;
     }
 
+    /**
+     * uses bfs to find closest node by type
+     * @param startNode starting node
+     * @param endNode ending node
+     * @return
+     * @throws PathNotFoundException
+     */
     private LinkedList<ClosestStrategyNode> calcPath(ClosestStrategyNode startNode, ClosestStrategyNode endNode) throws PathNotFoundException {
         String target = endNode.getNode().getNodeType();
         Queue<ClosestStrategyNode> q = new LinkedList<>();
