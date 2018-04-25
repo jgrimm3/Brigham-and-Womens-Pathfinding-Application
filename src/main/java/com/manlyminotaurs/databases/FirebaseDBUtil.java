@@ -489,7 +489,7 @@ public class FirebaseDBUtil {
                     else if(emergencyType.equals("other")){
                         client.sendEmergency();
                     }
-                    DocumentReference docRef = firestoreDB.collection("emergencies").document("1");
+
                     Map<String, Object> data = new HashMap<>();
                     data.put("type", "");
                     //asynchronously write data
