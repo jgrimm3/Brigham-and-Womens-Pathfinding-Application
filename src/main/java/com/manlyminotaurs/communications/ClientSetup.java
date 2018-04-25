@@ -97,7 +97,7 @@ public class ClientSetup {
                                             Parent root;
                                             //load up Home FXML document;
                                             try {
-                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+                                                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
                                                 //create a new scene with root and set the stage
                                                 Scene scene = new Scene(root);
                                                 stage.setScene(scene);
@@ -134,7 +134,9 @@ public class ClientSetup {
      */
     public String requestState() {
         out.println("STATE");
+        System.out.println("State Request Sent");
         try {
+            System.out.println("State Response Received");
             return in.readLine();
         } catch (Exception e) {
             return null;

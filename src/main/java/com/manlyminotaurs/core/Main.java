@@ -31,7 +31,7 @@ public class Main extends Application {
     private static DataModelI dataModelI = DataModelI.getInstance();
     public static String pathStrategy = "";
 
-    //private FireDetector fd;
+    private FireDetector fd;
 
     /**
      *  starts application
@@ -44,7 +44,7 @@ public class Main extends Application {
         KioskInfo.myStage = primaryStage;
         try{
             System.out.println("Checking Status of Emergency");
-            if(true) {//new ClientSetup(null).requestState().equals("0")) {
+            if(ChatServer.getState() == 0) {
                 //root is anchor pane that all other screens will be held in
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
             }else{
@@ -69,8 +69,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-       // fd = new FireDetector(primaryStage);
-       // fd.startDetecting();
+        fd = new FireDetector(primaryStage);
+        fd.startDetecting();
     }
     // wait for application to finish,calls Platform exit, save files.
 
@@ -121,6 +121,7 @@ public class Main extends Application {
 
         if(args.length > 1 && args[1].equals("-s")) {
             new ChatServer().spoolUpServer();
+            System.out.println("SERVER IS UP");
         }
 
         launch(args);

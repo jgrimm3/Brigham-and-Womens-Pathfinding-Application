@@ -161,9 +161,15 @@ public interface IDataModel {
     void initializeFirebase();
 
     void updateRequestFirebase();
-    void retrieveRequestFirebase();
+    List<Request> retrieveRequestFirebase();
     void updateLogFirebase();
-    void retrieveLogFirebase();
+    List<Log> retrieveLogFirebase();
     void updateUserFirebase();
-    void retrieveUserFirebase();
+    List<User> retrieveUserFirebase();
+    void updateRequestDerby(List<Request> listOfRequest);
+    void updateUserDerby(List<User> listOfUser);
+    void updateLogDerby(List<Log> listOfLog);
+
+    void removeRequestFirebase(String requestID);
+    void removeUserFirebase(String userID);
 }

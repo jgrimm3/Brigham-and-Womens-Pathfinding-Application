@@ -49,7 +49,7 @@ public class FirebaseDBUtil {
     public void initializeFirebase(){
         FileInputStream serviceAccount = null;
         try {
-            serviceAccount = new FileInputStream(getClass().getResource("/cs3733-web-app-firebase-adminsdk-r1g9x-e36575f789.json").getFile());
+            serviceAccount = new FileInputStream("./cs3733-web-app-firebase-adminsdk-r1g9x-e36575f789.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -112,10 +112,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    /**
-     * retrieves log firebase db
-     */
-    public void retrieveLogFirebase(){
+    public List<Log> retrieveLogFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("logs").get();
         // ...
@@ -153,7 +150,7 @@ public class FirebaseDBUtil {
             listOfLog.add(logObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateLogDerby(listOfLog);
+        return listOfLog;
     }
 
     /**
@@ -228,7 +225,7 @@ public class FirebaseDBUtil {
     /**
      * retrieves requests from firebase db
      */
-    public void retrieveRequestFirebase(){
+    public List<Request> retrieveRequestFirebase(){
         //---------------------------Retrieve data from Firebase database-----------------------------------------------
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("requests").get();
@@ -285,7 +282,7 @@ public class FirebaseDBUtil {
             listOfRequest.add(requestObject);
         }
         //-----------------------------------Update Derby Database----------------------------------------------------
-        updateRequestDerby(listOfRequest);
+        return listOfRequest;
     }
 
     /**
@@ -310,6 +307,17 @@ public class FirebaseDBUtil {
             DataModelI.getInstance().addRequest(aRequest);
         }
         System.out.println("updateRequestDerby Done");
+    }
+
+    public void removeRequestFirebase(String requestID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("requests").document(requestID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------
@@ -352,10 +360,7 @@ public class FirebaseDBUtil {
         }
     }
 
-    /**
-     * retrieves user firebase db
-     */
-    public void retrieveUserFirebase(){
+    public List<User> retrieveUserFirebase(){
         // asynchronously retrieve all users
         ApiFuture<QuerySnapshot> query = firestoreDB.collection("users").get();
         // ...
@@ -401,15 +406,11 @@ public class FirebaseDBUtil {
             userObject.setDeleteTime(deleteTime);
             listOfUser.add(userObject);
         }
-        //-----------------------------------Update Derby Database----------------------------------------------------
-        updateUserDerby(listOfUser);
+
+        return listOfUser;
     }
 
-    /**
-     * updates user derby db
-     * @param listOfUser list of user to update
-     */
-    private void updateUserDerby(List<User> listOfUser){
+    public void updateUserDerby(List<User> listOfUser){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -427,6 +428,17 @@ public class FirebaseDBUtil {
             DataModelI.getInstance().addUser(aUser);
         }
         System.out.println("updateUserDerby Done");
+    }
+
+    public void removeUserFirebase(String userID){
+        ApiFuture<WriteResult> writeResult = firestoreDB.collection("users").document(userID).delete();
+        try {
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     //------------------------------------------------------------------------------------------------------
