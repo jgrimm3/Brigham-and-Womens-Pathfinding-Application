@@ -130,9 +130,6 @@ public class homeController implements Initializable {
 	//
 	//-----------------------------------------------------------------------------------------------------------------
 	@FXML
-	VBox panePathfinding;
-
-	@FXML
 	Label lblHandicap;
 
 	@FXML
@@ -1335,8 +1332,7 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-		//panePathfinding.setVisible(false);
-		//paneDirections.setVisible(true);
+		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1530,8 +1526,7 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-//		panePathfinding.setVisible(false);
-//		paneDirections.setVisible(true);
+		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
@@ -1728,8 +1723,7 @@ public class homeController implements Initializable {
 
 		// Clear old fields
 		// Show directions interface and hide pathfinding interface
-//		panePathfinding.setVisible(false);
-//		paneDirections.setVisible(true);
+		paneDirections.setVisible(true);
 
 		// Clean up Navigation Fields
 		comBuildingStart.setItems(buildings); // Set comboboxes for buildings to default lists
