@@ -201,7 +201,7 @@ public class idleMapController implements Initializable {
                     KioskInfo.myTimer.cancel();
                 }
                 KioskInfo.myTimer = new Timer();
-                KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 0));
+                KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 20000));
 
                 Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 

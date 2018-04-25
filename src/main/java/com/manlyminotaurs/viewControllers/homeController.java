@@ -98,6 +98,7 @@ public class homeController implements Initializable {
 	final int MAPY2D = 3400;
 	int nodeIconWidth = 40;
 	int nodeIconHeight = 40;
+	String currSnap = "1";
 
 	String currentFloor = "1";
 	String currentDimension = "2-D";
@@ -413,6 +414,7 @@ public class homeController implements Initializable {
 			printKiosk();
 			clearPoints();
 			printPoints(currentFloor, currentDimension);
+			breadSnap(currSnap);
 		} else {
 
 			// Switch 2-D
@@ -428,6 +430,7 @@ public class homeController implements Initializable {
 			printKiosk();
 			clearPoints();
 			printPoints(currentFloor, currentDimension);
+			breadSnap(currSnap);
 		}
 
 	}
@@ -450,9 +453,9 @@ public class homeController implements Initializable {
 			kioskIcon.setVisible(false);
 		}
 
-		//kioskIcon.setOnMouseClicked(this::startCircleClicked);
-		//kioskIcon.setOnMouseEntered(this::printStartName);
-		//kioskIcon.setOnMouseExited(this::removeStartName);
+		kioskIcon.setOnMouseClicked(this::startCircleClicked);
+		kioskIcon.setOnMouseEntered(this::printStartName);
+		kioskIcon.setOnMouseExited(this::removeStartName);
 	}
 
 	public void goToKiosk() {
@@ -484,13 +487,13 @@ public class homeController implements Initializable {
 
 		if (currentDimension.equals("3-D")) { // 3D
 
-			snapY = (startY3D + ((endY3D - startY3D) / 2)) / 2774.0;
-			snapX = (startX3D + ((endX3D - startX3D) / 2)) / 5000.0;
+			snapY = Math.abs((startY3D + Math.abs(((endY3D - startY3D)) / 2)) / 2774.0);
+			snapX = Math.abs((startX3D + Math.abs(((endX3D - startX3D)) / 2)) / 5000.0);
 
 		} else { // 2D
 
-			snapY = (startY2D + (((endY2D - startY2D) / 2)) - 200) / 3400.0;
-			snapX = (startX2D + (((endX2D - startX2D) / 2)) - 300) / 5000.0;
+			snapY = Math.abs((startY2D + Math.abs(((endY2D - startY2D)) / 2)) / 3400.0);
+			snapX = Math.abs((startX2D + Math.abs(((endX2D - startX2D)) / 2)) / 5000.0);
 		}
 
 		//scrollPaneMap.setVvalue(snapY);
@@ -1908,9 +1911,6 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView arrow;
 
-	@FXML
-	Label lblNoPath;
-
 	List<ImageView> iconList = new ArrayList<>();
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
@@ -2044,8 +2044,8 @@ public class homeController implements Initializable {
 				finishY = endNode.getYCoord3D();
 				startX = startNode.getXCoord3D();
 				startY = startNode.getYCoord3D();
-				destination.setX(finishX-25);
-				destination.setY(finishY-25);
+				destination.setTranslateX(finishX-25);
+				destination.setTranslateY(finishY-25);
 				setText(destinationText, finishX, finishY, 35, 60, font);
 				setText(startName, startX, startY, -15, 0, font);
 				//startName.setRotate(-overMap.getRotate());
@@ -2257,6 +2257,7 @@ public class homeController implements Initializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		}
 	}
 
@@ -2529,7 +2530,13 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateRight(ActionEvent event) {
-		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+		//scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
+		rotateTransition.setToAngle(scrollGroup.getRotate()+30);
+		rotateTransition.setAutoReverse(true);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation - 30);
@@ -2537,7 +2544,13 @@ public class homeController implements Initializable {
 	}
 
 	public void rotateLeft(ActionEvent event) {
-		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+		//scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+
+		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
+		rotateTransition.setToAngle(scrollGroup.getRotate()-30);
+		rotateTransition.setAutoReverse(true);
+		rotateTransition.setCycleCount(1);
+		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation + 30);
@@ -2709,6 +2722,14 @@ public class homeController implements Initializable {
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor L2");
 	}
 
@@ -2743,6 +2764,14 @@ public class homeController implements Initializable {
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
 
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor L1");
 	}
 
@@ -2775,6 +2804,13 @@ public class homeController implements Initializable {
 		new ProxyImage(img1, "Floor1IconSelected.png").displayIcon();
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 
 		System.out.println("you selected floor 1");
 
@@ -2809,6 +2845,15 @@ public class homeController implements Initializable {
 		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
 		new ProxyImage(img2, "Floor2IconSelected.png").displayIcon();
 		new ProxyImage(img3, "Floor3Icon.png").displayIcon();
+
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 		System.out.println("you selected floor 2");
 
 	}
@@ -2843,6 +2888,14 @@ public class homeController implements Initializable {
 		new ProxyImage(img1, "Floor1Icon.png").displayIcon();
 		new ProxyImage(img2, "Floor2Icon.png").displayIcon();
 		new ProxyImage(img3, "Floor3IconSelected.png").displayIcon();
+
+		try {
+			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
+			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 
 		System.out.println("you selected floor 3");
 
@@ -3261,12 +3314,16 @@ public class homeController implements Initializable {
 	}
 
 	private void breadSnap(String num) {
+		getBreadSections();
 		if(num.equals("1")) {
 			snap(breadSection1.get(0), breadSection1.get(breadSection1.size()-1));
+			currSnap = "1";
 		} else if(num.equals("2")) {
 			snap(breadSection2.get(0), breadSection2.get(breadSection2.size()-1));
+			currSnap = "2";
 		}else if(num.equals("3")) {
 			snap(breadSection3.get(0), breadSection3.get(breadSection3.size()-1));
+			currSnap = "3";
 		}
 	}
 
