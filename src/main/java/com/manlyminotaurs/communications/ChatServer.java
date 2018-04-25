@@ -181,6 +181,10 @@ public class ChatServer {
         }
 
         //--------------handshaking to upgrade http connection to web socket connection------------------
+
+        /**
+         *  upgrade http connection to web socket connection
+         */
         public void doHandshake() {
             //translate bytes of request to string
             String data = null;
@@ -223,6 +227,10 @@ public class ChatServer {
         }
     }
 
+
+    /**
+     *  spool server
+     */
     public void spoolUpServer() {
         Thread serverThread = new Thread() {
             public void run() {
@@ -251,6 +259,11 @@ public class ChatServer {
         serverThread.start();
     }
 
+    /**
+     *  decodde given message to binary
+     *
+     * @param aString input string
+     */
     static void decodeMessage(String aString){
         byte[] byteArray = new byte[0];
         try {
@@ -269,6 +282,12 @@ public class ChatServer {
         System.out.println("");
     }
 
+    /**
+     * decode message
+     *
+     * @param aString input string
+     * @throws IOException
+     */
     static void decodeMessage2(String aString) throws IOException{
         byte[] _rawIn = aString.getBytes("UTF-8");
         int maskIndex = 2;

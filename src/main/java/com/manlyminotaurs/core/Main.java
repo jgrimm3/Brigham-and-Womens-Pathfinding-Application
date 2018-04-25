@@ -33,6 +33,12 @@ public class Main extends Application {
 
     //private FireDetector fd;
 
+    /**
+     *  starts application
+     *
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         KioskInfo.myStage = primaryStage;
@@ -67,6 +73,12 @@ public class Main extends Application {
        // fd.startDetecting();
     }
     // wait for application to finish,calls Platform exit, save files.
+
+    /**
+     *   exit the program
+     *
+     * @param event
+     */
     @FXML
     public void exitApplication(ActionEvent event) {
         Platform.exit();
@@ -81,6 +93,13 @@ public class Main extends Application {
 
         System.exit(0);
     }
+
+    /**
+     * Main function
+     *
+     * @param args
+     * @throws IOException
+     */
 
     public static void main(String[] args) throws IOException {
         if(createTables) {

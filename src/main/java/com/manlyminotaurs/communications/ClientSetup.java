@@ -60,6 +60,9 @@ public class ClientSetup {
 
     }
 
+    /**
+     *  spool up client
+     */
     public void spoolUpClient() {
         Thread serverThread = new Thread() {
             public void run() {
@@ -118,10 +121,17 @@ public class ClientSetup {
         serverThread.start();
     }
 
+    /**
+     * print emergency
+     */
     public void sendEmergency(){
         out.println("EMERGENCY");
     }
 
+    /**
+     * ask for a state
+     * @return
+     */
     public String requestState() {
         out.println("STATE");
         try {
@@ -131,6 +141,9 @@ public class ClientSetup {
         }
     }
 
+    /**
+     * send reset
+     */
     public void sendReset(){
         out.println("Reset");
     }

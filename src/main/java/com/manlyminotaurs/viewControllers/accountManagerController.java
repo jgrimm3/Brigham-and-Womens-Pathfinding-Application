@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.users.User;
-import com.manlyminotaursAPI.core.RoomService;
+//import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -163,7 +163,7 @@ public class accountManagerController {
     }
     public void loadAPI(ActionEvent event){
 
-
+/*
         RoomService roomService = new RoomService();
         try
 
@@ -175,7 +175,7 @@ public class accountManagerController {
         {
             e.printStackTrace();
         }
-
+*/
     }
     public void LogOut(javafx.event.ActionEvent event) throws Exception {
         try {
