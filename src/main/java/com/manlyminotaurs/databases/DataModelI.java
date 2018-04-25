@@ -76,9 +76,9 @@ public class DataModelI implements IDataModel{
     @Override
     public void startDB() {
         tableInitializer.setupDatabase();
-        firebaseDBUtil.initializeFirebase();
-        firebaseDBUtil.updateUserFirebase();
-     //   firebaseDBUtil.updateRequestFirebase();
+//        firebaseDBUtil.initializeFirebase();
+//        firebaseDBUtil.updateUserFirebase();
+//        firebaseDBUtil.updateRequestFirebase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
