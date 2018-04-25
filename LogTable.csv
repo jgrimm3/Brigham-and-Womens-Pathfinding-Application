@@ -568,3 +568,8 @@ logID,description,logTime,userID,associatedID,associatedType
 1377,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:38:517,null,187,pathfind
 1378,Pathfind fromEINFO00101 to IDEPT00703 is done,2018-04-24 23:30:53:298,null,188,pathfind
 1379,Application Closed,2018-04-24 23:31:04:878,N/A,N/A,application
+1385,Pathfind fromIDEPT00903 to ARETL00101 is done,2018-04-24 23:37:36:125,null,189,pathfind
+1386,Application Closed,2018-04-24 23:38:55:749,N/A,N/A,application
+1392,Application Closed,2018-04-24 23:45:41:632,N/A,N/A,application
+1398,Application Closed,2018-04-24 23:46:21:949,N/A,N/A,application
+1404,Application Closed,2018-04-24 23:50:46:893,N/A,N/A,application

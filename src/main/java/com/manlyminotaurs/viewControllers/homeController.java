@@ -99,7 +99,7 @@ public class homeController implements Initializable {
 	int nodeIconWidth = 40;
 	int nodeIconHeight = 40;
 	String currSnap = "1";
-
+	double rotation;
 	String currentFloor = "1";
 	String currentDimension = "2-D";
 
@@ -320,7 +320,7 @@ public class homeController implements Initializable {
 				(TreeTableColumn.CellDataFeatures<String, String> param) ->  new SimpleStringProperty(param.getValue().getValue()));
 
 		tblDirections.setRoot(root);
-
+		rotation = scrollGroup.getRotate();
 		tblDirections.getRoot().setExpanded(true);
 		tblDirections.getRoot().setExpanded(true);
 		scrollPaneMap.setContent(scrollGroup);
@@ -2379,10 +2379,10 @@ public class homeController implements Initializable {
 		}
 	}
 
-	private void updateIconRotate() {
+	private void updateIconRotate(double rotate) {
 		for(ImageView icon: iconList) {
 			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
-			rt.setToAngle(-scrollGroup.getRotate());
+			rt.setToAngle(-rotate);
 			rt.setCycleCount(1);
 			rt.setAutoReverse(true);
 			rt.play();
@@ -2528,37 +2528,39 @@ public class homeController implements Initializable {
 
 	public void rotateRight(ActionEvent event) {
 		//scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+		rotation = rotation - 30;
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
-		rotateTransition.setToAngle(scrollGroup.getRotate()+30);
+		rotateTransition.setToAngle(rotation);
 		rotateTransition.setAutoReverse(true);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation - 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 	}
 
 	public void rotateLeft(ActionEvent event) {
 		//scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+		rotation = rotation + 30;
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
-		rotateTransition.setToAngle(scrollGroup.getRotate()-30);
+		rotateTransition.setToAngle(rotation);
 		rotateTransition.setAutoReverse(true);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation + 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 
 	}
 
 	public void resetRotate(ActionEvent event) {
 		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
-		updateIconRotate();
+		updateIconRotate(0);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
