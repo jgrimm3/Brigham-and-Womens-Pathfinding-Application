@@ -76,7 +76,7 @@ public class Main extends Application {
         System.out.println("closing Application");
 
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
-        DataModelI.getInstance().updateAllCSVFiles();
+       // DataModelI.getInstance().updateAllCSVFiles();
         System.out.println("Files Saved!");
 
         System.exit(0);

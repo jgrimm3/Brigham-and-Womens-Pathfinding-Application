@@ -32,12 +32,11 @@ public class FirebaseDBUtil {
     public static void main(String[] args){
         DataModelI.getInstance().startDB();
         FirebaseDBUtil firebaseDBUtil = new FirebaseDBUtil();
-        firebaseDBUtil.initializeFirebase();
         // firebaseDBUtil.updateRequestFirebase();
         // firebaseDBUtil.retrieveRequestFirebase();
         // firebaseDBUtil.updateLogFirebase();
         // firebaseDBUtil.retrieveLogFirebase();
-        // firebaseDBUtil.updateUserFirebase();
+   //     firebaseDBUtil.updateUserFirebase();
         // firebaseDBUtil.retrieveUserFirebase();
     }
 
@@ -51,19 +50,29 @@ public class FirebaseDBUtil {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        FirebaseOptions options = null;
+//
+//        FirebaseOptions options = null;
+//        try {
+//            options = new FirebaseOptions.Builder()
+//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                    .setDatabaseUrl("https://cs3733-web-app.firebaseio.com/")
+//                    .build();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        FirebaseApp.initializeApp(options);
+//        firestoreDB = FirestoreClient.getFirestore();
+        FirestoreOptions firestoreOptions = null;
         try {
-            options = new FirebaseOptions.Builder()
+            firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://cs3733-web-app.firebaseio.com/")
+                    .setProjectId("cs3733-web-app")
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        FirebaseApp.initializeApp(options);
-        firestoreDB = FirestoreClient.getFirestore();
+        firestoreDB = firestoreOptions.getService();
     }
 
     //------------------------------------------------------------------------------------------------------

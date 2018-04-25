@@ -77,6 +77,8 @@ public class DataModelI implements IDataModel{
     public void startDB() {
         tableInitializer.setupDatabase();
         firebaseDBUtil.initializeFirebase();
+        firebaseDBUtil.updateUserFirebase();
+     //   firebaseDBUtil.updateRequestFirebase();
       // System.out.println(Timestamp.valueOf("0000-00-00 00:00:00").toLocalDateTime());
         //System.out.println(tableInitializer.convertStringToDate("12-04-2017"));
     }
@@ -532,7 +534,6 @@ public class DataModelI implements IDataModel{
 
     @Override
     public List<User> retrieveUsers() {
-        firebaseDBUtil.retrieveUserFirebase();
         return userDBUtil.retrieveUsers(false);
     }
 
