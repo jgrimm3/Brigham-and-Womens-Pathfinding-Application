@@ -99,7 +99,7 @@ public class homeController implements Initializable {
 	int nodeIconWidth = 40;
 	int nodeIconHeight = 40;
 	String currSnap = "1";
-
+	double rotation;
 	String currentFloor = "1";
 	String currentDimension = "2-D";
 
@@ -320,7 +320,7 @@ public class homeController implements Initializable {
 				(TreeTableColumn.CellDataFeatures<String, String> param) ->  new SimpleStringProperty(param.getValue().getValue()));
 
 		tblDirections.setRoot(root);
-
+		rotation = scrollGroup.getRotate();
 		tblDirections.getRoot().setExpanded(true);
 		tblDirections.getRoot().setExpanded(true);
 		scrollPaneMap.setContent(scrollGroup);
@@ -1908,6 +1908,12 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView arrow;
 
+	@FXML
+	Label lblError;
+
+	@FXML
+	Label lblErrorPath;
+
 	List<ImageView> iconList = new ArrayList<>();
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
@@ -2082,9 +2088,7 @@ public class homeController implements Initializable {
 
 	public void drawPath(ActionEvent event) {
 		try {
-			clearPath();
-			breadcrumbs.clear();
-			setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+
 
 			System.out.println(txtLocationStart.getText());
 			System.out.println(txtLocationEnd.getText());
@@ -2105,6 +2109,21 @@ public class homeController implements Initializable {
 				//nodeList = DataModelI.getInstance().retrieveNodes();
 				Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
 				Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+
+				if(startNode == null || endNode == null) {
+					lblError.setOpacity(1);
+					FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblError);
+					fadeTransition.setFromValue(1);
+					fadeTransition.setToValue(0);
+					fadeTransition.setCycleCount(1);
+					fadeTransition.setAutoReverse(true);
+					fadeTransition.play();
+					return;
+				} else {
+					clearPath();
+					breadcrumbs.clear();
+					setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+				}
 
 				startFloor = startNode.getFloor();
 				endFloor = endNode.getFloor();
@@ -2254,6 +2273,13 @@ public class homeController implements Initializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			lblErrorPath.setOpacity(1);
+			FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblErrorPath);
+			fadeTransition.setFromValue(1);
+			fadeTransition.setToValue(0);
+			fadeTransition.setCycleCount(1);
+			fadeTransition.setAutoReverse(true);
+			fadeTransition.play();
 
 		}
 	}
@@ -2379,10 +2405,10 @@ public class homeController implements Initializable {
 		}
 	}
 
-	private void updateIconRotate() {
+	private void updateIconRotate(double rotate) {
 		for(ImageView icon: iconList) {
 			RotateTransition rt = new RotateTransition(Duration.millis(1000), icon);
-			rt.setToAngle(-scrollGroup.getRotate());
+			rt.setToAngle(-rotate);
 			rt.setCycleCount(1);
 			rt.setAutoReverse(true);
 			rt.play();
@@ -2528,37 +2554,39 @@ public class homeController implements Initializable {
 
 	public void rotateRight(ActionEvent event) {
 		//scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+		rotation = rotation - 30;
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
-		rotateTransition.setToAngle(scrollGroup.getRotate()+30);
+		rotateTransition.setToAngle(rotation);
 		rotateTransition.setAutoReverse(true);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation - 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 	}
 
 	public void rotateLeft(ActionEvent event) {
 		//scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+		rotation = rotation + 30;
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(300), scrollGroup);
-		rotateTransition.setToAngle(scrollGroup.getRotate()-30);
+		rotateTransition.setToAngle(rotation);
 		rotateTransition.setAutoReverse(true);
 		rotateTransition.setCycleCount(1);
 		rotateTransition.play();
 
 		double currentRotation = imgCompass.getRotate();
-		imgCompass.setRotate(currentRotation + 30);
-		updateIconRotate();
+		imgCompass.setRotate(rotation);
+		updateIconRotate(rotation);
 
 	}
 
 	public void resetRotate(ActionEvent event) {
 		scrollGroup.setRotate(0);
 		imgCompass.setRotate(0);
-		updateIconRotate();
+		updateIconRotate(0);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

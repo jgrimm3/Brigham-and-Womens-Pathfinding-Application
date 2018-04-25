@@ -279,8 +279,8 @@ public class idleMapController implements Initializable {
         @Override
         public void initialize(URL location, ResourceBundle resources) {
 
-            Rotate rotate = new Rotate(30);
-            paneLogin.getTransforms().add(rotate);
+//            Rotate rotate = new Rotate(30);
+//            paneLogin.getTransforms().add(rotate);
 
             lblTime.textProperty().bind(clocktime);
             ClockTask clockTimer = new ClockTask();
