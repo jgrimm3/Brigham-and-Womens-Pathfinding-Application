@@ -109,6 +109,11 @@ public class accountManagerController {
     String password;
     String userID;
     User user;
+
+    /**
+     * sets up the screen when loaded into view
+     * @throws Exception
+     */
     @FXML
     public void initialize() throws Exception{
         try {
@@ -131,7 +136,13 @@ public class accountManagerController {
         catch (Exception e){
             e.printStackTrace();}
     }
+
     //-----------------Swapping Grids-------------/
+
+    /**
+     * swaps out grids to display the modify screen
+     * @param event
+     */
     public void displayModifyGrid(ActionEvent event){
         gridDelete.setVisible((false));
         gridDelete.setDisable(true);
@@ -146,6 +157,11 @@ public class accountManagerController {
 
 
     }
+
+    /**
+     * swaps out grids to display the delete screen
+     * @param event
+     */
     public void displayDeleteGrid(ActionEvent event){
         gridDelete.setVisible((true));
         gridDelete.setDisable(false);
@@ -159,6 +175,11 @@ public class accountManagerController {
 
 
     }
+
+    /**
+     * swaps out grids to display the add screen
+     * @param event
+     */
     public void displayAddGrid(ActionEvent event) {
         gridDelete.setVisible((false));
         gridDelete.setDisable(true);
@@ -171,6 +192,11 @@ public class accountManagerController {
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
     }
+
+    /**
+     * initializes the room service API and loads the API to come into view
+     * @param event
+     */
     public void loadAPI(ActionEvent event){
 
 
@@ -187,6 +213,12 @@ public class accountManagerController {
         }
 
     }
+
+    /**
+     * logs out user and loads up the idle map
+     * @param event
+     * @throws Exception
+     */
     public void LogOut(javafx.event.ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -207,6 +239,12 @@ public class accountManagerController {
         }
     }
     Parent history;
+
+    /**
+     * loads the admin history screen
+     * @param event
+     * @throws Exception
+     */
     public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -224,6 +262,11 @@ public class accountManagerController {
         }
     }
 
+    /**
+     * depending on the user type, the admin manager request or user manager request sreens are loaded
+     * @param event
+     * @throws Exception
+     */
     public void manageRequest (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -243,6 +286,12 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads the account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void manageAcc (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -259,6 +308,12 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads the node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -276,30 +331,64 @@ public class accountManagerController {
         }
     }
 
+    /**
+     * language is added to language list from add language combobox
+     * @param event
+     */
     public void setLanguageAdd(ActionEvent event){
         languages.add(cmboLanguageAdd.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from add type combobox
+     * @param event
+     */
     public void setTypeAdd(ActionEvent event){
         type = cmboTypeAdd.getValue().toString();
 
     }
+
+    /**
+     * language is added to language list from modify language combobox
+     * @param event
+     */
     public void setLanguageModify(ActionEvent event){
         languages.add(cmboLanguageModify.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from modify type combobox
+     * @param event
+     */
     public void setTypeModify(ActionEvent event){
         type = cmboTypeModify.getValue().toString();
 
     }
+
+    /**
+     * language is added to language list from delete language combobox
+     * @param event
+     */
     public void setLanguageDelete(ActionEvent event){
         languages.add(cmboLanguageDelete.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from delete combobox
+     * @param event
+     */
     public void setTypeDelete(ActionEvent event){
         type = cmboTypeDelete.getValue().toString();
 
     }
+
+    /**
+     * set user fields to selected user based on ID in modify screen
+     * @param event
+     */
     public void targetUserModify(ActionEvent event){
         userID = txtUserIDModify.getText();
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
@@ -314,6 +403,11 @@ public class accountManagerController {
         cmboLanguageModify.getSelectionModel().select(language);
         cmboTypeModify.getSelectionModel().select(type);
     }
+
+    /**
+     * set user fields to selected user based on ID in delete screen
+     * @param event
+     */
     public void targetUserDelete(ActionEvent event){
         userID = txtUserIDDelete.getText();
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
@@ -328,6 +422,11 @@ public class accountManagerController {
         cmboLanguageDelete.getSelectionModel().select(language);
         cmboTypeDelete.getSelectionModel().select(type);
     }
+
+    /**
+     * add user to database from fields
+     * @param event
+     */
     public void addUser(ActionEvent event){
         firstName = txtFirstNameAdd.getText();
         middleName = txtMiddleNameAdd.getText();
@@ -347,6 +446,11 @@ public class accountManagerController {
         fadeTransition.play();
 
     }
+
+    /**
+     * set user fields to fields in modify screen
+     * @param event
+     */
     public void modifyUser(ActionEvent event){
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
@@ -369,6 +473,11 @@ public class accountManagerController {
         fadeTransition.play();
 
     }
+
+    /**
+     * deletes user based on user id from database
+     * @param event
+     */
     public void deleteUser(ActionEvent event){
         /*firstName = txtFirstNameDelete.getText();
         middleName = txtMiddleNameDelete.getText();

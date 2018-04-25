@@ -10,6 +10,7 @@ import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
 //import com.manlyminotaursAPI.core.RoomService;
 import javafx.animation.FadeTransition;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,6 +81,9 @@ public class createRequestController{
     String message;
     int priority;
 
+    /**
+     * loads combo boxes and hides/reveals appropriate objects
+     */
     @FXML
     protected void initialize() {
         cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
@@ -101,6 +105,10 @@ public class createRequestController{
         }
     }
 
+    /**
+     * submits request and clears comboboxes
+     * @param event
+     */
     public void submitRequest(javafx.event.ActionEvent event){
         boolean isErrored = false;
         lblError.setText("");
@@ -152,6 +160,11 @@ public class createRequestController{
             fadeTransition.play();
         }
     }
+
+    /**
+     * sets request to high priority
+     * @param event
+     */
     public void setHighPriority(javafx.event.ActionEvent event){
         //if high priority slected, clear other selections and set integer 3
         chkHighPriority.setSelected(true);
@@ -159,6 +172,11 @@ public class createRequestController{
         chkLowPriority.setSelected(false);
         priority = 3;
     }
+
+    /**
+     * sets request to medium priority
+     * @param event
+     */
     public void setMedPriority(javafx.event.ActionEvent event){
         //if medium priority slected, clear other selections and set integer 2
         chkHighPriority.setSelected(false);
@@ -166,6 +184,11 @@ public class createRequestController{
         chkLowPriority.setSelected(false);
         priority = 2;
     }
+
+    /**
+     * sets requests to low priority
+     * @param event
+     */
     public void setLowPriority(javafx.event.ActionEvent event){
         //if medium priority slected, clear other selections and set integer 1
         chkHighPriority.setSelected(false);
@@ -174,8 +197,14 @@ public class createRequestController{
         priority = 1;
     }
 
+    /**
+     * get gets x and y
+     */
     public void getXandY(){}
 
+    /**
+     * loads the idle map screen
+     */
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
@@ -196,6 +225,11 @@ public class createRequestController{
             e.printStackTrace();}
     }
 
+    /**
+     * loads account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -214,6 +248,11 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads admin request dashboad screen
+     * @param event
+     * @throws Exception
+     */
     public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -234,6 +273,11 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -250,6 +294,12 @@ public class createRequestController{
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads admin history screen
+     * @param event
+     * @throws Exception
+     */
     public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -267,28 +317,26 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads room service api
+     * @param event
+     */
     public void loadAPI(ActionEvent event){
 
-/*
         RoomService roomService = new RoomService();
-        try
-
-        {
+        try {
             roomService.run(0, 0, 1920, 1080, null, null, null);
-        }catch(
-                Exception e)
-
-        {
+        } catch(Exception e) {
             e.printStackTrace();
         }
-*/
     }
 
+    /**
+     * updates node combo box
+     */
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){
-            cmboNode.setItems(FXCollections.observableArrayList(
-                    dbUtil.getLongNameByBuildingTypeFloor(cmboBuilding.getValue(),
-                    cmboType.getValue(), cmboFloor.getValue())));
+            cmboNode.setItems(FXCollections.observableArrayList(dbUtil.getLongNameByBuildingTypeFloor(cmboBuilding.getValue(), cmboType.getValue(), cmboFloor.getValue())));
         }
     }
 

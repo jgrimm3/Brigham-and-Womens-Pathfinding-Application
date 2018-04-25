@@ -114,19 +114,19 @@
             </Pane>
          </children>
       </StackPane>
-      <StackPane fx:id="paneAbout" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" prefHeight="1000.0" prefWidth="1900.0" visible="false">
+      <StackPane fx:id="paneAbout" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" prefHeight="1000.0" prefWidth="1900.0">
          <children>
             <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="524.0" prefWidth="829.0" style="-fx-background-color: #2b65ac;">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="694.0" prefWidth="1047.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="CENTER">
                <children>
-                  <Pane prefHeight="524.0" prefWidth="829.0" style="-fx-background-color: #102c57;">
+                  <Pane prefHeight="694.0" prefWidth="1047.0" style="-fx-background-color: #102c57;">
                      <children>
-                        <ImageView fitHeight="524.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="694.0" fitWidth="1047.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Icons/AboutPage.png" />
                            </image>
                         </ImageView>
-                        <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="760.0" layoutY="35.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
+                        <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="960.0" layoutY="50.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

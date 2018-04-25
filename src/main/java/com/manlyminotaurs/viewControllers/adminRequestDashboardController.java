@@ -9,7 +9,6 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
-//import com.manlyminotaursAPI.core.RoomService;
 import com.manlyminotaursAPI.core.RoomService;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -36,6 +35,7 @@ public class adminRequestDashboardController {
     ObservableList<Request> reqestList = FXCollections.observableArrayList(dBUtil.retrieveRequests());
     ObservableList<PieChart.Data> pieChartData;
     Parent manageAcc;
+
     public class requestInfo{
         protected String requestID;
         String requestType;
@@ -50,21 +50,33 @@ public class adminRequestDashboardController {
             this.requestID = requestID;
         }
 
+        /**
+         * gets the type of a request
+         * @return request type
+         */
         public String getRequestType() {
             return requestType;
         }
 
+        /**
+         * gets the message of a request
+         * @return message
+         */
         public String getMessage() {
             return message;
         }
 
+        /**
+         * gets the assign status of a request
+         * @return true or false depending if the request has been assigned
+         */
         public Boolean getIsAssigned() {
             return isAssigned;
         }
     }
+
     @FXML
     JFXButton navBtnManageAccounts;
-
     @FXML
     Button btnEmergency;
     @FXML
@@ -109,6 +121,10 @@ public class adminRequestDashboardController {
     Parent accountManager;
     Parent history;
 
+    /**
+     * sets up request tables, populates them, and sets up pie chart
+     * @throws Exception
+     */
     @FXML
     public void initialize() throws Exception{
         try{
@@ -179,6 +195,10 @@ public class adminRequestDashboardController {
 
     }
 
+    /**
+     * loads emergency screen
+     * @param actionEvent
+     */
     @FXML
     public void setEmergency(ActionEvent actionEvent) {
         try{
@@ -199,6 +219,10 @@ public class adminRequestDashboardController {
             e.printStackTrace();}
     }
 
+    /**
+     * loads room service api
+     * @param event
+     */
     public void loadAPI(ActionEvent event){
 
 
@@ -216,6 +240,10 @@ public class adminRequestDashboardController {
 
     }
 
+    /**
+     * loads idle map screen
+     * @param event
+     */
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
@@ -234,6 +262,12 @@ public class adminRequestDashboardController {
         catch (Exception e){
             e.printStackTrace();}
     }
+
+    /**
+     * laods account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -251,6 +285,12 @@ public class adminRequestDashboardController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads create screen
+     * @param event
+     * @throws Exception
+     */
     public void createRequest(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -267,6 +307,12 @@ public class adminRequestDashboardController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads admin history screen
+     * @param event
+     * @throws Exception
+     */
     public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -284,6 +330,11 @@ public class adminRequestDashboardController {
         }
     }
 
+    /**
+     * loads node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -301,7 +352,9 @@ public class adminRequestDashboardController {
         }
     }
 
-
+    /**
+     * loads request details based on selected request from open list
+     */
     public void openListClicked(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){
             lblRequestDetails.setText("");
@@ -316,6 +369,9 @@ public class adminRequestDashboardController {
         }
     }
 
+    /**
+     * loads request details based on selected request from closed list
+     */
     public void closedListClicked(){
         if(tblClosedRequests.getSelectionModel().getSelectedItem() == null){
             lblRequestDetails.setText("");
@@ -330,6 +386,9 @@ public class adminRequestDashboardController {
         }
     }
 
+    /**
+     * complete selected request
+     */
     public void completeClicked() {
         if (tblOpenRequests.getSelectionModel().getSelectedItem() == null) {
 
@@ -359,6 +418,9 @@ public class adminRequestDashboardController {
         }
     }
 
+    /**
+     * selected nurse information is set to request
+     */
     public void nurseSelected(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){}
         else {
@@ -377,6 +439,9 @@ public class adminRequestDashboardController {
         }
     }
 
+    /**
+     * deletes selected request
+     */
     public void deleteSelected(){
         if(tblOpenRequests.getSelectionModel().getSelectedItem() == null){}
         else {
@@ -396,11 +461,9 @@ public class adminRequestDashboardController {
         }
     }
 
-
-
-
-
-
+    /**
+     * tests open request table
+     */
     public void testController(){
         System.out.println("YOU SUMMONED ME?" +  tblOpenRequests.getSelectionModel().getSelectedItem());
     }
