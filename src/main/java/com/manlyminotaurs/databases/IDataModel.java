@@ -156,4 +156,14 @@ public interface IDataModel {
     boolean restoreRequest(String requestID);
     boolean restoreUser(String userID);
     boolean restoreUserPassword(String userID);
+
+    //--------------------------------------Firebase DBUtil--------------------------------
+    void initializeFirebase();
+
+    void updateRequestFirebase();
+    void retrieveRequestFirebase();
+    void updateLogFirebase();
+    void retrieveLogFirebase();
+    void updateUserFirebase();
+    void retrieveUserFirebase();
 }
