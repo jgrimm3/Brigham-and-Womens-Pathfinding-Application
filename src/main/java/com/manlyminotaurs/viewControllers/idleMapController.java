@@ -86,6 +86,8 @@ public class idleMapController implements Initializable {
         @FXML
         JFXButton btnGiftShop;
 
+        @FXML
+        Label lblLoginWarning;
 
         public void initialize() {
             paneAbout.setVisible(false);
@@ -112,6 +114,7 @@ public class idleMapController implements Initializable {
 
             // Show login panel
             paneLogin.setVisible(true);
+            lblLoginWarning.setVisible(false);
 
         }
 
@@ -132,6 +135,8 @@ public class idleMapController implements Initializable {
             if (userName.equals("") || password.equals("")) {
 
                 // print message
+                lblLoginWarning.setVisible(true);
+                lblLoginWarning.setText("Please completely fill in the username and password fields");
                 System.out.println("Please completely fill in the username and password fields");
             } else if (DataModelI.getInstance().doesUserPasswordExist(userName.toLowerCase(), password.toLowerCase())) {
                 try {
@@ -142,6 +147,8 @@ public class idleMapController implements Initializable {
                     //load up Home FXML document
 
                     KioskInfo.currentUserID = DataModelI.getInstance().getIDByUserPassword(userName.toLowerCase(), password.toLowerCase());
+
+                    lblLoginWarning.setVisible(false);
 
                     if(DataModelI.getInstance().getUserByID(KioskInfo.currentUserID).isType("admin")) {
                         login = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/adminRequestDashBoard.fxml"));
@@ -170,6 +177,8 @@ public class idleMapController implements Initializable {
             } else {
                 // print message
                 System.out.println("Wrong username and password!");
+                lblLoginWarning.setVisible(true);
+                lblLoginWarning.setText("Invalid username and password");
 
             }
         }
