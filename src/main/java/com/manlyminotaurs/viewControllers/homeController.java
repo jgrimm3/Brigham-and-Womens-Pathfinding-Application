@@ -222,7 +222,8 @@ public class homeController implements Initializable {
     @FXML
     TreeTableColumn<String,String> colDirections;
 
-
+	@FXML
+	ImageView kioskIcon;
 
 
     TreeItem<String> floorL2 = new TreeItem<>("Floor L2");
@@ -433,30 +434,25 @@ public class homeController implements Initializable {
 
 	public void printKiosk() {
 
-		Circle kiosk = new Circle();
-
 		if (currentDimension.equals("3-D")) {
-			kiosk = new Circle(KioskInfo.myLocation.getXCoord3D(), KioskInfo.myLocation.getYCoord3D(), 13);
+			kioskIcon.setX(KioskInfo.myLocation.getXCoord3D()-25);
+			kioskIcon.setY(KioskInfo.myLocation.getYCoord3D()-25);
 		} else {
-			kiosk = new Circle(KioskInfo.myLocation.getXCoord(), KioskInfo.myLocation.getYCoord(), 13);
+			kioskIcon.setX(KioskInfo.myLocation.getXCoord()-25);
+			kioskIcon.setY(KioskInfo.myLocation.getYCoord()-25);
 		}
 		//circleList.remove(kiosk);
 
 		System.out.println(currentFloor + " is the floor");
 		if (currentFloor.equals("1")) {
-			kiosk.setFill(Color.BLUE);
-			kiosk.setFill(Color.RED);
+			kioskIcon.setVisible(true);
 		} else {
-			kiosk.setFill(Color.GRAY);
+			kioskIcon.setVisible(false);
 		}
 
-		kiosk.setStrokeWidth(3);
-		kiosk.setStroke(Color.BLACK);
-		kiosk.setOnMouseClicked(this::startCircleClicked);
-		kiosk.setOnMouseEntered(this::printStartName);
-		kiosk.setOnMouseExited(this::removeStartName);
-		pointMap.getChildren().add(kiosk);
-		circleList.add(kiosk);
+		kioskIcon.setOnMouseClicked(this::startCircleClicked);
+		kioskIcon.setOnMouseEntered(this::printStartName);
+		kioskIcon.setOnMouseExited(this::removeStartName);
 	}
 
 	public void goToKiosk() {
@@ -497,10 +493,21 @@ public class homeController implements Initializable {
 			snapX = (startX2D + (((endX2D - startX2D) / 2)) - 300) / 5000.0;
 		}
 
-		scrollPaneMap.setVvalue(snapY);
-		scrollPaneMap.setHvalue(snapX);
+		//scrollPaneMap.setVvalue(snapY);
+		//scrollPaneMap.setHvalue(snapX);
 
-		System.out.println(snapX);
+
+		Timeline timeline = new Timeline();
+		KeyValue kv = new KeyValue(scrollPaneMap.vvalueProperty(), snapY);
+		KeyValue kh = new KeyValue(scrollPaneMap.hvalueProperty(), snapX);
+		KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+		KeyFrame kl = new KeyFrame(Duration.millis(500), kh);
+		timeline.getKeyFrames().add(kf);
+		timeline.getKeyFrames().add(kl);
+		timeline.play();
+
+
+		/*System.out.println(snapX);
 		System.out.println(snapY);
 		System.out.println("start x2d " + startX2D);
 		System.out.println("start y2d " + startY2D);
@@ -511,15 +518,15 @@ public class homeController implements Initializable {
 		System.out.println("end x3d " + endX3D);
 		System.out.println("end y3d " + endY3D);
 		System.out.println(scrollPaneMap.getVvalue());
-		System.out.println(scrollPaneMap.getHvalue());
+		System.out.println(scrollPaneMap.getHvalue()); */
 
 
 	}
 
 	private void setKiosk() { // location isnt getting set correctly for floor or type
-		comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
-		comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
-		comTypeStart.getSelectionModel().select(convertTypeReverse(KioskInfo.myLocation.getNodeType()));
+		//comBuildingStart.getSelectionModel().select(KioskInfo.myLocation.getBuilding());
+		//comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
+		//comTypeStart.getSelectionModel().select(convertTypeReverse(KioskInfo.myLocation.getNodeType()));
 		txtLocationStart.setText(KioskInfo.myLocation.getLongName());
 		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
 		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
@@ -1166,7 +1173,9 @@ public class homeController implements Initializable {
 
         // Pathfind to nearest bathroom
         String startFloor = "1";
-
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
         clearPath();
 
         System.out.println(txtLocationStart.getText());
@@ -1351,12 +1360,17 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
     public void findQuickExit(ActionEvent event) {
         // Pathfind to nearest exit
         clearPath();
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
 
         System.out.println(txtLocationStart.getText());
         System.out.println(txtLocationEnd.getText());
@@ -1540,11 +1554,16 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
     public void findQuickElevator(ActionEvent event) {
         // Pathfind to nearest bathroom
+		clearPath();
+		breadcrumbs.clear();
+		setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
         String startFloor = "1";
 
         clearPath();
@@ -1732,6 +1751,8 @@ public class homeController implements Initializable {
 		comTypeEnd.setItems(empty);
 
 		// Directions Update
+		breadBoy();
+		animatePath();
 
 	}
 
@@ -1882,6 +1903,9 @@ public class homeController implements Initializable {
 	javafx.scene.text.Text destinationText;
 
 	@FXML
+	ImageView startIcon;
+
+	@FXML
 	ImageView arrow;
 
 	List<ImageView> iconList = new ArrayList<>();
@@ -2006,8 +2030,8 @@ public class homeController implements Initializable {
 				finishY = endNode.getYCoord();
 				startX = startNode.getXCoord();
 				startY = startNode.getYCoord();
-				destination.setTranslateX(finishX - 29);
-				destination.setTranslateY(finishY - 52);
+				destination.setTranslateX(finishX - 25);
+				destination.setTranslateY(finishY - 25);
 				setText(destinationText, finishX, finishY, 35, 60, font);
 				setText(startName, startX, startY, -15, 0, font);
 				setText(endName, finishX, finishY, -15, 0, font);
@@ -2017,8 +2041,8 @@ public class homeController implements Initializable {
 				finishY = endNode.getYCoord3D();
 				startX = startNode.getXCoord3D();
 				startY = startNode.getYCoord3D();
-				destination.setX(finishX);
-				destination.setY(finishY);
+				destination.setX(finishX-25);
+				destination.setY(finishY-25);
 				setText(destinationText, finishX, finishY, 35, 60, font);
 				setText(startName, startX, startY, -15, 0, font);
 				//startName.setRotate(-overMap.getRotate());
@@ -2029,29 +2053,28 @@ public class homeController implements Initializable {
 			}
 
 			// Draw Start Circle
-			startCircle.setRadius(8);
+			/*startCircle.setRadius(8);
 			startCircle.setFill(Color.NAVY);
 			startCircle.setVisible(true);
 			startCircle.setCenterX(startX);
 			startCircle.setCenterY(startY);
 			startCircle.setStroke(Color.BLACK);
-			startCircle.setStrokeWidth(3);
+			startCircle.setStrokeWidth(3); */
 
 			// Set on mouse clicked to switch between floors
 			startFloor = startNode.getFloor();
-			startCircle.setOnMouseClicked(this::startCircleClicked);
-			startCircle.setOnMouseEntered(this::printStartName);
-			startCircle.setOnMouseExited(this::removeStartName);
+			startIcon.setX(startX-25);
+			startIcon.setY(startY-25);
+			startIcon.setOnMouseClicked(this::startCircleClicked);
+			startIcon.setOnMouseEntered(this::printStartName);
+			startIcon.setOnMouseExited(this::removeStartName);
 
 			if (!startFloor.equals(floor)) {
-				startCircle.setFill(Color.GRAY);
+				startIcon.setVisible(false);
+			} else {
+				startIcon.setVisible(true);
 			}
-
 			endFloor = endNode.getFloor();
-
-			// adds circles to map
-			paneMap.getChildren().remove(startCircle);
-			paneMap.getChildren().add(startCircle);
 			//overMap.getChildren().add(startName);
 			//overMap.getChildren().add(endName);
 		}
@@ -2505,6 +2528,7 @@ public class homeController implements Initializable {
 
 	public void rotateRight(ActionEvent event) {
 		scrollGroup.setRotate(scrollGroup.getRotate() - 30);
+
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation - 30);
 		updateIconRotate();
@@ -2512,6 +2536,7 @@ public class homeController implements Initializable {
 
 	public void rotateLeft(ActionEvent event) {
 		scrollGroup.setRotate(scrollGroup.getRotate() + 30);
+
 		double currentRotation = imgCompass.getRotate();
 		imgCompass.setRotate(currentRotation + 30);
 		updateIconRotate();
@@ -3101,6 +3126,7 @@ public class homeController implements Initializable {
 		 * Sets the global variable breadrumbs to all the floors that need to be traversed
 		 */
 	private void getBreadcrumbs() {
+		breadcrumbs.clear();
 			int i = 0;
 			String curr = "";
 			while (i < pathList.size()) {
@@ -3114,6 +3140,9 @@ public class homeController implements Initializable {
 	}
 
 	private void getBreadSections() {
+		breadSection1.clear();
+		breadSection2.clear();
+		breadSection3.clear();
 		int i = 0;
 		int section = 0;
 		String curr = "";

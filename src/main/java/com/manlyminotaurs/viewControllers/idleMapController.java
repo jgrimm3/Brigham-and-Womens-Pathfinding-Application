@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.prefs.Preferences;
 
 
 public class idleMapController implements Initializable {
@@ -88,6 +89,8 @@ public class idleMapController implements Initializable {
 
         @FXML
         Label lblLoginWarning;
+
+        private Preferences pref = Preferences.userRoot().node(Main.class.getName());
 
         public void initialize() {
             paneAbout.setVisible(false);
@@ -162,7 +165,7 @@ public class idleMapController implements Initializable {
                         KioskInfo.myTimer.cancel();
                     }
                     KioskInfo.myTimer = new Timer();
-                    KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
+                    KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 0));
 
                     Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
@@ -198,7 +201,7 @@ public class idleMapController implements Initializable {
                     KioskInfo.myTimer.cancel();
                 }
                 KioskInfo.myTimer = new Timer();
-                KioskInfo.myTimer.schedule(new ResetTask(stage), KioskInfo.myDelay);
+                KioskInfo.myTimer.schedule(new ResetTask(stage), pref.getInt("DelayTime", 0));
 
                 Main.memnto = new Memento(KioskInfo.getCurrentUserID());
 
