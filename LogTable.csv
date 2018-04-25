@@ -573,3 +573,16 @@ logID,description,logTime,userID,associatedID,associatedType
 1392,Application Closed,2018-04-24 23:45:41:632,N/A,N/A,application
 1398,Application Closed,2018-04-24 23:46:21:949,N/A,N/A,application
 1404,Application Closed,2018-04-24 23:50:46:893,N/A,N/A,application
+1410,Application Closed,2018-04-25 00:08:19:382,N/A,N/A,application
+1416,Application Closed,2018-04-25 00:08:44:487,N/A,N/A,application
+1422,Pathfind fromEINFO00101 to FSTAI00101 is done,2018-04-25 00:20:51:383,null,190,pathfind
+1423,Application Closed,2018-04-25 00:21:01:164,N/A,N/A,application
+1429,Application Closed,2018-04-25 00:27:09:479,N/A,N/A,application
+1435,Application Closed,2018-04-25 00:27:44:965,N/A,N/A,application
+1441,Application Closed,2018-04-25 00:28:10:814,N/A,N/A,application
+1447,Application Closed,2018-04-25 00:29:40:396,N/A,N/A,application
+1453,Application Closed,2018-04-25 00:31:20:364,N/A,N/A,application
+1459,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-25 00:36:34:819,null,191,pathfind
+1460,Application Closed,2018-04-25 00:36:53:179,N/A,N/A,application
+1466,Pathfind fromEINFO00101 to GSERV02301 is done,2018-04-25 00:37:44:291,null,192,pathfind
+1467,Application Closed,2018-04-25 00:38:58:965,N/A,N/A,application

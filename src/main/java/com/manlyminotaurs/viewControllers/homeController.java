@@ -1908,6 +1908,12 @@ public class homeController implements Initializable {
 	@FXML
 	ImageView arrow;
 
+	@FXML
+	Label lblError;
+
+	@FXML
+	Label lblErrorPath;
+
 	List<ImageView> iconList = new ArrayList<>();
 
 	boolean pathRunning; // used to check whether the scale animation for destination should be created and played or not
@@ -2082,9 +2088,7 @@ public class homeController implements Initializable {
 
 	public void drawPath(ActionEvent event) {
 		try {
-			clearPath();
-			breadcrumbs.clear();
-			setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+
 
 			System.out.println(txtLocationStart.getText());
 			System.out.println(txtLocationEnd.getText());
@@ -2105,6 +2109,21 @@ public class homeController implements Initializable {
 				//nodeList = DataModelI.getInstance().retrieveNodes();
 				Node startNode = DataModelI.getInstance().getNodeByLongName(startName);
 				Node endNode = DataModelI.getInstance().getNodeByLongName(endName);
+
+				if(startNode == null || endNode == null) {
+					lblError.setOpacity(1);
+					FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblError);
+					fadeTransition.setFromValue(1);
+					fadeTransition.setToValue(0);
+					fadeTransition.setCycleCount(1);
+					fadeTransition.setAutoReverse(true);
+					fadeTransition.play();
+					return;
+				} else {
+					clearPath();
+					breadcrumbs.clear();
+					setTheBreadyBoysBackToTheirGrayStateAsSoonAsPossibleSoThatItMakesSenseAgainPlease();
+				}
 
 				startFloor = startNode.getFloor();
 				endFloor = endNode.getFloor();
@@ -2254,6 +2273,13 @@ public class homeController implements Initializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			lblErrorPath.setOpacity(1);
+			FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblErrorPath);
+			fadeTransition.setFromValue(1);
+			fadeTransition.setToValue(0);
+			fadeTransition.setCycleCount(1);
+			fadeTransition.setAutoReverse(true);
+			fadeTransition.play();
 
 		}
 	}
