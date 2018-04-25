@@ -568,3 +568,18 @@ logID,description,logTime,userID,associatedID,associatedType
 1377,Pathfind fromEINFO00101 to EDEPT00201 is done,2018-04-24 23:30:38:517,null,187,pathfind
 1378,Pathfind fromEINFO00101 to IDEPT00703 is done,2018-04-24 23:30:53:298,null,188,pathfind
 1379,Application Closed,2018-04-24 23:31:04:878,N/A,N/A,application
+1385,Application Closed,2018-04-24 23:57:16:293,N/A,N/A,application
+1391,Application Closed,2018-04-25 00:09:34:313,N/A,N/A,application
+1397,Application Closed,2018-04-25 00:12:07:531,N/A,N/A,application
+1403,Pathfind fromEINFO00101 to ESTAI00201 is done,2018-04-25 00:33:48:430,null,189,pathfind
+1404,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 00:34:02:552,null,190,pathfind
+1405,Application Closed,2018-04-25 00:34:58:197,N/A,N/A,application
+1411,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 00:43:09:829,null,191,pathfind
+1412,Application Closed,2018-04-25 00:47:21:896,N/A,N/A,application
+1418,Application Closed,2018-04-25 01:18:21:982,N/A,N/A,application
+1424,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:19:36:423,null,192,pathfind
+1425,Application Closed,2018-04-25 01:19:49:803,N/A,N/A,application
+1431,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:23:08:759,null,193,pathfind
+1432,Application Closed,2018-04-25 01:23:42:493,N/A,N/A,application
+1438,Pathfind fromEINFO00101 to GLABS015L2 is done,2018-04-25 01:27:49:394,null,194,pathfind
+1439,Application Closed,2018-04-25 01:29:37:257,N/A,N/A,application

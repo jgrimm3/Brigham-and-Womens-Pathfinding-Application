@@ -183,7 +183,7 @@ public class idleMapController implements Initializable {
                 // print message
                 System.out.println("Wrong username and password!");
                 lblLoginWarning.setVisible(true);
-                lblLoginWarning.setText("Invalid username and password");
+                lblLoginWarning.setText("Invalid username or password");
 
             }
         }
