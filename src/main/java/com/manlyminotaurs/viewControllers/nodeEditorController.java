@@ -2,8 +2,6 @@
 package com.manlyminotaurs.viewControllers;
 
 import com.jfoenix.controls.*;
-
-
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.core.Main;
 import com.manlyminotaurs.databases.DataModelI;
@@ -38,6 +36,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 
 /*
@@ -155,6 +154,7 @@ public class nodeEditorController {
     int xCoord3D;
     int yCoord3D;
 
+    private Preferences pref = Preferences.userRoot().node(Main.class.getName());;
     ArrayList<Circle> circlesSelected = new ArrayList<Circle>();
     ArrayList<Node> nodesSelected = new ArrayList<Node>();
 
@@ -1049,6 +1049,7 @@ public class nodeEditorController {
             e.printStackTrace();
         }
     }
+
 @FXML
 JFXButton btnUpdateTimeout;
     //TODO connect Memento
@@ -1057,7 +1058,7 @@ JFXButton btnUpdateTimeout;
         if ((newTime.matches(".*[^0-9].*")) || (newTime.matches(".*\\D.*"))) {
           txtTimeOut.setText("Please Enter a Valid Time");
         }else {
-            KioskInfo.myDelay = 1000 * Integer.parseInt(newTime);
+            pref.putInt("DelayTime", 1000 * Integer.parseInt(newTime));
         }
     }
 

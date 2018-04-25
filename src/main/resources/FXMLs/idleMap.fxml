@@ -78,7 +78,7 @@
             <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
             <Pane maxHeight="530.0" maxWidth="520.0" prefHeight="530.0" prefWidth="510.0" style="-fx-background-color: #2b65ac;" StackPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="btnLogin3" layoutX="35.0" layoutY="390.0" maxHeight="100.0" maxWidth="450.0" onAction="#login" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #102c57;" text="LOGIN" textFill="WHITE">
+                  <JFXButton fx:id="btnLogin3" layoutX="35.0" layoutY="400.0" maxHeight="100.0" maxWidth="450.0" onAction="#login" prefHeight="100.0" prefWidth="450.0" style="-fx-background-color: #102c57;" text="LOGIN" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -109,6 +109,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
+                  <Label fx:id="lblLoginWarning" layoutX="35.0" layoutY="370.0" prefHeight="17.0" prefWidth="450.0" text="Invalid Username and Password" textFill="#edbf54" visible="false" />
                </children>
             </Pane>
          </children>
@@ -116,11 +117,16 @@
       <StackPane fx:id="paneAbout" maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" prefHeight="1000.0" prefWidth="1900.0" visible="false">
          <children>
             <Pane maxHeight="1000.0" maxWidth="1900.0" minHeight="400.0" minWidth="600.0" opacity="0.43" prefHeight="1000.0" prefWidth="1900.0" style="-fx-background-color: #2f2f2f;" />
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="670.0" prefWidth="850.0" style="-fx-background-color: #2b65ac;">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="524.0" prefWidth="829.0" style="-fx-background-color: #2b65ac;">
                <children>
-                  <Pane prefHeight="670.0" prefWidth="850.0" style="-fx-background-color: #102c57;">
+                  <Pane prefHeight="524.0" prefWidth="829.0" style="-fx-background-color: #102c57;">
                      <children>
-                        <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="760.0" layoutY="55.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
+                        <ImageView fitHeight="524.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/AboutPage.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="btnCloseAbout" ellipsisString="" layoutX="760.0" layoutY="35.0" onAction="#closeAboutPanel" prefHeight="7.0" prefWidth="5.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -129,16 +135,6 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <ImageView fitHeight="524.0" fitWidth="829.0" layoutX="20.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Icons/AboutPage.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="40.0" layoutY="40.0" prefHeight="70.0" prefWidth="272.0" text="ABOUT" textFill="WHITE">
-                           <font>
-                              <Font size="55.0" />
-                           </font>
-                        </Label>
                      </children>
                   </Pane>
                </children>
