@@ -137,7 +137,7 @@ public class FirebaseDBUtil {
         updateLogDerby(listOfLog);
     }
 
-    public void updateLogDerby(List<Log> listOfLog){
+    private void updateLogDerby(List<Log> listOfLog){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
         Statement stmt = null;
@@ -259,7 +259,7 @@ public class FirebaseDBUtil {
         updateRequestDerby(listOfRequest);
     }
 
-    public void updateRequestDerby(List<Request> listOfRequest){
+    private void updateRequestDerby(List<Request> listOfRequest){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
@@ -366,7 +366,7 @@ public class FirebaseDBUtil {
         updateUserDerby(listOfUser);
     }
 
-    public void updateUserDerby(List<User> listOfUser){
+    private void updateUserDerby(List<User> listOfUser){
         Connection connection = DataModelI.getInstance().getNewConnection();
         Statement stmt = null;
         try {
