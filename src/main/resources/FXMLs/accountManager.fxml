@@ -17,7 +17,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../StyleSheets/Jfeonix.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manlyminotaurs.viewControllers.accountManagerController">
    <children>
-      <GridPane fx:id="gridAdd" layoutY="180.0" prefHeight="900.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+      <GridPane fx:id="gridAdd" layoutY="180.0" prefHeight="900.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
         <columnConstraints>
             <ColumnConstraints maxWidth="510.0" minWidth="0.0" prefWidth="510.0" />
           <ColumnConstraints maxWidth="1410.0" minWidth="700.0" prefWidth="1410.0" />
@@ -81,6 +81,14 @@
                   <Insets left="1200.0" top="160.0" />
                </GridPane.margin>
             </JFXComboBox>
+            <Label fx:id="lblAdded" contentDisplay="CENTER" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="User Added" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="1020.0" top="-750.0" />
+               </GridPane.margin>
+            </Label>
             <JFXButton fx:id="btnAddUser" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="300.0" onAction="#addUser" prefHeight="70.0" prefWidth="300.0" style="-fx-background-color: #edbf54;" text="Add User" textFill="WHITE">
                <GridPane.margin>
                   <Insets bottom="20.0" left="1020.0" top="640.0" />
@@ -91,7 +99,7 @@
             </JFXButton>
          </children>
       </GridPane>
-      <GridPane fx:id="gridModify" layoutY="180.0" prefHeight="900.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+      <GridPane fx:id="gridModify" layoutY="180.0" prefHeight="900.0" prefWidth="1920.0" style="-fx-background-color: #2f2f2f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
          <columnConstraints>
             <ColumnConstraints maxWidth="510.0" minWidth="0.0" prefWidth="510.0" />
             <ColumnConstraints maxWidth="1410.0" minWidth="700.0" prefWidth="1410.0" />
@@ -169,6 +177,14 @@
                   <Insets bottom="150.0" left="260.0" right="80.0" />
                </GridPane.margin>
             </JFXTextField>
+            <Label fx:id="lblModified" alignment="CENTER" contentDisplay="CENTER" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Modified User" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="1020.0" top="-760.0" />
+               </GridPane.margin>
+            </Label>
             <JFXButton fx:id="btnModifyUser" buttonType="RAISED" onAction="#modifyUser" prefHeight="70.0" prefWidth="300.0" style="-fx-background-color: #edbf54;" text="Modify User" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="31.0" />
@@ -254,6 +270,14 @@
                   <Insets left="830.0" top="80.0" />
                </GridPane.margin>
             </JFXComboBox>
+            <Label fx:id="lblDeleted" alignment="CENTER" contentDisplay="CENTER" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Deleted User" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="1020.0" top="-760.0" />
+               </GridPane.margin>
+            </Label>
             <JFXButton fx:id="btnDeleteUser" buttonType="RAISED" onAction="#deleteUser" prefHeight="70.0" prefWidth="300.0" style="-fx-background-color: #edbf54;" text="Delete User" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="29.0" />

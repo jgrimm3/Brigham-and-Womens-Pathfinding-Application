@@ -10,6 +10,7 @@ import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.users.User;
 import com.manlyminotaursAPI.core.RoomService;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,10 @@ public class adminRequestDashboardController {
     JFXButton btnHistory;
     @FXML
     JFXButton btnRoomServiceAPI;
+    @FXML
+    Label lblCompleted;
+    @FXML
+    Label lblDeleted;
 
 
     Parent nodeEdit;
@@ -123,7 +129,7 @@ public class adminRequestDashboardController {
     public void initialize() throws Exception{
         try{
             reqestList.clear();
-            dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
+         //   dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
             reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
@@ -385,6 +391,7 @@ public class adminRequestDashboardController {
      */
     public void completeClicked() {
         if (tblOpenRequests.getSelectionModel().getSelectedItem() == null) {
+
         } else {
 
             requestInfo selectedRequest = (requestInfo) tblOpenRequests.getSelectionModel().getSelectedItem();
@@ -401,6 +408,13 @@ public class adminRequestDashboardController {
                 lblCompleteError.setText("Incorrect Password");
             }
             txtPassword.clear();
+
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblCompleted);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            fadeTransition.setCycleCount(1);
+            fadeTransition.setAutoReverse(true);
+            fadeTransition.play();
         }
     }
 
@@ -437,6 +451,13 @@ public class adminRequestDashboardController {
 
             dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
             dBUtil.removeRequest(selectedRequest.requestID);
+
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblDeleted);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            fadeTransition.setCycleCount(1);
+            fadeTransition.setAutoReverse(true);
+            fadeTransition.play();
         }
     }
 

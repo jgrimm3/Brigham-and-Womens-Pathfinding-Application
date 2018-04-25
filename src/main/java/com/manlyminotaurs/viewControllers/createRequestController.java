@@ -9,6 +9,7 @@ import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
 //import com.manlyminotaursAPI.core.RoomService;
+import javafx.animation.FadeTransition;
 import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class createRequestController{
     DataModelI dbUtil = DataModelI.getInstance();
@@ -72,6 +74,8 @@ public class createRequestController{
     JFXButton navBtnManageAccounts;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    Label lblAdded;
 
     String requestType;
     String message;
@@ -147,6 +151,13 @@ public class createRequestController{
             chkMedPriority.setSelected(false);
             txtMessage.clear();
             lblError.setText("");
+
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblAdded);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            fadeTransition.setCycleCount(1);
+            fadeTransition.setAutoReverse(true);
+            fadeTransition.play();
         }
     }
 

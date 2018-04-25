@@ -7,15 +7,18 @@ import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.users.User;
 import com.manlyminotaursAPI.core.RoomService;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +90,12 @@ public class accountManagerController {
     GridPane gridDelete;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    Label lblDeleted;
+    @FXML
+    Label lblModified;
+    @FXML
+    Label lblAdded;
 
     final static ObservableList<String> Languages = FXCollections.observableArrayList("English", "Spanish", "Chinese", "Filipino", "Vietnamese", "Arabic","French","Korean","Russian","German","Hindi","Haitian Creole","Hindi","Portuge","Italian","Polish","Urdu","Japanese","Dothraki","Klingon");
     final static ObservableList<String> UserTypes = FXCollections.observableArrayList("Doctor", "Nurse", "Visitor", "Admin", "Janitor", "Interpreter", "Patient", "Security");
@@ -120,7 +129,7 @@ public class accountManagerController {
             cmboLanguageAdd.setItems(Languages);
             cmboTypeAdd.setItems(UserTypes);
 
-            DataModelI.getInstance().updateUserDerby(DataModelI.getInstance().retrieveUserFirebase());
+         //   DataModelI.getInstance().updateUserDerby(DataModelI.getInstance().retrieveUserFirebase());
 
 
         }
@@ -429,6 +438,13 @@ public class accountManagerController {
 
         DataModelI.getInstance().addUser("", firstName, middleName, lastName, languages, type, username, password);
 
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblAdded);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
+
     }
 
     /**
@@ -439,8 +455,6 @@ public class accountManagerController {
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
         lastName = txtLastNameModify.getText();
-        languages = new ArrayList<>();
-        languages.add(cmboLanguageModify.getValue().toString());
         type = cmboTypeModify.getValue().toString();
         username = txtUsernameModify.getText();
         password = txtPasswordModify.getText();
@@ -449,7 +463,14 @@ public class accountManagerController {
         DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
         DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
         DataModelI.getInstance().getUserByID(userID).setUserType(type);
-        DataModelI.getInstance().getUserByID(userID).addLanguage(language);
+
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblModified);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
 
     }
 
@@ -468,6 +489,13 @@ public class accountManagerController {
         userID = txtUserIDDelete.getText();
 
         DataModelI.getInstance().removeUser(userID);
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblDeleted);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
 
     }
 }

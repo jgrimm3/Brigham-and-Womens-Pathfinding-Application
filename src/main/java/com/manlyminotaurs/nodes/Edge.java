@@ -58,6 +58,11 @@ public class Edge {
 		this.status = 1;
 	}
 
+	/**
+	 * compares all aspects of a node
+	 * @param o node
+	 * @return true if equal
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

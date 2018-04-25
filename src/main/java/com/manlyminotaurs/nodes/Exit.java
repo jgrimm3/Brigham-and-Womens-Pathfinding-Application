@@ -6,6 +6,11 @@ public class Exit extends Node {
         super(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, status, xCoord3D, yCoord3D);
     }
 
+    /**
+     * checks if type equals 'EXIT'
+     * @param type
+     * @return true if it does
+     */
     public boolean isType(String type) {
         if(type == "EXIT") { return true; }
         return false;

@@ -31,6 +31,8 @@ public class KioskInfo {
     private static Preferences pref = Preferences.userRoot().node(Main.class.getName());
 
     public static EventHandler<InputEvent> myHandler = new EventHandler<InputEvent>() {
+
+
         @Override
         public void handle(InputEvent event) {
             if(myTimer != null){

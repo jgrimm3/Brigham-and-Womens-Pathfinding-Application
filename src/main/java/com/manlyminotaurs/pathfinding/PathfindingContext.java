@@ -16,6 +16,15 @@ public class PathfindingContext {
     private void setStrategy(IPathFindingStrategy strategy) {
         this.strategy = strategy;
     }
+
+    /**
+     * calls find function with certain type
+     * @param startNode node
+     * @param endNode node
+     * @param strategy strategy to set
+     * @return list of nodes
+     * @throws PathNotFoundException
+     */
     public LinkedList<Node> getPath(Node startNode, Node endNode, IPathFindingStrategy strategy) throws PathNotFoundException{
         setStrategy(strategy);
         LinkedList<Node> tempList = strategy.find(startNode, endNode);

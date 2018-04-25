@@ -23,6 +23,13 @@ public class BreadthFirstStrategyI implements IPathFindingStrategy {
         return path;
     }
 
+    /**
+     * uses bfs to calculate path
+     * @param startNode bfs start node
+     * @param endNode bfs end node
+     * @return
+     * @throws PathNotFoundException
+     */
     private LinkedList<BFSNode> calcPath(BFSNode startNode, BFSNode endNode) throws PathNotFoundException {
         Queue<BFSNode> q = new LinkedList<>();
         BFSNode currentNode = startNode;

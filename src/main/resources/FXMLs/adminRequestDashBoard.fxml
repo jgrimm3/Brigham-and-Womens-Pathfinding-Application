@@ -214,5 +214,15 @@
             </JFXButton>
          </children>
       </VBox>
+      <Label fx:id="lblCompleted" alignment="CENTER" contentDisplay="CENTER" layoutX="1000.0" layoutY="80.0" minWidth="350.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Request Completed" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDeleted" alignment="CENTER" contentDisplay="CENTER" layoutX="1000.0" layoutY="80.0" minWidth="300.0" opacity="0.0" prefHeight="66.0" prefWidth="324.0" style="-fx-background-color: #1ade65; -fx-label-padding: 5;" text="Request Deleted" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

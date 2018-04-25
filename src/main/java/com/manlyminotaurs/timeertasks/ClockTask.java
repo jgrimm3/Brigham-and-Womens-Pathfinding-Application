@@ -20,6 +20,9 @@ public class ClockTask extends TimerTask {
 
     }
 
+    /**
+     * runs clock task
+     */
     @Override
     public void run() {
         Platform.runLater(
