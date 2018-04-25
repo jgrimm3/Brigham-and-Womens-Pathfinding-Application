@@ -6,11 +6,18 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.annotations.Nullable;
+import com.manlyminotaurs.communications.ClientSetup;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.messaging.Message;
 import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.users.User;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.json.simple.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,6 +83,8 @@ public class FirebaseDBUtil {
             e.printStackTrace();
         }
         firestoreDB = firestoreOptions.getService();
+
+        listenToEmergency();
     }
 
     //------------------------------------------------------------------------------------------------------
@@ -452,12 +461,37 @@ public class FirebaseDBUtil {
     //---------------------------------------------User Ends------------------------------------------------
     //------------------------------------------------------------------------------------------------------
 
-    //------------------------------------------------------------------------------------------------------
-    //--------------------------------------------Nodes Start-----------------------------------------------
-    //------------------------------------------------------------------------------------------------------
 
-    public void updateNodeFirebase(){
+    public void listenToEmergency(){
+        DocumentReference docRef = firestoreDB.collection("emergencies").document("1");
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirestoreException e) {
+                if (e != null) {
+                    System.err.println("Listen failed: " + e);
+                    return;
+                }
 
+                if (snapshot != null && snapshot.exists()) {
+                    String emergencyType = (String) snapshot.getData().get("type");
+                    System.out.println("Current data: " + emergencyType);
+                    if(emergencyType.equals("fire")){
+                        new ClientSetup(null).sendEmergency();
+                    }
+                    else if(emergencyType.equals("bomb")){
+                        new ClientSetup(null).sendEmergency();
+                    }
+                    else if(emergencyType.equals("shooter")){
+                        new ClientSetup(null).sendEmergency();
+                    }
+                    else if(emergencyType.equals("other")){
+                        new ClientSetup(null).sendEmergency();
+                    }
+                } else {
+                    System.out.print("Current data: null");
+                }
+            }
+        });
     }
-
 }
