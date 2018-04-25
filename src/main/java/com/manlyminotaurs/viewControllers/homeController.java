@@ -487,18 +487,14 @@ public class homeController implements Initializable {
 
 		if (currentDimension.equals("3-D")) { // 3D
 
-			snapY = Math.abs((startY3D + Math.abs(((endY3D - startY3D)) / 2)) / 2774.0);
-			snapX = Math.abs((startX3D + Math.abs(((endX3D - startX3D)) / 2)) / 5000.0);
+			snapY = (startY3D + Math.abs(((endY3D - startY3D)) / 2)) / 2774.0;
+			snapX = (startX3D + Math.abs(((endX3D - startX3D)) / 2)) / 5000.0;
 
 		} else { // 2D
 
-			snapY = Math.abs((startY2D + Math.abs(((endY2D - startY2D)) / 2)) / 3400.0);
-			snapX = Math.abs((startX2D + Math.abs(((endX2D - startX2D)) / 2)) / 5000.0);
+			snapY = (startY2D + Math.abs(((endY2D - startY2D)) / 2)) / 3400.0;
+			snapX = (startX2D + Math.abs(((endX2D - startX2D)) / 2)) / 5000.0;
 		}
-
-		//scrollPaneMap.setVvalue(snapY);
-		//scrollPaneMap.setHvalue(snapX);
-
 
 		Timeline timeline = new Timeline();
 		KeyValue kv = new KeyValue(scrollPaneMap.vvalueProperty(), snapY);
@@ -510,7 +506,7 @@ public class homeController implements Initializable {
 		timeline.play();
 
 
-		/*System.out.println(snapX);
+		System.out.println(snapX);
 		System.out.println(snapY);
 		System.out.println("start x2d " + startX2D);
 		System.out.println("start y2d " + startY2D);
@@ -521,7 +517,7 @@ public class homeController implements Initializable {
 		System.out.println("end x3d " + endX3D);
 		System.out.println("end y3d " + endY3D);
 		System.out.println(scrollPaneMap.getVvalue());
-		System.out.println(scrollPaneMap.getHvalue()); */
+		System.out.println(scrollPaneMap.getHvalue());
 
 
 	}
@@ -531,8 +527,9 @@ public class homeController implements Initializable {
 		//comFloorStart.getSelectionModel().select(KioskInfo.myLocation.getFloor());
 		//comTypeStart.getSelectionModel().select(convertTypeReverse(KioskInfo.myLocation.getNodeType()));
 		txtLocationStart.setText(KioskInfo.myLocation.getLongName());
-		scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
-		scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		//scrollPaneMap.setVvalue((double) KioskInfo.myLocation.getYCoord() / 3400.0);
+		//scrollPaneMap.setHvalue((double) KioskInfo.myLocation.getXCoord() / 5000.0);
+		goToKiosk();
 		printKiosk();
 	}
 
@@ -3278,10 +3275,10 @@ public class homeController implements Initializable {
 	public void breadFloorSwitch1(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(0));
+			breadSnap("1");
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
-			breadSnap("1");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
@@ -3291,10 +3288,10 @@ public class homeController implements Initializable {
 	public void breadFloorSwitch2(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(1));
+			breadSnap("2");
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "Icon.png").displayIcon();
-			breadSnap("2");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
@@ -3304,10 +3301,10 @@ public class homeController implements Initializable {
 	public void breadFloorSwitch3(MouseEvent mouseEvent) {
 		try {
 			changeFloor(breadcrumbs.get(2));
+			breadSnap("3");
 			new ProxyImage(imageStep3, "Floor" + breadcrumbs.get(2) + "IconSelected.png").displayIcon();
 			new ProxyImage(imageStep1, "Floor" + breadcrumbs.get(0) + "Icon.png").displayIcon();
 			new ProxyImage(imageStep2, "Floor" + breadcrumbs.get(1) + "Icon.png").displayIcon();
-			breadSnap("3");
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Sall good");
 		}
