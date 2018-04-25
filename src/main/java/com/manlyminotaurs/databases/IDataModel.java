@@ -84,6 +84,7 @@ public interface IDataModel {
     /*----------------------------------------- Requests ------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
     Request addRequest(Request requestObject, Message messageObject);
+    Request addRequest(Request requestObject);
     boolean removeRequest(String requestID);
     boolean modifyRequest(Request newRequest);
     String getNextRequestID();
@@ -97,6 +98,7 @@ public interface IDataModel {
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
+    void addUser(User userObject);
     boolean removeUser(String userID);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
@@ -120,6 +122,7 @@ public interface IDataModel {
     //-------------------------------------LOG Table--------------------------------------------
     List<Log> retrieveLogData();
     Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType);
+    void addLog(Log newLog);
     boolean removeLog(String logID);
     Log getLogByLogID(String logID);
     List<Log> getLogsByUserID(String userID);

@@ -320,6 +320,11 @@ public class DataModelI implements IDataModel{
     }
 
     @Override
+    public Request addRequest(Request requestObject) {
+        return requestsDBUtil.addRequest(requestObject);
+    }
+
+    @Override
     public boolean removeRequest(String requestID) {
         boolean tempBool = requestsDBUtil.removeRequest(requestID);
         addLog("Removed "+ requestID +" Request",LocalDateTime.now(), KioskInfo.getCurrentUserID(),requestID,"request");
@@ -365,6 +370,11 @@ public class DataModelI implements IDataModel{
         User newUser = userDBUtil.addUser(userID, firstName, middleName, lastName, languages, userType, userName, password);
         addLog("Added "+ newUser.getUserID()+" User",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newUser.getUserID(),"user");
         return newUser;
+    }
+
+    @Override
+    public void addUser(User userObject) {
+        userDBUtil.addUser(userObject);
     }
 
     @Override
@@ -448,6 +458,11 @@ public class DataModelI implements IDataModel{
     @Override
     public Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType) {
         return logDBUtil.addLog(description, logTime, userID, associatedID, associatedType);
+    }
+
+    @Override
+    public void addLog(Log newLog) {
+        logDBUtil.addLog(newLog);
     }
 
     @Override
