@@ -609,12 +609,7 @@ public class homeController implements Initializable {
      * disables comboboxes in directory
      */
 	private void hideStartAndEnd() {
-		comBuildingStart.setDisable(true);
-		comBuildingEnd.setDisable(true);
-		comFloorStart.setDisable(true);
-		comFloorEnd.setDisable(true);
-		comTypeStart.setDisable(true);
-		comTypeEnd.setDisable(true);
+
 	}
 
     /**
@@ -1124,10 +1119,7 @@ public class homeController implements Initializable {
 		comBuildingStart.getSelectionModel().clearSelection();
 
 		// Disable Fields
-		comFloorStart.setDisable(true);
-		comFloorEnd.setDisable(true);
-		comTypeStart.setDisable(true);
-		comTypeEnd.setDisable(true);
+
 
 		//tglMap.setSelected(false);
 		//tglMap.setText("2-D");
@@ -1439,16 +1431,16 @@ public class homeController implements Initializable {
 		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
 		comBuildingEnd.setItems(buildings);
 		comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-		comFloorStart.setDisable(true);
+		//comFloorStart.setDisable(true);
 		comFloorStart.getSelectionModel().clearSelection();
 		comFloorStart.setItems(empty);
-		comFloorEnd.setDisable(true);
+		//comFloorEnd.setDisable(true);
 		comFloorEnd.getSelectionModel().clearSelection();
 		comFloorEnd.setItems(empty);
-		comTypeStart.setDisable(true);
+		//comTypeStart.setDisable(true);
 		comTypeStart.getSelectionModel().clearSelection();
 		comTypeStart.setItems(empty);
-		comTypeEnd.setDisable(true);
+		//comTypeEnd.setDisable(true);
 		comTypeEnd.getSelectionModel().clearSelection();
 		comTypeEnd.setItems(empty);
 
@@ -1635,16 +1627,16 @@ public class homeController implements Initializable {
 		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
 		comBuildingEnd.setItems(buildings);
 		comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-		comFloorStart.setDisable(true);
+		//comFloorStart.setDisable(true);
 		comFloorStart.getSelectionModel().clearSelection();
 		comFloorStart.setItems(empty);
-		comFloorEnd.setDisable(true);
+		//comFloorEnd.setDisable(true);
 		comFloorEnd.getSelectionModel().clearSelection();
 		comFloorEnd.setItems(empty);
-		comTypeStart.setDisable(true);
+		//comTypeStart.setDisable(true);
 		comTypeStart.getSelectionModel().clearSelection();
 		comTypeStart.setItems(empty);
-		comTypeEnd.setDisable(true);
+		//comTypeEnd.setDisable(true);
 		comTypeEnd.getSelectionModel().clearSelection();
 		comTypeEnd.setItems(empty);
 
@@ -1836,16 +1828,16 @@ public class homeController implements Initializable {
 		comBuildingStart.getSelectionModel().clearSelection(); // eventually set to default kiosk
 		comBuildingEnd.setItems(buildings);
 		comBuildingEnd.getSelectionModel().clearSelection(); // eventually set to default kiosk
-		comFloorStart.setDisable(true);
+		//comFloorStart.setDisable(true);
 		comFloorStart.getSelectionModel().clearSelection();
 		comFloorStart.setItems(empty);
-		comFloorEnd.setDisable(true);
+		//comFloorEnd.setDisable(true);
 		comFloorEnd.getSelectionModel().clearSelection();
 		comFloorEnd.setItems(empty);
-		comTypeStart.setDisable(true);
+		//comTypeStart.setDisable(true);
 		comTypeStart.getSelectionModel().clearSelection();
 		comTypeStart.setItems(empty);
-		comTypeEnd.setDisable(true);
+		//.setDisable(true);
 		comTypeEnd.getSelectionModel().clearSelection();
 		comTypeEnd.setItems(empty);
 
