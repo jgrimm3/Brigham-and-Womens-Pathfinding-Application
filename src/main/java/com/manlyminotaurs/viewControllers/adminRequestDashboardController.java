@@ -134,7 +134,7 @@ public class adminRequestDashboardController {
             }
             
             reqestList.clear();
-         //   dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
+            dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
             reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
