@@ -78,6 +78,10 @@ public class DataModelI implements IDataModel{
      * Initialize database
      */
     @Override
+    /*
+    * Initialize the database
+    *
+    */
     public void startDB() {
         tableInitializer.setupDatabase();
 //        firebaseDBUtil.initializeFirebase();
@@ -92,6 +96,10 @@ public class DataModelI implements IDataModel{
      * @return Connection
      */
     @Override
+    /*
+     * Connect to the database
+     *
+     */
     public Connection getNewConnection() {
         try {
             if(DataModelI.getInstance().connection == null || DataModelI.getInstance().connection.isClosed()) {
@@ -108,6 +116,10 @@ public class DataModelI implements IDataModel{
      * @return True if successful
      */
     @Override
+    /*
+     * Terminate database connection
+     *
+     */
     public boolean closeConnection() {
         try {
             if(DataModelI.getInstance().connection != null) {
@@ -137,9 +149,10 @@ public class DataModelI implements IDataModel{
         return nodesDBUtil.getNodeList();
     }
 
-    /**
-     * Retrieve Map of Nodes using updateNodeMap
-     * @return Map of nodeID's and Nodes
+
+    /*
+     * Retrieve map of Nodes
+     *
      */
     public Map<String, Node> getNodeMap(){
         return nodesDBUtil.getNodeMap(false);
@@ -150,6 +163,10 @@ public class DataModelI implements IDataModel{
      * @return List of Nodes
      */
     @Override
+    /*
+     * Retreive list of Nodes
+     *
+     */
     public List<Node> getNodeList() {
         return nodesDBUtil.getNodeList();
     }
@@ -160,6 +177,10 @@ public class DataModelI implements IDataModel{
      * @return True if successful
      */
     @Override
+    /*
+     * Modify a Node
+     *
+     */
     public boolean modifyNode(Node newNode) {
         boolean tempBool =  nodesDBUtil.modifyNode(newNode);
         addLog("Modified "+ newNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),newNode.getNodeID(),"node");
@@ -179,6 +200,10 @@ public class DataModelI implements IDataModel{
      * @param xCoord3D xCoord3D
      */
     @Override
+    /*
+     * Add a Node
+     *
+     */
     public Node addNode(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, int status, int xCoord3D, int yCoord3D) {
         Node tempNode =  nodesDBUtil.addNode(nodeID, xCoord, yCoord, floor, building, nodeType, longName, shortName, status, yCoord3D, xCoord3D);
         addLog("Added "+ tempNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(), tempNode.getNodeID(),"node");
@@ -191,6 +216,10 @@ public class DataModelI implements IDataModel{
      * @return True if successful
      */
     @Override
+    /*
+     * Remove a Node
+     *
+     */
     public boolean removeNode(Node badNode) {
         boolean tempBool = nodesDBUtil.removeNode(badNode.getNodeID());
         addLog("Removed "+ badNode.getNodeID()+" Node",LocalDateTime.now(), KioskInfo.getCurrentUserID(),badNode.getNodeID(),"node");
@@ -213,6 +242,11 @@ public class DataModelI implements IDataModel{
      * @return True if Node is found
      */
     @Override
+    /*
+     * @param nodeID ID of Node
+     * @returns boolean
+     * Query database for Node
+     */
     public boolean doesNodeExist(String nodeID) {
         return nodesDBUtil.doesNodeExist(nodeID);
     }

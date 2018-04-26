@@ -279,7 +279,7 @@ public class emergencyScreenController {
             //javafx.scene.text.Text startName = new javafx.scene.text.Text(startNode.getLongName());
             //javafx.scene.text.Text endName = new javafx.scene.text.Text(endNode.getLongName());
             destination.setVisible(true);
-            destinationText.setVisible(true);
+           // destinationText.setVisible(true);
 
             destinationText.setText("FL " + endFloor);
             Font font = Font.font("Verdana", FontWeight.BOLD, 40);
