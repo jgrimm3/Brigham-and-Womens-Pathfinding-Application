@@ -45,12 +45,12 @@ public class Main extends Application {
         KioskInfo.myStage = primaryStage;
         try{
             System.out.println("Checking Status of Emergency");
-            if(ChatServer.getState() == 0) {
+         //   if(ChatServer.getState() == 0) {
                 //root is anchor pane that all other screens will be held in
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
-            }else{
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
-            }
+          //  }else{
+          //      root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/emergencyScreen.fxml"));
+          //  }
             Scene world = new Scene(root, 1900, 1000);
             primaryStage.setTitle("Brigham and Women's Hospital Navigation");
             //add style sheets here
@@ -89,7 +89,7 @@ public class Main extends Application {
         System.out.println("closing Application");
 
         DataModelI.getInstance().addLog("Application Closed",LocalDateTime.now(), "N/A", "N/A","application");
-       // DataModelI.getInstance().updateAllCSVFiles();
+        DataModelI.getInstance().updateAllCSVFiles();
         System.out.println("Files Saved!");
 
         System.exit(0);
@@ -109,17 +109,17 @@ public class Main extends Application {
  //           DataModelI.getInstance().addLog("Database Setup", LocalDateTime.now(), "N/A", "N/A", "database");
         }
 
-        if(args.length < 1){
-            System.out.println("An IP for the server must be specified");
-            System.exit(-1);
-        }
+//        if(args.length < 1){
+//            System.out.println("An IP for the server must be specified");
+//            System.exit(-1);
+//        }
 
-        ClientSetup.IP = args[0];
-
-        if(args.length > 1 && args[1].equals("-s")) {
-            new ChatServer().spoolUpServer();
-            System.out.println("SERVER IS UP");
-        }
+//        ClientSetup.IP = args[0];
+//
+//        if(args.length > 1 && args[1].equals("-s")) {
+//            new ChatServer().spoolUpServer();
+//            System.out.println("SERVER IS UP");
+//        }
 
 
 
@@ -129,7 +129,7 @@ public class Main extends Application {
         Preferences.userRoot().node(Main.class.getName()).getInt("DelayTime", 15000);
 
 
-        DataModelI.getInstance().listenToEmergency();
+//        DataModelI.getInstance().listenToEmergency();
         launch(args);
     }
 
