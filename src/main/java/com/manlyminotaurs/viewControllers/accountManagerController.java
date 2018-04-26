@@ -6,17 +6,19 @@ import com.jfoenix.controls.JFXTextField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.users.User;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+import com.manlyminotaursAPI.core.RoomService;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +90,12 @@ public class accountManagerController {
     GridPane gridDelete;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    Label lblDeleted;
+    @FXML
+    Label lblModified;
+    @FXML
+    Label lblAdded;
 
     final static ObservableList<String> Languages = FXCollections.observableArrayList("English", "Spanish", "Chinese", "Filipino", "Vietnamese", "Arabic","French","Korean","Russian","German","Hindi","Haitian Creole","Hindi","Portuge","Italian","Polish","Urdu","Japanese","Dothraki","Klingon");
     final static ObservableList<String> UserTypes = FXCollections.observableArrayList("Doctor", "Nurse", "Visitor", "Admin", "Janitor", "Interpreter", "Patient", "Security");
@@ -101,6 +109,11 @@ public class accountManagerController {
     String password;
     String userID;
     User user;
+
+    /**
+     * sets up the screen when loaded into view
+     * @throws Exception
+     */
     @FXML
     public void initialize() throws Exception{
         try {
@@ -116,13 +129,20 @@ public class accountManagerController {
             cmboLanguageAdd.setItems(Languages);
             cmboTypeAdd.setItems(UserTypes);
 
+         //   DataModelI.getInstance().updateUserDerby(DataModelI.getInstance().retrieveUserFirebase());
 
 
         }
         catch (Exception e){
             e.printStackTrace();}
     }
+
     //-----------------Swapping Grids-------------/
+
+    /**
+     * swaps out grids to display the modify screen
+     * @param event
+     */
     public void displayModifyGrid(ActionEvent event){
         gridDelete.setVisible((false));
         gridDelete.setDisable(true);
@@ -137,6 +157,11 @@ public class accountManagerController {
 
 
     }
+
+    /**
+     * swaps out grids to display the delete screen
+     * @param event
+     */
     public void displayDeleteGrid(ActionEvent event){
         gridDelete.setVisible((true));
         gridDelete.setDisable(false);
@@ -150,6 +175,11 @@ public class accountManagerController {
 
 
     }
+
+    /**
+     * swaps out grids to display the add screen
+     * @param event
+     */
     public void displayAddGrid(ActionEvent event) {
         gridDelete.setVisible((false));
         gridDelete.setDisable(true);
@@ -162,6 +192,33 @@ public class accountManagerController {
         cmboLanguageModify.setItems(Languages);
         cmboTypeModify.setItems(UserTypes);
     }
+
+    /**
+     * initializes the room service API and loads the API to come into view
+     * @param event
+     */
+    public void loadAPI(ActionEvent event){
+
+
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * logs out user and loads up the idle map
+     * @param event
+     * @throws Exception
+     */
     public void LogOut(javafx.event.ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -169,7 +226,7 @@ public class accountManagerController {
             //get reference to the button's stage
             stage = (Stage) btnLogOut.getScene().getWindow();
             //load up Home FXML document;
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -182,6 +239,12 @@ public class accountManagerController {
         }
     }
     Parent history;
+
+    /**
+     * loads the admin history screen
+     * @param event
+     * @throws Exception
+     */
     public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -199,6 +262,11 @@ public class accountManagerController {
         }
     }
 
+    /**
+     * depending on the user type, the admin manager request or user manager request sreens are loaded
+     * @param event
+     * @throws Exception
+     */
     public void manageRequest (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -218,6 +286,12 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads the account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void manageAcc (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -234,6 +308,12 @@ public class accountManagerController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads the node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -251,30 +331,64 @@ public class accountManagerController {
         }
     }
 
+    /**
+     * language is added to language list from add language combobox
+     * @param event
+     */
     public void setLanguageAdd(ActionEvent event){
         languages.add(cmboLanguageAdd.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from add type combobox
+     * @param event
+     */
     public void setTypeAdd(ActionEvent event){
         type = cmboTypeAdd.getValue().toString();
 
     }
+
+    /**
+     * language is added to language list from modify language combobox
+     * @param event
+     */
     public void setLanguageModify(ActionEvent event){
         languages.add(cmboLanguageModify.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from modify type combobox
+     * @param event
+     */
     public void setTypeModify(ActionEvent event){
         type = cmboTypeModify.getValue().toString();
 
     }
+
+    /**
+     * language is added to language list from delete language combobox
+     * @param event
+     */
     public void setLanguageDelete(ActionEvent event){
         languages.add(cmboLanguageDelete.getValue().toString());
 
     }
+
+    /**
+     * type is set to type from delete combobox
+     * @param event
+     */
     public void setTypeDelete(ActionEvent event){
         type = cmboTypeDelete.getValue().toString();
 
     }
+
+    /**
+     * set user fields to selected user based on ID in modify screen
+     * @param event
+     */
     public void targetUserModify(ActionEvent event){
         userID = txtUserIDModify.getText();
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
@@ -289,6 +403,11 @@ public class accountManagerController {
         cmboLanguageModify.getSelectionModel().select(language);
         cmboTypeModify.getSelectionModel().select(type);
     }
+
+    /**
+     * set user fields to selected user based on ID in delete screen
+     * @param event
+     */
     public void targetUserDelete(ActionEvent event){
         userID = txtUserIDDelete.getText();
         firstName = DataModelI.getInstance().getUserByID(userID).getFirstName();
@@ -303,6 +422,11 @@ public class accountManagerController {
         cmboLanguageDelete.getSelectionModel().select(language);
         cmboTypeDelete.getSelectionModel().select(type);
     }
+
+    /**
+     * add user to database from fields
+     * @param event
+     */
     public void addUser(ActionEvent event){
         firstName = txtFirstNameAdd.getText();
         middleName = txtMiddleNameAdd.getText();
@@ -314,13 +438,23 @@ public class accountManagerController {
 
         DataModelI.getInstance().addUser("", firstName, middleName, lastName, languages, type, username, password);
 
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblAdded);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
+
     }
+
+    /**
+     * set user fields to fields in modify screen
+     * @param event
+     */
     public void modifyUser(ActionEvent event){
         firstName = txtFirstNameModify.getText();
         middleName = txtMiddleNameModify.getText();
         lastName = txtLastNameModify.getText();
-        languages = new ArrayList<>();
-        languages.add(cmboLanguageModify.getValue().toString());
         type = cmboTypeModify.getValue().toString();
         username = txtUsernameModify.getText();
         password = txtPasswordModify.getText();
@@ -329,9 +463,21 @@ public class accountManagerController {
         DataModelI.getInstance().getUserByID(userID).setLastName(lastName);
         DataModelI.getInstance().getUserByID(userID).setMiddleName(middleName);
         DataModelI.getInstance().getUserByID(userID).setUserType(type);
-        DataModelI.getInstance().getUserByID(userID).addLanguage(language);
+
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblModified);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
 
     }
+
+    /**
+     * deletes user based on user id from database
+     * @param event
+     */
     public void deleteUser(ActionEvent event){
         /*firstName = txtFirstNameDelete.getText();
         middleName = txtMiddleNameDelete.getText();
@@ -341,9 +487,15 @@ public class accountManagerController {
         username = txtUsernameDelete.getText();
         password = txtPasswordDelete.getText();*/
         userID = txtUserIDDelete.getText();
-        user = DataModelI.getInstance().getUserByID(userID);
 
-        DataModelI.getInstance().removeUser(user);
+        DataModelI.getInstance().removeUser(userID);
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblDeleted);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
 
     }
 }

@@ -1,6 +1,5 @@
 package com.manlyminotaurs.databases;
 
-import com.manlyminotaurs.log.BackupEntity;
 import com.manlyminotaurs.log.Log;
 import com.manlyminotaurs.log.Pathfinder;
 import com.manlyminotaurs.messaging.Message;
@@ -13,6 +12,7 @@ import com.manlyminotaurs.users.UserPassword;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,8 @@ public interface IDataModel {
     Node getNodeByLongName(String longName);
     Node getNodeByLongNameFromList(String longName, List<Node> nodeList);
     List<String> getLongNames();
-    boolean doesNodeExist(String type);
+
+    boolean doesNodeExist(String nodeID);
 
     List<String> getNamesByBuildingFloorType(String building, String floor, String type);
     /*---------------------------------- Get AdjacentNodes / Edges --------------------------------------------------*/
@@ -72,7 +73,8 @@ public interface IDataModel {
 
     /*----------------------------------------- Messages -------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Message ---------------------------------------------------*/
-    Message addMessage(Message messageObject);
+    void addMessage(Message messageObject);
+    String addMessage(String messageID, String message, boolean isRead, LocalDate sentDate, String senderID, String receiverID);
     boolean removeMessage(String messageID);
     boolean modifyMessage(Message newMessage);
     String getNextMessageID();
@@ -85,7 +87,8 @@ public interface IDataModel {
     /*----------------------------------------- Requests ------------------------------------------------------------*/
     /*------------------------------ Add / Modify / Remove Request --------------------------------------------------*/
     Request addRequest(Request requestObject, Message messageObject);
-    boolean removeRequest(Request oldRequest);
+    Request addRequest(Request requestObject);
+    boolean removeRequest(String requestID);
     boolean modifyRequest(Request newRequest);
     String getNextRequestID();
     /*-------------------------- Retrieve List of Requests / All or by Attribute ------------------------------------*/
@@ -98,7 +101,8 @@ public interface IDataModel {
     /*------------------------------------------ Users -------------------------------------------------------------*/
     /*-------------------------------- Add / Modify / Remove User --------------------------------------------------*/
     User addUser(String userID, String firstName, String middleName, String lastName, List<String> languages, String userType, String userName, String password);
-    boolean removeUser(User oldUser);
+    void addUser(User userObject);
+    boolean removeUser(String userID);
     boolean modifyUser(User newUser);
     /*------------------------ Retrieve List of Users / All or by Attribute ----------------------------------------*/
     List<User> retrieveUsers();
@@ -121,7 +125,8 @@ public interface IDataModel {
     //-------------------------------------LOG Table--------------------------------------------
     List<Log> retrieveLogData();
     Log addLog(String description, LocalDateTime logTime, String userID, String associatedID, String associatedType);
-    boolean removeLog(Log oldLog);
+    void addLog(Log newLog);
+    boolean removeLog(String logID);
     Log getLogByLogID(String logID);
     List<Log> getLogsByUserID(String userID);
     List<Log> getLogsByAssociatedType(String associatedType);
@@ -154,4 +159,21 @@ public interface IDataModel {
     boolean restoreRequest(String requestID);
     boolean restoreUser(String userID);
     boolean restoreUserPassword(String userID);
+
+    //--------------------------------------Firebase DBUtil--------------------------------
+    void initializeFirebase();
+
+    void updateRequestFirebase();
+    List<Request> retrieveRequestFirebase();
+    void updateLogFirebase();
+    List<Log> retrieveLogFirebase();
+    void updateUserFirebase();
+    List<User> retrieveUserFirebase();
+    void updateRequestDerby(List<Request> listOfRequest);
+    void updateUserDerby(List<User> listOfUser);
+    void updateLogDerby(List<Log> listOfLog);
+
+    void removeRequestFirebase(String requestID);
+    void removeUserFirebase(String userID);
+    void listenToEmergency();
 }

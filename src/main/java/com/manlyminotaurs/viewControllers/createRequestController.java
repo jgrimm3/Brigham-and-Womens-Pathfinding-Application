@@ -8,6 +8,8 @@ import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.RequestFactory;
 import com.manlyminotaurs.messaging.RequestType;
 import com.manlyminotaurs.nodes.Node;
+import javafx.animation.FadeTransition;
+import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class createRequestController{
     DataModelI dbUtil = DataModelI.getInstance();
@@ -70,11 +73,16 @@ public class createRequestController{
     JFXButton navBtnManageAccounts;
     @FXML
     JFXButton btnHistory;
+    @FXML
+    Label lblAdded;
 
     String requestType;
     String message;
     int priority;
 
+    /**
+     * loads combo boxes and hides/reveals appropriate objects
+     */
     @FXML
     protected void initialize() {
         cmboReqType.setItems(FXCollections.observableArrayList(RequestType.values()));
@@ -96,6 +104,10 @@ public class createRequestController{
         }
     }
 
+    /**
+     * submits request and clears comboboxes
+     * @param event Submit button pressed
+     */
     public void submitRequest(javafx.event.ActionEvent event){
         boolean isErrored = false;
         lblError.setText("");
@@ -138,15 +150,32 @@ public class createRequestController{
             chkMedPriority.setSelected(false);
             txtMessage.clear();
             lblError.setText("");
+
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(4000), lblAdded);
+            fadeTransition.setFromValue(1);
+            fadeTransition.setToValue(0);
+            fadeTransition.setCycleCount(1);
+            fadeTransition.setAutoReverse(true);
+            fadeTransition.play();
         }
     }
+
+    /**
+     * sets request to high priority
+     * @param event
+     */
     public void setHighPriority(javafx.event.ActionEvent event){
         //if high priority slected, clear other selections and set integer 3
         chkHighPriority.setSelected(true);
         chkMedPriority.setSelected(false);
         chkLowPriority.setSelected(false);
-        priority = 3;
+        priority = 1;
     }
+
+    /**
+     * sets request to medium priority
+     * @param event
+     */
     public void setMedPriority(javafx.event.ActionEvent event){
         //if medium priority slected, clear other selections and set integer 2
         chkHighPriority.setSelected(false);
@@ -154,16 +183,27 @@ public class createRequestController{
         chkLowPriority.setSelected(false);
         priority = 2;
     }
+
+    /**
+     * sets requests to low priority
+     * @param event
+     */
     public void setLowPriority(javafx.event.ActionEvent event){
         //if medium priority slected, clear other selections and set integer 1
         chkHighPriority.setSelected(false);
         chkMedPriority.setSelected(false);
         chkLowPriority.setSelected(true);
-        priority = 1;
+        priority =  3;
     }
 
+    /**
+     * get gets x and y
+     */
     public void getXandY(){}
 
+    /**
+     * loads the idle map screen
+     */
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
@@ -171,7 +211,7 @@ public class createRequestController{
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            root= FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -184,6 +224,11 @@ public class createRequestController{
             e.printStackTrace();}
     }
 
+    /**
+     * loads account manager screen
+     * @param event
+     * @throws Exception
+     */
     public void accountManager(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -202,6 +247,11 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads admin request dashboad screen
+     * @param event
+     * @throws Exception
+     */
     public void manageRequests (ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -222,6 +272,11 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads node editor screen
+     * @param event
+     * @throws Exception
+     */
     public void nodeEditor(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -238,6 +293,12 @@ public class createRequestController{
             e.printStackTrace();
         }
     }
+
+    /**
+     * loads admin history screen
+     * @param event
+     * @throws Exception
+     */
     public void loadHistory(ActionEvent event) throws Exception {
         try {
             Stage stage;
@@ -255,12 +316,26 @@ public class createRequestController{
         }
     }
 
+    /**
+     * loads room service api
+     * @param event
+     */
+    public void loadAPI(ActionEvent event){
 
+        RoomService roomService = new RoomService();
+        try {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * updates node combo box
+     */
     public void updateNodeSet(){
         if(cmboBuilding.getSelectionModel().getSelectedItem() != null && cmboType.getSelectionModel().getSelectedItem() != null && cmboFloor.getSelectionModel().getSelectedItem() != null){
-            cmboNode.setItems(FXCollections.observableArrayList(
-                    dbUtil.getLongNameByBuildingTypeFloor(cmboBuilding.getValue(),
-                    cmboType.getValue(), cmboFloor.getValue())));
+            cmboNode.setItems(FXCollections.observableArrayList(dbUtil.getLongNameByBuildingTypeFloor(cmboBuilding.getValue(), cmboType.getValue(), cmboFloor.getValue())));
         }
     }
 

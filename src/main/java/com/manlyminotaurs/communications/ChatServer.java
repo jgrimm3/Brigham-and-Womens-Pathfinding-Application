@@ -1,13 +1,17 @@
 package com.manlyminotaurs.communications;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashSet;
 
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  * A multithreaded chat room server.  When a client connects the
  * server requests a screen name by sending the client the
@@ -54,11 +58,13 @@ public class ChatServer {
      * spawns handler threads.
      */
     public static void main(String[] args) throws Exception {
-        System.out.println("The chat server is running.");
+        System.out.println("Main: the chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
         try {
             while (true) {
-                new Handler(listener.accept()).start();
+                System.out.println("Main: Handler");
+                Handler aHandler = new Handler(listener.accept());
+                aHandler.start();
             }
         } finally {
             listener.close();
@@ -108,8 +114,8 @@ public class ChatServer {
                     }
                     if (input.startsWith("NEWCONNECTION")){
                         names.add(String.valueOf(names.size()));
-                        out.println("NAMEACCEPTED");
                         writers.add(out);
+                        out.println("NAMEACCEPTED");
                         System.out.println("New Client Added: " + writers.size());
                     } else if (input.startsWith("EMERGENCY")) {
                         System.out.println("We Have Entered Emergency Mode");
@@ -120,11 +126,12 @@ public class ChatServer {
                             }
                         }
                     } else if(input.startsWith("Reset")){
-                        System.out.println("We Have Entered Normal Mode");
                         if(state == 1) {
+                            System.out.println("We Have Entered Normal Mode");
                             state = 0;
                             for (PrintWriter writer : writers) {
                                 writer.println("Reset" + name + " Has Reset The System");
+                                System.out.println("Message Sent To Client");
                             }
                         }
                     }else if(input.startsWith("STATE")){
@@ -147,32 +154,148 @@ public class ChatServer {
                 try {
                     socket.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //--------------handshaking to upgrade http connection to web socket connection------------------
+
+        /**
+         *  upgrade http connection to web socket connection
+         */
+        public void doHandshake() {
+            //translate bytes of request to string
+            String data = null;
+            try {
+                data = new Scanner(socket.getInputStream(), "UTF-8").useDelimiter("\\r\\n\\r\\n").next();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("------------------handshaking----------------");
+            Matcher get = Pattern.compile("^GET").matcher(data);
+            if (get.find())
+            {
+                Matcher match = Pattern.compile("Sec-WebSocket-Key: (.*)").matcher(data);
+                match.find();
+                byte[] response = new byte[0];
+                try {
+                    response = ("HTTP/1.1 101 Switching Protocols\r\n"
+                            + "Connection: Upgrade\r\n"
+                            + "Upgrade: websocket\r\n"
+                            + "Sec-WebSocket-Accept: "
+                            + DatatypeConverter
+                            .printBase64Binary(
+                                    MessageDigest
+                                            .getInstance("SHA-1")
+                                            .digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
+                                                    .getBytes("UTF-8")))
+                            + "\r\n\r\n")
+                            .getBytes("UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    socket.getOutputStream().write(response, 0, response.length);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
-    public void spoolUpServer(){
-        Thread serverThread = new Thread(){
-            public void run()
-            {
+
+
+    /**
+     *  spool server
+     */
+    public void spoolUpServer() {
+        Thread serverThread = new Thread() {
+            public void run() {
                 ServerSocket listener = null;
                 try {
-                    System.out.println("The chat server is running.");
+                    System.out.println("SpoolUpServer: The chat server is running.");
                     listener = new ServerSocket(PORT);
+
                     while (true) {
-                        new Handler(listener.accept()).start();
+                        System.out.println("SpoolUpServer: handler");
+                        Handler aHandler = new Handler(listener.accept());
+                        aHandler.start();
                     }
-                }catch(IOException ioe){
+                } catch (IOException ioe) {
                     ioe.printStackTrace();
-                }finally {
+                } finally {
                     try {
+                        System.out.println("listener close.");
                         listener.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-            }};
+            }
+        };
         serverThread.start();
+    }
+
+    /**
+     *  decodde given message to binary
+     *
+     * @param aString input string
+     */
+    static void decodeMessage(String aString){
+        byte[] byteArray = new byte[0];
+        try {
+            byteArray = aString.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        for(Byte aByte: byteArray){
+            System.out.print(Integer.parseInt(Integer.toBinaryString(aByte & 255 | 256).substring(1),2) + " ");
+        }
+        System.out.println("");
+
+        for(Byte aByte: byteArray){
+            System.out.print(String.format("%8s", Integer.toBinaryString(aByte & 0xFF)).replace(' ', '0') + " ");
+        }
+        System.out.println("");
+    }
+
+    /**
+     * decode message
+     *
+     * @param aString input string
+     * @throws IOException
+     */
+    static void decodeMessage2(String aString) throws IOException{
+        byte[] _rawIn = aString.getBytes("UTF-8");
+        int maskIndex = 2;
+        byte[] maskBytes = new byte[4];
+
+        if ((_rawIn[1] & (byte) 127) == 126) {
+        maskIndex = 4;
+        } else if ((_rawIn[1] & (byte) 127) == 127) {
+        maskIndex = 10;
+        }
+
+        System.arraycopy(_rawIn, maskIndex, maskBytes, 0, 4);
+
+        byte[] message = new byte[_rawIn.length - maskIndex - 4];
+
+        System.out.println("");
+        System.out.println("");
+        for (int i = maskIndex + 4; i < _rawIn.length; i++) {
+            message[i - maskIndex - 4] = (byte) (_rawIn[i] ^ maskBytes[(i - maskIndex - 4) % 4]);
+        }
+    //    System.out.println(message.toString() + " maskIndex: " + maskIndex);
+        for(Byte aByte: message){
+            System.out.print(" char: " + Integer.parseInt(Integer.toBinaryString(aByte & 255 | 256).substring(1),2) + " ");
+        }
+        System.out.println();
+    }
+
+    public static int getState() {
+        return state;
     }
 }
 

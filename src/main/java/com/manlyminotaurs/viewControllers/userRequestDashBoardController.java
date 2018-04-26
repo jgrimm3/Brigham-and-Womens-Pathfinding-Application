@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.manlyminotaurs.core.KioskInfo;
 import com.manlyminotaurs.databases.DataModelI;
 import com.manlyminotaurs.messaging.Request;
+//import com.manlyminotaursAPI.core.RoomService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,6 +81,7 @@ public class userRequestDashBoardController  {
     public void initialize() throws Exception{
         try{
             reqestList.clear();
+         //   dBUtil.updateRequestDerby(dBUtil.retrieveRequestFirebase());
             reqestList.setAll(dBUtil.retrieveRequests());
 
 //            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
@@ -126,14 +128,29 @@ public class userRequestDashBoardController  {
 
     }
 
+    public void loadAPI(ActionEvent event){
+/*
 
+        RoomService roomService = new RoomService();
+        try
+
+        {
+            roomService.run(0, 0, 1920, 1080, null, null, null);
+        }catch(
+                Exception e)
+
+        {
+            e.printStackTrace();
+        }
+*/
+    }
     public void LogOut(ActionEvent event){
         try{
             Stage stage;
             //get reference to the button's stage
             stage=(Stage)btnLogOut.getScene().getWindow();
             //load up Home FXML document
-            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/home.fxml"));
+            logout = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/idleMap.fxml"));
 
             KioskInfo.currentUserID = "";
 
@@ -220,7 +237,7 @@ public class userRequestDashBoardController  {
             openList.remove(selectedRequest);
 
             dBUtil.removeMessage(dBUtil.getRequestByID(selectedRequest.requestID).getMessageID());
-            dBUtil.removeRequest(dBUtil.getRequestByID(selectedRequest.requestID));
+            dBUtil.removeRequest(selectedRequest.requestID);
         }
     }
 

@@ -83,12 +83,12 @@ Create Table Request (
   startTime     TIMESTAMP,
   endTime       TIMESTAMP,
   nodeID        VARCHAR(10),
-  messageID     VARCHAR(10) UNIQUE,
+  messageID     VARCHAR(10),
   password      VARCHAR(255),
   deleteTime    TIMESTAMP DEFAULT NULL,
-  CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE,
-  CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE);
+  CONSTRAINT fk_message_messageID FOREIGN KEY (messageID) REFERENCES Message(messageID) ON DELETE CASCADE);
 
+/*CONSTRAINT fk_request_nodeID FOREIGN KEY (nodeID) REFERENCES Map_Nodes(nodeID) ON DELETE CASCADE*/
 CREATE TABLE Log(
   logID           VARCHAR(10) PRIMARY KEY,
   description     VARCHAR(255),

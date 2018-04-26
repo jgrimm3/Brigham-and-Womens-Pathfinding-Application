@@ -1,0 +1,28 @@
+.jfx-text-field {
+    -fx-prompt-text-fill: WHITE;
+    -jfx-focus-color: WHITE;
+    -jfx-unfocus-color: WHITE;
+    -fx-text-fill: WHITE;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-inner-color: WHITE;
+}
+
+.jfx-combo-box {
+    /*-fx-background-color:   #2b65ac; */
+    -fx-text-fill: white;
+    -fx-prompt-text-fill:  white;
+    -jfx-focus-color: white;
+    -jfx-unfocus-color: white;
+    -fx-font-size: 15pt;
+}
+
+.jfx-combo-box .cell:selected{ -fx-text-fill: white; }
+
+.combo-box-popup .list-view {
+    -fx-font-size : 15pt;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: white;
+}

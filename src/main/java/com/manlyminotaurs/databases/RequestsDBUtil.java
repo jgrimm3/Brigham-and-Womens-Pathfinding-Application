@@ -5,7 +5,6 @@ import com.manlyminotaurs.messaging.Request;
 import com.manlyminotaurs.messaging.RequestFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +35,25 @@ class RequestsDBUtil {
 
     /*------------------------------------------------ Add/Remove Request -------------------------------------------------------*/
     //TODO addRequest - add a request object instead of all of the attributes
+
+    /**
+     * adds request to db
+     * @param requestObject request
+     * @param message message
+     * @return request created
+     */
 	Request addRequest(Request requestObject, Message message){
      //   Connection connection = DataModelI.getInstance().getNewConnection();
         Connection connection = null;
-        Message mObject= DataModelI.getInstance().addMessage(message);
-        requestObject.setMessageID(mObject.getMessageID());
-        if(mObject == null){
+        if(message == null){
             System.out.println("Critical Error in adding message in AddRequest function");
             return null;
         }
+
+        String aMessageID = DataModelI.getInstance().addMessage(message.getMessageID(),message.getMessage(),message.getRead(),message.getSentDate(),message.getSenderID(),message.getReceiverID());
+        message.setMessageID(aMessageID);
+        requestObject.setMessageID(message.getMessageID());
+
         try {
             connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
             String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -74,11 +83,55 @@ class RequestsDBUtil {
         return requestObject;
     }
 
-    boolean removeRequest(Request request){
+
+    /**
+     * adds request based on request object
+     * @param requestObject req
+     * @return added request
+     */
+    Request addRequest(Request requestObject){
+        //   Connection connection = DataModelI.getInstance().getNewConnection();
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:derby:nodesDB;create=true");
+            String str = "INSERT INTO Request(requestID,requestType,priority,isComplete,adminConfirm,startTime,endTime,nodeID,messageID,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+            // Create the prepared statement
+            PreparedStatement statement = connection.prepareStatement(str);
+            statement.setString(1, requestObject.getRequestID());
+            statement.setString(2, requestObject.getRequestType());
+            statement.setInt(3, requestObject.getPriority());
+            statement.setBoolean(4, requestObject.getComplete());
+            statement.setBoolean(5, requestObject.getAdminConfirm());
+            statement.setTimestamp(6, Timestamp.valueOf(requestObject.getStartTime()));
+            statement.setTimestamp(7, Timestamp.valueOf(requestObject.getEndTime()));
+            statement.setString(8, requestObject.getNodeID());
+            statement.setString(9, requestObject.getMessageID());
+            statement.setString(10, requestObject.getRequestType());
+            System.out.println("Prepared statement created...");
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("Request added to database");
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        } finally {
+            DataModelI.getInstance().closeConnection();
+        }
+        return requestObject;
+    }
+
+    /**
+     * removes request linked to ID from db
+     * @param requestID of request
+     * @return true if success
+     */
+
+    boolean removeRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
         try {
-            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ request.getRequestID()+ "'";
+            String str = "UPDATE Request SET deleteTime = ? WHERE requestID = '"+ requestID+ "'";
 
             // Create the prepared statement
             PreparedStatement statement = connection.prepareStatement(str);
@@ -96,6 +149,11 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
+    /**
+     * reverts deleted request
+     * @param requestID id of request
+     * @return true if success
+     */
     boolean restoreRequest(String requestID){
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -118,6 +176,11 @@ class RequestsDBUtil {
         return isSuccess;
     }
 
+    /**
+     * PERMANENTLY removes a request
+     * @param request
+     * @return true if success
+     */
     boolean permanentlyRemoveRequest(Request request) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSucessful = true;
@@ -137,6 +200,11 @@ class RequestsDBUtil {
         return isSucessful;
     }
 
+    /**
+     * modifies a request in db
+     * @param newRequest to modify
+     * @return true if success
+     */
     public boolean modifyRequest(Request newRequest) {
         Connection connection = DataModelI.getInstance().getNewConnection();
         boolean isSuccess = false;
@@ -168,6 +236,13 @@ class RequestsDBUtil {
     }
 
     /*------------------------------------ Set status Complete/Admin Confirm -------------------------------------------------*/
+
+    /**
+     * sets status of admin
+     *
+     * @param request
+     * @param newConfirmStatus
+     */
     void setIsAdminConfim(Request request, boolean newConfirmStatus){
         Connection connection = DataModelI.getInstance().getNewConnection();
         try {
@@ -184,6 +259,11 @@ class RequestsDBUtil {
         }
     }
 
+    /**
+     * set if complete to true
+     * @param request
+     * @param newCompleteStatus
+     */
     void setIsComplete(Request request, boolean newCompleteStatus){
         Connection connection = DataModelI.getInstance().getNewConnection();
         request.setComplete(newCompleteStatus);
@@ -268,6 +348,11 @@ class RequestsDBUtil {
         return listOfRequest;
     } // retrieveRequests() ends
 
+    /**
+     * gets request from database with matching ID
+     * @param requestID of req
+     * @return request
+     */
 	Request getRequestByID(String requestID){
         // Connection
         Connection connection = DataModelI.getInstance().getNewConnection();
